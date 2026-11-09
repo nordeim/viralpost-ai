@@ -1,9 +1,9 @@
 ---
 name: viralpost-ai
 description: "The complete engineering skill for the ViralPost AI codebase: a Next.js 16 App Router + React 19 + TypeScript strict + Tailwind CSS 4 (CSS-first) + Prisma/SQLite clone of viralpostai.base44.app built as a functional superset with visual parity. Covers the deterministic generator engine, the quota counter, the scrypt/HMAC auth family, the catch-all 404 title architecture, the Tailwind v4 trap catalog, the WebGL/canvas effects, the three-tier test suite, and the parity-walk methodology. Every rule traces to something that actually happened in this repo."
-version: 1.1.0
+version: 1.2.0
 last_updated: 2026-11-09
-project_state: "Session-5 ship: lint 0/0 · tsc 0 · unit 405/405 (29 files) · build · smoke 15/15 · e2e 48/48 (8 specs) · census MATCH"
+project_state: "Session-6 ship: lint 0/0 · tsc 0 · unit 405/405 (29 files) · build · smoke 15/15 · e2e 48/48 (8 specs) · census MATCH"
 provenance: "Distilled at the session-2 remediation round (the /Dashboard parity audit) from the session-1 clone build and the session-2 audit. Scaffold lineage: the NEO-CRM template family's infrastructure seams (auth, db-path, rate-limit, the gate) — the domain is entirely ViralPost AI's."
 ---
 
@@ -460,8 +460,9 @@ const SESSION_COOKIE = "viralpost_session";             // 7-day TTL, httpOnly, 
 | Session 3 (2026-11-09) | The rename completion: the `NEO_` → `VIRALPOST_` sweep finished at the guard layer — the boot gate's dual-prefix scan (unknown `VIRALPOST_*` warns on typos; any `NEO_*` warns and maps its live spelling), the e2e isolation pins re-armed with the live spellings, the catch-all page's dead `generateMetadata` deleted (the segment layout owns the title); +3 unit pins; captures 13/14 (14 pixel-identical to 09 — the layout-only title path renders byte-for-byte); push #3 |
 | Session 4 (2026-11-09) | The phantom-reference audit: the CRM-era commentary sweep — the typography contract re-attributed to the unit source-pins (the phantom `crm.spec.ts` pointer deleted), the vitest surface description corrected to the real seams, e2e-port's single-consumer shape, the fixture renamed; the dev-capture lessons recorded (never `bun run build` under a live dev server — Fast-Refresh churn; the burger RELABELS on open — verify through the nav links); captures 15/16; push #4 |
 | Session 5 (2026-11-09) | The docs-freshness audit: the session-tracking surfaces synced (this appendix, the frontmatter state, the README status table, the AGENTS plans map); DEPLOYMENT.md's env table gained the `VIRALPOST_*` hardening knobs (the reverse-proxy audience); captures 17/18; push #5 |
+| Session 6 (2026-11-09) | The clean-tree re-certification: the widened fresh-eyes pass (the session-1-era secondary docs, `scripts/`, the tool configs) found ZERO defects — the S3–S5 cure sequence exhausted the long tail; parity re-verified live (mobile menu open/close/navigate, /Tool, /login, /Dashboard, landing); captures 19/20; push #6 |
 
-## Appendix B — The Verification Ledger (session-2 ship; re-certified through session 5)
+## Appendix B — The Verification Ledger (session-2 ship; re-certified through session 6)
 
 - Gate: lint 0/0 · tsc 0 · unit 405/405 (29 files) · build · smoke
   15/15 · e2e 48/48 (8 specs) — all executed, all green.
@@ -472,7 +473,7 @@ const SESSION_COOKIE = "viralpost_session";             // 7-day TTL, httpOnly, 
 - The mobile menu: live open/close/navigate at 390×844 against the
   reference (no drift since session 1).
 - Census: MATCH (1 user, 0 messages) after pruning the probe residue.
-- Re-certification: sessions 3–5 each re-ran the full gate on their exact
+- Re-certification: sessions 3–6 each re-ran the full gate on their exact
   commit trees (the counts held at 405/48/15 throughout) with live parity
   re-verification each round — no reference drift since session 1.
 

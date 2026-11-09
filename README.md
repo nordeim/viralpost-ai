@@ -213,8 +213,9 @@ the PostgreSQL swap.
 | Session 3 — the rename completion | ✅ done | Guard-layer `NEO_*` → `VIRALPOST_*` finish (dual-prefix boot gate, re-armed e2e pins, dead page metadata removed); captures 13/14 |
 | Session 4 — the phantom-reference audit | ✅ done | CRM-era commentary sweep (typography contract, vitest surface, e2e-port shape, fixture); dev-server captures 15/16 |
 | Session 5 — the docs-freshness audit | ✅ done | Session-tracking surfaces synced (SKILL round history, status tables, plans map); DEPLOYMENT env table gained the `VIRALPOST_*` knobs; captures 17/18 |
+| Session 6 — the clean-tree re-certification | ✅ done | Widened fresh-eyes audit (secondary docs, scripts, configs): zero findings; parity re-verified live; captures 19/20 |
 
-Gate at the session-5 ship: lint 0/0 · tsc 0 · unit 405/405 · build ·
+Gate at the session-6 ship: lint 0/0 · tsc 0 · unit 405/405 · build ·
 smoke 15/15 · e2e 48/48.
 
 ## License

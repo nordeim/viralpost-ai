@@ -99,6 +99,6 @@ smoke → e2e. There is no hosted CI — the local gate is the only gate.
 - `Project_Architecture_Document.md` — the blueprint (ADRs, security, testing)
 - `viralpost-ai_SKILL.md` — the distilled engineering memory
 - `docs/implementation-plan.md` — the clone's Stack Decision Record + Deviations Ledger
-- `docs/plans/` — per-session round plans (session-1 build, session-2 parity audit, session-3 rename completion, session-4 phantom references, session-5 docs freshness)
+- `docs/plans/` — per-session round plans (session-1 build, session-2 parity audit, session-3 rename completion, session-4 phantom references, session-5 docs freshness, session-6 clean-tree re-certification)
 - `docs/reference-investigation.md` — the evidence dossier behind every parity claim
 - `worklog.md` — the per-session audit trail

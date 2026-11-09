@@ -1,3 +1,54 @@
+Task ID: 6
+Agent: main (Z.ai)
+Task: The session-6 clean-tree re-certification — re-run the standing
+instruction against the post-session-5 tree (194920c): docs review,
+fresh audit (web-application §15/§16 + security-and-hardening) widened
+to never-yet-deep-read surfaces, reference parity re-verification, the
+gate, dev-server captures 19/20, push #6 to main via the SSH wrapper.
+
+Work Log:
+- The intake: the workspace pulled to 194920c (the owner's session_5.md
+  log on top of the session-5 ship 3264da1); the S5 artifacts verified
+  in-tree (SKILL at the session-5 ship with five round rows, the
+  DEPLOYMENT knobs, captures 17/18); baseline gates green (lint 0/0 ·
+  tsc 0 · unit 405/405 · census MATCH)
+- THE AUDIT, WIDENED (the surfaces never yet deeply read): the
+  session-1-era secondary docs (implementation-plan.md — a historical
+  Stack Decision Record + Deviations Ledger with no live-state claims;
+  reference-investigation.md — the clone-time evidence dossier, past
+  tense throughout), the scripts/ directory (census, smoke ladder,
+  prisma-env wrapper, install helper — all exercised every gate run,
+  comments accurate), and the tool configs (playwright's isolation
+  contract with the S3 F3-2 pins in place, vitest's S4-corrected
+  surface description, package.json's gate chain)
+- THE FINDINGS: ZERO — no Critical/High/Medium/Low/Info. After four
+  consecutive rounds of narrowing findings (S3 guard-layer rename gaps
+  → S4 comment relics → S5 docs staleness), the long tail is
+  exhausted; per audit discipline, a clean tree is reported as clean
+- THE PARITY RE-CHECK (live): the mobile menu at 390×844 — closed
+  state, open state (the 5 destinations + brand), close-again,
+  click-through navigation with menu auto-close on route change —
+  byte-matching the reference; /Tool (h1 + Generate Post + 3-free),
+  /login (Welcome + Continue with Google + Need an account),
+  /Dashboard (404 + derived title + Page Not Found), landing (hero h1
+  + Try the Tool + Upgrade to Pro) — no drift; sitemap/robots/manifest
+  live-verified on the dev server (byte formats, force-static)
+- THE CAPTURES (19/20): the dev-server landing (1280×800) and the open
+  mobile menu (390×844), both PIL-verified non-blank (99.7%/99.9%);
+  captured BEFORE the gate build (the S4 churn lesson) with the
+  open-state verified through the nav links (the S4 relabel lesson)
+- THE VERIFICATION: full gate on the exact commit tree — lint 0/0 ·
+  tsc 0 · unit 405/405 (29 files) · build · smoke 15/15 · e2e 48/48
+  (8 specs) · census MATCH
+- SHIPPED: the round-history lockstep (SKILL v1.2.0 with the Session 6
+  row, README's status table + gate line, AGENTS' six-plan map) +
+  captures 19/20 + the plan doc
+  (docs/plans/2026-11-09-session6-clean-tree-recertification.md) +
+  this worklog entry, committed to main and pushed via
+  docs/ssh_git_wrapper_v3.py
+
+---
+
 Task ID: 5
 Agent: main (Z.ai)
 Task: The session-5 docs-freshness audit — re-run the standing
