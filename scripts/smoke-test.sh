@@ -97,9 +97,17 @@ body "$BASE/Pricing" | grep -q "Simple, Transparent Pricing" \
 redirect_code=$(code "$BASE/Home")
 [ "$redirect_code" = 308 ] && ok 05 "/Home 308-redirects to /" || { fail 05 "/Home redirect (got $redirect_code)"; exit 1; }
 
-# 06 — the unknown route answers the designed 404
-[ "$(code "$BASE/definitely-not-a-route")" = 404 ] && body "$BASE/definitely-not-a-route" | grep -q "Page Not Found" \
-  && ok 06 "the designed 404" || { fail 06 "404 page"; exit 1; }
+# 06 — the unknown route answers the designed 404: true 404 STATUS + the
+# reference's DERIVED title (session-2 F-1: "<StartCase(last segment)> |
+# ViralPost AI" — the /Dashboard decode). The 404 BODY renders through
+# the client stream (Next's dynamic-boundary fallback — the same
+# client-rendered posture as the reference's SPA 404); the rendered-body
+# contract is owned by the e2e layer (tests/e2e/landing.spec.ts asserts
+# the "404" heading + Go Home in a real browser).
+[ "$(code "$BASE/definitely-not-a-route")" = 404 ] \
+  && body "$BASE/definitely-not-a-route" | grep -q "<title>Definitely Not A Route | ViralPost AI</title>" \
+  && body "$BASE/definitely-not-a-route" | grep -q 'name="robots" content="noindex"' \
+  && ok 06 "the designed 404 (status + derived title + noindex)" || { fail 06 "404 page"; exit 1; }
 
 # 07 — the demo login round-trip (the seed contract's credentials)
 login_code=$(code -c "$COOKIE_JAR" -H "Content-Type: application/json" \

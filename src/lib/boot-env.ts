@@ -27,9 +27,9 @@
 
 /** The closed NEO_* knob set (the six-knob contract's 3 server knobs). */
 export const KNOWN_NEO_VARS: ReadonlySet<string> = new Set([
-  "NEO_PROXY_HOPS",
-  "NEO_DISABLE_IN_APP_OTP",
-  "NEO_DISABLE_IN_APP_RESET",
+  "VIRALPOST_PROXY_HOPS",
+  "VIRALPOST_DISABLE_IN_APP_OTP",
+  "VIRALPOST_DISABLE_IN_APP_RESET",
 ]);
 
 /** The values the NEO_DISABLE_* kill-switches actually read ("1" = disable). */
@@ -78,7 +78,7 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
       );
     }
   }
-  for (const key of ["NEO_DISABLE_IN_APP_OTP", "NEO_DISABLE_IN_APP_RESET"]) {
+  for (const key of ["VIRALPOST_DISABLE_IN_APP_OTP", "VIRALPOST_DISABLE_IN_APP_RESET"]) {
     const value = env[key];
     if (value !== undefined && !DISABLE_KNOB_VALUES.has(value)) {
       warnings.push(
@@ -86,10 +86,10 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
       );
     }
   }
-  const hops = env.NEO_PROXY_HOPS;
+  const hops = env.VIRALPOST_PROXY_HOPS;
   if (hops !== undefined && hops !== "" && !/^\d+$/.test(hops)) {
     warnings.push(
-      `[boot] NEO_PROXY_HOPS="${hops}" is unparsable — the rate-limit seam fails CLOSED onto hop 1 (a bad value never widens trust); fix the value to unset, 0, or an N ≥ 1.`,
+      `[boot] VIRALPOST_PROXY_HOPS="${hops}" is unparsable — the rate-limit seam fails CLOSED onto hop 1 (a bad value never widens trust); fix the value to unset, 0, or an N ≥ 1.`,
     );
   }
 

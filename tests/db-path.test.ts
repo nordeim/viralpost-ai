@@ -18,7 +18,7 @@ afterEach(() => {
 
 describe("urlForRoot", () => {
   it("creates the database parent directory when it does not exist yet (first boot)", () => {
-    const root = mkdtempSync(join(tmpdir(), "neo-crm-dbpath-"));
+    const root = mkdtempSync(join(tmpdir(), "viralpost-dbpath-"));
     tempDirs.push(root);
     // Simulate a repo root WITHOUT a db/ folder: only the schema anchor exists.
     const dbFile = join(root, "prisma", "..", "db", "custom.db");
@@ -32,7 +32,7 @@ describe("urlForRoot", () => {
   });
 
   it("is idempotent when the database directory already exists", () => {
-    const root = mkdtempSync(join(tmpdir(), "neo-crm-dbpath-"));
+    const root = mkdtempSync(join(tmpdir(), "viralpost-dbpath-"));
     tempDirs.push(root);
 
     const first = urlForRoot(root, "../db/custom.db");
@@ -89,11 +89,11 @@ describe("effectiveDatabaseUrl (bun absolutization re-anchoring)", () => {
 
   it("passes postgres URLs through untouched", () => {
     const url = effectiveDatabaseUrl({
-      envUrl: "postgresql://u:p@localhost:5432/neo_crm",
+      envUrl: "postgresql://u:p@localhost:5432/viralpost",
       envFileUrl: "file:../db/custom.db",
       envFileDir: "/repo",
     });
-    expect(url).toBe("postgresql://u:p@localhost:5432/neo_crm");
+    expect(url).toBe("postgresql://u:p@localhost:5432/viralpost");
   });
 
   it("falls back to the .env value when the process env is unset", () => {
@@ -108,7 +108,7 @@ describe("effectiveDatabaseUrl (bun absolutization re-anchoring)", () => {
 
 describe("runtimeDatabaseUrl (cwd .env discovery)", () => {
   it("re-anchors a bun-absolutized env var using the cwd .env file", () => {
-    const dir = mkdtempSync(join(tmpdir(), "neo-crm-runtime-"));
+    const dir = mkdtempSync(join(tmpdir(), "viralpost-runtime-"));
     tempDirs.push(dir);
     writeFileSync(join(dir, ".env"), 'DATABASE_URL="file:../db/custom.db"\n');
 
@@ -128,7 +128,7 @@ describe("runtimeDatabaseUrl (cwd .env discovery)", () => {
   });
 
   it("uses the process env URL when no .env exists at the cwd", () => {
-    const dir = mkdtempSync(join(tmpdir(), "neo-crm-runtime-"));
+    const dir = mkdtempSync(join(tmpdir(), "viralpost-runtime-"));
     tempDirs.push(dir);
     mkdirSync(join(dir, "db"), { recursive: true });
 
@@ -147,7 +147,7 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34)", () =>
   // The production layout: <repo>/{.env, prisma/schema.prisma} plus the
   // traced .next/standalone/{.env} copy the server chdirs into at boot.
   function buildStandaloneRepo(): { repo: string; standalone: string } {
-    const repo = mkdtempSync(join(tmpdir(), "neo-crm-standalone-"));
+    const repo = mkdtempSync(join(tmpdir(), "viralpost-standalone-"));
     tempDirs.push(repo);
     mkdirSync(join(repo, "prisma"), { recursive: true });
     writeFileSync(join(repo, "prisma", "schema.prisma"), "// schema stub\n");
@@ -220,10 +220,10 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34)", () =>
     // re-anchor the absolute URL into a corrupted
     // <repo>/prisma/var/lib/… path (junk directories included). Absolute
     // URLs are intentional overrides by the seam's own header contract.
-    writeFileSync(join(repo, ".env"), 'DATABASE_URL="file:/var/lib/neo-crm/custom.db"\n');
-    withEnv("file:/var/lib/neo-crm/custom.db", () => {
+    writeFileSync(join(repo, ".env"), 'DATABASE_URL="file:/var/lib/viralpost/custom.db"\n');
+    withEnv("file:/var/lib/viralpost/custom.db", () => {
       const url = runtimeDatabaseUrl(standalone);
-      expect(url).toBe("file:/var/lib/neo-crm/custom.db");
+      expect(url).toBe("file:/var/lib/viralpost/custom.db");
     });
     // And no junk directories were created on the way.
     expect(existsSync(join(repo, "prisma", "var"))).toBe(false);

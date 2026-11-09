@@ -1,20 +1,109 @@
-Task ID: 198
+Task ID: 2
 Agent: main (Z.ai)
-Task: The session-198 post-197 audit round — THE ADVISORIES RE-TRIAGE (the runtime-chain critical cured + the security-ledger lockstep) — the discovery, two TDD cures, docs lockstep, captures, push to main via the SSH wrapper.
+Task: The session-2 parity-audit round — the /Dashboard decode (the
+unknown-route title architecture) + the codebase audit/remediation + the
+docs rebuild + the SKILL distillation — TDD cures, the gate, captures,
+push #2 to main via the SSH wrapper.
 
 Work Log:
-- The workspace cloned fresh to ba30355 (the s197 ship a482f72 + the owner's transcript commit ba30355 — the session_417 transcript, this round's rotation trigger); the environment rebuilt in the intake (bun 1.3.14 + the Playwright chromium 1248 install + db:push/db:seed + the .env rebuilt from .env.example with a fresh 64-hex AUTH_SECRET); census MATCH (15/24/10/23/12 + 4 users at <repo>/db/custom.db)
-- The docs internalized (AGENTS.md + CLAUDE.md + README.md + PAD + neo-crm_SKILL.md v1.194.0 + session_416/417 + the s197 plan + the worklog tail) and validated against the tree; the baseline gate GREEN at the exact s197 ship state: lint 0/0 · tsc 0 · 138/2813 unit · probe:ref STABLE (46bc2d9c — the demo data still ZERO, the desktop + TRUE-390 + landing censuses STANDING)
-- The discovery (scripts/discover-198.ts, the discover-197 form + the new audit-triage leg): the standing data-gated re-checks ALL KILLED (the live Edit-family census on both apps — OURS rows=15/24/10 with the rowMenus live, the REF rows=1 the empty-state rows, rowMenus=0, the topbar-search populated=0 on both — the discover-184..198 standing census) · the conditional gates KILLED (probe:ref STABLE kills the fresh-bundle re-derivation; the registry's latest recharts 3.10.1 kills the 4.0 gate) · the s120-era re-walk kill STANDING (the leads family source-frozen since s113 [85 sessions], the lockfile deps at the s196 census, the bundle STABLE — the kill condition unmoved) · THE STANDING PRE-SHIP DUTY (the s164 bun-audit doctrine) re-run LIVE: the census DRIFTED 9 -> 12 (1 critical / 5 high / 4 moderate / 2 low) — THE REPO'S FIRST CRITICAL ON A RUNTIME CHAIN (jspdf@4.2.1, the direct runtime dep behind src/lib/pdf-export.ts, ships the optional dompurify at 3.4.16 INSIDE the vulnerable range >=3.4.4 <=3.4.16: critical GHSA-cg2g-xh64-v4q7 + high GHSA-mrv2-3pqr-j5jr + low GHSA-c6gr-qvv4-5v3f), DORMANT at the code-path level (the security-and-hardening triage ladder: pdf-export.ts never calls pdf.html(), dompurify's only jsPDF activation site — grep-verified 0 call sites), the fix verified on the registry (dompurify 3.4.17, semver-safe under jspdf's own ^3.3.1 floor), the stale-doc census (the PAD §10 ledger row + the AGENTS gate-order note both carrying the s164 census verbatim — ZERO test teeth on either claim, the 33-session silent drift)
-- WP-1 (D-198a1): THE RUNTIME CHAIN'S CRITICAL CURED — the two pins written RED-first into tests/pdf-export.test.ts (the lockfile pin RED at birth against the shipping 3.4.16 · the dormancy freeze GREEN at birth); THE CURE: the first attempt (bun update dompurify) caught LIVE — it hoisted the root while adding a direct-dep line (reverted — the app never imports dompurify) AND leaving a NESTED jspdf/dompurify@3.4.16 surviving on disk (Node resolution would still have loaded the vulnerable copy) — the failure mode that chose THE OVERRIDE MECHANISM: overrides.dompurify = "3.4.17" in package.json + a clean reinstall (the physical tree reproduces the lockfile exactly, no nested copy) + THE PIN HARDENED to scan EVERY dompurify@x.y.z resolution (the first-match form would have passed the nested copy); MUTATION-PROVEN ×2: the lockfile flip -> exactly 1 RED -> restored -> GREEN; the planted .html( call -> exactly 1 RED -> restored -> GREEN; the post-cure audit 9 (4 high / 4 moderate / 1 low) — the critical GONE, zero runtime chains, the documented posture restored; the bundle census: dompurify ships in the client bundle (2 chunks, jspdf's static import graph) — the override cured the SHIPPED copy too (the post-cure build compiles against 3.4.17)
-- WP-1 (D-198a2): THE SECURITY LEDGER'S STALE CENSUS CURED — the two pins written RED-first into tests/docs-counts.test.ts (both RED at birth); THE CURE: the PAD §10 ledger row rewritten at the live post-cure census (the composition re-derived: zod via eslint-config-next›eslint-plugin-react-hooks · deepmerge-ts via the prisma CLI · vite + launch-editor via vitest · source-map-js via postcss — the retired braces composition joined the negatives) + the dormancy decode + the s198 re-triage clause + the AGENTS gate-order note re-anchored (the whitespace-normalized pin — the live catch: the first draft failed on the hard-wrapped head, the fix teaching the pin holds the CONTENT, never the wrap); MUTATION-PROVEN ×2: the PAD stale re-plant -> 1 RED -> restored -> GREEN; the AGENTS tail removal -> 1 RED -> restored -> GREEN
-- WP-2: skill-head-198.py ran FIRST (the SKILL v1.195.0, the s197 layer demoted at its ship counts 2813/195, the s198 layer live at 2817/195 + the beneath-it tail, idempotent, the s197 exact-H1 guard form) · count-ladder-198.py (UNIT 2813 -> 2817 [+4] · badge 3008 -> 3012 [the unit+e2e arithmetic: 2817+195] · SUITES 138 HELD [the one-suite doctrine — both pin pairs ride EXISTING suites] · E2E 195 HELD; assert-first, idempotent — 18 doc flips + the test-side re-anchors in the same stroke: the docs-counts UNIT constant + the layer-axis [first = s198, second = s197 at its ship 2813/195] + the 12 retired-2813 negatives joining the s166 block + the dialog-geometry-parity F-92a3 ladder [the four CLAUDE live positives re-anchored 2817 + the 2813 forms join the negatives]) · the docs lockstep (the AGENTS Session-198 section · session_418.md · the PAD §7.1 s198 inventory row + the §10 ledger row [the D-198a2 cure site] · the README walk-contracts paragraph's s198 clause · the plan's execution record · this worklog entry [Task ID 198])
-- WP-3: the captures (docs/screenshots/ 621-628: the round's reports pair ours+ref at the desktop + 390 axes — the PDF-export surface whose dependency chain carried the critical + the dev-server set — the landing + the dashboard + the reports + the mobile drawer-open face; the VLM battery: both pairs PASS — the desktop pair "all UI structure, layout, and styling remain in perfect parity" [the sole deviations the acceptable data-vs-empty genus], the phone pair "visually identical in structure and styling, differing only in the numerical data")
-- The operator's asks all verified standing (the .env DATABASE_URL=file:../db/custom.db with the db/ at the repo root — census MATCH · the vitest + playwright configs — 138/2817 + 195/195 at the full gate · the sitemap + SEO surface — sitemap 11 routes + robots + manifest 200, smoke check 12 · the mobile-nav comparison LIVE — the drawer opened/captured at 390x844 [capture 628], the mobile-nav e2e battery 11/11 inside the 195, the Tailwind v4 state CLEAN · the .env.example verified bidirectional and carried in the tree)
+- The intake: the workspace pulled to 414596c (the owner's session_1.md
+  post on top of the session-1 ship 12d8a80); the interrupted session-1
+  tail completed first — the 11-package dead-dep removal (zustand,
+  recharts, jspdf, html2canvas-pro, cva, 6× radix) verified through the
+  full gate INCLUDING the e2e battery that the tool outage had cut off
+  (47/47 — the gate now fully re-certified on the diet)
+- The docs internalized (session_1.md + the two plans + the worklog +
+  the four root docs' CRM-era state confirmed) and validated against the
+  tree; the skills read for the round (web-application §0–§20 + the
+  appendices · tdd · agent-browser · tailwind-patterns ·
+  distill-codebase-skill · to-distill-project-into-skill — all four
+  doc-creation skills from session 1 already internalized)
+- THE /DASHBOARD DECODE (the round's key discovery, live-verified in
+  BOTH auth states with the operator's demo credentials): the reference's
+  /Dashboard is its 404 page — heading "404", "Page Not Found", the
+  quoted-pathname message, the bare centered body, Go Home; the clone's
+  body already matched. THE REAL GAP: the reference derives
+  `<StartCase(last segment)> | ViralPost AI` for unknown routes while
+  the clone shipped the bare root default. The derivation table pinned
+  live across 17 path shapes (camelCase splits, XMLHttp → "XML Http",
+  digits NEVER split — /page2 → "Page2", NOT lodash semantics; the
+  empty derivation → the bare title; /a/b/c → the LAST segment)
+- The audit (Mode C, the web-application skill's dimensions): 8 findings
+  — F-1 the unknown-route title gap (Medium) · F-2 the missing
+  data-scroll-behavior (Low) · F-3 a generator comment typo (Low) ·
+  F-4 the NEO_ env prefix relics (Medium) · F-5/F-6/F-7 the stale root
+  docs / the missing viralpost-ai_SKILL.md / the stale worklog (High,
+  docs) · F-8 the neo_crm postgres example (Low). Verified at parity,
+  no action: the mobile menu (re-walked live at 390×844 against the
+  reference — structure/classes/behavior, no drift since session 1),
+  the login→/ redirect, /Home 308, sitemap/robots/manifest, the .env
+  DATABASE_URL contract, vitest+playwright, the Tailwind v4 doctrine
+  state, the console
+- The remediation plan (docs/plans/2026-11-09-session2-parity-audit-
+  remediation.md): the findings ledger + the R-1..R-8 sequence + the
+  acceptance criteria, validated against the codebase before execution
+- R-1 THE TITLE SEAM (TDD): RED — tests/route-title.test.ts, 13 pins
+  over the live-verified table; GREEN — src/lib/route-title.ts (the
+  derivation). THE ARCHITECTURE JOURNEY (three probes, each
+  live-verified): (1) a client-side effect in NotFoundBody — STOMPED by
+  React's metadata hydration (title set at load, reverted a beat later);
+  (2) the catch-all page's generateMetadata + notFound() — DISCARDED by
+  Next when the page throws (probe-verified: the same metadata applied
+  while the page rendered); (3) THE CURE — the derivation lives in the
+  catch-all SEGMENT LAYOUT's generateMetadata (layouts render around
+  the not-found boundary, so the metadata survives): layout (title) +
+  page (notFound()) + segment not-found (the body). Verified: all 11
+  live path shapes byte-match the reference's titles, the true-404
+  status preserved, noindex now shipped, every real route untouched
+  (curl precedence walk). The curl-layer cost, honestly recorded: the
+  404 body renders through the client stream (Next's dynamic-boundary
+  fallback — the SAME client-rendered posture as the reference's SPA
+  404); the rendered-body contract moved to the e2e layer (the heading
+  assertions), the smoke leg 06 re-anchored to status + derived title +
+  noindex
+- R-2/R-3: data-scroll-behavior="smooth" on <html> (the typography pin
+  updated in the same commit) · the generator comment typo
+- R-4 THE RELIC SWEEP: NEO_PROXY_HOPS/NEO_DISABLE_IN_APP_* →
+  VIRALPOST_* (10 files: boot-env, rate-limit, three auth routes,
+  login-card, three test suites, .env.example) · the user-facing
+  "Enter your new password for NEO CRM" → "ViralPost AI" (a genuine UI
+  relic) · the chunk-reload flag → "viralpost:chunk-reload-at" · the
+  Prisma globalThis key · the timing-equalizer constant · the stale
+  login-page comments · the db-path test scratch names · the .env
+  postgres example → viralpost. Zero NEO/neo references remain in src/
+  tests/prisma/scripts/.env.example (rg-swept)
+- R-5/R-6 THE DOCS REBUILD: README.md (the readme-md skill: badges,
+  features, architecture + mermaid, hierarchy, quickstart, env, testing,
+  API, deviations, status) · AGENTS.md (the agents-md skill: the
+  commands table, the facts you'd guess wrong — the catch-all
+  architecture, the db-path contract, the e2e discipline, the VIRALPOST_
+  env names) · CLAUDE.md (the claude-md skill: the six-phase Meticulous
+  Approach, the implementation standards, the Tailwind trap catalog,
+  the anti-patterns) · Project_Architecture_Document.md v2.0 (the PAD
+  skill: 8 ADRs — the stack, the local generator, the quota posture,
+  the cookie auth, the Tailwind doctrine, THE CATCH-ALL 404 (ADR-006),
+  the contact persistence, the db-path seam — plus topology, layers,
+  patterns, data, design, security, testing, deployment, known issues,
+  key files, glossary) · viralpost-ai_SKILL.md v1.0.0 (the distill
+  skills' 16-section form + the round history + the verification
+  ledger) · this worklog entry
+- R-7: the census restored to MATCH after pruning the round's probe
+  users (3 signup-probe rows out; the seed's upsert kept the demo row)
 
 Stage Summary:
-- THE SECURITY-LEDGER ROUND: the s164 standing pre-ship duty (bun audit) re-run live caught the advisories census drift 9 -> 12 with the repo's first CRITICAL on a runtime chain — cured the same round, and the ledger is now TRIPLE-PINNED (the exhaustive lockfile resolution pin + the pdf.html() dormancy freeze + the PAD/AGENTS census pins): the next drift trips a RED, not a silent doc
-- THE LIVE FINDS: two cures — D-198a1 the dompurify 3.4.16 -> 3.4.17 transitive override (the nested-copy catch choosing the override mechanism; the critical GHSA-cg2g-xh64-v4q7 + its high + low siblings GONE from the runtime tree AND the shipped client bundle) + D-198a2 the security ledger's stale census re-anchored at the live post-cure form (9: 4h/4m/1l, all dev-toolchain — the documented posture restored)
-- THE DECLINED (the posture + parity doctrines): the dev-toolchain members' bumps (the s164 no-mid-rotation TOOLCHAIN posture stands) · the registry majors (the lucide 0.525 PARITY pin — the reference's own bundle-decoded version; the next/prisma/zustand bumps — their own rotations, none carries an advisory on our locked versions) · the e2e/a11y extensions for the advisories axis (no page surface changed)
-- THE VERIFICATION: lint 0/0 · tsc 0 · 138/2817 unit · build (the type-gate artifact) · smoke 14/14 · e2e 195/195 (5.7m) · the four-band sweep GREEN (the cure's baseline-inertness sweep-proven) · bun audit post-cure 9 (all dev-toolchain) · db census MATCH · probe:ref STABLE
-- SHIPPED: the remediated codebase committed to main and pushed via docs/ssh_git_wrapper_v3.py (the remote verified; no new branches)
+- THE PARITY ROUND: the operator's /Dashboard ask decoded (the
+  reference's own 404 + its title scheme — never a dashboard surface),
+  the title architecture shipped SSR-correct through the layout-owns-
+  the-metadata cure, and every CRM-era relic swept from the tree
+- THE LIVE FINDS: the React metadata stomp (the effect approach) · the
+  Next generateMetadata/notFound discard (the page approach) · the
+  digits-never-split derivation rule (NOT lodash) · the user-facing
+  "NEO CRM" reset-password text
+- THE VERIFICATION: lint 0/0 · tsc 0 · unit 402/402 (29 files, +13 the
+  route-title suite) · build (the catch-all route present) · smoke
+  15/15 (leg 06 re-anchored to the new 404 contract) · e2e 48/48 (+1
+  the derived-title pin) · the census MATCH · the mobile menu + the
+  derivation table + the route precedence live-verified
+- SHIPPED: the remediated codebase + the five rebuilt docs committed to
+  main and pushed via docs/ssh_git_wrapper_v3.py (the remote verified;
+  no new branches)

@@ -60,7 +60,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    // data-scroll-behavior lets Next suspend the CSS smooth scrolling
+    // during route transitions (the globals.css html rule sets it; without
+    // the attribute Next warns it can't manage it).
+    <html lang="en" data-scroll-behavior="smooth">
       <body className="min-h-screen bg-background font-sans text-foreground">
         {children}
         <Toaster />

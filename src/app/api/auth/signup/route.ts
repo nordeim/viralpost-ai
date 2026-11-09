@@ -93,9 +93,9 @@ export async function POST(req: Request) {
     // Session-163 (the digma ADR-014 port): the SELF-HOSTED in-app OTP
     // delivery — the code rides the response for existing demo workflows
     // (and the e2e scratch-account funnel) exactly as digma's register
-    // carries it. NEO_DISABLE_IN_APP_OTP=1 nulls it for production (an
+    // carries it. VIRALPOST_DISABLE_IN_APP_OTP=1 nulls it for production (an
     // email service owns the delivery); the console log stays either way.
-    const inAppOtpEnabled = process.env.NEO_DISABLE_IN_APP_OTP !== "1";
+    const inAppOtpEnabled = process.env.VIRALPOST_DISABLE_IN_APP_OTP !== "1";
     return ok({
       id: user.id,
       email: user.email,

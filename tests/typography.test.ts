@@ -54,7 +54,10 @@ describe("typography: the Inter webfont retirement (S22-P1)", () => {
 
   it("the root layout applies NO font variable to <html> (lang only)", () => {
     expect(layout).not.toMatch(/inter\.variable/);
-    expect(layout).toMatch(/<html lang="en">/);
+    // Session-2: data-scroll-behavior rides the tag (Next suspends the CSS
+    // smooth scrolling across route transitions with it) — still NO font
+    // variable, the S22-P1 retirement intent.
+    expect(layout).toMatch(/<html lang="en" data-scroll-behavior="smooth">/);
   });
 
   it("globals.css references NO --font-inter variable", () => {

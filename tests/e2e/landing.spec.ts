@@ -84,3 +84,22 @@ test("the 404 page renders for unknown routes", async ({ page }) => {
   await page.getByRole("link", { name: "Go Home" }).click();
   await page.waitForURL("/");
 });
+
+// Session-2 (F-1): the reference titles unknown routes
+// "<StartCase(last segment)> | ViralPost AI" — the /Dashboard decode
+// (live-verified in both auth states on the reference).
+test("unknown routes carry the reference's derived title", async ({ page }) => {
+  await page.goto("/Dashboard");
+  await expect(page.getByRole("heading", { name: "404" })).toBeVisible();
+  await expect(page).toHaveTitle("Dashboard | ViralPost AI");
+  await expect(
+    page.getByText('The page "Dashboard" could not be found'),
+  ).toBeVisible();
+
+  await page.goto("/definitely-not-a-route");
+  await expect(page).toHaveTitle("Definitely Not A Route | ViralPost AI");
+
+  // The true-404 status superset (the reference's SPA serves 200 everywhere).
+  const res = await page.goto("/some-missing-page");
+  expect(res?.status()).toBe(404);
+});

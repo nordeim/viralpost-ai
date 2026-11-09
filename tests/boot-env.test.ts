@@ -19,7 +19,7 @@
 //                   form: a mistyped kill switch silently no-ops today)
 //   NEO_DISABLE_*   values outside ""/"1" -> WARNING (every other value
 //                   silently behaves as unset)
-//   NEO_PROXY_HOPS  unparsable/negative -> WARNING (the rate-limit seam
+//   VIRALPOST_PROXY_HOPS  unparsable/negative -> WARNING (the rate-limit seam
 //                   already fails CLOSED onto 1 — the boot warning adds
 //                   the visibility)
 //
@@ -116,9 +116,9 @@ describe("session-170 (WP-3): the NEXT_PUBLIC_SITE_URL misconfig warning", () =>
 describe("session-170 (WP-3): the NEO_* flag-typo guard (the scandihaven port, warn form)", () => {
   it("the closed known set is the documented 3-knob family", () => {
     expect([...KNOWN_NEO_VARS].sort()).toEqual([
-      "NEO_DISABLE_IN_APP_OTP",
-      "NEO_DISABLE_IN_APP_RESET",
-      "NEO_PROXY_HOPS",
+      "VIRALPOST_DISABLE_IN_APP_OTP",
+      "VIRALPOST_DISABLE_IN_APP_RESET",
+      "VIRALPOST_PROXY_HOPS",
     ]);
   });
 
@@ -130,25 +130,25 @@ describe("session-170 (WP-3): the NEO_* flag-typo guard (the scandihaven port, w
   });
 
   it("the KNOWN knobs at their documented values: no warning", () => {
-    const report = bootEnvCheck(env({ NEO_PROXY_HOPS: "2", NEO_DISABLE_IN_APP_OTP: "1" }));
+    const report = bootEnvCheck(env({ VIRALPOST_PROXY_HOPS: "2", VIRALPOST_DISABLE_IN_APP_OTP: "1" }));
     expect(report.warnings).toHaveLength(0);
   });
 
-  it("NEO_DISABLE_IN_APP_OTP with an off-vocabulary value warns (only ''/'1' are meaningful)", () => {
-    const report = bootEnvCheck(env({ NEO_DISABLE_IN_APP_OTP: "true" }));
+  it("VIRALPOST_DISABLE_IN_APP_OTP with an off-vocabulary value warns (only ''/'1' are meaningful)", () => {
+    const report = bootEnvCheck(env({ VIRALPOST_DISABLE_IN_APP_OTP: "true" }));
     expect(report.warnings).toHaveLength(1);
-    expect(report.warnings[0]).toContain("NEO_DISABLE_IN_APP_OTP");
+    expect(report.warnings[0]).toContain("VIRALPOST_DISABLE_IN_APP_OTP");
     expect(report.warnings[0]).toContain("true");
   });
 
-  it("NEO_PROXY_HOPS unparsable warns (the seam fails closed onto 1 — the boot warning adds visibility)", () => {
-    const report = bootEnvCheck(env({ NEO_PROXY_HOPS: "abc" }));
+  it("VIRALPOST_PROXY_HOPS unparsable warns (the seam fails closed onto 1 — the boot warning adds visibility)", () => {
+    const report = bootEnvCheck(env({ VIRALPOST_PROXY_HOPS: "abc" }));
     expect(report.warnings).toHaveLength(1);
-    expect(report.warnings[0]).toContain("NEO_PROXY_HOPS");
+    expect(report.warnings[0]).toContain("VIRALPOST_PROXY_HOPS");
   });
 
-  it("NEO_PROXY_HOPS negative warns the same way", () => {
-    const report = bootEnvCheck(env({ NEO_PROXY_HOPS: "-1" }));
+  it("VIRALPOST_PROXY_HOPS negative warns the same way", () => {
+    const report = bootEnvCheck(env({ VIRALPOST_PROXY_HOPS: "-1" }));
     expect(report.warnings).toHaveLength(1);
   });
 });

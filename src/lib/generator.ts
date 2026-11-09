@@ -414,7 +414,7 @@ export function generatePost(idea: string, seed?: number): GeneratedPost {
     paragraphs.push(bodyBank[idx].join(" "));
   }
 
-  // Occasionaally append a reader CTA as the final short paragraph.
+  // Occasionally append a reader CTA as the final short paragraph.
   if (rng() > 0.5) paragraphs.push(pick(rng, READER_CTA));
 
   const hashtags = hashtagsFor(clean, niche, rng);

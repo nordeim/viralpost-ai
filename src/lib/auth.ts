@@ -1,6 +1,6 @@
 // Hand-rolled session auth (no NextAuth, no JWTs — matches the scaffold
 // family conventions): scrypt password hashes + HMAC-SHA256 signed
-// stateless cookie (`neo_session`, 7-day TTL).
+// stateless cookie (`viralpost_session`, 7-day TTL).
 //
 // Cookie payload: base64url(JSON{uid,iat,exp,v}) + "." + hex HMAC — the
 // `v` (session-163, the digma S67-A port) is the revocation dimension: a

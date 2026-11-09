@@ -538,7 +538,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                                 response carries the 6-digit code for the
                                 demo workflow (no mail transport); renders
                                 only when present, and never when the
-                                NEO_DISABLE_IN_APP_OTP knob is set. */}
+                                VIRALPOST_DISABLE_IN_APP_OTP knob is set. */}
                             {verifyCodeHint && (
                               <p className="text-sm text-slate-500">
                                 Demo code:{" "}

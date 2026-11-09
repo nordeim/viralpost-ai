@@ -2,16 +2,14 @@ import { LoginCard } from "@/components/layout/login-card";
 import { LOGIN_LAYOUT } from "@/lib/page-layout";
 import { pageMetadata } from "@/lib/site";
 
-// Session-10 (S10-10): the reference's login page title is plain "NEO CRM"
-// (document.title probe) — not "Sign in | NEO CRM".
-// Session-13 (S13-P1): the title must be ABSOLUTE — a relative string
-// rides the root layout's "%s | NEO CRM" template and SSRs the DOUBLED
-// "NEO CRM | NEO CRM" (curl-verified; same bug class as the s12 404).
-// Session-19 (S19-P4/P5): the reference ships the UNPREFIXED metadata
-// family on /login too — og:title "NEO CRM", the plain 405-char
-// description, og:url/twitter:url + canonical at origin/login — built
-// through the pageMetadata() factory (page: null = the unprefixed
-// family; the factory keeps the ABSOLUTE title).
+// The reference's login page ships the BARE app title "ViralPost AI"
+// (document.title probe) — the metadata is therefore ABSOLUTE (a relative
+// string would ride the root layout's "%s | ViralPost AI" template and
+// SSR the doubled form). The UNPREFIXED metadata family applies here too
+// — og:title "ViralPost AI", the plain description, og:url/twitter:url +
+// canonical at origin/login — built through the pageMetadata() factory
+// (page: null = the unprefixed family; the factory keeps the ABSOLUTE
+// title).
 export const metadata = pageMetadata({ page: null, route: "/login" });
 
 export const dynamic = "force-dynamic";
