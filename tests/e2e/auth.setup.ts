@@ -15,8 +15,10 @@ test("authenticate demo user", async ({ page }) => {
   await page.getByLabel("Password").fill("$Abcd1234");
   await page.getByRole("button", { name: "Sign in" }).click();
 
+  // The reference's login redirects to the landing page ("/Home" there;
+  // ours to the canonical "/").
   await page.waitForURL("/");
-  await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Create Viral Social Media Posts with AI" })).toBeVisible();
 
   await page.context().storageState({ path: STORAGE });
 });

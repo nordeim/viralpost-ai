@@ -1,0 +1,123 @@
+"use client";
+
+// The contact form — class-for-class the reference's, but the submit
+// PERSISTS to /api/contact → the ContactMessage table (the reference's
+// handler is a pure client stub; docs/reference-investigation.md §5 D-2).
+// Same observable UX: "Send Message" ⇄ "Message Sent!" + the form clears.
+
+import * as React from "react";
+import { Check, Send } from "lucide-react";
+
+import { toast } from "@/components/ui/toast";
+
+interface ContactState {
+  name: string;
+  email: string;
+  message: string;
+}
+
+const EMPTY: ContactState = { name: "", email: "", message: "" };
+
+const FIELD =
+  "w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 transition-all";
+
+export function ContactForm() {
+  const [form, setForm] = React.useState<ContactState>(EMPTY);
+  const [sent, setSent] = React.useState(false);
+  const [sending, setSending] = React.useState(false);
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (sending) return;
+    setSending(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const body = (await res.json().catch(() => null)) as
+        | { ok: boolean; error?: { message: string } }
+        | null;
+      if (!res.ok || !body?.ok) {
+        toast.error(body?.error?.message ?? "Something went wrong. Please try again.");
+        return;
+      }
+      setSent(true);
+      setForm(EMPTY);
+      setTimeout(() => setSent(false), 2600);
+    } catch {
+      toast.error("Network error — check your connection and try again.");
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <form className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-teal-100/50 p-8" onSubmit={submit} noValidate={false}>
+      <div className="space-y-5">
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-2" htmlFor="contact-name">
+            Name
+          </label>
+          <input
+            id="contact-name"
+            type="text"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            placeholder="Your name"
+            required
+            className={FIELD}
+            autoComplete="name"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-2" htmlFor="contact-email">
+            Email
+          </label>
+          <input
+            id="contact-email"
+            type="email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            placeholder="you@example.com"
+            required
+            className={FIELD}
+            autoComplete="email"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-2" htmlFor="contact-message">
+            Message
+          </label>
+          <textarea
+            id="contact-message"
+            value={form.message}
+            onChange={(e) => setForm({ ...form, message: e.target.value })}
+            placeholder="Your message..."
+            rows={4}
+            required
+            className={`${FIELD} resize-none`}
+          />
+        </div>
+      </div>
+      <button
+        type="submit"
+        disabled={sending}
+        className="mt-6 w-full py-3.5 bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-teal-200 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {sent ? (
+          <>
+            <Check className="h-4 w-4" aria-hidden="true" />
+            Message Sent!
+          </>
+        ) : (
+          <>
+            <Send className="h-4 w-4" aria-hidden="true" />
+            Send Message
+          </>
+        )}
+      </button>
+    </form>
+  );
+}

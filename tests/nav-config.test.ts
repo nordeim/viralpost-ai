@@ -1,42 +1,67 @@
 import { describe, expect, it } from "vitest";
-import { isNavActive } from "@/components/layout/nav-config";
 
-// Session-147 (D-147a1): the shared nav-active predicate — extracted
-// from the SidebarNav component so the desktop sidebar AND the new
-// mobile Sheet drawer (the s147 parity re-derivation) resolve the same
-// active state. The rules are the s24 live decode: CASE-INSENSITIVE
-// matching (the reference highlights Reports at lowercase /reports),
-// the Dashboard root special case (both "/" and "/Dashboard" are the
-// dashboard — the post-login redirect lands on the root), and the
-// prefix rule for nested segments.
-describe("session-147: isNavActive — the shared nav-active predicate (the s24 rules, extracted)", () => {
-  it("exact matching is case-insensitive (the reference highlights at both casings)", () => {
-    expect(isNavActive("/Reports", "/Reports")).toBe(true);
-    expect(isNavActive("/reports", "/Reports")).toBe(true);
-    expect(isNavActive("/REPORTS", "/Reports")).toBe(true);
-    expect(isNavActive("/accounts", "/Accounts")).toBe(true);
+import {
+  activeRoute,
+  BRAND,
+  GUMROAD_URL,
+  NAV_ROUTES,
+  SOCIAL_LINKS,
+} from "@/components/marketing/nav-config";
+
+// The navigation vocabulary — the reference's route surface (capitalized
+// paths), the Gumroad product link, and the active-route resolver.
+
+describe("nav-config: the route surface", () => {
+  it("carries the reference's four destinations with its capitalized hrefs", () => {
+    expect(NAV_ROUTES.map((r) => r.href)).toEqual(["/Home", "/Tool", "/Pricing", "/Contact"]);
+    expect(NAV_ROUTES.map((r) => r.label)).toEqual(["Home", "Tool", "Pricing", "Contact"]);
   });
 
-  it("the Dashboard root special case — both / and /Dashboard are the dashboard", () => {
-    expect(isNavActive("/", "/Dashboard")).toBe(true);
-    expect(isNavActive("/Dashboard", "/Dashboard")).toBe(true);
-    // a deeper page never activates Dashboard
-    expect(isNavActive("/accounts", "/Dashboard")).toBe(false);
-    expect(isNavActive("/", "/Accounts")).toBe(false);
+  it("Home's canonical is the bare / (the alias redirects)", () => {
+    expect(NAV_ROUTES[0].canonical).toBe("/");
   });
 
-  it("prefix matching covers nested segments (the trailing-slash guard)", () => {
-    expect(isNavActive("/Accounts/123", "/Accounts")).toBe(true);
-    expect(isNavActive("/accounts/123", "/accounts")).toBe(true);
-    // a same-prefix DIFFERENT page never matches (the /reports-x hazard)
-    expect(isNavActive("/reports-extra", "/Reports")).toBe(false);
-    expect(isNavActive("/activities", "/Activity")).toBe(false);
+  it("the Gumroad link is the reference's product page", () => {
+    expect(GUMROAD_URL).toBe("https://templixco.gumroad.com/l/znzbnd");
+  });
+});
+
+describe("nav-config: the active-route resolver", () => {
+  it("lights Home on / and /Home", () => {
+    expect(activeRoute("/")).toBe("home");
+    expect(activeRoute("/Home")).toBe("home");
   });
 
-  it("the settings footer item activates only at /Settings (both casings)", () => {
-    expect(isNavActive("/Settings", "/Settings")).toBe(true);
-    expect(isNavActive("/settings", "/Settings")).toBe(true);
-    expect(isNavActive("/", "/Settings")).toBe(false);
-    expect(isNavActive("/settings/general", "/Settings")).toBe(true);
+  it("lights the inner routes on their prefixes", () => {
+    expect(activeRoute("/Tool")).toBe("tool");
+    expect(activeRoute("/Pricing")).toBe("pricing");
+    expect(activeRoute("/Contact")).toBe("contact");
+  });
+
+  it("defaults to home on unknown paths", () => {
+    expect(activeRoute("/whatever")).toBe("home");
+    expect(activeRoute("")).toBe("home");
+  });
+});
+
+describe("nav-config: brand + socials", () => {
+  it("carries the brand strings", () => {
+    expect(BRAND.name).toBe("ViralPost AI");
+    expect(BRAND.description).toContain("AI-powered social media generator");
+    expect(BRAND.tagline).toContain("viral-ready social media posts");
+  });
+
+  it("ships the five social chips with real platform homepages (the dead-stub fix)", () => {
+    expect(SOCIAL_LINKS.map((s) => s.label)).toEqual([
+      "Instagram",
+      "Twitter",
+      "LinkedIn",
+      "YouTube",
+      "Facebook",
+    ]);
+    for (const s of SOCIAL_LINKS) {
+      expect(s.href).toMatch(/^https:\/\//);
+      expect(s.href).not.toBe("#");
+    }
   });
 });

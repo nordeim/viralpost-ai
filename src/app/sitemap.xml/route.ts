@@ -1,35 +1,21 @@
 import { siteUrl } from "@/lib/site";
 
-// Session-18 (S18-P4): /sitemap.xml — the reference's exact format
-// (byte-verified 2026-10-01: LF-only, no trailing newline, 4-space URL
-// indent, changefreq weekly on every entry, priority "1.0" for the
-// dashboard and "0.8" for the rest). Served through an explicit route
-// handler because Next's sitemap.ts serializer DROPS the number
-// formatting ("1.0" serializes as "1") — and its MetadataRoute type
-// spells the field changeFrequency, easy to mis-pin. One deliberate fix:
-// the reference's locs are CAPITALIZED (/Accounts…) — its platform routes
-// case-insensitively; our router is case-sensitive (the documented s14
-// decision, /Profile as the one aliased casing), so this sitemap lists
-// the real lowercase routes the router actually serves.
-// Session-142 (D-142a3): + /about + /contact (the reference's two new
-// marketing-layer app pages — its URL surface now includes them; ours
-// mirrors at the lowercase canonicals). `/` stays 1.0 — it is now the
-// PUBLIC landing page (the reference's own root), still the highest-
-// priority crawlable route.
+// /sitemap.xml — the reference family's exact format (LF-only, no trailing
+// newline, 4-space URL indent, changefreq weekly on every entry, priority
+// "1.0" for the landing and "0.8" for the rest). Served through an
+// explicit route handler because Next's sitemap.ts serializer DROPS the
+// number formatting ("1.0" serializes as "1").
+//
+// Route surface: the canonical paths the router serves — / (the landing),
+// /Tool, /Pricing, /Contact. The reference's capitalized /Home alias
+// 308-redirects to / (the duplicate-content fix), so only / is listed.
 export const dynamic = "force-static";
 
 const ROUTES: Array<{ path: string; priority: string }> = [
   { path: "/", priority: "1.0" },
-  { path: "/accounts", priority: "0.8" },
-  { path: "/contacts", priority: "0.8" },
-  { path: "/leads", priority: "0.8" },
-  { path: "/calendar", priority: "0.8" },
-  { path: "/activities", priority: "0.8" },
-  { path: "/reports", priority: "0.8" },
-  { path: "/settings", priority: "0.8" },
-  { path: "/profile", priority: "0.8" },
-  { path: "/about", priority: "0.8" },
-  { path: "/contact", priority: "0.8" },
+  { path: "/Tool", priority: "0.8" },
+  { path: "/Pricing", priority: "0.8" },
+  { path: "/Contact", priority: "0.8" },
 ];
 
 export function GET(): Response {
@@ -46,9 +32,7 @@ export function GET(): Response {
 ${urls}
 </urlset>`;
   return new Response(xml, {
-    // Session-20 (S20-P4): bare `application/xml` — the reference's exact
-    // content-type (GET-verified 2026-10-01; ours had shipped a charset
-    // suffix, the s18 "viewport 1 vs 1.0" cosmetic-serialization class).
+    // The reference's exact content-type (no charset suffix).
     headers: { "content-type": "application/xml" },
   });
 }

@@ -39,7 +39,6 @@ const nextConfig: NextConfig = {
       "CLAUDE.md",
       "README.md",
       "Project_Architecture_Document.md",
-      "neo-crm_SKILL.md",
       "worklog.md",
       "neo-crm-homepage.png",
       "dev.log",
@@ -59,6 +58,13 @@ const nextConfig: NextConfig = {
   // Hide the Next.js dev-tools indicator (the floating "N" button) so dev
   // server screenshots stay clean — it never ships in production anyway.
   devIndicators: false,
+  // The reference serves its landing at BOTH / and /Home (its platform
+  // routes case-insensitively); a canonical duplicate is an SEO defect, so
+  // /Home 308-redirects to the canonical / (nav hrefs keep the reference's
+  // /Home spelling — the click lands on the same page).
+  async redirects() {
+    return [{ source: "/Home", destination: "/", permanent: true }];
+  },
   // Session-174 (F-174a — THE TYPE-GATE HARDENING): the scaffold-era
   // `typescript: { ignoreBuildErrors: true }` block is RETIRED — the
   // build IS the type gate now (the zero-balance graft, per the repo's

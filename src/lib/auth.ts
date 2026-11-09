@@ -18,10 +18,10 @@ export { hashPassword, timingEqualizerHash, verifyPassword };
 import { cookies } from "next/headers";
 import { db } from "./db";
 
-export const SESSION_COOKIE = "neo_session";
+export const SESSION_COOKIE = "viralpost_session";
 export const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
-const DEV_SECRET = "neo-crm-dev-only-insecure-secret";
+const DEV_SECRET = "viralpost-ai-dev-only-insecure-secret";
 
 // Session-63 (N-63g): the short-secret case used to fall back as
 // silently as the unset case — production would ship forgeable

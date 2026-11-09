@@ -121,11 +121,12 @@ describe("session-170 (WP-5): the smoke leg (scripts/smoke-test.sh, the §13.4 s
     expect(script).toContain("NODE_ENV=production");
   });
 
-  it("asserts the §13.4 ladder: 401s, the login round-trip, the invalid 400, the 429, the page greps", () => {
-    expect(script).toContain("401");
-    expect(script).toMatch(/neo_session/);
+  it("asserts the ladder: pages, the 308 alias, the 404, the login round-trip, the 400, the generator, the page greps", () => {
+    expect(script).toMatch(/viralpost_session/);
     expect(script).toContain("400");
-    expect(script).toContain("429");
+    expect(script).toContain("308");
+    expect(script).toContain("404");
+    expect(script).toContain("api/generate");
     expect(script).toMatch(/<title>/);
   });
 

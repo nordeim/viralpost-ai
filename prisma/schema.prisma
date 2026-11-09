@@ -1,7 +1,9 @@
-// NEO CRM — Prisma schema (SQLite)
-// Domain model cloned from the reference app: login users (sales reps /
-// owners), accounts, contacts, leads (deals), calendar events, activities,
-// saved reports and a settings singleton (editable picklists + defaults).
+// ViralPost AI — Prisma schema (SQLite)
+// Domain model cloned from the reference app (viralpostai.base44.app):
+// login users (creators / operators) and the contact-form inbox. The
+// generator itself is stateless by design — the free quota is a
+// client-side daily counter (the reference's own contract), rate-limited
+// server-side per IP, so no Generation row is needed.
 
 generator client {
   provider = "prisma-client-js"
@@ -17,246 +19,42 @@ model User {
   email        String   @unique
   name         String
   passwordHash String
-  avatarColor  String   @default("#2563eb")
-  // Session-30 (S30-P3): the profile-photo round-trip — the reference's
-  // aCe stores the uploaded file's URL via updateMe({profile_picture}).
-  // Null = never uploaded (the gray-200 initial fallback renders).
+  avatarColor  String   @default("#14b8a6")
   photoUrl     String?
-  role         String   @default("rep") // rep | admin
-  // Session-21 (S21-P5): the email-verification funnel. A NULL
-  // verificationExpiresAt means "no verification pending" — the seeded
-  // demo users and every pre-session-21 account pass straight through
-  // login. The code itself is stored HASHED (scrypt, auth.ts's format);
-  // the plaintext rides only the server console log.
+  role         String   @default("user") // user | admin
+  // Email-verification funnel (ported from the template's battle-tested
+  // shape): a NULL verificationExpiresAt means "no verification pending" —
+  // the seeded demo user and every pre-verification account pass straight
+  // through login. The code is stored HASHED (scrypt); the plaintext rides
+  // only the in-app delivery payload (or a real mail transport).
   verificationCodeHash   String?
   verificationAttempts   Int      @default(0)
   verificationExpiresAt  DateTime?
-  // Session-163 (the digma S67-A port): the revocation dimension. Every
-  // session token embeds the row's tokenVersion at mint time; a password
-  // reset increments it and every previously minted cookie dies at the
-  // getSessionUser comparison (a stolen session no longer outlives the
-  // reset performed specifically to kill it).
+  // Revocation dimension: every session token embeds the row's
+  // tokenVersion at mint time; a password reset increments it and every
+  // previously minted cookie dies at the getSessionUser comparison.
   tokenVersion Int @default(0)
-  // Session-163 (the digma S46/S64 port): the password-reset funnel. A
-  // NULL resetToken means "no reset pending"; the token is a 32-byte
-  // crypto-random hex consumed ATOMICALLY and SINGLE-USE (the conditional
-  // updateMany carries token + live expiry in its WHERE — a racing replay
-  // lands count 0 and answers the invalid-token 400). 60-minute TTL.
-  // Session-164 (the skill §12 hashed-at-rest compliance): the column
-  // stores hashResetToken(token) — the SHA-256 hex of the raw token, the
-  // same hashed-storage posture as verificationCodeHash; the raw token
-  // lives only in the delivery URL, so a DB read compromise never mints
-  // live reset links.
+  // Password-reset funnel: NULL resetToken means "no reset pending"; the
+  // token is a 32-byte crypto-random hex consumed ATOMICALLY and
+  // SINGLE-USE (the conditional updateMany carries token + live expiry in
+  // its WHERE — a racing replay lands count 0 and answers the
+  // invalid-token 400). 60-minute TTL. The column stores the SHA-256 hex
+  // of the raw token (hashed-at-rest posture).
   resetToken           String?
   resetTokenExpiresAt  DateTime?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-
-  accounts  Account[]
-  contacts  Contact[]
-  leads     Lead[]
-  events    Event[]
-  activities Activity[]
 }
 
-model Account {
-  id            String    @id @default(cuid())
-  name          String
-  industry      String?
-  email         String?
-  phone         String?
-  website       String?
-  annualRevenue Float? // in default currency units (not minor units — display app)
-  employees     Int?
-  status        String    @default("active") // active | inactive | prospect (session-86: the reference's bce/wce dialog trio)
-  // Session-26 (S26-P5): the reference's Account entity carries a STORED
-  // health (Healthy | At Risk | Needs Attention — its detail view's
-  // class-map), backend-defaulted (its New Account dialog has NO health
-  // field — live-verified: 8 labels, none health). Our accounts page
-  // export includes the Health column; the field rides the raw JSON the
-  // same way the reference's does.
-  health        String    @default("Healthy") // Healthy | At Risk | Needs Attention
-  ownerId       String?
-  lastActivityAt DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  owner      User?      @relation(fields: [ownerId], references: [id], onDelete: SetNull)
-  contacts   Contact[]
-  leads      Lead[]
-  events     Event[]
-  activities Activity[]
-
-  @@index([name])
-  @@index([status])
-}
-
-model Contact {
-  id            String    @id @default(cuid())
-  name          String
-  email         String?
-  phone         String?
-  company       String?
-  position      String?
-  source        String? // RAW value: call | email | website | partner | referral (emojis are create-dialog labels only)
-  // Session-28 (S28-P1): the reference's contact vocabulary — priority is
-  // Key | Standard | At Risk (NOT the lead hot/warm/cold temperature), and
-  // role/engagement/companySize/photoUrl are first-class fields (the inline
-  // role select, the 3-bar engagement cell, the company-size stack, the
-  // photo-driven avatar).
-  priority      String    @default("Standard") // key | standard | at_risk — stored "Key"/"Standard"/"At Risk"
-  role          String? // Decision Maker | Key Contact | Influencer | End User | Other
-  engagementLevel String? // High | Medium | Low
-  companySize   String? // "Small (1-50)" | "Medium (51-500)" | "Large (500+)"
-  photoUrl      String?
-  status        String    @default("active")
-  accountId     String?
-  ownerId       String?
-  lastActivityAt DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  account   Account?   @relation(fields: [accountId], references: [id], onDelete: SetNull)
-  owner     User?      @relation(fields: [ownerId], references: [id], onDelete: SetNull)
-  leads     Lead[]
-  events    Event[]
-  activities Activity[]
-
-  @@index([name])
-  @@index([email])
-  @@index([priority])
-}
-
-model Lead {
-  id               String    @id @default(cuid())
-  name             String
-  email            String?
-  phone            String?
-  company          String?
-  value            Float     @default(0)
-  stage            String    @default("new") // new | contacted | qualified | proposal | negotiation | won | lost
-  source           String?
-  status           String    @default("open") // open | closed_won | closed_lost
-  expectedCloseDate DateTime?
-  closedAt         DateTime?
-  nextFollowUp     DateTime?
-  accountId        String?
-  contactId        String?
-  ownerId          String?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-
-  account    Account?  @relation(fields: [accountId], references: [id], onDelete: SetNull)
-  contact    Contact?  @relation(fields: [contactId], references: [id], onDelete: SetNull)
-  owner      User?     @relation(fields: [ownerId], references: [id], onDelete: SetNull)
-
-  @@index([name])
-  @@index([stage])
-  @@index([status])
-  @@index([ownerId])
-}
-
-model Event {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  type        String   @default("meeting") // meeting | call | demo | task | reminder | appointment
-  status      String   @default("scheduled") // scheduled | completed | cancelled
-  startAt     DateTime
-  endAt       DateTime?
-  allDay      Boolean  @default(false)
-  location    String?
-  relatedType String? // session-5: the reference's "Related To" picker (none | contact | account | opportunity | lead)
-  // Session-76 (M-76c13, bundle-decoded from the reference's SAe dialog):
-  // the reference's CalendarEvent carries related_to_name — the
-  // conditional "Name" field renders in the Related To pair's second
-  // cell when a type is chosen. Our model lacked the column entirely.
-  relatedName String?
-  accountId   String?
-  contactId   String?
-  ownerId     String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  account Account? @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  contact Contact? @relation(fields: [contactId], references: [id], onDelete: SetNull)
-  owner   User?    @relation(fields: [ownerId], references: [id], onDelete: SetNull)
-
-  @@index([startAt])
-  @@index([type])
-}
-
-model Activity {
-  id          String    @id @default(cuid())
-  type        String    @default("call") // call | email | meeting | whatsapp | task | note
-  subject     String
-  notes       String?
-  status      String    @default("scheduled") // scheduled | completed
-  priority    String    @default("normal") // high | normal | low
-  dueAt       DateTime?
-  completedAt DateTime?
-  relatedType String? // session-5: the reference's "Related To (Type)" picker
-  relatedName String? // session-5: the reference's freeform "Related To (Name)" input
-  accountId   String?
-  contactId   String?
-  ownerId     String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  account Account? @relation(fields: [accountId], references: [id], onDelete: Cascade)
-  contact Contact? @relation(fields: [contactId], references: [id], onDelete: SetNull)
-  owner   User?    @relation(fields: [ownerId], references: [id], onDelete: SetNull)
-
-  @@index([dueAt])
-  @@index([type])
-  @@index([status])
-}
-
-// Session-31 (S31-P1): the reference's SECOND deal model (bundle-decoded
-// from index-DZ-xbrIm.js). The reference ships a full Opportunity entity
-// with NO create-edit UI (the leads "Convert to Opportunity" item is dead —
-// no onClick; no New Opportunity dialog exists); its data feeds the
-// dashboard, all five reports tabs, and both insights surfaces.
-// accountName/owner are NAME STRINGS — the reference stores display names,
-// not relations (its Top Reps card groups by the owner string; its
-// insights join by account_name).
-model Opportunity {
-  id          String    @id @default(cuid())
-  name        String
-  accountName String?
-  stage       String    @default("prospecting") // prospecting | qualification | proposal | negotiation | closed_won | closed_lost
-  amount      Float     @default(0)
-  probability Int? // 0-100 — feeds the Forecast by Probability bands + the accuracy forecast
-  closeDate   DateTime?
-  source      String?
-  owner       String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-  @@index([stage])
-  @@index([accountName])
-}
-
-model SavedReport {
+// The contact form's inbox. The reference's form is a client-side stub
+// (zero network calls on submit — see docs/reference-investigation.md
+// D-2); the clone persists the advertised action for real.
+model ContactMessage {
   id        String   @id @default(cuid())
   name      String
-  tab       String   @default("sales") // sales | pipeline | activity | sources | health
-  config    String // JSON: { period, ownerId, stage, status }
+  email     String
+  message   String
   createdAt DateTime @default(now())
-}
 
-model Setting {
-  id               String   @id @default("singleton")
-  contactSources   String   @default("[\"Email\",\"Phone\",\"Website\",\"Referral\",\"Event\",\"Social Media\"]")
-  leadStages       String   @default("[\"new\",\"contacted\",\"qualified\",\"proposal\",\"negotiation\",\"won\",\"lost\"]")
-  activityTypes    String   @default("[\"call\",\"email\",\"meeting\",\"whatsapp\",\"task\",\"note\"]")
-  accountTiers     String   @default("[\"A\",\"B\",\"C\"]")
-  industries       String   @default("[\"Technology\",\"Manufacturing\",\"Retail\",\"Finance\",\"Healthcare\",\"Education\",\"Logistics\",\"Energy\"]")
-  defaultCurrency  String   @default("AED")
-  defaultLeadStage String   @default("new")
-  defaultTier      String   @default("B")
-  followUpDays     Int      @default(3)
-  calendarView     String   @default("month")
-  firstDayOfWeek   String   @default("monday")
-  updatedAt        DateTime @updatedAt
+  @@index([createdAt])
 }

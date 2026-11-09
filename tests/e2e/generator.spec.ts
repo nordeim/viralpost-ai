@@ -1,0 +1,99 @@
+import { expect, test } from "@playwright/test";
+
+// The generator journey — the app's core workflow, run against the real
+// standalone server with the LOCAL engine (no external LLM dependency —
+// the deterministic engine is the offline contract; the reference's own
+// LLM was observed returning HTTP 402 with the UI hanging forever).
+
+const TEXTBOX = (page: import("@playwright/test").Page) =>
+  page.getByLabel("Describe your post idea");
+
+test.describe("generator (desktop)", () => {
+  // Clipboard permissions for the copy round-trip (headless Chromium
+  // denies the clipboard API without them).
+  test.use({ permissions: ["clipboard-read", "clipboard-write"] });
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/Tool");
+  });
+
+  test("the button is disabled until the idea is non-empty", async ({ page }) => {
+    const btn = page.getByRole("button", { name: "Generate Post" });
+    await expect(btn).toBeDisabled();
+    await TEXTBOX(page).fill("motivational post for entrepreneurs about consistency");
+    await expect(btn).toBeEnabled();
+  });
+
+  test("generates a post and copies it", async ({ page }) => {
+    await TEXTBOX(page).fill("motivational post for entrepreneurs about consistency");
+    await page.getByRole("button", { name: "Generate Post" }).click();
+
+    // The result card mounts with the GENERATED POST label + copy button.
+    await expect(page.getByText("Generated Post")).toBeVisible({ timeout: 15_000 });
+    const postText = await page
+      .locator("p.whitespace-pre-line")
+      .first()
+      .innerText();
+
+    // The reference prompt contract: 5-8 hashtags on the final line.
+    const tags = postText.trim().split("\n").pop()?.match(/#[A-Za-z0-9_]+/g) ?? [];
+    expect(tags.length).toBeGreaterThanOrEqual(5);
+    expect(tags.length).toBeLessThanOrEqual(8);
+
+    // Copy round-trip: the button flips to "Copied!".
+    await page.getByRole("button", { name: "Copy" }).click();
+    await expect(page.getByRole("button", { name: "Copied!" })).toBeVisible();
+  });
+
+  test("the free quota counts down and walls at 3/day", async ({ page }) => {
+    await page.evaluate(() => window.localStorage.removeItem("viralpost_generations"));
+    await page.reload();
+
+    // Generations 1 and 2 render the result card; the counter ticks down
+    // ("2 free", then "1 free").
+    await expect(page.getByText("3 free generations remaining")).toBeVisible();
+    for (let i = 0; i < 2; i++) {
+      await TEXTBOX(page).fill(`fitness motivation post number ${i + 1}`);
+      await page.getByRole("button", { name: "Generate Post" }).click();
+      await expect(page.getByText("Generated Post")).toBeVisible({ timeout: 15_000 });
+      await expect(page.getByText(`${2 - i} free generation${2 - i !== 1 ? "s" : ""} remaining`)).toBeVisible();
+    }
+
+    // The THIRD generation consumes the last slot — the card swaps to the
+    // limit wall (the reference's own behavior: the counter re-render
+    // replaces the generator body the moment the quota is spent).
+    await TEXTBOX(page).fill("fitness motivation post number 3");
+    await page.getByRole("button", { name: "Generate Post" }).click();
+    await expect(page.getByText("You reached the free limit")).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole("link", { name: "Unlock Unlimited Posts – $19" })).toBeVisible();
+
+    // The counter persists across reloads (same day).
+    await page.reload();
+    await expect(page.getByText("You reached the free limit")).toBeVisible();
+  });
+
+  test("an over-length idea answers a friendly error", async ({ page }) => {
+    await TEXTBOX(page).fill("x".repeat(600));
+    await page.getByRole("button", { name: "Generate Post" }).click();
+    await expect(page.getByText(/shorter/i)).toBeVisible({ timeout: 10_000 });
+    // The button settles (the reference hangs forever on errors — ours
+    // recovers; the superset contract).
+    await expect(page.getByRole("button", { name: "Generate Post" })).toBeEnabled();
+  });
+});
+
+test.describe("generator (phone 390×844)", () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+
+  test("generates at phone width with no overflow", async ({ page }) => {
+    await page.goto("/Tool");
+    await page.evaluate(() => window.localStorage.removeItem("viralpost_generations"));
+    await TEXTBOX(page).fill("travel adventure post about a weekend escape");
+    await page.getByRole("button", { name: "Generate Post" }).click();
+    await expect(page.getByText("Generated Post")).toBeVisible({ timeout: 15_000 });
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+  });
+});

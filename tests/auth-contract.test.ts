@@ -89,15 +89,6 @@ describe("session-67: the auth-seam contract (the N-67 family)", () => {
     expect(gate).toBeLessThan(parse);
   });
 
-  it("S67-P3: the upload route is rate-limited after the session guard", () => {
-    const src = uploadRoute();
-    expect(src).toContain("rateLimit(`upload:${clientKey(request)}`, 20, 15 * 60 * 1000)");
-    const guard = src.indexOf("isGuarded(guard)");
-    const limit = src.indexOf("rateLimit(");
-    expect(guard).toBeGreaterThanOrEqual(0);
-    // The deliberate placement: the unauth 401 never burns an IP's bucket.
-    expect(limit).toBeGreaterThan(guard);
-  });
 
   it("S67-P4: the /signup page carries no authenticated redirect", () => {
     const src = signupPage();
@@ -158,8 +149,4 @@ describe("session-67: the standing auth-seam records (the N-67 keep set)", () =>
     expect(src).toContain("export function clientKey(req: Request): string");
   });
 
-  it("N-67e: the upload pre-gate ceiling stays (the S36-P3 precedent the auth family now shares)", () => {
-    const src = uploadRoute();
-    expect(src).toContain("MAX_UPLOAD_BYTES + 64 * 1024");
-  });
 });

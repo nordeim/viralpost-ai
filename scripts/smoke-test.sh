@@ -1,31 +1,30 @@
 #!/usr/bin/env bash
-# The smoke leg (session-170, WP-5 — the web-app-foundation §13.4
-# skeleton, the neo-crm form). Boots the STANDALONE ARTIFACT (not the dev
-# server — the e2e doctrine: validate what ships) on :3210 with its OWN
-# scratch database (db/smoke.db, gitignored like db/custom.db) and a
-# dedicated throwaway AUTH_SECRET, then walks the assertion ladder:
+# The smoke leg — boots the STANDALONE ARTIFACT (not the dev server — the
+# e2e doctrine: validate what ships) on :3210 with its OWN scratch
+# database (db/smoke.db, gitignored like db/custom.db) and a dedicated
+# throwaway AUTH_SECRET, then walks the assertion ladder:
 #
 #   01  /api/health 200 + "status":"healthy"        (the db round-trip)
-#   02  unauthenticated /api/contacts -> 401        (the session wall)
-#   03  unauthenticated /api/dashboard -> 401
-#   04  /login renders the page title               (the SSR shell)
-#   05  / renders the landing hero                  (the public surface)
-#   06  the demo login -> the neo_session cookie    (the auth round-trip)
-#   07  the sessioned /api/contacts -> 200          (the envelope ok:true)
-#   08  an invalid payload POST -> 400              (the Zod seam)
-#   09  a valid create -> 200                       (the CRUD round-trip)
-#   10  logout -> /api/auth/me 401                  (the cookie teardown)
-#   11  the login rate-limit probe -> the 11th -> 429 (LAST: it exhausts
-#       the login bucket for this IP for 15 min)
-#   12  /sitemap.xml + /robots.txt + /manifest.json all 200 (the SEO family)
-#   13  THE BOOT-GATE PROBE: a second boot WITHOUT AUTH_SECRET refuses
+#   02  the landing renders (title + hero heading)   (the public surface)
+#   03  /Tool renders its H1                         (the generator page)
+#   04  /Pricing + /Contact render their H1s         (the page family)
+#   05  /Home 308-redirects to /                     (the canonical alias)
+#   06  the unknown route answers the designed 404   (the not-found page)
+#   07  the demo login -> the viralpost_session cookie (the auth round-trip)
+#   08  the sessioned /api/auth/me -> 200 + the user (the envelope ok:true)
+#   09  an invalid contact payload -> 400            (the Zod seam)
+#   10  a valid contact submit -> 200 (the persistence superset)
+#   11  the generator round-trip -> 200 + hashtags   (the core workflow!)
+#   12  logout -> /api/auth/me data:null             (the cookie teardown)
+#   13  /sitemap.xml + /robots.txt + /manifest.json all 200 (the SEO family)
+#   14  THE BOOT-GATE PROBE: a second boot WITHOUT AUTH_SECRET refuses
 #       to serve — the fail-fast posture (the log carries the message)
-#   14  THE ARTIFACT-HYGIENE assertions: the built artifact contains NO
+#   15  THE ARTIFACT-HYGIENE assertions: the built artifact contains NO
 #       .env / .git / db / skills / docs / uploads / worklog.md /
-#       test-results entries (the F-170a cure, policed every smoke run)
+#       test-results entries
 #
 # Every assertion: ok "NN — description" || { fail "NN"; exit 1; }
-# (the §13.4 convention). The trap kills the server on ANY exit.
+# The trap kills the server on ANY exit.
 
 set -euo pipefail
 
@@ -81,57 +80,65 @@ code() { curl -s -o /dev/null -w "%{http_code}" "$@"; }
 [ "$(code "$BASE/api/health")" = 200 ] && body "$BASE/api/health" | grep -q '"status":"healthy"' \
   && ok 01 "health 200 + healthy" || { fail 01 "health"; exit 1; }
 
-# 02/03 — the session wall
-[ "$(code "$BASE/api/contacts")" = 401 ] && ok 02 "unauth contacts 401" || { fail 02 "unauth contacts"; exit 1; }
-[ "$(code "$BASE/api/dashboard")" = 401 ] && ok 03 "unauth dashboard 401" || { fail 03 "unauth dashboard"; exit 1; }
+# 02 — the landing renders (title + the sr-only h1 phrase)
+body "$BASE/" | grep -q "<title>ViralPost AI</title>" && body "$BASE/" | grep -q "Go Viral!" \
+  && ok 02 "landing renders (title + hero)" || { fail 02 "landing page"; exit 1; }
 
-# 04/05 — the pages render
-body "$BASE/login" | grep -q "<title>" && ok 04 "login renders" || { fail 04 "login page"; exit 1; }
-body "$BASE/" | grep -q "<title>" && body "$BASE/" | grep -qi "neo" && ok 05 "landing renders" || { fail 05 "landing page"; exit 1; }
+# 03 — the Tool page renders its H1
+body "$BASE/Tool" | grep -q "AI Post Generator" \
+  && ok 03 "tool page renders" || { fail 03 "tool page"; exit 1; }
 
-# 06 — the demo login round-trip (the seed contract's credentials)
+# 04 — the Pricing + Contact pages render their H1s
+body "$BASE/Pricing" | grep -q "Simple, Transparent Pricing" \
+  && body "$BASE/Contact" | grep -q "Contact Us" \
+  && ok 04 "pricing + contact render" || { fail 04 "page family"; exit 1; }
+
+# 05 — the /Home alias redirects to the canonical /
+redirect_code=$(code "$BASE/Home")
+[ "$redirect_code" = 308 ] && ok 05 "/Home 308-redirects to /" || { fail 05 "/Home redirect (got $redirect_code)"; exit 1; }
+
+# 06 — the unknown route answers the designed 404
+[ "$(code "$BASE/definitely-not-a-route")" = 404 ] && body "$BASE/definitely-not-a-route" | grep -q "Page Not Found" \
+  && ok 06 "the designed 404" || { fail 06 "404 page"; exit 1; }
+
+# 07 — the demo login round-trip (the seed contract's credentials)
 login_code=$(code -c "$COOKIE_JAR" -H "Content-Type: application/json" \
   -d '{"email":"sepnetflix2023@outlook.com","password":"$Abcd1234"}' "$BASE/api/auth/login")
-[ "$login_code" = 200 ] && grep -q "neo_session" "$COOKIE_JAR" \
-  && ok 06 "demo login + the neo_session cookie" || { fail 06 "login"; exit 1; }
+[ "$login_code" = 200 ] && grep -q "viralpost_session" "$COOKIE_JAR" \
+  && ok 07 "demo login + the viralpost_session cookie" || { fail 07 "login"; exit 1; }
 
-# 07 — the sessioned envelope
-[ "$(code -b "$COOKIE_JAR" "$BASE/api/contacts")" = 200 ] && body -b "$COOKIE_JAR" "$BASE/api/contacts" | grep -q '"ok":true' \
-  && ok 07 "sessioned contacts 200 + ok:true" || { fail 07 "sessioned read"; exit 1; }
+# 08 — the sessioned envelope
+[ "$(code -b "$COOKIE_JAR" "$BASE/api/auth/me")" = 200 ] && body -b "$COOKIE_JAR" "$BASE/api/auth/me" | grep -q '"ok":true' \
+  && ok 08 "sessioned me 200 + ok:true" || { fail 08 "sessioned read"; exit 1; }
 
-# 08 — the invalid payload (the Zod seam's 400)
-[ "$(code -b "$COOKIE_JAR" -H "Content-Type: application/json" -d '{"name":""}' "$BASE/api/contacts")" = 400 ] \
-  && ok 08 "invalid payload 400" || { fail 08 "invalid payload"; exit 1; }
+# 09 — the invalid payload (the Zod seam's 400)
+[ "$(code -b "$COOKIE_JAR" -H "Content-Type: application/json" -d '{"name":"x","email":"not-an-email","message":"y"}' "$BASE/api/contact")" = 400 ] \
+  && ok 09 "invalid contact payload 400" || { fail 09 "invalid payload"; exit 1; }
 
-# 09 — the valid create (the CRUD round-trip; smoke.db is disposable —
-# the minimal body: priority defaults to Standard, status to active)
+# 10 — the valid contact submit (the persistence superset; smoke.db is
+# disposable)
 [ "$(code -b "$COOKIE_JAR" -H "Content-Type: application/json" \
-  -d '{"name":"Smoke Test Contact","email":"smoke@example.com"}' \
-  "$BASE/api/contacts")" = 200 ] \
-  && ok 09 "valid create 200" || { fail 09 "valid create"; exit 1; }
+  -d '{"name":"Smoke Probe","email":"smoke@example.com","message":"Hello from the smoke ladder."}' \
+  "$BASE/api/contact")" = 200 ] \
+  && ok 10 "valid contact submit 200" || { fail 10 "contact submit"; exit 1; }
 
-# 10 — the logout teardown (-c: the jar takes the cleared cookie; /me is
-# the by-design data:null face, session-41 — a logged-out caller gets
-# 200 + data:null, NOT a 401)
+# 11 — the generator round-trip (the CORE workflow — the working engine)
+gen_body=$(body -b "$COOKIE_JAR" -H "Content-Type: application/json" \
+  -d '{"idea":"motivational post for entrepreneurs about consistency"}' "$BASE/api/generate")
+echo "$gen_body" | grep -q '"ok":true' && echo "$gen_body" | grep -q '#' \
+  && ok 11 "generate 200 + a hashtagged post" || { fail 11 "generator (body: $gen_body)"; exit 1; }
+
+# 12 — the logout teardown (-c: the jar takes the cleared cookie; /me is
+# the by-design data:null face — a logged-out caller gets 200 + data:null)
 code -b "$COOKIE_JAR" -c "$COOKIE_JAR" -X POST "$BASE/api/auth/logout" >/dev/null
 body -b "$COOKIE_JAR" "$BASE/api/auth/me" | grep -q '"data":null' \
-  && ok 10 "logout + post-logout data:null" || { fail 10 "logout teardown"; exit 1; }
+  && ok 12 "logout + post-logout data:null" || { fail 12 "logout teardown"; exit 1; }
 
-# 11 — the login rate-limit probe (LAST: 10 attempts/15 min per IP; the
-# demo login above was attempt 1, these bogus ones are 2..11)
-rm -f "$COOKIE_JAR"; touch "$COOKIE_JAR"
-last=""
-for i in $(seq 1 10); do
-  last=$(code -H "Content-Type: application/json" \
-    -d "{\"email\":\"bogus-$i@example.com\",\"password\":\"wrong\"}" "$BASE/api/auth/login")
-done
-[ "$last" = 429 ] && ok 11 "the 11th login attempt 429" || { fail 11 "rate limit (got $last)"; exit 1; }
-
-# 12 — the SEO family
+# 13 — the SEO family
 [ "$(code "$BASE/sitemap.xml")" = 200 ] && [ "$(code "$BASE/robots.txt")" = 200 ] && [ "$(code "$BASE/manifest.json")" = 200 ] \
-  && ok 12 "sitemap + robots + manifest 200" || { fail 12 "the SEO family"; exit 1; }
+  && ok 13 "sitemap + robots + manifest 200" || { fail 13 "the SEO family"; exit 1; }
 
-# --- 13. THE BOOT-GATE PROBE: a secretless production boot refuses -----------
+# --- 14. THE BOOT-GATE PROBE: a secretless production boot refuses -----------
 lsof -ti:3211 | xargs -r kill 2>/dev/null || true
 sleep 1
 DATABASE_URL="$SMOKE_DB_URL" AUTH_SECRET="" NODE_ENV=production PORT=3211 \
@@ -145,16 +152,16 @@ done
 kill "$GATE_PID" 2>/dev/null || true
 wait "$GATE_PID" 2>/dev/null || true
 [ "$served" = 1 ] && grep -q "AUTH_SECRET" "$GATE_LOG" \
-  && ok 13 "the secretless production boot refuses to serve (the log names AUTH_SECRET)" \
-  || { fail 13 "the boot gate did not refuse"; cat "$GATE_LOG" >&2; exit 1; }
+  && ok 14 "the secretless production boot refuses to serve (the log names AUTH_SECRET)" \
+  || { fail 14 "the boot gate did not refuse"; cat "$GATE_LOG" >&2; exit 1; }
 
-# --- 14. THE ARTIFACT-HYGIENE assertions (the F-170a cure) -------------------
+# --- 15. THE ARTIFACT-HYGIENE assertions -------------------------------------
 hygiene_fail=""
 for entry in .env .git db skills docs uploads worklog.md test-results dev.log; do
   [ -e ".next/standalone/$entry" ] && hygiene_fail="$hygiene_fail $entry"
 done
 [ -z "$hygiene_fail" ] \
-  && ok 14 "the artifact carries no .env/.git/db/skills/docs/uploads/logs" \
-  || { fail 14 "the artifact ships:$hygiene_fail"; exit 1; }
+  && ok 15 "the artifact carries no .env/.git/db/skills/docs/uploads/logs" \
+  || { fail 15 "the artifact ships:$hygiene_fail"; exit 1; }
 
-echo "SMOKE: 14/14 PASS"
+echo "SMOKE: 15/15 PASS"

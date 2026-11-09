@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, Lock, Mail, ShieldCheck } from "lucide-react";
+import { ArrowLeft, Lock, Mail, ShieldCheck, Sparkles } from "lucide-react";
 import { LOGIN_LAYOUT } from "@/lib/page-layout";
 import {
   canSubmitReset,
@@ -619,17 +619,20 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
               </>
             ) : (
               <>
-            {/* Logo — CSS brand mark (white circle + blue dot) with a soft
-                slate glow, ringed and shadowed like the reference avatar. */}
+            {/* Logo — the ViralPost AI brand mark (teal gradient tile +
+                sparkles glyph, the navbar's own Logo identity) inside the
+                ringed white avatar, with a soft slate glow. */}
             <div className={LOGIN_LAYOUT.logoWrap}>
               <div className={LOGIN_LAYOUT.logoGlow} aria-hidden="true" />
               <span className={LOGIN_LAYOUT.logo} aria-hidden="true">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-sidebar sm:h-12 sm:w-12" />
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-teal-400 to-teal-600 shadow-lg shadow-teal-500/30 sm:h-14 sm:w-14">
+                  <Sparkles className="h-5 w-5 text-white sm:h-6 sm:w-6" />
+                </span>
               </span>
             </div>
 
             <div className="space-y-2 sm:space-y-3">
-              <h1 className={LOGIN_LAYOUT.title}>Welcome to NEO CRM</h1>
+              <h1 className={LOGIN_LAYOUT.title}>Welcome to ViralPost AI</h1>
               <p className={LOGIN_LAYOUT.subtitle}>Sign in to continue</p>
             </div>
 

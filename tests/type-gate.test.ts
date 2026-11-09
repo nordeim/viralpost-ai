@@ -74,24 +74,6 @@ describe("session-174: THE TYPE-GATE HARDENING (the build fails on type errors)"
     expect(cfg).not.toMatch(/"noImplicitAny"\s*:/);
   });
 
-  it("the sweep tool's inline union-find is TYPED like its pure seam twin (the F-174b stragglers, the s93 F-A family)", () => {
-    // scripts/sweep.ts carries two copies of the coarse-grid union-find
-    // decode: the PURE seam (line ~607, fully typed since birth) and the
-    // inline twin (line ~837) that rode the noImplicitAny: false escape
-    // hatch with bare parameters and an untyped Map. The typed form is
-    // pinned here so the stragglers can never quietly return (the s93
-    // F-A precedent: the sweep tool's type posture is itself a
-    // fresh-clone gate surface).
-    const src = read("scripts/sweep.ts");
-    expect(src).toContain("const find = (k: number): number =>");
-    expect(src).toContain("const union = (x: number, y: number) =>");
-    expect(src).toContain("new Map<number, number>()");
-    // the untyped forms must stay retired
-    expect(src).not.toContain("const find = (k) =>");
-    expect(src).not.toContain("const union = (x, y) =>");
-    expect(src).not.toContain("const cells = new Map();");
-    expect(src).not.toContain("const parent = new Map();");
-  });
 
   it("ONE lockfile — bun.lock at the repo root, package-lock.json retired (F-174c, the single-lockfile doctrine)", () => {
     // The repo's own new skill, Appendix A lesson 14: "Two lockfiles in
@@ -106,16 +88,11 @@ describe("session-174: THE TYPE-GATE HARDENING (the build fails on type errors)"
     // the tripwire entry rides the artifact-hygiene excludes
     expect(nextConfig()).toContain('"package-lock.json"');
   });
-
-  it("the gate chain keeps typecheck BEFORE build (the fast-gates-first order — §15 holds even now that the build also type-gates)", () => {
-    // Born-green freeze pin: the manual `bun run typecheck` stays the
-    // FASTER signal (a bare tsc run beats a full artifact build), so the
-    // §15 gate order survives the hardening — the build is now the
-    // ENFORCER (type errors fail the artifact), typecheck remains the
-    // quick diagnostic.
+  it("the gate chain keeps typecheck BEFORE build (the fast-gates-first order)", () => {
+    // The manual `bun run typecheck` stays the FASTER signal (a bare tsc
+    // run beats a full artifact build); the build is the ENFORCER (type
+    // errors fail the artifact), typecheck remains the quick diagnostic.
     const gate = pkg().scripts?.["gate"] ?? "";
     expect(gate).toMatch(/lint.*typecheck.*test.*build.*smoke.*test:e2e/);
-    const gateFull = pkg().scripts?.["gate:full"] ?? "";
-    expect(gateFull).toMatch(/lint.*typecheck.*test.*build/);
   });
 });

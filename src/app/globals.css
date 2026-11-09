@@ -1,131 +1,66 @@
 @import "tailwindcss";
 @import "./vendor/tw-animate.css";
 
-/* Session-80 (M-80c2): the hover-variant un-wrap. Tailwind v4 compiles
-   every `hover:` utility inside `@media (hover: hover)` — CSSOM-walked
-   live on our dev server (our .hover\:bg-neutral-800:hover rode TWO
-   (hover: hover) blocks) — so ALL hover affordances no-op on
-   hover-incapable devices (touch: the sticky-hover washes never fire).
-   The reference's v3-era compiled stylesheet (index-Be9epoFc.css,
-   79,581 bytes) contains ZERO (hover: hover) media queries — every
-   hover rule is a BARE :hover selector, so its hovers apply on touch
-   exactly like desktop. LIVE-PROVEN on the divergence: with the mouse
-   parked over our role badge (:hover matching, polled true for 1s)
-   the computed background stayed #171717 — the rule never fired in a
-   hover:none environment where the reference's identical probe
-   computes rgba(23,23,23,0.8). The override restores the reference's
-   v3 semantics family-wide (the fourth member of the v4
-   shadow/blur/space-y re-pin family; pinned by
-   tests/profile-family-parity.test.ts). */
+/* THE HOYVER-VARIANT UN-WRAP (carried from the template's session-80
+   doctrine — the operator's standing Tailwind v4 concern). Tailwind v4
+   compiles every `hover:` utility inside `@media (hover: hover)` — CSSOM-
+   walked live on the template's dev server — so ALL hover affordances
+   no-op on hover-incapable devices (touch: the sticky-hover washes never
+   fire). The reference's v3-era compiled stylesheet contains ZERO
+   (hover: hover) media queries — every hover rule is a BARE :hover
+   selector, so its hovers apply on touch exactly like desktop. The
+   override restores the reference's v3 semantics family-wide. */
 @custom-variant hover (&:hover);
 
 /* ---------------------------------------------------------------------------
-   NEO CRM design tokens — Tailwind CSS v4 CSS-first configuration.
+   ViralPost AI design tokens — Tailwind CSS v4 CSS-first configuration.
    Rules (validated against docs/Tailwind-V4-Validation-Report.md):
    - No tailwind.config.js — everything lives in @theme.
    - No var() chains inside @theme — semantic tokens are LITERAL hex values.
    - tw-animate-css provides the Radix data-[state=open] animations.
+   - The marketing surfaces consume the STOCK palette classes directly
+     (bg-slate-900, from-teal-500, text-amber-300 …) exactly like the
+     reference; the semantic tokens below exist for the shadcn-style UI
+     kit (login card inputs, toasts, the 404 shell).
 --------------------------------------------------------------------------- */
 
 @theme {
-  /* Brand palette (measured from the reference app; session-7 live
-     computed-color probe: primary buttons render rgb(37,99,235) = blue-600
-     with blue-700 hover — NOT blue-500 as pinned in earlier sessions). */
-  --color-sidebar: #2563eb;
-  --color-sidebar-hover: #3b6ff0;
-  --color-sidebar-active: #4d7ef5;
-  --color-primary: #2563eb;
-  --color-primary-hover: #1d4ed8;
-  /* Session-142 (D-142a1): the reference's MARKETING token — its landing
-     page ships `--brand: 221 83% 53%` (computed #2563eb, live-probed on
-     its new index-Dc6wvGtA.js bundle), consumed by the landing surface's
-     bg-brand / text-brand / border-brand / ring-brand utilities (with
-     alpha modifiers: bg-brand/5, bg-brand/10, bg-brand/80, hover:bg-
-     brand/90, border-brand/20, ring-brand/20). Same blue as --color-
-     primary; the separate token keeps the marketing family byte-shaped
-     like the reference (its landing classes carry `brand`, not
-     `primary`). */
-  --color-brand: #2563eb;
-  /* Session-119 (D-119a1, the 119-c contacts-family walk's systemic
-     find F-119c2): the reference's --primary-foreground is the shadcn
-     stock hsl(0 0% 98%) = #fafafa — live-computed rgb(250,250,250) on
-     EVERY blue primary (New Contact/New Account/New Lead/New Event/
-     the Filter buttons, the dialog submits) while our scaffold-era
-     #ffffff pinned pure white. The s13 plan's badge record ("fg
-     #fafafa ✓") already carried the reference's value. */
+  /* Brand palette (computed-color probes on the live reference, 2026-11-09:
+     hero section bg rgb(15,23,42) = slate-900; primary CTA gradient
+     rgb(20,184,166) → rgb(13,148,136) = teal-500 → teal-600; generate
+     button gradient → rgb(15,118,110) = teal-700; upgrade CTAs amber-300
+     on amber-400/10; stock form buttons rgb(15,23,42) = slate-900). */
+  --color-primary: #0f172a; /* slate-900 — the stock button face (login) */
+  --color-primary-hover: #1e293b; /* slate-800 */
   --color-primary-foreground: #fafafa;
+  --color-brand: #14b8a6; /* teal-500 — the marketing accent */
+  --color-brand-strong: #0d9488; /* teal-600 */
 
   /* Neutrals */
-  --color-background: #f9fafb;
+  --color-background: #ffffff;
   --color-surface: #ffffff;
-  /* Session-13 (S13-P9): the reference's default foreground (body +
-     card-foreground) is #0a0a0a — computed probes on its body, stock
-     cards, KPI values, the More... button and dialog text. Ours shipped
-     #111827; the page H1s are separately EXPLICIT text-gray-900
-     (#111827) on the reference and are pinned as such in PAGE_HEADER. */
-  --color-foreground: #0a0a0a;
-  --color-muted: #6b7280;
-  --color-subtle: #9ca3af;
+  --color-foreground: #0f172a;
+  --color-muted: #64748b;
+  --color-subtle: #94a3b8;
+  --color-line: #e2e8f0; /* slate-200 — the reference's border family */
+  --color-line-strong: #cbd5e1;
+  --color-line-soft: #f1f5f9;
+  --color-ring: #0f172a;
 
-  /* Border split (session-12 S12-P3): the reference renders TWO border
-     grays. Its platform DEFAULT — the `* { border-color }` base AND its
-     --input token — is NEUTRAL-200 #e5e5e5, the color every bare-`border`
-     surface computes: ALL stock cards (dashboard/accounts/leads/calendar/
-     activities/settings/profile/contacts-stat + reports table & chart
-     cards), table rows, the reports tablist, outline buttons, select
-     triggers/contents, dropdown contents, dialog content and every bare
-     form input. Its EXPLICIT `border-gray-200` family (#e5e7eb) covers
-     only: the reports KPI stat cards, the reports sticky filter card, the
-     contacts table card and the topbar search input (that one already
-     ships literal border-gray-200), and since session-73 the TOPBAR
-     HEADER border too (L-73c3 — the reference's header carries the
-     explicit family; ours shipped the default one family off).
-     --color-line carries the default; --color-line-strong carries the
-     explicit family. */
-  --color-line: #e5e5e5;
-  --color-line-strong: #e5e7eb;
-  /* Session-14 (S14-P5): re-pinned from the scaffold-era #f3f4f6 (gray-100)
-     to the reference's muted/accent #f5f5f5 (neutral-100) — computed live on
-     the settings segmented tab track (bg-muted) + a bg-accent probe, both
-     rgb(245,245,245). The token rides every muted/accent-role surface: tab
-     tracks, outline/ghost hovers, select/menu focus washes, row hovers. */
-  --color-line-soft: #f5f5f5;
+  /* Stock-primitive inks (typed input text + placeholders, computed on the
+     reference's login inputs: text rgb(15,23,42), placeholder slate tones). */
+  --color-ink: #0f172a;
+  --color-muted-ink: #94a3b8;
 
-  /* Focus ring (session-9 S9-16): the reference's --ring is the stock
-     shadcn `0 0% 3.9%` (#0a0a0a) — focused controls render a 1px
-     near-black ring, not the app blue. Consumed by `ring-ring` utilities. */
-  --color-ring: #0a0a0a;
-
-  /* Stock-primitive inks (session-10 S10-2): the reference's stock
-     Input/Select carry NO text color class — typed text inherits its
-     --foreground `0 0% 3.9%` = #0a0a0a, and placeholders use its
-     --muted-foreground `0 0% 45.1%` = #737373 (computed probes on the
-     search input: text rgb(10,10,10), ::placeholder rgb(115,115,115)).
-     Ours rendered #111827 (text-foreground) and #9ca3af/#6b7280
-     placeholders. Page-level text keeps --color-foreground #111827 (the
-     reference's h1s/body use gray-900 there). */
-  --color-ink: #0a0a0a;
-  --color-muted-ink: #737373;
-
-  /* Shadow scale (session-9 S9-P0 — Tailwind v4 rename bug): v4 renamed
-     the scale (v3 shadow-sm → v4 shadow-xs; v3 shadow → v4 shadow-sm), so
-     v4's default `shadow-sm` compiles ONE STEP HEAVIER than the reference
-     app's `shadow-sm` (verified: the reference's outline buttons compute
-     `0 1px 2px 0 rgb(0 0 0 / .05)`, ours computed `0 1px 3px …, 0 1px 2px
-     -1px …`). Re-pin shadow-sm to the reference-computed tiny value. Bare
-     `shadow` (the Card family) already matches both sides and is left on
-     the v4 default. See docs/plans/2026-09-30-session9-parity-remediation.md
-     and skills/avant-garde-design-v4/references/02-tailwind-v4-deep-dive.md
-     ("Renamed Utilities"). */
+  /* Shadow scale (the v4 rename bug, re-pinned): v4 renamed the scale
+     (v3 shadow-sm → v4 shadow-xs), so v4's default `shadow-sm` compiles
+     ONE STEP HEAVIER than the reference's v3 `shadow-sm`
+     (`0 1px 2px 0 rgb(0 0 0 / .05)`). Bare `shadow`/`shadow-xl`/
+     `shadow-2xl` match both sides and stay on the v4 defaults. */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
-  /* Blur scale (session-10 S10-P0 — the SAME v4 rename family as the
-     shadow bug above): v4 renamed the blur scale (v3 blur-sm 4px → v4
-     blur-xs; v4 blur-sm is the old bare blur 8px), so our login card's
-     `backdrop-blur-sm` glass compiled ONE STEP TOO STRONG — the
-     reference's computes blur(4px), ours computed blur(8px). Re-pin to
-     the reference-computed value. No other blur step is a parity surface
-     (the decorative logo glow's blur-xl was not renamed in v4). */
+  /* Blur scale (same rename family): v4's blur-sm is the old bare blur
+     (8px); the reference's glass surfaces compute blur(4px). */
   --blur-sm: 4px;
 
   /* Feedback */
@@ -138,138 +73,38 @@
   --color-info: #06b6d4;
   --color-info-soft: #ecfeff;
 
-  /* Typography — Session-22 (S22-P1): --font-sans pins the reference's
-     EXACT stack (byte-extracted from its preflight html rule — it loads
-     ZERO webfonts and computes this family on every surface). Tailwind
-     4.3's own default (-apple-system, BlinkMacSystemFont, …) is the
-     v4.0 list and NOT byte-identical, so the stack is pinned explicitly
-     (version-proof: a future Tailwind default change cannot drift it);
-     the scaffold's Inter webfont + v3-style fallback list retired. */
+  /* Typography — the reference ships ZERO webfonts (document.fonts empty;
+  every surface computes Tailwind's stock default stack — byte-extracted
+  from its preflight rule). Pinned explicitly so a future Tailwind default
+  change cannot drift it. */
   --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
   /* Radius scale */
-  --radius-card: 0.75rem;
-  --radius-button: 0.5rem;
-  --radius-pill: 9999px;
+  --radius-card: 1rem;
+  --radius-button: 0.75rem;
 
-  /* Chart palette (display tokens; the working hex lives in
-     src/lib/constants.ts — CHART_COLORS / *_META — and is DOM-pinned by
-     tests/constants.test.ts: Proposal = yellow-500, Won = grey-400). */
-  --color-chart-1: #3b82f6;
-  --color-chart-2: #06b6d4;
-  --color-chart-3: #eab308;
-  --color-chart-4: #f97316;
-  --color-chart-5: #9ca3af;
-  --color-chart-6: #ef4444;
-
-  /* Session-88 (M-88c1): THE V3 PALETTE RE-PIN. Tailwind v4's default
-     palette is NOT v3's palette expressed in oklch — it was re-derived,
-     and the chromatic families compute DIFFERENT colors: v4 blue-600 =
-     #155dfc rgb(21,93,252) where the reference's v3 bg-blue-600 =
-     #2563eb rgb(37,99,235); v4 red-600 rgb(231,0,11) vs v3
-     rgb(220,38,38) (Δ38); green-400 Δ69; amber-400 Δ36; purple-600
-     Δ35; cyan-400 Δ34 (browser canvas pixel reads on our dev server vs
-     the rgb triplets in the reference's compiled index-Be9epoFc.css).
-     56 of the 118 plain literal classes used in src/ diverged visibly —
-     incl. the s87-pinned spark bars (bg-cyan-400/bg-green-400), the
-     accounts Filter button's literal bg-blue-600, every text-red-600
-     overdue surface and every text-blue-600 link/icon. The S15-P12
-     note documented the hazard for ONE surface (the Event dialog
-     submit → the token pair) but the family was never swept. This
-     block re-pins EVERY literal (family, step) pair used in src/ to
-     the v3 values — the standard v3 default palette, verified against
-     the reference's compiled CSS on 97 rules with ZERO mismatches.
-     The fifth member of the v4 re-pin family (shadow-sm s9 → blur-sm
-     s10 → space-y s11/s14 → the hover-variant un-wrap s80 → the
-     palette s88). The S15-P12 hazard retires family-wide. Pinned by
-     tests/contacts-family-parity.test.ts. Session-90 (S90-P0): the
-     block extends with red-400 #f87171 + purple-400 #c084fc — the
-     stat-card bar color maps' bg-CLASS pairs (the reference's
-     compiled .bg-red-400 rgb(248 113 113) / .bg-purple-400
-     rgb(192 132 252) — the (family, step) pairs the s88 sweep never
-     covered: our bars rode inline hexes, so the classes were never
-     used in src/ before the s90 mirror). Pinned by
-     tests/statcard-family-parity.test.ts. */
+  /* THE V3 PALETTE RE-PIN (the template's session-88 doctrine, carried
+     over): Tailwind v4's default palette is NOT v3's palette expressed in
+     oklch — it was re-derived, and chromatic families compute DIFFERENT
+     colors (v4 blue-600 = rgb(21,93,252) where the v3 reference renders
+     rgb(37,99,235); amber-400 Δ36; cyan-400 Δ34 — canvas pixel reads vs
+     the rgb triplets in the reference's compiled CSS). The reference app
+     builds on the v3 palette, so EVERY literal (family, step) pair used
+     in src/ is re-pinned to the v3 value. The teal family joins the pin
+     for ViralPost AI (the template never used it): v3 teal-500 = #14b8a6
+     (the reference's computed CTA gradient start — verified). */
   --color-amber-50: #fffbeb;
   --color-amber-100: #fef3c7;
   --color-amber-200: #fde68a;
   --color-amber-300: #fcd34d;
   --color-amber-400: #fbbf24;
   --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
   --color-amber-700: #b45309;
   --color-amber-800: #92400e;
-  --color-blue-50: #eff6ff;
-  --color-blue-100: #dbeafe;
-  --color-blue-200: #bfdbfe;
-  --color-blue-300: #93c5fd;
-  --color-blue-400: #60a5fa;
-  --color-blue-500: #3b82f6;
-  --color-blue-600: #2563eb;
-  --color-blue-700: #1d4ed8;
-  --color-blue-800: #1e40af;
-  --color-blue-900: #1e3a8a;
-  --color-cyan-50: #ecfeff;
-  --color-cyan-100: #cffafe;
-  --color-cyan-200: #a5f3fc;
-  --color-cyan-400: #22d3ee;
-  --color-cyan-500: #06b6d4;
-  --color-cyan-600: #0891b2;
-  --color-cyan-700: #0e7490;
-  --color-cyan-800: #155e75;
-  --color-emerald-50: #ecfdf5;
-  --color-emerald-100: #d1fae5;
-  --color-emerald-200: #a7f3d0;
-  --color-emerald-600: #059669;
-  --color-emerald-700: #047857;
-  --color-gray-50: #f9fafb;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-300: #d1d5db;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #6b7280;
-  --color-gray-600: #4b5563;
-  --color-gray-700: #374151;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #111827;
-  --color-green-50: #f0fdf4;
-  --color-green-100: #dcfce7;
-  --color-green-200: #bbf7d0;
-  --color-green-400: #4ade80;
-  --color-green-500: #22c55e;
-  --color-green-600: #16a34a;
-  --color-green-700: #15803d;
-  --color-green-800: #166534;
-  --color-green-900: #14532d;
-  --color-neutral-50: #fafafa;
-  --color-neutral-100: #f5f5f5;
-  --color-neutral-900: #171717;
-  --color-orange-50: #fff7ed;
-  --color-orange-100: #ffedd5;
-  --color-orange-200: #fed7aa;
-  --color-orange-500: #f97316;
-  --color-orange-600: #ea580c;
-  --color-orange-700: #c2410c;
-  --color-orange-800: #9a3412;
-  --color-purple-50: #faf5ff;
-  --color-purple-100: #f3e8ff;
-  --color-purple-400: #c084fc;
-  --color-purple-600: #9333ea;
-  --color-purple-700: #7e22ce;
-  --color-purple-800: #6b21a8;
-  --color-red-50: #fef2f2;
-  --color-red-100: #fee2e2;
-  --color-red-200: #fecaca;
-  --color-red-300: #fca5a5;
-  --color-red-400: #f87171;
-  --color-red-500: #ef4444;
-  --color-red-600: #dc2626;
-  --color-red-700: #b91c1c;
-  --color-red-800: #991b1b;
-  --color-red-900: #7f1d1d;
-  --color-rose-50: #fff1f2;
-  --color-rose-200: #fecdd3;
-  --color-rose-700: #be123c;
+  --color-amber-900: #78350f;
+  --color-amber-950: #451a03;
   --color-slate-50: #f8fafc;
   --color-slate-100: #f1f5f9;
   --color-slate-200: #e2e8f0;
@@ -280,15 +115,37 @@
   --color-slate-700: #334155;
   --color-slate-800: #1e293b;
   --color-slate-900: #0f172a;
-  --color-yellow-50: #fefce8;
-  --color-yellow-100: #fef9c3;
-  --color-yellow-500: #eab308;
-  --color-yellow-600: #ca8a04;
-  --color-yellow-800: #854d0e;
+  --color-slate-950: #020617;
+  --color-teal-50: #f0fdfa;
+  --color-teal-100: #ccfbf1;
+  --color-teal-200: #99f6e4;
+  --color-teal-300: #5eead4;
+  --color-teal-400: #2dd4bf;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #0d9488;
+  --color-teal-700: #0f766e;
+  --color-teal-800: #115e59;
+  --color-teal-900: #134e4a;
+  --color-teal-950: #042f2e;
+  --color-red-50: #fef2f2;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-emerald-50: #ecfdf5;
+  --color-emerald-400: #34d399;
+  --color-emerald-500: #10b981;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-900: #111827;
+  --color-neutral-100: #f5f5f5;
 
-  /* Animations for Radix primitives */
+  /* Animations for Radix primitives + the marketing motion vocabulary. */
   --animate-fade-in: fade-in 0.2s ease-out;
-  --animate-slide-in-right: slide-in-right 0.25s cubic-bezier(0.32, 0.72, 0, 1);
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-reveal: reveal 0.5s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
 
   @keyframes fade-in {
     from {
@@ -299,144 +156,84 @@
     }
   }
 
-  @keyframes slide-in-right {
+  /* The hero portrait's gentle bob (the reference's framer-motion float —
+     translateY loop). */
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(-8px);
+    }
+    50% {
+      transform: translateY(4px);
+    }
+  }
+
+  /* The scroll-reveal entrance (the reference's whileInView y:20 → 0
+     fade) — applied by the Reveal component once the element enters the
+     viewport; `forwards` holds the settled state. */
+  @keyframes reveal {
     from {
-      transform: translateX(100%);
+      opacity: 0;
+      transform: translateY(20px);
     }
     to {
-      transform: translateX(0);
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }
 
 /* ---------------------------------------------------------------------------
-   Base layer
+   Base
 --------------------------------------------------------------------------- */
 
 @layer base {
   * {
     border-color: var(--color-line);
-    /* Session-193 (D-193a1): the outline-color half of the shadcn base
-       template's universal line — the reference's compiled base ships
-       `* { border-color: hsl(var(--border)); outline-color: hsl(var(--ring) / .5); }`
-       (live-probed via the micro-probe-193 CSSOM walk); ours carried only
-       the border-color half, so every UA-outline-painting surface (the
-       marketing anchors' REAL focus faces, any element without an
-       authored focus-visible utility) resolved the ENGINE default
-       (currentColor at rest, the adaptive near-black OPAQUE ring at
-       focus) instead of the reference's authored 50% ring. The v4
-       color-mix idiom over the --color-ring token resolves to the same
-       50% near-black (#0a0a0a — the reference's own --ring value). */
-    outline-color: color-mix(in oklab, var(--color-ring) 50%, transparent);
   }
 
-  /* Session-10 (S10-1): the reference's global stylesheet ships
-     `button, [role="button"] { cursor: pointer; }` — every button (and
-     role=button control) shows the hand cursor. Our buttons computed
-     cursor:default (arrow). Radix menu items keep their own
-     cursor-default via their item classes, exactly like the reference. */
-  button,
-  [role="button"] {
-    cursor: pointer;
+  html {
+    scroll-behavior: smooth;
   }
-
-  /* Session-16 (S16-P4): the reference's platform resets
-     `th, td { padding: 1px }` globally — the reset surfaces wherever no
-     utility class overrides it: its standard th compute `1px 8px`
-     (header rows 43px vs our 41px) and the dashboard compact th compute
-     `8px 1px` (vs our `8px 0px`). Utility classes (h-10/px-2/p-2/py-8/…)
-     override the element selector, so the reset only fills the unclassed
-     axes — mirroring the platform exactly. */
-  th,
-  td {
-    padding: 1px;
-  }
-
-  /* Session-22 (S22-P2): the html font-smoothing rule is RETIRED —
-     the reference ships no -webkit-font-smoothing (computed auto) and
-     no text-rendering override anywhere in its stylesheet; the
-     scaffold-era antialiased + optimizeLegibility pair rendered
-     thinner text than the reference on macOS. */
 
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    /* Session-13 (S13-P12): the reference's body computes 16px (the
-       browser default — verified on its dashboard + profile). The
-       scaffold-era `font-size: 14px` was never reference-verified and
-       made every size-INHERITING surface render one step small (the
-       stock CardTitle computed 14px vs the reference's 16px). */
   }
 
-  /* Session-22 (S22-P3): the ::selection rule is RETIRED — the
-     reference's stylesheet contains zero selection rules (the browser
-     default selection color); our blue 0.18 tint was a scaffold-era
-     invention. */
+  /* Reduced motion: the marketing motion vocabulary (reveals, floats,
+     particle canvases) collapses to settled states — the entrance end
+     state, no loops. The canvas effects read this media query too. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 /* ---------------------------------------------------------------------------
    Custom utilities (v4 native @utility — NOT @layer utilities)
 --------------------------------------------------------------------------- */
 
-@utility scrollbar-thin {
-  scrollbar-width: thin;
-  scrollbar-color: #d1d5db transparent;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #d1d5db;
-    border-radius: 9999px;
-  }
-}
-
-/* Recharts focus outlines are noisy in dialogs */
-@utility chart-no-outline {
-  & .recharts-wrapper:focus,
-  & .recharts-surface:focus {
-    outline: none;
-  }
-}
-
-/* Native date/datetime inputs inherit the app control look */
+/* The reference's stock form fields: slate-50 bg, slate-200 border,
+   rounded-xl (the login family) — expressed once for the UI kit. */
 @utility input-base {
   width: 100%;
-  border-radius: 0.5rem;
-  border: 1px solid var(--color-line);
-  background-color: transparent;
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
-  color: var(--color-ink);
-  outline: none;
-
-  &:focus-visible {
-    box-shadow: 0 0 0 1px var(--color-ring);
-  }
-
-  &::placeholder {
-    color: var(--color-muted-ink);
-  }
-
-  &:disabled {
-    background-color: var(--color-line-soft);
-    color: var(--color-muted);
-  }
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-slate-200);
+  background-color: rgb(248 250 252 / 0.5);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-slate-300) transparent;
 }

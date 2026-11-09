@@ -1,0 +1,291 @@
+"use client";
+
+// The hero's particle title — an independent implementation of the
+// reference's canvas effect (react-bits "Particles"-style, config
+// bundle-extracted: texts cycle, Inter 54px/800 white, spread 5, density 5,
+// vaporize 2s left-to-right, fadeIn 1s, wait 1s). Text is rasterized on an
+// offscreen canvas, sampled to a particle field, then animated:
+//   fadeIn (particles fly in from a spread) → wait → vaporize (particles
+//   scatter left-to-right) → next phrase.
+//
+// Accessibility: the visual canvas is decorative — a real (visually
+// hidden) heading carries the full phrase list for crawlers and screen
+// readers, exactly like the reference's sr-only <h1>.
+//
+// Reduced motion: the canvas renders the CURRENT phrase as plain filled
+// text (no particle flight) and still cycles phrases on the wait cadence.
+
+import * as React from "react";
+import { cn } from "@/lib/utils";
+
+export interface ParticleTextProps {
+  texts: readonly string[];
+  className?: string;
+  /** Font size at the design width (scales with the container). */
+  fontSize?: number;
+  fontWeight?: number;
+  color?: string;
+  /** Seconds each phrase holds before vaporizing. */
+  waitDuration?: number;
+  srText?: string;
+  /** The real heading element wrapping the sr-only text (default h1 —
+   *  the reference's own tag config). */
+  tag?: "h1" | "h2";
+}
+
+interface Particle {
+  x: number;
+  y: number;
+  tx: number; // target (text) position
+  ty: number;
+  hx: number; // home (scattered) position
+  hy: number;
+  vx: number;
+  vy: number;
+  size: number;
+}
+
+type Phase = "fade-in" | "wait" | "vaporize";
+
+const PHASE_SECONDS = { fadeIn: 1, wait: 1, vaporize: 2 } as const;
+const DESIGN_WIDTH = 792; // the reference's canvas width (528 CSS px @1.5)
+
+export function ParticleText({
+  texts,
+  className,
+  fontSize = 54,
+  fontWeight = 800,
+  color = "rgb(255, 255, 255)",
+  waitDuration = PHASE_SECONDS.wait,
+  srText,
+  tag: Tag = "h1",
+}: ParticleTextProps) {
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const wrapRef = React.useRef<HTMLDivElement | null>(null);
+  const reducedRef = React.useRef(false);
+
+  React.useEffect(() => {
+    const canvas = canvasRef.current;
+    const wrap = wrapRef.current;
+    if (!canvas || !wrap || texts.length === 0) return;
+
+    const reduced =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    reducedRef.current = reduced;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let raf = 0;
+    let phase: Phase = "fade-in";
+    let phaseStart = performance.now();
+    let textIndex = 0;
+    let particles: Particle[] = [];
+    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let cssW = 0;
+    let cssH = 0;
+    let disposed = false;
+
+    const phrase = () => texts[textIndex] ?? "";
+
+    const layout = () => {
+      const rect = wrap.getBoundingClientRect();
+      cssW = Math.max(rect.width, 1);
+      cssH = Math.max(rect.height, 1);
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(cssW * dpr);
+      canvas.height = Math.round(cssH * dpr);
+      canvas.style.width = `${cssW}px`;
+      canvas.style.height = `${cssH}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    // Rasterize the current phrase offscreen and sample it into particles.
+    const buildParticles = () => {
+      const off = document.createElement("canvas");
+      const scale = Math.min(1, cssW / (DESIGN_WIDTH * 0.667));
+      let fontPx = fontSize * scale;
+      const offW = Math.ceil(cssW);
+      const offH = Math.ceil(cssH);
+      off.width = offW;
+      off.height = offH;
+      const octx = off.getContext("2d");
+      if (!octx) return;
+      octx.fillStyle = "#fff";
+      octx.font = `${fontWeight} ${fontPx}px ${getComputedStyle(document.body).fontFamily}`;
+      octx.textBaseline = "middle";
+      // Fit: shrink until the phrase fits with 4px padding.
+      const text = phrase();
+      let width = octx.measureText(text).width;
+      while (width > offW - 8 && fontPx > 12) {
+        fontPx -= 1;
+        octx.font = `${fontWeight} ${fontPx}px ${getComputedStyle(document.body).fontFamily}`;
+        width = octx.measureText(text).width;
+      }
+      octx.fillText(text, 4, offH / 2);
+
+      const img = octx.getImageData(0, 0, offW, offH).data;
+      particles = [];
+      const density = 5; // reference: density 5
+      const spread = 5; // reference: spread 5
+      for (let y = 0; y < offH; y += density) {
+        for (let x = 0; x < offW; x += density) {
+          const alpha = img[(y * offW + x) * 4 + 3];
+          if (alpha > 128) {
+            const angle = Math.random() * Math.PI * 2;
+            const dist = 40 + Math.random() * 60 * spread * 0.2;
+            particles.push({
+              x: x + (Math.random() - 0.5) * 2,
+              y: y + (Math.random() - 0.5) * 2,
+              tx: x,
+              ty: y,
+              hx: x + Math.cos(angle) * dist,
+              hy: y + Math.sin(angle) * dist,
+              vx: 0,
+              vy: 0,
+              size: 1 + Math.random() * 1.4,
+            });
+          }
+        }
+      }
+    };
+
+    const drawPlain = () => {
+      // Reduced-motion face: plain text, no particle flight.
+      const scale = Math.min(1, cssW / (DESIGN_WIDTH * 0.667));
+      let fontPx = fontSize * scale;
+      ctx.font = `${fontWeight} ${fontPx}px ${getComputedStyle(document.body).fontFamily}`;
+      while (ctx.measureText(phrase()).width > cssW - 8 && fontPx > 12) {
+        fontPx -= 1;
+        ctx.font = `${fontWeight} ${fontPx}px ${getComputedStyle(document.body).fontFamily}`;
+      }
+      ctx.fillStyle = color;
+      ctx.textBaseline = "middle";
+      ctx.fillText(phrase(), 4, cssH / 2);
+    };
+
+    const frame = (now: number) => {
+      if (disposed) return;
+      const elapsed = (now - phaseStart) / 1000;
+      ctx.clearRect(0, 0, cssW, cssH);
+
+      if (reduced) {
+        drawPlain();
+        if (elapsed > waitDuration + PHASE_SECONDS.vaporize) {
+          textIndex = (textIndex + 1) % texts.length;
+          phaseStart = now;
+        }
+        raf = requestAnimationFrame(frame);
+        return;
+      }
+
+      if (phase === "fade-in") {
+        const t = Math.min(elapsed / PHASE_SECONDS.fadeIn, 1);
+        const ease = 1 - Math.pow(1 - t, 3);
+        for (const p of particles) {
+          p.x = p.hx + (p.tx - p.hx) * ease;
+          p.y = p.hy + (p.ty - p.hy) * ease;
+        }
+        if (t >= 1) {
+          phase = "wait";
+          phaseStart = now;
+        }
+      } else if (phase === "wait") {
+        // Gentle idle jitter keeps the field alive.
+        for (const p of particles) {
+          p.x = p.tx + Math.sin(now / 700 + p.ty) * 0.6;
+          p.y = p.ty + Math.cos(now / 900 + p.tx) * 0.6;
+        }
+        if (elapsed > waitDuration) {
+          phase = "vaporize";
+          phaseStart = now;
+        }
+      } else {
+        // Vaporize: left-to-right sweep (the reference's direction).
+        const t = Math.min(elapsed / PHASE_SECONDS.vaporize, 1);
+        const sweep = t * (cssW + 120);
+        for (const p of particles) {
+          if (p.tx < sweep - 120) {
+            // Already released: ballistic scatter with gravity-ish drift.
+            p.vx += (Math.random() - 0.5) * 0.35;
+            p.vy += (Math.random() - 0.5) * 0.35 - 0.02;
+            p.x += p.vx;
+            p.y += p.vy;
+          } else {
+            p.x = p.tx;
+            p.y = p.ty;
+          }
+        }
+        if (t >= 1) {
+          textIndex = (textIndex + 1) % texts.length;
+          phase = "fade-in";
+          phaseStart = now;
+          buildParticles();
+          // Reset particles to their scattered homes.
+          for (const p of particles) {
+            p.x = p.hx;
+            p.y = p.hy;
+            p.vx = 0;
+            p.vy = 0;
+          }
+        }
+      }
+
+      ctx.fillStyle = color;
+      for (const p of particles) {
+        ctx.globalAlpha = 0.85;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      raf = requestAnimationFrame(frame);
+    };
+
+    const init = () => {
+      layout();
+      buildParticles();
+      if (phase === "fade-in") {
+        for (const p of particles) {
+          p.x = p.hx;
+          p.y = p.hy;
+        }
+      }
+    };
+
+    init();
+    raf = requestAnimationFrame(frame);
+
+    const onResize = () => {
+      layout();
+      buildParticles();
+    };
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      disposed = true;
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [texts.join("|"), fontSize, fontWeight, color, waitDuration]);
+
+  return (
+    <div ref={wrapRef} className={cn("relative w-full", className)} style={{ height: fontSize * 1.35 }}>
+      <canvas
+        ref={canvasRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+      />
+      {/* The real heading for crawlers + screen readers (the reference's
+          own sr-only pattern — a REAL h1 whose visually-hidden text
+          carries the full phrase list). */}
+      <Tag
+        className="sr-only"
+        style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}
+      >
+        {srText ?? texts.join(" ")}
+      </Tag>
+    </div>
+  );
+}

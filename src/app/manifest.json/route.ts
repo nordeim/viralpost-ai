@@ -2,7 +2,7 @@ import { SITE_DESCRIPTION, siteUrl } from "@/lib/site";
 
 // Session-19 (S19-P1): /manifest.json — the reference's installable web
 // app manifest, fetched byte-for-byte on 2026-10-01:
-//   {name, short_name} "NEO CRM", the same 405-char description, TWO icon
+//   {name, short_name} "ViralPost AI", the same 405-char description, TWO icon
 //   entries (192x192 + 512x512 — the SAME src on both, their platform
 //   screenshot; the self-hosted expression is our /icon.png BrandMark
 //   tile), start_url + scope at the origin, display "standalone",
@@ -18,8 +18,8 @@ export const dynamic = "force-static";
 export function GET(): Response {
   const origin = siteUrl();
   const manifest = {
-    name: "NEO CRM",
-    short_name: "NEO CRM",
+    name: "ViralPost AI",
+    short_name: "ViralPost AI",
     description: SITE_DESCRIPTION,
     icons: [
       {
