@@ -75,12 +75,12 @@ smoke → e2e. There is no hosted CI — the local gate is the only gate.
 
 ## Testing conventions
 
-- Unit tests live in `tests/*.test.ts` (31 files, 442 tests) — Vitest,
+- Unit tests live in `tests/*.test.ts` (32 files, 463 tests) — Vitest,
   node env, `@` alias; TDD at the pure seams.
 - Several suites are **source-pinned** (they read source files textually
   to pin contracts: page-titles, design-tokens, typography) — when you
   change markup/classes, update those pins in the same commit.
-- E2E: 8 specs / 48 tests in `tests/e2e/*.spec.ts`; multi-subtree
+- E2E: 8 specs / 49 tests in `tests/e2e/*.spec.ts`; multi-subtree
   responsive DOM needs `.filter({ visible: true }).first()`.
 - Docs count-lockstep: when test/route/model counts change, update
   README/AGENTS/CLAUDE/PAD in the same commit.
@@ -99,7 +99,7 @@ smoke → e2e. There is no hosted CI — the local gate is the only gate.
 - `Project_Architecture_Document.md` — the blueprint (ADRs, security, testing)
 - `viralpost-ai_SKILL.md` — the distilled engineering memory
 - `docs/implementation-plan.md` — the clone's Stack Decision Record + Deviations Ledger
-- `docs/plans/` — per-session round plans (session-1 build, session-2 parity audit, session-3 rename completion, session-4 phantom references, session-5 docs freshness, session-6 clean-tree re-certification, session-7 dev-script loop + phantom comments, session-8 live OG parity + evidence provenance, session-9 rate-limiter trust warning + phantom-claim retirement + the docs-counts gate)
+- `docs/plans/` — per-session round plans (session-1 build, session-2 parity audit, session-3 rename completion, session-4 phantom references, session-5 docs freshness, session-6 clean-tree re-certification, session-7 dev-script loop + phantom comments, session-8 live OG parity + evidence provenance, session-9 rate-limiter trust warning + phantom-claim retirement + the docs-counts gate, session-10 dev-origin hydration lock + palette re-pin completion + phantom-reference tail)
 - `docs/reference-investigation.md` — the evidence dossier behind every parity claim
 - `worklog.md` — the per-session audit trail
 - **Historical-record layer (retained provenance, not live docs — superseded by the set above):** `neo-crm_SKILL.md` (the CRM's v1.207 skill — the session-1 input that session 2 distilled into `viralpost-ai_SKILL.md`), `docs/worklog.md` (the CRM-era worklog), `docs/prompt-to-*.md` (the owner's prompt templates), `docs/Tailwind-V4-Validation-Report.md`, `docs/web-app-codebase-evaluation-report.md`. Read for archaeology, never as current-state contracts.

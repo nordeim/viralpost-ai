@@ -36,6 +36,17 @@ export function Navbar() {
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
 
+  // Session-10 (F10-10): close on ANY pathname change — including the
+  // browser's own history navigation (back/forward), which fires no link
+  // click. The adjust-during-render pattern (a prev-value comparison,
+  // never `useEffect(() => setState)` — the React-19 rule) re-closes the
+  // menu exactly once per navigation, hydration-safe.
+  const [prevPathname, setPrevPathname] = React.useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
+    setOpen(false);
+  }
+
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     // The initial read rides a rAF (async — no synchronous setState in

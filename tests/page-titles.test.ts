@@ -118,4 +118,22 @@ describe("siteUrl", () => {
     expect(siteUrl(undefined)).toBe("http://localhost:3000");
     expect(siteUrl("https://example.com/")).toBe("https://example.com");
   });
+
+  // Session-10 (F10-11): a malformed NEXT_PUBLIC_SITE_URL used to reach
+  // `new URL(siteUrl())` in the ROOT LAYOUT's metadataBase and throw —
+  // every route 500s into the error boundary from one operator typo, the
+  // whole-site blast radius the boot gate exists to prevent. The seam now
+  // falls back to the dev default on any input that does not parse as an
+  // absolute http(s) URL.
+  it("falls back to the default on malformed input (never bricks the root layout)", () => {
+    expect(siteUrl("example.com")).toBe("http://localhost:3000");
+    expect(siteUrl("https//missing-colon.example.com")).toBe("http://localhost:3000");
+    expect(siteUrl("ftp://scheme-not-allowed.example.com")).toBe("http://localhost:3000");
+    expect(siteUrl("   ")).toBe("http://localhost:3000");
+  });
+
+  it("valid origins pass through verbatim (slash-stripped, port preserved)", () => {
+    expect(siteUrl("http://127.0.0.1:3000")).toBe("http://127.0.0.1:3000");
+    expect(siteUrl("https://viralpost.example.com///")).toBe("https://viralpost.example.com");
+  });
 });

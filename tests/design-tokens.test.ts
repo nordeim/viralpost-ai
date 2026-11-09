@@ -1,5 +1,5 @@
-import { existsSync, readFileSync } from "node:fs";
-import path from "node:path";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import path, { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 // The design-token pins — the Tailwind v4 doctrine carried from the
@@ -57,6 +57,79 @@ describe("design tokens: the v3 palette re-pin", () => {
     expect(themeValue("color-slate-50")).toBe("#f8fafc");
   });
 });
+
+describe("design tokens: session-10 — the re-pin completion (F10-1)", () => {
+  // The census that found the gaps: green-700 (the login/reset
+  // sent-callout text — a DOM-extracted reference surface) computed
+  // #008236 under v4's re-derived palette where the reference renders
+  // the v3 #15803d; blue-600 (globals.css's OWN canonical example of
+  // this bug class) sat unpinned on the login-card reset link. The
+  // oklch→sRGB conversions of the installed tailwindcss/theme.css
+  // quantified the drift this round.
+
+  it("the green family pins the v3 values (the login/reset callouts)", () => {
+    expect(themeValue("color-green-50")).toBe("#f0fdf4");
+    expect(themeValue("color-green-200")).toBe("#bbf7d0");
+    expect(themeValue("color-green-700")).toBe("#15803d");
+  });
+
+  it("the red family pins the v3 values (the error callouts)", () => {
+    expect(themeValue("color-red-200")).toBe("#fecaca");
+    expect(themeValue("color-red-700")).toBe("#b91c1c");
+  });
+
+  it("the blue family pins the v3 values (the login-card reset link)", () => {
+    expect(themeValue("color-blue-600")).toBe("#2563eb");
+    expect(themeValue("color-blue-700")).toBe("#1d4ed8");
+  });
+
+  it("emerald-200/600 + rose-200 + neutral-900 pin the v3 values (toast borders, the reset lock icon, the toast X hover ink)", () => {
+    expect(themeValue("color-emerald-200")).toBe("#a7f3d0");
+    expect(themeValue("color-emerald-600")).toBe("#059669");
+    expect(themeValue("color-rose-200")).toBe("#fecdd3");
+    expect(themeValue("color-neutral-900")).toBe("#171717");
+  });
+
+  it("THE CENSUS PIN: every stock color utility used in src/ resolves to a @theme literal (the 'every literal pair' invariant, made mechanical)", () => {
+    // Enumerate (family, step) pairs from color utilities in src/ (text-,
+    // bg-, border-, from-/via-/to-, ring-, etc.), then require a
+    // --color-<family>-<step>: literal inside @theme for each. A future
+    // unpinned family fails here instead of silently drifting to v4's
+    // re-derived oklch palette (the F10-1 genus, retired).
+    const srcDir = path.resolve(import.meta.dirname, "..", "src");
+    const files = walkSourceFiles(srcDir);
+    const utility = /(?:text|bg|border|from|to|via|fill|stroke|ring|decoration|divide|outline|shadow|accent|caret|placeholder)-([a-z]+)-(50|100|200|300|400|500|600|700|800|900|950)(?![\w-])/g;
+    const NON_COLOR = new Set([
+      "xs", "sm", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "7xl",
+      "8xl", "9xl", "base", "center", "left", "right", "top", "bottom",
+      "auto", "full", "none", "current", "transparent", "white", "black",
+      "primary", "brand", "line", "muted", "subtle", "success", "warning",
+      "danger", "info", "foreground", "background", "opacity",
+    ]);
+    const used = new Set<string>();
+    for (const file of files) {
+      const text = readFileSync(file, "utf8");
+      for (const m of text.matchAll(utility)) {
+        if (!NON_COLOR.has(m[1])) used.add(`${m[1]}-${m[2]}`);
+      }
+    }
+    expect(used.size).toBeGreaterThan(10); // the census actually censused
+    const unpinned = [...used].filter((pair) => themeValue(`color-${pair}`) === undefined);
+    expect(unpinned, `color utilities with NO @theme literal (add the v3 hex pins): ${unpinned.join(", ")}`).toEqual([]);
+  });
+});
+
+function walkSourceFiles(dir: string): string[] {
+  const entries = existsSync(dir) ? readdirSync(dir) : [];
+  const out: string[] = [];
+  for (const entry of entries) {
+    const full = join(dir, entry);
+    const stat = statSync(full);
+    if (stat.isDirectory()) out.push(...walkSourceFiles(full));
+    else if (/\.(ts|tsx|css)$/.test(entry)) out.push(full);
+  }
+  return out;
+}
 
 describe("design tokens: the rename-bug re-pins (v4 shadow/blur)", () => {
   it("shadow-sm re-pins to the v3 tiny value", () => {

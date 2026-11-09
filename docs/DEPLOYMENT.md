@@ -88,6 +88,14 @@ bun run db:seed        # idempotent demo user (wipes the contact inbox)
 `db/*.db` is gitignored; every fresh clone recreates it from the two
 commands above.
 
+**Seed before exposing (the first-signup admin rule, noted session 10):**
+signup assigns `role: "admin"` to the account created when the user table
+is EMPTY and `"user"` to everyone after — an UNSEEDED production database
+therefore makes its first verified signup the admin. Run `db:seed` (or
+create your own account first) before the app is reachable by anyone you
+don't trust with the admin row. No authorization gate reads `role` today;
+the value is the self-hosted operator's affordance.
+
 ## 5. Updating
 
 ```bash

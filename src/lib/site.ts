@@ -36,13 +36,29 @@ export const SITE_DESCRIPTION =
  * Canonical public origin: NEXT_PUBLIC_SITE_URL when set (trailing slashes
  * stripped — URL composition below always appends paths), otherwise the
  * localhost dev default.
+ *
+ * Session-10 (F10-11): input that does not parse as an ABSOLUTE http(s)
+ * URL falls back to the default instead of flowing into `new URL()` in
+ * the root layout's metadataBase — a schemeless operator typo used to
+ * throw there and 500 EVERY route (the whole-site blast radius the boot
+ * gate exists to prevent; the boot gate now warns on the malformed shape
+ * too, in dev and production).
  */
 export function siteUrl(
   env: string | undefined = process.env.NEXT_PUBLIC_SITE_URL,
 ): string {
   const raw = (env ?? "").trim();
   if (!raw) return DEFAULT_SITE_URL;
-  return raw.replace(/\/+$/, "");
+  const stripped = raw.replace(/\/+$/, "");
+  try {
+    const parsed = new URL(stripped);
+    if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+      return DEFAULT_SITE_URL;
+    }
+    return parsed.toString().replace(/\/+$/, "");
+  } catch {
+    return DEFAULT_SITE_URL;
+  }
 }
 
 // (Session 8, F8-1: the scaffold's pageOgDescription helper — the

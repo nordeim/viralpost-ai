@@ -61,6 +61,27 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
 
   // ---- NEXT_PUBLIC_SITE_URL: the advertised-origin family --------------
   const siteUrl = env.NEXT_PUBLIC_SITE_URL;
+  // Session-10 (F10-11): the SHAPE check runs in dev too — a value that
+  // cannot parse as an absolute http(s) origin is always wrong (unlike
+  // the unset/localhost family, a production-posture issue), and it used
+  // to flow straight into `new URL()` in the root layout's metadataBase
+  // and 500 every route. The site seam (src/lib/site.ts) now falls back
+  // to the dev default on malformed input; this warning is the
+  // operator's earliest, most actionable signal.
+  if (siteUrl !== undefined && siteUrl !== "") {
+    let malformed = false;
+    try {
+      const parsed = new URL(siteUrl.trim().replace(/\/+$/, ""));
+      malformed = parsed.protocol !== "http:" && parsed.protocol !== "https:";
+    } catch {
+      malformed = true;
+    }
+    if (malformed) {
+      warnings.push(
+        `[boot] NEXT_PUBLIC_SITE_URL="${siteUrl}" could not be parsed as an http(s) origin — metadataBase, /robots.txt, /sitemap.xml and the OG/Twitter cards fall back to http://localhost:3000 until it is fixed. Set the canonical origin (e.g. https://viralpost.example.com) BEFORE \`bun run build\` (it is inlined at build time).`,
+      );
+    }
+  }
   if (isProduction && (!siteUrl || /localhost|127\.0\.0\.1/.test(siteUrl))) {
     warnings.push(
       `[boot] NEXT_PUBLIC_SITE_URL is ${

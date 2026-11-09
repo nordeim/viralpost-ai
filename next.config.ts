@@ -54,6 +54,19 @@ const nextConfig: NextConfig = {
   // Hide the Next.js dev-tools indicator (the floating "N" button) so dev
   // server screenshots stay clean — it never ships in production anyway.
   devIndicators: false,
+  // Session-10 (F10-17 — THE DEV-ORIGIN HYDRATION LOCK): Next 16's
+  // blockCrossSiteDEV rejects the HMR WebSocket whenever the browser's
+  // Origin hostname is off the dev allowlist (defaults: localhost + its
+  // subdomains + the start hostname). Opening dev at
+  // http://127.0.0.1:3000 — the loopback IP the repo's own curl probes
+  // use — therefore killed ONLY the HMR socket: the page LOOKED loaded
+  // while React never hydrated, leaving the mobile menu and every
+  // client island inert with zero console errors (live-reproduced: the
+  // upgrade probe answered the bare body "Unauthorized"; via localhost
+  // the same tree hydrates fine; the production build is immune — the
+  // block is dev-only). Entries are BARE HOSTNAMES: only the Origin's
+  // hostname is matched, never a scheme or port.
+  allowedDevOrigins: ["127.0.0.1"],
   // The reference serves its landing at BOTH / and /Home (its platform
   // routes case-insensitively); a canonical duplicate is an SEO defect, so
   // /Home 308-redirects to the canonical / (nav hrefs keep the reference's

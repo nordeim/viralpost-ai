@@ -346,19 +346,25 @@ function toHashtag(word: string): string {
   return `#${camel}`;
 }
 
-/** 5-8 hashtags: 2-3 idea-derived + niche/evergreen pool, deduped, capped. */
+/** The hashtag fill: idea-derived tags first, then the niche/evergreen
+ *  pools, deduped. Session-10 (F10-13): the target is SEEDED to vary in
+ *  5-7 — the reference's prompt contract says "5-8 relevant hashtags"
+ *  and the old loops always stopped at exactly 5, satisfying the window
+ *  only at its minimum (the advertised variety never happened). The
+ *  ceiling stays 8 (`slice` cap) for the property suite's window. */
 function hashtagsFor(idea: string, niche: Niche | null, rng: () => number): string[] {
   const kws = keywordsOf(idea);
   const own = kws.slice(0, 2).map(toHashtag);
+  const target = Math.min(8, 5 + Math.floor(rng() * 3));
   const pool = [...(niche?.hashtags ?? EVERGREEN_TAGS)];
   const tags: string[] = [];
   for (const t of own) if (tags.length < 3 && !tags.includes(t)) tags.push(t);
-  while (tags.length < 5 && pool.length) {
+  while (tags.length < target && pool.length) {
     const t = pool.splice(Math.floor(rng() * pool.length), 1)[0];
     if (!tags.includes(t)) tags.push(t);
   }
   const evergreen = [...EVERGREEN_TAGS];
-  while (tags.length < 5 && evergreen.length) {
+  while (tags.length < target && evergreen.length) {
     const t = evergreen.splice(Math.floor(rng() * evergreen.length), 1)[0];
     if (!tags.includes(t)) tags.push(t);
   }

@@ -453,3 +453,46 @@ describe("session-147: the from_url round-trip (walk37 — the reference's auth-
     expect(src).not.toMatch(/router\.push\("\/(accounts|contacts|leads|reports|settings|profile)"/);
   });
 });
+
+describe("session-10 (F10-3): the NOT_FOUND_LAYOUT class vocabulary (the 404 body's pin)", () => {
+  // page-layout.ts's header used to cite a phantom tests/page-layout.test.ts
+  // while NOT_FOUND_LAYOUT had ZERO unit pins — the 404 body's classes were
+  // covered only structurally by e2e. These pins freeze the family the
+  // not-found-body reads, class-for-class like every other layout family.
+
+  it("the 404 shell pins the DOM-extracted classes (page/card/center groups)", async () => {
+    const layout = (await import("@/lib/page-layout")).NOT_FOUND_LAYOUT;
+    expect(layout.page).toBe("min-h-screen flex items-center justify-center p-6 bg-slate-50");
+    expect(layout.card).toBe("max-w-md w-full");
+    expect(layout.center).toBe("text-center space-y-6");
+    expect(layout.headingGroup).toBe("space-y-2");
+    expect(layout.textGroup).toBe("space-y-3");
+    expect(layout.buttonGroup).toBe("pt-6");
+  });
+
+  it("the display family: font-light 404 + the slate divider + the h2/p inks", async () => {
+    const layout = (await import("@/lib/page-layout")).NOT_FOUND_LAYOUT;
+    expect(layout.h1).toBe("text-7xl font-light text-slate-300");
+    expect(layout.divider).toBe("h-0.5 w-16 bg-slate-200 mx-auto");
+    expect(layout.h2).toBe("text-2xl font-medium text-slate-800");
+    expect(layout.p).toBe("text-slate-600 leading-relaxed");
+    expect(layout.pathSpan).toBe("font-medium text-slate-700");
+  });
+
+  it("the Go Home arm: the white bordered pill + the homeHref target", async () => {
+    const layout = (await import("@/lib/page-layout")).NOT_FOUND_LAYOUT;
+    expect(layout.homeButton).toContain("bg-white border border-slate-200 rounded-lg");
+    expect(layout.homeButton).toContain("hover:bg-slate-50 hover:border-slate-300");
+    expect(layout.homeIcon).toBe("w-4 h-4 mr-2");
+    expect(layout.homeHref).toBe("/");
+  });
+
+  it("the not-found-body consumes the family (no hand-rolled classes)", () => {
+    const src = readOr("src/app/not-found-body.tsx");
+    expect(src).toContain('className={NOT_FOUND_LAYOUT.page}');
+    expect(src).toContain('className={NOT_FOUND_LAYOUT.homeButton}');
+    // the Go Home arm stays a real Link (the a11y superset over the
+    // reference's href-less button — pinned at the seam, not just in e2e)
+    expect(src).toMatch(/<Link[^>]*href=\{NOT_FOUND_LAYOUT\.homeHref\}/);
+  });
+});

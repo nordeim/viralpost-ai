@@ -121,6 +121,40 @@ describe("session-170 (WP-3): the NEXT_PUBLIC_SITE_URL misconfig warning", () =>
   });
 });
 
+describe("session-10 (F10-11): the malformed NEXT_PUBLIC_SITE_URL shape warning", () => {
+  // A schemeless/unschemable value used to pass this gate silently and
+  // then throw inside `new URL(siteUrl())` in the ROOT LAYOUT's
+  // metadataBase — every route 500s from one operator typo. Malformed is
+  // ALWAYS wrong (unlike the unset/localhost family, which is a
+  // production-only posture issue), so the warning fires in dev too —
+  // the earliest moment the operator can see it.
+
+  it("production + a schemeless value: the malformed-shape warning", () => {
+    const report = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "viralpost.example.com" }));
+    expect(report.fatal).toBeNull();
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("NEXT_PUBLIC_SITE_URL");
+    expect(report.warnings[0]).toContain("could not be parsed");
+  });
+
+  it("development + a schemeless value: the SAME warning (malformed is always wrong)", () => {
+    const report = bootEnvCheck(env({ NODE_ENV: "development", NEXT_PUBLIC_SITE_URL: "viralpost.example.com" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("could not be parsed");
+  });
+
+  it("a non-http(s) scheme warns the same way (the metadata family only composes http origins)", () => {
+    const report = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "ftp://viralpost.example.com" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("could not be parsed as an http(s) origin");
+  });
+
+  it("a well-formed https origin: no warning", () => {
+    const report = bootEnvCheck(env());
+    expect(report.warnings).toHaveLength(0);
+  });
+});
+
 describe("session-170 (WP-3) + session-3 (F3-1): the flag-typo guard (the scandihaven port, warn form)", () => {
   it("the closed known set is the documented 3-knob family", () => {
     expect([...KNOWN_VIRALPOST_VARS].sort()).toEqual([

@@ -7,6 +7,7 @@
 // pills, and the floating-portrait right column with its two stat cards.
 
 import * as React from "react";
+import Link from "next/link";
 import { ArrowRight, Zap } from "lucide-react";
 
 import { Iridescence } from "@/components/effects/iridescence";
@@ -50,13 +51,16 @@ export function Hero() {
               seconds.
             </p>
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <a
+              {/* Session-10 (F10-8): the internal CTA rides next/link (soft
+                  nav — the navbar's own behavior; the DOM output is
+                  identical: same tag, href, classes). */}
+              <Link
                 className="group inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold rounded-full hover:shadow-xl hover:shadow-teal-500/30 transition-all hover:-translate-y-0.5"
                 href="/Tool"
               >
                 Try the Tool
                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-              </a>
+              </Link>
               <a
                 href={GUMROAD_URL}
                 target="_blank"

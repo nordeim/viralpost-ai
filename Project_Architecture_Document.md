@@ -312,7 +312,7 @@ viralpost-ai/
 │   │   ├── layout/             ← login-card (5 views: signin/reset/sent/signup/verify) · reset-password-screen
 │   │   └── ui/toast.tsx        ← the subscribe/store toast
 │   └── lib/                    ← THE seams (see §12 Key Files)
-├── tests/                      ← 29 unit suites + e2e/ (8 specs)
+├── tests/                      ← 32 unit suites + e2e/ (8 specs)
 ├── scripts/                    ← smoke-test.sh · census.ts · prisma-env.ts
 ├── docs/                       ← plans/ · reference-investigation.md ·
 │                                  implementation-plan.md · session logs ·
@@ -544,8 +544,8 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 31 | 442 | `tests/*.test.ts` | Vitest (node env) |
-| E2E | 8 specs | 48 | `tests/e2e/*.spec.ts` | Playwright (production build) |
+| Unit | 32 | 463 | `tests/*.test.ts` | Vitest (node env) |
+| E2E | 8 specs | 49 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
 ### 8.2 Test Patterns
@@ -562,7 +562,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 442/48/15 and change together).
+(README/AGENTS/PAD/SKILL carry 463/49/15 and change together).
 
 ### 8.4 Pre-Push Checklist
 

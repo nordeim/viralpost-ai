@@ -27,6 +27,10 @@ export const ERR = {
   // login used to hand-build its own (bypassing fail()) while the
   // siblings shipped no header at all. The optional param keeps the
   // zero-arg calls valid; the envelope shape is identical either way.
+  // THE ONE DELIBERATE EXCEPTION (noted session 10, F10-7): the verify
+  // route's VERIFICATION_LOCKED 429 sends NO Retry-After — that lockout
+  // lifts on RESEND (which resets the attempt counter), not on time, so
+  // any Retry-After value would be a lie to the client.
   RATE_LIMITED: (retryAfterSec?: number): NextResponse =>
     retryAfterSec === undefined
       ? fail("RATE_LIMITED", "Too many attempts. Try again later.", 429)

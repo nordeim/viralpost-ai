@@ -19,16 +19,21 @@ import { describe, expect, it } from "vitest";
 // The count ladder (re-anchored in the same commit whenever the suite
 // grows): s8 409/29 files → s9 442/31 files (+4 the F9-1 boot-env pins,
 // +2 the F9-9 role pins, +2 the F9-7 reset-funnel pins, +15 the F9-5
-// property suite, +10 this suite). The e2e census is unchanged at 48/8.
+// property suite, +10 this suite). s10: 463/32 files (+2 the F10-17
+// dev-origins pins, +5 the F10-1 palette-completion + census pins, +2 the
+// F10-11 siteUrl fallback pins, +4 the F10-11 boot-env shape pins, +1 the
+// F10-13 hashtag-window pin, +4 the F10-3 NOT_FOUND_LAYOUT pins, +3 the
+// F10-2 count-site pins below) and the
+// e2e 48 → 49 (+1 the F10-10 history-nav close pin).
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
 /** Vitest unit checks (tests/*.test.ts — the exact `bun run test` total). */
-const UNIT = 442;
+const UNIT = 463;
 /** Vitest suite files. */
-const SUITES = 31;
+const SUITES = 32;
 /** Playwright e2e checks (incl. the setup project's 1). */
-const E2E = 48;
+const E2E = 49;
 /** Playwright e2e spec files. */
 const E2E_SPECS = 8;
 /** Smoke ladder legs. */
@@ -114,5 +119,26 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
     expect(pad).toContain("Property tests (fast-check) on the generator contract");
     // and the suite itself is on disk (this file's own sibling)
     expect(read("tests/property.test.ts")).toContain("fast-check");
+  });
+
+  // Session-10 (F10-2): the three sites the s9 gate missed — the file-tree
+  // prose in README + PAD and the SKILL's OWN pre-ship checklist line all
+  // carried pre-s9 numbers while every table above them said the live
+  // counts (README was internally inconsistent: "29" vs its own "31"
+  // table row). The checklist item that exists to enforce lockstep was
+  // itself the stale site — pinned here now.
+  it("the README file-hierarchy line carries the live suite count", () => {
+    const readme = read("README.md");
+    expect(readme).toContain(`📂 tests/                  ${SUITES} unit suites + 📂 e2e/ (${E2E_SPECS} Playwright specs)`);
+  });
+
+  it("the PAD file-tree line carries the live suite count", () => {
+    const pad = read("Project_Architecture_Document.md");
+    expect(pad).toContain(`← ${SUITES} unit suites + e2e/ (${E2E_SPECS} specs)`);
+  });
+
+  it("the SKILL's pre-ship checklist carries the live counts (the lockstep enforcer, itself locked)", () => {
+    const skill = read("viralpost-ai_SKILL.md");
+    expect(skill).toContain(`Gate green at the exact counts (${UNIT} unit / ${E2E} e2e / ${SMOKE} smoke`);
   });
 });

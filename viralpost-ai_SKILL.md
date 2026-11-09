@@ -1,9 +1,9 @@
 ---
 name: viralpost-ai
 description: "The complete engineering skill for the ViralPost AI codebase: a Next.js 16 App Router + React 19 + TypeScript strict + Tailwind CSS 4 (CSS-first) + Prisma/SQLite clone of viralpostai.base44.app built as a functional superset with visual parity. Covers the deterministic generator engine, the quota counter, the scrypt/HMAC auth family, the catch-all 404 title architecture, the Tailwind v4 trap catalog, the WebGL/canvas effects, the three-tier test suite, and the parity-walk methodology. Every rule traces to something that actually happened in this repo."
-version: 1.5.0
-last_updated: 2026-11-09
-project_state: "Session-9 ship: lint 0/0 · tsc 0 · unit 442/442 (31 files) · build · smoke 15/15 · e2e 48/48 (8 specs) · census MATCH"
+version: 1.6.0
+last_updated: 2026-11-10
+project_state: "Session-10 ship: lint 0/0 · tsc 0 · unit 463/463 (32 files) · build · smoke 15/15 · e2e 49/49 (8 specs) · census MATCH"
 provenance: "Distilled at the session-2 remediation round (the /Dashboard parity audit) from the session-1 clone build and the session-2 audit. Scaffold lineage: the NEO-CRM template family's infrastructure seams (auth, db-path, rate-limit, the gate) — the domain is entirely ViralPost AI's."
 ---
 
@@ -318,7 +318,7 @@ bun run db:census                       # pristine: MATCH
 git status                              # no .env, *.key, db/*.db, logs
 ```
 
-- [ ] Gate green at the exact counts (409 unit / 48 e2e / 15 smoke — and
+- [ ] Gate green at the exact counts (463 unit / 49 e2e / 15 smoke — and
       the doc set carries the same numbers in the same commit).
 - [ ] Changed visual surfaces walked live against the reference at
       1280×800 AND 390×844, both auth states.
@@ -462,14 +462,17 @@ const SESSION_COOKIE = "viralpost_session";             // 7-day TTL, httpOnly, 
 | Session 5 (2026-11-09) | The docs-freshness audit: the session-tracking surfaces synced (this appendix, the frontmatter state, the README status table, the AGENTS plans map); DEPLOYMENT.md's env table gained the `VIRALPOST_*` hardening knobs (the reverse-proxy audience); captures 17/18; push #5 |
 | Session 6 (2026-11-09) | The clean-tree re-certification: the widened fresh-eyes pass (the session-1-era secondary docs, `scripts/`, the tool configs) found ZERO defects — the S3–S5 cure sequence exhausted the long tail; parity re-verified live (mobile menu open/close/navigate, /Tool, /login, /Dashboard, landing); captures 19/20; push #6 |
 | Session 7 (2026-11-09) | The dev-script feedback loop + the phantom-comment long tail: the dev script tee-returned request logs into the watched root — a self-sustaining ~3.3-loads/s Fast-Refresh reload loop under any open browser tab (A/B-verified live; the tee retired, the exact script form pinned by type-gate); the api.ts coercion-helper family (10 dead functions, zero callers) retired with its phantom CRM claims (THIRTEEN routes / twelve body routes / coercion-guards.test.ts); site.ts, not-found.tsx and not-found-body.tsx re-attributed to THIS repo’s evidence (the D-4 OG superset, the derived-title architecture, the e2e message pin); the description’s 405/141-char labels corrected to 170 (live re-verified byte-identical); the soft-nav-titles superset ledgered (the reference’s SPA leaves document.title stale on soft navigation); AGENTS maps the historical-record layer; captures 21/22; push #7 |
+| Session 10 (2026-11-10) | The dev-origin hydration lock + the palette re-pin completion + the phantom-reference tail: THE HEADLINE — dev opened at `http://127.0.0.1:3000` never hydrated (Next 16's blockCrossSiteDEV rejects the HMR WebSocket from the loopback origin with a bare `Unauthorized`; the page LOOKS loaded while the mobile menu and every client island sit inert — live root-caused via raw-socket probes; production immune) — cured by `allowedDevOrigins: ["127.0.0.1"]` (Next's documented bare-hostname knob) + the dev-origins source-pin suite + a live A/B; the v3 palette re-pin COMPLETED (F10-1: 11 used-but-unpinned steps found by an exhaustive census — green-700 computed v4's #008236 on the reference-parity callout text whose v3 render is #15803d; blue-600/700, red-700, emerald-600, rose-200, green-50/200, emerald-200, red-200, neutral-900 — all pinned at the v3 hexes) + THE MECHANICAL CENSUS PIN (design-tokens enumerates every color utility in src/ and fails on any pair without a @theme literal — the "every literal" invariant is now tested, not asserted); the malformed-NEXT_PUBLIC_SITE_URL brick cured (siteUrl falls back to the default on unparseable/non-http(s) input + the boot gate warns in dev AND prod — a schemeless typo used to 500 every route via the root layout's metadataBase); the menu closes on HISTORY navigation too (the adjust-during-render prev-pathname pattern + the e2e pin — "closes on route change" was click-only before); the hashtag window exercised (the seeded target varies 5-7 — the "5-8" contract was always exactly 5); the raw-anchor CTAs → Link (hero, the PT CTA, the footer Product column — soft nav like the navbar); NOT_FOUND_LAYOUT pinned (page-layout.ts cited a phantom test file while the 404 body had zero class pins); the toast-anatomy/type-gate CRM-lineage headers re-attributed (tabs.tsx/mobile-nav.tsx/sweep.ts never existed here); the three count sites the docs-counts gate missed (README tree, PAD tree, the SKILL's OWN §11 checklist) fixed + pinned; VERIFICATION_LOCKED's missing Retry-After documented as the deliberate exception (the lockout lifts on resend, not time); DEPLOYMENT.md gained the first-signup-admin rule; the dead dompurify override + a raw NUL byte in generator.test.ts retired; captures 27/28; push #10 |
 | Session 9 (2026-11-09) | The rate-limiter trust-default warning + the phantom-claim retirement + the docs-counts gate: the unset-VIRALPOST_PROXY_HOPS production boot warning (F9-1 HIGH — the direct-exposure XFF-rotation hazard, the NEXT_PUBLIC_SITE_URL warn precedent, TDD +4 pins); the signup role "rep"→"user" CRM relic cured (the schema's documented vocabulary, pinned); the reset funnel's read-path DB-outage honesty (P2024/P2028 → 503 on the reads, the bare re-throw → ERR.INTERNAL, pinned); the phantom property-suite claim made TRUE (tests/property.test.ts — 15 fast-check properties over the generator contract + the fixed-window limiter; the PAD's claim and rate-limit.ts's citation now point at a real file); contact/generate joined the sweep family (the unbounded-bucket gap); the dead-code retirement (src/types module, resetLive, the unused tw-animate-css dep — extractHashtags KEPT: the type gate caught the audit's zero-caller error, it has a test caller); the phantom provider claims reworded to the documented wire-in point (GENERATOR_PROVIDER/OPENAI_API_KEY read nowhere); DEPLOYMENT.md rewritten for ViralPost AI (it still described ORBITAL — wrong name, stale 29/41 route census, the retired pre-boot-gate AUTH_SECRET semantics); the @theme-inline doc drift cured (six sites → @theme, the code + pin's own form); the neo-crm docs-counts pattern ADOPTED (tests/docs-counts.test.ts — every live-tense count site under the unit gate; the 450→455→457 badge genus retired mechanically; badge now 490 = 442 unit + 48 e2e); the stale scaffold-comment sweep (next.config uploads, tsconfig sweep/.jsx, .gitignore walk5x, db-census CRM prose, the navbar transition-class overstatement); captures 25/26; push #9 |
 | Session 8 (2026-11-09) | The live OG-parity discovery + the phantom-evidence provenance sweep: the reference NOW ships the full per-route OG/Twitter family (live census on all five routes — og:title mirrors the title scheme, the PLAIN 170-char description, absolute og:url, per-route canonical, the static image + PWA metas) SUPERSEDING dossier D-4; the clone's CRM-family OG-description prefix retired to match (TDD: 2 pins, the helper retired with a note); the 2026-10-01 census-claim long tail re-attributed (verification.ts/verify route's "eleven wrong-code submissions" that never ran here — the dossier's signup probe was platform-rejected; the headers census's nosniff-everywhere claim corrected to the live HTML-routes-only truth, ours kept as the documented superset; manifest/robots/sitemap re-verified live byte-for-byte; the verify-view claims marked Reasoned platform-family); site.ts's phantom test-file pointers fixed (the real pin home is page-titles.test.ts); typography re-fetch 79,690 bytes; README badge 450→455; captures 23/24; push #8 |
 
-## Appendix B — The Verification Ledger (session-2 ship; re-certified through session 9)
+## Appendix B — The Verification Ledger (session-2 ship; re-certified through session 10)
 
-- Gate: lint 0/0 · tsc 0 · unit 442/442 (31 files — the property suite
-  + the docs-counts gate joined at session 9) · build · smoke
-  15/15 · e2e 48/48 (8 specs) — all executed, all green.
+- Gate: lint 0/0 · tsc 0 · unit 463/463 (32 files — the property suite
+  + the docs-counts gate joined at session 9; the dev-origins,
+  palette-census, siteUrl-fallback, and NOT_FOUND_LAYOUT pins at
+  session 10) · build · smoke 15/15 · e2e 49/49 (8 specs) — all
+  executed, all green.
 - The title derivation: 13 unit pins + live curl across 11 path shapes
   (matching the reference's live table) + the e2e title assertion.
 - The route precedence after the catch-all: every real route 200
@@ -483,7 +486,12 @@ const SESSION_COOKIE = "viralpost_session";             // 7-day TTL, httpOnly, 
   re-verification each round — no reference drift since session 1.
   Session 7's re-certification ran on the FIXED dev script (the tee
   feedback loop cured): the mobile menu walk, /Tool, /login, /Dashboard,
-  sitemap/robots/manifest — all live-verified again.
+  sitemap/robots/manifest — all live-verified again. Session 10's
+  re-certification walked BOTH sides: the reference live (logged-in,
+  the mobile menu at 390×844, /Dashboard's derived title, the OG
+  family — no drift since session 9) and the clone's dev server via
+  localhost AND the loopback IP (the allowedDevOrigins cure verified
+  end-to-end: the menu opens at 127.0.0.1 post-fix).
 
 *End of skill. Produced by following the six-phase distillation process
 (to-distill-project-into-skill + distill-codebase-skill) over the

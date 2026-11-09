@@ -12,6 +12,7 @@ import {
   WandSparkles,
   Zap,
 } from "lucide-react";
+import Link from "next/link";
 
 import { Reveal } from "@/components/effects/reveal";
 import { GUMROAD_URL } from "./nav-config";
@@ -93,12 +94,14 @@ export function PtSection() {
         </div>
         <Reveal delay={100}>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
+            {/* Session-10 (F10-8): Link over the raw anchor — soft nav; the
+                rendered <a> is identical to the reference's. */}
+            <Link
               href="/Tool"
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold rounded-full hover:shadow-xl hover:shadow-teal-500/30 transition-all hover:-translate-y-0.5"
             >
               Acessar Grátis Agora
-            </a>
+            </Link>
             <a
               href={GUMROAD_URL}
               target="_blank"

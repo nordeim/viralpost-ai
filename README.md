@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-490%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-512%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,8 +52,8 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 31 files / 442 tests, node env, pure seams |
-| E2E | Playwright | 1.64 | 8 specs / 48 tests against the production build |
+| Unit tests | Vitest | 5.0 | 32 files / 463 tests, node env, pure seams |
+| E2E | Playwright | 1.64 | 8 specs / 49 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
 
@@ -96,7 +96,7 @@ flowchart TB
 │   │   └── 📂 ui/             toast
 │   └── 📂 lib/                the pure seams (generator, counter, auth,
 │                              rate-limit, db-path, site, route-title, …)
-├── 📂 tests/                  29 unit suites + 📂 e2e/ (8 Playwright specs)
+├── 📂 tests/                  32 unit suites + 📂 e2e/ (8 Playwright specs)
 ├── 📂 scripts/                smoke-test.sh, census, prisma-env
 ├── 📂 docs/                   plans, reference investigation, screenshots
 ├── 📂 skills/                 the owner's skill catalog (not app code)
@@ -141,8 +141,8 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (31 files / 442 tests)
-bun run test:e2e        # Playwright e2e (8 specs / 48 tests) — needs bun run build first
+bun run test            # Vitest unit suite (32 files / 463 tests)
+bun run test:e2e        # Playwright e2e (8 specs / 49 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
 ```
@@ -217,9 +217,10 @@ the PostgreSQL swap.
 | Session 7 — the dev-script loop + phantom comments | ✅ done | The `dev` tee reload loop cured (A/B-verified, pinned); api.ts dead helpers retired; phantom CRM claims re-attributed (site.ts, not-found, 405/141→170); captures 21/22 |
 | Session 8 — the live OG parity + evidence provenance | ✅ done | The reference's per-route OG family discovered live (D-4 superseded) — the prefixed OG description retired to the plain paragraph (TDD, pinned); the 2026-10-01 phantom-census claims re-attributed (verify funnel, headers census, SEO routes, typography); README badge 450→455; captures 23/24 |
 | Session 9 — the rate-limiter trust warning + the docs-counts gate | ✅ done | The unset-`VIRALPOST_PROXY_HOPS` production boot warning (the direct-exposure XFF-rotation hazard); the signup `"rep"` role relic → the schema's `"user"`; the reset funnel's read-path outage honesty (503, never a bare 500); the property suite landed (fast-check over the generator + limiter contracts — the PAD claim made true); contact/generate joined the sweep family; the dead-code + phantom-provider retirement; DEPLOYMENT.md rewritten for ViralPost AI (was ORBITAL-era); the neo-crm docs-counts gate adopted (badge 490 = 442+48, unit-pinned); captures 25/26 |
+| Session 10 — the dev-origin hydration lock + the palette re-pin completion | ✅ done | The dev server at `127.0.0.1` never hydrated (Next 16 blocks the loopback origin's HMR socket → the mobile menu and every client island inert — live root-caused) — `allowedDevOrigins` cured it (pinned + live A/B); the v3 palette re-pin completed (11 unpinned steps, green-700 visibly drifted) + the mechanical color-census pin; the malformed-`NEXT_PUBLIC_SITE_URL` brick cured (fallback + boot warning); history-navigation menu close (e2e-pinned); the hashtag window exercised (5-7); CTAs → Link; NOT_FOUND_LAYOUT pinned; CRM-lineage test headers re-attributed; the three straggler count sites pinned; badge 512 = 463+49; captures 27/28 |
 
-Gate at the session-9 ship: lint 0/0 · tsc 0 · unit 442/442 · build ·
-smoke 15/15 · e2e 48/48.
+Gate at the session-10 ship: lint 0/0 · tsc 0 · unit 463/463 · build ·
+smoke 15/15 · e2e 49/49.
 
 ## License
 

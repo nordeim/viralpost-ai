@@ -9,7 +9,18 @@
 // rule runs in reverse this round: the code disagrees with the repo's own
 // distilled doctrine — so the code is what gets fixed.
 //
-// The audit's finding register (each verified live against the source):
+// TEMPLATE-FAMILY LINEAGE NOTE (re-attributed session 10, F10-4 — the
+// F8-6 precedent): the session numbers and the scripts/sweep.ts
+// citations below describe the NEO-CRM tree this battery was authored
+// against. In THIS tree scripts/ holds census, prisma-env, smoke-test
+// and install_packages — no sweep.ts — and the pins below assert the
+// POST-fix state that carried over with the battery (ignoreBuildErrors
+// unset, full strictness, one lockfile), which is exactly this repo's
+// live config. The historical narration stays for provenance; nothing
+// in it describes a file that exists here.
+//
+// The audit's finding register (each verified live against the source,
+// in the CRM tree):
 //   F-174a  next.config.ts set typescript.ignoreBuildErrors: true — the
 //           build was NOT a type gate; a planted type error compiled
 //           GREEN into the deployable artifact (reproduced live at this
@@ -21,10 +32,9 @@
 //   F-174b  tsconfig.json carried noImplicitAny: false — weakened strict
 //           mode (the report §9.2: "From digma: enable full TS
 //           strictness"). The flip probe surfaced exactly THREE
-//           implicit-any stragglers repo-wide — scripts/sweep.ts:862
-//           (find = (k)) + :873 (union = (x, y)) against a bare new
-//           Map() — the inline twin of the FULLY-TYPED pure seam at
-//           line 607. The entire src/ tree was already clean.
+//           implicit-any stragglers repo-wide — in the CRM's
+//           scripts/sweep.ts (its find/union helpers against a bare new
+//           Map()). The entire src/ tree was already clean.
 //   F-174c  Two lockfiles committed (bun.lock + package-lock.json) — the
 //           s61/s62 §16ba npm-world-parity rule, superseded by the new
 //           skill's Appendix A lesson 14: "Two lockfiles in one repo is
@@ -66,9 +76,9 @@ describe("session-174: THE TYPE-GATE HARDENING (the build fails on type errors)"
 
   it("tsconfig.json runs FULL strictness — strict true, no noImplicitAny override (F-174b, the digma graft)", () => {
     // strict: true stays; the noImplicitAny: false escape hatch is
-    // retired. The flip surfaced exactly three stragglers repo-wide
-    // (scripts/sweep.ts — the union-find inline twin); the src/ tree was
-    // already clean, so the override protected nothing but the stragglers.
+    // retired. (In the CRM tree the flip surfaced three stragglers in
+    // its scripts/sweep.ts; THIS src/ tree was already clean, so the
+    // override protected nothing — the lineage note above.)
     const cfg = tsconfig();
     expect(cfg).toMatch(/"strict"\s*:\s*true/);
     expect(cfg).not.toMatch(/"noImplicitAny"\s*:/);

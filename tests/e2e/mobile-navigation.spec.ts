@@ -31,6 +31,28 @@ test("menu links navigate and the menu closes on route change", async ({ page })
   await expect(page.getByRole("button", { name: "Close menu" })).toHaveCount(0);
 });
 
+test("history navigation closes the open menu too (session-10, F10-10)", async ({ page }) => {
+  // "Closes on route change" used to ride ONLY the per-link onClick — a
+  // back/forward navigation (no click) left the menu open over the new
+  // page. The navbar now closes on any pathname change (the
+  // adjust-during-render doctrine), so the documented superset behavior
+  // holds for the browser's own navigation affordances.
+  await page.goto("/");
+  // Walk to /Tool through the open menu (at phone width the desktop
+  // links are hidden — the menu is the only nav surface).
+  await page.getByRole("button", { name: "Open menu" }).click();
+  await page.getByRole("navigation").getByRole("link", { name: "Tool" }).click();
+  await page.waitForURL("**/Tool");
+  // Open the menu on /Tool, then leave via the browser's own back
+  // button — no link click fires.
+  await page.getByRole("button", { name: "Open menu" }).click();
+  await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
+  await page.goBack();
+  await page.waitForURL((url) => url.pathname === "/");
+  await expect(page.getByRole("button", { name: "Open menu" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Close menu" })).toHaveCount(0);
+});
+
 test("Escape closes the open menu (the a11y superset)", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "Open menu" }).click();

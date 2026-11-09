@@ -1,3 +1,151 @@
+Task ID: 10
+Agent: main (Z.ai)
+Task: The session-10 dev-origin hydration lock + palette re-pin
+completion + phantom-reference tail round — re-run the standing
+instruction against the post-session-9 tree (b325ef9): docs review,
+pristine-clone verification (the full baseline gate green at the
+documented counts after installing the Playwright chromium the fresh
+sandbox lacked), the comprehensive audit (web-application dimensions;
+every load-bearing finding hand-verified before planning), the neo-crm
+tech-stack-patterns re-review (nothing new to adopt — the docs-counts
+gate was session 9's adoption; its s213-217 semantic-prose censuses
+carry nothing transferable), the live reference parity walk (logged-in:
+the mobile menu at 390x844, /Dashboard, the OG family — no drift since
+session 9), the clone-side dev walk, the TDD cures, the gate, dev-server
+captures 27/28, push #10 to main via the SSH wrapper.
+
+Work Log:
+- THE HEADLINE FINDING (F10-17, HIGH — live, reproduced, root-caused):
+  the dev server opened at http://127.0.0.1:3000 NEVER HYDRATES. Next
+  16's blockCrossSiteDEV (default allowlist: localhost + subdomains +
+  the start hostname) rejects the HMR WebSocket upgrade from the
+  127.0.0.1 origin with a bare "Unauthorized" body — not even a status
+  line (Chromium logs ERR_INVALID_HTTP_RESPONSE) — while the page's
+  HTML/chunks/CSS all load (same-origin sec-fetch passes), so the page
+  LOOKS fine while the Turbopack dev client silently never boots and
+  React never attaches: the mobile menu and EVERY client island (the
+  generator, the login form, the toasts) render as inert SSR with ZERO
+  console errors. Root-caused by raw-socket probes (Origin
+  127.0.0.1:3000 -> "Unauthorized"; Origin localhost:3000 -> clean
+  101), confirmed in BOTH available browsers (agent-browser's Chrome
+  156 and Playwright's chromium 1248) under BOTH `bun run dev` and
+  `node next dev`; production is immune (the block is dev-only — the
+  e2e suite's 5/5 mobile-navigation pins run against the standalone
+  build). This is the most plausible root cause of the owner's
+  standing "mobile menu must work" concern: an operator (or agent)
+  opening dev via the loopback IP sees a dead menu. CURED by TDD
+  (+2 RED pins, the new tests/dev-origins.test.ts):
+  allowedDevOrigins: ["127.0.0.1"] in next.config.ts — Next's
+  documented knob (BARE HOSTNAME entries; only the Origin's hostname
+  is matched) — then verified LIVE end-to-end: the raw WS probe now
+  answers 101 for the 127.0.0.1 origin, and a browser at
+  127.0.0.1:3000 hydrates and opens the menu
+- THE TAILWIND v4 BUG THIS ROUND (F10-1, MED): the v3 palette re-pin
+  was INCOMPLETE — an exhaustive census (color utilities in src/ vs
+  @theme literals) found 11 used-but-unpinned steps (green-50/200/700,
+  emerald-200/600, blue-600/700, rose-200, red-200/700, neutral-900)
+  compiling to v4's re-derived oklch palette; the oklch->sRGB
+  conversions quantified the drift (green-700 v4 #008236 vs the v3
+  #15803d the reference renders on the login/reset callout TEXT —
+  a DOM-extracted parity surface; blue-600 #155dfc vs #2563eb on the
+  login-card reset link — globals.css's OWN canonical example of the
+  bug class, sat unpinned). CURED by TDD (+5 pins): all 11 steps
+  pinned at the v3 hexes + THE MECHANICAL CENSUS PIN —
+  design-tokens.test.ts now enumerates every color utility used in
+  src/ and fails on any (family, step) without a @theme literal, so
+  the "every literal pair" invariant is TESTED, not asserted (a
+  future unpinned family fails `bun run test`)
+- THE ROBUSTNESS CURE (F10-11, LOW): a malformed NEXT_PUBLIC_SITE_URL
+  (a schemeless typo like "example.com") used to reach new URL() in
+  the ROOT LAYOUT's metadataBase and throw — EVERY route 500s from
+  one operator typo, the whole-site blast radius the boot gate exists
+  to prevent. CURED by TDD (+6 pins): siteUrl() falls back to the
+  dev default on input that does not parse as an absolute http(s)
+  URL, and the boot gate warns on the malformed shape in dev AND
+  production (malformed is always wrong — unlike the
+  unset/localhost family, a production-posture issue)
+- THE MENU-CLOSE GAP (F10-10, LOW): "closes on route change" rode
+  ONLY the per-link onClick — a history back/forward navigation (no
+  click) left the menu open over the new page. CURED: the navbar
+  closes on ANY pathname change via the adjust-during-render
+  prev-pathname pattern (the CLAUDE.md React-19 doctrine — never
+  useEffect(() => setState)) + the e2e pin (open menu -> goBack ->
+  closed, aria-expanded=false; e2e 48 -> 49)
+- THE HONEST-CLAIM CURES: F10-13 the hashtag window exercised — the
+  seeded target now varies 5-7 (the reference prompt's "5-8 relevant
+  hashtags" was satisfied only at exactly 5; +1 pin over 100 seeds);
+  F10-7 VERIFICATION_LOCKED's missing Retry-After documented as the
+  ONE deliberate exception (that lockout lifts on RESEND, not time —
+  a Retry-After value would be a lie); F10-6 DEPLOYMENT.md gained the
+  first-signup-admin rule (an unseeded production DB's first verified
+  signup becomes admin — seed before exposing)
+- THE PHANTOM-REFERENCE TAIL (F10-3/F10-4, the s7/s8/s9 genus
+  finished at the TEST layer): page-layout.ts cited a phantom
+  tests/page-layout.test.ts while NOT_FOUND_LAYOUT had ZERO unit
+  pins — the comment now cites the real pin home and
+  login-views.test.ts gained the 404 body's class-vocabulary pins
+  (+4); toast-anatomy's and type-gate's headers narrated the CRM
+  scaffold's reference walks (tabs.tsx/mobile-nav.tsx/sweep.ts,
+  walk22, the profile-page toast census) as THIS reference's
+  evidence — both re-attributed to template-family lineage (the F8-6
+  precedent), the claims restated for what actually holds here
+- THE SMALLER CURES: F10-8 the highest-traffic CTAs (hero "Try the
+  Tool", the PT CTA, the footer Product column) swapped raw <a> ->
+  next/link (DOM-identical output, soft nav like the navbar); F10-9
+  the dead dompurify override dropped (no dependency resolves it — a
+  scaffold relic implying a sanitization story that doesn't exist) +
+  bun install synced; F10-18 a raw NUL control byte inside
+  generator.test.ts's sanitizeIdea string literal replaced with the
+  \x00 escape (identical semantics; the file is portable text again —
+  rg had been treating it as binary); F10-5 CLAUDE.md's
+  symptom-table pointer fixed (the SKILL §10 + DEPLOYMENT §7, not
+  "AGENTS and PAD §10") + the no-hydration symptom row added
+- THE COUNT-LOCKSTEP GAP (F10-2, MED): three live-tense sites the
+  session-9 docs-counts gate missed still carried pre-s9 numbers —
+  README's file-hierarchy "29 unit suites" (its OWN table said 31:
+  internally inconsistent), the PAD's file tree "29", and the SKILL
+  §11 pre-ship checklist "409 unit" (the checklist that exists to
+  enforce lockstep, itself stale). All three fixed AND pinned
+  (docs-counts +3) — the genus is now mechanically retired at every
+  live-tense site. Badge 490 -> 512 = 463 unit + 49 e2e
+- THE PARITY RE-CHECK (live, logged-in on the reference — no drift
+  since session 9): the login funnel; /Home's landing; the mobile
+  menu at 390x844 (the same 5 destinations; the reference's panel
+  computes rgba(0,0,0,0) on dark AND light pages — the dead
+  bg-slate-900/98 class; our dark-panel light-page superset intact;
+  the reference's hamburger still ships NO aria — our labeled
+  superset holds); menu navigation + auto-close; the SPA
+  stale-title-on-soft-nav (our ledgered superset); /Dashboard's
+  derived title + 404 h1; the OG/Twitter family (the plain 170-char
+  description). Clone-side: the dev walk green via localhost
+  (routes, titles, the login/me round-trip, the generate
+  round-trip); the production-build walk green via agent-browser
+  (the menu opens — burger relabels "Close menu", expanded=true,
+  all 5 destinations)
+- THE STANDING-ITEM RE-VERIFICATION: DATABASE_URL="file:../db/custom.db"
+  with db/ at the repo root (the seam + fixtures hold; census MATCH);
+  the vitest + playwright configs unchanged and green; the SEO
+  surface re-verified (sitemap/robots/manifest byte-parity formats,
+  per-route pageMetadata, the catch-all 404 noindex);
+  .env.example <-> the six-knob contract both directions
+- DEFERRED/DECLINED (recorded in the plan): F10-12 ERR.FORBIDDEN/
+  NOT_FOUND kept (envelope vocabulary completeness — unlike resetLive
+  they document the 403/404 status family for future routes); F10-14
+  the reduced-motion rAF loop deferred (particle-engine timing risk
+  the e2e layer can't catch); F10-15 the toast store idiom kept (not
+  persisted state — the useSyncExternalStore rule doesn't apply);
+  F10-16 the build-time footer year accepted (static-site semantics);
+  the Next 16.4.2->16.4.6 patch upgrade deferred (out of
+  blast-radius for this round; the allowedDevOrigins cure doesn't
+  need it)
+
+Result: push #10 to main (the session-10 commit), the full gate green
+on the exact commit tree: lint 0/0 · tsc 0 · unit 463/463 (32 files,
++21) · build · smoke 15/15 · e2e 49/49 (8 specs, +1) · census MATCH.
+Captures 27/28 regenerated on the remediated tree (the dev-server
+landing 1280x800 + the OPEN mobile menu 390x844 — via 127.0.0.1,
+proving the dev-origin cure end-to-end), PIL-verified.
+
 Task ID: 9
 Agent: main (Z.ai)
 Task: The session-9 rate-limiter trust warning + phantom-claim retirement

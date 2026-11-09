@@ -2,36 +2,28 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-// Session-131 pins (the 131-c toast family walk — walk22). THE HEADLINE
-// the walk settled live: F-131c1 THE REFERENCE'S TOAST SYSTEM IS DOM-DEAD —
-// the bundle (md5 a70a637f…, stable across 103 probes) carries exactly four
-// Ix.* toast calls (all on the profile page: "Photo uploaded successfully" /
-// "Failed to upload photo" / "Profile updated successfully" / "Failed to
-// update profile"), but NO toast element ever renders — the document-wide
-// hunt (querySelectorAll("*") for sonner/toast/live/status/notification
-// markers) found ZERO on every trigger path (the 402 quota-exhausted upload,
-// the successful save-with-reload, the empty create, the Google click), and
-// a MutationObserver across the save window logged ZERO added nodes. Our
-// toast system is therefore a DELIBERATE SUPERSET construction (the
-// mobile-nav doctrine: the reference's own absence covered by our working
-// surface) — these pins freeze OUR family contract as censused live at
-// 1440×900 + 390×844 (walk22's ours phases + the PASS-2 battery).
+// Session-131 pins — TEMPLATE-FAMILY LINEAGE, re-attributed session 10
+// (F10-4, the F8-6 precedent): the header below originally narrated the
+// CRM scaffold's toast walk (its reference's profile page, its walk22
+// probe battery) as if it were THIS reference's evidence. It never was:
+// viralpostai.base44.app has no photo-upload profile page, and this
+// repo's own dossier (docs/reference-investigation.md) records no toast
+// surface on any route. What actually holds HERE:
 //
-// The two RED-first pins carry the session's fixes:
-//   * D-131a0 THE CLOSE-X HOVER TEXT — hover:text-foreground → the
-//     neutral-900 literal: the F-128c1 genus's FOURTH arm (s128 menu-item ·
-//     s129 outline · s130 ghost — the reference's stock interactive-hover ink
-//     #171717, expressed in our literal family as neutral-900 since the s80
-//     badge). With the reference surface DOM-dead (F-131c1) the fix is
-//     justified by the trio precedent + internal consistency: the toast X is
-//     the LAST live hover:text-foreground ride in src/ (the tabs.tsx
-//     underline arm is dead code no surface mounts; the mobile-nav.tsx arm
-//     is the deliberate fix-over-defect drawer).
-//   * D-131a1 THE DEAD-ANIMATION RETIREMENT — the scaffold-era
-//     data-[state=open]:animate-in family never applied (the ToastCard never
-//     sets data-state — live-censused tc.animName=none), the shadcn template
-//     leftover; retired per the D-124a7 dead-code doctrine (no reference
-//     surface to contract an animation against — F-131c1).
+//   * THIS reference ships no toast system on any censused surface —
+//     our toast is a DELIBERATE SUPERSET construction (the mobile-nav
+//     doctrine: the reference's own absence covered by our working
+//     surface). The superset justification stands; only the CRM-walk
+//     narration was phantom.
+//   * The neutral-900 hover literal (D-131a0) and the dead-animation
+//     retirement (D-131a1) were scaffold-era fixes whose SESSION
+//     NUMBERS (128–131) belong to the template family, not this repo's
+//     round history. The classes they pinned are still OUR live
+//     contract; the pins below freeze that contract as it ships.
+//   * The "tabs.tsx / mobile-nav.tsx" citations described the CRM
+//     tree's surfaces — neither file exists here (the s10 sweep
+//     verified; session-4's directory census). The toast X is simply
+//     the only hover:text-neutral-900 ride in this tree's src/.
 
 const root = path.resolve(import.meta.dirname, "..");
 const srcRaw = readFileSync(path.join(root, "src/components/ui/toast.tsx"), "utf8");
@@ -53,15 +45,15 @@ function regionAt(anchor: string, before: number, after: number): string {
   return src.slice(Math.max(0, i - before), i + after);
 }
 
-describe("session-131 parity pins (the toast family walk — F-131c1: the reference's toast system is DOM-DEAD; ours the deliberate superset)", () => {
-  it("the close X rides the neutral-900 hover literal — the F-128c1 genus's fourth arm (D-131a0)", () => {
+describe("the toast family contract (scaffold-lineage pins, re-attributed session 10 — ours the deliberate superset over a reference that ships no toast)", () => {
+  it("the close X rides the neutral-900 hover literal (the scaffold's interactive-hover ink, carried into our literal family)", () => {
     // the button block (the className rides the line above the aria-label)
     const x = regionAt('aria-label="Dismiss notification"', 400, 60);
     expect(x).toContain("hover:text-neutral-900");
     expect(x).not.toContain("hover:text-foreground");
   });
 
-  it("the card carries NO data-[state] animation arms — the inert scaffold string retired (D-131a1)", () => {
+  it("the card carries NO data-[state] animation arms — the inert scaffold string retired", () => {
     expect(src).not.toContain("data-[state=open]:animate-in");
     expect(src).not.toContain("data-[state=closed]:animate-out");
     expect(src).not.toContain("slide-in-from-bottom-4");

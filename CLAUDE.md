@@ -137,11 +137,11 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 31 files / 442 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 32 files / 463 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.
-- **E2E (Playwright)**: 8 specs / 48 tests against the production build,
+- **E2E (Playwright)**: 8 specs / 49 tests against the production build,
   own port + own `db/e2e.db`, one shared login via `storageState`,
   axe-core a11y assertions on every route at two widths.
 - **Smoke (bash)**: 15 legs against the standalone artifact with a
@@ -182,9 +182,13 @@ stable (upsert-by-email) so live sessions survive.
 
 - Toasts for user-facing failures; the generator ALWAYS settles (the
   reference hangs forever — our documented superset).
-- Symptom table lives in AGENTS.md and the PAD §10; the load-bearing
-  rows: db `Error code 14` (wrong anchor), login loops (`AUTH_SECRET`
-  changed), sudden 429s (fixed-window limiter).
+- Symptom table lives in `viralpost-ai_SKILL.md` §10 (the Debugging
+  Guide) and `docs/DEPLOYMENT.md` §7 (the production subset); the
+  load-bearing rows: db `Error code 14` (wrong anchor), login loops
+  (`AUTH_SECRET` changed), sudden 429s (fixed-window limiter), a dev
+  page that renders but never hydrates (open the dev server via
+  `localhost`, not `127.0.0.1` — `allowedDevOrigins` covers the
+  loopback IP since session 10).
 - Reproduce before trusting; classify the gate before fixing; never
   weaken a guardrail to pass one.
 

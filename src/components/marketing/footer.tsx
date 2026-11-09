@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
+import Link from "next/link";
 
 import { Logo } from "./logo";
 import { GUMROAD_URL, NAV_ROUTES, SOCIAL_LINKS } from "./nav-config";
@@ -50,9 +51,12 @@ export function Footer() {
             <ul className="space-y-2">
               {NAV_ROUTES.map((r) => (
                 <li key={r.id}>
-                  <a href={r.href} className="text-slate-400 text-sm hover:text-teal-400 transition-colors">
+                  {/* Session-10 (F10-8): Link over the raw anchor — soft nav
+                      like the navbar; the rendered <a> keeps the reference's
+                      own href spelling (the /Home alias 308-redirects). */}
+                  <Link href={r.href} className="text-slate-400 text-sm hover:text-teal-400 transition-colors">
                     {r.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

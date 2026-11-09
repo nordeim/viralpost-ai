@@ -6,7 +6,9 @@
  * base44 design language — borderless glass card with gradient accent
  * strip, centered logo column, slate inputs; slate-50 centered 404 with a
  * font-light 404 display). Every string is the single, test-pinned source
- * the pages read (tests/login-views.test.ts, tests/page-layout.test.ts).
+ * the pages read (tests/login-views.test.ts pins both families — the
+ * login card's structure and, since session-10, NOT_FOUND_LAYOUT's
+ * class vocabulary).
  *
  * Token mapping: slate-50 → page wash, slate-200 → line, slate-500 →
  * muted, slate-900 → foreground/primary.
