@@ -52,7 +52,7 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 29 files / 402 tests, node env, pure seams |
+| Unit tests | Vitest | 5.0 | 29 files / 405 tests, node env, pure seams |
 | E2E | Playwright | 1.64 | 8 specs / 48 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
@@ -141,7 +141,7 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (29 files / 402 tests)
+bun run test            # Vitest unit suite (29 files / 405 tests)
 bun run test:e2e        # Playwright e2e (8 specs / 48 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
@@ -211,7 +211,7 @@ the PostgreSQL swap.
 | Session 1 — the clone build | ✅ done | Full app, parity walk, 8 screenshots, first push |
 | Session 2 — the parity audit | ✅ done | The `/Dashboard` title decode, env rename, dep diet (−11), docs rebuild, the SKILL distillation |
 
-Gate at the session-2 ship: lint 0/0 · tsc 0 · unit 402/402 · build ·
+Gate at the session-3 ship: lint 0/0 · tsc 0 · unit 405/405 · build ·
 smoke 15/15 · e2e 48/48.
 
 ## License

@@ -3,7 +3,7 @@ name: viralpost-ai
 description: "The complete engineering skill for the ViralPost AI codebase: a Next.js 16 App Router + React 19 + TypeScript strict + Tailwind CSS 4 (CSS-first) + Prisma/SQLite clone of viralpostai.base44.app built as a functional superset with visual parity. Covers the deterministic generator engine, the quota counter, the scrypt/HMAC auth family, the catch-all 404 title architecture, the Tailwind v4 trap catalog, the WebGL/canvas effects, the three-tier test suite, and the parity-walk methodology. Every rule traces to something that actually happened in this repo."
 version: 1.0.0
 last_updated: 2026-11-09
-project_state: "Session-2 ship: lint 0/0 · tsc 0 · unit 402/402 (29 files) · build · smoke 15/15 · e2e 48/48 (8 specs) · census MATCH"
+project_state: "Session-3 ship: lint 0/0 · tsc 0 · unit 405/405 (29 files) · build · smoke 15/15 · e2e 48/48 (8 specs) · census MATCH"
 provenance: "Distilled at the session-2 remediation round (the /Dashboard parity audit) from the session-1 clone build and the session-2 audit. Scaffold lineage: the NEO-CRM template family's infrastructure seams (auth, db-path, rate-limit, the gate) — the domain is entirely ViralPost AI's."
 ---
 
@@ -79,7 +79,10 @@ without ≥ 16 chars), `NEXT_PUBLIC_SITE_URL` (build-time-inlined),
 `VIRALPOST_PROXY_HOPS`, `VIRALPOST_DISABLE_IN_APP_OTP`,
 `VIRALPOST_DISABLE_IN_APP_RESET`. The `VIRALPOST_` prefix is the
 session-2 rename from the template's `NEO_` — if you see a `NEO_` env
-name in a doc, the doc is stale.
+name in a doc, the doc is stale. The boot gate (`boot-env.ts`) warns on
+BOTH a typo'd `VIRALPOST_*` name and any legacy `NEO_*` spelling
+(session-3 closed the gap where the typo guard still scanned only the
+old prefix while the knobs had been renamed).
 
 ## §3 Bootstrapping & Configuration
 
@@ -315,7 +318,7 @@ bun run db:census                       # pristine: MATCH
 git status                              # no .env, *.key, db/*.db, logs
 ```
 
-- [ ] Gate green at the exact counts (402 unit / 48 e2e / 15 smoke — and
+- [ ] Gate green at the exact counts (405 unit / 48 e2e / 15 smoke — and
       the doc set carries the same numbers in the same commit).
 - [ ] Changed visual surfaces walked live against the reference at
       1280×800 AND 390×844, both auth states.
@@ -457,7 +460,7 @@ const SESSION_COOKIE = "viralpost_session";             // 7-day TTL, httpOnly, 
 
 ## Appendix B — The Verification Ledger (session-2 ship)
 
-- Gate: lint 0/0 · tsc 0 · unit 402/402 (29 files) · build · smoke
+- Gate: lint 0/0 · tsc 0 · unit 405/405 (29 files) · build · smoke
   15/15 · e2e 48/48 (8 specs) — all executed, all green.
 - The title derivation: 13 unit pins + live curl across 11 path shapes
   (matching the reference's live table) + the e2e title assertion.

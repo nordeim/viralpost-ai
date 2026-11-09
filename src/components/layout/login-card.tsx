@@ -86,8 +86,8 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
   // deliveries — the reset link the forgot-password response carries
   // (rendered in the sent view only when present) and the verification
   // code hint (signup/resend responses). Both degrade to nothing when a
-  // production deploy sets the NEO_DISABLE_* knobs — the sent card and
-  // the verify view render exactly as before.
+  // production deploy sets the VIRALPOST_DISABLE_* knobs — the sent card
+  // and the verify view render exactly as before.
   const [resetUrl, setResetUrl] = React.useState<string | null>(null);
   const [verifyCodeHint, setVerifyCodeHint] = React.useState("");
   // Session-11 (S11-P1) + session-21: the card's five in-place views.

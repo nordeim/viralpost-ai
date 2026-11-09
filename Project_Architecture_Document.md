@@ -143,7 +143,7 @@ shape; the reveal/particle/WebGL effects are dependency-free.
 - **Rationale:** Security hardening is the documented superset doctrine;
   the seam is the template's most valuable inheritance.
 - **Consequences:** More moving parts than a token in localStorage; all
-  battle-tested and pinned by 402+ unit checks.
+  battle-tested and pinned by 405+ unit checks.
 - **Alternatives rejected:** Mirroring localStorage auth (a downgrade);
   NextAuth/JWT libraries (more dependencies, less control).
 
@@ -500,6 +500,7 @@ in the test-pinned `src/lib/page-layout.ts`.
 | Passwords: scrypt + per-user salt + constant-time compare + timing equalizer | `src/lib/password.ts` (pure crypto seam) |
 | Sessions: HMAC-signed httpOnly cookie, lax, secure-in-prod, 7-day TTL, tokenVersion revocation | `src/lib/auth.ts` |
 | `AUTH_SECRET` ≥ 16 chars or production refuses to boot | `src/instrumentation.ts` → `boot-env.ts` (the boot gate — smoke leg 14) |
+| Boot flag-typo guard: unknown `VIRALPOST_*` knobs and legacy `NEO_*` spellings both warn at boot (the closed set is read verbatim) | `src/lib/boot-env.ts` (session-3, F3-1) |
 | Reset tokens: 32-byte, hashed at rest, single-use, atomic consume, 60-min TTL | `api/auth/reset-password` |
 | Forgot-password is no-enumeration | always-200 shape |
 | Auth routes rate-limited per IP with Retry-After; proxy-hop depth fails closed | `src/lib/rate-limit.ts` + `VIRALPOST_PROXY_HOPS` |
@@ -513,7 +514,8 @@ in the test-pinned `src/lib/page-layout.ts`.
 `password.ts` (scrypt/verify/equalizer), `auth.ts` (sign/verify sessions,
 cookie lifecycle), `rate-limit.ts` (fixed-window, client-key by proxy
 depth), `api.ts` (envelope + bounded reader), `boot-env.ts` (the boot
-gate), `verification.ts` (OTP TTL logic).
+gate + the dual-prefix flag-typo guard), `verification.ts` (OTP TTL
+logic).
 
 ### 6.3 Authentication & Authorization
 
@@ -542,7 +544,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 29 | 402 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 29 | 405 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 8 specs | 48 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -560,7 +562,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 402/48/15 and change together).
+(README/AGENTS/PAD/SKILL carry 405/48/15 and change together).
 
 ### 8.4 Pre-Push Checklist
 

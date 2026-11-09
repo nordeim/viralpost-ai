@@ -40,7 +40,6 @@ const nextConfig: NextConfig = {
       "README.md",
       "Project_Architecture_Document.md",
       "worklog.md",
-      "neo-crm-homepage.png",
       "dev.log",
       "bun.lock",
       "package-lock.json",

@@ -20,19 +20,19 @@
 //
 // WARN-THROW DISCIPLINE (the scandihaven posture): only the
 // forgeable-sessions case is fatal. The metadata-family misconfig
-// (NEXT_PUBLIC_SITE_URL) and the NEO_* toggle family warn — a bad
+// (NEXT_PUBLIC_SITE_URL) and the VIRALPOST_* toggle family warn — a bad
 // toggle must never take a working deployment down, and dev/test boot
 // SOFT (the DX posture unchanged: the DEV fallback stays documented in
 // auth.ts; NODE_ENV !== "production" never fatals).
 
-/** The closed NEO_* knob set (the six-knob contract's 3 server knobs). */
-export const KNOWN_NEO_VARS: ReadonlySet<string> = new Set([
+/** The closed VIRALPOST_* knob set (the six-knob contract's 3 server knobs). */
+export const KNOWN_VIRALPOST_VARS: ReadonlySet<string> = new Set([
   "VIRALPOST_PROXY_HOPS",
   "VIRALPOST_DISABLE_IN_APP_OTP",
   "VIRALPOST_DISABLE_IN_APP_RESET",
 ]);
 
-/** The values the NEO_DISABLE_* kill-switches actually read ("1" = disable). */
+/** The values the VIRALPOST_DISABLE_* kill-switches actually read ("1" = disable). */
 const DISABLE_KNOB_VALUES = new Set(["", "1"]);
 
 export interface BootEnvReport {
@@ -69,12 +69,32 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
     );
   }
 
-  // ---- The NEO_* family: the flag-typo guard (warn form) ----------------
+  // ---- The flag-typo guard (warn form) ---------------------------------
+  // Two prefixes, two hazards (session-3, F3-1 — the session-2 rename
+  // left this scan speaking the old NEO_ dialect while the knobs became
+  // VIRALPOST_*, so a mistyped VIRALPOST_ name silently no-oped):
+  //  - an UNKNOWN VIRALPOST_* key is the live typo hazard (the closed
+  //    set is read verbatim — a mistyped knob does nothing);
+  //  - ANY NEO_* key is a legacy spelling of the session-2 rename — the
+  //    code no longer reads it, so it is inert; the warning maps the
+  //    live VIRALPOST_* name where one exists.
+  // (NODE_ENV, DATABASE_URL and the NEXT_* family start with neither
+  //  prefix — they can never trip these scans.)
   for (const key of Object.keys(env)) {
-    if (!key.startsWith("NEO_") || key === "NODE_ENV") continue;
-    if (!KNOWN_NEO_VARS.has(key)) {
+    if (key.startsWith("VIRALPOST_") && !KNOWN_VIRALPOST_VARS.has(key)) {
       warnings.push(
-        `[boot] Unknown NEO_* environment variable ${key} — the known knobs are: ${[...KNOWN_NEO_VARS].join(", ")}. A typo here silently no-ops (the closed set is read verbatim).`,
+        `[boot] Unknown VIRALPOST_* environment variable ${key} — the known knobs are: ${[...KNOWN_VIRALPOST_VARS].join(
+          ", ",
+        )}. A typo here silently no-ops (the closed set is read verbatim).`,
+      );
+    } else if (key.startsWith("NEO_")) {
+      const mapped = `VIRALPOST_${key.slice(4)}`;
+      warnings.push(
+        KNOWN_VIRALPOST_VARS.has(mapped)
+          ? `[boot] Legacy NEO_* environment variable ${key} — the knob names were renamed NEO_* → VIRALPOST_* (session 2); the code reads the VIRALPOST_* spelling, so ${key} is inert here. Set ${mapped} instead.`
+          : `[boot] Legacy NEO_* environment variable ${key} — the knob family was renamed NEO_* → VIRALPOST_* (session 2); no knob maps to this name. The known knobs are: ${[
+              ...KNOWN_VIRALPOST_VARS,
+            ].join(", ")}.`,
       );
     }
   }

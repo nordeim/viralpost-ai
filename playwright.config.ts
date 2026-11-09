@@ -84,8 +84,11 @@ export default defineConfig({
       // Pinning the empty string makes the child server's responses
       // deterministic regardless of shell state (the config's own
       // N-69a "the dev server lies" family — here on the env axis).
-      NEO_DISABLE_IN_APP_OTP: "",
-      NEO_DISABLE_IN_APP_RESET: "",
+      // (Session-3, F3-2: the pins were still the dead session-2 NEO_*
+      // spellings — the code reads VIRALPOST_* — which had silently
+      // disarmed this very guard.)
+      VIRALPOST_DISABLE_IN_APP_OTP: "",
+      VIRALPOST_DISABLE_IN_APP_RESET: "",
     } as Record<string, string>,
   },
 });

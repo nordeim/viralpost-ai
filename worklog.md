@@ -1,3 +1,62 @@
+Task ID: 3
+Agent: main (Z.ai)
+Task: The session-3 rename-completion audit — re-run the standing
+instruction against the post-session-2 tree (a822770): docs review,
+fresh codebase audit with the repo skills, parity re-verification,
+the TDD cures for the rename's incomplete tail, the gate, captures,
+push #3 to main via the SSH wrapper.
+
+Work Log:
+- The intake: the workspace pulled to a822770 (the owner's
+  session_2.md log on top of the session-2 ship 1e6a341 — which HAD
+  been pushed; the session-2 summary's "uncommitted" state was
+  mid-flight, the round actually completed: screenshots 09–12 + the
+  commit + the push all landed)
+- The docs validated against the tree (all five in count-lockstep:
+  29 files/402 unit · 8 specs/48 e2e · 9 runtime deps — each verified
+  live); the skills for the round: web-application (§2 env contract +
+  §15 gate) + security-and-hardening (the three-tier boundary)
+- THE AUDIT'S FINDING — the session-2 `NEO_*` → `VIRALPOST_*` rename
+  was incomplete at the GUARD layer: the knob values were renamed but
+  the machinery protecting them still spoke the old dialect. Three
+  live defects: (F3-1, HIGH) boot-env's flag-typo guard still scanned
+  only the `NEO_` prefix — a typo'd `VIRALPOST_DISABLE_INAPP_OTP`
+  silently no-opped with NO warning, defeating the guard's entire
+  purpose; (F3-2, HIGH) playwright.config's D-195a3 e2e-isolation
+  pins still set the dead `NEO_DISABLE_*` spellings — the pin was
+  inert against exactly the hazard it exists to prevent; plus the
+  `KNOWN_NEO_VARS` export name, stale comments, the catch-all page's
+  dead generateMetadata (probe-verified discarded by notFound() — a
+  session-2 iteration leftover), the neo-crm-homepage.png exclude
+  relic, and the local .env's stale spellings
+- THE CURES (TDD): the guard rewritten as a dual-prefix scan — unknown
+  `VIRALPOST_*` keys get the typo warning, ANY `NEO_*` key gets the
+  legacy warning that maps its live spelling (`NEO_PROXY_HOPS` → "Set
+  VIRALPOST_PROXY_HOPS instead"); RED first (3 failing pins on the old
+  guard) then GREEN (23/23); the export renamed
+  `KNOWN_NEO_VARS` → `KNOWN_VIRALPOST_VARS`; the playwright pins
+  re-armed with the live spellings; the dead page metadata deleted
+  (its comment now attributes the title to the segment layout — the
+  architecture that actually renders it)
+- THE VERIFICATION: lint 0/0 · tsc 0 · unit 405/405 (29 files, +3 net:
+  the typo-form, the legacy-mappable, the legacy-unmappable pins)
+  · build · smoke 15/15 (leg 06 re-proves the derived title) · e2e
+  48/48 (the mobile-navigation 5/5 + seo 7/7 among them) · census
+  MATCH · the live production curl: /Dashboard → 404 + "Dashboard |
+  ViralPost AI" + noindex, and foo-bar/userSettings/page2/nonexistent
+  all byte-matching the reference's scheme; the new capture 14 is
+  PIXEL-IDENTICAL to session-2's 09 (0.0000% diff — the layout-only
+  title path renders byte-for-byte the same 404)
+- THE PARITY RE-CHECK: the reference spot-checked live (landing
+  structure, the 390×844 mobile menu, /Dashboard's 404 + derived
+  title) — no drift since session 2
+- SHIPPED: the remediated tree + the five docs in lockstep + the plan
+  doc (docs/plans/2026-11-09-session3-rename-completion-audit.md) +
+  captures 13/14, committed to main and pushed via
+  docs/ssh_git_wrapper_v3.py
+
+---
+
 Task ID: 2
 Agent: main (Z.ai)
 Task: The session-2 parity-audit round — the /Dashboard decode (the

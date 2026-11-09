@@ -64,7 +64,9 @@ smoke → e2e. There is no hosted CI — the local gate is the only gate.
   the limiter is the wall.
 - **Auth env names are `VIRALPOST_*`**: `VIRALPOST_PROXY_HOPS`,
   `VIRALPOST_DISABLE_IN_APP_OTP`, `VIRALPOST_DISABLE_IN_APP_RESET`
-  (renamed from the CRM template's `NEO_*` in session 2).
+  (renamed from the CRM template's `NEO_*` in session 2). The boot gate
+  (`boot-env.ts`) warns on BOTH a typo'd `VIRALPOST_*` name AND any
+  legacy `NEO_*` spelling (it maps the live name for you).
 - **The marketing pages are public** — no session resolution in the
   `(site)` layout (the reference serves them to guests and logged-in
   visitors alike). `/login` also renders for authenticated visitors.
@@ -73,7 +75,7 @@ smoke → e2e. There is no hosted CI — the local gate is the only gate.
 
 ## Testing conventions
 
-- Unit tests live in `tests/*.test.ts` (29 files, 402 tests) — Vitest,
+- Unit tests live in `tests/*.test.ts` (29 files, 405 tests) — Vitest,
   node env, `@` alias; TDD at the pure seams.
 - Several suites are **source-pinned** (they read source files textually
   to pin contracts: page-titles, design-tokens, typography) — when you

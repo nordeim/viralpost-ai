@@ -14,11 +14,15 @@
 //                   metadata/robots/sitemap/OG family would advertise
 //                   http://localhost:3000; dev is exempt — localhost IS
 //                   the dev origin)
-//   NEO_* unknown   any NEO_-prefixed var outside the closed 3-knob set
-//                   -> WARNING (the scandihaven flag-typo guard, warn
-//                   form: a mistyped kill switch silently no-ops today)
-//   NEO_DISABLE_*   values outside ""/"1" -> WARNING (every other value
-//                   silently behaves as unset)
+//   VIRALPOST_* unknown  any VIRALPOST_-prefixed var outside the closed
+//                   3-knob set -> WARNING (the flag-typo guard: a
+//                   mistyped knob silently no-ops — the code reads the
+//                   closed set verbatim)
+//   NEO_* legacy    any NEO_-prefixed var -> WARNING (the session-2
+//                   rename's old spellings are inert; the warning maps
+//                   the live VIRALPOST_* name where one exists)
+//   VIRALPOST_DISABLE_*  values outside ""/"1" -> WARNING (every other
+//                   value silently behaves as unset)
 //   VIRALPOST_PROXY_HOPS  unparsable/negative -> WARNING (the rate-limit seam
 //                   already fails CLOSED onto 1 — the boot warning adds
 //                   the visibility)
@@ -34,7 +38,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { applyBootEnvReport, bootEnvCheck, KNOWN_NEO_VARS } from "../src/lib/boot-env";
+import { applyBootEnvReport, bootEnvCheck, KNOWN_VIRALPOST_VARS } from "../src/lib/boot-env";
 
 const root = join(import.meta.dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
@@ -113,20 +117,42 @@ describe("session-170 (WP-3): the NEXT_PUBLIC_SITE_URL misconfig warning", () =>
   });
 });
 
-describe("session-170 (WP-3): the NEO_* flag-typo guard (the scandihaven port, warn form)", () => {
+describe("session-170 (WP-3) + session-3 (F3-1): the flag-typo guard (the scandihaven port, warn form)", () => {
   it("the closed known set is the documented 3-knob family", () => {
-    expect([...KNOWN_NEO_VARS].sort()).toEqual([
+    expect([...KNOWN_VIRALPOST_VARS].sort()).toEqual([
       "VIRALPOST_DISABLE_IN_APP_OTP",
       "VIRALPOST_DISABLE_IN_APP_RESET",
       "VIRALPOST_PROXY_HOPS",
     ]);
   });
 
-  it("an UNKNOWN NEO_* var warns (a mistyped kill switch would silently no-op)", () => {
-    const report = bootEnvCheck(env({ NEO_DISABLE_INAPP_OTP: "1" })); // the typo form
+  it("an UNKNOWN VIRALPOST_* var warns (a mistyped kill switch would silently no-op — the session-3 gap)", () => {
+    const report = bootEnvCheck(env({ VIRALPOST_DISABLE_INAPP_OTP: "1" })); // the typo form
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("VIRALPOST_DISABLE_INAPP_OTP");
+    expect(report.warnings[0]).toContain("known knobs");
+  });
+
+  it("a LEGACY NEO_* knob warns with the rename hint and its live spelling (the code reads VIRALPOST_*)", () => {
+    const report = bootEnvCheck(env({ NEO_PROXY_HOPS: "2" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("NEO_PROXY_HOPS");
+    expect(report.warnings[0]).toContain("VIRALPOST_PROXY_HOPS");
+    expect(report.warnings[0]).toContain("instead");
+  });
+
+  it("an unmappable legacy NEO_* name gets the general known-knob guidance", () => {
+    const report = bootEnvCheck(env({ NEO_DISABLE_INAPP_OTP: "1" })); // legacy prefix + the typo form
     expect(report.warnings).toHaveLength(1);
     expect(report.warnings[0]).toContain("NEO_DISABLE_INAPP_OTP");
-    expect(report.warnings[0]).toContain("known");
+    expect(report.warnings[0]).toContain("known knobs");
+  });
+
+  it("unrelated env names (NODE_ENV, DATABASE_URL, NEXT_*) never trip the prefix scans", () => {
+    const report = bootEnvCheck(
+      env({ NODE_ENV: "production", DATABASE_URL: "file:../db/custom.db", NEXT_RUNTIME: "nodejs" }),
+    );
+    expect(report.warnings).toHaveLength(0);
   });
 
   it("the KNOWN knobs at their documented values: no warning", () => {
