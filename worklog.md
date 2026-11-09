@@ -1,3 +1,68 @@
+Task ID: 4
+Agent: main (Z.ai)
+Task: The session-4 phantom-reference audit — re-run the standing
+instruction against the post-session-3 tree (909d84c): docs review,
+fresh audit (web-application + security-and-hardening), reference
+parity re-verification, the commentary-relic cures, the gate, DEV-SERVER
+captures (the standing ask this round), push #4 to main via the SSH
+wrapper.
+
+Work Log:
+- The intake: the workspace pulled to 909d84c (the owner's session_3.md
+  log on top of the session-3 ship bce6e1b); the session-3 plan +
+  execution record validated against the tree (15 files, all as
+  documented); baseline gates green (lint 0/0 · tsc 0 · unit 405/405)
+- THE AUDIT (web-application §15 + security-and-hardening): the
+  session-3 changes re-audited through edge cases (prefix
+  disjointness, NODE_ENV/NEST_* non-collisions — clean); the
+  error-boundary family + chunk-recovery + health + manifest surfaces
+  read in full (solid); a doc-reference integrity sweep found every
+  docs/*.md pointer in src/tests resolves on disk — but the SPEC-FILE
+  cross-references exposed the round's findings
+- THE FINDINGS: (F4-1, MED) typography.test.ts claimed computed-style
+  parity was "pinned by the e2e typography checks (tests/e2e/
+  crm.spec.ts)" — a PHANTOM FILE (no e2e spec has ever asserted
+  fonts; verified by rg); (F4-2, LOW) vitest.config.ts described
+  the unit surface as "the CRM's seams (…currency/date formatting,
+  CSV codec…)" — the template's inventory, not this app's; (F4-3,
+  LOW) e2e-port.ts claimed "both consumers import this module" —
+  the 401-probe consumer died with the CRM spec family, only
+  playwright.config imports it; (F4-4, LOW) the boot-env fixture
+  https://crm.example.com; (F4-5, INFO — left intentionally) the
+  login-views pre-s142 provenance (same class as type-gate's
+  evaluation-report citation)
+- THE CURES: the typography comment now states the truth (THIS SUITE
+  IS the typography contract; the e2e layer pins titles/SEO/a11y,
+  never font rendering); vitest.config.ts describes the actual
+  surface (db-path, auth, generator, route-title, rate limiting,
+  login/reset views, boot gate, sitemap/SEO); e2e-port.ts updated to
+  the single-consumer shape; the fixture → viralpost.example.com
+- THE VERIFICATION: full gate on the exact tree — lint 0/0 · tsc 0 ·
+  unit 405/405 · build · smoke 15/15 · e2e 48/48 · census MATCH
+- THE DEV-CAPTURE SAGA (the round's live debugging): the mobile-menu
+  capture fought back — first the agent-browser daemon thrashed
+  (respawning the page mid-click), then the click itself timed out on
+  a "visible, enabled, stable" button. ROOT CAUSE 1: the full-gate
+  `bun run build` had overwritten .next/ UNDER the running dev server
+  — it recompiled/fast-refreshed in an endless loop (4,300 log lines
+  of churn); a clean restart silenced it. ROOT CAUSE 2 (the real
+  blind spot): the burger RELABELS on open (navbar.tsx:
+  aria-label={open ? "Close menu" : "Open menu"}) — every
+  "did it open?" probe through the "Open menu" locator was doomed by
+  construction; the earlier "button vanished" readings were the
+  RELABELED button all along. The cure: verify through the nav links
+  (the e2e contract) — captured clean on the first honest attempt
+- THE PARITY RE-CHECK: the reference spot-checked live (landing
+  mobile + the 5-destination menu · /Tool's full content · /login's
+  auth card · /Dashboard's 404 + derived title) — no drift since
+  session 3
+- SHIPPED: the remediated tree + captures 15/16 (dev-server landing
+  desktop + the open mobile menu, both PIL-verified non-blank) + the
+  plan doc (docs/plans/2026-11-09-session4-phantom-reference-audit.md)
+  + worklog, committed to main and pushed via docs/ssh_git_wrapper_v3.py
+
+---
+
 Task ID: 3
 Agent: main (Z.ai)
 Task: The session-3 rename-completion audit — re-run the standing

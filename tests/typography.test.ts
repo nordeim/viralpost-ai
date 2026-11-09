@@ -21,8 +21,11 @@ import { describe, expect, it } from "vitest";
 // the wrong typeface.
 //
 // These tests parse the layout/globals sources so the contract is pinned
-// at the unit layer without a browser; the computed-style parity is pinned
-// by the e2e typography checks (tests/e2e/crm.spec.ts).
+// at the unit layer without a browser — THIS SUITE IS THE TYPOGRAPHY
+// CONTRACT (session-4, F4-1: an earlier revision of this comment pointed
+// at "the e2e typography checks (tests/e2e/crm.spec.ts)" — a phantom
+// from the template; the e2e layer pins titles/SEO/a11y/DOM, never font
+// rendering, and no spec has ever asserted computed font styles).
 
 const css = readFileSync(
   path.resolve(import.meta.dirname, "../src/app/globals.css"),

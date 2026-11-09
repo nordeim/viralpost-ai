@@ -49,7 +49,7 @@ type Env = Record<string, string | undefined>;
 const env = (over: Env = {}): Env => ({
   NODE_ENV: "production",
   AUTH_SECRET: "a".repeat(32),
-  NEXT_PUBLIC_SITE_URL: "https://crm.example.com",
+  NEXT_PUBLIC_SITE_URL: "https://viralpost.example.com",
   DATABASE_URL: "file:../db/custom.db",
   ...over,
 });
