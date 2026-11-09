@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "./vendor/tw-animate.css";
 
 /* THE HOYVER-VARIANT UN-WRAP (carried from the template's session-80
    doctrine — the operator's standing Tailwind v4 concern). Tailwind v4
@@ -17,11 +16,16 @@
    Rules (validated against docs/Tailwind-V4-Validation-Report.md):
    - No tailwind.config.js — everything lives in @theme.
    - No var() chains inside @theme — semantic tokens are LITERAL hex values.
-   - tw-animate-css provides the Radix data-[state=open] animations.
    - The marketing surfaces consume the STOCK palette classes directly
      (bg-slate-900, from-teal-500, text-amber-300 …) exactly like the
-     reference; the semantic tokens below exist for the shadcn-style UI
-     kit (login card inputs, toasts, the 404 shell).
+     reference; the semantic tokens below exist for the UI-kit surfaces
+     that read them (login card, toasts, the 404/error shells).
+   - Session-11 (F11-2/F11-5): the vendored tw-animate.css is RETIRED —
+     its only consuming class family (the scaffold-era data-[state]
+     animations) died with the session-2 Radix diet, and the vendor file
+     shipped dead @keyframes/@property bytes in every build since. The
+     dead semantic tokens/utilities/keyframes retired with it (pinned by
+     tests/design-tokens.test.ts's dead-token census).
 --------------------------------------------------------------------------- */
 
 @theme {
@@ -32,25 +36,22 @@
      on amber-400/10; stock form buttons rgb(15,23,42) = slate-900). */
   --color-primary: #0f172a; /* slate-900 — the stock button face (login) */
   --color-primary-hover: #1e293b; /* slate-800 */
-  --color-primary-foreground: #fafafa;
-  --color-brand: #14b8a6; /* teal-500 — the marketing accent */
-  --color-brand-strong: #0d9488; /* teal-600 */
 
   /* Neutrals */
   --color-background: #ffffff;
-  --color-surface: #ffffff;
   --color-foreground: #0f172a;
   --color-muted: #64748b;
   --color-subtle: #94a3b8;
   --color-line: #e2e8f0; /* slate-200 — the reference's border family */
-  --color-line-strong: #cbd5e1;
   --color-line-soft: #f1f5f9;
   --color-ring: #0f172a;
-
-  /* Stock-primitive inks (typed input text + placeholders, computed on the
-     reference's login inputs: text rgb(15,23,42), placeholder slate tones). */
-  --color-ink: #0f172a;
-  --color-muted-ink: #94a3b8;
+  /* Session-11 (F11-1): the OTP inputs' `border-input` class is the
+     reference's own DOM vocabulary (the base44/shadcn token name) — it
+     compiled to NOTHING while --color-input was undefined (the rendered
+     border rode the base-layer fallback below). Pinned at the exact hex
+     it always rendered (#e2e8f0 = slate-200 = the reference's computed
+     input border). */
+  --color-input: #e2e8f0;
 
   /* Shadow scale (the v4 rename bug, re-pinned): v4 renamed the scale
      (v3 shadow-sm → v4 shadow-xs), so v4's default `shadow-sm` compiles
@@ -63,15 +64,11 @@
      (8px); the reference's glass surfaces compute blur(4px). */
   --blur-sm: 4px;
 
-  /* Feedback */
+  /* Feedback (the toast icons' inks — session-11: the -soft variants and
+     the warning/info family retired with the dead-token census; every
+     survivor has a live consumer). */
   --color-success: #10b981;
-  --color-success-soft: #ecfdf5;
-  --color-warning: #f59e0b;
-  --color-warning-soft: #fffbeb;
   --color-danger: #ef4444;
-  --color-danger-soft: #fef2f2;
-  --color-info: #06b6d4;
-  --color-info-soft: #ecfeff;
 
   /* Typography — the reference ships ZERO webfonts (document.fonts empty;
   every surface computes Tailwind's stock default stack — byte-extracted
@@ -79,10 +76,6 @@
   change cannot drift it. */
   --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-
-  /* Radius scale */
-  --radius-card: 1rem;
-  --radius-button: 0.75rem;
 
   /* THE V3 PALETTE RE-PIN (the template's session-88 doctrine, carried
      over): Tailwind v4's default palette is NOT v3's palette expressed in
@@ -160,19 +153,11 @@
   --color-neutral-100: #f5f5f5;
   --color-neutral-900: #171717;
 
-  /* Animations for Radix primitives + the marketing motion vocabulary. */
-  --animate-fade-in: fade-in 0.2s ease-out;
+  /* Animations — session-11 (F11-5): the motion vocabulary is EXACTLY the
+     hero portrait's float. The fade-in/reveal keyframes and their tokens
+     retired (zero consumers: Reveal animates through inline-style
+     transitions, never animate-reveal — the old comment claimed otherwise). */
   --animate-float: float 6s ease-in-out infinite;
-  --animate-reveal: reveal 0.5s cubic-bezier(0.21, 1.02, 0.73, 1) forwards;
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
 
   /* The hero portrait's gentle bob (the reference's framer-motion float —
      translateY loop). */
@@ -183,20 +168,6 @@
     }
     50% {
       transform: translateY(4px);
-    }
-  }
-
-  /* The scroll-reveal entrance (the reference's whileInView y:20 → 0
-     fade) — applied by the Reveal component once the element enters the
-     viewport; `forwards` holds the settled state. */
-  @keyframes reveal {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
     }
   }
 }
@@ -237,21 +208,10 @@
   }
 }
 
-/* ---------------------------------------------------------------------------
-   Custom utilities (v4 native @utility — NOT @layer utilities)
---------------------------------------------------------------------------- */
-
-/* The reference's stock form fields: slate-50 bg, slate-200 border,
-   rounded-xl (the login family) — expressed once for the UI kit. */
-@utility input-base {
-  width: 100%;
-  border-radius: 0.75rem;
-  border: 1px solid var(--color-slate-200);
-  background-color: rgb(248 250 252 / 0.5);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-@utility scrollbar-thin {
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-slate-300) transparent;
-}
+/* Session-11 (F11-5): the custom-utilities block is RETIRED — @utility
+   input-base and @utility scrollbar-thin shipped in every build with ZERO
+   class consumers (the login family expresses its fields with stock
+   classes; no surface opts into thin scrollbars). The stock form-field
+   recipe the reference uses (slate-50 bg, slate-200 border, rounded-xl)
+   lives in the login layout constants (src/lib/login-reset.ts), where
+   every other layout vocabulary is pinned. */

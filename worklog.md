@@ -1,3 +1,116 @@
+Task ID: 11
+Agent: main (Z.ai)
+Task: The session-11 standalone-launch DB re-anchor + dead-CSS
+retirement + verification-funnel closure round — re-run the standing
+instruction against the post-session-10 tree (b1424f3): docs review,
+pristine-clone verification (the full baseline gate green at the
+documented 463/32 + 49/8 + 15 counts), the comprehensive audit (0
+Critical / 0 High / 3 Medium / 10 Low / 4 Informational + F11-18 found
+via the neo-crm re-review), the neo-crm patterns re-review (the s212
+db-path cure + the gate-script/doctrine/inventory censuses + the
+mutation-battery discipline + the bun audit duty ADOPTED), the live
+reference parity walk (logged-in: /Home redirect, the mobile menu at
+390x844 — 5 destinations, no-aria hamburger, the dead-/98 transparent
+panel, auto-close on navigation, the stale-title soft-nav, the OG
+family — NO drift since session 10), the TDD cures, the gate, captures
+29/30, push #11 to main via the SSH wrapper.
+
+Work Log:
+- THE HEADLINE (F11-18 — live, reproduced, root-caused): `bun run
+  start` with the default relative .env could NOT open the database.
+  Mechanism: bun loads <repo>/.env at launch and ABSOLUTIZES the
+  relative file: value against the repo root (parent-of-repo path);
+  the standalone server.js chdirs into .next/standalone; the
+  session-34 launch-dir recovery sat NESTED inside
+  `isRelativeFileUrl(envFileUrl)` — a guard requiring a .env at the
+  post-chdir cwd, exactly the file the session-7 build hygiene step
+  (`rm -f .next/standalone/.env`) deletes — so the recovery was dead
+  code in the launch shape it was written for and the parent-of-repo
+  URL passed through as an "intentional override" (Error code 14 on a
+  clean machine; a SILENT EMPTY WRONG db where the parent db/ exists).
+  The smoke ladder and e2e never saw it (both pin their own
+  DATABASE_URL). This is neo-crm's session-212 defect class; their fix
+  is the cure. CURED by TDD (+2 hygiene-shape pins): the launch-dir
+  signature check HOISTED out of the cwd-.env guard (the session-35
+  absolute-value guard preserved), mutation-batteried (revert -> RED ->
+  restore -> GREEN), and LIVE A/B verified: the same boot now answers
+  {"ok":true,"db":"up"} and holds <repo>/db/custom.db open
+  (fd-verified via /proc); the parent-of-repo db never created
+- THE TAILWIND v4 BUGS THIS ROUND (F11-1 + F11-2 + F11-5): (1)
+  `border border-input` on the verify-view OTP inputs compiled to
+  NOTHING — Tailwind v4 generates no utility for an undefined
+  --color-input, and the session-10 color census only enumerated
+  family-STEP utilities so single-word semantic utilities escaped the
+  "every color utility resolves to a @theme literal" invariant. CURED:
+  --color-input: #e2e8f0 (the value the class always rendered via the
+  base-layer fallback) + THE STEP-LESS CENSUS PIN. (2) The vendored
+  tw-animate.css shipped dead @keyframes/@property bytes in every
+  build on the phantom "the Radix dialog family rides it" claim (no
+  Radix since the session-2 diet; the consumers retired at s131). (3)
+  13 dead @theme tokens + the fade-in/reveal keyframes + the
+  input-base/scrollbar-thin utilities + components.json — all
+  zero-consumer. ALL RETIRED + THE DEAD-TOKEN CENSUS PIN (every
+  semantic token must have a live consumer; the built CSS now carries
+  no enter/exit/accordion-down keyframes)
+- THE VERIFICATION-FUNNEL CLOSURE (F11-3 + F11-4): email verification
+  was ADVISORY — once the 15-minute code TTL passed, a never-verified
+  account signed in freely (the login gate keyed only on
+  isVerificationPending), and the return-visitor had no path back to
+  the verify view (the 403 rendered a banner on the signin form; the
+  signup route answers "already exists"; resend was wired only inside
+  the verify view — the only escape was waiting out the TTL, which the
+  advisory gate then let bypass). CURED by TDD (+4 unit pins on the new
+  unverifiedAccount() seam + 4 source pins + THE FULL-FUNNEL e2e):
+  the login gate keys on the STORED HASH (any expiry); resend re-mints
+  for any unverified account (the resend IS the re-arm); the login
+  card swaps to the verify view on the 403; the pasted code
+  distributes across the six boxes (F11-15); the funnel e2e proves
+  signup -> refused login -> verify view -> resend -> code -> session
+- THE CONSISTENCY BATCH: F11-13 the signup findUnique->create race now
+  maps P2002 to the 400 duplicate (the reset-password route's Prisma
+  pattern); F11-7 an over-length idea answers the shorter-message (the
+  Zod max used to answer "Describe your post idea first." for a
+  >1000-char paste); F11-12 the in-flight double-submit guard on all
+  four login-card submits; F11-17 error toasts announce with
+  role="alert"; F11-11 the menu a11y increments (aria-controls + the
+  panel id + the Escape focus return — the standing-concern surface);
+  F11-6 the auth-contract uploadRoute phantom retired
+- THE NEO-CRM ADOPTIONS: the s212 db-path cure (the headline); the
+  gate-script pins (the gate chain order + the CI=1 fresh boot +
+  the build hygiene tail, mutation-batteried); the doctrine census
+  (every AGENTS Commands-table command exists in package.json, read
+  LIVE — the start/test:watch/db:generate rows added); the PAD §12
+  inventory census (every Key Files row pinned to the live wc -l —
+  F11-8's 9 drifted rows re-anchored); the mutation-battery convention
+  (every new pin ships with a planted-defect proof) + the bun audit
+  duty documented in AGENTS. bun audit RUN: 10 advisories, ALL
+  dev/test/build toolchain (the runtime zod is the patched 4.6.7 and
+  the bounded reader pre-gates every Zod input); zero runtime
+  request-path advisories; no override warranted. DEFERRED with note:
+  the screenshot drift-sweep family, the dead-code-hygiene suite, the
+  count-ladder scripts (heavier than this round's scope)
+- THE DOC SWEEP: F11-9 the SKILL's "2-3 idea-derived hashtags" -> "up
+  to 2" (the code caps at 2); F11-10 the PAD's lint line qualified
+  (exhaustive-deps/purity deliberately off — the SKILL's honest form);
+  the SKILL v1.6.0 -> v1.7.0 (§3 the DATABASE_URL launch note, §4 the
+  token block + the tw-animate retirement, §6 the verification seam);
+  full count lockstep at 488/34 + 50/8 + badge 538
+
+Result:
+- Gate: lint 0/0 · tsc 0 · unit 488/488 (34 files, +25) · build ·
+  smoke 15/15 · e2e 50/50 (8 specs, +1 the funnel) · census MATCH
+- Badge 538 = 488 + 50; captures 29/30 (dev server via 127.0.0.1, the
+  hydration explicitly awaited + PIL-verified); SKILL v1.7.0
+- Verified: the F11-18 cure live (health ok + the repo db open via
+  /proc fd); the funnel e2e green; the built CSS free of the retired
+  keyframes; the censuses green. Reasoned: the a11y focus-return
+  behavior (source-pinned + axe-clean, not AT-tested). Assumed: none.
+- Deferred debt: F11-14 (the landing's inline PricingSection markup),
+  the neo-crm drift-sweep/dead-code-hygiene/count-ladder families,
+  F10-14 (the particle-text reduced-motion rAF — standing).
+
+====================================================================
+
 Task ID: 10
 Agent: main (Z.ai)
 Task: The session-10 dev-origin hydration lock + palette re-pin

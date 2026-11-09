@@ -18,6 +18,7 @@ import {
 import {
   VERIFICATION_CODE_LENGTH,
   verificationIncompleteMessage,
+  verificationRequiredMessage,
   verificationResentMessage,
 } from "@/lib/verification";
 import { toast } from "@/components/ui/toast";
@@ -127,9 +128,14 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
   }
 
   /** S21-P2: the sign-in submit — the reference fires NO toast: the banner
-   *  on failure, a silent redirect on success. */
+   *  on failure, a silent redirect on success. Session-11 (F11-3): the
+   *  VERIFICATION_REQUIRED 403 re-enters the funnel — the card swaps to
+   *  the verify view (the email is known, the digits reset, the refusal
+   *  rides the info banner, and the Resend affordance is one click away);
+   *  the return-visitor dead-end is cured. */
   async function onSigninSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (pending) return;
     setPending(true);
     setError(null);
     try {
@@ -140,6 +146,15 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
       });
       const body = await res.json().catch(() => null);
       if (!res.ok || !body?.ok) {
+        // Session-11 (F11-3): an unverified account re-enters the verify
+        // funnel instead of dead-ending on the refusal banner.
+        if (body?.error?.code === "VERIFICATION_REQUIRED") {
+          setCodeDigits(Array(VERIFICATION_CODE_LENGTH).fill(""));
+          setError(null);
+          setInfo(body?.error?.message ?? verificationRequiredMessage());
+          setView("verify");
+          return;
+        }
         setError(body?.error?.message ?? "Sign in failed. Try again.");
         return;
       }
@@ -161,6 +176,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
       setError("Passwords do not match");
       return;
     }
+    if (pending) return;
     setPending(true);
     setError(null);
     try {
@@ -198,6 +214,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
       setError(verificationIncompleteMessage());
       return;
     }
+    if (pending) return;
     setPending(true);
     setError(null);
     try {
@@ -292,9 +309,25 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
   }
 
   /** S21-P5: a single code input's change — keep the LAST digit typed and
-   *  auto-advance (the reference's six boxes walk forward as digits land). */
+   *  auto-advance (the reference's six boxes walk forward as digits land).
+   *  Session-11 (F11-15): a MULTI-DIGIT value (a pasted code) distributes
+   *  across the boxes from the focused index — the common OTP affordance
+   *  (a paste of "123456" used to leave only "6" in the first box). */
   function onCodeDigit(idx: number, raw: string) {
-    const digit = raw.replace(/\D/g, "").slice(-1);
+    const digits = raw.replace(/\D/g, "");
+    if (digits.length > 1) {
+      setCodeDigits((prev) => {
+        const next = [...prev];
+        for (let i = 0; i < digits.length && idx + i < VERIFICATION_CODE_LENGTH; i++) {
+          next[idx + i] = digits[i] ?? "";
+        }
+        return next;
+      });
+      const last = Math.min(idx + digits.length, VERIFICATION_CODE_LENGTH) - 1;
+      codeRefs.current[last]?.focus();
+      return;
+    }
+    const digit = digits.slice(-1);
     setCodeDigits((prev) => {
       const next = [...prev];
       next[idx] = digit;

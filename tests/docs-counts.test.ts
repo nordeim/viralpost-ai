@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -23,17 +23,22 @@ import { describe, expect, it } from "vitest";
 // dev-origins pins, +5 the F10-1 palette-completion + census pins, +2 the
 // F10-11 siteUrl fallback pins, +4 the F10-11 boot-env shape pins, +1 the
 // F10-13 hashtag-window pin, +4 the F10-3 NOT_FOUND_LAYOUT pins, +3 the
-// F10-2 count-site pins below) and the
-// e2e 48 → 49 (+1 the F10-10 history-nav close pin).
+// F10-2 count-site pins below) and the e2e 48 → 49 (+1 the F10-10
+// history-nav close pin). s11: 488/34 files (+2 the F11-18 hygiene-shape
+// db-path fixtures, +5 the design-tokens censuses/retirements, +4 the
+// verification seam suite, +4 the funnel/double-submit source pins, +1
+// the over-length message pin, +1 the navbar a11y pin, +1 the signup
+// P2002 pin, +5 the gate-script pins, +2 the doctrine/inventory censuses
+// below) and the e2e 49 → 50 (+1 the full-funnel e2e).
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
 /** Vitest unit checks (tests/*.test.ts — the exact `bun run test` total). */
-const UNIT = 463;
+const UNIT = 488;
 /** Vitest suite files. */
-const SUITES = 32;
+const SUITES = 34;
 /** Playwright e2e checks (incl. the setup project's 1). */
-const E2E = 49;
+const E2E = 50;
 /** Playwright e2e spec files. */
 const E2E_SPECS = 8;
 /** Smoke ladder legs. */
@@ -140,5 +145,40 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
   it("the SKILL's pre-ship checklist carries the live counts (the lockstep enforcer, itself locked)", () => {
     const skill = read("viralpost-ai_SKILL.md");
     expect(skill).toContain(`Gate green at the exact counts (${UNIT} unit / ${E2E} e2e / ${SMOKE} smoke`);
+  });
+
+  // Session-11: the neo-crm doctrine-census mini adopted — every
+  // command the AGENTS table advertises must exist in package.json's
+  // scripts (read LIVE; a phantom command in the operator's quick
+  // reference is the docs-lie genus), and the PAD §12 inventory rows
+  // must carry their file's live line count (the F11-8 re-anchor made
+  // mechanical).
+  it("every AGENTS Commands-table command exists in package.json's scripts (the doctrine census, read live)", () => {
+    const agents = read("AGENTS.md");
+    const pkg = JSON.parse(read("package.json")) as { scripts: Record<string, string> };
+    // Every backticked `bun run …` form in a table row (cells may carry
+    // trailing prose); the `-- args` suffix of the one-unit-file form maps
+    // onto its base script.
+    const cells = [...agents.matchAll(/\|.*?`([^`]+)`/g)].map((m) => m[1]);
+    const commands = cells.filter((c) => c.startsWith("bun run "));
+    expect(commands.length).toBeGreaterThanOrEqual(8);
+    for (const cmd of commands) {
+      const script = cmd.replace("bun run ", "").split(" --")[0].trim();
+      expect(pkg.scripts[script], `AGENTS advertises '${cmd}' but package.json has no '${script}' script`).toBeDefined();
+    }
+  });
+
+  it("the PAD §12 Key Files rows carry their files' LIVE line counts (the inventory census)", () => {
+    const pad = read("Project_Architecture_Document.md");
+    const rows = [...pad.matchAll(/^\| `([^`]+)` \| (\d+) \|/gm)];
+    expect(rows.length).toBeGreaterThanOrEqual(17);
+    for (const [, file, lines] of rows) {
+      const full = join(root, file);
+      expect(existsSync(full), `PAD §12 lists ${file} — it must exist`).toBe(true);
+      const actual = readFileSync(full, "utf8").split("\n").length - (readFileSync(full, "utf8").endsWith("\n") ? 1 : 0);
+      expect(actual, `PAD §12 says ${file} is ${lines} lines — live count is ${actual} (edit the row in the same commit)`).toBe(
+        Number(lines),
+      );
+    }
   });
 });

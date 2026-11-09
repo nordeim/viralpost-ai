@@ -74,3 +74,59 @@ test("signup with mismatched passwords answers the banner", async ({ page }) => 
   await page.getByRole("button", { name: "Create account" }).click();
   await expect(page.getByText("Passwords do not match")).toBeVisible();
 });
+
+// Session-11 (F11-3 + F11-4 — the verification-funnel closure): the FULL
+// round trip, previously untested at any layer: signup → the return
+// visitor's login attempt is REFUSED (verification is enforceable — the
+// stored-hash gate, not the code TTL) → the 403 re-enters the funnel (the
+// card swaps to the verify view instead of dead-ending on the banner) →
+// resend re-mints (the expired/fresh-code re-arm) → the pasted code
+// distributes across the six boxes (F11-15) → verify signs the account in.
+test("the return-visitor verification funnel closes end-to-end", async ({ page }) => {
+  const email = `e2e-funnel-${Date.now()}@example.com`;
+
+  // 1. Sign up — the verify view lands with the in-app code hint.
+  await page.goto("/login");
+  await page.getByRole("button", { name: "Need an account? Sign up" }).click();
+  await page.getByLabel("Email").fill(email);
+  await page.getByLabel("Password", { exact: true }).fill("Password123!");
+  await page.getByLabel("Confirm Password").fill("Password123!");
+  await page.getByRole("button", { name: "Create account" }).click();
+  await expect(page.getByRole("heading", { name: "Verify your email" })).toBeVisible();
+
+  // 2. The return visitor: reload to a fresh signin card, attempt login.
+  await page.goto("/login");
+  await page.getByLabel("Email").fill(email);
+  await page.getByLabel("Password").fill("Password123!");
+  await page.getByRole("button", { name: "Sign in" }).click();
+
+  // 3. The 403 re-enters the funnel — the verify view, not the banner
+  //    dead-end (the pre-cure card stayed on signin with only the
+  //    refusal banner and no path back).
+  await expect(page.getByRole("heading", { name: "Verify your email" })).toBeVisible();
+  await expect(page.getByText(email).first()).toBeVisible();
+
+  // 4. Resend — the fresh code rides the response (the demo-workflow
+  //    in-app delivery; a self-hosted deployment without a mail
+  //    transport).
+  await page.getByRole("button", { name: "Resend" }).click();
+  const hint = page.getByText("Demo code:").locator("span");
+  await expect(hint).toBeVisible();
+  const code = (await hint.textContent()) ?? "";
+
+  // 5. The pasted code distributes across the boxes from Digit 1 (the
+  //    F11-15 affordance — a paste used to leave only the last digit).
+  await page.getByLabel("Digit 1").fill(code);
+  await expect(page.getByLabel("Digit 6")).toHaveValue(code.slice(5));
+
+  // 6. Verify — signs the account in and lands on the public landing.
+  await page.getByRole("button", { name: "Verify email" }).click();
+  await expect(page).toHaveURL(/\/$/, { timeout: 15_000 });
+
+  // 7. The session is real (the funnel completed into an authed cookie).
+  const me = await page.request.get("/api/auth/me");
+  const body = await me.json();
+  expect(me.status()).toBe(200);
+  expect(body?.ok).toBe(true);
+  expect(body?.data?.email).toBe(email);
+});

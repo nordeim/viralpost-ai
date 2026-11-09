@@ -1,0 +1,65 @@
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
+import { describe, expect, it } from "vitest";
+
+// Session-11: the gate-script pins (the neo-crm tests/gate-script.test.ts
+// pattern adopted). `bun run gate` is the repo's definition of done — the
+// ONE command the docs tell operators and agents to trust. These pins
+// freeze its exact chain so it can never silently drift:
+//   lint → typecheck → unit → build → smoke → e2e (CI=1, fresh boot).
+// The e2e arm's CI=1 prefix is load-bearing (playwright.config.ts's
+// reuseExistingServer: !process.env.CI — without it a reused server keeps
+// its IN-MEMORY rate buckets while global-setup reseeds the DB, and a
+// third run inside 15 minutes fails the ladder tests with spurious 429s).
+// Also pinned: the build script's hygiene tail (rm -f .next/standalone/.env
+// — the double-cure for Next's own .env copy into the deployable
+// artifact), and the start script's production shape.
+
+const pkg = JSON.parse(
+  readFileSync(path.resolve(import.meta.dirname, "..", "package.json"), "utf8"),
+) as { scripts: Record<string, string> };
+
+describe("session-11: the gate-script pins (the neo-crm adoption)", () => {
+  it("the gate script exists and chains exactly lint → typecheck → test → build → smoke → CI=1 e2e", () => {
+    const gate = pkg.scripts["gate"];
+    expect(gate).toBeDefined();
+    // The exact chain, in order, each joined by &&.
+    const steps = (gate ?? "").split("&&").map((s) => s.trim());
+    expect(steps).toEqual([
+      "bun run lint",
+      "bun run typecheck",
+      "bun run test",
+      "bun run build",
+      "./scripts/smoke-test.sh",
+      "CI=1 bun run test:e2e",
+    ]);
+  });
+
+  it("the e2e arm forces the fresh boot (CI=1 — the reused-server rate-bucket hazard)", () => {
+    expect(pkg.scripts["gate"]).toMatch(/CI=1 bun run test:e2e/);
+  });
+
+  it("the build script ends with the artifact-hygiene tail (standalone static/public copies + the .env removal)", () => {
+    const build = pkg.scripts["build"];
+    expect(build).toBeDefined();
+    expect(build).toContain("cp -r .next/static .next/standalone/.next/");
+    expect(build).toContain("cp -r public .next/standalone/");
+    // Next's writeStandaloneDirectory copies .env into the deployable
+    // artifact EXPLICITLY (immune to outputFileTracingExcludes) — the
+    // trailing rm is the double-cure (the smoke hygiene leg asserts the
+    // artifact carries none).
+    expect(build).toContain("rm -f .next/standalone/.env");
+  });
+
+  it("the start script boots the standalone server in production", () => {
+    const start = pkg.scripts["start"];
+    expect(start).toBeDefined();
+    expect(start).toContain("NODE_ENV=production");
+    expect(start).toContain(".next/standalone/server.js");
+  });
+
+  it("the smoke script exists as its own npm script", () => {
+    expect(pkg.scripts["smoke"]).toBe("./scripts/smoke-test.sh");
+    expect(existsSync(path.resolve(import.meta.dirname, "..", "scripts", "smoke-test.sh"))).toBe(true);
+  });
+});

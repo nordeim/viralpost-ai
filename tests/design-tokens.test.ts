@@ -151,8 +151,136 @@ describe("design tokens: typography + motion", () => {
     expect(css).toMatch(/prefers-reduced-motion:\s*reduce/);
   });
 
-  it("the float + reveal keyframes ship (the hero's motion vocabulary)", () => {
+  it("the float keyframes ship (the hero's ONLY motion vocabulary — the reveal/fade-in retirement, F11-5)", () => {
+    // Session-11 (F11-5): the old pin asserted "the float + reveal
+    // keyframes ship (the hero's motion vocabulary)" — a mis-attribution:
+    // the hero consumes only animate-float; Reveal uses inline-style
+    // transitions; animate-reveal/animate-fade-in had ZERO consumers and
+    // shipped as dead keyframes in every build. The retirement pins live
+    // in the session-11 describe below.
     expect(css).toContain("@keyframes float");
-    expect(css).toContain("@keyframes reveal");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-11: the step-less census (F11-1) + the dead-CSS retirement
+// (F11-2 / F11-5 / F11-16).
+// ---------------------------------------------------------------------------
+
+describe("design tokens: session-11 — the census completion + the dead-CSS retirement", () => {
+  const srcDir = path.resolve(import.meta.dirname, "..", "src");
+
+  it("THE STEP-LESS CENSUS PIN: every single-word color utility used in src/ resolves to a @theme token (the F11-1 blind spot, closed)", () => {
+    // F11-1: `border border-input` on the verify-view OTP inputs compiled
+    // to NOTHING — Tailwind v4 generates no utility for an undefined
+    // --color-input token — while the stepped census above passed: its
+    // regex only enumerates family-STEP utilities, so single-word
+    // semantic utilities (border-input, ring-ring, text-foreground, …)
+    // escaped the "every color utility resolves to a @theme literal"
+    // invariant. This arm closes the blind spot: each step-less
+    // candidate must resolve to --color-<word> (or --color-<first
+    // segment> for multi-word tokens like primary-hover / line-soft).
+    // The trailing (?![\w-]) boundary keeps family-STEP utilities
+    // invisible here (their numeric step cannot be captured by the word
+    // pattern, so a bare family followed by "-500" fails the lookahead
+    // and is left to the stepped census above).
+    const utility =
+      /(?:text|bg|border|from|to|via|fill|stroke|ring|decoration|divide|outline|shadow|accent|caret|placeholder)-([a-z][a-z0-9]*(?:-[a-z][a-z0-9]*)*)(?![\w-])/g;
+    // Tailwind's stock always-generated color values + its non-color
+    // vocabulary for these prefixes…
+    const STOCK = new Set(["white", "black", "transparent", "current", "inherit", "none"]);
+    const NON_COLOR = new Set([
+      "sm", "xs", "base", "lg", "xl", "left", "center", "right", "top", "bottom",
+      "auto", "full", "opacity", "gradient", "clip", "fixed", "local",
+      "scroll", "cover", "contain", "origin", "repeat", "round", "space",
+      "no", "solid", "dashed", "dotted", "double", "hidden", "collapse",
+      "spacing", "x", "y", "t", "r", "b", "l", "s", "e", "w", "offset",
+      "pretty", "balance", "wrap", "nowrap", "truncate", "ellipsis",
+      // CSS-property prose the raw-text scan picks out of globals.css
+      // (border-color, border-radius, animation fill-mode)
+      "color", "radius", "mode",
+      // …plus English fragments the scan picks out of comments
+      // (node:crypto-only → "to-only", auto-dismiss → "to-dismiss",
+      // adjust-during-render → "ring-render", from-scratch, …) — class
+      // vocabulary only, never English.
+      "only", "advance", "creates", "create", "scratch", "render",
+      "width", "end", "random", "dismiss", "dismisses", "dismissing",
+      "dismissed", "start",
+    ]);
+    const used = new Set<string>();
+    for (const file of walkSourceFiles(srcDir)) {
+      if (file.includes(`${path.sep}vendor${path.sep}`)) continue; // retired this session (F11-2); its absence is pinned below
+      const text = readFileSync(file, "utf8");
+      for (const m of text.matchAll(utility)) {
+        const word = m[1];
+        const first = word.split("-")[0];
+        if (STOCK.has(first) || NON_COLOR.has(first)) continue;
+        used.add(word);
+      }
+    }
+    expect(used.size).toBeGreaterThan(5); // the census actually censused
+    const unresolved = [...used].filter((word) => {
+      if (themeValue(`color-${word}`) !== undefined) return false;
+      return themeValue(`color-${word.split("-")[0]}`) === undefined;
+    });
+    expect(
+      unresolved,
+      `step-less color utilities with NO @theme token (define the token or fix the class): ${unresolved.join(", ")}`,
+    ).toEqual([]);
+  });
+
+  it("THE DEAD-TOKEN CENSUS PIN: every semantic --color-* token in @theme has a live consumer (the F11-5 genus, made mechanical)", () => {
+    // The stepped stock re-pins are EXEMPT by doctrine (whole families
+    // pinned defensively so any future step renders the v3 value); the
+    // SEMANTIC tokens (no numeric step) must each be consumed — by a
+    // utility class in src/ or by a var() reference in globals.css
+    // outside @theme (the base layer). A token with neither is dead
+    // weight shipping in every build.
+    const semantic = [...css.matchAll(/--color-([a-z][a-z0-9-]*):/g)]
+      .map((m) => m[1])
+      .filter((name) => !/\d/.test(name));
+    expect(semantic.length).toBeGreaterThan(5); // the census actually censused
+    const srcText = walkSourceFiles(srcDir)
+      .filter((f) => !f.endsWith("globals.css"))
+      .map((f) => readFileSync(f, "utf8"))
+      .join("\n");
+    const baseLayer = (css.match(/@layer base\s*\{[\s\S]*\n\}/) ?? [""])[0];
+    const dead = semantic.filter(
+      (name) =>
+        !new RegExp(`(?:bg|text|border|ring|fill|stroke|from|to|via|shadow|divide|outline|accent|caret|decoration|placeholder)-${name}(?![\\w-])`).test(
+          srcText,
+        ) && !baseLayer.includes(`var(--color-${name})`),
+    );
+    expect(dead, `semantic @theme tokens with ZERO consumers (retire them): ${dead.join(", ")}`).toEqual([]);
+  });
+
+  it("the dead motion vocabulary is retired (F11-5): no animate-fade-in / animate-reveal / their keyframes", () => {
+    expect(css).not.toContain("--animate-fade-in");
+    expect(css).not.toContain("--animate-reveal");
+    expect(css).not.toContain("@keyframes fade-in");
+    expect(css).not.toContain("@keyframes reveal");
+    expect(css).not.toContain("--radius-card");
+    expect(css).not.toContain("--radius-button");
+  });
+
+  it("the dead @utility rules are retired (F11-5): the custom-utilities block is gone", () => {
+    // Surgical form (the s64/s65/s66 needle-in-own-doc lesson): the pin
+    // must not fail on the retirement NOTE below the block, so it reads
+    // the CSS with comments stripped before asserting the absence.
+    const rules = css.replace(/\/\*[\s\S]*?\*\//g, "");
+    expect(rules).not.toContain("@utility ");
+  });
+
+  it("the vendored animate css is retired (F11-2): no import, no file", () => {
+    // The phantom justification ("the Radix dialog family rides it") died
+    // with the session-2 dependency diet — no Radix package exists and
+    // the only consuming class family retired at session-131 (D-131a1).
+    // The vendor file shipped @keyframes enter/exit/accordion-down + a
+    // block of @property declarations with zero consumers. The import
+    // assertion reads comment-stripped CSS (the retirement note names
+    // the file — documentation, not a live reference).
+    const rules = css.replace(/\/\*[\s\S]*?\*\//g, "");
+    expect(rules).not.toContain("@import \"./vendor/");
+    expect(existsSync(path.resolve(srcDir, "app", "vendor"))).toBe(false);
   });
 });

@@ -79,3 +79,19 @@ export function isVerificationPending(expiresAt: Date | string | null | undefine
   const exp = typeof expiresAt === "string" ? new Date(expiresAt).getTime() : expiresAt.getTime();
   return Number.isFinite(exp) && exp > Date.now();
 }
+
+/**
+ * Session-11 (F11-4 — the enforceability seam): true while the account
+ * still OWES email verification. The stored scrypt hash is the durable
+ * marker — the verify route clears it on success — so this stays true
+ * even after the code's 15-minute TTL passes (the old login gate keyed
+ * only on isVerificationPending, letting a never-verified account sign
+ * in by waiting out the TTL: verification was advisory, not enforceable).
+ * The login route refuses while this is true; the resend route re-mints
+ * for any unverified account (the resend IS the re-arm for an expired
+ * code). Null/empty hash = no verification owed (pre-flow rows, the
+ * seeded demo account, verified accounts).
+ */
+export function unverifiedAccount(verificationCodeHash: string | null | undefined): boolean {
+  return typeof verificationCodeHash === "string" && verificationCodeHash.length > 0;
+}

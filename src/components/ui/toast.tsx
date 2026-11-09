@@ -101,7 +101,9 @@ function ToastCard({ item }: { item: ToastItem }) {
 
   return (
     <div
-      role="status"
+      // Session-11 (F11-17): error toasts announce ASSERTIVELY
+      // (role="alert"); every other variant stays polite (role="status").
+      role={item.variant === "error" ? "alert" : "status"}
       className={cn(
         "pointer-events-auto flex items-start gap-3 rounded-xl border p-3.5 shadow-lg outline-none",
         // Session-131 (D-131a1): the scaffold-era data-[state] animation
@@ -112,8 +114,10 @@ function ToastCard({ item }: { item: ToastItem }) {
         // F-131c1 record: the reference's toast system is DOM-DEAD (four
         // Ix.* calls in its bundle, ZERO rendered elements on any trigger
         // path) — no reference surface contracts an animation; retired per
-        // the D-124a7 dead-code doctrine. The tw-animate.css vendor import
-        // stays (the Radix dialog family rides it).
+        // the D-124a7 dead-code doctrine. Session-11 (F11-2) completed the
+        // retirement: the tw-animate.css vendor import that survived on
+        // the phantom "the Radix dialog family rides it" claim is gone too
+        // (no Radix package has existed since the session-2 diet).
         item.variant === "success" && "border-emerald-200 bg-white",
         item.variant === "error" && "border-rose-200 bg-white",
         item.variant === "info" && "border-line bg-white",

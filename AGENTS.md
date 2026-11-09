@@ -23,6 +23,9 @@ the SSH remote via `docs/ssh_git_wrapper_v3.py` (runbook:
 | Smoke ladder | `./scripts/smoke-test.sh` (15 legs) |
 | **The whole gate** | `bun run gate` |
 | DB push / seed / census | `bun run db:push` / `db:seed` / `db:census` |
+| DB generate (Prisma client) | `bun run db:generate` |
+| Production server | `bun run start` (standalone build) |
+| Unit tests, watch mode | `bun run test:watch` |
 | One unit file | `bun run test -- tests/generator.test.ts` |
 
 Run everything from the repo root (the db-path seam anchors on it).
@@ -55,8 +58,11 @@ smoke → e2e. There is no hosted CI — the local gate is the only gate.
   the HTML; the e2e layer owns that assertion).
 - **Tailwind v4 traps are mitigated in `globals.css`**: literal hex in
   `@theme` (bare HSL triplets resolve to transparent), the
-  `@custom-variant hover` unwrap for touch devices, `tw-animate-css`
-  vendored at `src/app/vendor/`. No `tailwind.config.js` — CSS-first only.
+  `@custom-variant hover` unwrap for touch devices. No
+  `tailwind.config.js` — CSS-first only. (Session-11: the vendored
+  `tw-animate.css` is RETIRED — it shipped dead keyframes on a phantom
+  Radix claim; the step-less color census + the dead-token census in
+  tests/design-tokens.test.ts are now the guard rails.)
 - **The generator** (`src/lib/generator.ts`) is a deterministic
   (idea, seed) pure function — same inputs, same post; the API passes a
   crypto-random seed. The free quota is a client localStorage counter
@@ -75,15 +81,22 @@ smoke → e2e. There is no hosted CI — the local gate is the only gate.
 
 ## Testing conventions
 
-- Unit tests live in `tests/*.test.ts` (32 files, 463 tests) — Vitest,
+- Unit tests live in `tests/*.test.ts` (34 files, 488 tests) — Vitest,
   node env, `@` alias; TDD at the pure seams.
 - Several suites are **source-pinned** (they read source files textually
   to pin contracts: page-titles, design-tokens, typography) — when you
   change markup/classes, update those pins in the same commit.
-- E2E: 8 specs / 49 tests in `tests/e2e/*.spec.ts`; multi-subtree
+- E2E: 8 specs / 50 tests in `tests/e2e/*.spec.ts`; multi-subtree
   responsive DOM needs `.filter({ visible: true }).first()`.
 - Docs count-lockstep: when test/route/model counts change, update
   README/AGENTS/CLAUDE/PAD in the same commit.
+- Mutation battery (session-11, the neo-crm discipline): every NEW pin
+  ships with a planted-defect proof — revert the cure (or plant the
+  defect), confirm exactly the new pin REDs, restore, GREEN. A pin that
+  cannot be made to fail is vacuous.
+- `bun audit` is a PERIODIC pre-ship duty (never inside the gate — the
+  gate must stay offline-runnable): triage advisories into runtime
+  request-path vs dev-toolchain, record the outcome in the session plan.
 
 ## Git conventions
 
@@ -99,7 +112,7 @@ smoke → e2e. There is no hosted CI — the local gate is the only gate.
 - `Project_Architecture_Document.md` — the blueprint (ADRs, security, testing)
 - `viralpost-ai_SKILL.md` — the distilled engineering memory
 - `docs/implementation-plan.md` — the clone's Stack Decision Record + Deviations Ledger
-- `docs/plans/` — per-session round plans (session-1 build, session-2 parity audit, session-3 rename completion, session-4 phantom references, session-5 docs freshness, session-6 clean-tree re-certification, session-7 dev-script loop + phantom comments, session-8 live OG parity + evidence provenance, session-9 rate-limiter trust warning + phantom-claim retirement + the docs-counts gate, session-10 dev-origin hydration lock + palette re-pin completion + phantom-reference tail)
+- `docs/plans/` — per-session round plans (session-1 build, session-2 parity audit, session-3 rename completion, session-4 phantom references, session-5 docs freshness, session-6 clean-tree re-certification, session-7 dev-script loop + phantom comments, session-8 live OG parity + evidence provenance, session-9 rate-limiter trust warning + phantom-claim retirement + the docs-counts gate, session-10 dev-origin hydration lock + palette re-pin completion + phantom-reference tail, session-11 standalone-launch DB re-anchor + dead-CSS retirement + verification-funnel closure)
 - `docs/reference-investigation.md` — the evidence dossier behind every parity claim
 - `worklog.md` — the per-session audit trail
 - **Historical-record layer (retained provenance, not live docs — superseded by the set above):** `neo-crm_SKILL.md` (the CRM's v1.207 skill — the session-1 input that session 2 distilled into `viralpost-ai_SKILL.md`), `docs/worklog.md` (the CRM-era worklog), `docs/prompt-to-*.md` (the owner's prompt templates), `docs/Tailwind-V4-Validation-Report.md`, `docs/web-app-codebase-evaluation-report.md`. Read for archaeology, never as current-state contracts.

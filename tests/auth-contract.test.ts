@@ -19,14 +19,15 @@ import { describe, expect, it } from "vitest";
 // - S67-P2 (N-67d): all four public auth routes pre-gate the declared
 //   body size BEFORE req.json() buffers it (the S36-P3 upload precedent
 //   extended to the auth family).
-// - S67-P3 (N-67e): the one route that writes user bytes to disk joins
-//   the rate-limit family, deliberately AFTER the session guard.
 // - S67-P4 (N-67f): the /signup page carries no authenticated redirect
 //   (the s23-P2 retirement /login already carries; the superset page is
 //   a pure render).
 // - S67-P5 (N-67h/j/k/l): the Retry-After family consistency; the
 //   clear-cookie twin symmetry; the resend in-flight guard; the honest
 //   envelope-data read on the resend confirmation.
+// (Session-11, F11-6: the S67-P3 bullet — "the one route that writes user
+// bytes to disk joins the rate-limit family" — and its uploadRoute helper
+// were CRM-era phantoms: no upload route has ever existed in this tree.)
 
 function read(rel: string): string | null {
   const p = path.resolve(import.meta.dirname, "..", rel);
@@ -45,7 +46,6 @@ const loginRoute = () => stripComments(read("src/app/api/auth/login/route.ts") ?
 const signupRoute = () => stripComments(read("src/app/api/auth/signup/route.ts") ?? "");
 const verifyRoute = () => stripComments(read("src/app/api/auth/verify/route.ts") ?? "");
 const resendRoute = () => stripComments(read("src/app/api/auth/resend/route.ts") ?? "");
-const uploadRoute = () => stripComments(read("src/app/api/upload/route.ts") ?? "");
 const signupPage = () => stripComments(read("src/app/signup/page.tsx") ?? "");
 const loginCard = () => stripComments(read("src/components/layout/login-card.tsx") ?? "");
 
@@ -165,5 +165,21 @@ describe("session-9 (F9-9): the signup role vocabulary (the schema's documented 
   it("no CRM-era role value survives in the app tree (comment-stripped)", () => {
     const src = stripComments(read("src/app/api/auth/signup/route.ts") ?? "");
     expect(src).not.toContain('"rep"');
+  });
+});
+
+describe("session-11 (F11-13): the signup duplicate race answers the 400, not a raw 500", () => {
+  // The findUnique→create gap: two concurrent same-email signups race
+  // past the existence check and the loser's create throws the unique
+  // constraint (P2002) into the generic catch — a 500 ERR.INTERNAL for
+  // a plain duplicate. The cure mirrors the reset-password route's
+  // Prisma known-error mapping: P2002 → the pinned 400 duplicate banner.
+  it("the signup catch maps the unique-constraint error to the 400 duplicate message", () => {
+    const src = stripComments(read("src/app/api/auth/signup/route.ts") ?? "");
+    expect(src).toMatch(/PrismaClientKnownRequestError/);
+    expect(src).toMatch(/P2002/);
+    // The mapped message is the SAME pinned banner the existence check
+    // answers (no second spelling).
+    expect((src.match(/A user with this email already exists/g) ?? []).length).toBeGreaterThanOrEqual(2);
   });
 });

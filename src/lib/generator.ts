@@ -28,6 +28,15 @@ export const FREE_LIMIT = 3; // the reference's pl constant (3/day)
 
 const MAX_IDEA_CHARS = 500;
 
+/** Session-11 (F11-7): the over-length message, exported so the API
+ *  route's schema-failure branch answers the SAME text the seam throws —
+ *  the two ceilings (Zod's fast 1000-char pre-filter and the seam's
+ *  500-char bound after whitespace collapse) must read as one rule to
+ *  the user, not two different errors. */
+export function ideaTooLongMessage(): string {
+  return "Keep the idea a little shorter (500 characters max).";
+}
+
 /** Collapse whitespace, strip control chars, bound the length. */
 export function sanitizeIdea(raw: string): string {
   const cleaned = raw
@@ -38,7 +47,7 @@ export function sanitizeIdea(raw: string): string {
     throw new Error("Describe your post idea first.");
   }
   if (cleaned.length > MAX_IDEA_CHARS) {
-    throw new Error("Keep the idea a little shorter (500 characters max).");
+    throw new Error(ideaTooLongMessage());
   }
   return cleaned;
 }

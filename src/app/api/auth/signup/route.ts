@@ -6,6 +6,7 @@ import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
 import { VERIFICATION_TTL_MS } from "@/lib/verification";
 import { hashVerificationCode } from "@/lib/verification-server";
 import { generateVerifyCode } from "@/lib/password";
+import { Prisma } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
@@ -105,7 +106,15 @@ export async function POST(req: Request) {
       requiresVerification: true,
       verificationCode: inAppOtpEnabled ? code : null,
     });
-  } catch {
+  } catch (error) {
+    // Session-11 (F11-13): the findUnique→create race — two concurrent
+    // same-email signups both pass the existence check and the loser's
+    // create throws the unique constraint (P2002). Map it to the SAME
+    // 400 duplicate banner the check answers (the reset-password route's
+    // Prisma known-error pattern); everything else stays the 500 family.
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      return ERR.BAD_REQUEST("A user with this email already exists");
+    }
     return ERR.INTERNAL();
   }
 }

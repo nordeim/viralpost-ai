@@ -121,8 +121,10 @@ describe("typography: the s13 base-font regression guards (re-held)", () => {
   it("the body sets NO explicit font-size (the reference computes 16px)", () => {
     // Strip comments first so the pin reads RULES, not documentation
     // (the s13 lesson text mentions the retired value), then scope to
-    // the body rule block — the input-base utility's 0.875rem is a
-    // control surface, not the body default.
+    // the body rule block. (Session-11, F11-5: the old comment cited
+    // "the input-base utility's 0.875rem" as a control surface — the
+    // retired @utility never set a font-size at all; the real 0.875rem
+    // surfaces are the stock text-sm utilities.)
     const noComments = css.replace(/\/\*[\s\S]*?\*\//g, "");
     const bodyRule = noComments.match(/body\s*\{[^}]*\}/)?.[0] ?? "";
     expect(bodyRule).not.toMatch(/font-size/);

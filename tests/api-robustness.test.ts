@@ -90,6 +90,22 @@ describe("the { ok, error } envelope family", () => {
     expect(src).toMatch(/sanitizeIdea/);
     expect(src).toMatch(/BAD_REQUEST/);
   });
+
+  it("session-11 (F11-7): an over-length idea answers the SHORTER message, not the empty-idea one (both schema and seam ceilings)", () => {
+    // Two ceilings used to give two messages: 501–1000 raw chars passed
+    // the schema and failed sanitizeIdea with "Keep the idea a little
+    // shorter (500 characters max).", while >1000 chars failed the Zod
+    // max(1000) FIRST and answered "Describe your post idea first." —
+    // misleading for a user who did describe their idea (the textarea
+    // has no maxLength; a paste reaches the boundary). The pin: the
+    // schema-failure branch distinguishes over-length from empty through
+    // the SAME exported message the seam owns.
+    const src = stripComments(read("src/app/api/generate/route.ts") ?? "");
+    expect(src).toMatch(/ideaTooLongMessage\(\)/);
+    expect(src).toMatch(/"Describe your post idea first\."/);
+    const gen = stripComments(read("src/lib/generator.ts") ?? "");
+    expect(gen).toMatch(/export function ideaTooLongMessage/);
+  });
 });
 
 describe("the sessioned me/logout family", () => {

@@ -87,7 +87,8 @@ remediated by AI agents under the Meticulous Approach.
   triplet silently resolves to transparent; v4's default oklch palette
   drifts from intended hexes).
 - The `@custom-variant hover` unwrap keeps hover styles off touch devices.
-- `tw-animate-css` is vendored at `src/app/vendor/`.
+- (Session-11: the vendored `tw-animate-css` is retired — dead bytes on a
+  phantom Radix claim; the design-tokens censuses guard the theme.)
 - Brand gradients interpolate in oklab — use inline styles where the
   reference's blend must be exact.
 - Layout constants live in one test-pinned module (`src/lib/page-layout.ts`).
@@ -137,11 +138,11 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 32 files / 463 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 34 files / 488 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.
-- **E2E (Playwright)**: 8 specs / 49 tests against the production build,
+- **E2E (Playwright)**: 8 specs / 50 tests against the production build,
   own port + own `db/e2e.db`, one shared login via `storageState`,
   axe-core a11y assertions on every route at two widths.
 - **Smoke (bash)**: 15 legs against the standalone artifact with a

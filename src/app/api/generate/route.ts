@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { fail, isGuarded, ok, readBoundedJson, requireSession } from "@/lib/api";
-import { generatePost, sanitizeIdea } from "@/lib/generator";
+import { generatePost, ideaTooLongMessage, sanitizeIdea } from "@/lib/generator";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
@@ -51,7 +51,21 @@ export async function POST(req: Request) {
   if (read.tooLarge) return fail("BAD_REQUEST", "Request body too large");
   const parsed = bodySchema.safeParse(read.value);
   if (!parsed.success) {
-    return fail("BAD_REQUEST", "Describe your post idea first.");
+    // Session-11 (F11-7): the schema's max(1000) is a FAST PRE-FILTER in
+    // front of the seam's real 500-char bound — an over-length idea must
+    // answer the SAME message sanitizeIdea owns (the old branch answered
+    // "Describe your post idea first." — misleading for a user who did
+    // describe their idea; the textarea has no maxLength, so a paste
+    // reaches the boundary). Only a genuinely EMPTY idea keeps the
+    // describe-first message.
+    const rawIdea =
+      read.value && typeof read.value === "object" && "idea" in read.value
+        ? String((read.value as { idea: unknown }).idea)
+        : "";
+    return fail(
+      "BAD_REQUEST",
+      rawIdea.trim().length > 0 ? ideaTooLongMessage() : "Describe your post idea first.",
+    );
   }
 
   let idea: string;

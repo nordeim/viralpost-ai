@@ -31,6 +31,17 @@ describe("named-control source pins (the open surfaces)", () => {
     expect(src).toContain("aria-expanded={open}");
   });
 
+  it("session-11 (F11-11): the hamburger controls the panel id (aria-controls), and Escape returns focus to the toggle", () => {
+    // The next increment of the menu superset: the toggle references the
+    // panel it owns (aria-controls + the panel's id), and closing via
+    // Escape restores focus to the toggle instead of leaving it on the
+    // now-hidden panel content (where it falls to <body>).
+    const src = read("src/components/marketing/navbar.tsx");
+    expect(src).toContain('aria-controls="mobile-menu"');
+    expect(src).toContain('id="mobile-menu"');
+    expect(src).toMatch(/menuButtonRef\.current\?\.focus\(\)/);
+  });
+
   it("the generator textarea carries a wired label", () => {
     const src = read("src/components/marketing/generator-card.tsx");
     expect(src).toMatch(/<label htmlFor="post-idea"/);

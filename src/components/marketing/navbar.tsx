@@ -35,6 +35,10 @@ export function Navbar() {
   const onHero = active === "home";
   const [scrolled, setScrolled] = React.useState(false);
   const [open, setOpen] = React.useState(false);
+  // Session-11 (F11-11): the toggle owns the panel by id (aria-controls)
+  // and takes focus back on Escape — focus left on the now-hidden panel
+  // content effectively falls to <body>.
+  const menuButtonRef = React.useRef<HTMLButtonElement | null>(null);
 
   // Session-10 (F10-10): close on ANY pathname change — including the
   // browser's own history navigation (back/forward), which fires no link
@@ -59,11 +63,14 @@ export function Navbar() {
     };
   }, []);
 
-  // Escape closes the mobile menu.
+  // Escape closes the mobile menu and returns focus to the toggle.
   React.useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        menuButtonRef.current?.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -106,10 +113,12 @@ export function Navbar() {
           </a>
         </div>
         <button
+          ref={menuButtonRef}
           type="button"
           className="md:hidden p-2 text-slate-300"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
+          aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
         >
           {open ? (
@@ -127,6 +136,7 @@ export function Navbar() {
           the hero (the reference's dead /98 class — the WebGL glow
           bleeds through); dark + blurred on light pages (our superset). */}
       <div
+        id="mobile-menu"
         className={cn(
           "md:hidden border-b border-white/10 overflow-hidden transition-all duration-300",
           !onHero && "bg-slate-900/95 backdrop-blur-xl",

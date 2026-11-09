@@ -209,6 +209,50 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34)", () =>
     });
   });
 
+  it("re-anchors the bun-absolutized launch value in the HYGIENE shape — no .env at the standalone cwd (session-11, F11-18)", () => {
+    // The build script's hygiene step deletes .next/standalone/.env
+    // (`rm -f .next/standalone/.env` — the double-cure for Next's own
+    // copy), so the post-chdir cwd carries NO .env. The session-34
+    // launch-dir recovery used to sit INSIDE `isRelativeFileUrl(envFileUrl)`
+    // — a guard that requires exactly that file — making the recovery
+    // dead code in the launch shape it was written for: bun absolutizes
+    // <repo>/.env's relative value against the repo root, the server
+    // chdirs into .next/standalone, and the parent-of-repo URL sailed
+    // through as an "intentional override" (live-reproduced: `bun run
+    // start` with the default .env answered Error code 14). The hoisted
+    // cure (the neo-crm session-212 pattern) tests the launch-dir
+    // signature WITHOUT requiring a cwd .env.
+    const repo = mkdtempSync(join(tmpdir(), "viralpost-hygiene-"));
+    tempDirs.push(repo);
+    mkdirSync(join(repo, "prisma"), { recursive: true });
+    writeFileSync(join(repo, "prisma", "schema.prisma"), "// schema stub\n");
+    writeFileSync(join(repo, ".env"), 'DATABASE_URL="file:../db/custom.db"\n');
+    const standalone = join(repo, ".next", "standalone");
+    mkdirSync(standalone, { recursive: true });
+    // NO .env inside .next/standalone — the shipped artifact's shape.
+
+    const launchAbsolutized = `file:${join(repo, "..", "db", "custom.db")}`;
+    withEnv(launchAbsolutized, () => {
+      const url = runtimeDatabaseUrl(standalone);
+      expect(url).toBe(`file:${join(repo, "db", "custom.db")}`);
+    });
+  });
+
+  it("keeps an intentional ABSOLUTE override in the hygiene shape (no cwd .env, no signature match)", () => {
+    // The same hygiene shape with a caller-provided absolute URL that
+    // matches NO .env signature: honored exactly (the override contract).
+    const repo = mkdtempSync(join(tmpdir(), "viralpost-hygiene2-"));
+    tempDirs.push(repo);
+    mkdirSync(join(repo, "prisma"), { recursive: true });
+    writeFileSync(join(repo, "prisma", "schema.prisma"), "// schema stub\n");
+    const standalone = join(repo, ".next", "standalone");
+    mkdirSync(standalone, { recursive: true });
+
+    withEnv("file:/var/lib/viralpost/custom.db", () => {
+      expect(runtimeDatabaseUrl(standalone)).toBe("file:/var/lib/viralpost/custom.db");
+    });
+  });
+
   it("keeps an ABSOLUTE launch .env value as-is (session-35 guard — never re-anchored)", () => {
     const { repo, standalone } = buildStandaloneRepo();
     // The documented production form (docs/DEPLOYMENT.md §4): an ABSOLUTE

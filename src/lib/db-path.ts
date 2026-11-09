@@ -192,10 +192,22 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
 export function runtimeDatabaseUrl(cwd: string = process.cwd()): string {
   const envUrl = process.env.DATABASE_URL;
   const envFileUrl = readDatabaseUrlFromEnvAt(cwd);
-  if (envUrl && isRelativeFileUrl(envFileUrl)) {
-    if (envUrl === bunAbsolutized(envFileUrl, cwd)) {
-      return resolveDatabaseUrl(envFileUrl);
-    }
+  if (envUrl && isRelativeFileUrl(envFileUrl) && envUrl === bunAbsolutized(envFileUrl, cwd)) {
+    return resolveDatabaseUrl(envFileUrl);
+  }
+  // Session-11 (F11-18 — the standalone-launch DB lock, the neo-crm
+  // session-212 cure): the launch-dir recovery is HOISTED out of the
+  // cwd-.env guard above. The build's hygiene step deletes
+  // .next/standalone/.env (`rm -f`), so the post-chdir cwd carries NO
+  // .env — under the old nesting the recovery required exactly that file
+  // and never ran in the launch shape it was written for: bun absolutized
+  // <repo>/.env's relative value against the repo root, the server
+  // chdir'd, and the parent-of-repo URL passed through as an
+  // "intentional override" (live-reproduced: `bun run start` with the
+  // default .env answered Error code 14 — or, where the parent db/
+  // exists, silently opened an EMPTY WRONG database). The signature test
+  // below now runs whenever an env URL is present.
+  if (envUrl) {
     const launchDir = repoRootFromStandaloneCwd(cwd);
     if (launchDir && launchDir !== cwd) {
       const launchEnvUrl = readDatabaseUrlFromEnvAt(launchDir);

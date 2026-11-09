@@ -312,7 +312,7 @@ viralpost-ai/
 │   │   ├── layout/             ← login-card (5 views: signin/reset/sent/signup/verify) · reset-password-screen
 │   │   └── ui/toast.tsx        ← the subscribe/store toast
 │   └── lib/                    ← THE seams (see §12 Key Files)
-├── tests/                      ← 32 unit suites + e2e/ (8 specs)
+├── tests/                      ← 34 unit suites + e2e/ (8 specs)
 ├── scripts/                    ← smoke-test.sh · census.ts · prisma-env.ts
 ├── docs/                       ← plans/ · reference-investigation.md ·
 │                                  implementation-plan.md · session logs ·
@@ -544,8 +544,8 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 32 | 463 | `tests/*.test.ts` | Vitest (node env) |
-| E2E | 8 specs | 49 | `tests/e2e/*.spec.ts` | Playwright (production build) |
+| Unit | 34 | 488 | `tests/*.test.ts` | Vitest (node env) |
+| E2E | 8 specs | 50 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
 ### 8.2 Test Patterns
@@ -562,7 +562,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 463/49/15 and change together).
+(README/AGENTS/PAD/SKILL carry 488/50/15 and change together).
 
 ### 8.4 Pre-Push Checklist
 
@@ -625,9 +625,10 @@ the census, and the gate chain.
 
 ### 10.3 Code Style Rules
 
-ESLint (`next/core-web-vitals` + `next/typescript`, hook rules as
-errors, `--max-warnings 0`) + `tsc --noEmit` (strict) — both gates, never
-weakened. Conventional Commits; `main` only.
+ESLint (`next/core-web-vitals` + `next/typescript`, `--max-warnings 0`;
+`rules-of-hooks` an error via the preset, while `exhaustive-deps` and
+`purity` are deliberately off — the SKILL §3 form) + `tsc --noEmit`
+(strict) — both gates, never weakened. Conventional Commits; `main` only.
 
 ### 10.4 Git Workflow
 
@@ -655,25 +656,29 @@ Swept at session-2 ship — no open CRITICAL/HIGH items.
 
 ## 12. Key Files Reference
 
+(The Lines column is the live `wc -l` of each file at the session-11 ship
+— pinned by tests/docs-counts.test.ts's inventory census; edit the row in
+the same commit as the file.)
+
 | File | Lines | Purpose |
 |------|-------|---------|
-| `src/lib/generator.ts` | ~430 | The deterministic viral-formula engine + the reference's exact prompt |
-| `src/lib/generation-counter.ts` | ~109 | The 3/day quota: pure functions + the store adapter |
-| `src/lib/route-title.ts` | ~60 | The unknown-route title derivation (ADR-006) |
-| `src/lib/auth.ts` | ~200 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
-| `src/lib/password.ts` | ~110 | scrypt hash/verify + the timing equalizer |
-| `src/lib/rate-limit.ts` | ~110 | Fixed-window limiter, proxy-hop-aware client key |
-| `src/lib/db-path.ts` | ~150 | THE database path resolver (ADR-008) |
-| `src/lib/site.ts` | ~120 | The metadata factory + canonical origin seam |
-| `src/lib/api.ts` | ~120 | The envelope + the bounded JSON reader |
-| `src/app/globals.css` | ~210 | The Tailwind v4 theme (ADR-005) |
-| `src/components/marketing/navbar.tsx` | ~150 | The nav + the mobile menu (parity-verified) |
-| `src/components/marketing/generator-card.tsx` | ~190 | The core surface: quota dots, generate, copy, paywall |
-| `src/components/effects/iridescence.tsx` | ~217 | The WebGL hero background (aspect-aware shader) |
-| `src/components/effects/particle-text.tsx` | ~291 | The canvas particle title |
-| `src/app/[...catchAll]/layout.tsx` | ~35 | The 404 title owner (ADR-006) |
-| `prisma/schema.prisma` | ~60 | User + ContactMessage |
-| `scripts/smoke-test.sh` | ~200 | The 15-leg artifact ladder |
+| `src/lib/generator.ts` | 449 | The deterministic viral-formula engine + the reference's exact prompt |
+| `src/lib/generation-counter.ts` | 102 | The 3/day quota: pure functions + the store adapter |
+| `src/lib/route-title.ts` | 56 | The unknown-route title derivation (ADR-006) |
+| `src/lib/auth.ts` | 184 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
+| `src/lib/password.ts` | 67 | scrypt hash/verify + the timing equalizer |
+| `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
+| `src/lib/db-path.ts` | 239 | THE database path resolver (ADR-008) |
+| `src/lib/site.ts` | 138 | The metadata factory + canonical origin seam |
+| `src/lib/api.ts` | 224 | The envelope + the bounded JSON reader |
+| `src/app/globals.css` | 217 | The Tailwind v4 theme (ADR-005) |
+| `src/components/marketing/navbar.tsx` | 174 | The nav + the mobile menu (parity-verified) |
+| `src/components/marketing/generator-card.tsx` | 191 | The core surface: quota dots, generate, copy, paywall |
+| `src/components/effects/iridescence.tsx` | 217 | The WebGL hero background (aspect-aware shader) |
+| `src/components/effects/particle-text.tsx` | 291 | The canvas particle title |
+| `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |
+| `prisma/schema.prisma` | 60 | User + ContactMessage |
+| `scripts/smoke-test.sh` | 175 | The 15-leg artifact ladder |
 
 ---
 

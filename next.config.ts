@@ -40,7 +40,6 @@ const nextConfig: NextConfig = {
       "dev.log",
       "bun.lock",
       "package-lock.json",
-      "components.json",
       "eslint.config.mjs",
       "playwright.config.ts",
       "postcss.config.mjs",

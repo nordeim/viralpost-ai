@@ -496,3 +496,55 @@ describe("session-10 (F10-3): the NOT_FOUND_LAYOUT class vocabulary (the 404 bod
     expect(src).toMatch(/<Link[^>]*href=\{NOT_FOUND_LAYOUT\.homeHref\}/);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Session-11 (F11-3 + F11-4): the verification-funnel closure. Three
+// contracts, one seam (unverifiedAccount — the stored-hash marker):
+//   1. the LOGIN route refuses while the hash is non-null, regardless of
+//      the code's TTL (the old gate let an expired-code account sign in —
+//      verification was advisory);
+//   2. the RESEND route re-mints for ANY unverified account (the resend
+//      IS the re-arm path for an expired code — the old no-op gate
+//      required isVerificationPending, dead-ending the expired user);
+//   3. the LOGIN CARD swaps to the verify view on the 403 (the email is
+//      known; the Resend affordance is one click away — the old form
+//      rendered the refusal banner on the signin view with no way back).
+// ---------------------------------------------------------------------------
+describe("session-11: the verification-funnel closure (F11-3 + F11-4)", () => {
+  it("the login route gates on the stored hash — the unverifiedAccount seam, not the TTL alone", () => {
+    const src = loginRouteSrc();
+    expect(src).toMatch(/unverifiedAccount\(user\.verificationCodeHash\)/);
+    // The refusal keeps the reference's banner text through the seam.
+    expect(src).toMatch(/verificationRequiredMessage\(\)/);
+  });
+
+  it("the resend route re-mints for ANY unverified account (the expired-code re-arm)", () => {
+    const src = resendRouteSrc();
+    // The no-op gate narrows to unknown-account-or-already-verified; the
+    // isVerificationPending requirement is GONE from the gate (an expired
+    // code now re-mints instead of dead-ending).
+    expect(src).toMatch(/!user \|\| !unverifiedAccount\(user\.verificationCodeHash\)/);
+    expect(src).not.toMatch(/!isVerificationPending\(user\.verificationExpiresAt\)\) \{\s*\/\/ Unknown account/);
+  });
+
+  it("the login card swaps to the verify view on VERIFICATION_REQUIRED (the return-visitor re-entry)", () => {
+    const src = loginCardSrc()
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/[^\n]*/g, "");
+    // The signin submit recognizes the 403's error code and re-enters the
+    // funnel: digits reset, the refusal rides the info banner, the view
+    // swaps — the Resend affordance is one click away.
+    expect(src).toMatch(/VERIFICATION_REQUIRED/);
+    expect(src).toMatch(/setView\("verify"\)/);
+  });
+
+  it("all four submit handlers carry the in-flight double-submit guard (F11-12)", () => {
+    const src = loginCardSrc()
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/[^\n]*/g, "");
+    // onSigninSubmit / onSignupSubmit / onVerifySubmit: `if (pending) return;`
+    // (onSendResetLink already had it; onResend rides its own `resending`).
+    const guards = src.match(/if \(pending\) return;/g) ?? [];
+    expect(guards.length).toBe(4);
+  });
+});

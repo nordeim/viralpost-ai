@@ -3,7 +3,7 @@ import { ok, fail, ERR, parseBody } from "@/lib/api";
 import { verifyPassword, timingEqualizerHash, setSessionCookie } from "@/lib/auth";
 import { loginSchema } from "@/lib/schemas";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
-import { isVerificationPending, verificationRequiredMessage } from "@/lib/verification";
+import { unverifiedAccount, verificationRequiredMessage } from "@/lib/verification";
 
 export const dynamic = "force-dynamic";
 
@@ -50,9 +50,14 @@ export async function POST(req: Request) {
     // (inherited from the scaffold family's reference walks; this
     // reference's signup probe was platform-rejected, so the banner was
     // never rendered here — Reasoned, re-attributed session 8, F8-6).
-    // Pre-session-21 rows (verificationExpiresAt null) and expired
-    // codes pass through — the seeded demo account predates the flow.
-    if (isVerificationPending(user.verificationExpiresAt)) {
+    // Session-11 (F11-4): the gate keys on the STORED HASH, not the code's
+    // TTL — an expired code no longer downgrades the account to
+    // no-verification-required (the old isVerificationPending gate let a
+    // never-verified user sign in by waiting out the 15 minutes). The
+    // login card re-enters the funnel on this 403 (swaps to the verify
+    // view); the resend re-mints for any unverified account. Pre-flow
+    // rows (null hash, the seeded demo account) pass untouched.
+    if (unverifiedAccount(user.verificationCodeHash)) {
       return fail("VERIFICATION_REQUIRED", verificationRequiredMessage(), 403);
     }
 

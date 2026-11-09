@@ -67,9 +67,12 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
     expect(src).toContain('role="region"');
   });
 
-  it("the card chrome family (rounded-xl + p-3.5 + shadow-lg — live-censused 12px radius, 14px padding, the two-layer lg shadow)", () => {
+  it("the card chrome family (rounded-xl + p-3.5 + shadow-lg — live-censused 12px radius, 14px padding, the two-layer lg shadow; the polite status role — errors swap to alert, session-11 F11-17)", () => {
     expect(src).toContain("rounded-xl border p-3.5 shadow-lg");
-    expect(src).toContain('role="status"');
+    // Session-11 (F11-17): the role is now variant-conditional — errors
+    // announce assertively (role="alert"), every other variant stays
+    // polite. The conditional itself is the pin.
+    expect(src).toContain('role={item.variant === "error" ? "alert" : "status"}');
   });
 
   it("the three variant borders (the walk-censused success/error/info pair)", () => {

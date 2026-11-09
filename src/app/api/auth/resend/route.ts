@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import { ok, ERR, parseBody } from "@/lib/api";
 import { resendSchema } from "@/lib/schemas";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
-import { VERIFICATION_TTL_MS, isVerificationPending, verificationResentMessage } from "@/lib/verification";
+import { VERIFICATION_TTL_MS, unverifiedAccount, verificationResentMessage } from "@/lib/verification";
 import { hashVerificationCode } from "@/lib/verification-server";
 import { generateVerifyCode } from "@/lib/password";
 
@@ -38,7 +38,13 @@ export async function POST(req: Request) {
   // findUnique/update failures stay inside { ok, error }.
   try {
     const user = await db.user.findUnique({ where: { email } });
-    if (!user || !user.verificationCodeHash || !isVerificationPending(user.verificationExpiresAt)) {
+    // Session-11 (F11-4): the no-op gate narrows to unknown-account or
+    // already-verified — the old isVerificationPending requirement
+    // dead-ended the expired-code user (a no-op "resent" with no fresh
+    // code, while the login route's new hash gate refuses them). The
+    // resend IS the re-arm path: any unverified account gets a fresh
+    // code and a reset attempt counter.
+    if (!user || !unverifiedAccount(user.verificationCodeHash)) {
       // Unknown account or nothing to resend: answer with the same info
       // banner (the reference's non-leaking posture) — a rate-limited no-op.
       return ok({ resent: true, message: verificationResentMessage() });
