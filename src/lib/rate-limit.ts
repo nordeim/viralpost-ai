@@ -1,18 +1,16 @@
 // Fixed-window rate limiter (per-process, single-node deploy — same contract
-// as the scaffold family). Used by the auth routes with PER-ROUTE limits
-// (all per 15 min / IP — Session-63 (N-63e) corrected this header, which
-// used to claim a flat "10 attempts"): login 10, signup 10, resend 5,
-// verify 20. Session-67 (N-67e) added the sessioned upload route at 20
-// (post-guard); session-68 (F-68a3) recorded it here. Session-163 added
-// forgot 10 + reset 10 (the reset funnel's own buckets).
+// as the scaffold family). The rate-limited routes with PER-ROUTE limits:
+// login 10, signup 10, resend 5, verify 20 (all per 15 min / IP),
+// forgot 10 + reset 10 (the reset funnel's own buckets), contact 5/hour,
+// generate 20/15min (session-or-IP keyed).
 //
 // Session-173 (F-173a): rateLimit takes `now = Date.now()` — the
 // session-164 sweepRateLimits form extended to the rateLimit path, the
 // module's own injectable precedent. PURELY ADDITIVE: the default is the
-// wall clock, every call site (the 7 rate-limited routes) rides
-// unchanged, and the fixed-window arithmetic became property-testable
-// (tests/property.test.ts P-n…P-q — the crossing, the retryAfter
-// ceiling, and the remaining monotonicity over a generated space).
+// wall clock, every call site rides unchanged, and the fixed-window
+// arithmetic is property-tested (tests/property.test.ts — the crossing,
+// the retryAfter ceiling, and the remaining monotonicity over a
+// generated space; the suite landed at session 9, F9-5).
 
 interface Bucket {
   count: number;
@@ -22,14 +20,17 @@ interface Bucket {
 const buckets = new Map<string, Bucket>();
 
 // Session-164 (the digma S76-G port): the sweep WATERMARK — the earliest
-// live resetAt seen at the last sweep. Every auth route calls
-// sweepRateLimits() on every request (13+ call sites), so the pre-164
-// always-full O(n) walk cost O(n^2) across rotated-key bursts. Calls
-// before the watermark crossing are O(1) no-ops; an expired key still
-// resets LAZILY at its own access (the rateLimit path); only the memory
-// reclamation of UN-ACCESSED keys waits for the crossing. Per-key
-// observable behavior is identical to the always-sweep form — only the
-// cost profile changes (the never-weakened guarantee).
+// live resetAt seen at the last sweep. Every rate-limited route calls
+// sweepRateLimits() after its limiter call, denied requests included
+// (the six auth-family routes + contact + generate — session-9, F9-8,
+// closed the gap where the contact:/generate: key families never
+// swept), so the pre-164 always-full O(n) walk cost O(n^2) across
+// rotated-key bursts. Calls before the watermark crossing are O(1)
+// no-ops; an expired key still resets LAZILY at its own access (the
+// rateLimit path); only the memory reclamation of UN-ACCESSED keys
+// waits for the crossing. Per-key observable behavior is identical to
+// the always-sweep form — only the cost profile changes (the
+// never-weakened guarantee).
 let sweepWatermark = 0;
 
 export interface RateLimitResult {

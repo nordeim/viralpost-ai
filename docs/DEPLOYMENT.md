@@ -1,8 +1,11 @@
 # Deployment Guide
 
-ORBITAL ships as a single Next.js **standalone** build with a SQLite file
-database — one process, zero external services. This guide covers the
-supported production paths and the environment contract.
+ViralPost AI ships as a single Next.js **standalone** build with a SQLite
+file database — one process, zero external services. This guide covers the
+supported production paths and the environment contract. (Rewritten at
+session 9, F9-4 — the previous text still described the scaffold's ORBITAL
+era: its name, its 29-route/41-handler census, and the pre-boot-gate
+AUTH_SECRET semantics that session-170 retired.)
 
 ## 1. Build
 
@@ -11,10 +14,12 @@ bun install
 bun run build          # next build + standalone assembly (.next/standalone)
 ```
 
-The build compiles the page shell and the 29 API route files (41 verb handlers), then copies
-`.next/static` and `public/` into `.next/standalone/` (see the `build`
-script in `package.json`). `next.config.ts` pins `outputFileTracingRoot` to
-the repo root — keep it; the standalone trace depends on it.
+The build compiles the page shell and the 11 API route files (11 verb
+handlers — the auth family's eight, contact, generate, health), then
+copies `.next/static` and `public/` into `.next/standalone/` (see the
+`build` script in `package.json`). `next.config.ts` pins
+`outputFileTracingRoot` to the repo root — keep it; the standalone trace
+depends on it.
 
 ## 2. Run
 
@@ -22,26 +27,27 @@ the repo root — keep it; the standalone trace depends on it.
 bun run start          # NODE_ENV=production bun .next/standalone/server.js
 ```
 
-The server listens on port 3000 by default (`PORT` overrides). Always start
-it from the repo root via the npm/bun script — the scripts guarantee the
-working directory that the SQLite path resolution and the standalone trace
-rely on. **Cookie scheme note (session-67):** the session cookie's `Secure`
-flag derives from `NODE_ENV` (set in production boots) — the app NEVER reads
-`X-Forwarded-Proto` or any other request header to decide it. Behind an
-HTTPS-terminating reverse proxy that speaks plain HTTP to the app,
-`NODE_ENV=production` is what marks the cookie `Secure`; a plain-HTTP
-production boot still sets `Secure`, and browsers will silently drop the
-cookie (a login loop) — serve the app over HTTPS end-to-end or terminate
-TLS at the app process if you must run without the flag.
+The server listens on port 3000 by default (`PORT` overrides). Always
+start it from the repo root via the npm/bun script — the scripts
+guarantee the working directory that the SQLite path resolution and the
+standalone trace rely on. **Cookie scheme note (session-67):** the
+session cookie's `Secure` flag derives from `NODE_ENV` (set in
+production boots) — the app NEVER reads `X-Forwarded-Proto` or any other
+request header to decide it. Behind an HTTPS-terminating reverse proxy
+that speaks plain HTTP to the app, `NODE_ENV=production` is what marks
+the cookie `Secure`; a plain-HTTP production boot still sets `Secure`,
+and browsers will silently drop the cookie (a login loop) — serve the
+app over HTTPS end-to-end or terminate TLS at the app process if you
+must run without the flag.
 
 ## 3. Environment variables
 
 | Variable | Required | Purpose |
 |----------|----------|---------|
 | `DATABASE_URL` | Yes | SQLite connection string. See §4. |
-| `AUTH_SECRET` | **Yes in production** | HMAC secret for session cookies. Generate with `openssl rand -hex 32`. Must be at least 16 characters — shorter values fall back to the insecure dev constant (with a server warning) instead of the run-time error an absent value raises. Never ship the dev constant. |
-| `NEXT_PUBLIC_SITE_URL` | Recommended | Canonical public origin, used for metadata URLs and `sitemap.xml` (e.g. `https://orbital.example.com`). |
-| `VIRALPOST_PROXY_HOPS` | Behind a reverse proxy | Trusted proxy depth for the rate-limit IP keying (unset = 1 — exactly one appending proxy; 0 = direct exposure; N ≥ 2 = N trusted appending proxies). Unparsable/negative values fail closed onto 1. Set it to match the proxy chain in front of the app, or every caller shares one rate-limit bucket. |
+| `AUTH_SECRET` | **Yes in production** | HMAC secret for session cookies. Generate with `openssl rand -hex 32`. Must be at least 16 characters — in production a missing or shorter value FAILS HARD AT BOOT (session-170: `src/instrumentation.ts` → `src/lib/boot-env.ts` refuses to serve; the `[boot]` message names this file and the openssl command). Never ship the dev fallback constant. |
+| `NEXT_PUBLIC_SITE_URL` | Recommended | Canonical public origin, used for metadataBase, the OG/Twitter cards, `robots.txt` and `sitemap.xml` (e.g. `https://viralpost.example.com`). **Inlined at build time** — set it BEFORE `bun run build`; the boot gate warns when production would advertise a localhost origin. |
+| `VIRALPOST_PROXY_HOPS` | **Declare it in production** | Trusted proxy depth for the rate-limit IP keying (unset = 1 — exactly one appending proxy; 0 = direct exposure; N ≥ 2 = N trusted appending proxies). Unparsable/negative values fail closed onto 1. **Session-9, F9-1:** the boot gate WARNS when this is unset in production — under DIRECT exposure (no proxy in front of the app) the default lets a client rotating a forged `x-forwarded-for` value mint a fresh rate-limit bucket per request; set `0` for direct exposure or the hop count behind a proxy chain. |
 | `VIRALPOST_DISABLE_IN_APP_OTP` | Production with a mail transport | Set to `1` when a real mail transport owns verification-code delivery — the signup/resend responses stop carrying the code. Leave unset for the self-hosted demo posture (the code rides the response). |
 | `VIRALPOST_DISABLE_IN_APP_RESET` | Production with a mail transport | Set to `1` when a real mail transport owns reset-link delivery — the forgot-password response stops carrying the link (the no-enumeration 200 is unchanged either way). |
 
@@ -57,12 +63,12 @@ TLS at the app process if you must run without the flag.
    `schema.prisma`** — exactly like the Prisma CLI — so this string points
    at `<repo>/db/custom.db` for `prisma db push`, `prisma/seed.ts`,
    `next build` and the running server alike, regardless of the process
-   working directory. The resolution rule lives in
-   `src/lib/db-path.ts` and is pinned by `tests/db-path.test.ts`.
+   working directory. The resolution rule lives in `src/lib/db-path.ts`
+   and is pinned by `tests/db-path.test.ts`.
 
 2. **Absolute `file:` URL (recommended for production).**
    ```
-   DATABASE_URL="file:/var/lib/orbital/custom.db"
+   DATABASE_URL="file:/var/lib/viralpost/custom.db"
    ```
    Absolute paths pass through untouched — immune to any working-directory
    ambiguity across service managers, containers, or cron wrappers. Point
@@ -76,7 +82,7 @@ Initialize (or reset) the database with:
 
 ```bash
 bun run db:push        # apply schema (db push — no migrations folder)
-bun run db:seed        # idempotent demo workspace (wipes domain tables)
+bun run db:seed        # idempotent demo user (wipes the contact inbox)
 ```
 
 `db/*.db` is gitignored; every fresh clone recreates it from the two
@@ -96,7 +102,8 @@ bun run build
 ## 6. Verification checklist
 
 ```bash
-curl -s https://your-host/api/health          # {"status":"ok",...}
+curl -s https://your-host/api/health
+# {"ok":true,"data":{"status":"healthy","db":"up"}}
 bun run lint && bun run typecheck && bun run test
 bun run gate                                  # the one-command gate (local)
 bun run test:e2e                              # Playwright suite (local)
@@ -107,5 +114,7 @@ bun run test:e2e                              # Playwright suite (local)
 | Symptom | Cause | Fix |
 |---------|-------|-----|
 | `Error code 14: Unable to open the database file` | Server started from a directory that has no `prisma/schema.prisma` and no absolute `DATABASE_URL` | Start via `bun run start`, or set an absolute `file:` URL (§4) |
+| The server refuses to boot, the log names `AUTH_SECRET` | The production boot gate (session-170): missing/short secret | Generate one with `openssl rand -hex 32`, set `AUTH_SECRET`, restart |
 | Logins loop back to `/login` | `AUTH_SECRET` changed between restarts | Keep the secret stable across restarts |
 | Rate-limited logins (429) | 10 attempts/IP/15 min fixed window | Wait for `Retry-After`, or restart to clear the in-memory buckets (single-node). Behind a reverse proxy, verify `VIRALPOST_PROXY_HOPS` matches the chain (§3) — a wrong depth merges every client into one bucket |
+| `[boot] VIRALPOST_PROXY_HOPS is unset in production` | The session-9 trust-default warning (F9-1) | Declare the topology: `0` under direct exposure, or the proxy hop count behind a chain (§3) |

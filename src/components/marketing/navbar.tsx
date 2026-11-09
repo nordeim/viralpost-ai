@@ -108,11 +108,13 @@ export function Navbar() {
           )}
         </button>
       </div>
-      {/* The mobile menu — the reference's own dropdown, plus animation-safe
-          conditional classes (height/opacity transitions when motion is
-          allowed; the globals.css reduced-motion block collapses them).
-          Transparent over the hero (the reference's dead /98 class — the
-          WebGL glow bleeds through); dark + blurred on light pages. */}
+      {/* The mobile menu — the reference's own dropdown. The
+          height/opacity transition classes are INERT by design: the
+          `hidden` attribute removes display, so no transition can play
+          (the reference's menu has no transition either — SKILL §9
+          item 13); they stay as harmless dead classes. Transparent over
+          the hero (the reference's dead /98 class — the WebGL glow
+          bleeds through); dark + blurred on light pages (our superset). */}
       <div
         className={cn(
           "md:hidden border-b border-white/10 overflow-hidden transition-all duration-300",

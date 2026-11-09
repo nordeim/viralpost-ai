@@ -150,3 +150,20 @@ describe("session-67: the standing auth-seam records (the N-67 keep set)", () =>
   });
 
 });
+
+describe("session-9 (F9-9): the signup role vocabulary (the schema's documented set)", () => {
+  // The schema documents `role String @default("user") // user | admin`
+  // (prisma/schema.prisma) — but signup minted the CRM's "rep" value for
+  // every non-first user, an undocumented third role no reader expects.
+  // The pin: the bootstrap form stays (first signup on a fresh deploy
+  // admin-boots), every other signup lands the schema's own default.
+  it("signup assigns the documented vocabulary: admin bootstrap, otherwise the schema default", () => {
+    const src = stripComments(read("src/app/api/auth/signup/route.ts") ?? "");
+    expect(src).toContain('role: count === 0 ? "admin" : "user"');
+  });
+
+  it("no CRM-era role value survives in the app tree (comment-stripped)", () => {
+    const src = stripComments(read("src/app/api/auth/signup/route.ts") ?? "");
+    expect(src).not.toContain('"rep"');
+  });
+});

@@ -8,9 +8,11 @@
 //     for tests — the reference's platform LLM was observed returning HTTP
 // 402 with the UI hanging forever (docs/reference-investigation.md §5 D-1);
 //     the clone's generator must actually WORK without any external key.
-//  2. The PROVIDER FACE: `generatorPrompt(idea)` reproduces the reference's
-//     exact prompt; an optional OpenAI-compatible HTTP provider (server
-//     side, env-keyed) can be wired in src/lib/generator-provider.ts.
+//  2. THE PROVIDER FACE (a documented wire-in point, NOT a shipped
+//     feature — session-9, F9-3): `generatorPrompt(idea)` reproduces the
+//     reference's exact prompt so a future env-keyed OpenAI-compatible
+//     module (e.g. src/lib/generator-provider.ts) can slot in without
+//     touching the contract. No code reads a provider env var today.
 //
 // Determinism: the engine is a pure function of (idea, seed) — same inputs,
 // same post. The API route passes a crypto-random seed so users see variety
@@ -369,6 +371,9 @@ export function countWords(text: string): number {
   return text.split(/\s+/).filter(Boolean).length;
 }
 
+/** Extract the hashtag tokens from a rendered post (the e2e-facing
+ * contract helper — tests/generator.test.ts reads the tags back out of
+ * the generated text with it). Kept: it has a live caller. */
 export function extractHashtags(text: string): string[] {
   return text.match(/#[A-Za-z0-9_]+/g) ?? [];
 }

@@ -1,3 +1,148 @@
+Task ID: 9
+Agent: main (Z.ai)
+Task: The session-9 rate-limiter trust warning + phantom-claim retirement
++ docs-counts gate round — re-run the standing instruction against the
+post-session-8 tree (80bcb2f): docs review, fresh audit (web-application
+§15/§16 + security-and-hardening + tdd, this round aimed at the
+trust-default configuration class, the docs/code count-and-claim layer,
+and the dead-code/dependency census), the neo-crm tech-stack-patterns
+review (its docs-counts.test.ts adopted), reference parity
+re-verification (logged-in walk: the mobile menu at 390×844, /Tool,
+/Dashboard, the OG family), the TDD cures, the gate, dev-server captures
+25/26, push #9 to main via the SSH wrapper. (The workspace was reset, so
+the round organically re-ran the §15 pristine-clone verification: fresh
+clone → install → cp .env.example .env → db:push → db:seed → census
+MATCH → the full gate green at the documented counts, after installing
+the Playwright browser the fresh sandbox lacked.)
+
+Work Log:
+- THE HEADLINE FINDING (F9-1, HIGH): VIRALPOST_PROXY_HOPS unset (the
+  shipped default) means trust depth 1 — but under DIRECT exposure (the
+  self-hosted quickstart's own shape) the entire x-forwarded-for header
+  is client-supplied, and rotating one fake value per request mints a
+  fresh limiter bucket every time: every per-IP wall (login, signup,
+  resend, verify, forgot/reset, contact, generate) bypassable. The
+  seam's own comment documents the hazard; the boot gate warned on bad
+  values but was silent on the unset-under-direct-exposure case. CURED
+  by TDD (+4 RED pins first): the production boot warning when unset
+  (the NEXT_PUBLIC_SITE_URL warn precedent — never fatal; dev exempt;
+  the message names the 0-for-direct-exposure fix and the proxy-chain
+  alternative). The healthy-env test builder now DECLARES hops=1 —
+  declaring the topology IS the healthy posture the warning teaches
+- THE PHANTOM-CLAIM RETIREMENT (F9-2..F9-5, the docs/code claim layer):
+  F9-2 the @theme-inline doc drift — four docs (six sites) claimed
+  `@theme inline` while the code and its own design-tokens pin use
+  `@theme` (inline emits no :root custom properties; @layer base
+  consumes var(--color-line) etc. — "fixing" the CSS toward the docs
+  would break the base layer) — all six sites cured
+  F9-3 the phantom provider — GENERATOR_PROVIDER/OPENAI_API_KEY
+  advertised as live knobs (generate route, generator.ts, README
+  deviations, implementation-plan S-9 + three rows) while ZERO code
+  reads either var — reworded to the documented WIRE-IN POINT
+  (generatorPrompt() preserves the exact prompt; a future
+  generator-provider.ts could slot in; no provider env is read today)
+  F9-4 DEPLOYMENT.md was still ORBITAL-era — the wrong app's name,
+  a 29-route/41-handler census (actual: 11/11), the RETIRED
+  pre-boot-gate AUTH_SECRET semantics ("falls back to the dev
+  constant" — since session-170 production fails hard at boot),
+  orbital.example.com origins, a stale health shape — rewritten for
+  ViralPost AI at the current facts, with the F9-1 warning
+  cross-referenced
+  F9-5 the phantom property-suite claim — the PAD cited "property
+  tests (fast-check) on the generator contract" and rate-limit.ts
+  cited tests/property.test.ts while neither existed (fast-check:
+  zero imports) — the suite LANDED (15 properties: determinism, the
+  5-8 hashtag window, the <200-word bound, the hook-first shape, the
+  hashtag-line form, the paragraph shape, sanitize bounds; the
+  fixed-window crossing, the retryAfter ceiling, remaining
+  monotonicity, computeWatermark minimality) — the claim is now TRUE
+  and the dependency earns its keep (one property self-inflicted bug
+  caught in RED: the ceiling probe must stay strictly inside the
+  window — a drift past the reset legitimately reopens the bucket)
+- THE CODE CURES (F9-7..F9-9): F9-7 the reset funnel's read-path
+  honesty — forgot-password's .catch(()=>null) swallowed a DB outage
+  into the no-enumeration 200 and reset-password misclassified it as
+  the invalid-token 400; both reads now classify P2024/P2028 as the
+  503 envelope (the update path's own doctrine), and the bare
+  `throw error` residuals answer ERR.INTERNAL() (the envelope is
+  absolute; reset-password's own "never a bare 500" comment is now
+  literal) — TDD (+2 RED pins)
+  F9-8 contact/generate joined the sweep family (their key families
+  never swept — unbounded bucket growth under rotating keys with zero
+  auth traffic; the module comment's "13+ call sites" corrected to the
+  actual census, the phantom upload-route line dropped)
+  F9-9 the signup role CRM relic — non-first signups got role "rep"
+  (the CRM's sales vocabulary, outside the schema's documented
+  "user | admin") — now the schema's own "user" — TDD (+2 RED pins:
+  the vocabulary pin + the no-"rep" absence pin)
+- THE DEAD-CODE CENSUS (F9-10, with a lesson): src/types/index.ts
+  (zero importers — components hand-roll their wire types) and
+  resetLive (documented "escape hatch," no test ever called it)
+  retired with notes; the unused tw-animate-css devDep removed via
+  `bun remove` (the vendored ./vendor/tw-animate.css stays the import);
+  install_packages.sh synced. extractHashtags was NOT retired — the
+  type gate caught the audit's error: tests/generator.test.ts imports
+  it (the audit's "zero callers" claim was wrong; kept with a
+  live-caller note — the build-as-type-gate doctrine proving itself
+  mid-session)
+- THE ADOPTED PATTERN (F9-13, from the neo-crm tech-stack review):
+  tests/docs-counts.test.ts — the neo-crm session-102 docs-counts
+  gate, adopted for this repo. The badge-drift genus had recurred
+  THREE times (450→455 at session 8, 455→457 caught this round)
+  because the count-lockstep was prose discipline; now every
+  live-tense count site (the README badge arithmetic, the suite
+  counts across README/AGENTS/CLAUDE/PAD/SKILL, the six-knob env
+  table, the plans census) sits under the unit gate with stale-form
+  negatives — a future stale count fails `bun run test`. Badge now
+  490 = 442 unit + 48 e2e
+- THE STALE-COMMENT SWEEP (F9-11/F9-12): next.config's phantom
+  uploads/F-170a commentary re-attributed to this repo's artifact
+  hygiene (+ the uploads/** exclude dropped — no uploads dir exists);
+  tsconfig's sweep.ts and .jsx-alias notes rewritten to the doctrine
+  form; .gitignore's inert uploads/sweep-shots/walk5x block retired;
+  db-census.test's CRM seed-count prose re-anchored to the pristine
+  contract; the navbar's "animation-safe" comment now honest (the
+  hidden swap makes the transitions inert — SKILL §9 item 13);
+  PAD login-card "3 views"→5, the secrets/logs row gained the
+  documented OTP-console nuance; README's public/ tree fixed; SKILL's
+  hook-rules and FAQ claims corrected
+- THE PARITY RE-CHECK (live, logged-in on the reference — no drift
+  since session 8): the login funnel; /Home's landing (same nav +
+  sections + generator card); the mobile menu at 390×844 (the same 5
+  destinations + brand; the reference's panel computes rgba(0,0,0,0)
+  on light pages — the dead /98 class; our dark-panel superset
+  intact; the reference's hamburger still ships NO aria — our
+  labeled superset holds); menu navigation + auto-close; fresh /Tool
+  "Tool | ViralPost AI"; the SPA stale-title-on-soft-nav (our
+  ledgered superset); /Dashboard derived title + 404 h1; the OG
+  family (plain 170-char description). Clone-side dev-server walk
+  green: burger relabels "Close menu"/expanded=true → Pricing click
+  → auto-close + "Pricing | ViralPost AI"; /Tool; /Dashboard 404;
+  robots/sitemap/manifest shapes
+- THE STANDING-INSTRUCTION ITEMS VERIFIED ALREADY-SATISFIED:
+  DATABASE_URL="file:../db/custom.db" with db/ at the repo root (the
+  seam + fixture tests hold, census MATCH); the vitest + playwright
+  configs healthy (442 unit / 48 e2e green against the build); the
+  sitemap/robots/manifest + per-route OG surface (e2e seo specs +
+  smoke legs green); .env.example ↔ the six-knob contract both
+  directions
+- THE CAPTURES (25/26): the dev-server landing (1280×800) and the
+  open mobile menu (390×844), PIL-verified non-blank (99.7%/99.9%),
+  regenerated on the remediated tree
+- THE VERIFICATION: full gate on the exact commit tree — lint 0/0 ·
+  tsc 0 · unit 442/442 (31 files, +33: +4 F9-1, +2 F9-9, +2 F9-7,
+  +15 property, +10 docs-counts) · build · smoke 15/15 · e2e 48/48
+  (8 specs) · census MATCH
+- SHIPPED: the round-history lockstep (SKILL v1.5.0 with the Session
+  9 row + Appendix B advanced, README's status table + gate line +
+  badge, AGENTS' nine-plan map + the 442 count, CLAUDE/PAD counts) +
+  captures 25/26 + the plan doc
+  (docs/plans/2026-11-09-session9-rate-limiter-trust-warning-and-docs-counts-gate.md)
+  + this worklog entry, committed to main and pushed via
+  docs/ssh_git_wrapper_v3.py
+
+---
+
 Task ID: 8
 Agent: main (Z.ai)
 Task: The session-8 live OG-parity + evidence-provenance round — re-run

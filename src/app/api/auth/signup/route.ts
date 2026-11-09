@@ -84,7 +84,7 @@ export async function POST(req: Request) {
         email,
         passwordHash: hashPassword(password),
         avatarColor: NAME_COLORS[count % NAME_COLORS.length],
-        role: count === 0 ? "admin" : "rep",
+        role: count === 0 ? "admin" : "user",
         verificationCodeHash: hashVerificationCode(code),
         verificationAttempts: 0,
         verificationExpiresAt: new Date(Date.now() + VERIFICATION_TTL_MS),

@@ -104,3 +104,46 @@ describe("the sessioned me/logout family", () => {
     expect(src).toMatch(/503/);
   });
 });
+
+describe("session-9 (F9-7): the reset funnel's DB-OUTAGE honesty (the read path joins the write path)", () => {
+  // The update paths already classify the transient-abort family
+  // (P2024 pool timeout / P2028 transaction timeout) as the 503
+  // envelope; the READ paths used `.catch(() => null)` — an outage
+  // indistinguishable from "no such user/token", answering the
+  // no-enumeration 200 (forgot) or the invalid-token 400 (reset) for a
+  // SERVER condition. And the residual `else { throw error; }` escaped
+  // the envelope as a raw Next 500 — contradicting reset-password's own
+  // "never a bare 500 past it" comment.
+  it("both reset-funnel routes classify the transient-abort family on their READ path as the 503 envelope", () => {
+    for (const rel of [
+      "src/app/api/auth/forgot-password/route.ts",
+      "src/app/api/auth/reset-password/route.ts",
+    ]) {
+      const src = stripComments(read(rel) ?? "");
+      // the read path carries the same classification the write path has
+      const readIdx = src.search(/findUnique\(|findFirst\(/);
+      expect(readIdx, `${rel}: no db read`).toBeGreaterThan(0);
+      const readWindow = src.slice(readIdx, readIdx + 700);
+      expect(
+        readWindow,
+        `${rel}: the db read must classify P2024/P2028 as UNAVAILABLE`,
+      ).toMatch(/P2024[\s\S]{0,120}P2028|P2028[\s\S]{0,120}P2024/);
+      expect(readWindow).toMatch(/UNAVAILABLE|503/);
+    }
+  });
+
+  it("neither route carries a bare re-throw past its catch (the envelope is absolute)", () => {
+    for (const rel of [
+      "src/app/api/auth/forgot-password/route.ts",
+      "src/app/api/auth/reset-password/route.ts",
+    ]) {
+      const src = stripComments(read(rel) ?? "");
+      expect(src, `${rel}: the bare re-throw must not survive`).not.toMatch(
+        /throw error;/,
+      );
+      expect(src, `${rel}: the residual class answers ERR.INTERNAL()`).toMatch(
+        /ERR\.INTERNAL\(\)/,
+      );
+    }
+  });
+});

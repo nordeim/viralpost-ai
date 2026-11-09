@@ -10,28 +10,25 @@ import path from "node:path";
 const nextConfig: NextConfig = {
   output: "standalone",
   outputFileTracingRoot: path.resolve(import.meta.dirname),
-  // Session-170 (F-170a — THE ARTIFACT HYGIENE): the upload family's
-  // runtime-computed fs paths (uploads.ts's validated-anchor
-  // existsSync/resolve chains) make @vercel/nft fall back to tracing the
-  // WHOLE repo root — every repo-root entry landed in
-  // app/api/upload/route.js.nft.json (2715 skills files alone), shipping
-  // .env (the real AUTH_SECRET), .git/ (171 MB), db/ (the dev SQLite
-  // file with user rows), uploads/, skills/ (194 MB) and docs/ (49 MB)
-  // inside every deployable artifact (~550 MB where ~151 MB suffices).
-  // The excludes keep the artifact to the server's true runtime needs
-  // (verified live: the photo-upload e2e pair ran GREEN against the
-  // clean artifact — prisma/schema.prisma stays traced, the db-path
-  // anchors still validate, db/ and uploads/ are mkdir'd on demand).
-  // Next's own writeStandaloneDirectory ALSO copies .env explicitly
-  // (build/index.js — immune to excludes): the build script's trailing
-  // `rm -f .next/standalone/.env` removes that copy (the double-cure).
+  // THE ARTIFACT HYGIENE (the scaffold family's session-170 F-170a
+  // lesson, carried over — this repo has no upload route, but the same
+  // tracing hazard applies to ANY repo-root baggage): without excludes,
+  // @vercel/nft can drag the whole repo root into the standalone trace —
+  // shipping .env (the real AUTH_SECRET), .git/, db/ (the dev SQLite
+  // file with user rows), skills/ and docs/ inside every deployable
+  // artifact. The excludes keep the artifact to the server's true
+  // runtime needs (smoke leg 15 asserts the built artifact carries none
+  // of them; prisma/schema.prisma stays traced and the db-path anchors
+  // still validate). Next's own writeStandaloneDirectory ALSO copies
+  // .env explicitly (build/index.js — immune to excludes): the build
+  // script's trailing `rm -f .next/standalone/.env` removes that copy
+  // (the double-cure).
   outputFileTracingExcludes: {
     "*": [
       ".env",
       ".env.example",
       ".git/**",
       "db/**",
-      "uploads/**",
       "skills/**",
       "docs/**",
       "test-results/**",

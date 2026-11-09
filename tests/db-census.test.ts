@@ -64,12 +64,12 @@ describe("session-53: the census seam (S53-P2, N-53b)", () => {
     expect(census()).not.toMatch(/15\/24\/10\/23\/12/);
   });
 
-  it("carries the seed-contract expectations and fails on drift (the N-53a guard)", () => {
+  it("carries the seed-contract expectations and fails on drift (the N-53a guard, re-anchored to this repo's pristine contract)", () => {
     const src = census();
-    // The prisma/seed.ts row counts (15 contacts / 24 leads / 10
-    // accounts / 23 activities / 12 events + 4 users) + a non-zero exit
-    // on mismatch — the probe-residue check the s51/s52 batteries
-    // believed they had.
+    // The prisma/seed.ts row counts (1 demo user + 0 contact messages —
+    // the pristine contract) + a non-zero exit on mismatch. (The
+    // scaffold-family's CRM counts — 15 contacts / 24 leads / … — were
+    // prose relics; the pinned expectations below were always ours.)
     expect(src).toMatch(/users:\s*1/);
     expect(src).toMatch(/contactMessages:\s*0/);
     expect(src).toMatch(/process\.exit\(1\)/);

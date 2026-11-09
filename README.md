@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-455%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-490%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,7 +52,7 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 29 files / 409 tests, node env, pure seams |
+| Unit tests | Vitest | 5.0 | 31 files / 442 tests, node env, pure seams |
 | E2E | Playwright | 1.64 | 8 specs / 48 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
@@ -80,7 +80,7 @@ flowchart TB
 📂 viralpost-ai/
 ├── 📂 prisma/                 schema + idempotent seed (demo user)
 ├── 📂 db/                     SQLite databases (gitignored, .gitkeep'd)
-├── 📂 public/                 og-image, portrait, screenshots
+├── 📂 public/                 og-image, hero portrait (screenshots live in docs/)
 ├── 📂 src/
 │   ├── 📂 app/
 │   │   ├── 📂 (site)/         landing, Tool, Pricing, Contact (+ shared chrome)
@@ -141,7 +141,7 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (29 files / 409 tests)
+bun run test            # Vitest unit suite (31 files / 442 tests)
 bun run test:e2e        # Playwright e2e (8 specs / 48 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
@@ -175,7 +175,7 @@ All bodies are JSON, validated with Zod, read through a bounded reader
 
 ## Design system
 
-- **Tokens** (in `src/app/globals.css`, `@theme inline` with literal hex):
+- **Tokens** (in `src/app/globals.css`, `@theme` with literal hex):
   teal primary (`#14b8a6` family), amber accent (`#f59e0b` family), slate
   neutrals, white surfaces.
 - **Type**: the system font stack (the reference ships zero webfonts).
@@ -190,7 +190,7 @@ Recorded in full in `docs/implementation-plan.md` §6. The headline items:
 
 | Area | Reference | Clone | Why |
 |---|---|---|---|
-| Generator backend | Platform LLM — observed **402-quota-dead**, hangs at "Generating…" forever | Working local engine + optional env-keyed provider | The core feature must work |
+| Generator backend | Platform LLM — observed **402-quota-dead**, hangs at "Generating…" forever | Working local engine (a documented provider wire-in point — the exact prompt preserved by `generatorPrompt()`; no provider env is read today) | The core feature must work |
 | Unknown routes | SPA answers 200 everywhere; title `startCase(path)` | True 404 status + the same derived title + `noindex` | SEO; the title parity is byte-verified |
 | Contact form | Client-side stub, no persistence | Persists to SQLite | The advertised action must be real |
 | Auth | localStorage token | httpOnly HMAC cookie + tokenVersion revocation | Security |
@@ -216,8 +216,9 @@ the PostgreSQL swap.
 | Session 6 — the clean-tree re-certification | ✅ done | Widened fresh-eyes audit (secondary docs, scripts, configs): zero findings; parity re-verified live; captures 19/20 |
 | Session 7 — the dev-script loop + phantom comments | ✅ done | The `dev` tee reload loop cured (A/B-verified, pinned); api.ts dead helpers retired; phantom CRM claims re-attributed (site.ts, not-found, 405/141→170); captures 21/22 |
 | Session 8 — the live OG parity + evidence provenance | ✅ done | The reference's per-route OG family discovered live (D-4 superseded) — the prefixed OG description retired to the plain paragraph (TDD, pinned); the 2026-10-01 phantom-census claims re-attributed (verify funnel, headers census, SEO routes, typography); README badge 450→455; captures 23/24 |
+| Session 9 — the rate-limiter trust warning + the docs-counts gate | ✅ done | The unset-`VIRALPOST_PROXY_HOPS` production boot warning (the direct-exposure XFF-rotation hazard); the signup `"rep"` role relic → the schema's `"user"`; the reset funnel's read-path outage honesty (503, never a bare 500); the property suite landed (fast-check over the generator + limiter contracts — the PAD claim made true); contact/generate joined the sweep family; the dead-code + phantom-provider retirement; DEPLOYMENT.md rewritten for ViralPost AI (was ORBITAL-era); the neo-crm docs-counts gate adopted (badge 490 = 442+48, unit-pinned); captures 25/26 |
 
-Gate at the session-8 ship: lint 0/0 · tsc 0 · unit 409/409 · build ·
+Gate at the session-9 ship: lint 0/0 · tsc 0 · unit 442/442 · build ·
 smoke 15/15 · e2e 48/48.
 
 ## License

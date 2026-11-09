@@ -96,13 +96,7 @@ export function incrementLive(): void {
   emitUsage();
 }
 
-/** Test/escape hatch: clear the stored record. */
-export function resetLive(): void {
-  if (typeof window === "undefined") return;
-  try {
-    window.localStorage.removeItem(GENERATIONS_KEY);
-  } catch {
-    // ignore
-  }
-  emitUsage();
-}
+// (Session 9, F9-10: the resetLive escape hatch — documented "Test/escape
+// hatch" but no test ever called it (the e2e family clears quota state by
+// context, the unit family drives the pure functions) — was retired in the
+// S7 api.ts precedent: dead exports go, with a note.)

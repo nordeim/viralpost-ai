@@ -4,14 +4,17 @@ import { z } from "zod";
 
 import { fail, isGuarded, ok, readBoundedJson, requireSession } from "@/lib/api";
 import { generatePost, sanitizeIdea } from "@/lib/generator";
-import { clientKey, rateLimit } from "@/lib/rate-limit";
+import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
 // POST /api/generate — the working core the reference's 402-dead LLM could
-// not deliver. The LOCAL ENGINE serves every request by default (offline,
-// deterministic-per-seed); an optional OpenAI-compatible provider (set
-// GENERATOR_PROVIDER + OPENAI_API_KEY) lifts quality when configured.
+// not deliver. The LOCAL ENGINE serves every request (offline,
+// deterministic-per-seed). A provider face is a documented WIRE-IN POINT,
+// not a shipped feature: generatorPrompt() preserves the reference's exact
+// prompt, and a future env-keyed OpenAI-compatible module could slot behind
+// this handler — no code reads a provider env today (session-9, F9-3 — the
+// old comment advertised GENERATOR_PROVIDER/OPENAI_API_KEY as live knobs).
 //
 // Quota posture (docs/implementation-plan.md §Deviations): the UX quota is
 // the client's daily counter (the reference's own contract); the SERVER
@@ -27,6 +30,10 @@ export async function POST(req: Request) {
   const user = isGuarded(guard) ? null : guard.user;
   const limitKey = `generate:${user?.id ?? clientKey(req)}`;
   const limited = rateLimit(limitKey, RATE_LIMIT, RATE_WINDOW_MS);
+  // Session-9 (F9-8): this route's key family sweeps too (the auth-route
+  // placement, denied requests included) — under rotating XFF keys with
+  // zero auth traffic the generate: buckets were never reclaimed.
+  sweepRateLimits();
   if (!limited.allowed) {
     return NextResponse.json(
       {

@@ -1,9 +1,9 @@
 ---
 name: viralpost-ai
 description: "The complete engineering skill for the ViralPost AI codebase: a Next.js 16 App Router + React 19 + TypeScript strict + Tailwind CSS 4 (CSS-first) + Prisma/SQLite clone of viralpostai.base44.app built as a functional superset with visual parity. Covers the deterministic generator engine, the quota counter, the scrypt/HMAC auth family, the catch-all 404 title architecture, the Tailwind v4 trap catalog, the WebGL/canvas effects, the three-tier test suite, and the parity-walk methodology. Every rule traces to something that actually happened in this repo."
-version: 1.4.0
+version: 1.5.0
 last_updated: 2026-11-09
-project_state: "Session-8 ship: lint 0/0 · tsc 0 · unit 409/409 (29 files) · build · smoke 15/15 · e2e 48/48 (8 specs) · census MATCH"
+project_state: "Session-9 ship: lint 0/0 · tsc 0 · unit 442/442 (31 files) · build · smoke 15/15 · e2e 48/48 (8 specs) · census MATCH"
 provenance: "Distilled at the session-2 remediation round (the /Dashboard parity audit) from the session-1 clone build and the session-2 audit. Scaffold lineage: the NEO-CRM template family's infrastructure seams (auth, db-path, rate-limit, the gate) — the domain is entirely ViralPost AI's."
 ---
 
@@ -102,7 +102,7 @@ The config files that carry non-obvious weight:
 |---|---|
 | `next.config.ts` | standalone output, the `/Home` → `/` redirect, artifact hygiene |
 | `tsconfig.json` | strict; `@/*` → `src/*`; `skills/` excluded |
-| `eslint.config.mjs` | next/core-web-vitals + next/typescript; hook rules as errors; `skills/` ignored |
+| `eslint.config.mjs` | next/core-web-vitals + next/typescript (`rules-of-hooks` an error via the preset; `exhaustive-deps`/`purity` deliberately off); `skills/` ignored |
 | `vitest.config.ts` | `src/**/*.test.ts` + `tests/**/*.test.ts` — never Playwright's `*.spec.ts` |
 | `playwright.config.ts` | setup project (one login → storageState), webServer = standalone build on its own port with `db/e2e.db` |
 | `postcss.config.mjs` | `@tailwindcss/postcss` only |
@@ -229,7 +229,7 @@ fallback when WebGL is unavailable).
 
 - `prisma/seed.ts` upserts the demo user BY EMAIL (ids survive reseeds
   so live sessions keep resolving) and clears the contact inbox.
-- The marketing copy (testimonials, pricing, FAQ) lives in
+- The marketing copy (testimonials, pricing, the PT pay-what-you-want section) lives in
   `src/components/marketing/sections.tsx` — extracted verbatim from the
   reference's DOM (session-1 captures); changing it is a parity decision,
   not copywriting.
@@ -462,11 +462,13 @@ const SESSION_COOKIE = "viralpost_session";             // 7-day TTL, httpOnly, 
 | Session 5 (2026-11-09) | The docs-freshness audit: the session-tracking surfaces synced (this appendix, the frontmatter state, the README status table, the AGENTS plans map); DEPLOYMENT.md's env table gained the `VIRALPOST_*` hardening knobs (the reverse-proxy audience); captures 17/18; push #5 |
 | Session 6 (2026-11-09) | The clean-tree re-certification: the widened fresh-eyes pass (the session-1-era secondary docs, `scripts/`, the tool configs) found ZERO defects — the S3–S5 cure sequence exhausted the long tail; parity re-verified live (mobile menu open/close/navigate, /Tool, /login, /Dashboard, landing); captures 19/20; push #6 |
 | Session 7 (2026-11-09) | The dev-script feedback loop + the phantom-comment long tail: the dev script tee-returned request logs into the watched root — a self-sustaining ~3.3-loads/s Fast-Refresh reload loop under any open browser tab (A/B-verified live; the tee retired, the exact script form pinned by type-gate); the api.ts coercion-helper family (10 dead functions, zero callers) retired with its phantom CRM claims (THIRTEEN routes / twelve body routes / coercion-guards.test.ts); site.ts, not-found.tsx and not-found-body.tsx re-attributed to THIS repo’s evidence (the D-4 OG superset, the derived-title architecture, the e2e message pin); the description’s 405/141-char labels corrected to 170 (live re-verified byte-identical); the soft-nav-titles superset ledgered (the reference’s SPA leaves document.title stale on soft navigation); AGENTS maps the historical-record layer; captures 21/22; push #7 |
+| Session 9 (2026-11-09) | The rate-limiter trust-default warning + the phantom-claim retirement + the docs-counts gate: the unset-VIRALPOST_PROXY_HOPS production boot warning (F9-1 HIGH — the direct-exposure XFF-rotation hazard, the NEXT_PUBLIC_SITE_URL warn precedent, TDD +4 pins); the signup role "rep"→"user" CRM relic cured (the schema's documented vocabulary, pinned); the reset funnel's read-path DB-outage honesty (P2024/P2028 → 503 on the reads, the bare re-throw → ERR.INTERNAL, pinned); the phantom property-suite claim made TRUE (tests/property.test.ts — 15 fast-check properties over the generator contract + the fixed-window limiter; the PAD's claim and rate-limit.ts's citation now point at a real file); contact/generate joined the sweep family (the unbounded-bucket gap); the dead-code retirement (src/types module, resetLive, the unused tw-animate-css dep — extractHashtags KEPT: the type gate caught the audit's zero-caller error, it has a test caller); the phantom provider claims reworded to the documented wire-in point (GENERATOR_PROVIDER/OPENAI_API_KEY read nowhere); DEPLOYMENT.md rewritten for ViralPost AI (it still described ORBITAL — wrong name, stale 29/41 route census, the retired pre-boot-gate AUTH_SECRET semantics); the @theme-inline doc drift cured (six sites → @theme, the code + pin's own form); the neo-crm docs-counts pattern ADOPTED (tests/docs-counts.test.ts — every live-tense count site under the unit gate; the 450→455→457 badge genus retired mechanically; badge now 490 = 442 unit + 48 e2e); the stale scaffold-comment sweep (next.config uploads, tsconfig sweep/.jsx, .gitignore walk5x, db-census CRM prose, the navbar transition-class overstatement); captures 25/26; push #9 |
 | Session 8 (2026-11-09) | The live OG-parity discovery + the phantom-evidence provenance sweep: the reference NOW ships the full per-route OG/Twitter family (live census on all five routes — og:title mirrors the title scheme, the PLAIN 170-char description, absolute og:url, per-route canonical, the static image + PWA metas) SUPERSEDING dossier D-4; the clone's CRM-family OG-description prefix retired to match (TDD: 2 pins, the helper retired with a note); the 2026-10-01 census-claim long tail re-attributed (verification.ts/verify route's "eleven wrong-code submissions" that never ran here — the dossier's signup probe was platform-rejected; the headers census's nosniff-everywhere claim corrected to the live HTML-routes-only truth, ours kept as the documented superset; manifest/robots/sitemap re-verified live byte-for-byte; the verify-view claims marked Reasoned platform-family); site.ts's phantom test-file pointers fixed (the real pin home is page-titles.test.ts); typography re-fetch 79,690 bytes; README badge 450→455; captures 23/24; push #8 |
 
-## Appendix B — The Verification Ledger (session-2 ship; re-certified through session 8)
+## Appendix B — The Verification Ledger (session-2 ship; re-certified through session 9)
 
-- Gate: lint 0/0 · tsc 0 · unit 409/409 (29 files) · build · smoke
+- Gate: lint 0/0 · tsc 0 · unit 442/442 (31 files — the property suite
+  + the docs-counts gate joined at session 9) · build · smoke
   15/15 · e2e 48/48 (8 specs) — all executed, all green.
 - The title derivation: 13 unit pins + live curl across 11 path shapes
   (matching the reference's live table) + the e2e title assertion.

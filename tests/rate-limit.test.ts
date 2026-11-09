@@ -217,7 +217,8 @@ describe("the injectable clock seam (session-173, F-173a)", () => {
   // ADDITIVE. The wall-clock battery above could never STATE the
   // crossing (a 60s window cannot be waited out inside a test); the
   // injected clock makes the fixed-window arithmetic example-pinnable
-  // (the property family P-n…P-q carries the generated space).
+  // (tests/property.test.ts carries the generated-space family — the
+  // suite landed at session 9, F9-5).
   const T0 = 1_760_000_000_000;
 
   it("the injectable clock drives the window: a key blocked at t₀ resets AT the crossing with a fresh count", () => {

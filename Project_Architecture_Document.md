@@ -152,7 +152,7 @@ shape; the reveal/particle/WebGL effects are dependency-free.
 - **Context:** Tailwind v4 has known traps (bare HSL triplets in `@theme`
   resolve to transparent; the default oklch palette drifts; `hover:`
   sticks on touch devices).
-- **Decision:** Tokens in `globals.css` `@theme inline` with literal hex;
+- **Decision:** Tokens in `globals.css` `@theme` with literal hex;
   the `@custom-variant hover` unwrap; `tw-animate-css` vendored at
   `src/app/vendor/`; the design-tokens and typography test suites pin
   the theme textually.
@@ -300,7 +300,7 @@ viralpost-ai/
 │   │   ├── not-found.tsx       ← the root 404 boundary (in-app notFound())
 │   │   ├── not-found-body.tsx  ← the shared 404 body (client, usePathname)
 │   │   ├── error.tsx global-error.tsx   ← error boundaries
-│   │   ├── globals.css         ← THE theme (Tailwind v4 @theme inline)
+│   │   ├── globals.css         ← THE theme (Tailwind v4 @theme)
 │   │   └── vendor/tw-animate.css        ← vendored animate utilities
 │   ├── components/
 │   │   ├── marketing/          ← navbar (mobile menu) · footer · hero ·
@@ -309,7 +309,7 @@ viralpost-ai/
 │   │   │                          nav-config (the shared vocabulary)
 │   │   ├── effects/            ← iridescence (WebGL) · particle-text
 │   │   │                          (canvas) · reveal (IntersectionObserver)
-│   │   ├── layout/             ← login-card (3 views) · reset-password-screen
+│   │   ├── layout/             ← login-card (5 views: signin/reset/sent/signup/verify) · reset-password-screen
 │   │   └── ui/toast.tsx        ← the subscribe/store toast
 │   └── lib/                    ← THE seams (see §12 Key Files)
 ├── tests/                      ← 29 unit suites + e2e/ (8 specs)
@@ -461,7 +461,7 @@ variable on `<html>`.
 
 ### 5.2 Color Tokens
 
-`@theme inline` in `globals.css`, literal hex only (ADR-005). The
+`@theme` in `globals.css`, literal hex only (ADR-005). The
 brand pairs: teal primary (`#14b8a6` family — buttons, active states,
 the hero glow) and amber accent (`#f59e0b` family — the Upgrade pill,
 stat cards) over slate neutrals with white surfaces. The
@@ -506,7 +506,7 @@ in the test-pinned `src/lib/page-layout.ts`.
 | Auth routes rate-limited per IP with Retry-After; proxy-hop depth fails closed | `src/lib/rate-limit.ts` + `VIRALPOST_PROXY_HOPS` |
 | Content-Type CSRF gate + bounded body reads | `src/lib/api.ts` |
 | OTP/reset in-app delivery OFF in production | `VIRALPOST_DISABLE_IN_APP_OTP/_RESET` |
-| Secrets never in logs, commits, or envelopes | `.env` gitignored; `.env.example` mirrors the contract |
+| Secrets never in logs, commits, or envelopes (the documented demo exception: signup/resend log the live OTP code to the SERVER console for the mail-less self-hosted workflow — never to the client; `VIRALPOST_DISABLE_IN_APP_OTP=1` + a real mail transport is the production posture) | `.env` gitignored; `.env.example` mirrors the contract |
 | No `dangerouslySetInnerHTML` anywhere | grep-clean |
 
 ### 6.2 Security Utilities
@@ -544,7 +544,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 29 | 409 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 31 | 442 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 8 specs | 48 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -562,7 +562,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 409/48/15 and change together).
+(README/AGENTS/PAD/SKILL carry 442/48/15 and change together).
 
 ### 8.4 Pre-Push Checklist
 

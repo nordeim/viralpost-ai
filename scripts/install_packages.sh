@@ -1,1 +1,1 @@
-npm install @prisma/client clsx lucide-react next prisma react react-dom tailwind-merge zod @playwright/test @tailwindcss/postcss @types/node @types/react @types/react-dom axe-core eslint eslint-config-next fast-check tailwindcss tw-animate-css typescript vitest
+npm install @prisma/client clsx lucide-react next prisma react react-dom tailwind-merge zod @playwright/test @tailwindcss/postcss @types/node @types/react @types/react-dom axe-core eslint eslint-config-next fast-check tailwindcss typescript vitest

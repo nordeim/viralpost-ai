@@ -20,7 +20,7 @@ the SSH remote via `docs/ssh_git_wrapper_v3.py` (runbook:
 | Unit tests | `bun run test` |
 | E2E (needs build) | `CI=1 bun run test:e2e` |
 | Production build | `bun run build` (standalone + copy steps) |
-| Smoke ladder | `./scripts/smoke-test.sh` |
+| Smoke ladder | `./scripts/smoke-test.sh` (15 legs) |
 | **The whole gate** | `bun run gate` |
 | DB push / seed / census | `bun run db:push` / `db:seed` / `db:census` |
 | One unit file | `bun run test -- tests/generator.test.ts` |
@@ -54,7 +54,7 @@ smoke → e2e. There is no hosted CI — the local gate is the only gate.
   renders through the client stream (curl won't see "Page Not Found" in
   the HTML; the e2e layer owns that assertion).
 - **Tailwind v4 traps are mitigated in `globals.css`**: literal hex in
-  `@theme inline` (bare HSL triplets resolve to transparent), the
+  `@theme` (bare HSL triplets resolve to transparent), the
   `@custom-variant hover` unwrap for touch devices, `tw-animate-css`
   vendored at `src/app/vendor/`. No `tailwind.config.js` — CSS-first only.
 - **The generator** (`src/lib/generator.ts`) is a deterministic
@@ -75,7 +75,7 @@ smoke → e2e. There is no hosted CI — the local gate is the only gate.
 
 ## Testing conventions
 
-- Unit tests live in `tests/*.test.ts` (29 files, 409 tests) — Vitest,
+- Unit tests live in `tests/*.test.ts` (31 files, 442 tests) — Vitest,
   node env, `@` alias; TDD at the pure seams.
 - Several suites are **source-pinned** (they read source files textually
   to pin contracts: page-titles, design-tokens, typography) — when you
@@ -99,7 +99,7 @@ smoke → e2e. There is no hosted CI — the local gate is the only gate.
 - `Project_Architecture_Document.md` — the blueprint (ADRs, security, testing)
 - `viralpost-ai_SKILL.md` — the distilled engineering memory
 - `docs/implementation-plan.md` — the clone's Stack Decision Record + Deviations Ledger
-- `docs/plans/` — per-session round plans (session-1 build, session-2 parity audit, session-3 rename completion, session-4 phantom references, session-5 docs freshness, session-6 clean-tree re-certification, session-7 dev-script loop + phantom comments, session-8 live OG parity + evidence provenance)
+- `docs/plans/` — per-session round plans (session-1 build, session-2 parity audit, session-3 rename completion, session-4 phantom references, session-5 docs freshness, session-6 clean-tree re-certification, session-7 dev-script loop + phantom comments, session-8 live OG parity + evidence provenance, session-9 rate-limiter trust warning + phantom-claim retirement + the docs-counts gate)
 - `docs/reference-investigation.md` — the evidence dossier behind every parity claim
 - `worklog.md` — the per-session audit trail
 - **Historical-record layer (retained provenance, not live docs — superseded by the set above):** `neo-crm_SKILL.md` (the CRM's v1.207 skill — the session-1 input that session 2 distilled into `viralpost-ai_SKILL.md`), `docs/worklog.md` (the CRM-era worklog), `docs/prompt-to-*.md` (the owner's prompt templates), `docs/Tailwind-V4-Validation-Report.md`, `docs/web-app-codebase-evaluation-report.md`. Read for archaeology, never as current-state contracts.

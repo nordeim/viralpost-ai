@@ -83,7 +83,7 @@ remediated by AI agents under the Meticulous Approach.
 
 ### Tailwind CSS v4 (the trap catalog — all live in `globals.css`)
 
-- CSS-first: tokens in `@theme inline` with **literal hex** (a bare HSL
+- CSS-first: tokens in `@theme` with **literal hex** (a bare HSL
   triplet silently resolves to transparent; v4's default oklch palette
   drifts from intended hexes).
 - The `@custom-variant hover` unwrap keeps hover styles off touch devices.
@@ -137,7 +137,7 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 29 files / 409 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 31 files / 442 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.

@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { ERR, fail, ok, readBoundedJson } from "@/lib/api";
 import { contactSchema } from "@/lib/schemas";
-import { clientKey, rateLimit } from "@/lib/rate-limit";
+import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +18,10 @@ const RATE_WINDOW_MS = 60 * 60 * 1000;
 
 export async function POST(req: Request) {
   const limited = rateLimit(`contact:${clientKey(req)}`, RATE_LIMIT, RATE_WINDOW_MS);
+  // Session-9 (F9-8): this route's key family sweeps too (the auth-route
+  // placement, denied requests included) — under rotating XFF keys with
+  // zero auth traffic the contact: buckets were never reclaimed.
+  sweepRateLimits();
   if (!limited.allowed) {
     return ERR.RATE_LIMITED(limited.retryAfterSec);
   }

@@ -67,7 +67,28 @@ export async function POST(req: Request) {
   // (10/IP/15min).
   const inAppResetEnabled = process.env.VIRALPOST_DISABLE_IN_APP_RESET !== "1";
   let resetUrl: string | null = null;
-  const user = await db.user.findUnique({ where: { email } }).catch(() => null);
+  // Session-9 (F9-7): the READ path classifies the transient-abort family
+  // (P2024 pool timeout / P2028 transaction timeout) as the 503 envelope
+  // — the same doctrine the update path below has carried since
+  // session-163. A swallowed outage used to answer the no-enumeration 200
+  // with resetUrl null (a server condition masquerading as an account
+  // state); every OTHER read failure stays a null user (the
+  // no-enumeration contract).
+  let user: Awaited<ReturnType<typeof db.user.findUnique>> = null;
+  try {
+    user = await db.user.findUnique({ where: { email } });
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      (error.code === "P2024" || error.code === "P2028")
+    ) {
+      return fail("UNAVAILABLE", "The request took too long — the database timed out. Try again.", 503);
+    }
+    // A row-level read failure is an unknown email by response time —
+    // the guard keeps the no-enumeration 200 and resetUrl stays null
+    // (never deliver a link the store cannot honor).
+    user = null;
+  }
   if (user) {
     const token = randomBytes(32).toString("hex");
     // A row vanishing mid-request (the unreachable-via-API class; no
@@ -101,7 +122,10 @@ export async function POST(req: Request) {
       ) {
         return fail("UNAVAILABLE", "The request took too long — the database timed out. Try again.", 503);
       } else {
-        throw error;
+        // Session-9 (F9-7): the residual class answers the envelope — a
+        // bare re-throw would surface as a raw non-JSON 500 (the envelope
+        // is absolute).
+        return ERR.INTERNAL();
       }
     }
     if (stored && inAppResetEnabled) {

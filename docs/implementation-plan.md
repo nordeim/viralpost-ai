@@ -22,7 +22,7 @@ docs, captures, and the SSH-wrapper push.
 | S-6 | react-bits **Iridescence** WebGL hero bg (hue 174) | Independent compact WebGL fragment-shader component with the same props (hue/power/focus/distortion); CSS-gradient fallback when WebGL unavailable | Reasoned |
 | S-7 | Base44 `/api/apps/{id}/entities/*` + `InvokeLLM` | Real backend: **Prisma + SQLite** (standing `db/`-at-root contract) + Next route handlers with the `{ok,data}` envelope | Verified |
 | S-8 | `localStorage` JWT-ish token auth | **httpOnly HMAC-signed cookie** sessions (the repo's scrypt + HMAC seam, `viralpost_session` cookie) — security hardening | Reasoned |
-| S-9 | `InvokeLLM` platform AI (402-dead at observation) | **AI-provider seam** (`src/lib/generator.ts`): deterministic local viral-formula engine by default (offline, testable), optional OpenAI-compatible provider behind `GENERATOR_PROVIDER`/`OPENAI_API_KEY` env — never hardcode keys; identical prompt contract either way | Reasoned |
+| S-9 | `InvokeLLM` platform AI (402-dead at observation) | **AI-provider seam** (`src/lib/generator.ts`): deterministic local viral-formula engine (offline, testable, property-pinned); the OpenAI-compatible face is a DOCUMENTED WIRE-IN POINT, not a shipped knob — `generatorPrompt()` preserves the exact prompt for a future `generator-provider.ts` module; no provider env var is read today (session-9, F9-3 reword) | Reasoned |
 | S-10 | Supabase-hosted logo/portrait PNGs | **Independently created assets**: SVG logo mark (teal gradient + spark) + generated portrait (image-generation skill), served from `/public` | Assumed |
 
 ## 2. Architecture
@@ -30,7 +30,8 @@ docs, captures, and the SSH-wrapper push.
 ```
 Layer 0  prisma/schema.prisma   — User, ContactMessage (SQLite, file:../db/custom.db)
 Layer 1  src/lib/*              — pure seams: auth, password, api envelope, db-path,
-                                  rate-limit, site/metadata, generator (+provider),
+                                  rate-limit, site/metadata, generator (+ the documented
+                                  provider wire-in point),
                                   generation-counter, login-reset view machine, reveal
 Layer 2  src/app/api/*          — route handlers: auth (login/logout/signup/verify/
                                   forgot/reset/me), generate, contact, health
@@ -52,8 +53,8 @@ Routes and their parity sources live in §3 of the investigation dossier.
 2. **Lib seams** — generator engine (hook/paragraphs/hashtags/word-cap rules as
    property-tested contract), generation counter (daily-reset pure functions),
    site/metadata rebrand, auth rename (`viralpost_session`), rate-limit reuse.
-3. **API routes** — `/api/generate` (session-aware, rate-limited, provider
-   seam), `/api/contact` (zod-validated persistence), auth family (ported from
+3. **API routes** — `/api/generate` (session-aware, rate-limited; the
+   provider face is the documented wire-in point), `/api/contact` (zod-validated persistence), auth family (ported from
    the template's battle-tested routes), `/api/health`.
 4. **App shell** — root layout (Inter-less system stack — the reference ships
    zero webfonts), nav + mobile menu + footer, globals.css retheme (teal/amber
@@ -94,7 +95,7 @@ Routes and their parity sources live in §3 of the investigation dossier.
 | Risk | Mitigation |
 | :--- | :--- |
 | Canvas/WebGL effects misbehave in SSR/hydration | Client-only mount, `useEffect` lifecycle, `prefers-reduced-motion` static fallback, cleanup on unmount |
-| Generator quality (local engine) | Property-tested contract (the reference's own 8 rules) + curated hook/hashtag banks; optional LLM provider for quality lift |
+| Generator quality (local engine) | Property-tested contract (the reference's own 8 rules — tests/property.test.ts, session-9) + curated hook/hashtag banks; an LLM provider remains the documented wire-in lift |
 | Test-suite shrink vs the template's 2817 | Expected and honest: the new app's surface is smaller; docs state live counts; the gate is the contract, not the historical number |
 | Owner's docs (s199-210 sections) describe CRM-era work | Preserved as template lineage in git history; the new root docs describe the live app; a lineage note explains the scaffold origin |
 
@@ -105,7 +106,7 @@ Routes and their parity sources live in §3 of the investigation dossier.
 | Brand assets | Supabage-hosted PNG logo/portrait | Independent SVG logo + generated portrait | Asset licensing | Assumed |
 | `/Home` route | Serves a duplicate of `/` | 308 redirect to `/` (nav hrefs unchanged) | SEO duplicate-content | Reasoned |
 | Auth | localStorage token, platform OAuth | httpOnly cookie session; Google button → "not configured" toast when unset | Security hardening | Reasoned |
-| AI backend | Base44 `InvokeLLM` (observed 402-dead) | Local deterministic engine + optional env-configured LLM provider | Must actually work offline | Reasoned |
+| AI backend | Base44 `InvokeLLM` (observed 402-dead) | Local deterministic engine (a documented provider wire-in point — no provider env is read today) | Must actually work offline | Reasoned |
 | Contact form | Client-side stub, no persistence | POST → SQLite ContactMessage | Advertised action must be real | Reasoned |
 | Generation errors | Infinite "Generating…" hang | Error toast + retry affordance | Reliability | Reasoned |
 | Footer socials | `href="#"` dead stubs | Real platform homepages | Dead controls are a defect | Reasoned |

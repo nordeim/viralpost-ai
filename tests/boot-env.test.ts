@@ -51,6 +51,10 @@ const env = (over: Env = {}): Env => ({
   AUTH_SECRET: "a".repeat(32),
   NEXT_PUBLIC_SITE_URL: "https://viralpost.example.com",
   DATABASE_URL: "file:../db/custom.db",
+  // Session-9 (F9-1): a HEALTHY production env DECLARES its proxy
+  // topology — the builder carries hops=1 so the unset-hops warning
+  // (added the same session) stays opt-in to its own pins below.
+  VIRALPOST_PROXY_HOPS: "1",
   ...over,
 });
 
@@ -176,6 +180,43 @@ describe("session-170 (WP-3) + session-3 (F3-1): the flag-typo guard (the scandi
   it("VIRALPOST_PROXY_HOPS negative warns the same way", () => {
     const report = bootEnvCheck(env({ VIRALPOST_PROXY_HOPS: "-1" }));
     expect(report.warnings).toHaveLength(1);
+  });
+});
+
+describe("session-9 (F9-1): the UNSET-proxy-hops trust-default warning (the direct-exposure hazard)", () => {
+  // The gap: unset (the shipped default) = trust depth 1 — "exactly one
+  // appending proxy." On a DIRECT-exposure deployment the whole
+  // x-forwarded-for header is client-supplied, so rotating fake XFF
+  // values mints a fresh limiter bucket per request — every per-IP wall
+  // bypassable. The seam cannot know the topology; the boot gate CAN
+  // make the operator declare it (the NEXT_PUBLIC_SITE_URL precedent —
+  // warn, never fatal).
+  it("production + UNSET hops: the declare-your-topology warning (names the direct-exposure fix)", () => {
+    const report = bootEnvCheck(env({ VIRALPOST_PROXY_HOPS: undefined }));
+    expect(report.fatal).toBeNull();
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("[boot]");
+    expect(report.warnings[0]).toContain("VIRALPOST_PROXY_HOPS");
+    expect(report.warnings[0]).toContain("0");
+    expect(report.warnings[0]).toMatch(/direct exposure/i);
+  });
+
+  it("production + EMPTY hops: the same warning (the .env.example default is the empty string)", () => {
+    const report = bootEnvCheck(env({ VIRALPOST_PROXY_HOPS: "" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("VIRALPOST_PROXY_HOPS");
+  });
+
+  it("production + DECLARED hops (0, 1, 2): no warning — the topology is explicit", () => {
+    for (const hops of ["0", "1", "2"]) {
+      const report = bootEnvCheck(env({ VIRALPOST_PROXY_HOPS: hops }));
+      expect(report.warnings, `hops=${hops}`).toHaveLength(0);
+    }
+  });
+
+  it("development + unset hops: NO warning (dev boots behind no proxy contract)", () => {
+    const report = bootEnvCheck(env({ NODE_ENV: "development", VIRALPOST_PROXY_HOPS: undefined }));
+    expect(report.warnings).toHaveLength(0);
   });
 });
 

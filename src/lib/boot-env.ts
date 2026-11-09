@@ -112,6 +112,20 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
       `[boot] VIRALPOST_PROXY_HOPS="${hops}" is unparsable — the rate-limit seam fails CLOSED onto hop 1 (a bad value never widens trust); fix the value to unset, 0, or an N ≥ 1.`,
     );
   }
+  // Session-9 (F9-1): the trust-default hazard — unset means depth 1
+  // ("exactly one appending proxy"), but a DIRECT-exposure deployment
+  // (the self-hosted quickstart's own shape) has NO proxy in front: the
+  // whole x-forwarded-for header is client-supplied, and a client
+  // rotating one fake XFF value per request mints a fresh limiter bucket
+  // every time — every per-IP wall (login, signup, resend, verify,
+  // forgot/reset, contact, generate) becomes bypassable. The seam cannot
+  // know the topology; production must DECLARE it (the
+  // NEXT_PUBLIC_SITE_URL warn precedent — never fatal; dev is exempt).
+  if (isProduction && (hops === undefined || hops === "")) {
+    warnings.push(
+      `[boot] VIRALPOST_PROXY_HOPS is unset in production — the default trusts exactly one appending proxy (depth 1). Behind a reverse proxy chain, set it to the hop count; under DIRECT exposure (no proxy in front of the app), set VIRALPOST_PROXY_HOPS=0 — otherwise a client rotating a forged x-forwarded-for value gets a fresh rate-limit bucket per request.`,
+    );
+  }
 
   return { fatal: null, warnings };
 }

@@ -51,7 +51,23 @@ export async function POST(req: Request) {
   // Session-164 (the skill §12 hashed-at-rest compliance): the row stores
   // the token's SHA-256 hex, so BOTH lookups key on the hash — the raw
   // token arrives from the URL and never touches the query.
-  const user = await db.user.findFirst({ where: { resetToken: hashResetToken(resetToken) } }).catch(() => null);
+  // Session-9 (F9-7): the READ path classifies the transient-abort family
+  // (P2024/P2028) as the 503 envelope — an outage used to fall into the
+  // invalid-token 400 below (a server condition masquerading as a client
+  // error); every OTHER read failure stays a null user (the no-oracle
+  // contract).
+  let user: Awaited<ReturnType<typeof db.user.findFirst>> = null;
+  try {
+    user = await db.user.findFirst({ where: { resetToken: hashResetToken(resetToken) } });
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      (error.code === "P2024" || error.code === "P2028")
+    ) {
+      return fail("UNAVAILABLE", "The request took too long — the database timed out. Try again.", 503);
+    }
+    user = null;
+  }
   const alive =
     user?.resetTokenExpiresAt instanceof Date && user.resetTokenExpiresAt.getTime() > Date.now();
   if (!user || !alive) {
@@ -92,7 +108,10 @@ export async function POST(req: Request) {
     ) {
       return fail("UNAVAILABLE", "The request took too long — the database timed out. Try again.", 503);
     }
-    throw error;
+    // Session-9 (F9-7): the residual class answers the envelope — the
+    // route's own "never a bare 500 past it" discipline, now literal
+    // (a bare re-throw surfaced as a raw non-JSON 500).
+    return ERR.INTERNAL();
   }
 
   return ok({ message: "Password reset successfully" });

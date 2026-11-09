@@ -51,29 +51,7 @@ test-results/
 playwright-report/
 .vitest/
 
-# session-30: uploaded files (the UploadFile mirror — like db/, never committed).
-# session-35: ANCHORED to the repo root — the unanchored `uploads/` form also
-# matched src/app/api/uploads/ and silently kept the GET route out of git
-# (the fresh-clone broken-photo bug).
-/uploads/
-
-# session-92: the sweep tool's capture artifacts (regenerated per run)
-scripts/sweep-shots/
-
-# session-162: the sweep's cross-process auth state — live session
-# material on disk (the combined pair state); follows the db-binary
-# discipline: git-ignored, 0600, TTL-bounded. NEVER committed.
-scripts/.sweep-auth-state.json
-scripts/walk50/
-scripts/walk51/
-scripts/walk52/
-scripts/walk53/
-scripts/walk54/
-scripts/walk55/
-scripts/walk56/
-scripts/walk57/
-scripts/walk58/
-scripts/walk59/
-scripts/walk60/
-scripts/walk61/
-scripts/walk62/
+# (Session 9, F9-11: the scaffold family's uploads/sweep/walk5x ignore
+# entries retired — this repo has no upload route and no sweep tooling;
+# the paths never existed here. db/, skills/, logs keep their own rules
+# above and below.)
