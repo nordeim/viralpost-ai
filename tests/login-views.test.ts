@@ -16,9 +16,13 @@ const verification = async () => import("@/lib/verification");
 
 // Session-21: the login-card error + view-state layer — the surface never
 // swept before (the reference's auth error banner, its in-place signup
-// view, and its verify-email view). Every pin below is live-verified
-// against the reference (2026-10-01 census, wrong-password / signup /
-// verification probes on both apps):
+// view, and its verify-email view). Provenance (re-attributed session 8,
+// F8-6): the signin/signup/reset-view pins are dossier-Verified on this
+// reference (§3.6, 2026-11-09 DOM dumps + the live login walk; the
+// wrong-password banner re-verified live at session 8); the verify-view
+// pins ride the base44 platform's shared auth component (inherited from
+// the scaffold family's walks — this reference's signup probe was
+// platform-rejected, so the view never rendered here; Reasoned):
 //   - the reference's login error banner reads "Invalid email or password"
 //     (ours said "Incorrect email or password" — one word of drift);
 //   - its signup error reads "A user with this email already exists"

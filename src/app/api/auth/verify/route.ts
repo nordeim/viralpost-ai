@@ -16,13 +16,15 @@ export const dynamic = "force-dynamic";
 
 /**
  * POST /api/auth/verify — session-21 (S21-P5), the verify-email view's
- * submit. Every banner string is live-verified against the reference
- * (2026-10-01, the wrong-code ladder across two throwaway signups):
- * "Please enter all 6 digits" → "Invalid verification code. N attempts
- * remaining." (4…1) → "Too many failed attempts. Please request a new
- * verification code." (the 5th failure and every one after; the button
- * stays enabled, the message repeats). A correct code signs the account
- * in and redirects to the dashboard.
+ * submit. The banner ladder ("Please enter all 6 digits" → "Invalid
+ * verification code. N attempts remaining." (4…1) → "Too many failed
+ * attempts. Please request a new verification code." — the 5th failure
+ * and every one after; the button stays enabled, the message repeats)
+ * rides the base44 platform's shared auth component: inherited from the
+ * scaffold family's reference walks, not census-verified against THIS
+ * reference (the dossier's signup probe was platform-rejected — session 8,
+ * F8-3; Confidence: Reasoned, platform-family). A correct code signs the
+ * account in and redirects to the dashboard.
  */
 export async function POST(req: Request) {
   const limit = rateLimit(`verify:${clientKey(req)}`, 20, 15 * 60 * 1000);

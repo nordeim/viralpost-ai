@@ -25,6 +25,32 @@ describe("pageMetadata: the per-route family", () => {
     expect(tool.alternates?.canonical).toBe("/Tool");
   });
 
+  // Session-8 (F8-1, live re-verified 2026-11-09): the reference ships the
+  // per-route OG/Twitter family with the PLAIN 170-char description on
+  // every route (og:title mirrors the title scheme; og:description is the
+  // root paragraph, unprefixed; og:url absolute; canonical per route).
+  // The CRM-family's "<Page> on ViralPost AI. " prefix — adopted when
+  // D-4 said the reference ships no per-route OG — was a live drift and
+  // is retired.
+  it("inner pages ship the PLAIN og/twitter description (the reference's live OG family)", () => {
+    for (const page of ["Tool", "Pricing", "Contact"]) {
+      const md = pageMetadata({ page, route: `/${page}` });
+      expect(md.openGraph?.description, page).toBe(SITE_DESCRIPTION);
+      expect(md.twitter?.description, page).toBe(SITE_DESCRIPTION);
+    }
+  });
+
+  it("the CRM-family OG description prefix is RETIRED from the site module (session-8, F8-1)", () => {
+    // The comment-stripped source (the S7 body-pregate pattern): the
+    // helper's NAME may survive inside its own retirement note, but never
+    // in code; the prefix STRING must be gone from the file entirely.
+    const siteSrc = read("src/lib/site.ts")
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/[^\n]*/g, "");
+    expect(siteSrc).not.toContain("pageOgDescription");
+    expect(read("src/lib/site.ts")).not.toContain("on ViralPost AI. ");
+  });
+
   it("the unprefixed family (page: null) ships the bare title", () => {
     const login = pageMetadata({ page: null, route: "/login" });
     expect(login.openGraph?.title).toBe("ViralPost AI");

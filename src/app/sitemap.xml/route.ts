@@ -1,10 +1,14 @@
 import { siteUrl } from "@/lib/site";
 
-// /sitemap.xml — the reference family's exact format (LF-only, no trailing
-// newline, 4-space URL indent, changefreq weekly on every entry, priority
-// "1.0" for the landing and "0.8" for the rest). Served through an
-// explicit route handler because Next's sitemap.ts serializer DROPS the
-// number formatting ("1.0" serializes as "1").
+// /sitemap.xml — the reference's exact format (live re-verified at
+// session 8, 2026-11-09: LF-only, no trailing newline after </urlset>,
+// 4-space URL indent, changefreq weekly on every entry, priority
+// "1.0" for the landing and "0.8" for the rest, the same four routes —
+// the reference lists them /, /Contact, /Pricing, /Tool; ours keeps the
+// nav order, a semantically null difference since priorities are
+// explicit). Served through an explicit route handler because Next's
+// sitemap.ts serializer DROPS the number formatting ("1.0" serializes
+// as "1").
 //
 // Route surface: the canonical paths the router serves — / (the landing),
 // /Tool, /Pricing, /Contact. The reference's capitalized /Home alias

@@ -10,12 +10,14 @@ export const dynamic = "force-dynamic";
 
 /**
  * POST /api/auth/resend — session-21 (S21-P5), the verify-email view's
- * "Didn't receive the code? Resend". The reference answers with the info
- * banner "New verification code sent to your email" (live-verified) and
- * the resend resets the attempts ladder (the lockout message names the
- * resend as the recovery path). Like the signup route, the fresh code is
- * stored hashed and logged to the SERVER console — never shipped to the
- * client.
+ * "Didn't receive the code? Resend". The info banner "New verification
+ * code sent to your email" and the resend's attempts-ladder reset ride
+ * the base44 platform's shared auth component (inherited from the
+ * scaffold family's reference walks; this reference's signup probe was
+ * platform-rejected, so the flow was never exercised here — Reasoned;
+ * re-attributed session 8, F8-6). Like the signup route, the fresh code
+ * is stored hashed and logged to the SERVER console — never shipped to
+ * the client.
  */
 export async function POST(req: Request) {
   const limit = rateLimit(`resend:${clientKey(req)}`, 5, 15 * 60 * 1000);

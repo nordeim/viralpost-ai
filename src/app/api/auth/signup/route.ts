@@ -69,7 +69,10 @@ export async function POST(req: Request) {
 
     // Session-21 (S21-P5): signup no longer signs the account in — it mints
     // a 6-digit verification code and the login card swaps to the verify
-    // view ("Verify your email", live-verified on the reference). The code
+    // view ("Verify your email" — the base44 platform's shared auth
+    // component, inherited from the scaffold family; this reference's
+    // signup probe was platform-rejected, so the view was never rendered
+    // here. Reasoned; re-attributed session 8, F8-6). The code
     // is stored HASHED (scrypt, the auth layer's format) with a 15-minute
     // expiry; a self-hosted deployment has no mail transport, so the code
     // is logged to the SERVER console for the demo workflow (never shipped

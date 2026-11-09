@@ -1,3 +1,112 @@
+Task ID: 8
+Agent: main (Z.ai)
+Task: The session-8 live OG-parity + evidence-provenance round — re-run
+the standing instruction against the post-session-7 tree (262db32):
+docs review, fresh audit (web-application §15/§16 +
+security-and-hardening, this round aimed at the evidence-provenance
+layer — every "live-verified/census" claim read against what THIS
+repo's dossier actually observed, plus a full live re-census of the
+reference's SEO surface), reference parity re-verification, the TDD
+cures, the gate, dev-server captures 23/24, push #8 to main via the
+SSH wrapper. (The workspace had been reset, so the round also
+organically re-ran the §15 pristine-clone verification: fresh clone →
+install → cp .env.example .env → db:push → db:seed → census MATCH →
+lint/tsc/unit green at the documented counts.)
+
+Work Log:
+- THE HEADLINE FINDING (F8-1, HIGH, live): the reference NOW ships the
+  full per-route OG/Twitter family — live census on /, /Tool, /Pricing,
+  /Contact, /login (og:title mirrors the title scheme; og:description
+  is the PLAIN 170-char paragraph; og:url absolute; canonical on every
+  route; the twitter family mirrors; one static 1200×630 og:image; the
+  PWA metas). This SUPERSEDES dossier D-4 ("no per-route canonical/OG
+  beyond title tag") — whether the app updated intra-day or the
+  morning DOM probe over-generalized is undetermined; live truth
+  governs. The clone's inner-page OG description carried the
+  CRM-family's "<Page> on <App>. " prefix (adopted under D-4) — a live
+  OG-card drift. CURED by TDD: two RED pins first (the plain-description
+  parity pin + the prefix-retirement absence pin), then the GREEN cure —
+  pageOgDescription retired (zero external callers, the S7 api.ts
+  precedent), pageMetadata ships SITE_DESCRIPTION on every route.
+  Live-verified on the dev server: our /Tool head now byte-matches the
+  reference's OG family (modulo the documented og-image stand-in)
+- THE PHANTOM-EVIDENCE LONG TAIL (F8-2..F8-8, the S7 class applied to
+  the VERIFICATION-CLAIM layer — comments asserting censuses of the
+  reference that this repo never ran, all inherited from the CRM
+  scaffold whose own reference was also a base44 app):
+  F8-2 (MED) site.ts — the header cited phantom test files
+  (tests/metadata.test.ts, tests/pwa-metadata.test.ts — neither
+  exists; the real pin home is tests/page-titles.test.ts) and the
+  retired serializer forms (app/sitemap.ts / app/robots.ts); the
+  header + factory blocks claimed "live-verified on all 10 routes
+  2026-10-01" (CRM route count, CRM date, and after F8-1 wrong about
+  the description shape) — the F7-2 claim surviving in the blocks S7
+  never reached; all rewritten to the live contract
+  F8-3 (MED) verification.ts + verify route — "every string
+  live-verified (2026-10-01, eleven wrong-code submissions across two
+  throwaway signups)" contradicted by the dossier (§2: the one
+  throwaway signup was platform-rejected, "success path not
+  exercised") — re-attributed to the base44 platform-family
+  inheritance (Reasoned); the signin banner IS live-true
+  F8-4 (MED) next.config.ts + http-headers.test.ts — "three-header
+  set on EVERY response (curl-verified 10+ responses, 2026-10-01)" +
+  nosniff "on the same census" + CRM routes in the census list
+  (/Leads /settings /Reports). Live census this round:
+  referrer-policy + bare HSTS on every probed response; nosniff on
+  the HTML/SSR routes ONLY (absent on sitemap.xml, robots.txt, the
+  CSS asset). Ours ships all three everywhere — the documented
+  superset, kept; both comment blocks rewritten to the live truth
+  F8-5 (LOW) manifest/robots/sitemap routes — phantom dates + CRM
+  session labels; content re-verified LIVE this round (manifest
+  field-for-field through the 302→/api/apps/manifests hop — identical
+  key order and values, the byte delta is the documented icon-src
+  stand-in; robots byte-IDENTICAL origin-substituted; sitemap
+  identical modulo route order, now noted)
+  F8-6 (LOW) the auth-funnel verify-view claims (login/signup/resend
+  routes, login-card.tsx, login-reset.ts, login-views.test.ts) —
+  "live-verified/live-measured/live-extracted" for a view that never
+  rendered on this reference (dossier-documented rejection) —
+  re-attributed to Reasoned platform-family; the wrong-password
+  banner re-verified LIVE this round ("Invalid email or password",
+  correct login → 200)
+  F8-7 (LOW) typography.test.ts — "79.5KB … 2026-10-01" → the
+  session-8 re-fetch: 79,690 bytes, zero @font-face, stock stack
+  (the reference's minifier leaves "Segoe UI Symbol" unquoted —
+  computed-identical), no smoothing, no ::selection
+  F8-8 (LOW) README badge — "450 checks" (session-2 math: 402+48)
+  → 455 (407+48 at session 7; the S7 count-lockstep swept 405→407 so
+  this different-number drift escaped)
+- THE EVIDENCE LEDGER: dossier D-4 annotated with the session-8
+  re-verification (SUPERSEDED; the live census; the cure; the
+  undetermined cause) — evidence ledgers annotate, never silently
+  rewrite
+- THE PARITY RE-CHECK (live): the reference's mobile menu at 390×844
+  walked first (closed → open: the same 5 destinations + brand), the
+  clone's second (closed → open [expanded=true, the burger relabeled]
+  → click-through Pricing → AUTO-CLOSE + "Pricing | ViralPost AI"
+  title); /Tool (h1 + title), /Dashboard (404 + derived title + the
+  message pin); our served /Tool head byte-matches the reference's OG
+  family post-cure; sitemap/robots/manifest byte-diffed against the
+  reference (robots IDENTICAL origin-substituted; manifest identical
+  key-order/values; sitemap identical modulo route order)
+- THE CAPTURES (23/24): the dev-server landing (1280×800) and the
+  open mobile menu (390×844), both PIL-verified non-blank
+  (99.7%/99.9%); captured on the S7-fixed dev script (stable, no
+  reload loop) before the gate build
+- THE VERIFICATION: full gate on the exact commit tree — lint 0/0 ·
+  tsc 0 · unit 409/409 (29 files, +2 the session-8 pins) · build ·
+  smoke 15/15 · e2e 48/48 (8 specs, the SEO specs green against the
+  cured build) · census MATCH
+- SHIPPED: the round-history lockstep (SKILL v1.4.0 with the Session
+  8 row, README's status table + gate line + badge, AGENTS' eight-plan
+  map + the 409 count, CLAUDE/PAD counts) + the D-4 annotation +
+  captures 23/24 + the plan doc
+  (docs/plans/2026-11-09-session8-live-og-parity-and-evidence-provenance.md)
+  + this worklog entry, committed to main and pushed via
+  docs/ssh_git_wrapper_v3.py
+
+---
+
 Task ID: 7
 Agent: main (Z.ai)
 Task: The session-7 dev-script feedback loop + phantom-comment round —

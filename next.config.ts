@@ -76,14 +76,19 @@ const nextConfig: NextConfig = {
   // the enforcer. (The `typescript` key stays UNSET: Next's default —
   // ignoreBuildErrors: false — is the hardened form itself.)
 
-  // Session-20 (S20-P1/P2/P3): the reference's edge (Cloudflare/Caddy)
-  // injects a three-header security set on EVERY response — HTML routes,
-  // authed routes, its hashed CSS asset, /manifest.json, and its SPA
-  // fallback 200s (curl-verified on 10+ responses, 2026-10-01). The
-  // self-hosted expression is this headers() block. HSTS ships as the
-  // reference's exact bare value; per RFC 6797 §7.1 a UA MUST NOT process
-  // it over non-secure transport, so it is inert on plain-HTTP localhost
-  // and correct whenever a deployment runs behind HTTPS.
+  // The reference's edge security set (live census at session 8,
+  // 2026-11-09 — curl -I over /, /login, /Dashboard, /sitemap.xml,
+  // /robots.txt, the hashed CSS asset, and the manifest 302 hop):
+  // `referrer-policy: strict-origin-when-cross-origin` and bare
+  // `strict-transport-security: max-age=31536000` on EVERY probed
+  // response; `x-content-type-options: nosniff` on the HTML/SSR routes
+  // only (absent on sitemap.xml, robots.txt and the CSS asset — its edge
+  // serves those without it). The self-hosted expression below ships ALL
+  // THREE on every route — the documented superset (broader nosniff is
+  // strictly defensive; pinned by tests/http-headers.test.ts). Per
+  // RFC 6797 §7.1 a UA MUST NOT process HSTS over non-secure transport,
+  // so it is inert on plain-HTTP localhost and correct whenever a
+  // deployment runs behind HTTPS.
   async headers() {
     return [
       {

@@ -197,23 +197,23 @@ export const LOGIN_SIGNUP_LAYOUT = {
  * reference's center/size overrides.
  */
 export const LOGIN_VERIFY_LAYOUT = {
-  /** The w-full column + stack — session-79 (L-79c8, live-extracted):
-   *  the verify view's own stack carries the sm:space-y-6 arm (the
-   *  space-y-4-only pin was the s21 misread). */
+  /** The w-full column + stack — the verify view's own stack carries
+   *  the sm:space-y-6 arm (platform-family inheritance, scaffold walks'
+   *  extraction — the view never rendered on this reference; Reasoned,
+   *  re-attributed session 8, F8-6). */
   viewColumn: "w-full",
   viewStack: "space-y-4 sm:space-y-6",
   /** The back button (left-aligned — the reset view's mb-2 sm:mb-4
-   *  twin; session-111 [D4]: the reference's verify back->heading gap
-   *  computes 16 at >=640 [its -mb-2 collapses with the v3 mt 24;
-   *  LIVE-measured on the s111 re-walk] — the flat mb-2 rode 8px at
-   *  all widths, 8px short at desktop). */
+   *  twin; the verify back→heading gap computes 16 at >=640 under
+   *  sm:space-y-6 — the scaffold walks' measurement of the platform
+   *  family's shared component, never re-measured on this reference;
+   *  Reasoned, re-attributed session 8, F8-6). */
   back: "flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700 font-medium transition-colors mb-2 sm:mb-4",
   backIcon: "h-4 w-4",
-  /** The centered heading stack — session-111 [D2, inert]: the
-   *  reference's own class is text-center space-y-2 (the s21 "the sent
-   *  view's family" misread); INERT on both apps — the tile's own
-   *  mb-3 sm:mb-4 always overrides the stack's space-y (the heading
-   *  heights measure 168/144 identical); re-pinned for byte parity. */
+  /** The centered heading stack — text-center space-y-2, INERT on both
+   *  apps (the tile's own mb-3 sm:mb-4 always overrides the stack's
+   *  space-y); platform-family inheritance, re-pinned for byte parity
+   *  (re-attributed session 8, F8-6). */
   headingStack: "text-center space-y-2",
   /** The envelope tile — the sent view's icon circle + its own mb. */
   iconWrap:

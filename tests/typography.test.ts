@@ -3,12 +3,14 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 // Session-22 typography / base-cascade pins (S22-P1/P2/P3): the reference
-// app ships ZERO webfonts — its 79.5KB stylesheet contains no @font-face
+// app ships ZERO webfonts — its ~79.7KB stylesheet (79,690 bytes at the
+// session-8 re-fetch, 2026-11-09) contains no @font-face
 // rule, document.fonts is empty, and every surface (body, h1, buttons, the
 // sidebar brand) computes Tailwind's stock default sans stack
 // `ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-//  "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"` (byte-extracted
-// from its preflight html rule on 2026-10-01). It also ships NO font
+//  "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"` (the reference's
+// minifier leaves "Segoe UI Symbol" unquoted — computed-identical). It
+// also ships NO font
 // smoothing (-webkit-font-smoothing: auto, no text-rendering override) and
 // NO ::selection rule — the browser defaults.
 //

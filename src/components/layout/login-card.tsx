@@ -56,15 +56,20 @@ const INFO_BANNER_MS = 3000;
  * (reset → sent) — the URL never changes.
  *
  * Session-21 (S21-P2/P3/P4/P5): the same in-place architecture extended to
- * the WHOLE auth funnel, live-verified on the reference: "Need an account?
- * Sign up" is a BUTTON that swaps to a minimal signup view (Email /
- * Password / Confirm Password — NO name field, NO Google button, NO
- * divider), whose success swaps again to the verify-email view (six
- * single-digit inputs + the attempts ladder). Every error renders the
- * reference's Callout banner; ZERO toasts fire on the auth flows (login
- * failure = the banner only, login/signup success = a silent redirect).
- * The `/signup` page (the reference 404s it) stays as our documented
- * working superset — it renders this card starting at the signup view.
+ * the WHOLE auth funnel: "Need an account? Sign up" is a BUTTON that
+ * swaps to a minimal signup view (Email / Password / Confirm Password —
+ * NO name field, NO Google button, NO divider), whose success swaps again
+ * to the verify-email view (six single-digit inputs + the attempts
+ * ladder). Every error renders the Callout banner; ZERO toasts fire on
+ * the auth flows (login failure = the banner only, login/signup success
+ * = a silent redirect). The signin/signup/reset views are
+ * dossier-Verified on this reference (§3.6, 2026-11-09 DOM dumps); the
+ * VERIFY view rides the base44 platform's shared auth component
+ * (inherited from the scaffold family — this reference's signup probe
+ * was platform-rejected, so the view never rendered here; Reasoned —
+ * re-attributed session 8, F8-6). The `/signup` page (the reference
+ * 404s it) stays as our documented working superset — it renders this
+ * card starting at the signup view.
  */
 export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
   const router = useRouter();
@@ -104,11 +109,12 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
     return () => clearTimeout(timer);
   }, [info]);
 
-  // Session-111 [D1, the s111 login-family re-walk]: the reference
-  // lands focus on the FIRST code box when the verify view mounts —
-  // live-measured as the 2px ring on box 1 only (box 6 rests at none),
-  // reproduced twice at both viewports. A DOM focus, never setState;
-  // fires only on transitions INTO verify.
+  // The verify view lands focus on the FIRST code box when it mounts
+  // (the platform family's auth component behavior, inherited from the
+  // scaffold walks — a 2px ring on box 1 only, box 6 resting at none;
+  // never observed directly on this reference, whose signup probe was
+  // platform-rejected — Reasoned, re-attributed session 8, F8-6).
+  // A DOM focus, never setState; fires only on transitions INTO verify.
   React.useEffect(() => {
     if (view === "verify") codeRefs.current[0]?.focus();
   }, [view]);
@@ -471,12 +477,14 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                       </>
                     ) : view === "verify" ? (
                       <>
-                        {/* S21-P5 + session-79 (M-79c3): the reference's
-                            verify-email view — the SHIELDCHECK tile (the
-                            s21 pin wrongly recorded the sent view's Mail;
-                            live-extracted: lucide-shield-check slate-700),
-                            the six single-digit inputs, the attempts
-                            ladder, and the resend line. */}
+                        {/* S21-P5 + session-79 (M-79c3): the
+                            verify-email view — the SHIELDCHECK tile
+                            (lucide-shield-check slate-700), the six
+                            single-digit inputs, the attempts ladder, and
+                            the resend line. Platform-family inheritance
+                            (the scaffold walks' extraction; the view never
+                            rendered on this reference — Reasoned,
+                            re-attributed session 8, F8-6). */}
                         <button
                           type="button"
                           className={LOGIN_VERIFY_LAYOUT.back}

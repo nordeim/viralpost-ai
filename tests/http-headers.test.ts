@@ -2,19 +2,22 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-// Session-20: the HTTP response-header layer — the surface never swept
-// before (the reference's edge-injected security set + the static-file
-// content-types). Every pin below is HTTP-verified against the live
-// reference (2026-10-01 census, curl -I / curl -D - GET probes):
+// The HTTP response-header layer. Live census against the reference at
+// session 8 (2026-11-09 — curl -I over /, /login, /Dashboard,
+// /sitemap.xml, /robots.txt, the hashed CSS asset, and the manifest 302
+// hop — this repo's own probes; the scaffold's session-20 census claims
+// were another app's and were re-attributed):
 //   - the reference ships `referrer-policy: strict-origin-when-cross-origin`
-//     on EVERY response — login, /Dashboard, /Leads, /settings, /signup,
-//     /Reports, the CSS asset, /manifest.json (after its 302 → the
-//     /api/apps/manifests/… hop), and its SPA-fallback 200s;
-//   - it ships `x-content-type-options: nosniff` on the same census;
+//     on EVERY probed response — the HTML routes, sitemap.xml, robots.txt,
+//     the CSS asset, and the manifest hop;
 //   - it ships `strict-transport-security: max-age=31536000` (bare
-//     max-age — no includeSubDomains, no preload) on its HTML routes and
-//     the CSS asset (its platform edge, Cloudflare/Caddy, injects the
-//     set; the self-hosted expression is next.config.ts headers());
+//     max-age — no includeSubDomains, no preload) on the same set (its
+//     platform edge, Cloudflare/Caddy, injects the pair);
+//   - it ships `x-content-type-options: nosniff` on the HTML/SSR routes
+//     ONLY (/ , /login, /Dashboard) — sitemap.xml, robots.txt and the CSS
+//     asset carry no nosniff. Our next.config.ts ships ALL THREE headers
+//     on every route — the documented superset (broader nosniff is
+//     strictly defensive; kept deliberately);
 //   - its /sitemap.xml serves content-type `application/xml` — BARE, no
 //     charset suffix (ours shipped `application/xml; charset=utf-8`, the
 //     s18 "viewport 1 vs 1.0" cosmetic-serialization class);

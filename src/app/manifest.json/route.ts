@@ -1,7 +1,9 @@
 import { SITE_DESCRIPTION, siteUrl } from "@/lib/site";
 
-// Session-19 (S19-P1): /manifest.json — the reference's installable web
-// app manifest, fetched byte-for-byte on 2026-10-01:
+// /manifest.json — the reference's installable web app manifest
+// (live re-verified at session 8, 2026-11-09: the reference serves it via
+// a 302 hop to /api/apps/manifests/<app-id>/manifest.json — the platform's
+// API route — whose body our route matches field-for-field):
 //   {name, short_name} "ViralPost AI", the same 170-char description, TWO icon
 //   entries (192x192 + 512x512 — the SAME src on both, their platform
 //   screenshot; the self-hosted expression is our /icon.png BrandMark

@@ -9,9 +9,16 @@
  * code with a reset attempt counter ("New verification code sent to your
  * email."). An UNVERIFIED account that tries to sign in gets "Please verify
  * your email before logging in. Check your email for the verification
- * code." — every string in this module is live-verified against the
- * reference (2026-10-01, eleven wrong-code submissions across two throwaway
- * signups).
+ * code."
+ *
+ * PROVENANCE (re-attributed at session 8, F8-3): these strings and the
+ * ladder ride the base44 platform's shared auth component — inherited from
+ * the scaffold family's reference walks, NOT census-verified against THIS
+ * reference (the dossier's one throwaway-signup probe was
+ * platform-rejected, "success path not exercised"; the verify view never
+ * rendered here). Confidence: Reasoned (platform-family). The signin
+ * banner string IS live-verified on this reference (session 8:
+ * wrong-password → "Invalid email or password").
  *
  * This module is CLIENT-SAFE by design: pure constants and message
  * builders, zero imports — the login card consumes the banner strings

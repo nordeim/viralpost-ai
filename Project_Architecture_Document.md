@@ -143,7 +143,7 @@ shape; the reveal/particle/WebGL effects are dependency-free.
 - **Rationale:** Security hardening is the documented superset doctrine;
   the seam is the template's most valuable inheritance.
 - **Consequences:** More moving parts than a token in localStorage; all
-  battle-tested and pinned by 407+ unit checks.
+  battle-tested and pinned by 409+ unit checks.
 - **Alternatives rejected:** Mirroring localStorage auth (a downgrade);
   NextAuth/JWT libraries (more dependencies, less control).
 
@@ -544,7 +544,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 29 | 407 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 29 | 409 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 8 specs | 48 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -562,7 +562,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 407/48/15 and change together).
+(README/AGENTS/PAD/SKILL carry 409/48/15 and change together).
 
 ### 8.4 Pre-Push Checklist
 

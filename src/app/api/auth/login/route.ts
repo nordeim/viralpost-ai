@@ -38,14 +38,19 @@ export async function POST(req: Request) {
       // byte-identical; the burn is LAZY-memoized at the pure seam).
       if (!user) verifyPassword(password, timingEqualizerHash());
       // Session-21 (S21-P1): the reference's banner text — "Invalid email or
-      // password" (ours said "Incorrect…"; wrong-password probes on both apps).
+      // password" (ours said "Incorrect…"). Live re-verified against this
+      // reference at session 8 (2026-11-09: wrong-password POST → the
+      // platform's "Invalid email or password" error; correct → 200).
       return fail("INVALID_CREDENTIALS", "Invalid email or password", 401);
     }
 
-    // Session-21 (S21-P5): an unverified account cannot sign in — the
-    // reference answers "Please verify your email before logging in. Check
-    // your email for the verification code." (live-verified with a throwaway
-    // signup). Pre-session-21 rows (verificationExpiresAt null) and expired
+    // Session-21 (S21-P5): an unverified account cannot sign in —
+    // "Please verify your email before logging in. Check your email for the
+    // verification code." rides the base44 platform's shared auth component
+    // (inherited from the scaffold family's reference walks; this
+    // reference's signup probe was platform-rejected, so the banner was
+    // never rendered here — Reasoned, re-attributed session 8, F8-6).
+    // Pre-session-21 rows (verificationExpiresAt null) and expired
     // codes pass through — the seeded demo account predates the flow.
     if (isVerificationPending(user.verificationExpiresAt)) {
       return fail("VERIFICATION_REQUIRED", verificationRequiredMessage(), 403);
