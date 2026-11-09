@@ -5,7 +5,7 @@ import "./globals.css";
 
 // The document metadata layer — the reference's own head (DOM-verified
 // 2026-11-09): title "ViralPost AI" (bare on / and /login; the
-// "<Page> | ViralPost AI" template elsewhere), the 141-char description,
+// "<Page> | ViralPost AI" template elsewhere), the 170-char description,
 // the bare-origin canonical, the OG family, the PWA metas and the
 // viewport. The reference ships no theme-color; we keep Next's default
 // (no value) for parity. The icons ride the src/app/icon.png and

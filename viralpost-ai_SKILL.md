@@ -1,9 +1,9 @@
 ---
 name: viralpost-ai
 description: "The complete engineering skill for the ViralPost AI codebase: a Next.js 16 App Router + React 19 + TypeScript strict + Tailwind CSS 4 (CSS-first) + Prisma/SQLite clone of viralpostai.base44.app built as a functional superset with visual parity. Covers the deterministic generator engine, the quota counter, the scrypt/HMAC auth family, the catch-all 404 title architecture, the Tailwind v4 trap catalog, the WebGL/canvas effects, the three-tier test suite, and the parity-walk methodology. Every rule traces to something that actually happened in this repo."
-version: 1.2.0
+version: 1.3.0
 last_updated: 2026-11-09
-project_state: "Session-6 ship: lint 0/0 · tsc 0 · unit 405/405 (29 files) · build · smoke 15/15 · e2e 48/48 (8 specs) · census MATCH"
+project_state: "Session-7 ship: lint 0/0 · tsc 0 · unit 407/407 (29 files) · build · smoke 15/15 · e2e 48/48 (8 specs) · census MATCH"
 provenance: "Distilled at the session-2 remediation round (the /Dashboard parity audit) from the session-1 clone build and the session-2 audit. Scaffold lineage: the NEO-CRM template family's infrastructure seams (auth, db-path, rate-limit, the gate) — the domain is entirely ViralPost AI's."
 ---
 
@@ -318,7 +318,7 @@ bun run db:census                       # pristine: MATCH
 git status                              # no .env, *.key, db/*.db, logs
 ```
 
-- [ ] Gate green at the exact counts (405 unit / 48 e2e / 15 smoke — and
+- [ ] Gate green at the exact counts (407 unit / 48 e2e / 15 smoke — and
       the doc set carries the same numbers in the same commit).
 - [ ] Changed visual surfaces walked live against the reference at
       1280×800 AND 390×844, both auth states.
@@ -461,10 +461,11 @@ const SESSION_COOKIE = "viralpost_session";             // 7-day TTL, httpOnly, 
 | Session 4 (2026-11-09) | The phantom-reference audit: the CRM-era commentary sweep — the typography contract re-attributed to the unit source-pins (the phantom `crm.spec.ts` pointer deleted), the vitest surface description corrected to the real seams, e2e-port's single-consumer shape, the fixture renamed; the dev-capture lessons recorded (never `bun run build` under a live dev server — Fast-Refresh churn; the burger RELABELS on open — verify through the nav links); captures 15/16; push #4 |
 | Session 5 (2026-11-09) | The docs-freshness audit: the session-tracking surfaces synced (this appendix, the frontmatter state, the README status table, the AGENTS plans map); DEPLOYMENT.md's env table gained the `VIRALPOST_*` hardening knobs (the reverse-proxy audience); captures 17/18; push #5 |
 | Session 6 (2026-11-09) | The clean-tree re-certification: the widened fresh-eyes pass (the session-1-era secondary docs, `scripts/`, the tool configs) found ZERO defects — the S3–S5 cure sequence exhausted the long tail; parity re-verified live (mobile menu open/close/navigate, /Tool, /login, /Dashboard, landing); captures 19/20; push #6 |
+| Session 7 (2026-11-09) | The dev-script feedback loop + the phantom-comment long tail: the dev script tee-returned request logs into the watched root — a self-sustaining ~3.3-loads/s Fast-Refresh reload loop under any open browser tab (A/B-verified live; the tee retired, the exact script form pinned by type-gate); the api.ts coercion-helper family (10 dead functions, zero callers) retired with its phantom CRM claims (THIRTEEN routes / twelve body routes / coercion-guards.test.ts); site.ts, not-found.tsx and not-found-body.tsx re-attributed to THIS repo’s evidence (the D-4 OG superset, the derived-title architecture, the e2e message pin); the description’s 405/141-char labels corrected to 170 (live re-verified byte-identical); the soft-nav-titles superset ledgered (the reference’s SPA leaves document.title stale on soft navigation); AGENTS maps the historical-record layer; captures 21/22; push #7 |
 
 ## Appendix B — The Verification Ledger (session-2 ship; re-certified through session 6)
 
-- Gate: lint 0/0 · tsc 0 · unit 405/405 (29 files) · build · smoke
+- Gate: lint 0/0 · tsc 0 · unit 407/407 (29 files) · build · smoke
   15/15 · e2e 48/48 (8 specs) — all executed, all green.
 - The title derivation: 13 unit pins + live curl across 11 path shapes
   (matching the reference's live table) + the e2e title assertion.
@@ -473,9 +474,13 @@ const SESSION_COOKIE = "viralpost_session";             // 7-day TTL, httpOnly, 
 - The mobile menu: live open/close/navigate at 390×844 against the
   reference (no drift since session 1).
 - Census: MATCH (1 user, 0 messages) after pruning the probe residue.
-- Re-certification: sessions 3–6 each re-ran the full gate on their exact
-  commit trees (the counts held at 405/48/15 throughout) with live parity
+- Re-certification: sessions 3–7 each re-ran the full gate on their exact
+  commit trees (the counts held at 405/48/15 through session 6, 407 from
+  session 7) with live parity
   re-verification each round — no reference drift since session 1.
+  Session 7's re-certification ran on the FIXED dev script (the tee
+  feedback loop cured): the mobile menu walk, /Tool, /login, /Dashboard,
+  sitemap/robots/manifest — all live-verified again.
 
 *End of skill. Produced by following the six-phase distillation process
 (to-distill-project-into-skill + distill-codebase-skill) over the

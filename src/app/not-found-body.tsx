@@ -5,43 +5,41 @@ import Link from "next/link";
 import { NOT_FOUND_LAYOUT } from "@/lib/page-layout";
 
 /**
- * Client body of the custom 404 (session-12 S12-P2) — the reference's
- * message interpolates the unmatched PATHNAME inside a font-medium
- * slate-700 span, which only a client component can read. Structure
- * (VLM round-1 + DOM-verified): space-y-6 center with THREE children —
- * the space-y-2 heading group (404 + the 2px×64px slate-200 divider
- * bar), the space-y-3 text group (Page Not Found + message), and the
- * pt-6 button group (Go Home).
+ * Client body of the custom 404 (session-12 S12-P2 lineage; re-attributed
+ * at session 7, F7-4 — the scaffold's session-194 evidence citations
+ * described the CRM reference's verification walks; this repo's own
+ * evidence is cited below) — the reference's message interpolates the
+ * unmatched PATHNAME inside a font-medium slate-700 span, which only a
+ * client component can read. Structure (dossier §3.7: H1 "404", H2
+ * "Page Not Found", the Go Home button — Verified): space-y-6 center
+ * with THREE children — the space-y-2 heading group (404 + the 2px×64px
+ * slate-200 divider bar), the space-y-3 text group (Page Not Found +
+ * message), and the pt-6 button group (Go Home).
  *
- * Session-194 (D-194a1): the reference interpolates its router path
- * WITHOUT the leading slash — `The page "x" could not be found…` (the
- * walk67 maiden decode: the span 604,459 103x19 on the reference vs
- * our verbatim-usePathname form 601,459 108x19). Next's usePathname()
- * carries the leading slash, so the interpolation strips it:
- * pathname.replace(/^\//, "") (the deep-path form "/a/b" → "a/b"
- * matches the reference's router path on both).
+ * THE PATH INTERPOLATION: the reference interpolates its router path
+ * WITHOUT the leading slash — `The page "x" could not be found…`.
+ * Next's usePathname() carries the leading slash, so the interpolation
+ * strips it: pathname.replace(/^\//, "") (the deep-path form
+ * "/a/b" → "a/b"). Pinned here by the e2e message assertion
+ * (landing.spec.ts: The page "Dashboard" could not be found on
+ * /Dashboard — the standing live parity walk re-verifies it each
+ * round).
  *
- * Session-194 (D-194a2): the Go Home arm is a <Link href="/"> — an
- * ANCHOR, the WCAG-correct link semantics for a navigation affordance
- * (role=link, the href affordances: right-click, cmd-click, AT
- * announcements). The reference renders a <button> with NO href (its
- * SPA JS-router idiom) — its own platform gap, the D-112a2
- * a11y-superset doctrine's next member, never mirrored. Every VISIBLE
- * layer byte-equal (the walk67 decode: box 658,556 123x38 · color ·
- * bg · border · radius · font · padding identical two-app), and the
- * rides byte-equal (both land at the landing "/").
+ * THE GO HOME ARM: a <Link href="/"> — an ANCHOR, the WCAG-correct
+ * link semantics for a navigation affordance (role=link, the href
+ * affordances: right-click, cmd-click, AT announcements). The
+ * reference renders a <button> with NO href (its SPA JS-router
+ * idiom — dossier §3.7 observed the button) — its own platform gap,
+ * the a11y-superset doctrine's member, never mirrored. The rides
+ * land at the landing "/" on both.
  *
- * Session-194 (D-194a3): the Go Home glyph is the reference's
- * HEROICONS home outline inlined verbatim — exactly ONE path, NO
- * stroke-width attr (computed weight 1 — the reference's visibly
- * lighter stroke the walk decoded against lucide's weight-2 default),
- * NO width/height attrs, the bare w-4 h-4 mr-2 class. The M-82c2
- * icon-identity family's first CROSS-LIBRARY member (the D-186a1
- * pen-cure precedent — the reference's exact glyph restored); the
- * lucide `house` import retires at this one site (the reference's 404
- * view is its platform template's own origin — the one non-lucide
- * icon family in its tree). OUR aria-hidden stays (the s19 superset
- * family — the reference's svg carries none, its own a11y gap).
+ * THE GO HOME GLYPH: the reference's HEROICONS home outline inlined
+ * verbatim — exactly ONE path, NO stroke-width attr (computed weight
+ * 1 — the visibly lighter stroke against lucide's weight-2 default),
+ * NO width/height attrs, the bare w-4 h-4 mr-2 class (the one
+ * non-lucide icon family in the reference's tree — its 404 view is
+ * the platform template's own origin). OUR aria-hidden stays — the
+ * reference's svg carries none, its own a11y gap.
  */
 export function NotFoundBody() {
   const pathname = usePathname();

@@ -97,4 +97,32 @@ describe("the bounded-reader family (every body-parsing route)", () => {
       expect(src, rel).toMatch(/safeParse\(read\.value\)/);
     }
   });
+
+  it("the CRM coercion-helper family is RETIRED from the api module (session-7, F7-1)", () => {
+    // The scaffold's session-166 comment claimed these helpers "survive
+    // on the URL-param surfaces" (events' from/to windows, the
+    // reports/export/search period+q parses) with
+    // tests/coercion-guards.test.ts as "the living record" — none of
+    // those surfaces exist in this tree, and that battery never did.
+    // THIS tree's body-parsing family is the six parseBody auth routes
+    // + generate/contact's route-local readBoundedJson (the constants
+    // above); every validation rides src/lib/schemas.ts through
+    // parseBody/safeParse. The helpers had zero callers here — dead
+    // code retired at session 7, pinned absent so it cannot drift back.
+    const api = read("src/lib/api.ts") ?? "";
+    for (const fn of [
+      "asString",
+      "isBadFK",
+      "asFKId",
+      "isBadString",
+      "isBadDate",
+      "isBadNumber",
+      "isBadBool",
+      "asNumber",
+      "asInt",
+      "asDate",
+    ]) {
+      expect(api, `export function ${fn} must stay retired`).not.toContain(`export function ${fn}`);
+    }
+  });
 });

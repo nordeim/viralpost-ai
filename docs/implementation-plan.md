@@ -111,6 +111,7 @@ Routes and their parity sources live in §3 of the investigation dossier.
 | Footer socials | `href="#"` dead stubs | Real platform homepages | Dead controls are a defect | Reasoned |
 | Free-quota source | localStorage only (client-trustworthy) | Same UX, plus server-side IP rate limit on `/api/generate` | Abuse resistance | Reasoned |
 | Scroll reveals | framer-motion `whileInView` | `Reveal` (IntersectionObserver + CSS) | No new dependency; reduced-motion first | Reasoned |
+| Soft-nav titles | SPA leaves `document.title` stale on client-side navigation (menu-click → /Pricing keeps the landing's bare "ViralPost AI"; per-route titles appear only on full loads — live-verified session 7) | Next.js Metadata API updates the title on every navigation ("Pricing \| ViralPost AI" immediately) | Correct behavior kept as a superset; crawlers do full loads either way | Verified |
 | Platform badge | "Edit with Base44" floating badge | Absent (platform chrome, not app) | Not part of the product | Reasoned |
 
 ## 7. Verification plan (the gate)

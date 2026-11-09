@@ -12,7 +12,7 @@ const read = (p: string) => readFileSync(join(root, p), "utf8");
 // "<Page> | ViralPost AI" on /Tool, /Pricing, /Contact.
 
 describe("pageMetadata: the per-route family", () => {
-  it("the description is the reference's 141-char meta description", () => {
+  it("the description is the reference's 170-char meta description", () => {
     expect(SITE_DESCRIPTION).toBe(
       "An AI-powered social media generator that helps creators, influencers, and businesses draft high-engagement posts for Instagram, TikTok, Twitter, and LinkedIn in seconds.",
     );

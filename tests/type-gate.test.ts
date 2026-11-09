@@ -96,3 +96,19 @@ describe("session-174: THE TYPE-GATE HARDENING (the build fails on type errors)"
     expect(gate).toMatch(/lint.*typecheck.*test.*build.*smoke.*test:e2e/);
   });
 });
+
+describe("session-7: THE DEV-SCRIPT WATCH-ROOT CONTRACT (the tee feedback loop)", () => {
+  it("the dev script writes NO log inside the Turbopack-watched repo root (F7-0)", () => {
+    // The scaffold's `next dev -p 3000 2>&1 | tee dev.log` piped request
+    // logs into the watched root: every request wrote dev.log → a
+    // Fast-Refresh rebuild → a full page reload → more request logs — a
+    // self-sustaining ~3.3-loads/s loop whenever a browser held the page
+    // (A/B-verified live at session 7: with the tee, window markers
+    // never survived 3s and navType=reload repeated; without it, the
+    // page held stable and the mobile menu opened/navigated normally).
+    // Nothing reads dev.log — the gate boots the standalone artifact
+    // directly, and operators can redirect output themselves. The pin
+    // holds the exact script form so the loop cannot return.
+    expect(pkg().scripts?.dev).toBe("next dev -p 3000");
+  });
+});

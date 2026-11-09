@@ -16,7 +16,7 @@ import {
 // reference-investigation.md §3.2): hero → tool → PT monetization →
 // features → how-it-works → stats → testimonials → pricing → CTA →
 // contact. The root layout's metadata object already IS the reference's
-// landing head (title "ViralPost AI", the 141-char description, the
+// landing head (title "ViralPost AI", the 170-char description, the
 // bare-origin canonical, the OG family) — a page export would only
 // re-declare the same values.
 export default function LandingPage() {

@@ -1,3 +1,111 @@
+Task ID: 7
+Agent: main (Z.ai)
+Task: The session-7 dev-script feedback loop + phantom-comment round —
+re-run the standing instruction against the post-session-6 tree (927a0b2):
+docs review, fresh audit (web-application §15/§16 +
+security-and-hardening, this round aimed at the src/ comment layer read
+claim-by-claim against the actual tree), reference parity re-verification,
+the TDD cures, the gate, dev-server captures 21/22, push #7 to main via
+the SSH wrapper.
+
+Work Log:
+- The intake: the workspace pulled to 927a0b2 (the owner's session_6.md
+  log on top of the prior session-6 ship 23783e5); the S6 artifacts
+  verified in-tree (SKILL v1.2.0 with six round rows, captures 19/20,
+  the six-plan map); baseline gates green at the documented counts
+  (lint 0/0 · tsc 0 · unit 405/405 · census MATCH)
+- THE HIGH FINDING (F7-0, live-diagnosed): the parity walk BLOCKED —
+  the clone's mobile menu would not stay open, window markers never
+  survived 3s, navType=reload repeated at ~3.3 loads/s while idle.
+  Root cause: the scaffold's dev script (next dev -p 3000 2>&1 |
+  tee dev.log) wrote every request log INSIDE the Turbopack-watched
+  repo root → each request triggered a Fast-Refresh rebuild → a full
+  page reload → more request logs — a self-sustaining feedback loop
+  under any open browser tab. A/B-verified live: with the tee, the
+  loop; booting next dev directly, the page held stable and the menu
+  worked. Cured: the tee retired ("dev": "next dev -p 3000" —
+  nothing reads dev.log; the gate boots the standalone artifact
+  directly), the exact script form pinned by type-gate
+  (the session-7 watch-root contract). The S4 "Fast-Refresh churn"
+  lesson gains its second member: log files inside the watched root
+  are loop fuel, not just build outputs
+- THE PHANTOM-COMMENT LONG TAIL (F7-1..F7-5, the S4 class applied
+  file-by-file to the deep comment blocks the earlier sweeps never
+  reached — all inherited from the CRM scaffold at session-1's
+  transform, which textually substituted NEO CRM → ViralPost AI and
+  corrupted the claims' meaning):
+  F7-1 (MED) src/lib/api.ts — "the family is THIRTEEN routes
+  (accounts/activities/contacts/events/leads…)", "the twelve body
+  routes", "asString/asDate survive on the URL-param surfaces —
+  events' from/to windows, the reports/export/search parses",
+  "tests/coercion-guards.test.ts, the living record" — none of those
+  surfaces exist here (the real family: six parseBody auth routes +
+  generate/contact route-local; body-pregate.test.ts is the living
+  record); the ten-function coercion helper family had ZERO callers —
+  dead code retired (~87 lines) with an accurate retirement note
+  F7-2 (MED) src/lib/site.ts — pageOgDescription's comment claimed
+  the reference ships per-route OG live-verified on the CRM's route
+  vocabulary with a 405-char paragraph; the reference ships NO
+  per-route OG at all (dossier D-4 — the clone's documented superset),
+  our routes are /Tool /Pricing /Contact, SITE_DESCRIPTION is 170
+  chars — re-attributed to the D-4 superset
+  F7-3 (MED) src/app/not-found.tsx — the session-194 block claimed
+  the reference's current build (bundle 46bc2d9c — not this
+  reference's index-DwiT4li9) ships bare titles on 404s and redirects
+  anon unknown-routes to /login — contradicted by this repo's own
+  live-verified derived-title architecture; rewritten to the true
+  mechanics (the dormant root boundary; the catch-all owns unknown
+  routes)
+  F7-4 (LOW) src/app/not-found-body.tsx — the walk67/CRM-session
+  evidence citations re-attributed to this repo's pins (dossier §3.7,
+  the e2e message pin, the a11y superset doctrine)
+  F7-5 (LOW) the description's char labels — "141-char" (×3:
+  page-titles.test.ts, layout.tsx, (site)/page.tsx) and "405-char"
+  (×2: site.ts, manifest route) all corrected to 170 (live
+  re-verified: the reference's meta description is byte-identical)
+- THE TDD LEDGER: two RED pins first — body-pregate's
+  coercion-family retirement pin (absence, over the api.ts source) and
+  type-gate's dev-script watch-root contract (the exact script form);
+  both failed against the pre-cure tree, both green after
+- THE KEEP-AND-DOCUMENT FIND: the reference's SPA leaves
+  document.title STALE on soft navigation (live-verified: menu-click
+  → /Pricing keeps the landing's bare title for 6s+; per-route titles
+  appear only on full loads); the clone's Next.js Metadata API updates
+  on every navigation — the correct behavior, ledgered as a Deviations
+  row (implementation-plan.md §6)
+- THE DOCS-MAP CURE (F7-6, LOW): AGENTS' Key docs gains the
+  historical-record layer line (neo-crm_SKILL.md — the CRM's v1.207
+  skill, the session-1 input distilled into viralpost-ai_SKILL.md at
+  session 2; docs/worklog.md — the CRM-era worklog; the prompt
+  templates; the validation/evaluation reports) — retained provenance,
+  explicitly never a current-state contract, so no future round
+  re-adjudicates those files
+- THE PARITY RE-CHECK (live, on the FIXED dev script): the mobile
+  menu at 390×844 — closed, open (the 5 destinations + brand,
+  expanded=true), click-through navigation with auto-close and the
+  correct "Pricing | ViralPost AI" title — byte-matching the
+  reference's walk (closed/open/navigate on the reference first, the
+  clone second); /Tool (h1 + Free Tool), /login (Welcome + Continue
+  with Google), /Dashboard (404 + derived title + the message pin),
+  landing hero; sitemap/robots/manifest live-verified (byte formats,
+  the 170-char description)
+- THE CAPTURES (21/22): the dev-server landing (1280×800) and the
+  open mobile menu (390×844), both PIL-verified non-blank
+  (99.7%/99.9%); captured BEFORE the gate build with the open state
+  verified through the nav links (both S4 capture lessons applied)
+- THE VERIFICATION: full gate on the exact commit tree — lint 0/0 ·
+  tsc 0 · unit 407/407 (29 files, +2 the session-7 pins) · build ·
+  smoke 15/15 · e2e 48/48 (8 specs) · census MATCH
+- SHIPPED: the round-history lockstep (SKILL v1.3.0 with the Session
+  7 row, README's status table + gate line, AGENTS' seven-plan map +
+  the historical-record layer + the 407 count, CLAUDE/PAD counts) +
+  the Deviations row + captures 21/22 + the plan doc
+  (docs/plans/2026-11-09-session7-devscript-feedback-loop-and-phantom-comments.md)
+  + this worklog entry, committed to main and pushed via
+  docs/ssh_git_wrapper_v3.py
+
+---
+
 Task ID: 6
 Agent: main (Z.ai)
 Task: The session-6 clean-tree re-certification — re-run the standing

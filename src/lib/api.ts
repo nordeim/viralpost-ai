@@ -59,20 +59,18 @@ export function isGuarded(x: { user: SessionUser } | { response: NextResponse })
 
 // ---- the auth-family body pre-gate (session-67, N-67d) ---------------------
 
-/** Session-67 (N-67d): the declared-size ceiling for the public auth
- * routes' JSON bodies — the S36-P3 upload precedent extended to the
- * family that buffers req.json() with no default cap. The honest bodies
- * are tiny (email capped at 160 chars + password + a 6-digit code), so
- * 16KB is beyond generous. Documented limitation (inherited from the
- * upload gate): a chunked body without a Content-Length header bypasses
- * this check; the JSON parse's own failure mode stays the backstop.
- * Session-68 (F-68a2): the SAME ceiling + helper now gate the sessioned
- * CRUD family too — placed after requireSession, before the parse; the
- * honest CRUD bodies are asString-capped fields, far below the ceiling.
- * Session-72 (M-72c2) + session-73 (N-73a1): the family is THIRTEEN
- * routes (accounts/activities/contacts/events/leads x[root+[id]] +
- * settings + users + reset — the users PATCH joined at s72; this
- * comment's "12" enumeration was the s72 record's unlanded half). */
+/** Session-67 (N-67d), session-165: the declared-size ceiling for JSON
+ * bodies — the ONE bound every body-parsing route rides through
+ * readBoundedJson/parseBody. In THIS tree that family is the six public
+ * auth routes (signup/verify/resend/login/forgot-password/reset-password
+ * via parseBody + src/lib/schemas.ts) plus generate and contact's
+ * route-local readBoundedJson + safeParse — the census tests/
+ * body-pregate.test.ts pins. The honest bodies are tiny (email capped
+ * at 160 chars + password + a 6-digit code / an idea or contact
+ * message), so 16KB is beyond generous. Documented limitation
+ * (inherited from the upload gate): a chunked body without a
+ * Content-Length header bypasses the declared-length fast path — the
+ * stream counter below is that family's bound. */
 export const MAX_AUTH_BODY_BYTES = 16 * 1024;
 
 /** True when the request DECLARES a body larger than the auth ceiling —
@@ -209,100 +207,14 @@ export async function parseBody<S extends z.ZodTypeAny>(
   return { ok: true, data: parsed.data };
 }
 
-// ---- hand-rolled validation helpers (the query-param GET family + the -----
-// behavior battery — the CRUD body-guard forms RETIRED at session-166:
-// the twelve body routes ride parseBody/safeParse against
-// src/lib/schemas.ts now; asString/asDate survive on the URL-param
-// surfaces — events' from/to windows, the reports/export/search
-// period+q parses — and the isBad*/asFKId/asNumber/asInt predicates
-// stay exported for their pure-function battery,
-// tests/coercion-guards.test.ts, the living record of the semantics
-// the schema field-builders recast)
-
-export function asString(v: unknown, { max = 500, optional = false } = {}): string | undefined {
-  if (v === undefined || v === null) return optional ? undefined : "";
-  if (typeof v !== "string") return optional ? undefined : "";
-  const s = v.trim();
-  if (s.length === 0) return optional ? undefined : "";
-  return s.slice(0, max);
-}
-
-/** Session-37 (S37-P3): a PRESENT FK payload must be a string (or an
- *  explicit null). Non-string values used to ride asString's optional
- *  coercion to `undefined` → `null` — a SILENT FK clear on PUT. Routes
- *  pair this with a 400 ("Invalid company/owner/contact selection"). */
-export function isBadFK(v: unknown): boolean {
-  return v !== undefined && v !== null && typeof v !== "string";
-}
-
-/** Session-37 (S37-P3): FK id parse — null/""/whitespace → null (the
- *  explicit clear), a string → the trimmed id. Guard with isBadFK first:
- *  this helper silently clears non-strings by design (the asString
- *  semantics the selects' "" emissions rely on). */
-export function asFKId(v: unknown): string | null {
-  return asString(v, { optional: true }) ?? null;
-}
-
-/** Session-40 (S40-P1): the general present-non-string predicate —
- *  isBadFK's class, named for the non-FK fields it guards (email, phone,
- *  notes, status…). A PRESENT non-string used to ride asString's
- *  optional coercion to undefined → `?? null` — a SILENT field clear
- *  on PUT. Routes pair this with a 400 ("Invalid <thing>"). */
-export function isBadString(v: unknown): boolean {
-  return v !== undefined && v !== null && typeof v !== "string";
-}
-
-/** Session-40 (S40-P1): dates have a parseable shape, so the guard is
- *  stricter than isBadString — an UNPARSEABLE string is bad too
- *  (asDate("garbage") → undefined → `?? null` silently cleared the
- *  field). "" stays the explicit clear (the asFKId convention); a
- *  parseable string (ISO, date-only) passes. */
-export function isBadDate(v: unknown): boolean {
-  if (v === undefined || v === null || v === "") return false;
-  if (typeof v !== "string") return true;
-  return Number.isNaN(new Date(v).getTime());
-}
-
-/** Session-40 (S40-P1): Number()'s truthy/array edges are the hazard —
- *  Number(true)=1, Number([5])=5, Number([])=0, Number(" ")=0 — so a
- *  JSON boolean/array payload silently stored a number. Accepted: a
- *  finite number, or a numeric string (the UI's Number()/parseFloat
- *  shapes serialize through JSON as strings only when hand-written).
- *  "" stays absent (asNumber's own special case); a whitespace-only
- *  string is BAD (it would silently store 0). */
-export function isBadNumber(v: unknown): boolean {
-  if (v === undefined || v === null || v === "") return false;
-  if (typeof v === "number") return !Number.isFinite(v);
-  if (typeof v === "string") return v.trim() === "" || !Number.isFinite(Number(v));
-  return true;
-}
-
-/** Session-42 (S42-P2): the strict-bool silent-clear family —
- *  `data.isKey = body.isKey === true` silently stored FALSE for a
- *  present non-boolean ({"isKey":"yes"} → 200 + false) and silently
- *  CLEARED an existing true on PUT (a key account de-keyed without an
- *  error — LIVE-proven). The isBadString shape one type over: only a
- *  PRESENT non-boolean is bad; absent/null keep the false-default
- *  (POST) and no-change (PUT) semantics. The UI writers are real
- *  checkbox booleans (Radix onCheckedChange) or absent — the surface
- *  is API-only. */
-export function isBadBool(v: unknown): boolean {
-  return v !== undefined && v !== null && typeof v !== "boolean";
-}
-
-export function asNumber(v: unknown): number | undefined {
-  if (v === undefined || v === null || v === "") return undefined;
-  const n = Number(v);
-  return Number.isFinite(n) ? n : undefined;
-}
-
-export function asInt(v: unknown): number | undefined {
-  const n = asNumber(v);
-  return n === undefined ? undefined : Math.trunc(n);
-}
-
-export function asDate(v: unknown): Date | undefined {
-  if (typeof v !== "string" || !v) return undefined;
-  const d = new Date(v);
-  return Number.isNaN(d.getTime()) ? undefined : d;
-}
+// ---- the retired coercion-helper family (session-7, F7-1) ---------------
+// The scaffold (the CRM's session-166 form of this file) carried ten
+// hand-rolled body-coercion helpers (asString/isBadFK/asFKId/isBad*/
+// asNumber/asInt/asDate) whose comment claimed they "survive on the
+// URL-param surfaces" — the CRM's events/reports/export/search GET
+// family and a tests/coercion-guards.test.ts battery. None of those
+// surfaces exist in this tree: every body validation rides Zod through
+// parseBody + src/lib/schemas.ts (the six auth routes) or the
+// route-local readBoundedJson + safeParse (generate, contact), and this
+// repo has no query-param GET surfaces. The helpers had zero callers —
+// retired at session 7, absence-pinned by tests/body-pregate.test.ts.

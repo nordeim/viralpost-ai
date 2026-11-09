@@ -22,7 +22,8 @@ import type { Metadata } from "next";
 
 export const DEFAULT_SITE_URL = "http://localhost:3000";
 
-/** The reference's meta description, mirrored verbatim (405 chars). */
+/** The reference's meta description, mirrored verbatim (170 chars —
+ * live re-verified at session 7: byte-identical on the reference). */
 export const SITE_DESCRIPTION =
   "An AI-powered social media generator that helps creators, influencers, and businesses draft high-engagement posts for Instagram, TikTok, Twitter, and LinkedIn in seconds.";
 
@@ -40,11 +41,16 @@ export function siteUrl(
 }
 
 /**
- * Session-19: the reference's per-route OG description prefix — every
- * inner page's og/twitter description is
- * `"<Page> on ViralPost AI. " + <the 405-char root paragraph>`
- * (live-verified on /Accounts, /Contacts, /Leads, /Calendar, /Activities,
- * /Reports, /Settings, /Profile; the root and /login stay unprefixed).
+ * The inner-page OG description prefix — the CRM-family's session-19
+ * convention ("<Page> on <App>. " + the root paragraph), adopted here
+ * as the D-4 SEO SUPERSET: the reference ships NO per-route OG at all
+ * (dossier D-4: "No SEO per-route canonical/OG on inner pages beyond
+ * title tag" — DOM-probed at clone time). Our inner pages are /Tool,
+ * /Pricing, /Contact; the root and /login stay unprefixed (page null).
+ * The 170-char root paragraph is SITE_DESCRIPTION above. (The scaffold's
+ * original comment claimed live verification on the CRM's route
+ * vocabulary with a 405-char paragraph — another app's numbers;
+ * corrected at session 7, F7-2.)
  */
 export function pageOgDescription(page: string): string {
   return `${page} on ViralPost AI. ${SITE_DESCRIPTION}`;
