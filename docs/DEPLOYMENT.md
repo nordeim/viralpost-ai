@@ -41,6 +41,9 @@ TLS at the app process if you must run without the flag.
 | `DATABASE_URL` | Yes | SQLite connection string. See §4. |
 | `AUTH_SECRET` | **Yes in production** | HMAC secret for session cookies. Generate with `openssl rand -hex 32`. Must be at least 16 characters — shorter values fall back to the insecure dev constant (with a server warning) instead of the run-time error an absent value raises. Never ship the dev constant. |
 | `NEXT_PUBLIC_SITE_URL` | Recommended | Canonical public origin, used for metadata URLs and `sitemap.xml` (e.g. `https://orbital.example.com`). |
+| `VIRALPOST_PROXY_HOPS` | Behind a reverse proxy | Trusted proxy depth for the rate-limit IP keying (unset = 1 — exactly one appending proxy; 0 = direct exposure; N ≥ 2 = N trusted appending proxies). Unparsable/negative values fail closed onto 1. Set it to match the proxy chain in front of the app, or every caller shares one rate-limit bucket. |
+| `VIRALPOST_DISABLE_IN_APP_OTP` | Production with a mail transport | Set to `1` when a real mail transport owns verification-code delivery — the signup/resend responses stop carrying the code. Leave unset for the self-hosted demo posture (the code rides the response). |
+| `VIRALPOST_DISABLE_IN_APP_RESET` | Production with a mail transport | Set to `1` when a real mail transport owns reset-link delivery — the forgot-password response stops carrying the link (the no-enumeration 200 is unchanged either way). |
 
 ## 4. Database location (§4 — the `.env.example` reference)
 
@@ -105,4 +108,4 @@ bun run test:e2e                              # Playwright suite (local)
 |---------|-------|-----|
 | `Error code 14: Unable to open the database file` | Server started from a directory that has no `prisma/schema.prisma` and no absolute `DATABASE_URL` | Start via `bun run start`, or set an absolute `file:` URL (§4) |
 | Logins loop back to `/login` | `AUTH_SECRET` changed between restarts | Keep the secret stable across restarts |
-| Rate-limited logins (429) | 10 attempts/IP/15 min fixed window | Wait for `Retry-After`, or restart to clear the in-memory buckets (single-node) |
+| Rate-limited logins (429) | 10 attempts/IP/15 min fixed window | Wait for `Retry-After`, or restart to clear the in-memory buckets (single-node). Behind a reverse proxy, verify `VIRALPOST_PROXY_HOPS` matches the chain (§3) — a wrong depth merges every client into one bucket |

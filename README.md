@@ -210,8 +210,11 @@ the PostgreSQL swap.
 |---|---|---|
 | Session 1 — the clone build | ✅ done | Full app, parity walk, 8 screenshots, first push |
 | Session 2 — the parity audit | ✅ done | The `/Dashboard` title decode, env rename, dep diet (−11), docs rebuild, the SKILL distillation |
+| Session 3 — the rename completion | ✅ done | Guard-layer `NEO_*` → `VIRALPOST_*` finish (dual-prefix boot gate, re-armed e2e pins, dead page metadata removed); captures 13/14 |
+| Session 4 — the phantom-reference audit | ✅ done | CRM-era commentary sweep (typography contract, vitest surface, e2e-port shape, fixture); dev-server captures 15/16 |
+| Session 5 — the docs-freshness audit | ✅ done | Session-tracking surfaces synced (SKILL round history, status tables, plans map); DEPLOYMENT env table gained the `VIRALPOST_*` knobs; captures 17/18 |
 
-Gate at the session-3 ship: lint 0/0 · tsc 0 · unit 405/405 · build ·
+Gate at the session-5 ship: lint 0/0 · tsc 0 · unit 405/405 · build ·
 smoke 15/15 · e2e 48/48.
 
 ## License

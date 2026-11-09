@@ -1,3 +1,66 @@
+Task ID: 5
+Agent: main (Z.ai)
+Task: The session-5 docs-freshness audit — re-run the standing
+instruction against the post-session-4 tree (b5261b5): docs review,
+fresh audit (web-application §15/§16 + security-and-hardening),
+reference parity re-verification, the doc-freshness cures, the gate,
+dev-server captures 17/18, push #5 to main via the SSH wrapper.
+
+Work Log:
+- The intake: the workspace pulled to b5261b5 (the owner's session_4.md
+  log on top of the session-4 ship 124f105); the session-4 plan +
+  execution record validated against the tree (all four cures verified
+  in place — the typography comment, the vitest surface description,
+  e2e-port's single-consumer shape, the viralpost.example.com fixture —
+  and captures 15/16 present); baseline gates green (lint 0/0 · tsc 0 ·
+  unit 405/405 · census MATCH)
+- THE AUDIT (web-application §15 + §16 + security-and-hardening): the
+  doc set read with fresh eyes for STALENESS rather than phantom
+  pointers this round; the marker/relic sweep clean (zero TODO/FIXME in
+  src/; the one neo-crm mention in tests is type-gate's documented
+  evaluation-report provenance); sitemap/robots/manifest verified
+  unchanged (the reference's byte formats, force-static); key hygiene
+  verified (no key material in tree, no /tmp residue)
+- THE FINDINGS: four documentation-freshness gaps, no source defect.
+  (F5-1, MED) viralpost-ai_SKILL.md's session-tracking surfaces frozen
+  mid-history — project_state said "Session-3 ship", Appendix A's round
+  history listed only Sessions 1–2; (F5-2, LOW) README's status table
+  listed only Sessions 1–2 with the gate line labeled session-3;
+  (F5-3, LOW) AGENTS' docs-map enumerated two plan docs while four
+  exist; (F5-4, LOW) DEPLOYMENT.md §3's env table omitted the three
+  VIRALPOST_* hardening knobs — the one contract-bearing doc without
+  them, and the exact reverse-proxy audience that needs
+  VIRALPOST_PROXY_HOPS (its own §2 discusses TLS-terminating proxies,
+  §7 rate-limited logins)
+- THE CURES: SKILL.md — Appendix A now carries Sessions 1–5, the
+  frontmatter state bumped to the session-5 ship at the same counts,
+  Appendix B gains the sessions-3–5 re-certification line (v1.0.0 →
+  v1.1.0); README — the status table carries Sessions 1–5 and the gate
+  line relabeled; AGENTS — the plans map enumerates all five rounds;
+  DEPLOYMENT.md — §3 gains the three knob rows (semantics verified
+  against src/lib/rate-limit.ts and the auth routes: unset = 1,
+  unparsable/negative fails closed onto 1; ="1" nulls in-response
+  delivery) and §7's rate-limit row cross-references the proxy-hop
+  knob
+- THE PARITY RE-CHECK (live): the mobile menu at 390×844 — closed
+  state, open state (the 5 destinations), click-through navigation
+  (/Pricing + title) — byte-matching the reference; /Tool (title, h1,
+  Generate Post, 3-free), /login (Welcome card + Continue with Google),
+  /Dashboard (404 + derived title + Page Not Found) — no drift
+- THE CAPTURES (17/18): the dev-server landing (1280×800) and the open
+  mobile menu (390×844), both PIL-verified non-blank (99.7%/99.9%);
+  captured BEFORE the gate build (the S4 churn lesson) with the
+  open-state verified through the nav links (the S4 relabel lesson)
+- THE VERIFICATION: full gate on the exact commit tree — lint 0/0 ·
+  tsc 0 · unit 405/405 (29 files) · build (clean compile, 11/11
+  static pages) · smoke 15/15 · e2e 48/48 (8 specs) · census MATCH
+- SHIPPED: the doc-freshness cures + captures 17/18 + the plan doc
+  (docs/plans/2026-11-09-session5-docs-freshness-audit.md) + this
+  worklog entry, committed to main and pushed via
+  docs/ssh_git_wrapper_v3.py
+
+---
+
 Task ID: 4
 Agent: main (Z.ai)
 Task: The session-4 phantom-reference audit — re-run the standing
