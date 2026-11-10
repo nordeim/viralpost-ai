@@ -104,4 +104,20 @@ test("session-15 (S15-7): unknown /api paths answer the JSON envelope 404 (not t
   const bareBody = await bare.json();
   expect(bareBody.ok).toBe(false);
   expect(bareBody.error.code).toBe("NOT_FOUND");
+  // Session-18 (S18-2): OPTIONS joins the envelope family on BOTH
+  // catch-alls. The five-method tree let an OPTIONS probe of an unknown
+  // path fall to Next's own 405 + Allow (the route file matches the
+  // path, just not the method) — a non-envelope response on a path that
+  // does not exist. The leg covers both faces (the [...path] subtree
+  // and the bare /api); HEAD needs no leg (auto-derived from GET).
+  // TRACE is excluded — not a supported route-handler method, Next
+  // rejects it at the router level before any handler runs.
+  for (const path of ["/api/nonexistent-endpoint", "/api"]) {
+    const options = await request.fetch(path, { method: "OPTIONS" });
+    expect(options.status(), path).toBe(404);
+    expect(options.headers()["content-type"], path).toContain("application/json");
+    const optionsBody = await options.json();
+    expect(optionsBody.ok, path).toBe(false);
+    expect(optionsBody.error.code, path).toBe("NOT_FOUND");
+  }
 });

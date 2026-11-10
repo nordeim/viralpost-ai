@@ -688,8 +688,8 @@ the same commit as the file.)
 | `src/components/effects/iridescence.tsx` | 221 | The WebGL hero background (aspect-aware shader) |
 | `src/components/effects/particle-text.tsx` | 313 | The canvas particle title |
 | `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |
-| `src/app/api/[...path]/route.ts` | 34 | The API subtree's envelope 404 (session-15, S15-7) |
-| `src/app/api/route.ts` | 34 | The bare `/api` envelope 404 (session-16, S16-2) |
+| `src/app/api/[...path]/route.ts` | 43 | The API subtree's envelope 404 (session-15, S15-7; OPTIONS joined session-18, S18-2) |
+| `src/app/api/route.ts` | 43 | The bare `/api` envelope 404 (session-16, S16-2; OPTIONS joined session-18, S18-2) |
 | `prisma/schema.prisma` | 60 | User + ContactMessage |
 | `scripts/smoke-test.sh` | 175 | The 15-leg artifact ladder |
 

@@ -14,8 +14,10 @@ bun install
 bun run build          # next build + standalone assembly (.next/standalone)
 ```
 
-The build compiles the page shell and the 11 API route files (11 verb
-handlers — the auth family's eight, contact, generate, health), then
+The build compiles the page shell and the 13 API route files (11 verb
+handlers — the auth family's eight, contact, generate, health — plus
+the two JSON-envelope 404 catch-alls: `src/app/api/[...path]/route.ts`
+and the bare-`/api` `src/app/api/route.ts`), then
 copies `.next/static` and `public/` into `.next/standalone/` (see the
 `build` script in `package.json`). `next.config.ts` pins
 `outputFileTracingRoot` to the repo root — keep it; the standalone trace

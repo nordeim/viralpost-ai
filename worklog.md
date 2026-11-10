@@ -1,3 +1,98 @@
+Task ID: 18
+Agent: main (Z.ai)
+Task: The session-18 OPTIONS-envelope closure + DEPLOYMENT count
+re-anchor + config-loader silence round — re-run the standing
+instruction against the post-session-17 tree (1a0f801): docs review,
+the baseline gate on the merged tree (lint 0/0 · tsc 0 · unit 550/550
+(37 files) · the e2e --list census 56/9 · census MATCH), the
+comprehensive audit (0 Critical / 0 High / 0 Medium / 1 Low /
+10 Informational — dispatched wide across three parallel subagents
+(API/lib seams, components/pages/effects, SEO/configs/tests/docs),
+every load-bearing finding hand-verified in source; the audit's one
+Zod-leak candidate — signupSchema.name.max(80) possibly leaking
+default text — DISPROVED live against the pinned zod 4.6.7: the
+constructor's { message } inherits to .max()), the neo-crm repo
+re-review (HEAD b3d0fbe — UNCHANGED since session 12's review; its
+adoption and deferral decisions stand), the live reference parity walk
+(logged-in: /Home with the "ViralPost AI" title; the mobile menu at
+390x844 — the no-aria hamburger md:hidden p-2 text-slate-300, 5
+destinations, auto-close on navigation; the landing's 10-section
+composition INCLUDING the PT monetization section + the
+templixco.gumroad.com/l/znzbnd link family; the OG family re-captured
+on ALL FIVE routes via DIRECT loads — prefixed og:title + per-route
+canonical on /Tool /Pricing /Contact, the unprefixed family on / and
+/login: the clone matches, NO drift; sitemap/robots unchanged) + the
+clone's dev-server walk (hydration clean at 390x844 via localhost; the
+menu open — 5 destinations + brand; Escape WITH the focus return;
+navigate + auto-close + the derived "Tool | ViralPost AI" title) + the
+live cure probes (the S17-5 media-type gate, the generator round-trip,
+the bare-/api envelope 404), the TDD cures, the mutation batteries
+(2), the gate, captures 43/44, push #18 to main via the SSH wrapper.
+
+Work Log:
+- THE AUDIT (0 Critical / 0 High / 0 Medium / 1 Low / 10
+  Informational): three parallel subagents read the API family + the
+  20 lib seams, the components/pages/effects family, and the SEO/
+  configs/tests/docs surface in full; all session-17 cures re-verified
+  in source AND live. The one Low finding is a documentation-drift
+  item; the ten Info findings are hardening/edge notes — the four
+  actionable ones cured this round, the six verified-no-action items
+  recorded in the plan's register (admin-bootstrap TOCTOU theoretical,
+  /api/health unthrottled by design, no CSP = documented parity, the
+  toast store's legacy-but-pinned pattern, the landing shell
+  consistency nuance, the OTP digit-distribution semantics pinned as
+  intended).
+- THE OPTIONS-ENVELOPE CLOSURE (S18-2, INFO — TDD): both envelope-404
+  catch-alls exported only the five-method family, so an OPTIONS probe
+  of an unknown path fell to Next's OWN auto-answer — a bare 204
+  (live-observed in the RED run; not the 405 the audit first
+  hypothesized) — a non-envelope response on a path that does not
+  exist. CURED by TDD: the S15-7 e2e leg extended in place (both faces
+  co-pinned — the [...path] subtree and the bare /api), RED against
+  the five-method tree (exactly the extended test failed, 204
+  observed), then the OPTIONS export joined both catch-alls with the
+  TRACE exclusion documented (not a supported route-handler method) —
+  GREEN post-cure. MUTATION BATTERIES: removing either catch-all's
+  OPTIONS export REDs exactly the pin (one battery per face) →
+  restored → GREEN.
+- THE DEPLOYMENT COUNT RE-ANCHOR (S18-1, LOW): DEPLOYMENT.md §1 still
+  said "the 11 API route files (11 verb handlers)" — sessions 15-16
+  added the two envelope-404 catch-alls; 13 route files on disk now.
+  The sentence re-anchored with the two catch-alls named.
+- THE LOGOUT COMMENT (S18-3, INFO): logout is the only cookie-mutating
+  route without a try/catch — the comment now documents WHY the bare
+  call is safe (clearSessionCookie performs no crypto and no DB work,
+  cookies() cannot throw in a route handler; login/verify wrap their
+  MINT because secret() and the DB read CAN throw) and what would
+  change the answer.
+- THE E2E_PORT DOC FACE (S18-4, INFO): the e2e port knob
+  (E2E_PORT ?? "3100", single source tests/e2e/e2e-port.ts) appeared
+  in no live doc — an operator with a :3100 conflict could not
+  discover it. The AGENTS e2e note now carries it (test-infra tooling;
+  the six-knob app env contract is complete and untouched).
+- THE CONFIG-LOADER SILENCE (S18-5, INFO): vitest.config.ts →
+  vitest.config.mts — Vite's "ESM syntax in a file loaded as
+  CommonJS" warning printed on EVERY gate run and names a real future
+  break (configLoader: 'native' becomes the default in a future Vite
+  major). Verified: no test pin names the file, the suite runs clean,
+  the SKILL config table lockstepped.
+- THE LOCKSTEP: counts UNCHANGED (the OPTIONS leg extended an existing
+  e2e test — unit 550/37 files, e2e 56/9 specs, badge 606); PAD §12's
+  two catch-all rows re-anchored 34 → 43 lines; README (the session-18
+  row + the gate line); AGENTS (the plans map's eighteenth round + the
+  E2E_PORT note); the SKILL v1.13.0 → v1.14.0 (frontmatter, the
+  config table's .mts, Appendix A's session-18 row, Appendix B
+  re-certified through session 18 with the OPTIONS closure in the
+  ledger); worklog Task 18 (this entry); the session-18 plan's
+  post-execution record.
+- THE GATE: lint 0/0 · tsc 0 · unit 550/550 (37 files) · build ·
+  smoke 15/15 · e2e 56/56 (9 specs) · census MATCH — on the exact
+  commit tree.
+- Captures 43/44 (the landing 1280x800 + the OPEN mobile menu
+  390x844, dev server via localhost, hydration awaited), PIL-verified.
+- Push #18 to main via the SSH wrapper (dry-run first, key shredded
+  after).
+
 Task ID: 17
 Agent: main (Z.ai)
 Task: The session-17 comment-truth + README-table + CSRF-media-type +
