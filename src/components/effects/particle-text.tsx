@@ -280,6 +280,16 @@ export function ParticleText({
 
     const onResize = () => {
       layout();
+      // Session-19 (S19-9): layout() reassigns canvas.width/height, which
+      // CLEARS the canvas — and in reduced mode no rAF loop is running
+      // to repaint it, so the title stayed blank until the next phrase
+      // timer (up to ~3s; the full-motion face repaints every frame and
+      // never noticed). Repaint the plain face synchronously, and skip
+      // the particle build — the field is never drawn in reduced mode.
+      if (reduced) {
+        drawPlain();
+        return;
+      }
       buildParticles();
     };
     window.addEventListener("resize", onResize);

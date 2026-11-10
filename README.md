@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-606%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-618%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,8 +52,8 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 37 files / 550 tests, node env, pure seams |
-| E2E | Playwright | 1.64 | 9 specs / 56 tests against the production build |
+| Unit tests | Vitest | 5.0 | 37 files / 561 tests, node env, pure seams |
+| E2E | Playwright | 1.64 | 9 specs / 57 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
 
@@ -141,8 +141,8 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (37 files / 550 tests)
-bun run test:e2e        # Playwright e2e (9 specs / 56 tests) — needs bun run build first
+bun run test            # Vitest unit suite (37 files / 561 tests)
+bun run test:e2e        # Playwright e2e (9 specs / 57 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
 ```
@@ -227,9 +227,10 @@ the PostgreSQL swap.
 | Session 16 — the parse-vocabulary completion + the bare-/api envelope + the polish batch | ✅ done | The S16-1 parse-vocabulary completion (the S15-2 genus closed: non-object JSON bodies — string/array/number/boolean — answer the pinned "Invalid request body" on the auth family AND contact; the three schema fields (verify's code, reset's new_password, signup's password) gain `{ message }` type-faces — no Zod dev-message reaches any client, 5 live-confirmed surfaces cured, 5 mutation batteries); the bare `/api` envelope 404 (S16-2 — the one shape a required catch-all can't match, `src/app/api/route.ts` closes the doctrine's last escaping shape, e2e-proven); the polish batch (S16-4 the dead `reducedRef` retired, S16-5 the footer-year build-time freeze documented as a deviation, S16-7 the generate-429 deviation comment, S16-3 the eslint off-switch blast radius re-recorded, S16-6 the PAD §12 header refreshed); badge 604 = 548+56; captures 39/40 |
 | Session 17 — the comment-truth batch + the README table repair + the CSRF media-type parse + the timer hygiene | ✅ done | The audit round at 0 Critical / 0 High / 0 Medium (2 Low / 6 Info, all cured or verified): the forgot-password rationale's phantom "409" (signup answers 400); the Project status table repaired (the interior blank lines had broken GFM rendering — sessions 13–16 rendered as prose); the content-type CSRF gate now PARSES the media type (`text/x-application/json` / `application/jsonx` never pass — TDD + mutation battery); the two marketing reset timers ref-tracked (the toast's unmount idiom mirrored, source-pinned); the generate route's discarded-500 degradation documented; the DEPLOYMENT re-seed note; the "exactly 2 exhaustive-deps flags" register claim independently re-verified live; badge 606 = 550+56; captures 41/42 |
 | Session 18 — the OPTIONS-envelope closure + the DEPLOYMENT count re-anchor + the config-loader silence | ✅ done | The audit round at 0 Critical / 0 High / 0 Medium (1 Low / 10 Info; the Zod-leak candidate disproved live against the pinned zod 4.6.7): `OPTIONS` on unknown API paths now answers the JSON envelope 404 — Next's own bare 204 (live-observed) retired from both catch-alls, the TRACE exclusion documented, the S15-7 e2e leg extended in place (TDD: RED pre-cure, GREEN post, 2 mutation batteries — one per face); DEPLOYMENT §1's stale "11 API route files" re-anchored to 13; the logout route's bare-call reasoning documented; the `E2E_PORT` knob gained its AGENTS doc face; `vitest.config.ts` → `vitest.config.mts` (the Vite config-loader warning retired from every gate run); counts UNCHANGED (the OPTIONS leg extended an existing test — 550/37 + 56/9, badge 606); captures 43/44 |
+| Session 19 — the description-family re-anchor + the monetization redesign + the reader-envelope closure + the a11y batch | ✅ done | The audit round at 0 Critical / 0 High / 2 Medium / 10 Low / 26 Info; THE PARITY WALK FOUND TWO LIVE DRIFTS — the reference adopted the per-route description prefix (`"<Page> on ViralPost AI. "` + a 70-char word-boundary-truncated tail on meta/og/twitter alike) on /Tool /Pricing /Contact (cured: `pageDescription()` + the top-level field, byte-pinned + the e2e leg + mutation battery) and redesigned the monetization section EN with ten floating icons (cured: `MonetizationSection` + the `FloatingIcons` rAF island, pink-400/sky-400 joined the palette pins, 2 mutation batteries); the errored-body-stream envelope closure (a raw-500 class, live-reproduced — the bounded reader now catches, cancels, and answers the null contract); the verify lockout scrypt burn (timing-oracle closure); the toast aria-hidden + polite-live-region pair; the reduced-motion resize repaint; the login view-swap focus map; the pricing-header reveal retired (live-verified unfaded on both reference routes); `vitest.config.mts` re-admitted to the `tsc` program; the proxyless shared-bucket warning; the lockstep batch (runtime-deps 8, `install_packages.sh` retired, the smoke `GATE_PID` trap, the 405→204 comment truth); unit 561/37 + e2e 57/9, badge 618; captures 45/46 |
 
-Gate at the session-18 ship: lint 0/0 · tsc 0 · unit 550/550 · build ·
-smoke 15/15 · e2e 56/56.
+Gate at the session-19 ship: lint 0/0 · tsc 0 · unit 561/561 · build ·
+smoke 15/15 · e2e 57/57.
 
 ## License
 

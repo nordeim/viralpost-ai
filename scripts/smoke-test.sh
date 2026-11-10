@@ -44,6 +44,9 @@ ok()   { echo "  ok $1 — $2"; }
 fail() { echo "  FAIL $1 — $2" >&2; }
 cleanup() {
   [ -n "$SERVER_PID" ] && kill "$SERVER_PID" 2>/dev/null || true
+  # Session-19 (S19-17): the boot-gate probe's server rides the trap too —
+  # a leg failing between the :3211 spawn and the inline kill leaked it.
+  [ -n "$GATE_PID" ] && kill "$GATE_PID" 2>/dev/null || true
   rm -f "$COOKIE_JAR" "$SERVER_LOG" "$GATE_LOG"
 }
 trap cleanup EXIT

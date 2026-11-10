@@ -1,3 +1,150 @@
+Task ID: 19
+Agent: main (Z.ai)
+Task: The session-19 description-family re-anchor + monetization
+redesign + reader-envelope closure + a11y batch round — re-run the
+standing instruction against the post-session-18 tree (dab5aef): docs
+review, the baseline gate on the merged tree (lint 0/0 · tsc 0 · unit
+550/550 (37 files) · census MATCH; the DATABASE_URL contract
+re-verified end-to-end on a clean clone), the comprehensive audit (0
+Critical / 0 High / 2 Medium / 10 Low / 26 Info — dispatched wide
+across three parallel subagents (API/lib seams, components/pages/
+effects, SEO/configs/tests/docs), every load-bearing finding
+hand-verified in source; the M-1 stream-error escape live-reproduced
+with an errored ReadableStream), the neo-crm repo re-review (HEAD
+b3d0fbe — UNCHANGED since session 12; the recorded decisions stand),
+the live reference parity walk (logged-in: /Home; the mobile menu at
+390x844 — the no-aria hamburger md:hidden p-2 text-slate-300, 5
+destinations, auto-close; the FIVE-ROUTE head census; sitemap/robots
+unchanged) + the clone's dev-server walk (hydration clean via
+localhost; the menu family — Escape WITH the focus return, navigate +
+auto-close + the derived title) — TWO LIVE DRIFTS FOUND: the
+description family (the reference's platform adopted the
+"<Page> on ViralPost AI. " prefix + a 70-char word-boundary-truncated
+tail on meta/og/twitter description alike on /Tool /Pricing /Contact;
+/ and /login keep the plain 170-char paragraph) and the monetization
+section redesign (the PT face replaced by a redesigned EN section:
+new badge/H2/paragraph, 4 EN benefit cards, BOTH CTAs external
+Gumroad anchors, a lock-icon trust line at mt-6, and TEN floating
+lucide icons with JS-driven bob/rotate/opacity), the TDD cures, the
+mutation batteries (5), the gate, captures 45/46, push #19 to main
+via the SSH wrapper.
+
+Work Log:
+- THE AUDIT (0 Critical / 0 High / 2 Medium / 10 Low / 26 Info): the
+  API/lib subagent (13 route files + 20 seams + prisma/scripts, unit
+  suite executed 550/550) surfaced the readBoundedJson stream-error
+  escape (MEDIUM, live-reproduced — the seam's one unguarded await) and
+  the proxyless shared-bucket documentation gap (MEDIUM); the
+  components subagent surfaced the toast icon aria-hidden + live-region
+  pair, the reduced-motion resize blank (particle title up to ~3s),
+  and the login view-swap focus drop (all LOW); the configs/docs
+  subagent surfaced the vitest.config.mts tsc-program hole (verified
+  live with --listFiles), the 405-vs-204 comment drift, the stale
+  .mts names in next.config/playwright comments, and the stale
+  runtime-deps-nine claim (prisma moved to devDeps at session 15).
+- THE DESCRIPTION-FAMILY RE-ANCHOR (S19-1, TDD + mutation battery):
+  the page-titles pins rewritten FIRST (RED: exactly the 3 new pins
+  failed), then pageDescription() joined site.ts — the prefix + the
+  SITE_DESCRIPTION-derived 70-char word-boundary tail (trailing comma
+  normalized to a period) — consumed by pageMetadata() for
+  description/og/twitter on the three inner routes. The live dev
+  re-verification caught the top-level-field gap (og was prefixed
+  while meta description still inherited the layout's plain paragraph
+  — Next's shallow merge); the description field joined the factory
+  and the pins extended to all three surfaces. The e2e leg added
+  (the /Tool byte-exact family + the /login plain paragraph; e2e
+  56 → 57). Mutation battery: slice(0,70) → slice(0,60) REDs exactly
+  the 2 derivation pins → restored → GREEN.
+- THE MONETIZATION REDESIGN (S19-2, TDD + 2 mutation batteries): the
+  landing-page pins rewritten FIRST (RED: exactly 4), then PtSection
+  → MonetizationSection in sections.tsx (the live-extracted EN copy,
+  the benefit cards, BOTH CTAs as external Gumroad anchors with the
+  reference's exact classes — gift/heart/arrow-right icons, the
+  px-8 py-4 text-base w-full sm:w-auto family — and the lock-icon
+  trust line at mt-6 flex gap-2) + src/components/effects/
+  floating-icons.tsx (the new client island: TEN pinned lucide icons
+  at the reference's exact left/top percentages, color steps and
+  18-28px sizes; one rAF loop writing per-frame translateY
+  (-45±25px) / rotate (±10deg) / opacity (0..1) with staggered
+  phases; prefers-reduced-motion collapses to the static render;
+  full cleanup). pink-400 (#f472b6) + sky-400 (#38bdf8) joined the
+  v3 palette re-pin in globals.css. The e2e landing heading pin
+  re-anchored ("Baixe Agora de Graça." → "Download Free."). Mutation
+  batteries: the badge copy and a floater icon identity each RED
+  exactly their pins → restored → GREEN. Live structure walk: the
+  clone's section byte-matches the reference's (section classes, 10
+  floaters at pinned positions, CTA texts, trust line) and the
+  animation live-samples inside the observed envelope.
+- THE READER-ENVELOPE CLOSURE (S19-3, MEDIUM, TDD): an errored body
+  stream rejected PAST readBoundedJson (live-reproduced by the audit
+  and re-verified in the RED run — the raw Error crossed the handler
+  boundary). CURED: the Layer-3 reader loop wrapped — a stream error
+  cancels the producer and resolves { tooLarge: false, value: null }
+  (an unreadable body is an unparseable one; the sites' 400
+  vocabulary answers). 2 regression pins (the mid-body error + the
+  error-after-valid-JSON-prefix arm).
+- THE VERIFY LOCKOUT BURN (S19-5, TDD): the locked-out 429 burned no
+  scrypt while the miss and wrong-code branches each burned one — a
+  ~100ms timing oracle on "exists AND unverified AND >= 5 failures".
+  The equalizer burn now precedes the lockout return (source-pinned
+  the S14-2 way).
+- THE TOAST A11Y PAIR (S19-7/S19-8, TDD): the ICONS map + the
+  dismiss X carry aria-hidden (the S15-4 doctrine completed on the
+  last unattributed family) and the Toaster viewport is a polite live
+  region (dynamically inserted role="status" cards announce reliably;
+  the sonner/Radix pattern).
+- THE REDUCED-MOTION RESIZE (S19-9, TDD): layout() clears the canvas
+  and the reduced face had no repaint until the next phrase timer
+  (up to ~3s blank on resize/rotate). onResize now drawPlain()s
+  immediately in reduced mode and skips the wasted buildParticles().
+- THE VIEW-SWAP FOCUS MAP (S19-10, TDD): the login card's in-place
+  swaps (Forgot password? / Need an account? / Back) dropped focus to
+  <body>. The view effect now lands focus on the incoming view's
+  heading (tabIndex={-1} + data-view-focus, 4 headings; verify keeps
+  the code-box focus; the prev-view guard keeps initial mount from
+  stealing focus).
+- THE PARITY MOTION CURE (S19-11): the live walk showed the
+  reference's pricing header UNFADED on BOTH routes (the cards
+  reveal on both) — the /Pricing header <Reveal> retired (the
+  audit's add-Reveal-to-the-landing reading inverted by the live
+  evidence).
+- THE LOCKSTEP BATCH (S19-12..S19-18): "**/*.mts" re-admitted
+  vitest.config.mts to the tsc program (verified: --listFiles);
+  the seo.spec S18-2 comment re-anchored 405 → the live-observed
+  204; the next.config excludes + the playwright comment renamed
+  .mts; the PAD/SKILL runtime-deps claims re-anchored (8 runtime
+  packages + the prisma CLI devDep); scripts/install_packages.sh
+  retired (the vestigial floating npm one-liner); the smoke trap now
+  kills GATE_PID; the known-path OPTIONS-204 exception documented in
+  the catch-all comment family (the CORS-preflight rationale); the
+  proxyless shared-bucket consequence joined the boot warning +
+  DEPLOYMENT §3 (any proxyless deployment — declared 0 or the unset
+  default — shares one bucket per route for honest browser traffic);
+  the resend fsync residual documented; CLAUDE's tw-animate.css
+  spelling fixed; the .gitignore duplicate node_modules line
+  removed; the PAD §12 header + rows re-anchored (site.ts 169,
+  api.ts 252, globals.css 222, particle-text 323, api/route.ts 51,
+  smoke-test.sh 178, + the floating-icons.tsx row at 117).
+- THE CENSUS FALLOUT (in-commit, the session-18 lesson): the color
+  census flagged pink-400/sky-400 (cured: the v3 pins) and my own
+  "auto-answer" comment (the to-answer genus — rephrased to
+  "built-in reply"); the docs-counts gate re-anchored UNIT 550 →
+  561, E2E 56 → 57, badge 606 → 618 across README/AGENTS/CLAUDE/
+  PAD/SKILL + the PAD §12 line rows.
+- THE SHIP: full gate GREEN (lint 0/0 · tsc 0 · unit 561/561 (37
+  files) · build · smoke 15/15 · e2e 57/57 (9 specs)) on the exact
+  commit tree; census MATCH; captures 45/46 PIL-verified (the
+  landing 1280x800 + the OPEN mobile menu 390x844 — menu DOM-open
+  confirmed before the shot); the dossier re-captures recorded
+  (D-4's session-19 note + the PT section's SUPERSEDED note); SKILL
+  v1.14.0 → v1.15.0 (frontmatter, §7, Appendix A's session-19 row,
+  Appendix B re-certified through session 19 with the re-walk
+  narrative); README session-19 row + gate line + badge; AGENTS
+  plans map; PAD §3/§8/§12; docs/session_19.md (this round's log);
+  the plan's post-execution record.
+
+---
+
 Task ID: 18
 Agent: main (Z.ai)
 Task: The session-18 OPTIONS-envelope closure + DEPLOYMENT count

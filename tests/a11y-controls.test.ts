@@ -77,6 +77,24 @@ describe("named-control source pins (the open surfaces)", () => {
     expect(iridescence).toContain('aria-hidden="true"');
   });
 
+  // Session-19 (S19-10): the login card's in-place view swaps (Forgot
+  // password? / Need an account? / the Back buttons) unmount the focused
+  // control — focus fell to <body> and the next Tab started at the
+  // document top (WCAG 2.4.3). The swap now lands focus on the incoming
+  // view's heading (tabIndex={-1} + data-view-focus); verify keeps its
+  // code-box focus (the platform-family behavior).
+  it("session-19 (S19-10): a view swap lands focus on the incoming view's heading (the navbar's focus-return genus, completed)", () => {
+    const src = read("src/components/layout/login-card.tsx");
+    expect(src).toContain("data-view-focus");
+    expect(src).toContain('cardRef.current?.querySelector<HTMLElement>("[data-view-focus]")?.focus()');
+    // The per-view headings carry the focus target; the count: signin h1
+    // + signup h2 + reset h2 + sent h2 (verify keeps the code-box arm).
+    // Counted in the JSX attribute form — the querySelector and this
+    // comment also spell the string.
+    expect((src.match(/data-view-focus>/g) ?? []).length).toBe(4);
+    expect(src).toMatch(/view === "verify"\) \{\s*codeRefs\.current\[0\]\?\.focus\(\);\s*return;/);
+  });
+
   it("the hero portrait img carries its alt text", () => {
     const hero = read("src/components/marketing/hero.tsx");
     expect(hero).toContain('alt="ViralPost AI user"');

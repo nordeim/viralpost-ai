@@ -83,15 +83,39 @@ export const PWA_META: Record<string, string> = {
   "apple-mobile-web-app-title": "ViralPost AI",
 };
 
+// Session-19 (S19-1, live re-verified 2026-11-10): the reference's
+// platform adopted the per-route description prefix between the
+// session-18 and session-19 walks — /Tool, /Pricing and /Contact now
+// ship "<Page> on ViralPost AI. " + a truncated tail of this
+// paragraph on meta/og/twitter description alike (byte-identical
+// across the three surfaces, live-captured on all three routes). The
+// tail rule, reverse-engineered from the captures: SITE_DESCRIPTION
+// cut at 70 chars on a word boundary with the trailing comma
+// normalized to a period — NOT the full paragraph the CRM-family's
+// retired pageOgDescription helper shipped (session-8 F8-1 retired
+// that prefix when the reference shipped the plain paragraph; the
+// reference has since adopted its own prefixed+truncated shape).
+const PAGE_DESCRIPTION_TAIL =
+  SITE_DESCRIPTION.slice(0, 70).replace(/,$/, "") + ".";
+
+/** The per-route description: the prefix + the 70-char tail (the
+ *  reference's live family on /Tool /Pricing /Contact). The
+ *  unprefixed routes (/, /login) keep SITE_DESCRIPTION wholesale. */
+export function pageDescription(page: string): string {
+  return `${page} on ViralPost AI. ${PAGE_DESCRIPTION_TAIL}`;
+}
+
 /**
  * The per-route metadata factory. The reference's live OG/Twitter family
- * (session-8 census, 2026-11-09): og:title "<Page> | ViralPost AI"
+ * (session-19 census, 2026-11-10): og:title "<Page> | ViralPost AI"
  * (bare "ViralPost AI" on the unprefixed routes), og:description the
- * PLAIN 170-char paragraph on every route, og:url origin+route, the
- * twitter family mirrors, one static og:image. Next shallow-merges page
- * metadata over the layout's, so every page re-declares the FULL
- * openGraph/twitter/other sets (otherwise the page would lose the
- * layout's images/card/PWA metas).
+ * PREFIXED "<Page> on ViralPost AI. " + 70-char truncated tail on the
+ * three inner routes (the plain 170-char paragraph on / and /login —
+ * the session-19 S19-1 re-anchor of the session-8 F8-1 finding),
+ * og:url origin+route, the twitter family mirrors, one static
+ * og:image. Next shallow-merges page metadata over the layout's, so
+ * every page re-declares the FULL openGraph/twitter/other sets
+ * (otherwise the page would lose the layout's images/card/PWA metas).
  *
  * - `page: null` → the unprefixed root/login family ("ViralPost AI" + the
  *   plain paragraph). Login keeps its ABSOLUTE title (the s13
@@ -108,6 +132,7 @@ export function pageMetadata(opts: {
 }): Metadata {
   const page = opts.page;
   const fullTitle = page !== null ? `${page} | ViralPost AI` : "ViralPost AI";
+  const description = page !== null ? pageDescription(page) : SITE_DESCRIPTION;
   return {
     title:
       opts.title !== undefined
@@ -115,10 +140,16 @@ export function pageMetadata(opts: {
         : page !== null
           ? page
           : { absolute: "ViralPost AI" },
+    // Session-19 (S19-1): the top-level description too — Next
+    // shallow-merges page metadata over the layout's, and the layout
+    // ships the plain root paragraph; without this field the inner
+    // routes kept the plain meta description under the prefixed og
+    // family (live-caught on the dev server post-cure).
+    description,
     alternates: { canonical: opts.route },
     openGraph: {
       title: fullTitle,
-      description: SITE_DESCRIPTION,
+      description,
       url: opts.route,
       type: "website",
       siteName: "ViralPost AI",
@@ -127,7 +158,7 @@ export function pageMetadata(opts: {
     twitter: {
       card: "summary_large_image",
       title: fullTitle,
-      description: SITE_DESCRIPTION,
+      description,
       images: ["/og-image.png"],
     },
     other: {

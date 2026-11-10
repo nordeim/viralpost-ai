@@ -83,3 +83,24 @@ describe("session-12 (F12-5): the expired-code copy — invalid is not lockout",
     expect(locked![0]).toContain("verificationLockoutMessage()");
   });
 });
+
+describe("session-19 (S19-5): the lockout branch burns the timing equalizer", () => {
+  it("the locked-out 429 burns one scrypt before returning (the S14-2 doctrine extended to the lockout arm)", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { join } = await import("node:path");
+    const src = readFileSync(
+      join(import.meta.dirname, "..", "src/app/api/auth/verify/route.ts"),
+      "utf8",
+    );
+    // S19-5: the miss branch (line-level) and the wrong-code branch each
+    // burn one scrypt; the locked-out branch used to return the 429 with
+    // NO burn — a ~100ms-fast answer that statistically distinguished
+    // "email exists AND unverified AND >= 5 failed attempts" from every
+    // other state. The equalizer burn now precedes the lockout return,
+    // closing the route's last timing asymmetry.
+    const locked = src.match(/isVerificationLockedOut\(user\.verificationAttempts\)[\s\S]{0,400}/);
+    expect(locked, "the pre-compare lockout branch must exist").toBeTruthy();
+    expect(locked![0]).toContain("verifyVerificationCode(code, timingEqualizerHash())");
+    expect(locked![0]).toContain("VERIFICATION_LOCKED");
+  });
+});

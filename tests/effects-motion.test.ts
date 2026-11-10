@@ -101,6 +101,22 @@ describe("session-12 (F12-8): the particle title's reduced-motion shape schedule
     // The hoisted reads still exist (once per draw call, outside the loops).
     expect((src.match(/getComputedStyle\(document\.body\)\.fontFamily/g) ?? []).length).toBe(2);
   });
+
+  // Session-19 (S19-9): in reduced mode the ONLY redraw rides the phrase
+  // timer ((wait + vaporize) * 1000 ~= 3s) — a resize ran layout()
+  // (which reassigns canvas.width/height and CLEARS the canvas) and the
+  // title stayed blank until the next timer fire. The reduced face now
+  // repaints synchronously on resize (drawPlain) and skips the particle
+  // build (the field is never drawn in reduced mode).
+  it("session-19 (S19-9): a reduced-motion resize repaints the plain title immediately (no blank window)", () => {
+    const src = bare();
+    const onResize = src.match(/const onResize = \(\) => \{[\s\S]*?\};/);
+    expect(onResize, "the onResize handler must exist").toBeTruthy();
+    expect(onResize![0]).toContain("if (reduced) {");
+    expect(onResize![0]).toContain("drawPlain();");
+    expect(onResize![0]).toContain("return;");
+    expect(onResize![0]).toContain("buildParticles();");
+  });
 });
 
 describe("session-12 (F12-9): the WebGL hero re-reads devicePixelRatio inside resize()", () => {

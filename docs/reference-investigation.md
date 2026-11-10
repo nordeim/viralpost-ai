@@ -122,6 +122,21 @@ beacons) is builder tooling, not app surface — excluded from the clone.
    (2-col grid, teal icon chips), CTAs "Acessar Grátis Agora" (teal
    gradient) + "Apoiar com Qualquer Valor & Ganhar o Pro" (amber outline) →
    Gumroad, trust line "Pagamento 100% seguro via Gumroad". **Verified.**
+   **[Session-19 (2026-11-10): SUPERSEDED — the reference REDESIGNED the
+   section EN. The live face now: badge "Free Access — No Strings
+   Attached" (gift), H2 "Download Free. If It Helps You, Help Us Too."
+   (gradient span), a new paragraph, 4 EN benefit cards (gift/zap/star/
+   heart icons), BOTH CTAs external Gumroad anchors ("Get Free Access
+   Now" — white/10 bordered px-8 py-4 pill with a leading gift icon;
+   "Support & Unlock Pro" — amber-gradient pill with heart + trailing
+   arrow-right), trust line "100% secure payment via Gumroad · Instant
+   Pro access after contribution" (lock icon, mt-6 flex gap-2), and TEN
+   floating lucide icons (hash/star/trending-up/instagram/twitter/
+   sparkles/message-circle/hash/zap/star at pinned left/top %, pinned
+   color steps, 18-28px, JS-driven bob/rotate/opacity — framer-motion on
+   the reference). Full live extraction in the session-19 plan; the
+   clone matched it (S19-2 — PtSection renamed MonetizationSection +
+   the FloatingIcons rAF island).]**
 4. **Features**: label "Why ViralPost AI?" + H2 "Everything You Need to Go
    Viral" + 6 cards — Instant Generation, Platform Optimized, Smart
    Hashtags, Viral Formulas, Copy & Post, Any Niche (each with icon, title,
@@ -226,7 +241,7 @@ as inert data):
 | D-1 | **Generation hangs forever**: `InvokeLLM` returns HTTP 402 (platform AI quota exhausted); button stuck at "Generating…", no error UI, no recovery | network log ×3 (anon + logged-in) | Working generator + explicit error state + retry |
 | D-2 | Contact form is a **client-side stub** — no POST, no persistence | network log (zero requests on submit) + bundle handler (`preventDefault; setSent; clear`) | Persist to DB via API + same "Message Sent!" UX |
 | D-3 | Footer social links are `href="#"` dead stubs | DOM dump | Link to the real platform homepages (documented deviation) |
-| D-4 | No SEO per-route canonical/OG on inner pages beyond title tag. **[Session-8 re-verification (2026-11-09, curl head census on /, /Tool, /Pricing, /Contact, /login): SUPERSEDED — the reference NOW ships the full per-route OG/Twitter family — og:title mirrors the title scheme, og:description is the PLAIN 170-char paragraph, og:url absolute, canonical on every route, the twitter family mirrors, one static og:image (the platform's 1200×630 render) + the PWA metas. Whether the app updated intra-day or the morning DOM probe over-generalized is undetermined; live truth governs. The clone's prefixed OG description (a CRM-family convention adopted under this row) was retired to match (session 8, F8-1); the clone's per-route canonical and its own og-image stand-in remain the documented expressions.]** | DOM metadata probe | Per-route metadata at parity (plain description, title-mirroring OG, per-route canonical) + sitemap + robots + manifest |
+| D-4 | No SEO per-route canonical/OG on inner pages beyond title tag. **[Session-8 re-verification (2026-11-09, curl head census on /, /Tool, /Pricing, /Contact, /login): SUPERSEDED — the reference NOW ships the full per-route OG/Twitter family — og:title mirrors the title scheme, og:description is the PLAIN 170-char paragraph, og:url absolute, canonical on every route, the twitter family mirrors, one static og:image (the platform's 1200×630 render) + the PWA metas. Whether the app updated intra-day or the morning DOM probe over-generalized is undetermined; live truth governs. The clone's prefixed OG description (a CRM-family convention adopted under this row) was retired to match (session 8, F8-1); the clone's per-route canonical and its own og-image stand-in remain the documented expressions.]** **[Session-19 re-capture (2026-11-10): the description family CHANGED AGAIN — /Tool /Pricing /Contact now ship the PREFIXED `"<Page> on ViralPost AI. " + 70-char word-boundary-truncated tail` on meta/og/twitter description alike (byte-identical surfaces; the tail = SITE_DESCRIPTION cut at 70 with the trailing comma normalized to a period: "…creators, influencers."); / and /login keep the plain 170-char paragraph; og:title/og:url/canonical/og:image unchanged. The clone re-adopted the prefix WITH the reference's own truncation (session-19, S19-1 — the F8-1 retirement re-anchored; unit-pinned byte-exact + the e2e /Tool leg).]** | DOM metadata probe | Per-route metadata at parity (plain description, title-mirroring OG, per-route canonical) + sitemap + robots + manifest |
 | D-5 | Google OAuth button cannot work off-platform | platform-bound OAuth | Visual parity; graceful "not configured" toast when unset |
 | D-6 | `localStorage` token auth (XSS-exfiltratable) | localStorage inspection | httpOnly signed-cookie session (the repo's standing auth seam) |
 

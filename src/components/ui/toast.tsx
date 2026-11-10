@@ -64,9 +64,9 @@ function useToasts(): ToastItem[] {
 }
 
 const ICONS: Record<ToastVariant, React.ReactNode> = {
-  success: <CheckCircle2 className="h-4.5 w-4.5 text-success" />,
-  error: <AlertCircle className="h-4.5 w-4.5 text-danger" />,
-  info: <Info className="h-4.5 w-4.5 text-primary" />,
+  success: <CheckCircle2 className="h-4.5 w-4.5 text-success" aria-hidden="true" />,
+  error: <AlertCircle className="h-4.5 w-4.5 text-danger" aria-hidden="true" />,
+  info: <Info className="h-4.5 w-4.5 text-primary" aria-hidden="true" />,
 };
 
 function Toaster() {
@@ -75,6 +75,13 @@ function Toaster() {
     <div
       aria-label="Notifications"
       role="region"
+      // Session-19 (S19-8): the viewport is the polite live region — a
+      // dynamically INSERTED role="status" card is inconsistently
+      // announced unless the live region existed before the content
+      // change (the ARIA authoring guidance; role="alert" error cards
+      // announce on their own, success/info did not). The sonner/Radix
+      // pattern: the container announces, the cards ride inside.
+      aria-live="polite"
       // Session-7 live pin: the reference viewport is top-of-screen on
       // phones and bottom-right from sm (sonner-style), max-w-[420px] at md.
       className="pointer-events-none fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse gap-2 p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]"
@@ -147,7 +154,7 @@ function ToastCard({ item }: { item: ToastItem }) {
         className="shrink-0 rounded-md p-1 text-subtle transition-colors hover:bg-line-soft hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         aria-label="Dismiss notification"
       >
-        <X className="h-3.5 w-3.5" />
+        <X className="h-3.5 w-3.5" aria-hidden="true" />
       </button>
     </div>
   );

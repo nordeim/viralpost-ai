@@ -26,7 +26,10 @@ test("renders the hero with the particle title and CTAs", async ({ page }) => {
 test("renders every marketing section", async ({ page }) => {
   for (const heading of [
     "AI Social Media Post Generator",
-    "Baixe Agora de Graça.",
+    // Session-19 (S19-2): the reference redesigned the monetization
+    // section EN ("Download Free. If It Helps You, Help Us Too.") —
+    // the PT copy ("Baixe Agora de Graça.") is retired with it.
+    "Download Free.",
     "Everything You Need to Go Viral",
     "How It Works",
     "Loved by Creators",

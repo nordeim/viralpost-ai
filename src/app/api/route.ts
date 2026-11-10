@@ -16,6 +16,14 @@ export const dynamic = "force-dynamic";
 // run), a non-envelope response on a path that does not exist. TRACE
 // stays outside the family by necessity: it is not a supported
 // route-handler method, Next rejects it at the router level.
+// Session-19 (S19-6): the known-path twin is the DOCUMENTED exception —
+// the 11 verb-handler routes export no OPTIONS, so an OPTIONS probe of
+// a KNOWN path (/api/generate, /api/auth/login, …) keeps Next's own
+// router-level 204. Deliberate: a CORS preflight benefits from the
+// framework's built-in reply, no handler owns OPTIONS semantics on a
+// known resource, and pinning Next's internal behavior would pin the
+// framework rather than our contract. Only the unknown-path
+// catch-alls (this family) own the envelope face.
 const notFound = () => fail("NOT_FOUND", "Unknown API endpoint", 404);
 
 export async function GET() {

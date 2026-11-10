@@ -1,80 +1,163 @@
-Repo cloned with session-17 commits at HEAD. Now reading core documents.
-The big docs are persisted. Let me read the session-17 docs and worklog which define the current state.
-Session 17 is fully delivered. This round is session 18. Let me validate the current codebase state against my understanding.
-`.env` doesn't exist yet (fresh clone). Let me check SEO surfaces, test configs, and skills catalog.
-All SEO and test configs verified. Now let me check the skills catalog and install dependencies.
-DB set up, census MATCH. Running the baseline gate (lint → typecheck → unit).
-Baseline GREEN: lint 0/0 · tsc 0 · unit 550/550 (37 files). Let me verify the e2e census and check neo-crm for drift.
-neo-crm at `b3d0fbe` — unchanged since session 12, recorded decisions stand. E2E census: 56 tests. Now let me read the web-application skill for the audit.
-I've internalized the web-application skill contracts. Let me check the skills-catalog for the relevant audit skills.
-Skills internalized. Now let me examine the session-17 commit changes and dispatch the comprehensive audit.
-Let me verify the session-17 cures in source, then dispatch the audit.
-All session-17 cures verified in source. Now dispatching the comprehensive audit in parallel — three audit subagents covering different areas while I audit the core seams myself.
-The audit returned **0 Critical / 0 High / 0 Medium / 1 Low / 10 Info**. Let me hand-verify the key findings in source.
-All findings hand-verified. Let me check the vitest warning claim and existing e2e coverage for the API 404 family.
-Vitest warning confirmed live. Now for the live parity walk against the Base44 reference — let me check the agent-browser skill first.
-Logged in — landed on `/Home`. I notice a Portuguese section ("Baixe Agora de Graça...") that may be new. Let me examine the mobile menu first, then investigate this section.
-Reference mobile menu confirmed: hamburger `md:hidden p-2 text-slate-300`, 5 destinations. Let me check navigation auto-close, then investigate the Portuguese section for drift.
-Auto-close verified. Now let me examine the Portuguese section in detail — checking if it's new drift vs the clone.
-This is a **new Portuguese "pay-what-you-want" section** on the reference — parity drift! Let me map the full landing structure on both sides.
-The clone already has `PtSection` — not new drift. Let me verify the PtSection content matches and check the stats section placement.
-PtSection matches. Let me verify the reference's stats section and remaining structure.
-Structure matches the clone's 10-section composition. Let me verify the Gumroad link and OG metadata on direct loads.
-Reference sitemap/robots unchanged. Let me check /Pricing and /Contact OG, then walk the clone's dev server.
-Reference OG census matches session-17's record — no drift. Now starting the clone's dev server for the comparison walk.
-Clone menu open — 5 destinations matching the reference. Testing Escape + focus return and navigation auto-close.
-Mobile menu family fully verified. Now probing the cure surfaces and generator round-trip on the dev server.
-Clone parity walk complete — **no drift**. Let me examine the test infrastructure to plan the TDD cures precisely.
-Now I have the full picture. Let me verify no test pins reference vitest.config by name, then write the remediation plan.
-Now I have the complete picture. Let me check PAD §12 for file-line pins, then write the session-18 plan.
-PAD §12 pins both catch-alls at 34 lines — the lockstep will re-anchor those. Now writing the session-18 remediation plan.
-Plan written. Now executing **R18-2** — the RED pin first in seo.spec.ts.
-Pin added. Now the RED verification against the un-cured tree — build first, then run the spec.
-The setup failed. Let me check the error context.
-Playwright browsers need installing in this fresh sandbox.
-**RED confirmed** — OPTIONS gets 204 (Next's auto-answer), not the envelope 404; exactly the new pin fails. Now the GREEN cure in both catch-alls.
-Both catch-alls cured. Rebuilding and verifying GREEN.
-GREEN. Now the mutation battery — remove the OPTIONS export from `[...path]`, expect RED.
-Mutation REDs exactly the pin. Restoring the cure.
-Now the second mutation battery — the bare `/api` face.
-**R18-2 complete** — RED → GREEN → 2 mutation batteries (one per face) → restored GREEN. Both files now 43 lines. Now R18-1, R18-3, R18-4, R18-5.
-Now R18-3 — the logout comment.
-Now R18-5 — the vitest.config.ts → vitest.config.mts rename.
-Two expected pin fallouts: the color census flags "answers" (from my "auto-answers" comment), and PAD §12 line counts need re-anchoring. Let me check the census mechanics.
-The trigger: "au**to**-answers" scans as `to-answers` (the "auto-dismiss → to-dismiss" genus). Since "auto-answers" is casual phrasing (not a technical term like "substring-matched"), I'll rephrase rather than grow the allowlist.
-Now the PAD §12 line-count re-anchor.
-Unit suite GREEN 550/550. Now R18-4 — the AGENTS.md E2E_PORT note.
-Wait — the OPTIONS leg is inside an existing `test()` block (the S16-2 precedent), so the e2e count stays 56. Let me verify the census.
-E2E stays 56 — the lockstep is lighter than planned (badge/unit/e2e counts unchanged). Now the SKILL v1.14.0 updates.
-Updating the SKILL to v1.14.0.
-Now updating Appendix B's e2e ledger line and the AGENTS plans map.
-Now the README session-18 row and gate line.
-Now the worklog Task 18 entry.
-Now the plan's post-execution record.
-Now creating the session_18.md log.
-Now R18-12 — captures 43/44 on the remediated tree.
-Both captures PIL-verified (menu DOM-confirmed open before capture 44). Now stopping the dev server and running the full gate (the session-4 lesson: never build under a live dev server).
-**Full gate GREEN**: lint 0/0 · tsc 0 · unit 550/550 · build · smoke 15/15 · e2e 56/56. Final census + tree review.
-Tree is intentional. Final pre-commit verification of the README table continuity and the warning-free test run.
-The blank line is after the table's last row (correct GFM — table ends, then the gate paragraph). The table is continuous. Now committing.
-Commit created. Now the push — let me read the SSH wrapper runbook first.
-Runbook internalized. Executing the push sequence — key materialization + fingerprint check first.
-Dry-run clean — fast-forward `1a0f801..7093e37`. Executing the real push.
-**Session 18 complete — pushed `7093e37` to `main`, remote-verified, key shredded, working tree clean.**
+# Session 19 — The Description-Family Re-Anchor + The Monetization Redesign + The Reader-Envelope Closure + The A11y Batch (2026-11-10)
 
-## The round in brief
+The round opened on a fresh `git clone` (the standing instruction's
+reset path), `bun install`, `.env` re-created from `.env.example`
+(AUTH_SECRET set for dev), `db:push` + `db:seed` + `db:census`
+(MATCH). The operator's standing asks were re-verified up front:
+`.env`'s `DATABASE_URL="file:../db/custom.db"` with `db/` at the repo
+root (the contract re-verified end-to-end on the clean machine), the
+vitest + playwright suites in place and current, the sitemap/robots/
+manifest/OG family in place, `skills/` excluded from every gate.
 
-**Setup & review**: The workspace had been reset, so I ran a fresh clone, re-created `.env` from `.env.example`, and re-verified the full DATABASE_URL contract (`file:../db/custom.db`, `db/` at root, census MATCH). All core docs plus the session-17 set were reviewed — this round is session 18 of the standing instruction.
+The core docs read in full (AGENTS, CLAUDE, README, PAD, SKILL), then
+the session-18 set (session_18.md, the session-18 plan, worklog Task
+18, and the pre-round session_19.md handoff). This round is session
+19. Baseline gate GREEN at the documented counts (lint 0/0 · tsc 0 ·
+unit 550/550 (37 files)). neo-crm re-cloned at HEAD `b3d0fbe` —
+UNCHANGED since session 12's review; the recorded decisions stand.
 
-**Audit** (via `skills/web-application` + catalog, three parallel subagents): **0 Critical / 0 High / 0 Medium / 1 Low / 10 Info**. The one Zod-leak candidate was disproved live against the pinned zod 4.6.7. neo-crm unchanged (`b3d0fbe`).
+The web-application skill + the skills catalog internalized; the TDD
+skill consulted for the loop discipline. Three parallel audit
+subagents dispatched (API/lib seams, components/pages/effects,
+SEO/configs/tests/docs) while the findings were hand-verified in
+source. The audit returned **0 Critical / 0 High / 2 Medium / 10 Low /
+26 Info** — the two Mediums being the bounded-reader stream-error
+escape (live-reproduced with an errored ReadableStream: the seam's one
+unguarded await rejected past the handler boundary as a raw 500) and
+the proxyless shared-bucket documentation gap.
 
-**Parity walk** (logged into the reference): mobile menu at 390×844 (hamburger `md:hidden p-2 text-slate-300`, 5 destinations, auto-close), the five-route OG family, the PT section + Gumroad links, sitemap/robots — **no drift**. The clone's menu family (Escape + focus return, auto-close, derived titles) verified live.
+The parity walk (live, both sides) found **TWO DRIFTS** — the
+reference changed between the session-18 and session-19 walks:
 
-**TDD cures**:
-- **S18-2**: `OPTIONS` on unknown API paths now answers the JSON envelope 404 — the RED run revealed Next answers a bare **204** (not the hypothesized 405); both catch-alls gained the OPTIONS export with the TRACE exclusion documented (RED → GREEN → 2 mutation batteries)
-- **S18-1**: DEPLOYMENT §1's stale "11 API route files" re-anchored to 13
-- **S18-3/4/5**: logout reasoning comment; `E2E_PORT` doc face in AGENTS; `vitest.config.ts` → `.mts` (warning retired)
+1. **The description family** — the reference's platform adopted the
+   per-route description prefix: `/Tool`, `/Pricing`, `/Contact` now
+   ship `"<Page> on ViralPost AI. " + "An AI-powered social media
+   generator that helps creators, influencers."` (a 70-char
+   word-boundary-truncated tail of the root paragraph, the trailing
+   comma normalized to a period) on `meta[name=description]`,
+   `og:description` AND `twitter:description` alike (byte-identical
+   across the three surfaces; measured 93/95/95 chars). `/` and
+   `/login` keep the plain 170-char paragraph. og:title, og:url,
+   canonical, og:image — unchanged. This is the exact prefix the
+   session-8 census found absent (F8-1 retired it from the clone);
+   the reference has since adopted its own prefixed+truncated shape.
 
-**Ship**: full gate green (lint 0/0 · tsc 0 · unit 550/550 · build · smoke 15/15 · e2e 56/56 · census MATCH), captures 43/44 PIL-verified, docs + SKILL v1.14.0 in lockstep, counts unchanged (the OPTIONS leg extended an existing test — badge stays 606).
+2. **The monetization section redesign** — the reference's landing
+   section 3 replaced the PT (Portuguese) copy with a redesigned EN
+   face: badge "Free Access — No Strings Attached", H2 "Download
+   Free. / If It Helps You, Help Us Too.", a new paragraph, four EN
+   benefit cards, BOTH CTAs as external Gumroad anchors ("Get Free
+   Access Now" — a white/10 bordered pill with a leading gift icon;
+   "Support & Unlock Pro" — an amber-gradient pill with heart +
+   trailing arrow-right), a lock-icon trust line ("100% secure
+   payment via Gumroad · Instant Pro access after contribution", at
+   `mt-6` flex gap-2), and **ten floating lucide icons** (hash, star,
+   trending-up, instagram, twitter, sparkles, message-circle, hash,
+   zap, star — pinned left/top percentages, pinned color steps,
+   18–28px, JS-driven bob/rotate/opacity with per-icon phases,
+   live-sampled translateY ≈ −20..−70px, rotate ≈ ±10°, opacity
+   pulsing 0↔1). The mobile menu, the OG title/url/canonical family,
+   sitemap and robots — NO other drift.
 
-Next step if you rerun the standing instruction, it will pick up as session 19 against `7093e37`.
+The session-19 plan written and validated against the codebase (the
+pin placements, the census mechanics, the count sites), then executed
+with TDD throughout:
+
+- **S19-1 (the description re-anchor)**: the page-titles pins RED
+  first (exactly 3 failed), then `pageDescription()` joined site.ts —
+  the prefix + the derivation — consumed by `pageMetadata()`. The
+  live dev re-verification caught the top-level-field gap (og
+  prefixed while the plain meta description still inherited the
+  layout's — Next's shallow merge); the `description` field joined
+  the factory and the pins extended to all three surfaces. The e2e
+  leg added (the `/Tool` byte-exact family + the `/login` plain
+  paragraph). Mutation battery: the truncation broken → exactly the
+  2 derivation pins RED → restored → GREEN.
+- **S19-2 (the monetization redesign)**: the landing pins RED first
+  (exactly 4), then `PtSection` → `MonetizationSection` (the
+  live-extracted copy/classes/CTA family/trust line) + the new
+  `FloatingIcons` client island (ten pinned icons, one rAF loop,
+  staggered phases, reduced-motion static, full cleanup).
+  pink-400/sky-400 joined the v3 palette re-pin. The e2e heading pin
+  re-anchored. Two mutation batteries (the badge copy, a floater
+  identity). The live structure walk: the clone's section matches the
+  reference's — section classes, the ten floaters at their pinned
+  positions, both CTA texts, the trust line — and the animation
+  live-samples inside the observed envelope.
+- **S19-3 (the reader envelope)**: 2 regression pins RED (the raw
+  Error crossed the boundary), then the Layer-3 reader loop wrapped —
+  a stream error cancels the producer and resolves the null contract
+  (an unreadable body is an unparseable one).
+- **S19-5 (the lockout burn)**: the equalizer scrypt now precedes the
+  locked-out 429 (the route's last timing asymmetry closed).
+- **S19-7/S19-8 (the toast pair)**: the icons' `aria-hidden` + the
+  viewport's `aria-live="polite"`.
+- **S19-9 (the reduced-motion resize)**: `drawPlain()` on resize in
+  reduced mode (was: a ≤3s blank window); the wasted particle build
+  skipped.
+- **S19-10 (the view-swap focus)**: the per-view focus map on the
+  login card (4 headings, `data-view-focus`; verify keeps the
+  code-box focus; the prev-view guard keeps initial mount quiet).
+- **S19-11 (the pricing-header reveal)**: retired — the live walk
+  showed the reference's header unfaded on BOTH routes (the audit's
+  add-Reveal reading inverted by the live evidence; the cards'
+  Reveals stay).
+- **S19-12..S19-18 (the lockstep batch)**: `**/*.mts` re-admitted
+  `vitest.config.mts` to the `tsc` program (verified with
+  `--listFiles`); the seo.spec comment re-anchored 405 → the
+  live-observed 204; the `.mts` renames in next.config/playwright
+  comments; the PAD/SKILL runtime-deps claims re-anchored to 8;
+  `install_packages.sh` retired; the smoke trap kills `GATE_PID`; the
+  known-path OPTIONS-204 exception documented; the proxyless
+  shared-bucket consequence joined the boot warning + DEPLOYMENT §3;
+  the resend fsync residual documented; the CLAUDE spelling, the
+  .gitignore duplicate, and the PAD §12 header + rows re-anchored.
+
+The expected census fallout cured in-commit: the color census flagged
+pink-400/sky-400 (cured with the v3 pins) and one "auto-answer"
+comment (the to-answer genus — rephrased); the docs-counts gate
+drove the count lockstep (UNIT 550 → 561, E2E 56 → 57, badge
+606 → 618).
+
+The full gate on the exact commit tree: **lint 0/0 · tsc 0 · unit
+561/561 (37 files) · build · smoke 15/15 · e2e 57/57 (9 specs)** ·
+census MATCH. Captures 45/44+2 = 45/46 taken on the dev server (the
+landing 1280×800 + the OPEN mobile menu 390×844, via `localhost`,
+hydration awaited, the menu DOM-confirmed open before the shot),
+PIL-verified. The dossier re-captures recorded (D-4's session-19
+note + the PT section's SUPERSEDED note); SKILL v1.15.0; README
+session-19 row + gate line + badge 618; AGENTS plans map; PAD §3/§8/
+§12; worklog Task 19; this log. The Conventional Commit and the
+SSH-wrapper push follow (dry-run first, key shredded after).
+
+## The round (summary)
+
+**Baseline:** the merged tree (`dab5aef`) passed lint 0/0 · tsc 0 ·
+unit 550/550 (37 files); census MATCH. neo-crm unchanged (`b3d0fbe`).
+
+**The audit** (three parallel subagents, every load-bearing finding
+hand-verified): **0 Critical / 0 High / 2 Medium / 10 Low / 26 Info.**
+
+**The parity walk (both sides, live):** the mobile menu family (no
+drift), the five-route head census (**TWO DRIFTS** — the description
+family re-anchored prefixed+truncated on the three inner routes, and
+the monetization section redesigned EN with ten floating icons),
+sitemap/robots unchanged.
+
+**The cures (TDD, 5 mutation batteries):** the description re-anchor
+(byte-pinned + the e2e leg + the top-level-field catch), the
+monetization redesign (MonetizationSection + FloatingIcons +
+pink-400/sky-400 palette pins), the reader-envelope closure
+(live-reproduced → caught → cancelled → the null contract), the
+verify lockout burn, the toast a11y pair, the reduced-motion resize
+repaint, the view-swap focus map, the pricing-header reveal
+retirement, the tsconfig `.mts` re-admission, and the lockstep batch.
+
+**Verified:** unit **561/561** (37 files) · e2e **57/57** (9 specs) ·
+smoke 15/15 · census MATCH · badge 618 · captures 45/46 PIL-verified
+· the cured surfaces re-verified live on the dev server (the
+prefixed descriptions on all three surfaces, the EN section
+structure + animation, the plain /login family) · six docs + SKILL
+v1.15.0 in lockstep. **Deferred: none** — every finding cured or
+verified; the honest-deferred register (26 Info items) recorded in
+the plan.

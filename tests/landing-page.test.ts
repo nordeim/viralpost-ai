@@ -12,12 +12,12 @@ const read = (p: string) => readFileSync(join(root, p), "utf8");
 // reference ships.
 
 describe("landing: the section composition", () => {
-  it("the page renders hero → tool → PT → features → how → stats → testimonials → pricing → CTA → contact", () => {
+  it("the page renders hero → tool → monetization → features → how → stats → testimonials → pricing → CTA → contact", () => {
     const page = read("src/app/(site)/page.tsx");
     const order = [
       "<Hero />",
       "<ToolSection>",
-      "<PtSection />",
+      "<MonetizationSection />",
       "<FeaturesSection />",
       "<HowItWorksSection />",
       "<StatsSection />",
@@ -53,12 +53,53 @@ describe("landing: the section composition", () => {
     expect(hero).toContain("10K+");
   });
 
-  it("the PT section ships the reference's Portuguese copy", () => {
+  it("the monetization section ships the reference's EN copy (the session-19 redesign, live-extracted 2026-11-10)", () => {
     const sections = read("src/components/marketing/sections.tsx");
-    expect(sections).toContain("Baixe Agora de Graça.");
-    expect(sections).toContain("Se te ajudar, nos ajude também.");
-    expect(sections).toContain("Acesso Gratuito — Sem Compromisso");
-    expect(sections).toContain("Pagamento 100% seguro via Gumroad");
+    expect(sections).toContain("Free Access — No Strings Attached");
+    expect(sections).toContain("Download Free.");
+    expect(sections).toContain("If It Helps You, Help Us Too.");
+    // The paragraph (pinned in two halves — prettier wraps the sentence).
+    expect(sections).toContain("We believe in honesty. Use the tool completely free. If it transforms");
+    expect(sections).toContain("your content and grows your social media presence, contribute");
+    expect(sections).toContain("any amount that feels right to you");
+    expect(sections).toContain("100% free to start — no credit card required");
+    expect(sections).toContain("Instant access, no sign-up hassle");
+    expect(sections).toContain("Supporters receive the full Pro version as a thank-you");
+    expect(sections).toContain("Your support keeps the tool free for everyone");
+    expect(sections).toContain("Get Free Access Now");
+    expect(sections).toContain("Support &amp; Unlock Pro");
+    // The trust line (pinned in halves — prettier wraps it).
+    expect(sections).toContain("100% secure payment via Gumroad · Instant Pro access after");
+    expect(sections).toContain("contribution");
+    // The retired PT face is gone from the tree entirely.
+    expect(sections).not.toContain("Baixe");
+    expect(sections).not.toContain("Acesso Gratuito");
+  });
+
+  it("the monetization section's CTAs are BOTH Gumroad anchors with the live-extracted classes (the PT era's internal /Tool Link is retired)", () => {
+    const sections = read("src/components/marketing/sections.tsx");
+    expect(sections).toContain("px-8 py-4 bg-white/10 border border-white/20 text-white font-semibold rounded-full");
+    expect(sections).toContain("px-8 py-4 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-bold rounded-full");
+    expect(sections).toContain("w-full sm:w-auto");
+    expect(sections).not.toContain('href="/Tool"');
+  });
+
+  it("the monetization section mounts the FloatingIcons island (the reference's ten floating icons)", () => {
+    const sections = read("src/components/marketing/sections.tsx");
+    expect(sections).toContain("<FloatingIcons />");
+    const icons = read("src/components/effects/floating-icons.tsx");
+    // The ten pinned icons (identity + color step + position + size,
+    // live-captured on the reference 2026-11-10).
+    expect(icons).toContain('icon: Hash, color: "text-teal-400/40", left: "8%", top: "15%", size: 28');
+    expect(icons).toContain('icon: Star, color: "text-amber-400/50", left: "90%", top: "10%", size: 22');
+    expect(icons).toContain('icon: TrendingUp, color: "text-teal-300/30", left: "5%", top: "70%", size: 26');
+    expect(icons).toContain('icon: Instagram, color: "text-pink-400/40", left: "92%", top: "65%", size: 24');
+    expect(icons).toContain('icon: Twitter, color: "text-sky-400/40", left: "15%", top: "85%", size: 20');
+    expect(icons).toContain('icon: Sparkles, color: "text-amber-300/50", left: "80%", top: "80%", size: 26');
+    expect(icons).toContain('icon: MessageCircle, color: "text-teal-400/30", left: "50%", top: "8%", size: 22');
+    expect(icons).toContain('icon: Hash, color: "text-white/20", left: "72%", top: "25%", size: 18');
+    expect(icons).toContain('icon: Zap, color: "text-amber-400/30", left: "25%", top: "50%", size: 20');
+    expect(icons).toContain('icon: Star, color: "text-teal-300/40", left: "60%", top: "88%", size: 18');
   });
 
   it("the features section ships the six reference cards", () => {

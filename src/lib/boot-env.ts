@@ -165,9 +165,16 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
   // forgot/reset, contact, generate) becomes bypassable. The seam cannot
   // know the topology; production must DECLARE it (the
   // NEXT_PUBLIC_SITE_URL warn precedent — never fatal; dev is exempt).
+  // Session-19 (S19-4): the availability face stated alongside the
+  // spoofing face — a browser sends NO x-forwarded-for and NO
+  // x-real-ip, so on a proxyless deployment (the DEFAULT depth 1 just
+  // as much as the declared 0) every honest client keys into the SAME
+  // "unknown" bucket per route: the deployment-wide shared ceiling
+  // (login 10 / 15 min for ALL users combined). Fronting the app with
+  // a proxy + declaring the depth is the only per-client posture.
   if (isProduction && (hops === undefined || hops === "")) {
     warnings.push(
-      `[boot] VIRALPOST_PROXY_HOPS is unset in production — the default trusts exactly one appending proxy (depth 1). Behind a reverse proxy chain, set it to the hop count; under DIRECT exposure (no proxy in front of the app), set VIRALPOST_PROXY_HOPS=0 — otherwise a client rotating a forged x-forwarded-for value gets a fresh rate-limit bucket per request.`,
+      `[boot] VIRALPOST_PROXY_HOPS is unset in production — the default trusts exactly one appending proxy (depth 1). Behind a reverse proxy chain, set it to the hop count; under DIRECT exposure (no proxy in front of the app), set VIRALPOST_PROXY_HOPS=0 — otherwise a client rotating a forged x-forwarded-for value gets a fresh rate-limit bucket per request. NOTE (session-19): on ANY proxyless deployment — declared 0 or default — browsers send no x-forwarded-for, so every honest client shares ONE bucket per route (a site-wide login ceiling of 10 / 15 min); front the app with a proxy and declare the depth for per-client limits.`,
     );
   }
 

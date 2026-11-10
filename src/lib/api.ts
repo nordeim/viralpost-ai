@@ -162,20 +162,33 @@ export async function readBoundedJson(req: Request): Promise<BoundedJson> {
   const reader = body.getReader();
   const chunks: Uint8Array[] = [];
   let total = 0;
-  for (;;) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    if (value) {
-      total += value.byteLength;
-      if (total > MAX_AUTH_BODY_BYTES) {
-        // Stop the producer before returning — a kept-open stream
-        // would hold the connection and buffer the remaining chunks
-        // server-side.
-        await reader.cancel().catch(() => {});
-        return { tooLarge: true };
+  // Session-19 (S19-3): the read is the seam's one await that can
+  // REJECT — a body stream erroring mid-read (client abort on a
+  // chunked body, a truncated transfer, a proxy-induced failure) used
+  // to escape the seam and answer a raw 500 across the handler
+  // boundary (live-reproduced). An unreadable body is an unparseable
+  // one: cancel the producer and fall through to the null contract —
+  // the call sites' "Invalid request body" vocabulary answers, the
+  // envelope stays absolute.
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (value) {
+        total += value.byteLength;
+        if (total > MAX_AUTH_BODY_BYTES) {
+          // Stop the producer before returning — a kept-open stream
+          // would hold the connection and buffer the remaining chunks
+          // server-side.
+          await reader.cancel().catch(() => {});
+          return { tooLarge: true };
+        }
+        chunks.push(value);
       }
-      chunks.push(value);
     }
+  } catch {
+    await reader.cancel().catch(() => {});
+    return { tooLarge: false, value: null };
   }
   // The decode+parse tail keeps the null-on-unparseable contract, so
   // the call sites' field narrowing is untouched.

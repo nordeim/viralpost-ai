@@ -111,4 +111,27 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
     expect(src).toContain("onMouseEnter={() => setPaused(true)}");
     expect(src).toContain("onMouseLeave={() => setPaused(false)}");
   });
+
+  // Session-19 (S19-7): the toast icons are decorative — the S15-4
+  // doctrine (empty lucide svgs are ignored by AT today, but the
+  // attribute is the latent-double-announcement guard for a future
+  // title-bearing icon). The ICONS map + the dismiss X carry
+  // aria-hidden like every other icon family in the tree.
+  it("the decorative icons carry aria-hidden (the S15-4 doctrine, completed on the last unattributed family)", () => {
+    expect(src).toContain('success: <CheckCircle2 className="h-4.5 w-4.5 text-success" aria-hidden="true" />');
+    expect(src).toContain('error: <AlertCircle className="h-4.5 w-4.5 text-danger" aria-hidden="true" />');
+    expect(src).toContain('info: <Info className="h-4.5 w-4.5 text-primary" aria-hidden="true" />');
+    expect(src).toContain('<X className="h-3.5 w-3.5" aria-hidden="true" />');
+  });
+
+  // Session-19 (S19-8): dynamically INSERTED role="status" cards are
+  // inconsistently announced — the ARIA authoring guidance requires the
+  // live region to exist before the content change (role="alert" error
+  // cards announce reliably; success/info may fall silent on some AT
+  // pairs). The viewport itself is the polite live region now (the
+  // sonner/Radix pattern).
+  it("the viewport is a polite live region (inserted status cards are announced)", () => {
+    expect(src).toMatch(/aria-label="Notifications"\s+\n?\s*role="region"/);
+    expect(src).toContain('aria-live="polite"');
+  });
 });

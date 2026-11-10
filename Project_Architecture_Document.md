@@ -61,13 +61,16 @@ the gate). git history carries the CRM lineage.
 | A11y | axe-core | 4.x | Assertions inside the e2e suite |
 | Runtime | Bun | 1.3.14 | Scripts run from the repo root |
 
-**Dependency diet (session 2):** the CRM-era packages the new domain never
-imported were removed — `zustand`, `recharts`, `jspdf`, `html2canvas-pro`,
-`class-variance-authority`, and six `@radix-ui/*` primitives. The runtime
-dependency surface is exactly: `@prisma/client`, `clsx`, `lucide-react`,
-`next`, `prisma`, `react`, `react-dom`, `tailwind-merge`, `zod`. The toast
-is a from-scratch subscribe/store hook that mirrors the Radix toast API
-shape; the reveal/particle/WebGL effects are dependency-free.
+**Dependency diet (session 2; surface re-anchored session 19):** the
+CRM-era packages the new domain never imported were removed — `zustand`,
+`recharts`, `jspdf`, `html2canvas-pro`, `class-variance-authority`, and
+six `@radix-ui/*` primitives. The runtime dependency surface is exactly
+EIGHT packages: `@prisma/client`, `clsx`, `lucide-react`, `next`,
+`react`, `react-dom`, `tailwind-merge`, `zod` — plus the `prisma` CLI as
+a devDependency since session-15 (S15-3; build-time tooling, never in
+the standalone artifact). The toast is a from-scratch subscribe/store
+hook that mirrors the Radix toast API shape; the
+reveal/particle/WebGL/floating-icons effects are dependency-free.
 
 ### 1.3 Architecture Decision Records
 
@@ -548,8 +551,8 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 37 | 550 | `tests/*.test.ts` | Vitest (node env) |
-| E2E | 9 specs | 56 | `tests/e2e/*.spec.ts` | Playwright (production build) |
+| Unit | 37 | 561 | `tests/*.test.ts` | Vitest (node env) |
+| E2E | 9 specs | 57 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
 ### 8.2 Test Patterns
@@ -566,7 +569,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 550/56/15 and change together), and the
+(README/AGENTS/PAD/SKILL carry 561/57/15 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -666,7 +669,7 @@ Swept at session-2 ship — no open CRITICAL/HIGH items.
 
 ## 12. Key Files Reference
 
-(The Lines column is the live `wc -l` of each file at the session-17 ship
+(The Lines column is the live `wc -l` of each file at the session-19 ship
 — pinned by tests/docs-counts.test.ts's inventory census; edit the row in
 the same commit as the file.)
 
@@ -680,18 +683,19 @@ the same commit as the file.)
 | `src/lib/password.ts` | 68 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
 | `src/lib/db-path.ts` | 239 | THE database path resolver (ADR-008) |
-| `src/lib/site.ts` | 138 | The metadata factory + canonical origin seam |
-| `src/lib/api.ts` | 239 | The envelope + the bounded JSON reader (the non-object body guard, session-16, S16-1) |
-| `src/app/globals.css` | 217 | The Tailwind v4 theme (ADR-005) |
+| `src/lib/site.ts` | 169 | The metadata factory + canonical origin seam |
+| `src/lib/api.ts` | 252 | The envelope + the bounded JSON reader (the non-object body guard, session-16, S16-1) |
+| `src/app/globals.css` | 222 | The Tailwind v4 theme (ADR-005) |
 | `src/components/marketing/navbar.tsx` | 179 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 203 | The core surface: quota dots, generate, copy, paywall |
 | `src/components/effects/iridescence.tsx` | 221 | The WebGL hero background (aspect-aware shader) |
-| `src/components/effects/particle-text.tsx` | 313 | The canvas particle title |
+| `src/components/effects/particle-text.tsx` | 323 | The canvas particle title |
+| `src/components/effects/floating-icons.tsx` | 117 | The monetization section's ten-icon float field (session-19, S19-2) |
 | `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |
 | `src/app/api/[...path]/route.ts` | 43 | The API subtree's envelope 404 (session-15, S15-7; OPTIONS joined session-18, S18-2) |
-| `src/app/api/route.ts` | 43 | The bare `/api` envelope 404 (session-16, S16-2; OPTIONS joined session-18, S18-2) |
+| `src/app/api/route.ts` | 51 | The bare `/api` envelope 404 (session-16, S16-2; OPTIONS joined session-18, S18-2) |
 | `prisma/schema.prisma` | 60 | User + ContactMessage |
-| `scripts/smoke-test.sh` | 175 | The 15-leg artifact ladder |
+| `scripts/smoke-test.sh` | 178 | The 15-leg artifact ladder |
 
 ---
 

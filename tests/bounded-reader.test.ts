@@ -160,4 +160,51 @@ describe("readBoundedJson (session-165 — the digma S148-A/S75-B port)", () => 
   it("the ceiling stays the auth family's own 16KB (not digma's 32MB — the honest bodies are tiny)", () => {
     expect(MAX_AUTH_BODY_BYTES).toBe(16 * 1024);
   });
+
+  // Session-19 (S19-3): the seam's one unguarded await — a body stream
+  // that ERRORS mid-read (client abort on a chunked body, a truncated
+  // transfer, a proxy-induced read failure) used to reject PAST the
+  // seam, out of parseBody/readBoundedJson, and across the handler
+  // boundary as a raw 500 (live-reproduced: every other failure class
+  // in this seam funnels to the envelope; the read was the hole). An
+  // unreadable body is an unparseable body — the null-on-unparseable
+  // contract, the sites' 400 vocabulary answering.
+  it("an ERRORED body stream resolves null-on-unreadable (never rejects past the seam)", async () => {
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream<Uint8Array>({
+      start(c) {
+        c.enqueue(encoder.encode('{"email":"a@b'));
+        c.error(new Error("aborted mid-body"));
+      },
+    });
+    const req = new Request("http://x/api/auth/login", {
+      method: "POST",
+      headers: JSON_HEADERS,
+      body: stream,
+      // Node's undici requires the duplex option for streamed bodies.
+      duplex: "half",
+    } as RequestInit);
+    const read = await readBoundedJson(req);
+    expect(read.tooLarge).toBe(false);
+    if (!read.tooLarge) expect(read.value).toBeNull();
+  });
+
+  it("an errored stream after a VALID JSON prefix still resolves null (the error is not swallowed into a parse)", async () => {
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream<Uint8Array>({
+      start(c) {
+        c.enqueue(encoder.encode('{"ok":true}'));
+        c.error(new Error("truncated after the object"));
+      },
+    });
+    const req = new Request("http://x/api/auth/login", {
+      method: "POST",
+      headers: JSON_HEADERS,
+      body: stream,
+      duplex: "half",
+    } as RequestInit);
+    const read = await readBoundedJson(req);
+    expect(read.tooLarge).toBe(false);
+    if (!read.tooLarge) expect(read.value).toBeNull();
+  });
 });

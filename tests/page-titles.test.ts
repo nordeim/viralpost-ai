@@ -25,30 +25,59 @@ describe("pageMetadata: the per-route family", () => {
     expect(tool.alternates?.canonical).toBe("/Tool");
   });
 
-  // Session-8 (F8-1, live re-verified 2026-11-09): the reference ships the
-  // per-route OG/Twitter family with the PLAIN 170-char description on
-  // every route (og:title mirrors the title scheme; og:description is the
-  // root paragraph, unprefixed; og:url absolute; canonical per route).
-  // The CRM-family's "<Page> on ViralPost AI. " prefix — adopted when
-  // D-4 said the reference ships no per-route OG — was a live drift and
-  // is retired.
-  it("inner pages ship the PLAIN og/twitter description (the reference's live OG family)", () => {
+  // Session-19 (S19-1, live re-verified 2026-11-10): the reference's
+  // platform ADOPTED the per-route description prefix between the
+  // session-18 and session-19 walks — og/twitter/meta description on
+  // /Tool /Pricing /Contact now ship "<Page> on ViralPost AI. " + a
+  // 70-char word-boundary-truncated tail of the root paragraph (the
+  // trailing comma normalized to a period). The session-8 F8-1
+  // retirement (which pinned the PLAIN description) is re-anchored to
+  // the reference's new live family; / and /login keep the plain
+  // 170-char paragraph (unchanged on the reference).
+  it("inner pages ship the PREFIXED description on ALL THREE surfaces (the reference's live family, session-19)", () => {
+    const tail = "An AI-powered social media generator that helps creators, influencers.";
     for (const page of ["Tool", "Pricing", "Contact"]) {
       const md = pageMetadata({ page, route: `/${page}` });
-      expect(md.openGraph?.description, page).toBe(SITE_DESCRIPTION);
-      expect(md.twitter?.description, page).toBe(SITE_DESCRIPTION);
+      // The top-level field too: Next shallow-merges page metadata over
+      // the layout's plain root paragraph — without the page-level
+      // field the inner routes kept a plain meta description under the
+      // prefixed og/twitter family (live-caught on the dev server).
+      expect(md.description, page).toBe(`${page} on ViralPost AI. ${tail}`);
+      expect(md.openGraph?.description, page).toBe(`${page} on ViralPost AI. ${tail}`);
+      expect(md.twitter?.description, page).toBe(`${page} on ViralPost AI. ${tail}`);
     }
   });
 
-  it("the CRM-family OG description prefix is RETIRED from the site module (session-8, F8-1)", () => {
-    // The comment-stripped source (the S7 body-pregate pattern): the
-    // helper's NAME may survive inside its own retirement note, but never
-    // in code; the prefix STRING must be gone from the file entirely.
+  it("the unprefixed family (page: null) keeps the plain description", () => {
+    const login = pageMetadata({ page: null, route: "/login" });
+    expect(login.description).toBe(SITE_DESCRIPTION);
+    expect(login.openGraph?.description).toBe(SITE_DESCRIPTION);
+    expect(login.twitter?.description).toBe(SITE_DESCRIPTION);
+  });
+
+  it("the prefixed description derives from SITE_DESCRIPTION (the 70-char word-boundary tail, terminal period)", () => {
+    // The live-observed rule: the tail is SITE_DESCRIPTION cut at 70
+    // chars on a word boundary, the trailing comma normalized to a
+    // period. Pinned against the derivation, not a magic string, so a
+    // root-description edit surfaces here instead of silently
+    // diverging from the truncation contract.
+    const tail = "An AI-powered social media generator that helps creators, influencers.";
+    expect(tail).toHaveLength(70);
+    expect(SITE_DESCRIPTION.slice(0, 70).replace(/,$/, "") + ".").toBe(tail);
+    const tool = pageMetadata({ page: "Tool", route: "/Tool" });
+    expect(tool.openGraph?.description).toBe(`Tool on ViralPost AI. ${tail}`);
+  });
+
+  it("the description-prefix helper is BACK in the site module (session-19 re-anchor of the F8-1 retirement)", () => {
+    // The F8-1 retirement pin ("the prefix STRING must be gone") is
+    // inverted by the reference's own live change — the prefix returns
+    // WITH the reference's truncation. The helper is pageDescription()
+    // (a new name — the retired pageOgDescription name stays retired).
     const siteSrc = read("src/lib/site.ts")
       .replace(/\/\*[\s\S]*?\*\//g, "")
       .replace(/\/\/[^\n]*/g, "");
+    expect(siteSrc).toContain("export function pageDescription(");
     expect(siteSrc).not.toContain("pageOgDescription");
-    expect(read("src/lib/site.ts")).not.toContain("on ViralPost AI. ");
   });
 
   it("the unprefixed family (page: null) ships the bare title", () => {

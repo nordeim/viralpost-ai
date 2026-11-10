@@ -45,7 +45,7 @@ const nextConfig: NextConfig = {
       "postcss.config.mjs",
       "tsconfig.json",
       "tsconfig.tsbuildinfo",
-      "vitest.config.ts",
+      "vitest.config.mts",
       "scripts/**",
       "tests/**",
     ],

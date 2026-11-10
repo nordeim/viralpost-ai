@@ -30,6 +30,47 @@ test("the home head carries the canonical + OG family", async ({ page }) => {
   );
 });
 
+test("session-19 (S19-1): the inner routes ship the prefixed truncated description family", async ({ page }) => {
+  // Live-captured on the reference 2026-11-10: /Tool /Pricing /Contact
+  // now ship "<Page> on ViralPost AI. " + the 70-char word-boundary
+  // tail on meta/og/twitter description alike (the platform adopted
+  // the prefix between the session-18 and session-19 walks; the
+  // session-8 F8-1 plain-description finding is re-anchored). The
+  // three surfaces are byte-identical on the reference — pinned that
+  // way here.
+  const tail = "An AI-powered social media generator that helps creators, influencers.";
+  await page.goto("/Tool");
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    `Tool on ViralPost AI. ${tail}`,
+  );
+  await expect(page.locator('meta[property="og:description"]')).toHaveAttribute(
+    "content",
+    `Tool on ViralPost AI. ${tail}`,
+  );
+  await expect(page.locator('meta[name="twitter:description"]')).toHaveAttribute(
+    "content",
+    `Tool on ViralPost AI. ${tail}`,
+  );
+  await page.goto("/Pricing");
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    `Pricing on ViralPost AI. ${tail}`,
+  );
+  await page.goto("/Contact");
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    `Contact on ViralPost AI. ${tail}`,
+  );
+  // The unprefixed routes keep the plain paragraph (unchanged on the
+  // reference) — the full 170-char root description, byte-pinned.
+  await page.goto("/login");
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    "An AI-powered social media generator that helps creators, influencers, and businesses draft high-engagement posts for Instagram, TikTok, Twitter, and LinkedIn in seconds.",
+  );
+});
+
 test("the sitemap lists every canonical route", async ({ request }) => {
   const res = await request.get("/sitemap.xml");
   expect(res.ok()).toBeTruthy();
@@ -106,12 +147,17 @@ test("session-15 (S15-7): unknown /api paths answer the JSON envelope 404 (not t
   expect(bareBody.error.code).toBe("NOT_FOUND");
   // Session-18 (S18-2): OPTIONS joins the envelope family on BOTH
   // catch-alls. The five-method tree let an OPTIONS probe of an unknown
-  // path fall to Next's own 405 + Allow (the route file matches the
-  // path, just not the method) — a non-envelope response on a path that
-  // does not exist. The leg covers both faces (the [...path] subtree
-  // and the bare /api); HEAD needs no leg (auto-derived from GET).
-  // TRACE is excluded — not a supported route-handler method, Next
-  // rejects it at the router level before any handler runs.
+  // path fall to Next's own bare 204 (live-observed in the RED run —
+  // not the 405 the audit first hypothesized; the route file matches
+  // the path, just not the method) — a non-envelope response on a path
+  // that does not exist. The leg covers both faces (the [...path]
+  // subtree and the bare /api); HEAD needs no leg (auto-derived from
+  // GET). TRACE is excluded — not a supported route-handler method,
+  // Next rejects it at the router level before any handler runs.
+  // Session-19 (S19-6): OPTIONS on KNOWN API paths deliberately keeps
+  // Next's router-level 204 (the CORS-preflight-friendly face — no
+  // handler owns OPTIONS semantics there); only the unknown-path
+  // catch-alls answer the envelope.
   for (const path of ["/api/nonexistent-endpoint", "/api"]) {
     const options = await request.fetch(path, { method: "OPTIONS" });
     expect(options.status(), path).toBe(404);

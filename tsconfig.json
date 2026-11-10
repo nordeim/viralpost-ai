@@ -37,10 +37,17 @@
       ]
     }
   },
+  // Session-19 (S19-12): "**/*.mts" re-admits vitest.config.mts to the
+  // program — the TS glob "**/*.ts" does NOT match .mts files, so the
+  // session-18 S18-5 rename silently dropped the vitest config from
+  // `tsc --noEmit` (verified live: --listFiles carried playwright.config.ts
+  // but not the .mts; a type error there surfaced only as a Vite runtime
+  // failure, never at the typecheck gate).
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "**/*.mts",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],

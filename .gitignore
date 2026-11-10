@@ -34,9 +34,6 @@ server.log
 db/*.db
 db/*.db-journal
 
-# prisma generated client
-node_modules/
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts

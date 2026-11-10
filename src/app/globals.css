@@ -144,6 +144,11 @@
   --color-blue-600: #2563eb;
   --color-blue-700: #1d4ed8;
   --color-rose-200: #fecdd3;
+  /* Session-19 (S19-2): the redesigned monetization section's floating
+     icon field carries pink-400 and sky-400 (live-extracted from the
+     reference 2026-11-10) — pinned to the v3 values with the family. */
+  --color-pink-400: #f472b6;
+  --color-sky-400: #38bdf8;
   --color-gray-50: #f9fafb;
   --color-gray-100: #f3f4f6;
   --color-gray-200: #e5e7eb;

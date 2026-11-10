@@ -5,15 +5,15 @@ import {
   CtaSection,
   FeaturesSection,
   HowItWorksSection,
+  MonetizationSection,
   PricingCards,
-  PtSection,
   StatsSection,
   TestimonialsSection,
   ToolSection,
 } from "@/components/marketing/sections";
 
 // The landing page — the reference's 10-section composition (docs/
-// reference-investigation.md §3.2): hero → tool → PT monetization →
+// reference-investigation.md §3.2): hero → tool → monetization →
 // features → how-it-works → stats → testimonials → pricing → CTA →
 // contact. The root layout's metadata object already IS the reference's
 // landing head (title "ViralPost AI", the 170-char description, the
@@ -26,7 +26,7 @@ export default function LandingPage() {
       <ToolSection>
         <GeneratorCard />
       </ToolSection>
-      <PtSection />
+      <MonetizationSection />
       <FeaturesSection />
       <HowItWorksSection />
       <StatsSection />

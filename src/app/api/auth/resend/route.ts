@@ -63,6 +63,12 @@ export async function POST(req: Request) {
       // and ships the SAME response shape as the known branch — the
       // key's presence no longer leaks the verification state, and the
       // timing no longer distinguishes it either.
+      // Session-19 (S19-18, the honest residual): the KNOWN branch below
+      // additionally pays one SQLite write (fsync-scale, ~5-10ms) — the
+      // exact class forgot-password documents as accepted (a scrypt burn
+      // would invert the signal; the route is rate-limited at 5/15 min).
+      // Recorded here so the equalizer's claim stays honest about its
+      // own boundary.
       hashVerificationCode(RESEND_TIMING_EQUALIZER_INPUT);
       return ok({ resent: true, message: verificationResentMessage(), verificationCode: null });
     }

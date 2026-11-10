@@ -97,6 +97,10 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
     Array(VERIFICATION_CODE_LENGTH).fill(""),
   );
   const codeRefs = React.useRef<(HTMLInputElement | null)[]>([]);
+  // Session-19 (S19-10): the view-swap focus map's anchor — the card
+  // root (the incoming view's [data-view-focus] heading is queried
+  // inside it after the swap renders).
+  const cardRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     if (!info) return;
@@ -110,8 +114,22 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
   // never observed directly on this reference, whose signup probe was
   // platform-rejected — Reasoned, re-attributed session 8, F8-6).
   // A DOM focus, never setState; fires only on transitions INTO verify.
+  // Session-19 (S19-10): extended to the per-view focus map — every view
+  // swap lands focus on the incoming view's heading (the swap unmounts
+  // the focused control — Forgot password? / Need an account? / the Back
+  // buttons — and focus used to fall to <body>, the next Tab starting at
+  // the document top; WCAG 2.4.3). The prev-view guard keeps the INITIAL
+  // mount from stealing focus (the card renders mid-page under the
+  // navbar on /login).
+  const prevViewRef = React.useRef(view);
   React.useEffect(() => {
-    if (view === "verify") codeRefs.current[0]?.focus();
+    if (prevViewRef.current === view) return;
+    prevViewRef.current = view;
+    if (view === "verify") {
+      codeRefs.current[0]?.focus();
+      return;
+    }
+    cardRef.current?.querySelector<HTMLElement>("[data-view-focus]")?.focus();
   }, [view]);
 
   /** Swap the card's view via the login state machine (s11 + s21). */
@@ -357,7 +375,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
 
   return (
     <div className="w-full max-w-md">
-      <div className={LOGIN_LAYOUT.card}>
+      <div ref={cardRef} className={LOGIN_LAYOUT.card}>
         {/* Gradient accent strip along the card's top edge. */}
         <div className={LOGIN_LAYOUT.accent} aria-hidden="true" />
 
@@ -391,7 +409,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                           Back to sign in
                         </button>
                         <div className="text-center space-y-2">
-                          <h2 className={LOGIN_RESET_LAYOUT.title}>Reset your password</h2>
+                          <h2 className={LOGIN_RESET_LAYOUT.title} tabIndex={-1} data-view-focus>Reset your password</h2>
                           <p className={LOGIN_RESET_LAYOUT.description}>
                             Enter your email and we'll send you a link to reset your password
                           </p>
@@ -441,7 +459,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                             [BUTTON, H2, FORM] — no titleStack wrapper);
                             the s21-era wrapper was an inert single-child
                             text-center space-y-2 div. */}
-                        <h2 className={LOGIN_SIGNUP_LAYOUT.title}>Create your account</h2>
+                        <h2 className={LOGIN_SIGNUP_LAYOUT.title} tabIndex={-1} data-view-focus>Create your account</h2>
                         <form className={LOGIN_SIGNUP_LAYOUT.form} onSubmit={onSignupSubmit} noValidate>
                           <div className={LOGIN_SIGNUP_LAYOUT.fields}>
                             <div className={LOGIN_SIGNUP_LAYOUT.field}>
@@ -621,7 +639,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                             <Mail className={LOGIN_RESET_LAYOUT.sentIcon} />
                           </div>
                           <div className={LOGIN_RESET_LAYOUT.sentTitleStack}>
-                            <h2 className={LOGIN_RESET_LAYOUT.title}>Check your email</h2>
+                            <h2 className={LOGIN_RESET_LAYOUT.title} tabIndex={-1} data-view-focus>Check your email</h2>
                             <p className={LOGIN_RESET_LAYOUT.sentEmailLine}>
                               We've sent password reset instructions to
                               <br />
@@ -676,7 +694,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
             </div>
 
             <div className="space-y-2 sm:space-y-3">
-              <h1 className={LOGIN_LAYOUT.title}>Welcome to ViralPost AI</h1>
+              <h1 className={LOGIN_LAYOUT.title} tabIndex={-1} data-view-focus>Welcome to ViralPost AI</h1>
               <p className={LOGIN_LAYOUT.subtitle}>Sign in to continue</p>
             </div>
 

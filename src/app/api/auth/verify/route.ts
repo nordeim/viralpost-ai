@@ -70,7 +70,13 @@ export async function POST(req: Request) {
 
     // The lockout check rides BEFORE the code compare (the reference's
     // ladder: five wrong submissions, then the lockout message repeats).
+    // Session-19 (S19-5): the equalizer burn precedes the return — the
+    // miss and wrong-code branches each burn one scrypt, and the
+    // locked-out arm used to answer ~100ms faster (a timing oracle on
+    // "exists AND unverified AND >= 5 failures"). Every branch out of
+    // this route now pays the same scrypt tax.
     if (isVerificationLockedOut(user.verificationAttempts)) {
+      verifyVerificationCode(code, timingEqualizerHash());
       return fail("VERIFICATION_LOCKED", verificationLockoutMessage(), 429);
     }
 

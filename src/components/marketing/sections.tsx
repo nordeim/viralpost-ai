@@ -3,6 +3,8 @@ import {
   Check,
   Gift,
   Hash,
+  Heart,
+  Lock,
   PenLine,
   Rocket,
   Sparkles,
@@ -15,6 +17,7 @@ import {
 import Link from "next/link";
 
 import { Reveal } from "@/components/effects/reveal";
+import { FloatingIcons } from "@/components/effects/floating-icons";
 import { GUMROAD_URL } from "./nav-config";
 
 // The landing page's marketing sections — class-for-class the reference's
@@ -43,45 +46,52 @@ export function ToolSection({ children }: { children: React.ReactNode }) {
   );
 }
 
-// ---- section 3: the PT pay-what-you-want monetization -----------------------
+// ---- section 3: the pay-what-you-want monetization ---------------------------
+//
+// Session-19 (S19-2): the reference REDESIGNED this section between the
+// session-18 and session-19 walks — the PT (Portuguese) copy was replaced
+// by a redesigned EN face, live-extracted 2026-11-10: a new badge/h2/
+// paragraph, four EN benefit cards, BOTH CTAs now external Gumroad
+// anchors (the PT era's internal /Tool Link is retired with the copy), a
+// lock-icon trust line at mt-6, and a ten-icon floating field
+// (FloatingIcons — the rAF island). The retired PT face is preserved in
+// the session-1 dossier (docs/reference-investigation.md §3.2 item 3).
 
-const PT_BENEFITS = [
-  { icon: Gift, text: "100% gratuito para começar — sem cartão de crédito" },
-  { icon: Zap, text: "Acesso imediato, sem burocracia" },
-  { icon: Star, text: "Quem apoia recebe a versão Pro completa como agradecimento" },
-  { icon: TrendingUp, text: "Seu apoio mantém a ferramenta viva e gratuita para todos" },
+const MONETIZATION_BENEFITS = [
+  { icon: Gift, text: "100% free to start — no credit card required" },
+  { icon: Zap, text: "Instant access, no sign-up hassle" },
+  { icon: Star, text: "Supporters receive the full Pro version as a thank-you" },
+  { icon: Heart, text: "Your support keeps the tool free for everyone" },
 ] as const;
 
-export function PtSection() {
+export function MonetizationSection() {
   return (
     <section className="py-20 px-6 bg-gradient-to-b from-slate-900 via-teal-950 to-slate-900 relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-80 h-80 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
       <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
+      <FloatingIcons />
       <div className="max-w-3xl mx-auto relative text-center">
         <Reveal>
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-amber-400/10 border border-amber-400/30 rounded-full text-xs font-semibold text-amber-300 mb-6">
             <Gift className="h-3.5 w-3.5" aria-hidden="true" />
-            Acesso Gratuito — Sem Compromisso
+            Free Access — No Strings Attached
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">
-            Baixe Agora de Graça.{" "}
+            Download Free.{" "}
             <span className="bg-gradient-to-r from-teal-400 to-amber-400 bg-clip-text text-transparent">
-              Se te ajudar, nos ajude também.
+              If It Helps You, Help Us Too.
             </span>
           </h2>
           <p className="text-slate-300/70 text-lg leading-relaxed mb-10 max-w-xl mx-auto">
-            Acredite no poder da honestidade. Use a ferramenta completamente de
-            graça. Se ela transformar seu conteúdo e crescimento nas redes,
-            contribua com{" "}
-            <strong className="text-white">
-              qualquer valor que fizer sentido pra você
-            </strong>{" "}
-            — e como forma de gratidão, você recebe a versão Pro com todos os
-            recursos desbloqueados.
+            We believe in honesty. Use the tool completely free. If it transforms
+            your content and grows your social media presence, contribute{" "}
+            <strong className="text-white">any amount that feels right to you</strong>{" "}
+            — and as a token of gratitude, you&apos;ll instantly receive the full
+            Pro version unlocked.
           </p>
         </Reveal>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10 text-left max-w-xl mx-auto">
-          {PT_BENEFITS.map((b, i) => (
+          {MONETIZATION_BENEFITS.map((b, i) => (
             <Reveal key={b.text} direction="left" delay={i * 100}>
               <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
                 <div className="h-8 w-8 rounded-lg bg-teal-500/20 flex items-center justify-center flex-shrink-0">
@@ -94,27 +104,34 @@ export function PtSection() {
         </div>
         <Reveal delay={100}>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            {/* Session-10 (F10-8): Link over the raw anchor — soft nav; the
-                rendered <a> is identical to the reference's. */}
-            <Link
-              href="/Tool"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-teal-500 to-teal-600 text-white font-semibold rounded-full hover:shadow-xl hover:shadow-teal-500/30 transition-all hover:-translate-y-0.5"
-            >
-              Acessar Grátis Agora
-            </Link>
+            {/* Session-19: BOTH CTAs are external Gumroad anchors on the
+                reference's redesigned face (the PT era's internal /Tool
+                Link retired with the copy) — live-extracted classes. */}
             <a
               href={GUMROAD_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-amber-400/10 border-2 border-amber-400/50 text-amber-300 font-semibold rounded-full hover:bg-amber-400/20 hover:border-amber-400 transition-all hover:-translate-y-0.5"
+              className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 border border-white/20 text-white font-semibold rounded-full hover:bg-white/15 hover:border-white/30 transition-all hover:-translate-y-0.5 text-base"
             >
-              Apoiar com Qualquer Valor &amp; Ganhar o Pro
-              <Sparkles className="h-4 w-4" aria-hidden="true" />
+              <Gift className="h-5 w-5 text-teal-400" aria-hidden="true" />
+              Get Free Access Now
+            </a>
+            <a
+              href={GUMROAD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-bold rounded-full hover:shadow-xl hover:shadow-amber-400/30 transition-all hover:-translate-y-0.5 text-base"
+            >
+              <Heart className="h-5 w-5" aria-hidden="true" />
+              Support &amp; Unlock Pro
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
             </a>
           </div>
-          <p className="text-xs text-slate-500 mt-8">
-            Pagamento 100% seguro via Gumroad · Acesso imediato ao Pro após contribuição
-          </p>
+          <div className="flex items-center justify-center gap-2 mt-6 text-slate-500 text-xs">
+            <Lock className="h-3.5 w-3.5" aria-hidden="true" />
+            100% secure payment via Gumroad · Instant Pro access after
+            contribution
+          </div>
         </Reveal>
       </div>
     </section>
@@ -429,10 +446,15 @@ export function PricingSection({ children }: { children?: React.ReactNode }) {
   return (
     <section id="pricing" className="py-24 px-6 bg-slate-50">
       <div className="max-w-5xl mx-auto">
-        <Reveal className="text-center mb-16">
+        {/* Session-19 (S19-11): the header is UNFADED on the reference's
+            BOTH routes (live-verified 2026-11-10 — no reveal wrapper on
+            the "Simple Pricing" head on / or /Pricing; the CARDS reveal
+            on both). The scaffold-era <Reveal> here was a motion-only
+            drift; removed for parity. The cards keep their Reveals. */}
+        <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">Simple Pricing</h2>
           <p className="mt-4 text-slate-500">No subscriptions. Pay once, create forever.</p>
-        </Reveal>
+        </div>
         {children ?? <PricingCards />}
       </div>
     </section>
