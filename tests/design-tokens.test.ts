@@ -206,6 +206,10 @@ describe("design tokens: session-11 — the census completion + the dead-CSS ret
       "only", "advance", "creates", "create", "scratch", "render",
       "width", "end", "random", "dismiss", "dismisses", "dismissing",
       "dismissed", "start",
+      // Session-13 (S13-4): the from-url seam's MODULE PATH — the
+      // import line `from "@/lib/from-url"` scans as a from-<word>
+      // "utility"; a path segment, never a class.
+      "url",
     ]);
     const used = new Set<string>();
     for (const file of walkSourceFiles(srcDir)) {

@@ -60,12 +60,15 @@ export async function POST(req: Request) {
       },
     });
 
-    console.info(`[verification] code for ${email}: ${code} (expires in 15 minutes)`);
-
     // Session-163 (the digma ADR-014 port): the in-app OTP delivery —
     // the fresh code rides the response for the demo workflow (and the
     // e2e resend funnel), VIRALPOST_DISABLE_IN_APP_OTP=1 gated.
+    // Session-13 (S13-2): the console log rides the SAME gate — a
+    // mail-transport deployment must not write OTPs to stdout.
     const inAppOtpEnabled = process.env.VIRALPOST_DISABLE_IN_APP_OTP !== "1";
+    if (inAppOtpEnabled) {
+      console.info(`[verification] code for ${email}: ${code} (expires in 15 minutes)`);
+    }
     return ok({
       resent: true,
       message: verificationResentMessage(),

@@ -1,3 +1,127 @@
+Task ID: 13
+Agent: main (Z.ai)
+Task: The session-13 in-app-delivery polarity warning + OTP log gate +
+from_url seam round — re-run the standing instruction against the
+post-session-12 tree (5f22be0): docs review, pristine-clone verification
+(the full baseline gate green at the documented 507/36 + 52/9 + 15
+counts — MATCH, no fresh-sandbox gaps this round), the comprehensive
+audit (0 Critical / 1 High / 1 Medium / 3 Low / 6 Informational, every
+load-bearing finding hand-verified in source), the neo-crm repo re-review
+(HEAD b3d0fbe — UNCHANGED since session 12's review; its adoption and
+deferral decisions stand), the live reference parity walk (logged-in:
+/Home, the mobile menu at 390x844 — 5 destinations, auto-close, the
+no-aria hamburger, /Tool's hard-nav title + OG family — NO drift since
+session 12) + the clone's dev-server walk (hydration clean, the menu
+open/close, Escape WITH the focus return — focusIsToggle verified,
+navigate + auto-close, the from_url round-trip BOTH directions), the TDD
+cures, the mutation batteries (7), the gate, captures 33/34, push #13 to
+main via the SSH wrapper.
+
+Work Log:
+- THE DELIVERY-POLARITY BOOT WARNING (S13-1, HIGH — the audit's first
+  High since session 9): both in-app delivery kill-switches ship ""
+  (ENABLED) in .env.example — a default-configured PRODUCTION deploy
+  returns a LIVE reset link for any known email (forgot-password ->
+  resetUrl) and a fresh OTP for any unverified account (resend -> the
+  code; verify then signs in). The boot gate already warned for the
+  strictly-less-dangerous unset-hops hazard (F9-1) but not these. CURED
+  by TDD: the per-knob production warning (unset or empty), mirroring
+  the hops precedent exactly — warn, never fatal (the mail-less demo
+  posture is a legitimate deployment); the off-vocabulary values stay
+  owned by the off-vocab arm (one-owner doctrine). The env() test
+  builder now carries both knobs at "1" (the healthy-production
+  declares-delivery posture, the session-9 hops precedent). MUTATION
+  BATTERY: killing the arm REDs exactly the 3 warning pins -> restored
+- THE OTP LOG GATE (S13-2, MED): signup/resend logged the live
+  verification code to server stdout UNCONDITIONALLY — with
+  VIRALPOST_DISABLE_IN_APP_OTP=1 (a real mail transport owns delivery)
+  every user's OTP still landed in the logs (the skill's "secrets never
+  in logs" line; the route's own comment documented the gap as intended
+  behavior). CURED by TDD: the console.info rides the SAME
+  inAppOtpEnabled gate as the response payload — the demo posture keeps
+  its log AND payload together; the mail-transport posture writes no
+  codes to stdout. The PAD's "documented demo exception" prose
+  re-anchored. MUTATION BATTERY: un-gating one route REDs exactly its
+  pin -> restored
+- THE FROM_URL SEAM (S13-4): the open-redirect resolver lived
+  module-private in login-card.tsx reading window.location.origin
+  inline — ZERO behavioral coverage (source regex pins only; a
+  regression in its logic passed the whole gate; live-verified in this
+  round's walk first). CURED by TDD: the pure seam src/lib/from-url.ts
+  (resolveFromUrl(raw, origin) — origin a parameter, no DOM access) +
+  8 behavioral pins (same-origin relative, path+search, the reference's
+  own ABSOLUTE auth-wall form, foreign origin, the protocol-relative //
+  bypass, foreign schemes, malformed, empty/bare-origin); the card
+  wiring pinned (both call sites pass window.location.origin); the
+  login-views pins re-anchored in the same commit (the card-level
+  origin-comparison pin -> the wiring pin; the F12-4 pin re-anchored to
+  the verify submit's own site — the both-sites face now owned by the
+  session-147 pin, one-owner). PLUS 2 e2e legs in auth.spec: the
+  /login?from_url=/Tool round-trip (lands /Tool + the title) and the
+  foreign-origin fallback (lands /). One census iteration: the
+  design-tokens step-less census flagged the from-url MODULE PATH as a
+  from-<word> "utility" — "url" joined the documented NON_COLOR
+  English-fragment set (the from-scratch precedent). MUTATION BATTERY:
+  killing the origin check REDs exactly the 3 guard pins -> restored
+- THE MOTION CADENCE CURE (S13-3): the particle title's reduced-motion
+  branch drew BEFORE advancing — every timer fire painted the phrase
+  about to retire (the first phrase held ~2x its window; each swap one
+  frame late). CURED: advance-then-draw (each phrase exactly one
+  window), source-pinned on the branch's internal order. MUTATION
+  BATTERY: the revert REDs the pin -> restored
+- THE VERIFY P2025 MAPPING (S13-5): a row vanishing between the
+  findUnique and either update threw P2025 into the generic catch — a
+  raw 500 where the no-pending-code branch answers the 400
+  VERIFICATION_INVALID (the forgot-password route's own known-error
+  doctrine, its :117). CURED by TDD: the catch maps P2025 -> the 400
+  envelope. Unreachable today (no user-delete surface) — the doctrine
+  gap, not a live defect. MUTATION BATTERY: removing the branch REDs
+  the pin -> restored
+- THE FONT-FAMILY HOIST (S13-7): both font-fit loops re-read
+  getComputedStyle(document.body).fontFamily per shrink iteration (up
+  to ~42 redundant computed-style reads per rasterize, per undebounced
+  resize). CURED: one read per draw call, outside both loops,
+  source-pinned. MUTATION BATTERY: reverting one hoist REDs the pin ->
+  restored
+- THE CENSUS FORMS-GUARD (S13-10): the reality census counts it(/test(
+  source blocks — a registration form the regex cannot see (.each(
+  registers N per block; .skip(/.only( change what runs; .todo(
+  neither) would decouple the constants from the runner's executed
+  count (the badge-drift genus one notch deeper). NEW census arm: no
+  uncountable registration form in any unit suite or e2e spec
+  (comment-stripped). Zero live instances at birth (verified before the
+  pin landed). MUTATION BATTERY: a planted .skip( in a scratch test
+  file REDs the guard (+ the SUITES/UNIT censuses — the scratch file
+  itself) -> removed -> GREEN
+- THE LOCKSTEP: unit 528/37 files (+21: +6 boot-env, +3 auth-contract,
+  +2 effects-motion, +8 from-url, +1 docs-counts), e2e 54/9 specs
+  (+2), badge 582 = 528+54; README (badge, architecture table, testing
+  section, file tree, the session-13 status row, the gate line, the
+  env-table guidance); AGENTS (counts, the plans map's thirteenth
+  round); CLAUDE (counts + the env row); PAD (§12 re-anchor + the new
+  from-url row, the delivery-polarity security row, the secrets-in-logs
+  prose re-anchor); the SKILL v1.8.0 -> v1.9.0 (frontmatter, §11,
+  Appendix A session-13 row, Appendix B re-certification); .env.example
+  (the production-warning guidance); worklog Task 13; this record
+- bun audit RUN (the periodic duty): the same advisory set as sessions
+  11-12 (all dev/test/build toolchain; the direct runtime zod patched
+  at 4.6.7 — no override warranted)
+
+Stage Summary:
+- THE POLARITY ROUND: the audit's first High since session 9 — the
+  delivery family's default-ON posture now WARNS at boot in production
+  (the live-token-in-response hazard, the unset-hops precedent
+  extended), the OTP log rides the delivery gate, and the from_url
+  open-redirect guard got its first behavioral coverage (the seam + 8
+  pins + 2 e2e legs, both directions live-verified before the cure)
+- THE VERIFICATION: lint 0/0 · tsc 0 · unit 528/528 (37 files, +21) ·
+  build · smoke 15/15 · e2e 54/54 (9 specs, +2) · census MATCH; 7
+  mutation batteries (every new pin proven non-vacuous); the reference
+  walk found NO drift (title/OG/canonical/mobile menu); captures 33/34
+  PIL-verified
+- SHIPPED: the remediated codebase committed to main and pushed via
+  docs/ssh_git_wrapper_v3.py (the remote verified; no new branches)
+
 Task ID: 12
 Agent: main (Z.ai)
 Task: The session-12 count-reality census + reset-funnel e2e + UX-boundary

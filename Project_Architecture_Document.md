@@ -315,7 +315,7 @@ viralpost-ai/
 │   │   ├── layout/             ← login-card (5 views: signin/reset/sent/signup/verify) · reset-password-screen
 │   │   └── ui/toast.tsx        ← the subscribe/store toast
 │   └── lib/                    ← THE seams (see §12 Key Files)
-├── tests/                      ← 36 unit suites + e2e/ (9 specs)
+├── tests/                      ← 37 unit suites + e2e/ (9 specs)
 ├── scripts/                    ← smoke-test.sh · census.ts · prisma-env.ts
 ├── docs/                       ← plans/ · reference-investigation.md ·
 │                                  implementation-plan.md · session logs ·
@@ -504,12 +504,13 @@ in the test-pinned `src/lib/page-layout.ts`.
 | Sessions: HMAC-signed httpOnly cookie, lax, secure-in-prod, 7-day TTL, tokenVersion revocation | `src/lib/auth.ts` |
 | `AUTH_SECRET` ≥ 16 chars or production refuses to boot | `src/instrumentation.ts` → `boot-env.ts` (the boot gate — smoke leg 14) |
 | Boot flag-typo guard: unknown `VIRALPOST_*` knobs and legacy `NEO_*` spellings both warn at boot (the closed set is read verbatim) | `src/lib/boot-env.ts` (session-3, F3-1) |
+| In-app-delivery polarity warning: production + an unset `VIRALPOST_DISABLE_IN_APP_OTP`/`_RESET` warns at boot (the live-token-in-response hazard — the reset link and the OTP ride the API responses by default) | `src/lib/boot-env.ts` (session-13, S13-1) |
 | Reset tokens: 32-byte, hashed at rest, single-use, atomic consume, 60-min TTL | `api/auth/reset-password` |
 | Forgot-password is no-enumeration | always-200 shape |
 | Auth routes rate-limited per IP with Retry-After; proxy-hop depth fails closed | `src/lib/rate-limit.ts` + `VIRALPOST_PROXY_HOPS` |
 | Content-Type CSRF gate + bounded body reads | `src/lib/api.ts` |
 | OTP/reset in-app delivery OFF in production | `VIRALPOST_DISABLE_IN_APP_OTP/_RESET` |
-| Secrets never in logs, commits, or envelopes (the documented demo exception: signup/resend log the live OTP code to the SERVER console for the mail-less self-hosted workflow — never to the client; `VIRALPOST_DISABLE_IN_APP_OTP=1` + a real mail transport is the production posture) | `.env` gitignored; `.env.example` mirrors the contract |
+| Secrets never in logs, commits, or envelopes (the documented demo exception: signup/resend log the live OTP code to the SERVER console for the mail-less self-hosted workflow — never to the client; since session-13 the log rides the SAME `VIRALPOST_DISABLE_IN_APP_OTP` gate as the response payload, so the mail-transport posture writes no codes to stdout) | `.env` gitignored; `.env.example` mirrors the contract |
 | No `dangerouslySetInnerHTML` anywhere | grep-clean |
 
 ### 6.2 Security Utilities
@@ -547,8 +548,8 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 36 | 507 | `tests/*.test.ts` | Vitest (node env) |
-| E2E | 9 specs | 52 | `tests/e2e/*.spec.ts` | Playwright (production build) |
+| Unit | 37 | 528 | `tests/*.test.ts` | Vitest (node env) |
+| E2E | 9 specs | 54 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
 ### 8.2 Test Patterns
@@ -565,7 +566,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 507/52/15 and change together), and the
+(README/AGENTS/PAD/SKILL carry 528/54/15 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -671,6 +672,7 @@ the same commit as the file.)
 | `src/lib/generator.ts` | 449 | The deterministic viral-formula engine + the reference's exact prompt |
 | `src/lib/generation-counter.ts` | 102 | The 3/day quota: pure functions + the store adapter |
 | `src/lib/route-title.ts` | 56 | The unknown-route title derivation (ADR-006) |
+| `src/lib/from-url.ts` | 26 | The from_url open-redirect guard (session-13, S13-4) |
 | `src/lib/auth.ts` | 184 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
 | `src/lib/password.ts` | 67 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
@@ -681,7 +683,7 @@ the same commit as the file.)
 | `src/components/marketing/navbar.tsx` | 174 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 191 | The core surface: quota dots, generate, copy, paywall |
 | `src/components/effects/iridescence.tsx` | 221 | The WebGL hero background (aspect-aware shader) |
-| `src/components/effects/particle-text.tsx` | 301 | The canvas particle title |
+| `src/components/effects/particle-text.tsx` | 311 | The canvas particle title |
 | `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |
 | `prisma/schema.prisma` | 60 | User + ContactMessage |
 | `scripts/smoke-test.sh` | 175 | The 15-leg artifact ladder |

@@ -55,6 +55,12 @@ const env = (over: Env = {}): Env => ({
   // topology — the builder carries hops=1 so the unset-hops warning
   // (added the same session) stays opt-in to its own pins below.
   VIRALPOST_PROXY_HOPS: "1",
+  // Session-13 (S13-1): a HEALTHY production env DECLARES its delivery
+  // posture too — the builder carries both kill-switches at "1" (a real
+  // mail transport owns delivery) so the unset-delivery warning (added
+  // this session) stays opt-in to its own pins below.
+  VIRALPOST_DISABLE_IN_APP_OTP: "1",
+  VIRALPOST_DISABLE_IN_APP_RESET: "1",
   ...over,
 });
 
@@ -251,6 +257,61 @@ describe("session-9 (F9-1): the UNSET-proxy-hops trust-default warning (the dire
   it("development + unset hops: NO warning (dev boots behind no proxy contract)", () => {
     const report = bootEnvCheck(env({ NODE_ENV: "development", VIRALPOST_PROXY_HOPS: undefined }));
     expect(report.warnings).toHaveLength(0);
+  });
+});
+
+describe("session-13 (S13-1): the unset in-app-delivery warning (the live-token-in-response hazard)", () => {
+  // The polarity gap: both kill-switches ship "" (ENABLED) in
+  // .env.example — the self-hosted demo posture. On a production boot
+  // with them unset, forgot-password returns a LIVE reset link for any
+  // known email and resend returns a fresh OTP for any unverified
+  // account (verify then signs in) — anyone who can reach the API can
+  // take over any known account. The boot gate warned for strictly less
+  // dangerous knobs (the unset-hops direct-exposure hazard, F9-1) but
+  // not these. The cure mirrors that precedent exactly: warn, never
+  // fatal (the demo posture is a legitimate deployment — "a bad toggle
+  // must never take a working deployment down"); production must
+  // DECLARE the posture.
+  it("production + UNSET OTP knob: the warning (names the knob, the hazard, and the =1 fix)", () => {
+    const report = bootEnvCheck(env({ VIRALPOST_DISABLE_IN_APP_OTP: undefined }));
+    expect(report.fatal).toBeNull();
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("[boot]");
+    expect(report.warnings[0]).toContain("VIRALPOST_DISABLE_IN_APP_OTP");
+    expect(report.warnings[0]).toContain("VIRALPOST_DISABLE_IN_APP_OTP=1");
+  });
+
+  it("production + EMPTY reset knob: the same warning for the reset side (the .env.example default)", () => {
+    const report = bootEnvCheck(env({ VIRALPOST_DISABLE_IN_APP_RESET: "" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("VIRALPOST_DISABLE_IN_APP_RESET");
+    expect(report.warnings[0]).toContain("VIRALPOST_DISABLE_IN_APP_RESET=1");
+  });
+
+  it("production + BOTH knobs unset: one warning each (per-knob arms, like the off-vocab family)", () => {
+    const report = bootEnvCheck(env({ VIRALPOST_DISABLE_IN_APP_OTP: undefined, VIRALPOST_DISABLE_IN_APP_RESET: undefined }));
+    expect(report.warnings).toHaveLength(2);
+  });
+
+  it("production + both knobs at \"1\" (the declared mail-transport posture): no warning", () => {
+    const report = bootEnvCheck(env({ VIRALPOST_DISABLE_IN_APP_OTP: "1", VIRALPOST_DISABLE_IN_APP_RESET: "1" }));
+    expect(report.warnings).toHaveLength(0);
+  });
+
+  it("development + unset knobs: NO warning (the demo posture IS the dev default)", () => {
+    const report = bootEnvCheck(
+      env({ NODE_ENV: "development", VIRALPOST_DISABLE_IN_APP_OTP: undefined, VIRALPOST_DISABLE_IN_APP_RESET: undefined }),
+    );
+    expect(report.warnings).toHaveLength(0);
+  });
+
+  it("production + an off-vocabulary value: no SECOND warning (the off-vocab arm owns that face — one owner)", () => {
+    // "true" behaves as unset (= delivery enabled), but the off-vocab
+    // arm already warns for it and its message explains the value is
+    // meaningless — this arm must not double-pin that face.
+    const report = bootEnvCheck(env({ VIRALPOST_DISABLE_IN_APP_OTP: "true" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("silently behaves as unset");
   });
 });
 

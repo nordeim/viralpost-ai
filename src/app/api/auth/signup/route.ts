@@ -92,14 +92,18 @@ export async function POST(req: Request) {
       },
     });
 
-    console.info(`[verification] code for ${email}: ${code} (expires in 15 minutes)`);
-
     // Session-163 (the digma ADR-014 port): the SELF-HOSTED in-app OTP
     // delivery — the code rides the response for existing demo workflows
     // (and the e2e scratch-account funnel) exactly as digma's register
     // carries it. VIRALPOST_DISABLE_IN_APP_OTP=1 nulls it for production (an
-    // email service owns the delivery); the console log stays either way.
+    // email service owns the delivery).
+    // Session-13 (S13-2): the console log rides the SAME gate — a
+    // mail-transport deployment must not write OTPs to stdout (the
+    // demo posture keeps its log AND its payload together).
     const inAppOtpEnabled = process.env.VIRALPOST_DISABLE_IN_APP_OTP !== "1";
+    if (inAppOtpEnabled) {
+      console.info(`[verification] code for ${email}: ${code} (expires in 15 minutes)`);
+    }
     return ok({
       id: user.id,
       email: user.email,

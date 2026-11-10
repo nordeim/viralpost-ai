@@ -183,3 +183,51 @@ describe("session-11 (F11-13): the signup duplicate race answers the 400, not a 
     expect((src.match(/A user with this email already exists/g) ?? []).length).toBeGreaterThanOrEqual(2);
   });
 });
+
+describe("session-13 (S13-2): the OTP log line rides the delivery gate (secrets never in logs)", () => {
+  // The gap: both delivery routes logged the live verification code to
+  // server stdout UNCONDITIONALLY — with VIRALPOST_DISABLE_IN_APP_OTP=1
+  // (a real mail transport owns delivery) every user's OTP still landed
+  // in the logs (the skill §16 "secrets never in logs"; the demo
+  // exception is the mail-less self-hosted workflow, which keeps the
+  // log AND the response payload together). The cure: the console.info
+  // sits inside the SAME inAppOtpEnabled guard the response rides.
+  // (Written as TWO explicit pins, not a for-of over the routes — a
+  // registration loop is the S13-10 genus: one source block, two runner
+  // tests, the census undercounts.)
+  it("the signup route gates the code log on inAppOtpEnabled (the mail-transport posture stops the leak)", () => {
+    const src = stripComments(read("src/app/api/auth/signup/route.ts") ?? "");
+    const guarded = src.match(/if \(inAppOtpEnabled\) \{\s*console\.info\(/);
+    expect(guarded, "the console.info in src/app/api/auth/signup/route.ts must sit inside the inAppOtpEnabled guard").toBeTruthy();
+    expect(src.indexOf("const inAppOtpEnabled")).toBeGreaterThan(-1);
+    expect(src.indexOf("const inAppOtpEnabled")).toBeLessThan(src.indexOf("console.info"));
+    expect(src).toMatch(/verificationCode: inAppOtpEnabled \? code : null/);
+  });
+
+  it("the resend route gates the code log on inAppOtpEnabled (the same gate, the same posture)", () => {
+    const src = stripComments(read("src/app/api/auth/resend/route.ts") ?? "");
+    const guarded = src.match(/if \(inAppOtpEnabled\) \{\s*console\.info\(/);
+    expect(guarded, "the console.info in src/app/api/auth/resend/route.ts must sit inside the inAppOtpEnabled guard").toBeTruthy();
+    expect(src.indexOf("const inAppOtpEnabled")).toBeGreaterThan(-1);
+    expect(src.indexOf("const inAppOtpEnabled")).toBeLessThan(src.indexOf("console.info"));
+    expect(src).toMatch(/verificationCode: inAppOtpEnabled \? code : null/);
+  });
+});
+
+describe("session-13 (S13-5): the verify route maps the vanished-row race to the 400 envelope", () => {
+  // The findUnique→update gap: a row deleted between the read and the
+  // attempt-increment throws P2025 into the generic catch — a 500 for a
+  // condition the no-pending-code branch already answers as the 400
+  // VERIFICATION_INVALID. The forgot-password route implements the same
+  // known-error mapping (its own :117); the verify route joins it.
+  // Unreachable today (no user-delete surface exists) — the doctrine
+  // gap, not a live defect.
+  it("the verify catch maps P2025 to the VERIFICATION_INVALID 400 (not the raw 500)", () => {
+    const src = verifyRoute();
+    expect(src).toMatch(/P2025/);
+    // The mapped answer is the same envelope the no-pending-code branch
+    // serves (F12-5's message, no second spelling).
+    const invalid = src.match(/fail\("VERIFICATION_INVALID", verificationInvalidMessage\(\), 400\)/g) ?? [];
+    expect(invalid.length).toBeGreaterThanOrEqual(2);
+  });
+});

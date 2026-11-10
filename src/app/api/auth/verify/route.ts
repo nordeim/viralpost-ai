@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 import { db } from "@/lib/db";
 import { ok, fail, ERR, parseBody } from "@/lib/api";
 import { setSessionCookie } from "@/lib/auth";
@@ -97,7 +99,15 @@ export async function POST(req: Request) {
     // row's tokenVersion.
     await setSessionCookie(user.id, user.tokenVersion);
     return ok({ id: user.id, email: user.email, verified: true });
-  } catch {
+  } catch (error) {
+    // Session-13 (S13-5): a row vanishing between the findUnique and
+    // either update (the unreachable-via-API class — no user-delete
+    // surface exists) throws P2025; the forgot-password route's own
+    // known-error doctrine maps it to the SAME 400 the no-pending-code
+    // branch serves, not a raw 500.
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+      return fail("VERIFICATION_INVALID", verificationInvalidMessage(), 400);
+    }
     return ERR.INTERNAL();
   }
 }

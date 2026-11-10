@@ -37,7 +37,17 @@ import { SURFACES as A11Y_SURFACES, WIDTHS as A11Y_WIDTHS } from "./e2e/a11y-mat
 // dedup, +1 the stepped-semantic census arm, +5 the reality +
 // semantic-prose censuses below) and the e2e 50 → 52 (+2 the
 // reset-funnel e2e — F12-2, the funnel's first behavioral coverage),
-// the specs 8 → 9.
+// the specs 8 → 9. s13: 526/37 files (+6 the S13-1 boot-env delivery-
+// polarity pins, +3 the S13-2/S13-5 auth-contract pins, +2 the S13-3/
+// S13-7 effects-motion pins, +8 the from-url seam suite — S13-4, the
+// resolver's first behavioral coverage, +1 the S13-10 forms-guard census
+// arm below) and the e2e 52 → 54 (+2 the from_url round-trip legs —
+// S13-4's wiring proof). ONE post-lockstep iteration: the OTP-log pins
+// were first written inside a for-of (one source block, two runner
+// tests — census 526 vs runner 527, caught at ship time); unrolled to
+// explicit its + the loop-guard arm (its own +1 rides this ladder:
+// +6 boot-env, +3 auth-contract, +2 effects-motion, +8 from-url,
+// +2 the forms-guard + loop-arm censuses).
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -45,11 +55,11 @@ import { SURFACES as A11Y_SURFACES, WIDTHS as A11Y_WIDTHS } from "./e2e/a11y-mat
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 507;
+const UNIT = 528;
 /** Vitest suite files. */
-const SUITES = 36;
+const SUITES = 37;
 /** Playwright e2e checks (incl. the setup project's 1). */
-const E2E = 52;
+const E2E = 54;
 /** Playwright e2e spec files. */
 const E2E_SPECS = 9;
 /** Smoke ladder legs. */
@@ -259,6 +269,66 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
     for (const f of specFiles) {
       if (f === "a11y.spec.ts") continue;
       expect(read(`tests/e2e/${f}`), `${f} registers tests inside a width loop — extend the reality census's expansion formula`).not.toContain("for (const width");
+    }
+  });
+
+  // Session-13 (S13-10): the forms-guard — the census counts `it(`/`test(`
+  // source blocks, so a registration form the regex CANNOT see would
+  // decouple the constants from the runner's executed count (the
+  // badge-drift genus one notch deeper: .each( registers N tests per
+  // block, .skip(/.only( change what runs, .todo( neither counts nor
+  // runs). Zero live instances at birth (verified before the pin
+  // landed); comment-stripped so a prose mention is not a violation.
+  it("no uncountable registration form in any unit suite or e2e spec (the census's shape contract)", () => {
+    const stripComments = (src: string) =>
+      src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
+    const unitFiles = readdirSync(join(root, "tests"))
+      .filter((f) => f.endsWith(".test.ts"))
+      .sort();
+    const e2eFiles = readdirSync(join(root, "tests", "e2e"))
+      .filter((f) => f.endsWith(".spec.ts") || f === "auth.setup.ts")
+      .sort();
+    for (const f of [...unitFiles.map((f) => `tests/${f}`), ...e2eFiles.map((f) => `tests/e2e/${f}`)]) {
+      const src = stripComments(read(f));
+      const form = src.match(/\.(each|skip|only|todo|concurrent|fails)\(/);
+      expect(form, `${f} uses a "${form?.[0] ?? ""}" registration form the reality census cannot count — count it by hand and extend the census, or write plain it(/test( blocks`).toBeNull();
+    }
+  });
+
+  // Session-13 (S13-10, the loop arm — born from a REAL instance): this
+  // round's own OTP-log pin was first written inside a for-of over the
+  // two routes — ONE source `it(` block, TWO runner tests; the census
+  // said 526 while the runner said 527 (the exact badge-drift genus the
+  // census exists to catch, caught by the runner-vs-census diff at
+  // ship time). The guard: an it(/test( REGISTRATION at line start
+  // inside a for-loop body (an indent-based scan — the loop's body
+  // ends at the first non-blank line indented no deeper than the
+  // `for` itself). Loops INSIDE a test body stay legal (they assert,
+  // they don't register).
+  it("no it(/test( registration inside a for-loop body in any unit suite (the census counts source blocks)", () => {
+    const stripComments = (src: string) =>
+      src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
+    const unitFiles = readdirSync(join(root, "tests"))
+      .filter((f) => f.endsWith(".test.ts"))
+      .sort();
+    for (const f of unitFiles) {
+      const lines = stripComments(read(`tests/${f}`)).split("\n");
+      for (let i = 0; i < lines.length; i++) {
+        const forLine = lines[i].match(/^(\s*)for \(.*\) \{/);
+        if (!forLine) continue;
+        const loopIndent = forLine[1].length;
+        for (let j = i + 1; j < lines.length; j++) {
+          const line = lines[j];
+          if (line.trim() === "") continue;
+          const indent = line.length - line.trimStart().length;
+          if (indent <= loopIndent) break; // the loop body ended
+          if (/^(?:it|test)\(/.test(line.trim())) {
+            throw new Error(
+              `${f}:${j + 1} registers a test inside a for-loop body (line ${i + 1}) — the census counts SOURCE blocks, so the runner would execute more tests than UNIT counts. Unroll the loop into explicit it( blocks (the S13-10 loop-arm precedent).`,
+            );
+          }
+        }
+      }
     }
   });
 });

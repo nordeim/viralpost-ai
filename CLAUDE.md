@@ -138,11 +138,11 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 36 files / 507 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 37 files / 528 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.
-- **E2E (Playwright)**: 9 specs / 52 tests against the production build,
+- **E2E (Playwright)**: 9 specs / 54 tests against the production build,
   own port + own `db/e2e.db`, one shared login via `storageState`,
   axe-core a11y assertions on every route at two widths.
 - **Smoke (bash)**: 15 legs against the standalone artifact with a
@@ -177,7 +177,7 @@ stable (upsert-by-email) so live sessions survive.
 | `AUTH_SECRET` | HMAC session key; production boot FAILS without ≥ 16 chars |
 | `NEXT_PUBLIC_SITE_URL` | Canonical origin; inlined at build time |
 | `VIRALPOST_PROXY_HOPS` | Rate-limit IP trust depth (fails closed) |
-| `VIRALPOST_DISABLE_IN_APP_OTP` / `_RESET` | Prod kill-switches for in-response delivery |
+| `VIRALPOST_DISABLE_IN_APP_OTP` / `_RESET` | Prod kill-switches for in-response delivery (unset in production warns at boot — session-13) |
 
 ## Error Handling & Debugging
 

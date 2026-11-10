@@ -127,6 +127,29 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
       );
     }
   }
+  // Session-13 (S13-1): the in-app-delivery polarity hazard — both
+  // kill-switches ship "" (ENABLED) in .env.example, so a
+  // default-configured PRODUCTION deploy returns a live reset link for
+  // any known email (forgot-password → resetUrl) and a fresh OTP for any
+  // unverified account (resend → the code; verify then signs in). The
+  // boot gate already warned for strictly less dangerous knobs (the
+  // unset-hops direct-exposure hazard above); this arm extends the same
+  // DECLARE-YOUR-POSTURE precedent to the delivery family. Warn, never
+  // fatal (the mail-less demo posture is a legitimate self-hosted
+  // deployment); the off-vocabulary values stay owned by the off-vocab
+  // arm above (one face, one pin).
+  for (const key of ["VIRALPOST_DISABLE_IN_APP_OTP", "VIRALPOST_DISABLE_IN_APP_RESET"]) {
+    const value = env[key];
+    if (isProduction && (value === undefined || value === "")) {
+      const what =
+        key === "VIRALPOST_DISABLE_IN_APP_OTP"
+          ? "the verification code rides the signup/resend responses (anyone who can reach the API can verify — and sign in as — an unverified account)"
+          : "the password-reset link rides the forgot-password response (anyone who can reach the API can reset — and take over — any known account)";
+      warnings.push(
+        `[boot] ${key} is unset in production — ${what}. Set ${key}=1 when a real mail transport owns delivery (the self-hosted demo posture may keep it unset deliberately).`,
+      );
+    }
+  }
   const hops = env.VIRALPOST_PROXY_HOPS;
   if (hops !== undefined && hops !== "" && !/^\d+$/.test(hops)) {
     warnings.push(

@@ -75,6 +75,29 @@ test("signup with mismatched passwords answers the banner", async ({ page }) => 
   await expect(page.getByText("Passwords do not match")).toBeVisible();
 });
 
+// Session-13 (S13-4): the from_url round-trip's first BEHAVIORAL coverage
+// at the e2e layer (the resolver's logic is unit-pinned at the seam —
+// tests/from-url.test.ts; these legs pin the WIRING: the card reads the
+// param, passes its origin into the seam, and the push lands where the
+// auth wall intercepted the guest). Both directions live-verified on the
+// dev server during the session-13 audit walk.
+test("the from_url round-trip: sign-in returns to the same-origin target", async ({ page }) => {
+  await page.goto("/login?from_url=/Tool");
+  await page.getByLabel("Email").fill("sepnetflix2023@outlook.com");
+  await page.getByLabel("Password").fill("$Abcd1234");
+  await page.getByRole("button", { name: "Sign in" }).click();
+  await expect(page).toHaveURL(/\/Tool$/, { timeout: 15_000 });
+  await expect(page).toHaveTitle("Tool | ViralPost AI");
+});
+
+test("a FOREIGN from_url falls back to the plain landing (the open-redirect guard, live)", async ({ page }) => {
+  await page.goto("/login?from_url=https://evil.example/x");
+  await page.getByLabel("Email").fill("sepnetflix2023@outlook.com");
+  await page.getByLabel("Password").fill("$Abcd1234");
+  await page.getByRole("button", { name: "Sign in" }).click();
+  await expect(page).toHaveURL(/\/$/, { timeout: 15_000 });
+});
+
 // Session-11 (F11-3 + F11-4 — the verification-funnel closure): the FULL
 // round trip, previously untested at any layer: signup → the return
 // visitor's login attempt is REFUSED (verification is enforceable — the

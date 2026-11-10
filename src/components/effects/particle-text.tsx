@@ -118,14 +118,19 @@ export function ParticleText({
       const octx = off.getContext("2d");
       if (!octx) return;
       octx.fillStyle = "#fff";
-      octx.font = `${fontWeight} ${fontPx}px ${getComputedStyle(document.body).fontFamily}`;
+      // Session-13 (S13-7): the computed font family is a per-call
+      // constant — read it ONCE before the fit loop (the per-iteration
+      // re-read burned up to ~42 computed-style lookups per rasterize,
+      // repeated on every undebounced resize).
+      const fontFamily = getComputedStyle(document.body).fontFamily;
+      octx.font = `${fontWeight} ${fontPx}px ${fontFamily}`;
       octx.textBaseline = "middle";
       // Fit: shrink until the phrase fits with 4px padding.
       const text = phrase();
       let width = octx.measureText(text).width;
       while (width > offW - 8 && fontPx > 12) {
         fontPx -= 1;
-        octx.font = `${fontWeight} ${fontPx}px ${getComputedStyle(document.body).fontFamily}`;
+        octx.font = `${fontWeight} ${fontPx}px ${fontFamily}`;
         width = octx.measureText(text).width;
       }
       octx.fillText(text, 4, offH / 2);
@@ -157,13 +162,15 @@ export function ParticleText({
     };
 
     const drawPlain = () => {
-      // Reduced-motion face: plain text, no particle flight.
+      // Reduced-motion face: plain text, no particle flight. (S13-7:
+      // the font family is read once per draw call, outside the loop.)
+      const fontFamily = getComputedStyle(document.body).fontFamily;
       const scale = Math.min(1, cssW / (DESIGN_WIDTH * 0.667));
       let fontPx = fontSize * scale;
-      ctx.font = `${fontWeight} ${fontPx}px ${getComputedStyle(document.body).fontFamily}`;
+      ctx.font = `${fontWeight} ${fontPx}px ${fontFamily}`;
       while (ctx.measureText(phrase()).width > cssW - 8 && fontPx > 12) {
         fontPx -= 1;
-        ctx.font = `${fontWeight} ${fontPx}px ${getComputedStyle(document.body).fontFamily}`;
+        ctx.font = `${fontWeight} ${fontPx}px ${fontFamily}`;
       }
       ctx.fillStyle = color;
       ctx.textBaseline = "middle";
@@ -176,11 +183,14 @@ export function ParticleText({
       ctx.clearRect(0, 0, cssW, cssH);
 
       if (reduced) {
-        drawPlain();
+        // Session-13 (S13-3): advance FIRST, then draw — the old order
+        // painted the retiring phrase at every window boundary (the
+        // first phrase held ~2x its window; each swap one frame late).
         if (elapsed > waitDuration + PHASE_SECONDS.vaporize) {
           textIndex = (textIndex + 1) % texts.length;
           phaseStart = now;
         }
+        drawPlain();
         // Session-12 (F12-8): draw once, sleep until the next phrase —
         // the OLD shape re-registered requestAnimationFrame here and
         // redrew the same static text at 60 fps all day.

@@ -56,6 +56,38 @@ describe("session-12 (F12-8): the particle title's reduced-motion shape schedule
     expect(timerVar, "the reduced branch assigns its timeout to a handle").toBeTruthy();
     expect(src).toMatch(new RegExp(`clearTimeout\\(${timerVar![1]}\\)`));
   });
+
+  // Session-13 (S13-3): the branch used to draw BEFORE advancing — each
+  // timer fire painted the phrase about to retire, so the first phrase
+  // held ~2x its window and every swap landed one frame late. The pin
+  // reads the ORDER inside the branch (comment-stripped — the cure's
+  // own comment narrates the reorder).
+  it("the reduced branch ADVANCES the phrase BEFORE drawing it (each phrase exactly one window)", () => {
+    const src = bare();
+    const reduced = src.match(/if \(reduced\) \{[\s\S]*?\n {6}\}/);
+    expect(reduced, "the reduced branch must exist").toBeTruthy();
+    const advance = reduced![0].indexOf("textIndex = (textIndex + 1)");
+    const draw = reduced![0].indexOf("drawPlain()");
+    expect(advance, "the index-advance must sit inside the reduced branch").toBeGreaterThan(-1);
+    expect(draw, "the draw call must sit inside the reduced branch").toBeGreaterThan(-1);
+    expect(advance, "the advance must precede the draw (draw-after-advance)").toBeLessThan(draw);
+  });
+
+  // Session-13 (S13-7): both font-fit loops re-read the body's computed
+  // font family on EVERY shrink iteration (up to ~42 redundant
+  // computed-style reads per rasterize, per undebounced resize). The
+  // pin: neither loop body carries the computed-style read anymore
+  // (comment-stripped).
+  it("neither font-fit loop re-reads the computed font family per iteration (one read per draw call)", () => {
+    const src = bare();
+    const loops = src.match(/while \([^)]+\)[\s\S]*?\n {6}\}/g) ?? [];
+    expect(loops.length, "both font-fit while-loops must exist").toBe(2);
+    for (const loop of loops) {
+      expect(loop, "the computed-style read must be hoisted out of the loop").not.toContain("getComputedStyle");
+    }
+    // The hoisted reads still exist (once per draw call, outside the loops).
+    expect((src.match(/getComputedStyle\(document\.body\)\.fontFamily/g) ?? []).length).toBe(2);
+  });
 });
 
 describe("session-12 (F12-9): the WebGL hero re-reads devicePixelRatio inside resize()", () => {

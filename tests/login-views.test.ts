@@ -433,9 +433,13 @@ describe("session-147: the from_url round-trip (walk37 — the reference's auth-
     // no Suspense boundary needed)
     expect(src).toMatch(/useSearchParams\(\)/);
     expect(src).toMatch(/get\("from_url"\)/);
-    // THE OPEN-REDIRECT GUARD: same-origin validation before the push —
-    // never router.push(<raw param>)
-    expect(src).toMatch(/origin\s*[!=]==\s*window\.location\.origin/);
+    // THE OPEN-REDIRECT GUARD lives in the seam since session-13
+    // (S13-4 — src/lib/from-url.ts, behavioral coverage in
+    // tests/from-url.test.ts); the card's face is the WIRING: both
+    // submits pass this window's origin into the seam — never
+    // router.push(<raw param>)
+    expect(src).toMatch(/from "@\/lib\/from-url"/);
+    expect(src.match(/resolveFromUrl\(fromUrl \?\? "\/", window\.location\.origin\)/g)?.length).toBe(2);
     expect(src).not.toMatch(/router\.push\((fromUrl|from_url)\)/);
     // the fallback stays "/" (the s142/s145 plain-login pin)
     expect(src).toMatch(/resolveFromUrl|safeFromUrl|fromUrlTarget/);
@@ -576,8 +580,12 @@ describe("session-12: the UX-boundary batch (F12-3 + F12-4)", () => {
     // submit used to hard-code "/" — a guest sent to
     // /login?from_url=/Tool who completed signup→verification landed on
     // the landing instead. Both sites now route through the same
-    // open-redirect-safe resolver.
-    const sites = src.match(/resolveFromUrl\(fromUrl \?\? "\/"\)/g) ?? [];
-    expect(sites.length).toBe(2);
+    // open-redirect-safe resolver. (S13-4 re-anchor: the resolver moved
+    // to src/lib/from-url.ts and the call gained the origin argument —
+    // the both-sites wiring face is owned by the session-147 pin above;
+    // THIS pin owns the verify submit's site specifically.)
+    const verify = src.match(/async function onVerifySubmit\(\w+: [\w.]+\) \{[\s\S]*?\n  \}/);
+    expect(verify, "the verify submit must exist").toBeTruthy();
+    expect(verify![0]).toMatch(/resolveFromUrl\(fromUrl \?\? "\/", window\.location\.origin\)/);
   });
 });

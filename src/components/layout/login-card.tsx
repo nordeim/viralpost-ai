@@ -22,26 +22,19 @@ import {
   verificationResentMessage,
 } from "@/lib/verification";
 import { otpDigitsAfterPaste } from "@/lib/otp";
+import { resolveFromUrl } from "@/lib/from-url";
 import { toast } from "@/components/ui/toast";
 
 type Mode = "signin" | "signup";
 
-/** Session-147 (F-147c2 — walk37): the reference's from_url round-trip.
- *  Its new auth wall lands guests on /login?from_url=<absolute-url> and
- *  returns them to the target after a successful sign-in. THE
- *  OPEN-REDIRECT GUARD: the param is untrusted query input — only a
- *  SAME-ORIGIN URL navigates (relative values resolve against our own
- *  origin, foreign origins fall back to the plain-login target "/",
- *  malformed values too). Never router.push(<the raw param>). */
-function resolveFromUrl(raw: string): string {
-  try {
-    const u = new URL(raw, window.location.origin);
-    if (u.origin !== window.location.origin) return "/";
-    return `${u.pathname}${u.search}` || "/";
-  } catch {
-    return "/";
-  }
-}
+/** Session-147 (F-147c2 — walk37; session-13/S13-4 extracted to the pure
+ *  seam src/lib/from-url.ts): the reference's from_url round-trip. Its
+ *  auth wall lands guests on /login?from_url=<absolute-url> and returns
+ *  them to the target after a successful sign-in. THE OPEN-REDIRECT
+ *  GUARD lives in the seam (same-origin validation, origin passed as a
+ *  parameter — tests/from-url.test.ts owns the behavioral coverage);
+ *  the call sites below pass this window's origin. Never
+ *  router.push(<the raw param>). */
 
 /** The info banner's auto-dismiss (live-bounded 1.6–3.2s on the reference). */
 const INFO_BANNER_MS = 3000;
@@ -164,7 +157,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
         setError(body?.error?.message ?? "Sign in failed. Try again.");
         return;
       }
-      router.push(resolveFromUrl(fromUrl ?? "/"));
+      router.push(resolveFromUrl(fromUrl ?? "/", window.location.origin));
       router.refresh();
     } catch {
       setError("Network error — check your connection and try again.");
@@ -234,7 +227,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
         setError(body?.error?.message ?? "Invalid verification code.");
         return;
       }
-      router.push(resolveFromUrl(fromUrl ?? "/"));
+      router.push(resolveFromUrl(fromUrl ?? "/", window.location.origin));
       router.refresh();
     } catch {
       setError("Network error — check your connection and try again.");
