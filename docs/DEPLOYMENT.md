@@ -88,6 +88,14 @@ bun run db:seed        # idempotent demo user (wipes the contact inbox)
 `db/*.db` is gitignored; every fresh clone recreates it from the two
 commands above.
 
+**Re-seeding restores the demo credentials (session-17):** the seed's
+upsert update-path resets every seeded field — the demo password back to
+the publicly documented `$Abcd1234` and `tokenVersion` back to 0 (which
+re-validates any pre-reset v0 session cookies). An operator who changed
+the demo password (or reset it via the forgot-password funnel) and later
+runs `db:seed` reverts both. On an internet-exposed deployment, either
+delete the demo row after seeding or never re-seed.
+
 **Seed before exposing (the first-signup admin rule, noted session 10):**
 signup assigns `role: "admin"` to the account created when the user table
 is EMPTY and `"user"` to everyone after — an UNSEEDED production database

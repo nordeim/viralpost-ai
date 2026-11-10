@@ -30,6 +30,11 @@ export async function POST(req: Request) {
   // (uid vs IP key) — anonymous generation is BY DESIGN (the reference's
   // logged-out tool, ADR-003), so the guard's 401 response is never
   // returned; `user` degrades to null for guests and the IP bucket keys.
+  // Session-17 (S17-3): the same wiring also discards the guard's 500
+  // envelope — under a DB outage a logged-in user silently degrades to
+  // the per-IP bucket and generation still answers (the stateless
+  // engine needs no DB afterwards); the accepted graceful-degradation
+  // twin of the 401 discard.
   const guard = await requireSession();
   const user = isGuarded(guard) ? null : guard.user;
   const limitKey = `generate:${user?.id ?? clientKey(req)}`;

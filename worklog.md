@@ -1,3 +1,115 @@
+Task ID: 17
+Agent: main (Z.ai)
+Task: The session-17 comment-truth + README-table + CSRF-media-type +
+timer-hygiene round — re-run the standing instruction against the
+post-session-16 tree (81b3ada): docs review, the baseline gate on the
+merged tree (lint 0/0 · tsc 0 · unit 548/548 (37 files) · the e2e
+--list census 56/9), the comprehensive audit (0 Critical / 0 High /
+0 Medium / 2 Low / 6 Informational — the cleanest audit yet; every
+finding hand-verified in source; F17-8's Assumed tail closed by a live
+warn-level exhaustive-deps dry-run: exactly 2 flags, both
+particle-text.tsx:293, config restored clean), the neo-crm repo
+re-review (HEAD b3d0fbe — UNCHANGED since session 12's review; its
+adoption and deferral decisions stand), the live reference parity walk
+(logged-in: /Home with the "ViralPost AI" title; the mobile menu at
+390x844 — the no-aria hamburger md:hidden p-2 text-slate-300, 5
+destinations, auto-close on navigation; the OG family re-captured on
+ALL FIVE routes via DIRECT loads — prefixed og:title + per-route
+canonical on /Tool /Pricing /Contact, the unprefixed family on / and
+/login: the clone matches byte-for-byte, NO drift; the reference's SPA
+soft-navigation head quirk observed and excluded — its client-side
+router leaves the previous page's canonical/og in the head, so only
+direct loads are the parity evidence; sitemap/robots unchanged) + the
+clone's dev-server walk (hydration clean at 390x844 via localhost; the
+menu open — 5 destinations + brand; Escape WITH the focus return;
+navigate + auto-close + the derived "Tool | ViralPost AI" title) + the
+live cure probes (the S16-1 non-object vocabulary, the field-level
+messages, the S16-2 bare-/api envelope 404, the generator round-trip),
+the TDD cures, the mutation batteries (3), the gate, captures 41/42,
+push #17 to main via the SSH wrapper.
+
+Work Log:
+- THE AUDIT (0 Critical / 0 High / 0 Medium / 2 Low / 6 Informational):
+  the wide dispatch read every lib module, all 16 API route files, the
+  components, the SEO surface, ~30 suites in full, the configs, and the
+  docs; all six session-16 claims re-verified in source; all 20 PAD §12
+  rows live-matched; all 8 runtime deps + 14 devDeps carry live
+  consumers. Both Low findings are documentation-accuracy items; the
+  six Info findings are hardening/cosmetic notes — all cured or
+  verified this round.
+- THE COMMENT TRUTH (S17-1, LOW): the forgot-password no-enumeration
+  rationale cited "signup's 409 openly enumerates by design" — but
+  signup's already-exists branch answers ERR.BAD_REQUEST → HTTP 400
+  (signup/route.ts:66,120). A future auditor reasoning from the comment
+  would mis-model the sibling surface. CURED: the comment now says 400
+  (with the S17-1 provenance note naming the retired phantom).
+- THE README TABLE REPAIR (S17-2, LOW): the Project status table's
+  interior blank lines (after the session-12 row, around the two
+  "Gate at the session-N ship" fragment lines) terminated the GFM
+  table at session 12 — the session 13-16 rows rendered as header-less
+  prose on GitHub, the session-16 row (the table's most recent
+  history) among them. CURED: one continuous table (sessions 1-17),
+  the stale fragment gate lines superseded by the single post-table
+  gate line at the session-17 counts. The pinned strings (badge,
+  architecture table, quickstart lines, env table) untouched — the
+  docs-counts census green throughout.
+- THE CSRF MEDIA-TYPE PARSE (S17-5, INFO — TDD): the content-type
+  gate substring-matched — .includes("application/json") accepted
+  text/x-application/json and application/jsonx. Not exploitable for
+  the defended class (cross-site forms send only the three enctype
+  types; a JS-set Content-Type trips CORS preflight, which fails
+  closed) — pure gate hygiene on a security gate. CURED by TDD: the
+  pin FIRST (one behavioral pin owning both hostile faces, co-pinned
+  and documented in the pin's comment), RED against the .includes()
+  tree (exactly the new pin failed), then the api.ts gate parses the
+  media type (split ";", trim, lowercase, strict equality) — the
+  charset/case/absent/plain/multipart arms unchanged (the family's
+  42/42 green post-cure). MUTATION BATTERY: the gate reverted to
+  .includes REDs exactly the pin → restored → GREEN.
+- THE TIMER HYGIENE (S17-6, INFO): the two fire-and-forget marketing
+  resets (generator-card's copy flip at 2s, contact-form's sent flip
+  at 2.6s) weren't ref-tracked — a setState after unmount is a React
+  19 silent no-op (no leak), but the toast component already carries
+  the useRef + unmount-clearTimeout idiom (toast.tsx:91-99). CURED:
+  both components mirror the toast's idiom (the ref, the
+  clear-before-re-arm — which also gives a rapid re-copy its full 2s
+  window, the toast's timer-reset shape — and the unmount clear).
+  Pinned by ONE co-pinned source pin in landing-page.test.ts
+  (comment-stripped needles). MUTATION BATTERIES: removing either
+  component's unmount clear REDs exactly the pin (one battery per
+  face) → restored → GREEN.
+- THE POLISH BATCH: S17-3 — the generate route's guests-allowed wiring
+  also discards requireSession's 500 envelope (under a DB outage a
+  logged-in user silently degrades to the per-IP bucket; generation
+  still answers — the stateless engine needs no DB): the one-line
+  comment documenting the accepted degradation, the S14-3 401-discard's
+  twin. S17-4 — the DEPLOYMENT.md re-seed note (the seed's upsert
+  update-path resets the demo password to the publicly documented
+  $Abcd1234 and tokenVersion to 0, re-validating pre-reset v0 cookies).
+  S17-7 — the dead noValidate={false} removed from contact-form (an
+  explicit no-op default; the login family's bare noValidate is the
+  deliberate idiom). S17-8 — the PAD §11 S15-6 row's "exactly 2
+  exhaustive-deps flags" claim carries an independent live
+  re-verification (this round's dry-run).
+- THE LOCKSTEP: unit 548 → 550/37 files (+1 the S17-5 media-type pin,
+  +1 the S17-6 timer source pin), e2e 56 unchanged, badge 604 → 606;
+  the count-history comment; README (badge, architecture/testing
+  counts, the repaired table + the session-17 row, the gate line);
+  AGENTS (counts, the plans map's seventeenth round); CLAUDE; PAD
+  (§8.1 distribution, §8.3 doctrine line, §11's re-verified row, §12
+  header + the api.ts 230→239 and generator-card 191→203 rows); the
+  SKILL v1.12.0 → v1.13.0 (frontmatter, the §11 checklist counts,
+  Appendix A's session-17 row, Appendix B re-certified through
+  session 17); worklog Task 17 (this entry); the session-17 plan's
+  post-execution record.
+- THE GATE: lint 0/0 · tsc 0 · unit 550/550 (37 files) · build ·
+  smoke 15/15 · e2e 56/56 (9 specs) · census MATCH — on the exact
+  commit tree.
+- Captures 41/42 (the landing 1280x800 + the OPEN mobile menu
+  390x844, dev server via localhost, hydration awaited), PIL-verified.
+- Push #17 to main via the SSH wrapper (dry-run first, key shredded
+  after).
+
 Task ID: 16
 Agent: main (Z.ai)
 Task: The session-16 parse-vocabulary completion + bare-/api envelope +

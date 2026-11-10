@@ -206,6 +206,10 @@ describe("design tokens: session-11 — the census completion + the dead-CSS ret
       "only", "advance", "creates", "create", "scratch", "render",
       "width", "end", "random", "dismiss", "dismisses", "dismissing",
       "dismissed", "start",
+      // Session-17 (S17-5): api.ts's media-type comment says "never
+      // substring-matched" — the raw-text scan reads "substRING-matched"
+      // as a ring-<word> utility. English prose, never a class.
+      "matched",
       // Session-13 (S13-4): the from-url seam's MODULE PATH — the
       // import line `from "@/lib/from-url"` scans as a from-<word>
       // "utility"; a path segment, never a class.

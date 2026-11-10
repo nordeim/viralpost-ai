@@ -96,6 +96,30 @@ describe("readBoundedJson (session-165 — the digma S148-A/S75-B port)", () => 
     if (!read.tooLarge) expect(read.value).toBeNull();
   });
 
+  it("THE MEDIA-TYPE PARSE (session-17, S17-5): substring-hostile content types are unparseable-by-policy — the media type is PARSED, never substring-matched", async () => {
+    // The two faces of the loose-match genus, co-pinned (one owner):
+    // `text/x-application/json` (a non-JSON media type that CONTAINS
+    // the substring) and `application/jsonx` (a JSON-ish suffix token).
+    // The pre-17 gate ran `.includes("application/json")` — both of
+    // these passed it. Not exploitable for the CSRF class the gate
+    // defends (cross-site forms can only send the three enctype types;
+    // a JS-set Content-Type trips CORS preflight, which fails closed)
+    // — this is gate hygiene: the transport contract is the EXACT
+    // media type `application/json` (case-insensitive, `;`-suffix
+    // tolerant), nothing else.
+    const hostile = await readBoundedJson(
+      jsonRequest('{"a":1}', { "content-type": "text/x-application/json" }),
+    );
+    expect(hostile.tooLarge).toBe(false);
+    if (!hostile.tooLarge) expect(hostile.value).toBeNull();
+
+    const suffixed = await readBoundedJson(
+      jsonRequest('{"a":1}', { "content-type": "application/jsonx" }),
+    );
+    expect(suffixed.tooLarge).toBe(false);
+    if (!suffixed.tooLarge) expect(suffixed.value).toBeNull();
+  });
+
   it("the DECLARED fast path: a Content-Length over the ceiling answers tooLarge (the N-67d contract unchanged)", async () => {
     const read = await readBoundedJson(
       new Request("http://x/api/accounts", {

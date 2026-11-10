@@ -44,6 +44,17 @@ export function GeneratorCard() {
     () => 0,
   );
 
+  // Session-17 (S17-6): the copy-reset timer is ref-tracked with an
+  // unmount clear — the toast's own idiom (toast.tsx) mirrored. A
+  // setState after unmount is a React 19 no-op, but the tracked timer
+  // is the family's hygiene; the clear-before-re-arm also gives a
+  // rapid re-copy its full 2s window (the toast's timer-reset shape).
+  const resetTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  React.useEffect(() => () => {
+    if (resetTimer.current) clearTimeout(resetTimer.current);
+  }, []);
+
+
   const limitReached = used >= FREE_LIMIT;
 
   const generate = async () => {
@@ -79,7 +90,8 @@ export function GeneratorCard() {
     try {
       await navigator.clipboard.writeText(post);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      if (resetTimer.current) clearTimeout(resetTimer.current);
+      resetTimer.current = setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error("Couldn't access the clipboard.");
     }

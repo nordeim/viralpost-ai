@@ -127,8 +127,17 @@ export type BoundedJson =
  *  stays ahead of it so an over-declared body rejects before ANY read. */
 export async function readBoundedJson(req: Request): Promise<BoundedJson> {
   // Layer 1 — the content-type CSRF gate, ahead of every byte read.
+  // Session-17 (S17-5): the media type is PARSED, never
+  // substring-matched — the pre-17 `.includes("application/json")`
+  // accepted `text/x-application/json` and `application/jsonx` (not
+  // exploitable for the CSRF class this gate defends — cross-site
+  // forms can only send the three enctype types and a JS-set
+  // Content-Type trips CORS preflight — but the transport contract is
+  // the EXACT media type, nothing else). The parse keeps the
+  // case-insensitive and `;`-parameter tolerance the family relies on.
   const contentType = req.headers.get("content-type") ?? "";
-  if (!contentType.toLowerCase().includes("application/json")) {
+  const mediaType = contentType.split(";")[0]?.trim().toLowerCase() ?? "";
+  if (mediaType !== "application/json") {
     await req.body?.cancel().catch(() => {});
     return { tooLarge: false, value: null };
   }

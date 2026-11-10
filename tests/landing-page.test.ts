@@ -182,3 +182,37 @@ describe("landing: the page shells", () => {
     }
   });
 });
+
+describe("landing: the fire-and-forget reset timers are unmount-safe (session-17, S17-6)", () => {
+  // The toast's own ref + unmount-clearTimeout idiom (toast.tsx),
+  // mirrored by the two marketing fire-and-forget resets (the copy
+  // flip at 2s, the sent flip at 2.6s). Co-pinned faces — ONE owner:
+  // the planted-defect proof removes either unmount clear (or the
+  // ref tracking) and REDs this pin. The pins read comment-stripped
+  // source (the s64 needle-in-own-doc lesson).
+  const bare = (p: string) =>
+    read(p)
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/[^\n]*/g, "");
+
+  it("generator-card + contact-form track their reset timers in a ref, reset before re-arm, and clear on unmount", () => {
+    for (const [p, setter, ms] of [
+      ["src/components/marketing/generator-card.tsx", "setCopied(false)", "2000"],
+      ["src/components/marketing/contact-form.tsx", "setSent(false)", "2600"],
+    ] as const) {
+      const src = bare(p);
+      expect(src, `${p} must track the reset timer in a ref`).toContain(
+        "React.useRef<ReturnType<typeof setTimeout> | null>(null)",
+      );
+      expect(src, `${p} must clear the tracked timer before re-arming (the toast's timer-reset idiom)`).toContain(
+        "if (resetTimer.current) clearTimeout(resetTimer.current);",
+      );
+      expect(src, `${p} must clear the tracked timer on unmount`).toMatch(
+        /useEffect\(\(\) => \(\) => \{\s*if \(resetTimer\.current\) clearTimeout\(resetTimer\.current\);/,
+      );
+      expect(src, `${p} must arm the tracked timer`).toContain(
+        `resetTimer.current = setTimeout(() => ${setter}, ${ms})`,
+      );
+    }
+  });
+});

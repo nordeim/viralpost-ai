@@ -25,6 +25,15 @@ export function ContactForm() {
   const [form, setForm] = React.useState<ContactState>(EMPTY);
   const [sent, setSent] = React.useState(false);
   const [sending, setSending] = React.useState(false);
+  // Session-17 (S17-6): the sent-reset timer is ref-tracked with an
+  // unmount clear — the toast's own idiom (toast.tsx) mirrored (a
+  // setState after unmount is a React 19 no-op; the tracked timer is
+  // the family's hygiene).
+  const resetTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  React.useEffect(() => () => {
+    if (resetTimer.current) clearTimeout(resetTimer.current);
+  }, []);
+
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,7 +54,8 @@ export function ContactForm() {
       }
       setSent(true);
       setForm(EMPTY);
-      setTimeout(() => setSent(false), 2600);
+      if (resetTimer.current) clearTimeout(resetTimer.current);
+      resetTimer.current = setTimeout(() => setSent(false), 2600);
     } catch {
       toast.error("Network error — check your connection and try again.");
     } finally {
@@ -54,7 +64,7 @@ export function ContactForm() {
   };
 
   return (
-    <form className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-teal-100/50 p-8" onSubmit={submit} noValidate={false}>
+    <form className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-teal-100/50 p-8" onSubmit={submit}>
       <div className="space-y-5">
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-2" htmlFor="contact-name">

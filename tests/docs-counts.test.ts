@@ -61,6 +61,8 @@ import { SURFACES as A11Y_SURFACES, WIDTHS as A11Y_WIDTHS } from "./e2e/a11y-mat
 // source pin) and the e2e 56 unchanged (the S16-2 bare-/api assertions
 // extend the existing S15-7 leg in place — its purpose is exactly this
 // doctrine).
+// s17: 550/37 files (+1 the S17-5 bounded-reader media-type pin, +1
+// the S17-6 timer-hygiene source pin) and the e2e 56 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -68,7 +70,7 @@ import { SURFACES as A11Y_SURFACES, WIDTHS as A11Y_WIDTHS } from "./e2e/a11y-mat
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 548;
+const UNIT = 550;
 /** Vitest suite files. */
 const SUITES = 37;
 /** Playwright e2e checks (incl. the setup project's 1). */

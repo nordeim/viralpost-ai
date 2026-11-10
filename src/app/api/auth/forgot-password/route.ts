@@ -62,9 +62,11 @@ export async function POST(req: Request) {
   // (<=10ms on a local disk, under network jitter); (b) a naive scrypt
   // burn on the unknown branch would INVERT the signal — scryptSync costs
   // ~100ms and dwarfs the write, making unknown emails measurably SLOWER
-  // instead; (c) signup's 409 openly enumerates by design, so this route
-  // is not the enumeration boundary; (d) the route is rate-limited
-  // (10/IP/15min).
+  // instead; (c) signup's 400 openly enumerates by design (the
+  // already-exists branch answers ERR.BAD_REQUEST — session-17, S17-1:
+  // this comment used to say "409", the status signup never sends), so
+  // this route is not the enumeration boundary; (d) the route is
+  // rate-limited (10/IP/15min).
   const inAppResetEnabled = process.env.VIRALPOST_DISABLE_IN_APP_RESET !== "1";
   let resetUrl: string | null = null;
   // Session-9 (F9-7): the READ path classifies the transient-abort family
