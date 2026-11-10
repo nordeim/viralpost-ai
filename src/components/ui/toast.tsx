@@ -141,7 +141,10 @@ function ToastCard({ item }: { item: ToastItem }) {
         // surface is DOM-DEAD (F-131c1 — no live face to parity), so the
         // fix rides OUR superset by the trio precedent + internal
         // consistency: the LAST live hover:text-foreground ride in src/.
-        className="shrink-0 rounded-md p-1 text-subtle transition-colors hover:bg-line-soft hover:text-neutral-900"
+        // Session-14 (S14-6): the keyboard focus arm — the OTP inputs'
+        // own focus-visible family, so the only per-toast control shows
+        // its focus to keyboard users (hover-only was invisible focus).
+        className="shrink-0 rounded-md p-1 text-subtle transition-colors hover:bg-line-soft hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         aria-label="Dismiss notification"
       >
         <X className="h-3.5 w-3.5" />

@@ -231,3 +231,46 @@ describe("session-13 (S13-5): the verify route maps the vanished-row race to the
     expect(invalid.length).toBeGreaterThanOrEqual(2);
   });
 });
+
+describe("session-14 (S14-2): the resend/verify no-enumeration equalizer (the login S72-C shape)", () => {
+  // The gap: resend's no-op branch (unknown OR already-verified) returned
+  // {resent, message} with NO verificationCode key while the
+  // known-unverified branch returned {resent, message, verificationCode}
+  // — the key's PRESENCE distinguished known-unverified emails even in
+  // the production knob-off posture (signup's duplicate-email 400 can
+  // only reveal "exists", never "unverified"). And both routes answered
+  // the miss branch immediately while the known branch burned a scrypt —
+  // a timing oracle on the same state. Login closed this class at S72-C
+  // (the timing equalizer); the cures mirror it: the uniform shape (the
+  // key always present, null when undeliverable) + one scrypt burned on
+  // every miss branch. Unlike forgot-password's documented residual
+  // (where the known branch has NO scrypt and a burn would INVERT the
+  // signal), these routes' known branches ALREADY burn scrypt — the
+  // equalizer burn equalizes, never inverts.
+  it("the resend no-op branch ships the verificationCode key (null — the uniform shape)", () => {
+    const src = resendRoute();
+    // The no-op return carries the key explicitly, so the knob-off
+    // posture answers the same JSON shape for every email.
+    const noOp = src.match(/return ok\(\{\s*resent: true,\s*message: verificationResentMessage\(\),\s*verificationCode: null,?\s*\}\)/);
+    expect(noOp, "the resend no-op branch must include verificationCode: null").toBeTruthy();
+  });
+
+  it("the resend miss branch burns one scrypt (the timing equalizer)", () => {
+    const src = resendRoute();
+    // The burn sits on the no-op path: one hashVerificationCode call
+    // whose result is discarded (the equalizer input is a module const,
+    // never a code).
+    const burn = src.match(/hashVerificationCode\(RESEND_TIMING_EQUALIZER_INPUT\)/);
+    expect(burn, "the resend miss branch must burn hashVerificationCode on the equalizer input").toBeTruthy();
+    // The equalizer input is a module-level constant (not derived from
+    // user input, not the live code path).
+    expect(src).toMatch(/const RESEND_TIMING_EQUALIZER_INPUT = "/);
+  });
+
+  it("the verify miss branch burns one scrypt against the memoized equalizer hash (login's exact shape)", () => {
+    const src = verifyRoute();
+    const burn = src.match(/verifyVerificationCode\(code, timingEqualizerHash\(\)\)/);
+    expect(burn, "the verify miss branch must burn verifyVerificationCode(code, timingEqualizerHash())").toBeTruthy();
+    expect(src).toMatch(/import \{[^}]*timingEqualizerHash[^}]*\} from "@\/lib\/password"/);
+  });
+});

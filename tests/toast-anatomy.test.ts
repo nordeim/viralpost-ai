@@ -53,6 +53,16 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
     expect(x).not.toContain("hover:text-foreground");
   });
 
+  // Session-14 (S14-6): the dismiss control was hover-only — no visible
+  // keyboard focus on the ONE control each toast carries. The cure is the
+  // OTP inputs' own focus-visible family (the house pattern, login-card).
+  it("the close X shows a visible keyboard focus ring (the OTP inputs' focus-visible family)", () => {
+    const x = regionAt('aria-label="Dismiss notification"', 400, 60);
+    expect(x).toContain("focus-visible:outline-none");
+    expect(x).toContain("focus-visible:ring-2");
+    expect(x).toContain("focus-visible:ring-ring");
+  });
+
   it("the card carries NO data-[state] animation arms — the inert scaffold string retired", () => {
     expect(src).not.toContain("data-[state=open]:animate-in");
     expect(src).not.toContain("data-[state=closed]:animate-out");

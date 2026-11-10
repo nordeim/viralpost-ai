@@ -122,7 +122,11 @@ describe("session-21: the Callout error banner (S21-P3)", () => {
     expect(src).toMatch(/function ErrorCallout\(/);
     expect((src.match(/<ErrorCallout message=/g) || []).length).toBe(4);
     expect(src).toMatch(/function InfoCallout\(/);
-    expect((src.match(/role="alert"/g) || []).length).toBe(2);
+    // Session-14 (S14-5): the assertive role="alert" belongs to
+    // ErrorCallout alone; the informational resend banner rides the
+    // polite role="status" (the toast family's own doctrine, F11-17).
+    expect((src.match(/role="alert"/g) || []).length).toBe(1);
+    expect((src.match(/role="status"/g) || []).length).toBe(1);
   });
 
   it("the old bare banner classes are gone", () => {

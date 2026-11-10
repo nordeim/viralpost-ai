@@ -73,6 +73,19 @@ describe("session-12 (F12-8): the particle title's reduced-motion shape schedule
     expect(advance, "the advance must precede the draw (draw-after-advance)").toBeLessThan(draw);
   });
 
+  // Session-14 (S14-7): the swap boundary's comparison — the timer fires
+  // at EXACTLY the window edge, so a strict > misses the measure-zero
+  // on-time arrival and holds the phrase a second full window (the
+  // S13-3 symptom recurring at the boundary). The inclusive form swaps
+  // on the first arrival at-or-past the edge.
+  it("the reduced branch's swap boundary is INCLUSIVE (>= at the window edge)", () => {
+    const src = bare();
+    const reduced = src.match(/if \(reduced\) \{[\s\S]*?\n {6}\}/);
+    expect(reduced, "the reduced branch must exist").toBeTruthy();
+    expect(reduced![0]).toContain("if (elapsed >= waitDuration + PHASE_SECONDS.vaporize)");
+    expect(reduced![0]).not.toContain("if (elapsed > waitDuration + PHASE_SECONDS.vaporize)");
+  });
+
   // Session-13 (S13-7): both font-fit loops re-read the body's computed
   // font family on EVERY shrink iteration (up to ~42 redundant
   // computed-style reads per rasterize, per undebounced resize). The

@@ -186,7 +186,11 @@ export function ParticleText({
         // Session-13 (S13-3): advance FIRST, then draw — the old order
         // painted the retiring phrase at every window boundary (the
         // first phrase held ~2x its window; each swap one frame late).
-        if (elapsed > waitDuration + PHASE_SECONDS.vaporize) {
+        // Session-14 (S14-7): INCLUSIVE — the timer fires at exactly the
+        // window edge, and a strict > would miss the on-time arrival
+        // (the phrase holds a second full window — the same symptom at
+        // the boundary).
+        if (elapsed >= waitDuration + PHASE_SECONDS.vaporize) {
           textIndex = (textIndex + 1) % texts.length;
           phaseStart = now;
         }

@@ -1,3 +1,122 @@
+Task ID: 14
+Agent: main (Z.ai)
+Task: The session-14 from_url escape closure + resend equalizer +
+UX-boundary round — re-run the standing instruction against the
+post-session-13 tree (acec9aa): docs review, pristine-clone verification
+(the full baseline gate green at the documented 528/37 + 54/9 + 15
+counts — MATCH; one fresh-sandbox gap: the Playwright browser binaries
+needed `bunx playwright install chromium`, an environment note, not a
+code defect), the comprehensive audit (0 Critical / 1 High / 3 Medium /
+4 Low / 3 Informational; every load-bearing finding hand-verified in
+source; the audit's H-1 re-attributed to the RECORDED S13-1 posture —
+warn, never fatal, the session-13 decision stands), the neo-crm repo
+re-review (HEAD b3d0fbe — UNCHANGED since session 12's review; its
+adoption and deferral decisions stand), the live reference parity walk
+(logged-in: /Home, the mobile menu at 390x844 — 5 destinations,
+auto-close, the no-aria hamburger, /Tool's hard-nav title + OG family —
+NO drift since session 13) + the clone's dev-server walk (hydration
+clean, the menu open/close, Escape WITH the focus return, navigate +
+auto-close, the from_url round-trip + the foreign-origin fallback — and
+the protocol-relative escape LIVE-CONFIRMED pre-cure: the sign-in at
+/login?from_url=http://127.0.0.1:3000//evil.com?x=1 landed the browser
+on https://evil.com/?x=1), the TDD cures, the mutation batteries (9),
+the gate, captures 35/36, push #14 to main via the SSH wrapper.
+
+Work Log:
+- THE FROM_URL PROTOCOL-RELATIVE ESCAPE (S14-1, HIGH — live-verified):
+  a same-origin ABSOLUTE from_url whose path starts with "//"
+  (http://host//evil.com?x=1) passed the session-13 seam's origin check
+  (the url IS same-origin) but the returned "//evil.com?x=1" is
+  protocol-relative AT THE ROUTER — the live repro on the clone's dev
+  server signed in and landed the browser on https://evil.com/?x=1.
+  The existing pins covered the RAW "//evil" input (a different shape)
+  but not the same-origin-absolute-with-//-path form. CURED by TDD: the
+  leading-// pathname arm (backslash paths normalize to "//" in the URL
+  parser and hit the same arm; a backslash DIRECTLY after the host
+  normalizes to a SAFE single-slash path — pinned as such; an INNER //
+  ("/a//b") stays a plain same-origin path — the control pin) + 3
+  behavioral pins + the e2e leg (the mirror of the live repro). MUTATION
+  BATTERY: killing the arm REDs exactly the 2 escape pins -> restored
+- THE RESEND/VERIFY NO-ENUMERATION EQUALIZER (S14-2, MED): resend's
+  no-op branch (unknown OR already-verified email) returned
+  {resent, message} with NO verificationCode key while the
+  known-unverified branch returned {resent, message, verificationCode}
+  — the key's PRESENCE distinguished known-unverified emails even in
+  the production knob-off posture (signup's duplicate-email 400 can
+  only reveal "exists", never "unverified"), and both routes answered
+  the miss branch immediately while the known branch burned a scrypt —
+  a timing oracle on the same state. CURED by TDD: the uniform shape
+  (the no-op branch ships verificationCode: null) + one scrypt burned
+  on every miss branch (resend: hashVerificationCode on the module-const
+  equalizer input; verify: verifyVerificationCode(code,
+  timingEqualizerHash()) — login's exact S72-C shape). Unlike
+  forgot-password's documented residual (where the known branch has NO
+  scrypt and a naive burn would INVERT the signal), these routes' known
+  branches ALREADY burn scrypt — the equalizer burn equalizes, never
+  inverts. MUTATION BATTERIES: un-shaping REDs the shape pin; removing
+  either burn REDs exactly its pin -> restored
+- THE GUESTS-ALLOWED WIRING PIN (S14-3): the generate route's
+  requireSession call read like an auth wall but its 401 branch was
+  dead code — anonymous generation is BY DESIGN (ADR-003), the session
+  read only SELECTS the limiter bucket. CURED: the intent comment (the
+  guard never rejects; user degrades to null for the IP bucket) + the
+  api-robustness wiring pin (the null-fallback face pinned; a planted
+  401 wall REDs it). MUTATION BATTERY: planting the wall REDs the pin
+- THE PASSWORD CEILING SYMMETRY (S14-4): signup's shared passwordSchema
+  had NO max while reset capped at 200 — a 201+ char password set at
+  signup (the 16KB body cap allowed it) could never be REPLACED at
+  reset (the reset form dead-ended while the old password still
+  verified). CURED by TDD: the shared schema gains the 200-char max
+  with reset's own message; login's password stays unbounded (the
+  tolerant posture). MUTATION BATTERY: dropping the max REDs the pin
+- THE INFOCALLOUT POLITE ROLE (S14-5): the green resend confirmation
+  used the assertive role="alert" — the house doctrine reserves it for
+  errors (the toast family's F11-17 rule). CURED: role="status" + the
+  login-views pin re-anchored (alert 2->1, status pinned at 1). ONE
+  iteration: the component's cure comment first quoted both role
+  literals, which the RAW-source pin would have double-counted — the
+  comment now describes the doctrine without quoting the attributes.
+  MUTATION BATTERY: the revert REDs the pin -> restored
+- THE TOAST DISMISS FOCUS RING (S14-6): the dismiss control was
+  hover-only — no visible keyboard focus on the ONE control each toast
+  carries. CURED: the OTP inputs' own focus-visible family
+  (focus-visible:outline-none focus-visible:ring-2
+  focus-visible:ring-ring) + the toast-anatomy pin. MUTATION BATTERY:
+  stripping the arm REDs the pin -> restored
+- THE REDUCED-MOTION INCLUSIVE BOUNDARY (S14-7): the swap boundary used
+  a strict > on an exactly-on-schedule timer — an on-time arrival
+  (measure-zero but real) missed the swap and held the phrase a second
+  full window (the S13-3 symptom recurring at the boundary). CURED: the
+  inclusive >= + the effects-motion boundary pin. MUTATION BATTERY: the
+  revert REDs the pin -> restored
+- THE DEPTH-0 AVAILABILITY NOTE (S14-8): the shared-bucket tradeoff at
+  VIRALPOST_PROXY_HOPS=0 was documented (code comment + .env.example)
+  but the availability side — the whole deployment shares one per-route
+  ceiling (10 logins/15 min for ALL users combined) — was not stated
+  where the operator acts. CURED: the DEPLOYMENT.md hops-row one-liner
+  (depth 0 suits single-user/test; multi-user direct exposure should
+  front the app with a proxy and declare depth 1)
+- DEFERRED (documented in the plan): S14-9 (the signup count-derived
+  role race — unreachable in the seeded shape), S14-10 (the reveal SSR
+  opacity-0 — the reference's own posture), S14-11 (the delivery
+  polarity — the RECORDED S13-1 residual: warn, never fatal)
+- LOCKSTEP: unit 538/37 files (+10: +3 from-url, +3 auth-contract,
+  +1 api-robustness, +1 schemas, +1 toast-anatomy, +1 effects-motion),
+  e2e 55/9 specs (+1), badge 593 = 538+55; README (badge, architecture
+  table, testing section, the session-14 status row, the gate line);
+  AGENTS (counts, the plans map's fourteenth round); CLAUDE; PAD (§8
+  test distribution, §12 re-anchor: from-url 26->36, password 67->68,
+  particle-text 311->315); the SKILL v1.9.0 -> v1.10.0 (frontmatter,
+  §11 checklist, Appendix A session-14 row, Appendix B re-certification
+  + the session-14 re-walk); DEPLOYMENT.md (the hops row); worklog Task
+  14; the plan's execution record
+
+Result: gate GREEN at the session-14 ship — lint 0/0, tsc 0, unit
+538/538 (37 files), build, smoke 15/15, e2e 55/55 (9 specs), census
+MATCH; 9 mutation batteries; captures 35/36 PIL-verified; pushed to
+main via the SSH wrapper (dry-run first, key shredded after).
+
+
 Task ID: 13
 Agent: main (Z.ai)
 Task: The session-13 in-app-delivery polarity warning + OTP log gate +

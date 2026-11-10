@@ -26,6 +26,10 @@ const RATE_LIMIT = 20;
 const RATE_WINDOW_MS = 15 * 60 * 1000;
 
 export async function POST(req: Request) {
+  // Session-14 (S14-3): the session read only SELECTS the limiter bucket
+  // (uid vs IP key) — anonymous generation is BY DESIGN (the reference's
+  // logged-out tool, ADR-003), so the guard's 401 response is never
+  // returned; `user` degrades to null for guests and the IP bucket keys.
   const guard = await requireSession();
   const user = isGuarded(guard) ? null : guard.user;
   const limitKey = `generate:${user?.id ?? clientKey(req)}`;

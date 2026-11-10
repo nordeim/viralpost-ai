@@ -55,11 +55,11 @@ import { SURFACES as A11Y_SURFACES, WIDTHS as A11Y_WIDTHS } from "./e2e/a11y-mat
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 528;
+const UNIT = 538;
 /** Vitest suite files. */
 const SUITES = 37;
 /** Playwright e2e checks (incl. the setup project's 1). */
-const E2E = 54;
+const E2E = 55;
 /** Playwright e2e spec files. */
 const E2E_SPECS = 9;
 /** Smoke ladder legs. */

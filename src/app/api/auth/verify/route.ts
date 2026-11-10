@@ -5,6 +5,7 @@ import { ok, fail, ERR, parseBody } from "@/lib/api";
 import { setSessionCookie } from "@/lib/auth";
 import { verifySchema } from "@/lib/schemas";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
+import { timingEqualizerHash } from "@/lib/password";
 import {
   VERIFICATION_MAX_ATTEMPTS,
   isVerificationLockedOut,
@@ -59,6 +60,11 @@ export async function POST(req: Request) {
       // this branch serves expired codes and never-verified accounts
       // that have failed ZERO times; "Too many failed attempts" told
       // them they had failed five.
+      // Session-14 (S14-2): the miss branch burns one scrypt against the
+      // memoized equalizer hash — the pending-code compare below costs
+      // a scrypt, so an immediate miss answer was a timing oracle on
+      // the verification state (login's S72-C shape, the same cure).
+      verifyVerificationCode(code, timingEqualizerHash());
       return fail("VERIFICATION_INVALID", verificationInvalidMessage(), 400);
     }
 

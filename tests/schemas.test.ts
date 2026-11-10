@@ -54,6 +54,22 @@ describe("passwordSchema", () => {
       expect(result.error.issues[0].message).toBe("Password must be at least 8 characters");
     }
   });
+
+  // Session-14 (S14-4): the signup/reset ceiling symmetry — signup had NO
+  // max while reset capped at 200, so a 201+ char password set at signup
+  // (the 16KB body cap allowed it) could never be REPLACED at reset (the
+  // reset form dead-ended while the old password still verified). The
+  // shared schema now carries the same 200 ceiling reset owns; login's
+  // password stays unbounded (login never rejects on length).
+  it("session-14 (S14-4): rejects a 201+ character password at the shared ceiling (the reset family's own message)", () => {
+    const result = passwordSchema.safeParse("x".repeat(201));
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues[0].message).toBe("Password must be reasonably sized");
+    }
+    // The 200 boundary itself passes (both surfaces agree on it).
+    expect(passwordSchema.safeParse("x".repeat(200)).success).toBe(true);
+  });
 });
 
 describe("loginSchema", () => {

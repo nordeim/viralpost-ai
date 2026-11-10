@@ -34,8 +34,9 @@ export function verifyPassword(password: string, stored: string): boolean {
 // fix burns the SAME scrypt work on the miss branch against a precomputed
 // hash of a throwaway constant (the constant-work envelope; the 401
 // envelope family stays byte-identical). LAZY: computed once on the first
-// miss, never a cold-start scrypt on every module import — the login route
-// is the only consumer.
+// miss, never a cold-start scrypt on every module import. Consumers: the
+// login route (the original) + the verify route's miss branch (session-14,
+// S14-2 — the same class, the same cure).
 let equalizerHash: string | null = null;
 
 export function timingEqualizerHash(): string {

@@ -54,4 +54,29 @@ describe("session-13 (S13-4): resolveFromUrl — the open-redirect guard, behavi
     expect(resolveFromUrl("", ORIGIN)).toBe("/");
     expect(resolveFromUrl(ORIGIN, ORIGIN)).toBe("/");
   });
+
+  // Session-14 (S14-1): the protocol-relative ESCAPE — a same-origin
+  // ABSOLUTE url whose path starts with "//" passes the origin check
+  // (the url IS same-origin) but the returned string "//evil.com?x=1"
+  // is protocol-relative AT THE ROUTER. Live-verified pre-cure on the
+  // dev server: /login?from_url=http://127.0.0.1:3000//evil.com?x=1
+  // signed in and landed the browser on https://evil.com/?x=1.
+  it("a same-origin url with a LEADING // path falls back (the protocol-relative escape)", () => {
+    expect(resolveFromUrl("http://localhost:3000//evil.com", ORIGIN)).toBe("/");
+    expect(resolveFromUrl(`${ORIGIN}//evil.com?x=1`, ORIGIN)).toBe("/");
+  });
+
+  it("a backslash path normalizes to // in the URL parser and falls back too", () => {
+    // "/\evil.com" → the parser normalizes the backslash to a slash →
+    // pathname "//evil.com" → the leading-// arm catches it.
+    expect(resolveFromUrl(`${ORIGIN}/\\evil.com`, ORIGIN)).toBe("/");
+    // A backslash DIRECTLY after the host ("host\evil.com") normalizes
+    // to the SINGLE-slash path "/evil.com" — a plain same-origin path
+    // (the browser requests /evil.com from OUR origin), so it passes.
+    expect(resolveFromUrl(`${ORIGIN}\\evil.com`, ORIGIN)).toBe("/evil.com");
+  });
+
+  it("a deep path with an INNER // still passes (the guard targets the leading form only)", () => {
+    expect(resolveFromUrl("/a//b?x=1", ORIGIN)).toBe("/a//b?x=1");
+  });
 });

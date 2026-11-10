@@ -19,6 +19,16 @@ export function resolveFromUrl(raw: string, origin: string): string {
   try {
     const u = new URL(raw, origin);
     if (u.origin !== origin) return "/";
+    // Session-14 (S14-1): a same-origin url whose PATH starts with "//"
+    // (http://host//evil.com) is the protocol-relative ESCAPE — the
+    // origin check above passes (the url IS same-origin) but the
+    // returned string "//evil.com" navigates CROSS-ORIGIN at the router
+    // (live-verified pre-cure: the sign-in landed on https://evil.com).
+    // Backslash paths normalize to "//" inside the URL parser and are
+    // caught by the same arm; an INNER "//" ("/a//b") stays a plain
+    // same-origin path. The leading-"/" belt-and-braces arm covers any
+    // parser shape a future spec change could introduce.
+    if (!u.pathname.startsWith("/") || u.pathname.startsWith("//")) return "/";
     return `${u.pathname}${u.search}` || "/";
   } catch {
     return "/";

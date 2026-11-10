@@ -65,6 +65,20 @@ describe("the { ok, error } envelope family", () => {
     expect(src).toContain("generate:${user?.id ?? clientKey(req)}");
   });
 
+  // Session-14 (S14-3): the guard shape reads like an auth wall but
+  // enforces nothing — anonymous generation is BY DESIGN (the
+  // reference's logged-out tool, ADR-003); the session read only
+  // SELECTS the limiter bucket (uid vs IP). The wiring pin freezes the
+  // null-fallback face so the route can neither silently grow a 401
+  // wall nor lose the uid bucket.
+  it("session-14 (S14-3): the generate route's session guard only selects the bucket (guests generate — no 401 wall)", () => {
+    const src = stripComments(read("src/app/api/generate/route.ts") ?? "");
+    expect(src).toContain("const user = isGuarded(guard) ? null : guard.user;");
+    // The guard's 401 response is never returned anywhere in the route.
+    expect(src).not.toMatch(/return\s+guard\.response/);
+    expect(src).not.toMatch(/return\s+(?:await\s+)?guard\b/);
+  });
+
   it("the contact route keys its limiter per IP", () => {
     const src = stripComments(read("src/app/api/contact/route.ts") ?? "");
     expect(src).toContain("contact:${clientKey(req)}");

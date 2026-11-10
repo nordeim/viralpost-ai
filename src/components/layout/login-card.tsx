@@ -822,11 +822,14 @@ function ErrorCallout({ message }: { message: string }) {
 /**
  * S21-P5: the reference's resend confirmation — the GREEN Callout
  * (bg-green-50/70 + border-green-200), auto-dismissed by the card after
- * the live-bounded ~3s.
+ * the live-bounded ~3s. Session-14 (S14-5): the polite live-region role
+ * — the house doctrine (toast.tsx, F11-17) reserves the assertive alert
+ * role for errors; an informational announcement must not interrupt the
+ * screen-reader stream urgently.
  */
 function InfoCallout({ message }: { message: string }) {
   return (
-    <div role="alert" className={LOGIN_INFO_CALLOUT.callout}>
+    <div role="status" className={LOGIN_INFO_CALLOUT.callout}>
       <div className={LOGIN_INFO_CALLOUT.text}>{message}</div>
     </div>
   );

@@ -98,6 +98,22 @@ test("a FOREIGN from_url falls back to the plain landing (the open-redirect guar
   await expect(page).toHaveURL(/\/$/, { timeout: 15_000 });
 });
 
+// Session-14 (S14-1): the protocol-relative ESCAPE — a same-origin
+// ABSOLUTE from_url whose path starts with "//" passed the seam's origin
+// check (the url IS same-origin) but the returned "//evil.com?x=1" is
+// protocol-relative at the router. Live-verified pre-cure on the dev
+// server (the browser landed on https://evil.com/?x=1); the leading-//
+// arm now falls back to the plain landing.
+test("a same-origin from_url with a LEADING // path falls back (the protocol-relative escape)", async ({ page }) => {
+  await page.goto("/login");
+  const base = new URL(page.url()).origin;
+  await page.goto(`/login?from_url=${encodeURIComponent(`${base}//evil.com?x=1`)}`);
+  await page.getByLabel("Email").fill("sepnetflix2023@outlook.com");
+  await page.getByLabel("Password").fill("$Abcd1234");
+  await page.getByRole("button", { name: "Sign in" }).click();
+  await expect(page).toHaveURL(/\/$/, { timeout: 15_000 });
+});
+
 // Session-11 (F11-3 + F11-4 — the verification-funnel closure): the FULL
 // round trip, previously untested at any layer: signup → the return
 // visitor's login attempt is REFUSED (verification is enforceable — the

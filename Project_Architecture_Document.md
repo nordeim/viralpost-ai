@@ -548,8 +548,8 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 37 | 528 | `tests/*.test.ts` | Vitest (node env) |
-| E2E | 9 specs | 54 | `tests/e2e/*.spec.ts` | Playwright (production build) |
+| Unit | 37 | 538 | `tests/*.test.ts` | Vitest (node env) |
+| E2E | 9 specs | 55 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
 ### 8.2 Test Patterns
@@ -566,7 +566,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 528/54/15 and change together), and the
+(README/AGENTS/PAD/SKILL carry 538/55/15 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -672,9 +672,9 @@ the same commit as the file.)
 | `src/lib/generator.ts` | 449 | The deterministic viral-formula engine + the reference's exact prompt |
 | `src/lib/generation-counter.ts` | 102 | The 3/day quota: pure functions + the store adapter |
 | `src/lib/route-title.ts` | 56 | The unknown-route title derivation (ADR-006) |
-| `src/lib/from-url.ts` | 26 | The from_url open-redirect guard (session-13, S13-4) |
+| `src/lib/from-url.ts` | 36 | The from_url open-redirect guard (session-13, S13-4; the leading-// arm, session-14, S14-1) |
 | `src/lib/auth.ts` | 184 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
-| `src/lib/password.ts` | 67 | scrypt hash/verify + the timing equalizer |
+| `src/lib/password.ts` | 68 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
 | `src/lib/db-path.ts` | 239 | THE database path resolver (ADR-008) |
 | `src/lib/site.ts` | 138 | The metadata factory + canonical origin seam |
@@ -683,7 +683,7 @@ the same commit as the file.)
 | `src/components/marketing/navbar.tsx` | 174 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 191 | The core surface: quota dots, generate, copy, paywall |
 | `src/components/effects/iridescence.tsx` | 221 | The WebGL hero background (aspect-aware shader) |
-| `src/components/effects/particle-text.tsx` | 311 | The canvas particle title |
+| `src/components/effects/particle-text.tsx` | 315 | The canvas particle title |
 | `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |
 | `prisma/schema.prisma` | 60 | User + ContactMessage |
 | `scripts/smoke-test.sh` | 175 | The 15-leg artifact ladder |

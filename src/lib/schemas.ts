@@ -25,10 +25,17 @@ const emailFormat = emailField("Enter a valid email address").regex(
 
 export const emailSchema = emailFormat;
 
-/** Passwords: the 8-char minimum every password-setting surface enforces. */
+/** Passwords: the 8-char minimum every password-setting surface enforces,
+ * plus the 200-char ceiling the reset family has always owned — session-14
+ * (S14-4) aligned the shared schema: a 201+ char password accepted at
+ * signup (the 16KB body cap allowed it) could never be REPLACED at reset
+ * (reset's own cap rejected it while the old password still verified).
+ * Login's password field stays unbounded — login never rejects on length
+ * (the tolerant posture for hashes minted before the ceiling). */
 export const passwordSchema = z
   .string()
-  .min(8, "Password must be at least 8 characters");
+  .min(8, "Password must be at least 8 characters")
+  .max(200, "Password must be reasonably sized");
 
 export const loginSchema = z
   .object({

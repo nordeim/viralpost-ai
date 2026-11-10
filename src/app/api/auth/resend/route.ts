@@ -8,6 +8,16 @@ import { generateVerifyCode } from "@/lib/password";
 
 export const dynamic = "force-dynamic";
 
+/** Session-14 (S14-2): the timing equalizer's input — a throwaway
+ * constant, never a code, never user input. The no-op branch burns one
+ * scrypt hash against it so response latency no longer distinguishes
+ * known-unverified emails (the known branch burns hashVerificationCode
+ * on the fresh code; the miss branch burns the same work class — the
+ * login route's S72-C shape; unlike forgot-password's documented
+ * residual, the known branch here ALREADY burns scrypt, so the burn
+ * equalizes rather than inverts the signal). */
+const RESEND_TIMING_EQUALIZER_INPUT = "viralpost-resend-timing-equalizer-constant";
+
 /**
  * POST /api/auth/resend — session-21 (S21-P5), the verify-email view's
  * "Didn't receive the code? Resend". The info banner "New verification
@@ -47,7 +57,12 @@ export async function POST(req: Request) {
     if (!user || !unverifiedAccount(user.verificationCodeHash)) {
       // Unknown account or nothing to resend: answer with the same info
       // banner (the reference's non-leaking posture) — a rate-limited no-op.
-      return ok({ resent: true, message: verificationResentMessage() });
+      // Session-14 (S14-2): the branch burns one scrypt (the equalizer)
+      // and ships the SAME response shape as the known branch — the
+      // key's presence no longer leaks the verification state, and the
+      // timing no longer distinguishes it either.
+      hashVerificationCode(RESEND_TIMING_EQUALIZER_INPUT);
+      return ok({ resent: true, message: verificationResentMessage(), verificationCode: null });
     }
 
     const code = generateVerifyCode();
