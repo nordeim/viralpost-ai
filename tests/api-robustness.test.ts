@@ -120,6 +120,46 @@ describe("the { ok, error } envelope family", () => {
     const gen = stripComments(read("src/lib/generator.ts") ?? "");
     expect(gen).toMatch(/export function ideaTooLongMessage/);
   });
+
+  // Session-15 (S15-2): the two route-local parse sites (generate +
+  // contact) used to feed readBoundedJson's null (the content-type CSRF
+  // gate's unparseable-by-policy class, or unparseable JSON) straight to
+  // safeParse — contact answered Zod's dev-facing "Invalid input:
+  // expected object, received null" (live-confirmed) and generate
+  // answered the describe-first message for a malformed body. The auth
+  // family's parseBody seam answers the pinned "Invalid request body"
+  // for this class; the route-local sites join the vocabulary.
+  describe("session-15 (S15-2): the route-local parse sites answer the parseBody null-body vocabulary", () => {
+    it("both routes null-check read.value ahead of safeParse (the pinned Invalid request body)", () => {
+      for (const rel of ["src/app/api/generate/route.ts", "src/app/api/contact/route.ts"]) {
+        const src = stripComments(read(rel) ?? "");
+        // The null arm sits between the tooLarge arm and the safeParse.
+        const tooLarge = src.indexOf("read.tooLarge");
+        const nullArm = src.indexOf("read.value === null");
+        const parse = src.indexOf("safeParse(");
+        expect(nullArm, `${rel}: no read.value === null arm`).toBeGreaterThan(-1);
+        expect(tooLarge, `${rel}: no tooLarge arm`).toBeGreaterThan(-1);
+        expect(parse, `${rel}: no safeParse`).toBeGreaterThan(-1);
+        expect(nullArm, `${rel}: the null arm must precede safeParse`).toBeLessThan(parse);
+        const armWindow = src.slice(nullArm, nullArm + 160);
+        expect(armWindow, `${rel}: the null arm must answer the parseBody vocabulary`).toContain(
+          '"Invalid request body"',
+        );
+      }
+    });
+
+    it("generate's over-length message fires only for STRING ideas (a non-string idea is the empty-idea branch)", () => {
+      // A JSON body like {"idea": 999999} fails the schema on TYPE, but
+      // String(999999) is non-empty — the old branch answered the
+      // over-length message for a type error. Only a genuine string idea
+      // can be over-length.
+      const src = stripComments(read("src/app/api/generate/route.ts") ?? "");
+      const branch = src.match(
+        /typeof rawIdea === "string" && rawIdea\.trim\(\)\.length > 0\s*\?\s*ideaTooLongMessage\(\)/,
+      );
+      expect(branch, "the over-length arm must gate on typeof rawIdea === 'string'").toBeTruthy();
+    });
+  });
 });
 
 describe("the sessioned me/logout family", () => {

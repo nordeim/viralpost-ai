@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 import { db } from "@/lib/db";
 import { ok, ERR, parseBody } from "@/lib/api";
 import { resendSchema } from "@/lib/schemas";
@@ -89,7 +91,18 @@ export async function POST(req: Request) {
       message: verificationResentMessage(),
       verificationCode: inAppOtpEnabled ? code : null,
     });
-  } catch {
+  } catch (error) {
+    // Session-15 (S15-1): a row vanishing between the findUnique and the
+    // re-mint (the unreachable-via-API class — no user-delete surface
+    // exists) throws P2025; the sibling doctrine maps it to the SAME
+    // no-op the unknown-account branch serves (verify's S13-5 arm →
+    // 400; forgot-password's arm → stored=false), never a raw 500 for a
+    // condition the branch contract promises as a rate-limited no-op.
+    // The timing already matches the known branch — the scrypt burn
+    // happened building the update data before the throw.
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+      return ok({ resent: true, message: verificationResentMessage(), verificationCode: null });
+    }
     return ERR.INTERNAL();
   }
 }

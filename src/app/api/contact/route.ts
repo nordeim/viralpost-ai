@@ -28,6 +28,13 @@ export async function POST(req: Request) {
 
   const read = await readBoundedJson(req);
   if (read.tooLarge) return fail("BAD_REQUEST", "Request body too large");
+  // Session-15 (S15-2): the null-body class (the content-type CSRF gate's
+  // unparseable-by-policy form, or unparseable JSON) answers the parseBody
+  // vocabulary — feeding null to safeParse leaked Zod's dev-facing
+  // "Invalid input: expected object, received null" to the client
+  // (live-confirmed). The auth family's seam owns this message; the
+  // route-local site joins it.
+  if (read.value === null) return fail("BAD_REQUEST", "Invalid request body");
   const parsed = contactSchema.safeParse(read.value);
   if (!parsed.success) {
     const first = parsed.error.issues[0];

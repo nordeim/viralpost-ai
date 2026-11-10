@@ -1,7 +1,7 @@
 {
   "name": "viralpost-ai",
   "version": "1.0.0",
-  "description": "ViralPost AI — Next.js 16 + React 19 + Prisma/SQLite AI social-post generator (clone of viralpostai.base44.app)",
+  "description": "ViralPost AI \u2014 Next.js 16 + React 19 + Prisma/SQLite AI social-post generator (clone of viralpostai.base44.app)",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
@@ -24,7 +24,6 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.525.0",
     "next": "^16.4.2",
-    "prisma": "^6.19.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "tailwind-merge": "^3.7.0",
@@ -38,8 +37,9 @@
     "@types/react-dom": "^19.3.0",
     "axe-core": "^4.13.0",
     "eslint": "^9.39.5",
-    "eslint-config-next": "^16.4.2",
+    "eslint-config-next": "^16.4.6",
     "fast-check": "^4.10.2",
+    "prisma": "^6.19.3",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
     "vitest": "^5.0.5"
@@ -50,5 +50,8 @@
   "allowScripts": {
     "prisma@6.19.3": true,
     "@prisma/client@6.19.3": true
+  },
+  "resolutions": {
+    "zod": "4.6.7"
   }
 }

@@ -53,6 +53,12 @@ export async function POST(req: Request) {
 
   const read = await readBoundedJson(req);
   if (read.tooLarge) return fail("BAD_REQUEST", "Request body too large");
+  // Session-15 (S15-2): the null-body class (the content-type CSRF gate's
+  // unparseable-by-policy form, or unparseable JSON) answers the parseBody
+  // vocabulary — the old branch answered the describe-first message for a
+  // malformed body (misleading: the user's client sent no parseable idea
+  // at all). The auth family's seam owns this message.
+  if (read.value === null) return fail("BAD_REQUEST", "Invalid request body");
   const parsed = bodySchema.safeParse(read.value);
   if (!parsed.success) {
     // Session-11 (F11-7): the schema's max(1000) is a FAST PRE-FILTER in
@@ -62,13 +68,19 @@ export async function POST(req: Request) {
     // describe their idea; the textarea has no maxLength, so a paste
     // reaches the boundary). Only a genuinely EMPTY idea keeps the
     // describe-first message.
+    // Session-15 (S15-2): only a STRING idea can be over-length — a
+    // non-string idea ({"idea": 999}) is a type error and answers the
+    // describe-first branch (String(999) used to reach the over-length
+    // message for a type error).
     const rawIdea =
       read.value && typeof read.value === "object" && "idea" in read.value
-        ? String((read.value as { idea: unknown }).idea)
+        ? (read.value as { idea: unknown }).idea
         : "";
     return fail(
       "BAD_REQUEST",
-      rawIdea.trim().length > 0 ? ideaTooLongMessage() : "Describe your post idea first.",
+      typeof rawIdea === "string" && rawIdea.trim().length > 0
+        ? ideaTooLongMessage()
+        : "Describe your post idea first.",
     );
   }
 

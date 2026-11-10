@@ -548,8 +548,8 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 37 | 538 | `tests/*.test.ts` | Vitest (node env) |
-| E2E | 9 specs | 55 | `tests/e2e/*.spec.ts` | Playwright (production build) |
+| Unit | 37 | 543 | `tests/*.test.ts` | Vitest (node env) |
+| E2E | 9 specs | 56 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
 ### 8.2 Test Patterns
@@ -566,7 +566,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 538/55/15 and change together), and the
+(README/AGENTS/PAD/SKILL carry 543/56/15 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -656,6 +656,8 @@ delivery.
 | LOW | The generator is formula-driven, not model-generated | Post quality ceiling | By design (ADR-002); the provider face is the documented lift |
 | LOW | Signup verification codes are delivered in-response (demo mode) until a mail transport is configured | Demo posture in dev | Mitigated in prod by `VIRALPOST_DISABLE_IN_APP_OTP` |
 | LOW | `skills/` (the owner's catalog) rides in the repo but is excluded from every gate | Repo weight only | By the owner's design; artifact hygiene asserts it never ships |
+| LOW | The logout endpoint carries no CSRF defense (session-15, S15-5) | A cross-site page can force a logout (Set-Cookie clears the session regardless of SameSite sending rules) — nuisance only, no account takeover | Accepted: an Origin check would risk breaking self-hosted proxy topologies (Origin ≠ Host); the family template's §16 checklist does not require it |
+| LOW | `eslint.config.mjs` ships the family template's off-switches (`react-hooks/exhaustive-deps` etc. — session-15, S15-6) | No automated tripwire for hook-dependency regressions | Accepted with evidence: a dry run surfaces exactly 2 flags, both `particle-text.tsx`'s deliberate `texts.join("\|")` stability idiom; re-enabling requires restructuring that idiom first — the tsc-strict gate + the census tests compensate meanwhile |
 
 Swept at session-2 ship — no open CRITICAL/HIGH items.
 
@@ -680,11 +682,12 @@ the same commit as the file.)
 | `src/lib/site.ts` | 138 | The metadata factory + canonical origin seam |
 | `src/lib/api.ts` | 222 | The envelope + the bounded JSON reader |
 | `src/app/globals.css` | 217 | The Tailwind v4 theme (ADR-005) |
-| `src/components/marketing/navbar.tsx` | 174 | The nav + the mobile menu (parity-verified) |
+| `src/components/marketing/navbar.tsx` | 179 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 191 | The core surface: quota dots, generate, copy, paywall |
 | `src/components/effects/iridescence.tsx` | 221 | The WebGL hero background (aspect-aware shader) |
 | `src/components/effects/particle-text.tsx` | 315 | The canvas particle title |
 | `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |
+| `src/app/api/[...path]/route.ts` | 34 | The API subtree's envelope 404 (session-15, S15-7) |
 | `prisma/schema.prisma` | 60 | User + ContactMessage |
 | `scripts/smoke-test.sh` | 175 | The 15-leg artifact ladder |
 

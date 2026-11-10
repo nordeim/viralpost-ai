@@ -115,7 +115,12 @@ export function Navbar() {
         <button
           ref={menuButtonRef}
           type="button"
-          className="md:hidden p-2 text-slate-300"
+          // Session-15 (S15-8): the keyboard focus arm — the S14-6
+          // toast-dismiss family. slate-300 (not the house ring-ring
+          // #0f172a) because the navbar is dark: the toggle's OWN ink is
+          // the only ring that reads on slate-950. Keyboard-only
+          // visibility — the reference's base classes are untouched.
+          className="md:hidden p-2 text-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-menu"

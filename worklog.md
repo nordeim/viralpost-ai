@@ -1,3 +1,105 @@
+Task ID: 15
+Agent: main (Z.ai)
+Task: The session-15 resend P2025 sibling arm + null-body vocabulary +
+API-envelope 404 round — re-run the standing instruction against the
+post-session-14 tree (a73e941): docs review, the baseline gate on the
+merged tree (GREEN at the documented 538/37 + 55/9 + 15 counts — MATCH;
+census MATCH), the comprehensive audit (0 Critical / 0 High / 0 Medium /
+3 Low / 6 Informational; every load-bearing finding hand-verified in
+source; S15-2 and S15-7 live-confirmed on the dev API pre-cure), the
+neo-crm repo re-review (HEAD b3d0fbe — UNCHANGED since session 12's
+review; its adoption and deferral decisions stand), the live reference
+parity walk (logged-in: /Home, the mobile menu at 390x844 — 5
+destinations, auto-close, the no-aria hamburger byte-identical to the
+clone's base classes, /Tool's hard-nav title + OG family + root
+canonical — NO drift since session 14) + the clone's dev-server walk
+(hydration clean, the menu open/close, Escape WITH the focus return,
+navigate + auto-close, the from_url=/Tool round-trip, the S14-1 escape
+REGRESSION check — the protocol-relative from_url lands on / post-cure),
+the TDD cures, the mutation batteries (5), the gate, captures 37/38,
+push #15 to main via the SSH wrapper.
+
+Work Log:
+- THE RESEND P2025 SIBLING ARM (S15-1, LOW): the vanished-row
+  findUnique→update race fell into resend's blanket catch → the raw
+  500, while verify maps the same race to its 400 (S13-5) and
+  forgot-password to stored=false. CURED by TDD: the arm returns the
+  SAME no-op 200 the unknown-account branch serves (the timing already
+  matches — the scrypt burn happened building the update data before
+  the throw). ONE pin iteration the battery forced: the first pin form
+  (P2025-in-source + noOp>=2) survived a `false &&` sabotage — the
+  condition-form face (instanceof + the code literal, regex-pinned)
+  added; BOTH mutation forms (disabled + fully removed) then RED
+  exactly the pin.
+- THE NULL-BODY VOCABULARY (S15-2, LOW — live-confirmed pre-cure): the
+  two route-local parse sites fed readBoundedJson's null (the
+  content-type CSRF gate's unparseable-by-policy class, or unparseable
+  JSON) straight to safeParse — contact leaked Zod's dev-facing
+  "Invalid input: expected object, received null" to the client (curl
+  -H "content-type: text/plain" POST /api/contact reproduced it), and
+  generate answered the over-length message for a non-string idea
+  (String(999) is non-empty) and the describe-first message for a
+  malformed body. CURED by TDD: both sites null-check read.value ahead
+  of safeParse with the parseBody vocabulary ("Invalid request body"),
+  and the over-length arm gates on typeof rawIdea === "string". Both
+  mutation forms (arm removal, typeof-gate removal) RED exactly their
+  pins.
+- THE API-ENVELOPE 404 (S15-7, INFO — live-confirmed pre-cure): unknown
+  /api paths answered the HTML 404 body (the root page catch-all wins
+  where no route exists; content-type text/html on
+  /api/nonexistent-endpoint). CURED: src/app/api/[...path]/route.ts —
+  the envelope's JSON 404 (NOT_FOUND, "Unknown API endpoint") across
+  GET/POST/PUT/PATCH/DELETE (a single-method route would hand POST
+  /api/typo a 405 for a path that does not exist), force-dynamic for
+  the api family's uniform shape. RED first (the e2e leg against the
+  pre-cure build), GREEN after the route; the e2e leg covers GET on two
+  unknown paths + POST.
+- THE A11Y/AUDIT POLISH: the signin view's Mail/Lock input icons gained
+  aria-hidden="true" (S15-4 — the file's only two stragglers; every
+  sibling view carried it); the mobile hamburger gained the house
+  keyboard focus ring (S15-8 — focus-visible:outline-none ring-2
+  ring-SLATE-300: the house ring-ring #0f172a is invisible on the dark
+  navbar, slate-300 is the toggle's OWN ink per the reference's own
+  class; keyboard-only visibility, the reference's base classes
+  untouched); the Escape e2e leg gained the toBeFocused assertion
+  (S15-9 — the focus return is now behavioral, not just source-pinned).
+- THE DEPENDENCY HYGIENE (S15-3): prisma moved to devDependencies (the
+  runtime import is @prisma/client; the CLI is a dev/build duty — the
+  audit graph now honest); eslint-config-next 16.4.2 → 16.4.6 (targeted,
+  lint+tsc re-verified); the nested zod@4.6.5 under eslint-plugin-
+  react-hooks retired via the resolutions pin (zod: 4.6.7 — the
+  lockfile's stale nested entry deduped away, the stale physical copy
+  pruned) — bun audit 10 → 9 advisories, ALL dev-toolchain (minimatch/
+  eslint lint-time, deepmerge-ts/prisma-CLI build-time, vite/launch-
+  editor test-runner; zero runtime request-path exposure).
+- THE DEFERRALS (documented in the PAD §11 register with evidence):
+  S15-5 the logout CSRF nuisance (a cross-site page can force a logout
+  — Set-Cookie clears regardless of SameSite sending rules; nuisance
+  only; an Origin check risks breaking self-hosted proxy topologies
+  where Origin ≠ Host) and S15-6 the eslint off-switches (dry-run
+  evidence: exhaustive-deps surfaces exactly 2 flags, both
+  particle-text's deliberate texts.join("|") stability idiom;
+  re-enabling requires restructuring that idiom first).
+- THE VERIFICATION: lint 0/0 · tsc 0 · unit 543/543 (37 files, +5: the
+  S15-1 sibling pin, +2 the S15-2 vocabulary pins, +1 the S15-4 icon
+  pin, +1 the S15-8 ring pin) · build · smoke 15/15 · e2e 56/56 (+1
+  the api-envelope 404 leg; the S15-9 focus assertion strengthened an
+  existing leg) · census MATCH · the reality census re-anchored FIRST
+  (the constants 538→543, 55→56; the PAD §12 inventory rows: navbar
+  174→179 + the new api-catch-all row).
+- THE DOCS LOCKSTEP: README (badge 599 = 543+56, the architecture +
+  testing counts, the API table's catch-all row, the session-15 status
+  row, the gate line) · AGENTS (counts, the plans map's fifteenth
+  round) · CLAUDE (counts) · PAD (§8 test distribution + §8.3 + §11's
+  two deferral rows + §12's inventory) · the SKILL v1.10.0 → v1.11.0
+  (frontmatter, the §11 checklist counts, Appendix A's session-15 row,
+  Appendix B re-certified through session 15) · this worklog Task 15 ·
+  the session-15 plan's execution record.
+- SHIPPED: the remediated tree + the six docs in lockstep + the plan
+  doc (docs/plans/2026-11-10-session15-resend-p2025-sibling-null-body-
+  vocabulary-and-api-envelope-404.md) + captures 37/38, committed to
+  main and pushed via docs/ssh_git_wrapper_v3.py
+
 Task ID: 14
 Agent: main (Z.ai)
 Task: The session-14 from_url escape closure + resend equalizer +

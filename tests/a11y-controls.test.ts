@@ -91,4 +91,29 @@ describe("named-control source pins (the open surfaces)", () => {
     const nav = read("src/components/marketing/navbar.tsx");
     expect(nav).toContain('aria-current={active === r.id ? "page" : undefined}');
   });
+
+  it("session-15 (S15-4): the signin view's decorative input icons carry aria-hidden (the sibling views' own pattern)", () => {
+    // The reset/signup/verify views' Mail/Lock icons all carry
+    // aria-hidden="true" (their LOGIN_*_LAYOUT.inputIcon rides); the
+    // signin view's two were the file's only stragglers — empty lucide
+    // svgs are ignored by AT today, but a future title-bearing icon
+    // would be announced on the signin view only.
+    const src = read("src/components/layout/login-card.tsx");
+    expect(src).toContain('<Mail className={LOGIN_LAYOUT.inputIcon} aria-hidden="true" />');
+    expect(src).toContain('<Lock className={LOGIN_LAYOUT.inputIcon} aria-hidden="true" />');
+  });
+
+  it("session-15 (S15-8): the mobile hamburger carries the house keyboard focus ring (slate-300 — the toggle's own ink, reads on the dark navbar)", () => {
+    // The S14-6 toast-dismiss precedent applied to the only mobile-nav
+    // control. The house ring-ring token (#0f172a) is invisible on the
+    // dark slate navbar — slate-300 is the toggle's OWN ink (the
+    // reference's own class on this very button: text-slate-300), so the
+    // ring is guaranteed to read on slate-950 while staying in the
+    // reference's palette vocabulary. Visible only on keyboard focus —
+    // the visual-parity walk is untouched.
+    const src = read("src/components/marketing/navbar.tsx");
+    expect(src).toContain(
+      'className="md:hidden p-2 text-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"',
+    );
+  });
 });

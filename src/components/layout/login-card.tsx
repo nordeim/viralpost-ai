@@ -728,7 +728,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                     Email
                   </label>
                   <div className={LOGIN_LAYOUT.inputWrap}>
-                    <Mail className={LOGIN_LAYOUT.inputIcon} />
+                    <Mail className={LOGIN_LAYOUT.inputIcon} aria-hidden="true" />
                     <input
                       id="email"
                       type="email"
@@ -747,7 +747,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                     Password
                   </label>
                   <div className={LOGIN_LAYOUT.inputWrap}>
-                    <Lock className={LOGIN_LAYOUT.inputIcon} />
+                    <Lock className={LOGIN_LAYOUT.inputIcon} aria-hidden="true" />
                     <input
                       id="password"
                       type="password"

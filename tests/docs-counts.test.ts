@@ -47,7 +47,15 @@ import { SURFACES as A11Y_SURFACES, WIDTHS as A11Y_WIDTHS } from "./e2e/a11y-mat
 // tests — census 526 vs runner 527, caught at ship time); unrolled to
 // explicit its + the loop-guard arm (its own +1 rides this ladder:
 // +6 boot-env, +3 auth-contract, +2 effects-motion, +8 from-url,
-// +2 the forms-guard + loop-arm censuses).
+// +2 the forms-guard + loop-arm censuses). s14: 538/37 files (+3 the
+// S14-1 from-url escape pins, +3 the S14-2 equalizer pins, +1 the
+// S14-3 wiring pin, +1 the S14-4 schemas pin, +1 the S14-5 login-views
+// re-anchor, +1 the S14-6 toast pin, +1 the S14-7 effects-motion pin)
+// and the e2e 55 (+1 the S14-1 escape leg). s15: 543/37 files (+1 the
+// S15-1 resend P2025 pin, +2 the S15-2 null-body vocabulary pins, +1
+// the S15-4 signin-icon pin, +1 the S15-8 hamburger focus-ring pin) and
+// the e2e 56 (+1 the S15-7 api-envelope 404 leg; the S15-9 Escape
+// focus assertion strengthens an existing leg — no count change).
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -55,11 +63,11 @@ import { SURFACES as A11Y_SURFACES, WIDTHS as A11Y_WIDTHS } from "./e2e/a11y-mat
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 538;
+const UNIT = 543;
 /** Vitest suite files. */
 const SUITES = 37;
 /** Playwright e2e checks (incl. the setup project's 1). */
-const E2E = 55;
+const E2E = 56;
 /** Playwright e2e spec files. */
 const E2E_SPECS = 9;
 /** Smoke ladder legs. */

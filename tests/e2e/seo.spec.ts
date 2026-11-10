@@ -73,3 +73,24 @@ test("the health endpoint answers the envelope", async ({ request }) => {
   expect(body.ok).toBe(true);
   expect(body.data.status).toBe("healthy");
 });
+
+test("session-15 (S15-7): unknown /api paths answer the JSON envelope 404 (not the HTML 404 body)", async ({ request }) => {
+  // The root page catch-all used to win where no api route exists — an
+  // API client hitting a typo'd endpoint got the HTML 404 body. The api
+  // catch-all route now owns the subtree's unmatched paths with the
+  // envelope's 404 (the true-404 doctrine extended to the API family).
+  for (const path of ["/api/nonexistent-endpoint", "/api/auth/unknown-subpath"]) {
+    const res = await request.get(path);
+    expect(res.status(), path).toBe(404);
+    expect(res.headers()["content-type"], path).toContain("application/json");
+    const body = await res.json();
+    expect(body.ok, path).toBe(false);
+    expect(body.error.code, path).toBe("NOT_FOUND");
+  }
+  // POST rides the same envelope (the five-method family).
+  const post = await request.post("/api/nonexistent-endpoint", { data: {} });
+  expect(post.status()).toBe(404);
+  const body = await post.json();
+  expect(body.ok).toBe(false);
+  expect(body.error.code).toBe("NOT_FOUND");
+});

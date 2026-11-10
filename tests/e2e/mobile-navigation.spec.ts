@@ -55,10 +55,15 @@ test("history navigation closes the open menu too (session-10, F10-10)", async (
 
 test("Escape closes the open menu (the a11y superset)", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Open menu" }).click();
+  const toggle = page.getByRole("button", { name: "Open menu" });
+  await toggle.click();
   await page.keyboard.press("Escape");
   await expect(page.getByRole("button", { name: "Close menu" })).toHaveCount(0);
   await expect(page.getByRole("button", { name: "Open menu" })).toBeVisible();
+  // Session-15 (S15-9): the focus RETURN is behavioral, not just a
+  // source pin — closing via Escape restores focus to the toggle
+  // instead of leaving it on the now-hidden panel content.
+  await expect(toggle).toBeFocused();
 });
 
 test("the desktop links are hidden at phone width (no duplicated nav)", async ({ page }) => {

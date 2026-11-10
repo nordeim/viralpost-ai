@@ -274,3 +274,38 @@ describe("session-14 (S14-2): the resend/verify no-enumeration equalizer (the lo
     expect(src).toMatch(/import \{[^}]*timingEqualizerHash[^}]*\} from "@\/lib\/password"/);
   });
 });
+
+describe("session-15 (S15-1): the resend route maps the vanished-row race to the no-op 200 (the sibling doctrine)", () => {
+  // The findUnique→update gap: a row deleted between the read and the
+  // re-mint throws P2025 into the generic catch — a 500 for a condition
+  // the unknown-account branch already answers as the rate-limited no-op
+  // 200. The verify route maps the same race to its 400 (S13-5);
+  // forgot-password maps it to stored=false. Resend joins the family:
+  // the P2025 arm returns the SAME no-op envelope the miss branch
+  // serves (the timing already matches — the known branch burned its
+  // scrypt building the update data before the throw). Unreachable
+  // today (no user-delete surface exists) — the doctrine gap, not a
+  // live defect.
+  it("the resend catch maps P2025 to the no-op envelope (not the raw 500)", () => {
+    const src = resendRoute();
+    expect(src).toMatch(/P2025/);
+    // The arm's condition is the family's known-error form (instanceof
+    // PrismaClientKnownRequestError + the code literal) — a disabled or
+    // restructured guard fails this face (the mutation battery's
+    // `false &&` catch).
+    expect(src).toMatch(
+      /error instanceof Prisma\.PrismaClientKnownRequestError && error\.code === "P2025"/,
+    );
+    // The mapped answer is the same envelope the unknown-account branch
+    // serves — the no-op return form, verificationCode: null included
+    // (the S14-2 uniform shape).
+    const noOp =
+      src.match(/ok\(\{\s*resent: true,\s*message: verificationResentMessage\(\),\s*verificationCode: null,?\s*\}\)/g) ?? [];
+    expect(noOp.length).toBeGreaterThanOrEqual(2);
+    // The arm sits INSIDE the catch, ahead of the INTERNAL fallback.
+    const armIdx = src.indexOf("P2025");
+    const catchIdx = src.search(/catch\s*\(/);
+    expect(catchIdx).toBeGreaterThan(-1);
+    expect(armIdx).toBeGreaterThan(catchIdx);
+  });
+});
