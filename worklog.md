@@ -1,3 +1,117 @@
+Task ID: 20
+Agent: main (Z.ai)
+Task: The session-20 ledger-count closure + resetToken index + limiter
+namespace + hygiene batch round — re-run the standing instruction
+against the post-session-19 tree (d6e17f4 = a47c50b + the session-19
+transcript handoff): docs review, the baseline gate on the merged tree
+(lint 0/0 · tsc 0 · unit 561/561 (37 files) · census MATCH; the
+DATABASE_URL contract re-verified end-to-end on a clean clone), the
+comprehensive audit (0 Critical / 0 High / 1 Medium / 9 Low / 16 Info
+— dispatched wide across three parallel subagents (API/lib seams,
+components/pages/effects, SEO/configs/tests/docs), every load-bearing
+finding hand-verified in source), the neo-crm repo re-review (HEAD
+b3d0fbe — UNCHANGED since session 12; the recorded decisions stand),
+the live reference parity walk (logged-in; the five-route head census,
+the mobile menu at 390x844 on BOTH sides, the monetization floaters,
+sitemap/robots, the generator superset) — NO DRIFT (the session-19
+description family + monetization redesign + mobile menu family all
+hold byte-for-byte), the TDD cures (R20-1..R20-16, +10 unit pins, 2
+mutation batteries), the gate, captures 47/48, push #20 to main via
+the SSH wrapper.
+
+Details:
+- The one MEDIUM: the SKILL's Appendix-B verification ledger still
+  said "e2e 56/56" — the session-19 commit re-anchored the unit count
+  in the same paragraph but missed the e2e count, and the docs-counts
+  gate's SKILL pin was satisfied by the frontmatter (not scoped to
+  Appendix B). Cured: 57/57 + the parenthetical extended + the scoped
+  pin with the retired-form negative (the README retired-badge ladder
+  pattern); mutation battery RED→restored→GREEN
+- R20-2: resetToken String? @unique (the funnel's two token lookups
+  were the schema's only unindexed path; SQLite uniques treat NULLs
+  as distinct so the no-pending rows coexist) + db:push; pinned
+- R20-3: the smoke trap's GATE_PID="" init (the S19-17 trap
+  referenced an uninitialized variable under set -u — an early-leg
+  failure aborted cleanup mid-trap and leaked the temp files);
+  pinned (the init must precede the trap registration)
+- R20-4: the hero's superfluous "use client" retired — it composes
+  client islands (Iridescence/ParticleText/Reveal) with serializable
+  props and zero hooks; the static subtree now renders as server
+  HTML; live-verified on the dev server (h1 + 2 canvases + WebGL
+  context + the floaters all hydrating); pinned
+- R20-5: the S19-9 mount residual — init() still built the
+  never-drawn particle field in reduced mode; guarded (mirrors
+  onResize); pinned
+- R20-6: the toast focus-pause pair (onFocus/onBlur mirror the hover
+  pair — keyboard/AT users keep the card while reading); pinned
+- R20-7: the generate limiter's uid/ip namespace split (the shared
+  `generate:${user?.id ?? clientKey(req)}` form let a
+  mis-declared-proxy attacker collide with a victim's bucket via a
+  forged XFF cuid); pin re-anchored in place; mutation battery
+  RED→restored→GREEN
+- R20-8/9/14/15: the comment-truth batch (the verify route's fsync
+  write-residual documented — the resend S19-18 precedent; the seed's
+  tokenVersion claim made precise; the type-gate lineage note's
+  three install_packages sites re-anchored to the three-file scripts/
+  reality; the site.ts truncation comment describes the hard slice +
+  comma normalization, not a word-boundary algorithm)
+- R20-10: the two bare CSPRNG calls (forgot-password's randomBytes,
+  generate's randomInt) moved inside their try blocks — envelope
+  absoluteness, belt-and-braces
+- R20-11: the generator's paragraph count bank-capped (Math.min) —
+  the used-set dedupe terminated only while bodyBank.length >= count;
+  a future bank edit below 3 entries would have spun the request
+  thread forever; pinned
+- R20-12: the iridescence webglcontextlost guard (a lost GPU context
+  span the rAF loop forever) + the loseContext-why comment (the
+  StrictMode remount invariant, pinned by negative)
+- R20-13: the SKILL §7 PT present-tense reworded to the EN
+  monetization section + the semantic-prose census negative
+- R20-16: vitest.config.mts gains the explicit skills/** exclude —
+  the three-config exclusion doctrine (tsconfig/eslint/vitest) now
+  mechanical
+- Deferred (the honest register): the per-account login lockout (a
+  per-email counter is itself an enumeration oracle unless carefully
+  shaped — needs its own design round), the landing's inline
+  pricing/contact duplication (byte-identical DOM today, verified;
+  a maintainability refactor with pin churn), the malformed-hash
+  scrypt fast-fail, scryptSync-on-the-request-path (the family
+  convention), the toast nested-live-region trade-off, the toast
+  subscribe race (dormant), the skip link, the error.tsx axe battery,
+  the start tee pipe
+- Count lockstep: UNIT 561 → 571 (+10 pins), E2E 57/9 unchanged,
+  badge 618 → 628; PAD §12 rows re-anchored (schema 64, smoke 183,
+  particle-text 330, iridescence 241, generator 453, site 173);
+  SKILL v1.14.0 → v1.16.0 (the session-19 plan's 1.15.0 bump never
+  landed in the frontmatter — this round's bump covers both, noted
+  in the plan's record); README session-20 row + gate line; AGENTS
+  counts + the plans map's twentieth round; CLAUDE counts; PAD §8.1;
+  worklog Task 20 (this entry); docs/session_20.md (the pre-round
+  transcript replaced by the round log); the plan's post-execution
+  record
+- Verified: lint 0/0 · tsc 0 · unit 571/571 (37 files) · build ·
+  smoke 15/15 · e2e 57/57 (9 specs) · census MATCH · the cured
+  surfaces live-verified on the dev server (the hero server
+  composition + both islands hydrating, the generator round-trip,
+  the five-route head census, the mobile menu family) · captures
+  47/48 PIL-verified
+
+Stage Summary:
+- THE AUDIT ROUND at 0 Critical / 0 High / 1 Medium / 9 Low / 16
+  Info with every load-bearing finding hand-verified; NO parity
+  drift for the first time since session 17 (the reference held
+  steady through this walk)
+- THE CURES: the ledger-count closure (the gate's own coverage hole
+  closed with it), the schema's last unindexed lookup path, the
+  smoke trap's unbound variable, the hero's client-bundle waste, the
+  S19-9 mount residual, the toast keyboard pause, the limiter
+  collision class, the envelope belt-and-braces, the generator's
+  latent hang, the WebGL context-loss spin, the comment-truth batch,
+  the vitest exclusion symmetry
+- SHIPPED: the remediated codebase + the six docs in lockstep
+  committed to main and pushed via docs/ssh_git_wrapper_v3.py (the
+  remote verified; no new branches)
+
 Task ID: 19
 Agent: main (Z.ai)
 Task: The session-19 description-family re-anchor + monetization

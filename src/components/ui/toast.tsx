@@ -131,6 +131,12 @@ function ToastCard({ item }: { item: ToastItem }) {
       )}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      // Session-20 (S20-6): the focus pair mirrors the hover pair — a
+      // keyboard user tabbing to the Dismiss button (or an AT user
+      // still reading the announced message) keeps the card; the
+      // existing paused effect re-arms the timer on both paths.
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
     >
       <span className="mt-0.5 shrink-0">{ICONS[item.variant]}</span>
       <div className="min-w-0 flex-1">

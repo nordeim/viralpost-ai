@@ -62,4 +62,22 @@ describe("session-11: the gate-script pins (the neo-crm adoption)", () => {
     expect(pkg.scripts["smoke"]).toBe("./scripts/smoke-test.sh");
     expect(existsSync(path.resolve(import.meta.dirname, "..", "scripts", "smoke-test.sh"))).toBe(true);
   });
+
+  // Session-20 (S20-3): the S19-17 cure added GATE_PID to the EXIT trap
+  // but no initialization — under `set -euo pipefail`, any leg failing
+  // before the :3211 spawn hit an unbound-variable expansion INSIDE the
+  // trap, aborting cleanup mid-function (the temp files — including the
+  // cookie jar — leaked). The init must sit beside SERVER_PID="".
+  it("the smoke trap's GATE_PID is initialized before any leg can fail (S20-3)", () => {
+    const smoke = readFileSync(
+      path.resolve(import.meta.dirname, "..", "scripts", "smoke-test.sh"),
+      "utf8",
+    );
+    const init = smoke.match(/^SERVER_PID=""/m);
+    expect(init, "the SERVER_PID init line must exist").toBeTruthy();
+    // The GATE_PID init must exist AND precede the trap registration.
+    const gateInit = smoke.match(/^GATE_PID=""/m);
+    expect(gateInit, "the GATE_PID init line must exist").toBeTruthy();
+    expect(smoke.indexOf('GATE_PID=""')).toBeLessThan(smoke.indexOf("trap cleanup EXIT"));
+  });
 });

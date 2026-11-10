@@ -424,7 +424,11 @@ export function generatePost(idea: string, seed?: number): GeneratedPost {
   const hook = pick(rng, hooks);
 
   // 2-3 paragraphs, each 1-2 sentences, blank-line separated.
-  const paragraphCount = 2 + (rng() > 0.55 ? 1 : 0);
+  // Session-20 (S20-11): capped by the bank size — the used-set dedupe
+  // below terminates only while bodyBank.length >= paragraphCount (true
+  // by 2x margin today), and a future bank edit below 3 entries would
+  // otherwise spin this loop forever on a deterministic path.
+  const paragraphCount = Math.min(2 + (rng() > 0.55 ? 1 : 0), bodyBank.length);
   const used = new Set<number>();
   const paragraphs: string[] = [];
   while (paragraphs.length < paragraphCount) {

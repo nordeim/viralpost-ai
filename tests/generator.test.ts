@@ -12,6 +12,8 @@
 //
 // The local engine must satisfy every rule for ANY idea input (property
 // tests), and the provider seam must expose the same shape.
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import fc from "fast-check";
 
@@ -92,6 +94,20 @@ describe("generator: the reference prompt contract", () => {
         expect(post).not.toMatch(/^\s*(hook|body|post|cta|hashtags?)\s*:/im);
       }),
     );
+  });
+
+  // Session-20 (S20-11): the paragraph loop dedupes by a used-set, so it
+  // terminates only while bodyBank.length >= paragraphCount — true today
+  // by 2x margin (count <= 3; smallest bank = 2 niche + 4 evergreen),
+  // but nothing enforced it: a future bank edit below 3 entries would
+  // spin the request thread forever on a deterministic path. The count
+  // is bank-capped now (source-pinned — the property layer cannot
+  // shrink the module-level banks from outside).
+  it("session-20 (S20-11): the paragraph count is capped by the body bank (no latent infinite loop)", () => {
+    const src = readFileSync(join(import.meta.dirname, "../src/lib/generator.ts"), "utf8")
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/[^\n]*/g, "");
+    expect(src).toContain("Math.min(2 + (rng() > 0.55 ? 1 : 0), bodyBank.length)");
   });
 
   it("the first line is a single hook line (no sentence pileup)", () => {

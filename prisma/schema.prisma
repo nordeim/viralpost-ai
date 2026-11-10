@@ -39,8 +39,12 @@ model User {
   // SINGLE-USE (the conditional updateMany carries token + live expiry in
   // its WHERE — a racing replay lands count 0 and answers the
   // invalid-token 400). 60-minute TTL. The column stores the SHA-256 hex
-  // of the raw token (hashed-at-rest posture).
-  resetToken           String?
+  // of the raw token (hashed-at-rest posture). Session-20 (S20-2):
+  // @unique indexes the funnel's two token lookups (they were the
+  // schema's only unindexed path) and structurally pins the
+  // one-live-token-per-row invariant (SQLite uniques treat NULLs as
+  // distinct — the "no reset pending" rows coexist).
+  resetToken           String? @unique
   resetTokenExpiresAt  DateTime?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

@@ -117,6 +117,23 @@ describe("session-12 (F12-8): the particle title's reduced-motion shape schedule
     expect(onResize![0]).toContain("return;");
     expect(onResize![0]).toContain("buildParticles();");
   });
+
+  // Session-20 (S20-5): the S19-9 cure guarded only the RESIZE path —
+  // the mount-time init() still ran the offscreen rasterize +
+  // full-canvas pixel sampling in reduced mode, whose result is never
+  // drawn (the reduced face only ever calls drawPlain). The build (and
+  // the home-scatter that positions it) now rides the same !reduced
+  // guard at mount.
+  it("session-20 (S20-5): the mount-time init also skips the particle build in reduced mode (the S19-9 residual)", () => {
+    const src = bare();
+    const init = src.match(/const init = \(\) => \{[\s\S]*?\n {4}\};/);
+    expect(init, "the init closure must exist").toBeTruthy();
+    expect(init![0], "the build must sit behind the !reduced guard").toContain("if (!reduced)");
+    const guard = init![0].indexOf("if (!reduced)");
+    const build = init![0].indexOf("buildParticles();");
+    expect(build, "the particle build must exist inside init").toBeGreaterThan(-1);
+    expect(build, "the build must come after the guard (skipped in reduced mode)").toBeGreaterThan(guard);
+  });
 });
 
 describe("session-12 (F12-9): the WebGL hero re-reads devicePixelRatio inside resize()", () => {
@@ -133,5 +150,35 @@ describe("session-12 (F12-9): the WebGL hero re-reads devicePixelRatio inside re
     // flag at the effect's top level (the stale-DPR genus — the cure
     // moved the read inside resize, so the adjacency is gone).
     expect(src).not.toMatch(/let disposed = false;\s*\n\s*const dpr = Math\.min\(window\.devicePixelRatio/);
+  });
+});
+
+describe("session-20 (S20-12): the WebGL hero guards context loss", () => {
+  // Comment-stripped (the needle-in-own-doc lesson — the cure's own
+  // comment names the event; documentation is not a live reference).
+  const bare = () =>
+    read("src/components/effects/iridescence.tsx")
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/[^\n]*/g, "");
+
+  it("a webglcontextlost event stops the rAF loop and is removed on cleanup (no post-loss spin)", () => {
+    const src = bare();
+    expect(src, "the listener must be registered").toContain('addEventListener("webglcontextlost"');
+    expect(src, "the listener must be removed on cleanup").toContain('removeEventListener("webglcontextlost"');
+    const listener = src.match(/const onContextLost = \(e: Event\) => \{[\s\S]*?\n {4}\};/);
+    expect(listener, "the handler closure must exist").toBeTruthy();
+    expect(listener![0]).toContain("e.preventDefault()");
+    expect(listener![0]).toContain("disposed = true");
+    expect(listener![0]).toContain("cancelAnimationFrame(raf)");
+  });
+
+  it("the cleanup deliberately does NOT call loseContext (the StrictMode remount re-gets the same canvas)", () => {
+    const src = bare();
+    // loseContext() would break the dev-mode double-mount: React
+    // StrictMode unmounts + remounts the effect against the SAME canvas
+    // element, and a lost context cannot be re-acquired by a second
+    // getContext call. The invariant is pinned so a future "cleanup
+    // harder" pass cannot reintroduce it.
+    expect(src).not.toContain("loseContext");
   });
 });

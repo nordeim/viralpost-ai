@@ -21,8 +21,11 @@ const db = new PrismaClient({
 
 async function main() {
   // Users land through UPSERT-BY-EMAIL, never deleteMany — a re-seed
-  // preserves the row id, so session cookies minted before the reseed
-  // keep resolving. The update path resets every seeded field.
+  // preserves the row id, and v=0 session cookies minted before the
+  // reseed keep resolving. The update path resets every seeded field
+  // (the tokenVersion reset included, BY DESIGN — a pristine demo
+  // state evicts post-reset sessions whose password the reseed also
+  // reverted; only v=0 cookies survive).
   await db.user.upsert({
     where: { email: "sepnetflix2023@outlook.com" },
     update: {

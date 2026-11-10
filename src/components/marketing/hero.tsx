@@ -1,10 +1,12 @@
-"use client";
-
 // The hero — class-for-class the reference's (DOM + bundle extracted):
 // slate-900 min-h-screen with the WebGL iridescence background (hue 174,
 // power 1.5, focus 28, distortion 1.2) at 80% opacity under two gradient
 // overlays, the cycling particle title, the teal/amber CTAs, WORKS WITH
 // pills, and the floating-portrait right column with its two stat cards.
+// Session-20 (S20-4): a Server Component — it only composes the client
+// islands (Iridescence/ParticleText/Reveal carry their own directives)
+// with serializable props, so the static subtree renders as server HTML
+// and stays out of the client bundle (the DOM is byte-identical).
 
 import Link from "next/link";
 import { ArrowRight, Zap } from "lucide-react";

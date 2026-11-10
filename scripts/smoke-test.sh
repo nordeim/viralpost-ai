@@ -39,6 +39,11 @@ COOKIE_JAR="$(mktemp)"
 SERVER_LOG="$(mktemp)"
 GATE_LOG="$(mktemp)"
 SERVER_PID=""
+# Session-20 (S20-3): the S19-17 trap references GATE_PID, and this
+# script runs `set -u` — an uninitialized reference in the EXIT trap
+# (any early-leg failure) aborts the cleanup mid-function and leaks
+# the temp files. Every trap-referenced variable is born empty here.
+GATE_PID=""
 
 ok()   { echo "  ok $1 — $2"; }
 fail() { echo "  FAIL $1 — $2" >&2; }

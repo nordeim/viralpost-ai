@@ -156,6 +156,17 @@ describe("the session eviction wiring (session-163, digma S67-A)", () => {
     expect(schema).toContain("resetTokenExpiresAt");
   });
 
+  // Session-20 (S20-2): the reset funnel's two token lookups (the
+  // findFirst pre-read + the atomic updateMany consume) were the schema's
+  // only unindexed lookup path — full-table scans that degrade linearly
+  // as a self-hosted deployment grows. The @unique also structurally
+  // pins the one-live-token-per-row invariant (SQLite unique indexes
+  // treat NULLs as distinct, so the "no reset pending" rows coexist).
+  it("the schema indexes resetToken (@unique — the reset lookups ride it, session-20)", () => {
+    const schema = read("prisma/schema.prisma") ?? "";
+    expect(schema).toContain("resetToken           String? @unique");
+  });
+
   it("the schema comment documents the hashed-at-rest storage (session-164)", () => {
     const schema = read("prisma/schema.prisma") ?? "";
     expect(schema).toContain("SHA-256");

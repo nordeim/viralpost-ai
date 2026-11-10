@@ -75,6 +75,14 @@ export async function POST(req: Request) {
     // locked-out arm used to answer ~100ms faster (a timing oracle on
     // "exists AND unverified AND >= 5 failures"). Every branch out of
     // this route now pays the same scrypt tax.
+    // Session-20 (S20-8, the resend S19-18 precedent): the scrypt tax is
+    // the equalized FACE — the wrong-code branch additionally pays one
+    // atomic update (fsync-scale, ~5-10ms) that the miss and lockout
+    // branches don't, so "exists + pending + unlocked" stays
+    // distinguishable from "unknown/locked" by latency. Documented
+    // residual, same class: the route is 20/15min/IP rate-limited and
+    // the message/status envelopes are identical; a burn-side write
+    // would invert the fsync-scale signal the consume depends on.
     if (isVerificationLockedOut(user.verificationAttempts)) {
       verifyVerificationCode(code, timingEqualizerHash());
       return fail("VERIFICATION_LOCKED", verificationLockoutMessage(), 429);

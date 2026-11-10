@@ -39,6 +39,16 @@ describe("landing: the section composition", () => {
     expect(hero).toContain("AI-Powered Social Media Content");
   });
 
+  // Session-20 (S20-4): the hero composes client islands (Iridescence,
+  // ParticleText, Reveal) with serializable props and zero hooks/handlers
+  // — a superfluous "use client" shipped its whole static subtree in the
+  // client bundle (the CLAUDE standard: the directive only where
+  // interactivity demands it). Server composition, byte-identical DOM.
+  it("the hero is a Server Component (no use client — the islands carry their own directives)", () => {
+    const hero = read("src/components/marketing/hero.tsx");
+    expect(hero.startsWith('"use client"')).toBe(false);
+  });
+
   it("the hero mounts the iridescence background with the reference's props", () => {
     const hero = read("src/components/marketing/hero.tsx");
     expect(hero).toContain("<Iridescence hue={174} power={1.5} focus={28} distortion={1.2} />");

@@ -11,6 +11,12 @@ import path from "node:path";
 export default defineConfig({
   test: {
     include: ["src/**/*.test.ts", "tests/**/*.test.ts"],
+    // Session-20 (S20-16): the explicit exclusion — tsconfig and eslint
+    // both carry skills/ in their exclude/ignores; the include scope
+    // above could never reach it, but a future widening would silently
+    // admit the owner's catalog (which contains .test.ts files of its
+    // own). The three-config exclusion doctrine is now mechanical.
+    exclude: ["skills/**", "**/node_modules/**"],
     environment: "node",
   },
   resolve: {

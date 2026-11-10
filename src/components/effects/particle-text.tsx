@@ -266,11 +266,18 @@ export function ParticleText({
 
     const init = () => {
       layout();
-      buildParticles();
-      if (phase === "fade-in") {
-        for (const p of particles) {
-          p.x = p.hx;
-          p.y = p.hy;
+      // Session-20 (S20-5): the S19-9 residual — the mount-time build
+      // is the same pure waste the resize path already skips (the
+      // field is never drawn in reduced mode; only drawPlain runs), and
+      // the home-scatter positions a field only the full-motion face
+      // consumes. Guarded together at mount, mirroring onResize.
+      if (!reduced) {
+        buildParticles();
+        if (phase === "fade-in") {
+          for (const p of particles) {
+            p.x = p.hx;
+            p.y = p.hy;
+          }
         }
       }
     };

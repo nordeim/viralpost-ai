@@ -63,6 +63,15 @@ import { SURFACES as A11Y_SURFACES, WIDTHS as A11Y_WIDTHS } from "./e2e/a11y-mat
 // doctrine).
 // s17: 550/37 files (+1 the S17-5 bounded-reader media-type pin, +1
 // the S17-6 timer-hygiene source pin) and the e2e 56 unchanged.
+// s19: 561/37 files (+11 the session-19 pins) and the e2e 57 (+1 the
+// description-family leg). s20: 571/37 files (+2 the docs-counts pins —
+// the Appendix-B ledger pin S20-1 + the PT-negative S20-13, +1 the
+// resetToken @unique pin, +1 the smoke GATE_PID-init pin, +1 the hero
+// server-component pin, +2 the effects-motion pins — the init reduced
+// skip S20-5 + the iridescence context-lost pair S20-12 (the loseContext
+// negative rides the same describe), +1 the toast focus-pause pin, +1
+// the generator bank-cap pin) and the e2e 57 unchanged (the api-
+// robustness key pin re-anchored in place — no count change).
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -70,7 +79,7 @@ import { SURFACES as A11Y_SURFACES, WIDTHS as A11Y_WIDTHS } from "./e2e/a11y-mat
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 561;
+const UNIT = 571;
 /** Vitest suite files. */
 const SUITES = 37;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -132,6 +141,20 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
     expect(skill).toContain(`unit ${UNIT}/${UNIT} (${SUITES} files)`);
     expect(skill).toContain(`e2e ${E2E}/${E2E} (${E2E_SPECS} specs)`);
     expect(skill).toContain(`smoke ${SMOKE}/${SMOKE}`);
+  });
+
+  // Session-20 (S20-1): the session-19 commit re-anchored the unit
+  // count inside Appendix B's ledger paragraph but missed the e2e count
+  // in the SAME paragraph — the frontmatter pin above stayed satisfied
+  // while the ledger contradicted its own document (56 vs the live 57).
+  // The verification ledger is a LIVE-TENSE count site: scoped pin, plus
+  // the retired-form negative (the README retired-badge ladder pattern).
+  it("the SKILL's Appendix-B verification ledger carries the live e2e count (S20-1)", () => {
+    const skill = read("viralpost-ai_SKILL.md");
+    const appendixB = skill.slice(skill.indexOf("## Appendix B"));
+    expect(appendixB, "Appendix B must exist").toBeTruthy();
+    expect(appendixB).toContain(`e2e\n  ${E2E}/${E2E} (${E2E_SPECS} specs`);
+    expect(skill).not.toContain("56/56 (9 specs");
   });
 
   it("the README env table carries the six-knob contract (both directions with .env.example)", () => {
@@ -378,5 +401,15 @@ describe("docs-counts: session-12 — the semantic-prose census starter (N12-1)"
 
   it("AGENTS carries the one-owner doctrine (the mutation-battery refinement, N12-2)", () => {
     expect(read("AGENTS.md")).toContain("EXACTLY ONE pin");
+  });
+
+  // Session-20 (S20-13): the SKILL's §7 still described the retired PT
+  // monetization section in the present tense ("the PT pay-what-you-want
+  // section … session-1 captures") two full sessions after the session-19
+  // EN redesign — the census scanned only the PAD for retired forms.
+  // Appendix A's round-history rows may narrate the PT era as history;
+  // the live-tense §7 may not name it as present architecture.
+  it("the SKILL carries no live-tense PT-section reference (S20-13)", () => {
+    expect(read("viralpost-ai_SKILL.md")).not.toContain("PT pay-what-you-want");
   });
 });

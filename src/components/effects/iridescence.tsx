@@ -200,14 +200,34 @@ export function Iridescence({
     };
     window.addEventListener("resize", onResize);
 
+    // Session-20 (S20-12): GPU context loss (mobile backgrounding, driver
+    // resets) used to leave the rAF loop spinning no-op drawArrays calls
+    // against a dead context forever. Stop the loop on loss — the two
+    // CSS-gradient overlays carry the visual by design (the documented
+    // fallback posture), so a static canvas is the correct degradation.
+    const onContextLost = (e: Event) => {
+      e.preventDefault();
+      disposed = true;
+      cancelAnimationFrame(raf);
+    };
+    canvas.addEventListener("webglcontextlost", onContextLost, false);
+
     return () => {
       disposed = true;
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
+      canvas.removeEventListener("webglcontextlost", onContextLost, false);
       gl.deleteProgram(prog);
       gl.deleteShader(vs);
       gl.deleteShader(fs);
       gl.deleteBuffer(buf);
+      // Deliberately NO gl.getExtension("WEBGL_lose_context")?.loseContext()
+      // here: React StrictMode's dev remount runs this effect again
+      // against the SAME canvas element, and a forcibly-lost context
+      // cannot be re-acquired by the second getContext — the dev hero
+      // would blank until a full reload. Deleting the GL objects above
+      // is the safe cleanup; the context itself rides GC (the hero
+      // props are constant, so exactly one context exists per canvas).
     };
   }, [hue, power, focus, distortion]);
 

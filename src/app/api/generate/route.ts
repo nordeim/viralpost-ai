@@ -37,7 +37,13 @@ export async function POST(req: Request) {
   // twin of the 401 discard.
   const guard = await requireSession();
   const user = isGuarded(guard) ? null : guard.user;
-  const limitKey = `generate:${user?.id ?? clientKey(req)}`;
+  // Session-20 (S20-7): the uid and IP families are NAMESPACED — the
+  // shared `generate:${user?.id ?? clientKey(req)}` form let a
+  // mis-declared-proxy attacker who knows a victim's cuid collide with
+  // that user's bucket via a forged x-forwarded-for hop. The prefix
+  // split removes the collision class outright (a cuid can never
+  // equal "ip:<...>" and vice versa).
+  const limitKey = user ? `generate:uid:${user.id}` : `generate:ip:${clientKey(req)}`;
   const limited = rateLimit(limitKey, RATE_LIMIT, RATE_WINDOW_MS);
   // Session-9 (F9-8): this route's key family sweeps too (the auth-route
   // placement, denied requests included) — under rotating XFF keys with
@@ -102,8 +108,11 @@ export async function POST(req: Request) {
     return fail("BAD_REQUEST", err instanceof Error ? err.message : "Invalid idea.");
   }
 
-  const seed = randomInt(1 << 30);
+  // Session-20 (S20-10): minted INSIDE the try (the forgot-password
+  // precedent) — the CSPRNG is the "no realistic throw" class, but the
+  // envelope is absolute; a bare re-throw would answer a raw non-JSON 500.
   try {
+    const seed = randomInt(1 << 30);
     const result = generatePost(idea, seed);
     return ok({ text: result.text });
   } catch {

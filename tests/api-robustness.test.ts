@@ -60,9 +60,17 @@ describe("the { ok, error } envelope family", () => {
     }
   });
 
-  it("the generate route keys its limiter on session-or-IP", () => {
+  // Session-20 (S20-7): the uid and IP buckets used to share ONE string
+  // namespace (`generate:${user?.id ?? clientKey(req)}`) — under the
+  // documented mis-declared-proxy hazard, an attacker who knows a
+  // victim's cuid could set x-forwarded-for: <cuid> to share/exhaust
+  // that user's 20/15min bucket. The families are namespaced now.
+  it("the generate route keys its limiter on session-or-IP (namespaced families — S20-7)", () => {
     const src = stripComments(read("src/app/api/generate/route.ts") ?? "");
-    expect(src).toContain("generate:${user?.id ?? clientKey(req)}");
+    expect(src).toContain("generate:uid:${user.id}");
+    expect(src).toContain("generate:ip:${clientKey(req)}");
+    // The retired shared-namespace form can never return.
+    expect(src).not.toContain("generate:${user?.id ?? clientKey(req)}");
   });
 
   // Session-14 (S14-3): the guard shape reads like an auth wall but

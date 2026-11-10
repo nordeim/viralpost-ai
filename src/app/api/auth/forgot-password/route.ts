@@ -92,7 +92,16 @@ export async function POST(req: Request) {
     user = null;
   }
   if (user) {
-    const token = randomBytes(32).toString("hex");
+    // Session-20 (S20-10): minted INSIDE the try — a CSPRNG entropy
+    // failure is the logout route's "no realistic throw" class, but the
+    // envelope is absolute: every await/crypto on the path maps to the
+    // envelope, belt-and-braces.
+    let token = "";
+    try {
+      token = randomBytes(32).toString("hex");
+    } catch {
+      return ERR.INTERNAL();
+    }
     // A row vanishing mid-request (the unreachable-via-API class; no
     // user-delete endpoint exists) is an unknown email by response time —
     // the guard SWALLOWS to the no-enumeration 200 and the resetUrl stays

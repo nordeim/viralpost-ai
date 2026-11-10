@@ -112,6 +112,16 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
     expect(src).toContain("onMouseLeave={() => setPaused(false)}");
   });
 
+  // Session-20 (S20-6): the auto-dismiss paused for the MOUSE only — a
+  // keyboard user tabbing to the Dismiss button (or an AT user still
+  // reading the announced message) got a hard 4s window with no pause
+  // equivalent. The focus pair mirrors the hover pair on the card root
+  // (the existing paused effect re-arms the timer on both).
+  it("the focus-pause seam (onFocus/onBlur mirror the hover pair — keyboard/AT users keep the card while reading)", () => {
+    expect(src).toContain("onFocus={() => setPaused(true)}");
+    expect(src).toContain("onBlur={() => setPaused(false)}");
+  });
+
   // Session-19 (S19-7): the toast icons are decorative — the S15-4
   // doctrine (empty lucide svgs are ignored by AT today, but the
   // attribute is the latent-double-announcement guard for a future

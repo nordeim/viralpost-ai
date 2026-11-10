@@ -90,11 +90,15 @@ export const PWA_META: Record<string, string> = {
 // paragraph on meta/og/twitter description alike (byte-identical
 // across the three surfaces, live-captured on all three routes). The
 // tail rule, reverse-engineered from the captures: SITE_DESCRIPTION
-// cut at 70 chars on a word boundary with the trailing comma
-// normalized to a period — NOT the full paragraph the CRM-family's
-// retired pageOgDescription helper shipped (session-8 F8-1 retired
-// that prefix when the reference shipped the plain paragraph; the
-// reference has since adopted its own prefixed+truncated shape).
+// cut at 70 chars with the trailing comma normalized to a period —
+// the cut lands on a word boundary for the PINNED string (its 70th
+// char is the comma after "influencers"), which is the mechanism
+// below; the byte-pins in tests/page-titles.test.ts carry the
+// contract, and any edit to SITE_DESCRIPTION re-anchors them. NOT
+// the full paragraph the CRM-family's retired pageOgDescription
+// helper shipped (session-8 F8-1 retired that prefix when the
+// reference shipped the plain paragraph; the reference has since
+// adopted its own prefixed+truncated shape).
 const PAGE_DESCRIPTION_TAIL =
   SITE_DESCRIPTION.slice(0, 70).replace(/,$/, "") + ".";
 

@@ -13,7 +13,8 @@
 // F8-6 precedent): the session numbers and the scripts/sweep.ts
 // citations below describe the NEO-CRM tree this battery was authored
 // against. In THIS tree scripts/ holds census, prisma-env, smoke-test
-// and install_packages — no sweep.ts — and the pins below assert the
+// (install_packages.sh was retired at session-19, S19-16 — no sweep.ts
+// ever existed here either) and the pins below assert the
 // POST-fix state that carried over with the battery (ignoreBuildErrors
 // unset, full strictness, one lockfile), which is exactly this repo's
 // live config. The historical narration stays for provenance; nothing
@@ -39,7 +40,8 @@
 //           s61/s62 §16ba npm-world-parity rule, superseded by the new
 //           skill's Appendix A lesson 14: "Two lockfiles in one repo is
 //           a reproducibility bug — one package manager, one lockfile".
-//           The npm-world path (install_packages.sh) installs by package
+//           The npm-world path (install_packages.sh — since retired
+//           here, session-19 S19-16) installs by package
 //           NAME from the registry — it never consumed the lockfile.
 
 import { existsSync, readFileSync } from "node:fs";
@@ -88,8 +90,9 @@ describe("session-174: THE TYPE-GATE HARDENING (the build fails on type errors)"
   it("ONE lockfile — bun.lock at the repo root, package-lock.json retired (F-174c, the single-lockfile doctrine)", () => {
     // The repo's own new skill, Appendix A lesson 14: "Two lockfiles in
     // one repo is a reproducibility bug — one package manager, one
-    // lockfile." The npm-world path (install_packages.sh) installs by
-    // package NAME from the registry — it never consumed the lockfile,
+    // lockfile." The npm-world path (install_packages.sh — retired in
+    // this repo at session-19, S19-16) installs by package
+    // NAME from the registry — it never consumed the lockfile,
     // so retiring it breaks nothing. The outputFileTracingExcludes
     // entry STAYS in next.config.ts as the defensive tripwire (an
     // accidental reintroduction still never ships in an artifact).
