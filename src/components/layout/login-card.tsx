@@ -21,6 +21,7 @@ import {
   verificationRequiredMessage,
   verificationResentMessage,
 } from "@/lib/verification";
+import { otpDigitsAfterPaste } from "@/lib/otp";
 import { toast } from "@/components/ui/toast";
 
 type Mode = "signin" | "signup";
@@ -148,10 +149,15 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
       if (!res.ok || !body?.ok) {
         // Session-11 (F11-3): an unverified account re-enters the verify
         // funnel instead of dead-ending on the refusal banner.
+        // Session-12 (F12-3): the hint resets too — the route returns NO
+        // code on the 403, so a hint surviving from a previous
+        // signup/resend (possibly a DIFFERENT email) would render as a
+        // "Demo code" that cannot verify this account.
         if (body?.error?.code === "VERIFICATION_REQUIRED") {
           setCodeDigits(Array(VERIFICATION_CODE_LENGTH).fill(""));
           setError(null);
           setInfo(body?.error?.message ?? verificationRequiredMessage());
+          setVerifyCodeHint("");
           setView("verify");
           return;
         }
@@ -228,7 +234,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
         setError(body?.error?.message ?? "Invalid verification code.");
         return;
       }
-      router.push("/");
+      router.push(resolveFromUrl(fromUrl ?? "/"));
       router.refresh();
     } catch {
       setError("Network error — check your connection and try again.");
@@ -312,9 +318,13 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
    *  auto-advance (the reference's six boxes walk forward as digits land).
    *  Session-11 (F11-15): a MULTI-DIGIT value (a pasted code) distributes
    *  across the boxes from the focused index — the common OTP affordance
-   *  (a paste of "123456" used to leave only "6" in the first box). */
+   *  (a paste of "123456" used to leave only "6" in the first box).
+   *  Session-12 (F12-6): the paste rides the trailing-window seam
+   *  (`otpDigitsAfterPaste`) — pasting into a box that already held a
+   *  digit used to shift the code right and drop its last digit (the
+   *  stale leading digit survived at the focus index). */
   function onCodeDigit(idx: number, raw: string) {
-    const digits = raw.replace(/\D/g, "");
+    const digits = otpDigitsAfterPaste(raw, VERIFICATION_CODE_LENGTH);
     if (digits.length > 1) {
       setCodeDigits((prev) => {
         const next = [...prev];

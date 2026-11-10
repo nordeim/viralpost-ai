@@ -385,10 +385,12 @@ describe("session-145: the auth-transition targets (walk35)", () => {
       .replace(/\/\*[\s\S]*?\*\//g, "")
       .replace(/\/\/[^\n]*/g, "");
     // the two sites: the signin success (S21-P2 — s147: the resolver's
-    // "/" default when no from_url rides the query) + the reset-completion
-    // return to the signin view — both land on the landing
+    // "/" default when no from_url rides the query) + the verify success
+    // — BOTH route through the resolver since session-12 (F12-4: the
+    // verify submit's bare "/" retired; a guest sent to
+    // /login?from_url=/Tool now lands back on /Tool)
     const pushes = src.match(/router\.push\("\/"\)/g) ?? [];
-    expect(pushes.length).toBe(1);
+    expect(pushes.length).toBe(0);
     // the from_url resolver's plain-login default: the sign-in site
     // routes through resolveFromUrl(fromUrl ?? "/") — the "/" fallback
     expect(src).toMatch(/fromUrl \?\? "\/"/);
@@ -546,5 +548,36 @@ describe("session-11: the verification-funnel closure (F11-3 + F11-4)", () => {
     // (onSendResetLink already had it; onResend rides its own `resending`).
     const guards = src.match(/if \(pending\) return;/g) ?? [];
     expect(guards.length).toBe(4);
+  });
+});
+
+describe("session-12: the UX-boundary batch (F12-3 + F12-4)", () => {
+  it("the 403 re-entry clears the stale verify hint (a hint minted for a previous email/code never leaks into the new session's verify view)", () => {
+    const src = loginCardSrc()
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/[^\n]*/g, "");
+    // The F11-3 branch resets digits/error/info/view — F12-3 adds the
+    // hint: the login route deliberately returns NO code on the 403, so
+    // any surviving hint (a previous signup's or resend's demo code,
+    // possibly for a DIFFERENT email) would render as "Demo code: …"
+    // for the newly-entered email and burn a verify attempt.
+    const branch = src.match(
+      /VERIFICATION_REQUIRED[\s\S]{0,400}?setView\("verify"\);/,
+    );
+    expect(branch, "the VERIFICATION_REQUIRED branch must exist").toBeTruthy();
+    expect(branch![0]).toContain('setVerifyCodeHint("")');
+  });
+
+  it("BOTH authed submit sites honor the from_url round-trip (the verify success lands where the auth wall intercepted the guest — F12-4)", () => {
+    const src = loginCardSrc()
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/[^\n]*/g, "");
+    // onSigninSubmit has resolved from_url since session-147; the verify
+    // submit used to hard-code "/" — a guest sent to
+    // /login?from_url=/Tool who completed signup→verification landed on
+    // the landing instead. Both sites now route through the same
+    // open-redirect-safe resolver.
+    const sites = src.match(/resolveFromUrl\(fromUrl \?\? "\/"\)/g) ?? [];
+    expect(sites.length).toBe(2);
   });
 });

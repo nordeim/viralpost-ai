@@ -78,6 +78,11 @@ export function ParticleText({
     if (!ctx) return;
 
     let raf = 0;
+    // Session-12 (F12-8): the reduced-motion cadence handle — the phrase
+    // swap schedules by TIMEOUT, not by a 60 fps rAF loop redrawing
+    // identical text (the reduced intent is LESS motion, including less
+    // redraw churn; the globals.css collapse can't reach a canvas loop).
+    let phraseTimer: ReturnType<typeof setTimeout> | undefined;
     let phase: Phase = "fade-in";
     let phaseStart = performance.now();
     let textIndex = 0;
@@ -176,7 +181,11 @@ export function ParticleText({
           textIndex = (textIndex + 1) % texts.length;
           phaseStart = now;
         }
-        raf = requestAnimationFrame(frame);
+        // Session-12 (F12-8): draw once, sleep until the next phrase —
+        // the OLD shape re-registered requestAnimationFrame here and
+        // redrew the same static text at 60 fps all day.
+        clearTimeout(phraseTimer);
+        phraseTimer = setTimeout(() => frame(performance.now()), (waitDuration + PHASE_SECONDS.vaporize) * 1000);
         return;
       }
 
@@ -266,6 +275,7 @@ export function ParticleText({
     return () => {
       disposed = true;
       cancelAnimationFrame(raf);
+      clearTimeout(phraseTimer);
       window.removeEventListener("resize", onResize);
     };
   }, [texts.join("|"), fontSize, fontWeight, color, waitDuration]);

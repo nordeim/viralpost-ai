@@ -6,7 +6,6 @@
 // overlays, the cycling particle title, the teal/amber CTAs, WORKS WITH
 // pills, and the floating-portrait right column with its two stat cards.
 
-import * as React from "react";
 import Link from "next/link";
 import { ArrowRight, Zap } from "lucide-react";
 

@@ -1,6 +1,4 @@
-import { hashPassword, verifyPassword, generateVerifyCode } from "@/lib/password";
-
-export { generateVerifyCode };
+import { hashPassword, verifyPassword } from "@/lib/password";
 
 /**
  * The server side of the email-verification machinery — session 21
@@ -8,9 +6,9 @@ export { generateVerifyCode };
  * server routes). Session-163 (the digma S70-D port): the crypto trio +
  * the code generator moved to the PURE seam `src/lib/password.ts`
  * (node:crypto-only — importable from the seed script); this module
- * keeps the verification-shaped wrappers on the seam and re-exports
- * the generator under its historical name for any stragglers (the
- * routes now import `generateVerifyCode` from the seam directly).
+ * keeps the verification-shaped wrappers on the seam. (Session-12,
+ * F12-12: the `generateVerifyCode` re-export "for any stragglers"
+ * retired — zero importers; the routes import from the seam directly.)
  * The client-safe constants and message builders live in
  * `src/lib/verification.ts`.
  */

@@ -1,6 +1,8 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+
+import { SURFACES as A11Y_SURFACES, WIDTHS as A11Y_WIDTHS } from "./e2e/a11y-matrix";
 
 // The docs-counts gate (session-9, F9-13 — the neo-crm session-102/S102-P1
 // pattern adopted for this repo). The badge-drift genus has recurred THREE
@@ -29,18 +31,27 @@ import { describe, expect, it } from "vitest";
 // verification seam suite, +4 the funnel/double-submit source pins, +1
 // the over-length message pin, +1 the navbar a11y pin, +1 the signup
 // P2002 pin, +5 the gate-script pins, +2 the doctrine/inventory censuses
-// below) and the e2e 49 → 50 (+1 the full-funnel e2e).
+// below) and the e2e 49 → 50 (+1 the full-funnel e2e). s12: 507/36 files
+// (+7 the otp seam suite, +3 the effects-motion pins, +2 the login-views
+// UX-boundary pins, +2 the verification invalid-copy pins −1 the F12-14
+// dedup, +1 the stepped-semantic census arm, +5 the reality +
+// semantic-prose censuses below) and the e2e 50 → 52 (+2 the
+// reset-funnel e2e — F12-2, the funnel's first behavioral coverage),
+// the specs 8 → 9.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
-/** Vitest unit checks (tests/*.test.ts — the exact `bun run test` total). */
-const UNIT = 488;
+/** Vitest unit checks (tests/*.test.ts — the exact `bun run test` total).
+ *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
+ *  DISK by the reality census below — a test added without re-anchoring
+ *  here fails `bun run test` before any doc site is consulted. */
+const UNIT = 507;
 /** Vitest suite files. */
-const SUITES = 34;
+const SUITES = 36;
 /** Playwright e2e checks (incl. the setup project's 1). */
-const E2E = 50;
+const E2E = 52;
 /** Playwright e2e spec files. */
-const E2E_SPECS = 8;
+const E2E_SPECS = 9;
 /** Smoke ladder legs. */
 const SMOKE = 15;
 /** The README badge total (unit + e2e). */
@@ -180,5 +191,107 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
         Number(lines),
       );
     }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-12 (F12-1): THE REALITY CENSUS — the count constants are pinned
+// to the LIVE SUITES ON DISK, not only to the doc sites above. The badge-
+// drift genus retired at session 9 assumed the constants were honest; a
+// test added without bumping UNIT left every doc stale while the gate
+// stayed green (the constants and the docs agreed with each other and
+// lied about reality together). These arms count the suites the way the
+// runners do — a constant that drifts from disk now fails `bun run test`
+// BEFORE any doc site is consulted.
+// ---------------------------------------------------------------------------
+
+describe("docs-counts: session-12 — the reality census (constants vs DISK, F12-1)", () => {
+  it("UNIT/SUITES match the live vitest surface (files + it/test blocks counted on disk)", () => {
+    const unitFiles = readdirSync(join(root, "tests"))
+      .filter((f) => f.endsWith(".test.ts"))
+      .sort();
+    expect(unitFiles.length, `tests/*.test.ts on disk: ${unitFiles.length} files (SUITES says ${SUITES})`).toBe(SUITES);
+    let unitTests = 0;
+    for (const f of unitFiles) {
+      unitTests += (read(`tests/${f}`).match(/^\s*(?:it|test)\(/gm) ?? []).length;
+    }
+    // The vitest config also admits src/**/*.test.ts — none exist today;
+    // if one appears, it joins the census (and the count ladder).
+    const srcTestFiles = existsSync(join(root, "src"))
+      ? readdirSync(join(root, "src"), { recursive: true })
+          .filter((f) => String(f).endsWith(".test.ts"))
+          .map(String)
+      : [];
+    for (const f of srcTestFiles) {
+      unitTests += (read(join("src", f)).match(/^\s*(?:it|test)\(/gm) ?? []).length;
+    }
+    expect(unitTests, `it/test blocks on disk: ${unitTests} (UNIT says ${UNIT}) — re-anchor UNIT + every doc site above`).toBe(UNIT);
+  });
+
+  it("E2E/E2E_SPECS match the live Playwright surface (source test() + the a11y matrix expansion)", () => {
+    const e2eDir = join(root, "tests", "e2e");
+    const specFiles = readdirSync(e2eDir).filter((f) => f.endsWith(".spec.ts")).sort();
+    expect(specFiles.length, `tests/e2e/*.spec.ts on disk: ${specFiles.length} (E2E_SPECS says ${E2E_SPECS})`).toBe(E2E_SPECS);
+
+    // Source test() blocks across the specs + the setup project (the
+    // setup's 1 test is part of the E2E total by the constant's contract).
+    const counted = [...specFiles, "auth.setup.ts"];
+    let source = 0;
+    for (const f of counted) {
+      source += (read(`tests/e2e/${f}`).match(/^\s*test\(/gm) ?? []).length;
+    }
+
+    // The a11y spec registers tests inside width loops — its source
+    // count (3) expands through the shared matrix (the single source
+    // both the spec and this census import):
+    //   (SURFACES + the 404) × WIDTHS  +  the login card × WIDTHS
+    const A11Y_SOURCE_TESTS = 3;
+    const a11ySource = (read("tests/e2e/a11y.spec.ts").match(/^\s*test\(/gm) ?? []).length;
+    expect(a11ySource, `a11y.spec.ts carries ${A11Y_SOURCE_TESTS} source test() blocks — if you added or moved one, update A11Y_SOURCE_TESTS and the expansion formula`).toBe(A11Y_SOURCE_TESTS);
+    const expansion =
+      (A11Y_SURFACES.length + 1) * A11Y_WIDTHS.length + // + 1 = the 404 test
+      A11Y_WIDTHS.length; // the logged-out login describe
+    expect(source - A11Y_SOURCE_TESTS + expansion, `e2e tests on disk: ${source - A11Y_SOURCE_TESTS + expansion} (E2E says ${E2E}) — re-anchor E2E + every doc site above`).toBe(E2E);
+
+    // The width-loop pattern stays a11y-only: a registration loop
+    // copied into another spec would silently dodge this census (its
+    // source count would understate its real tests).
+    for (const f of specFiles) {
+      if (f === "a11y.spec.ts") continue;
+      expect(read(`tests/e2e/${f}`), `${f} registers tests inside a width loop — extend the reality census's expansion formula`).not.toContain("for (const width");
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-12 (N12-1): the semantic-prose census STARTER — the neo-crm
+// s208–s217 family, scoped to this repo's drift-prone sites. Doc prose
+// that names RETIRED forms or carries load-bearing setup steps is pinned
+// so the genus can't return (the PAD referenced the retired tw-animate
+// file for a full session after its deletion — F12-5).
+// ---------------------------------------------------------------------------
+
+describe("docs-counts: session-12 — the semantic-prose census starter (N12-1)", () => {
+  it("the PAD carries no retired-form references (tw-animate / the vendor tree line / the stale 409+ prose)", () => {
+    const pad = read("Project_Architecture_Document.md");
+    // Scoped to the PAD: AGENTS/CLAUDE/SKILL legitimately narrate the
+    // session-11 retirement as history; the PAD's ADR-005 + file tree
+    // described it as LIVE architecture — the exact drift F12-5 cured.
+    expect(pad).not.toContain("tw-animate");
+    expect(pad).not.toContain("vendor/");
+    expect(pad).not.toContain("409+");
+  });
+
+  it("the README quickstart keeps the fresh-clone cp line before the first db command (the checkout leg)", () => {
+    const readme = read("README.md");
+    const cp = readme.indexOf("cp .env.example .env");
+    const push = readme.indexOf("bun run db:push");
+    expect(cp, "the quickstart must keep `cp .env.example .env`").toBeGreaterThan(-1);
+    expect(push, "the quickstart must keep `bun run db:push`").toBeGreaterThan(-1);
+    expect(cp, "the cp must precede the first db command (a pristine clone needs .env before db:push)").toBeLessThan(push);
+  });
+
+  it("AGENTS carries the one-owner doctrine (the mutation-battery refinement, N12-2)", () => {
+    expect(read("AGENTS.md")).toContain("EXACTLY ONE pin");
   });
 });

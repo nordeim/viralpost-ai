@@ -49,6 +49,16 @@ export function verificationLockoutMessage(): string {
   return "Too many failed attempts. Please request a new verification code.";
 }
 
+/** The no-pending-code refusal — session-12 (F12-5). The verify route's
+ *  400 branch covers unknown emails, code-less accounts, and EXPIRED
+ *  codes; reusing the lockout copy told a user who never failed once
+ *  that they had failed five times. This copy is true for every shape
+ *  the branch serves and leaks nothing (the same string for unknown
+ *  emails and known ones — the non-enumeration posture is unchanged). */
+export function verificationInvalidMessage(): string {
+  return "This verification code is no longer valid. Please request a new one.";
+}
+
 /** The unverified-login refusal (verbatim from the reference). */
 export function verificationRequiredMessage(): string {
   return "Please verify your email before logging in. Check your email for the verification code.";

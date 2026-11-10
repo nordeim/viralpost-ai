@@ -143,7 +143,8 @@ shape; the reveal/particle/WebGL effects are dependency-free.
 - **Rationale:** Security hardening is the documented superset doctrine;
   the seam is the template's most valuable inheritance.
 - **Consequences:** More moving parts than a token in localStorage; all
-  battle-tested and pinned by 409+ unit checks.
+  battle-tested and pinned by the unit suite (the auth-family checks
+  inside the 488-test gate).
 - **Alternatives rejected:** Mirroring localStorage auth (a downgrade);
   NextAuth/JWT libraries (more dependencies, less control).
 
@@ -153,9 +154,12 @@ shape; the reveal/particle/WebGL effects are dependency-free.
   resolve to transparent; the default oklch palette drifts; `hover:`
   sticks on touch devices).
 - **Decision:** Tokens in `globals.css` `@theme` with literal hex;
-  the `@custom-variant hover` unwrap; `tw-animate-css` vendored at
-  `src/app/vendor/`; the design-tokens and typography test suites pin
-  the theme textually.
+  the `@custom-variant hover` unwrap; the design-tokens and typography
+  test suites pin the theme textually. (Session-11, F11-2: the vendored
+  animate-utilities file that originally rode this ADR was RETIRED — it
+  shipped dead keyframes on a phantom Radix claim; the step-less color
+  census + the dead-token census in `tests/design-tokens.test.ts` are
+  the guard rails.)
 - **Rationale:** The reference is Tailwind-classed (`bg-slate-900`,
   `from-teal-500`…); class-for-class parity requires the same engine
   without v4's foot-guns.
@@ -300,8 +304,7 @@ viralpost-ai/
 │   │   ├── not-found.tsx       ← the root 404 boundary (in-app notFound())
 │   │   ├── not-found-body.tsx  ← the shared 404 body (client, usePathname)
 │   │   ├── error.tsx global-error.tsx   ← error boundaries
-│   │   ├── globals.css         ← THE theme (Tailwind v4 @theme)
-│   │   └── vendor/tw-animate.css        ← vendored animate utilities
+│   │   └── globals.css         ← THE theme (Tailwind v4 @theme)
 │   ├── components/
 │   │   ├── marketing/          ← navbar (mobile menu) · footer · hero ·
 │   │   │                          sections (10 landing blocks) ·
@@ -312,7 +315,7 @@ viralpost-ai/
 │   │   ├── layout/             ← login-card (5 views: signin/reset/sent/signup/verify) · reset-password-screen
 │   │   └── ui/toast.tsx        ← the subscribe/store toast
 │   └── lib/                    ← THE seams (see §12 Key Files)
-├── tests/                      ← 34 unit suites + e2e/ (8 specs)
+├── tests/                      ← 36 unit suites + e2e/ (9 specs)
 ├── scripts/                    ← smoke-test.sh · census.ts · prisma-env.ts
 ├── docs/                       ← plans/ · reference-investigation.md ·
 │                                  implementation-plan.md · session logs ·
@@ -544,8 +547,8 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 34 | 488 | `tests/*.test.ts` | Vitest (node env) |
-| E2E | 8 specs | 50 | `tests/e2e/*.spec.ts` | Playwright (production build) |
+| Unit | 36 | 507 | `tests/*.test.ts` | Vitest (node env) |
+| E2E | 9 specs | 52 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
 ### 8.2 Test Patterns
@@ -562,7 +565,10 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 488/50/15 and change together).
+(README/AGENTS/PAD/SKILL carry 507/52/15 and change together), and the
+count constants themselves are pinned to the live suites on disk by the
+reality census (session-12 — constants vs reality, not constants vs
+docs).
 
 ### 8.4 Pre-Push Checklist
 
@@ -670,12 +676,12 @@ the same commit as the file.)
 | `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
 | `src/lib/db-path.ts` | 239 | THE database path resolver (ADR-008) |
 | `src/lib/site.ts` | 138 | The metadata factory + canonical origin seam |
-| `src/lib/api.ts` | 224 | The envelope + the bounded JSON reader |
+| `src/lib/api.ts` | 222 | The envelope + the bounded JSON reader |
 | `src/app/globals.css` | 217 | The Tailwind v4 theme (ADR-005) |
 | `src/components/marketing/navbar.tsx` | 174 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 191 | The core surface: quota dots, generate, copy, paywall |
-| `src/components/effects/iridescence.tsx` | 217 | The WebGL hero background (aspect-aware shader) |
-| `src/components/effects/particle-text.tsx` | 291 | The canvas particle title |
+| `src/components/effects/iridescence.tsx` | 221 | The WebGL hero background (aspect-aware shader) |
+| `src/components/effects/particle-text.tsx` | 301 | The canvas particle title |
 | `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |
 | `prisma/schema.prisma` | 60 | User + ContactMessage |
 | `scripts/smoke-test.sh` | 175 | The 15-leg artifact ladder |

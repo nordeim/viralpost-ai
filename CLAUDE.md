@@ -138,11 +138,11 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 34 files / 488 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 36 files / 507 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.
-- **E2E (Playwright)**: 8 specs / 50 tests against the production build,
+- **E2E (Playwright)**: 9 specs / 52 tests against the production build,
   own port + own `db/e2e.db`, one shared login via `storageState`,
   axe-core a11y assertions on every route at two widths.
 - **Smoke (bash)**: 15 legs against the standalone artifact with a

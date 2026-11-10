@@ -1,3 +1,132 @@
+Task ID: 12
+Agent: main (Z.ai)
+Task: The session-12 count-reality census + reset-funnel e2e + UX-boundary
+batch round — re-run the standing instruction against the post-session-11
+tree (0de6e1a): docs review, pristine-clone verification (the full
+baseline gate green at the documented 488/34 + 50/8 + 15 counts, after
+the cp .env.example .env + db:push/db:seed + the Playwright chromium
+install — the fresh-sandbox gap, not a code defect), the comprehensive
+audit (0 Critical / 0 High / 2 Medium / 8 Low / 7 Informational, every
+load-bearing finding hand-verified), the neo-crm repo re-review (HEAD
+b3d0fbe, session-217-era — the semantic-prose census family + the
+one-owner doctrine ADOPTED scoped; the count-ladder scripts,
+probe:ref, and the pixel sweep gates DEFERRED with reasons), the live
+reference parity walk (logged-in: /Home, the mobile menu at 390x844 —
+5 destinations, auto-close, the no-aria hamburger, /Tool's hard-nav
+title + OG family — NO drift since session 11) + the clone's
+dev-server menu walk (open/close, Escape WITH the focus return,
+navigate + auto-close), the TDD cures, the mutation batteries (6), the
+gate, captures 31/32, push #12 to main via the SSH wrapper.
+
+Work Log:
+- THE REALITY CENSUS (F12-1, MED — the audit's first Medium): the
+  docs-counts constants were pinned to doc SITES, never to test
+  reality — a test added without bumping UNIT left every doc stale
+  while the gate stayed green (the badge-drift genus the suite's own
+  header claimed to have retired; three prior recurrences). CURED by
+  TDD: the constants now count the LIVE SUITES ON DISK (suite files +
+  it/test blocks regex-counted; the e2e total = source test() blocks
+  with the a11y spec's width-loop expansion COMPUTED from the
+  extracted tests/e2e/a11y-matrix.ts — the pure-data module both the
+  spec and the census import — plus the width-loop-stays-a11y-only
+  guard). MUTATION BATTERY: a scratch test file REDs the census
+  (37 files vs SUITES 36), removal restores GREEN
+- THE RESET-FUNNEL E2E (F12-2, MED — the audit's second Medium): the
+  password-reset funnel had ZERO behavioral coverage (no spec
+  navigated /reset-password?token=…; the reset API was pinned only by
+  source regexes) while its verification sibling got the full e2e at
+  session 11. NEW tests/e2e/reset-funnel.spec.ts (3 tests): signup →
+  verify (the in-app hint) → forgot → the sent view's
+  "Open your password reset link" → the set-new-password form → sign
+  in with the NEW password → /api/auth/me → the SAME-TOKEN REPLAY →
+  400; plus the invalid-link state (no token → the designed card).
+  One iteration: the link is RELATIVE, so the replay's URL parse
+  carries a dummy base. Rate budget: 1 signup / 1 verify / 1 forgot /
+  2 resets / 1 login per run — every bucket ≤ 20% of its wall
+- THE UX-BOUNDARY BATCH (F12-3/F12-4/F12-6/F12-10 — all audit Lows,
+  all live-traced): the 403 re-entry now CLEARS the stale demo-code
+  hint (a hint minted for a previous email/code used to render as
+  "Demo code: …" for the newly-entered email — the route returns no
+  code on the 403); BOTH authed submits honor from_url (the verify
+  submit's bare "/" retired — a guest sent to /login?from_url=/Tool
+  who completed signup→verification now lands back on /Tool; the
+  s145 pin re-anchored in the same commit); the OTP paste takes the
+  TRAILING six digits through the new pure seam src/lib/otp.ts (a
+  paste into a filled box used to shift right and drop the last
+  digit — mutation-batteried: the naive form REDs exactly the 2
+  trailing-window pins); the expired-code 400 answers the NEW
+  verificationInvalidMessage() ("This verification code is no longer
+  valid. Please request a new one." — the lockout copy used to tell a
+  user who never failed once that they had failed five times; the 429
+  VERIFICATION_LOCKED keeps the attempts copy, pinned both ways)
+- THE EFFECTS HYGIENE (F12-8/F12-9): the particle title's
+  reduced-motion branch now DRAWS ONCE and schedules the phrase swap
+  by setTimeout (the old shape kept a 60 fps rAF loop redrawing
+  identical static text all day — the reduced intent is LESS motion;
+  the timer is cleared on dispose, pinned); the WebGL hero re-reads
+  devicePixelRatio INSIDE resize() (the boot-time capture rendered a
+  cross-monitor move at the stale DPR until remount). Both
+  source-pinned comment-stripped (the needle-in-own-doc lesson bit
+  THREE times this round — the cure comments name the retired APIs)
+- THE CENSUS + RETIREMENT SWEEP: the stepped-semantic census arm
+  (F12-7 — a text-success-500-shaped class escapes BOTH existing
+  censuses: the stepped one exempts semantic families, the step-less
+  one can't see the numeric step; zero live instances, planted-defect
+  proof: a scratch text-success-500 REDs it); hero's dead React
+  import; ERR.FORBIDDEN/NOT_FOUND (zero call sites); the
+  verification-server generateVerifyCode re-export ("for any
+  stragglers" — zero importers); the Logo → next/link (the last raw
+  internal anchor — a full document load + the 308 hop); the
+  duplicate verification assertion dedup (F12-14 — two tests with
+  identical bodies proved nothing the first didn't)
+- THE DOC SWEEP (F12-5 + the neo-crm adoptions): the PAD's stale
+  tw-animate references retired (ADR-005's Decision + the file tree
+  described the session-11-deleted file as LIVE architecture for a
+  full session) + the "409+" prose cured; THE SEMANTIC-PROSE CENSUS
+  STARTER adopted from neo-crm's s208–s217 family (negative pins: the
+  PAD carries no tw-animate/vendor/409+ forms; the README quickstart
+  keeps the cp .env.example .env line BEFORE the first db command —
+  the fresh-clone leg; AGENTS carries the one-owner doctrine);
+  AGENTS's mutation-battery convention gained the ONE-OWNER rule
+  (each live face owned by EXACTLY ONE pin; co-pinned faces
+  documented in the pin's comment). DEFERRED with notes: the
+  count-ladder scripts (the reality census centralizes the
+  constants), probe:ref + the pixel sweep gates (the gate stays
+  offline-runnable), A-14 (the resend double-mint race — inherent,
+  retry heals), A-11 (the lint-disable posture — tsc strict is the
+  gate)
+- bun audit RUN (the periodic duty): 10 advisories (4 high, 5
+  moderate, 1 low) — the SAME set as session 11's triage, ALL
+  dev/test/build toolchain (minimatch under eslint, deepmerge-ts
+  under the prisma CLI, the vite family under vitest, the
+  NESTED zod <4.6.6 under eslint-plugin-react-hooks — the direct
+  runtime zod is the patched 4.6.7, source-map-js under postcss);
+  zero runtime request-path advisories; no override warranted
+
+Result:
+- Gate: lint 0/0 · tsc 0 · unit 507/507 (36 files, +19) · build ·
+  smoke 15/15 · e2e 52/52 (9 specs, +2) · census MATCH
+- Badge 559 = 507 + 52; captures 31/32 (dev server via 127.0.0.1,
+  hydration awaited + PIL-verified: 100.0%/99.9% non-white, the
+  menu-open strip 99.1% dark, 3105 amber + 7370 teal content pixels);
+  SKILL v1.8.0
+- Verified: all six mutation batteries (the scratch-file census RED,
+  the naive-OTP RED, the planted stepped-semantic class RED, the
+  verify-route message revert RED, the login-card cure reverts RED,
+  the effects cure reverts RED — each restored to GREEN); the
+  reset-funnel e2e green end-to-end including the single-use replay;
+  the reference re-walked live (no drift); the clone's dev-server
+  menu walk (Escape focus return live-verified via
+  activeElement/aria-expanded/panelHidden evals). Reasoned: the
+  reduced-motion timer behavior (source-pinned, not
+  AT/motion-profile-tested). Assumed: none
+- Deferred debt: F11-14 (the landing's inline PricingSection markup),
+  F10-14 (the particle reduced-motion rAF — NOW CURED at F12-8),
+  A-14 (the resend double-mint race), the neo-crm
+  drift-sweep/dead-code-hygiene/count-ladder families, probe:ref
+
+====================================================================
+
 Task ID: 11
 Agent: main (Z.ai)
 Task: The session-11 standalone-launch DB re-anchor + dead-CSS

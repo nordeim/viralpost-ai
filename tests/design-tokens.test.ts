@@ -284,3 +284,33 @@ describe("design tokens: session-11 — the census completion + the dead-CSS ret
     expect(existsSync(path.resolve(srcDir, "app", "vendor"))).toBe(false);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Session-12: the stepped-semantic census arm (F12-7) — the F11-1 genus,
+// one notch deeper.
+// ---------------------------------------------------------------------------
+
+describe("design tokens: session-12 — the stepped-semantic census arm (F12-7)", () => {
+  it("NO semantic family ever appears with a numeric step (text-success-500-shaped classes compile to NOTHING — no --color-<family>-<step> literal exists by construction)", () => {
+    // The two existing censuses pass a `text-success-500`-shaped class in
+    // opposite directions: the STEPPED census exempts semantic family
+    // names (they sit in its NON_COLOR set so `text-success` — a legit
+    // step-less token consumer — never demands a stepped literal), and
+    // the STEP-LESS census can't see it (the numeric step defeats its
+    // word-boundary pattern). The blind spot is the F11-1 genus
+    // (`border-input` compiled to nothing) one notch deeper — zero live
+    // instances today, asserted zero forever here.
+    const srcDir = path.resolve(import.meta.dirname, "..", "src");
+    const utility =
+      /(?:text|bg|border|from|to|via|fill|stroke|ring|decoration|divide|outline|shadow|accent|caret|placeholder)-(primary|brand|line|muted|subtle|success|warning|danger|info|foreground|background|ink)-(?:50|100|200|300|400|500|600|700|800|900|950)(?![\w-])/g;
+    const offenders = new Set<string>();
+    for (const file of walkSourceFiles(srcDir)) {
+      const text = readFileSync(file, "utf8");
+      for (const m of text.matchAll(utility)) offenders.add(m[0]);
+    }
+    expect(
+      [...offenders],
+      `semantic families never take numeric steps (no @theme literal can ever resolve these — fix the class or pin the stock family): ${[...offenders].join(", ")}`,
+    ).toEqual([]);
+  });
+});

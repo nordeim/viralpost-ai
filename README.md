@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-538%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-559%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,8 +52,8 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 34 files / 488 tests, node env, pure seams |
-| E2E | Playwright | 1.64 | 8 specs / 50 tests against the production build |
+| Unit tests | Vitest | 5.0 | 36 files / 507 tests, node env, pure seams |
+| E2E | Playwright | 1.64 | 9 specs / 52 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
 
@@ -96,7 +96,7 @@ flowchart TB
 │   │   └── 📂 ui/             toast
 │   └── 📂 lib/                the pure seams (generator, counter, auth,
 │                              rate-limit, db-path, site, route-title, …)
-├── 📂 tests/                  34 unit suites + 📂 e2e/ (8 Playwright specs)
+├── 📂 tests/                  36 unit suites + 📂 e2e/ (9 Playwright specs)
 ├── 📂 scripts/                smoke-test.sh, census, prisma-env
 ├── 📂 docs/                   plans, reference investigation, screenshots
 ├── 📂 skills/                 the owner's skill catalog (not app code)
@@ -141,8 +141,8 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (34 files / 488 tests)
-bun run test:e2e        # Playwright e2e (8 specs / 50 tests) — needs bun run build first
+bun run test            # Vitest unit suite (36 files / 507 tests)
+bun run test:e2e        # Playwright e2e (9 specs / 52 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
 ```
@@ -219,9 +219,10 @@ the PostgreSQL swap.
 | Session 9 — the rate-limiter trust warning + the docs-counts gate | ✅ done | The unset-`VIRALPOST_PROXY_HOPS` production boot warning (the direct-exposure XFF-rotation hazard); the signup `"rep"` role relic → the schema's `"user"`; the reset funnel's read-path outage honesty (503, never a bare 500); the property suite landed (fast-check over the generator + limiter contracts — the PAD claim made true); contact/generate joined the sweep family; the dead-code + phantom-provider retirement; DEPLOYMENT.md rewritten for ViralPost AI (was ORBITAL-era); the neo-crm docs-counts gate adopted (badge 490 = 442+48, unit-pinned); captures 25/26 |
 | Session 10 — the dev-origin hydration lock + the palette re-pin completion | ✅ done | The dev server at `127.0.0.1` never hydrated (Next 16 blocks the loopback origin's HMR socket → the mobile menu and every client island inert — live root-caused) — `allowedDevOrigins` cured it (pinned + live A/B); the v3 palette re-pin completed (11 unpinned steps, green-700 visibly drifted) + the mechanical color-census pin; the malformed-`NEXT_PUBLIC_SITE_URL` brick cured (fallback + boot warning); history-navigation menu close (e2e-pinned); the hashtag window exercised (5-7); CTAs → Link; NOT_FOUND_LAYOUT pinned; CRM-lineage test headers re-attributed; the three straggler count sites pinned; badge 512 = 463+49; captures 27/28 |
 | Session 11 — the standalone-launch DB re-anchor + the dead-CSS retirement + the verification-funnel closure | ✅ done | `bun run start` with the default relative `.env` could not open the database (bun's absolutization + the session-7 hygiene step had silently killed the session-34 launch-dir recovery — live root-caused; the neo-crm session-212 hoist cured it, TDD + live A/B); the dead-CSS retirement (the vendored tw-animate.css + 13 dead `@theme` tokens + the dead keyframes/utilities — all phantom-justified) + the step-less color census (`border-input` compiled to nothing) + the dead-token census; the verification funnel closed (enforceable login gate on the stored hash, resend re-mints for expired codes, the 403 re-enters the verify view — full-funnel e2e); the signup P2002 race → 400; the over-length idea message; the menu a11y increments (aria-controls + Escape focus return); the OTP paste distribution; the gate-script + doctrine/inventory censuses adopted from neo-crm; badge 538 = 488+50; captures 29/30 |
+| Session 12 — the count-reality census + the reset-funnel e2e + the UX-boundary batch | ✅ done | The count constants pinned to the LIVE SUITES ON DISK (the reality census — constants vs reality, not constants vs docs; the a11y matrix extracted so the loop expansion is computed, not assumed); the password-reset funnel's FIRST behavioral e2e (signup → verify → forgot → the in-app link → new password → session → the single-use replay → 400 — the sibling of session-11's verification-funnel e2e); the UX-boundary batch (the 403 re-entry clears the stale demo-code hint, the verify submit honors `from_url`, the OTP paste takes the trailing six digits via the new `otp.ts` seam, the expired-code 400 answers "no longer valid" not "too many attempts"); the effects hygiene (the reduced-motion branch schedules by timeout — no 60 fps rAF redraw loop; the hero re-reads `devicePixelRatio` per resize); the stepped-semantic census arm; the Logo → Link; the dead-export retirement (ERR.FORBIDDEN/NOT_FOUND, the generateVerifyCode re-export); the PAD's stale tw-animate references retired + the semantic-prose census starter + the one-owner doctrine from neo-crm; badge 559 = 507+52; captures 31/32 |
 
-Gate at the session-11 ship: lint 0/0 · tsc 0 · unit 488/488 · build ·
-smoke 15/15 · e2e 50/50.
+Gate at the session-12 ship: lint 0/0 · tsc 0 · unit 507/507 · build ·
+smoke 15/15 · e2e 52/52.
 
 ## License
 

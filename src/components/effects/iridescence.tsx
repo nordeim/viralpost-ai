@@ -167,9 +167,13 @@ export function Iridescence({
 
     let raf = 0;
     let disposed = false;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     const resize = () => {
+      // Session-12 (F12-9): devicePixelRatio is read FRESH on every
+      // resize — a boot-time capture rendered a cross-monitor move at
+      // the stale DPR until remount (particle-text's layout() already
+      // re-read it; this now matches).
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const rect = canvas.getBoundingClientRect();
       canvas.width = Math.max(1, Math.round(rect.width * dpr));
       canvas.height = Math.max(1, Math.round(rect.height * dpr));

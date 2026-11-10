@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 
+import { SURFACES, WIDTHS } from "./a11y-matrix";
+
 // The a11y battery — every public surface at BOTH widths (the template's
 // two-gate doctrine, adapted to the new app): STRUCTURAL violations must
 // be ZERO (named controls, labeled inputs, heading order, valid ARIA).
@@ -9,6 +11,10 @@ import { expect, test } from "@playwright/test";
 // visual parity with the reference, the documented doctrine.
 //
 // The axe engine rides the DECLARED devDep (package.json: axe-core).
+//
+// Session-12 (F12-1): SURFACES + WIDTHS live in ./a11y-matrix (pure data)
+// so the docs-counts reality census can compute this file's loop
+// expansion mechanically — the matrix is the single source for both.
 
 const AXE_PATH = "node_modules/axe-core/axe.min.js";
 
@@ -89,14 +95,9 @@ function assertAdjudicated(violations: Violation[]): void {
   }
 }
 
-const SURFACES = [
-  { name: "landing (/)", path: "/" },
-  { name: "tool (/Tool)", path: "/Tool" },
-  { name: "pricing (/Pricing)", path: "/Pricing" },
-  { name: "contact (/Contact)", path: "/Contact" },
-] as const;
+// (SURFACES/WIDTHS imported from ./a11y-matrix — session-12, F12-1.)
 
-for (const width of [1280, 390] as const) {
+for (const width of WIDTHS) {
   test.describe(`a11y @${width}`, () => {
     test.use({ viewport: { width, height: width === 390 ? 844 : 800 } });
 
@@ -122,7 +123,7 @@ for (const width of [1280, 390] as const) {
 test.describe("a11y — logged-out login", () => {
   test.use({ storageState: { cookies: [], origins: [] } });
 
-  for (const width of [1280, 390] as const) {
+  for (const width of WIDTHS) {
     test(`login (/login) @${width} — the auth card`, async ({ page }) => {
       await page.setViewportSize({ width, height: width === 390 ? 844 : 800 });
       await page.goto("/login");

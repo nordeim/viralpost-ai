@@ -7,6 +7,7 @@ import {
   VERIFICATION_MAX_ATTEMPTS,
   isVerificationLockedOut,
   isVerificationPending,
+  verificationInvalidMessage,
   verificationLockoutMessage,
   verificationRemainingMessage,
 } from "@/lib/verification";
@@ -52,7 +53,11 @@ export async function POST(req: Request) {
     if (!user || !user.verificationCodeHash || !isVerificationPending(user.verificationExpiresAt)) {
       // No pending code: behave like the reference's generic failure (the
       // banner family) without leaking whether the account exists.
-      return fail("VERIFICATION_INVALID", verificationLockoutMessage(), 400);
+      // Session-12 (F12-5): the invalid copy, not the lockout copy —
+      // this branch serves expired codes and never-verified accounts
+      // that have failed ZERO times; "Too many failed attempts" told
+      // them they had failed five.
+      return fail("VERIFICATION_INVALID", verificationInvalidMessage(), 400);
     }
 
     // The lockout check rides BEFORE the code compare (the reference's
