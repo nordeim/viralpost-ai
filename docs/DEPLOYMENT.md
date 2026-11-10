@@ -32,7 +32,7 @@ bun run start          # NODE_ENV=production bun .next/standalone/server.js
 The server listens on port 3000 by default (`PORT` overrides). Always
 start it from the repo root via the npm/bun script — the scripts
 guarantee the working directory that the SQLite path resolution and the
-standalone trace rely on. **Cookie scheme note (session-67):** the
+standalone trace rely on. **Cookie scheme note (the CRM family's session-67 — a donor-ledger number, re-attributed session-21 S21-12):** the
 session cookie's `Secure` flag derives from `NODE_ENV` (set in
 production boots) — the app NEVER reads `X-Forwarded-Proto` or any other
 request header to decide it. Behind an HTTPS-terminating reverse proxy

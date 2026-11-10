@@ -1,3 +1,121 @@
+Task ID: 21
+Agent: main (Z.ai)
+Task: The session-21 CTA-class re-anchor + oklab→sRGB gradient cure +
+mobile-menu pill + audit batch round — re-run the standing instruction
+against the post-session-20 tree (8c2fdcf = b280189 + the session-20
+round log): docs review, the baseline gate on the merged tree (lint 0/0
+· tsc 0 · unit 571/571 (37 files) · census MATCH; the DATABASE_URL
+contract re-verified end-to-end on a clean clone), the comprehensive
+audit (0 Critical / 0 High / 1 Medium / 11 Low / 14 Info — dispatched
+wide across three parallel subagents (API/lib seams,
+components/pages/effects, SEO/configs/tests/docs), every load-bearing
+finding hand-verified in source), the neo-crm repo re-review (HEAD
+b3d0fbe — UNCHANGED since session 12; the recorded decisions stand),
+the live reference parity walk (logged-in; the five-route head census,
+the full computed-style control census at desktop + 390×844, the
+monetization floaters, sitemap/robots, the generator superset) — FIVE
+LIVE CLASS-LEVEL DRIFTS found (the first since session 19), the TDD
+cures (R21-1..R21-19, +15 unit pins, 1 mutation battery, +1 e2e leg),
+the gate, captures 49/50, push #21 to main via the SSH wrapper.
+
+Details:
+- THE FIVE DRIFTS (all live-verified on both sides, all cured +
+  re-verified live): S21-1 the footer "Upgrade – $19" CTA (our
+  from-teal-400/text-slate-900//25 form vs the reference's
+  from-teal-500/text-white//30 — re-anchored, pinned); S21-2 the
+  Pro-card CTA's hover family (our hover:bg-teal-50 tint vs its
+  hover:shadow-lg + lift — re-anchored, pinned); S21-3 the mobile-menu
+  pill (the reference's text is now "Upgrade to Pro" — the priced form
+  was its session-1-era capture; re-anchored + the hover family,
+  pinned, the e2e name re-pinned); S21-4 the menu links (the
+  reference's dropdown re-renders the desktop LINK_BASE underline
+  family; adopted, our block/py-2 touch-target layout kept as the
+  documented superset); S21-5 THE OKLAB GRADIENT CURE (the audit's one
+  Medium, elevated by the walk: every v4 bg-gradient-to-* compiles `in
+  oklab` while the reference blends sRGB — the hue-crossing
+  teal-400→amber-400 brand family drifted ΔR≈26 midband on the wordmark,
+  the monetization headline, and the Get-Unlimited-Access CTA; the
+  house doctrine's inline-style cure landed on all three (the exact
+  `linear-gradient(to right, #2dd4bf, #fbbf24)`), the utility pair is
+  BANNED from src/ by the design-tokens census, and the
+  Tailwind-V4-Validation-Report's false arbitrary-form claim was
+  re-anchored; mutation battery RED→restored→GREEN; live-verified
+  byte-identical to the reference)
+- S21-6: the reset screen's success-swap focus map — the S19-10 genus
+  missed on this surface (the done-swap unmounted the focused submit;
+  the h1 now carries data-view-focus + the prev-state ref guard);
+  pinned
+- S21-7 (refined mid-round): the OTP keystroke/paste/autofill triage
+  — onChange cannot tell a keystroke from a paste from a browser
+  AUTOFILL, so typing into an already-filled box SMEARED the old digit
+  forward (the two-char append rode the distribution path); the first
+  strict split broke the funnel e2e legs AND would have broken the
+  one-time-code autofill, so the landed contract triages: append-onto-
+  own-digit or single digit → replace in place + auto-advance; longer
+  values (paste-via-onChange, autofill) → the shared distributeCodeFrom
+  arm; real pastes intercepted by onPaste (preventDefault — the F12-6
+  stale-prefix genus); pinned ×3 (re-anchored to the refined shape)
+- S21-8: parseEnvFile strips unquoted inline comments — bun's loader
+  does (live-verified isolated: `K=v # note` → v; `K=abc#def` → abc;
+  quoted hashes survive), and a disagreeing parser broke the
+  bun-absolutization signature check (the DB silently landing outside
+  the repo — the Error-code-14 class); the parser now mirrors bun's
+  scan order exactly; pinned ×4 (incl. the quoted-hash + the
+  after-quote-comment faces)
+- S21-9: the /signup route's FIRST runtime coverage — a UI-orphaned
+  direct-nav surface with zero e2e legs (a render-time break would
+  ship through a green gate); the leg asserts the title + the signup
+  card + the canonical (e2e 57 → 58)
+- S21-10: /reset-password's pageMetadata consumption pinned (the one
+  unpinned factory consumer)
+- The docs/comment batch: ADR-004's stale "488-test gate" re-anchored
+  (S21-11); the PAD's §7-less heading ladder TOC renumbered + the
+  Last-Updated date + the public/ tree entry (S21-14); the
+  donor-ledger lineage notes (S21-12 — the CRM family's OWN session-20
+  S20-P1..P4 describes in http-headers.test.ts re-attributed to this
+  repo's session-8; the F10-4 note pattern applied to .env.example,
+  DEPLOYMENT.md, playwright.config.ts, boot-env/error-boundaries/
+  login-views/auth-reset test headers, the login/signup/reset-password
+  page comments; the SKILL's new §0.5 Citation Provenance section maps
+  the two ledgers); the PT reword + the page-titles S20-15 prose
+  alignment (S21-13); the eslint phantom-ignore prune (S21-16 —
+  examples/delivery/research/tool-results/mini-services/.zscripts/out/
+  build never existed here; skills stays); the x-real-ip warning face
+  (S21-17); the tolerant-email posture documented (S21-18); the
+  findUnique + single-hash refactor (S21-19 — the S20-2 @unique index
+  expressed structurally; the auth-reset pins re-anchored + the
+  vacuous ordering arm fixed); the Copy button joins the focus-visible
+  family (S21-20); the floating-icons matchMedia guard (S21-21); the
+  SKILL Appendix B header re-certified through session 21 (S21-22)
+- Deferred (the honest register): the signup admin-bootstrap race (an
+  empty-DB edge behind the IP limiter), the logout-CSRF nuisance (the
+  adjudicated S13-8 posture), the landing's section-header duplication
+  (byte-identical; the CARD family is shared so the S21-2 cure landed
+  on both routes), the Reveal no-JS trade-off (the reference's SPA is
+  worse), the offscreen-rAF pause + the mid-session reduced-motion
+  toggle (parity-neutral), the non-signin views' h2-only headings (the
+  reference's own swap DOM), the per-account login lockout (carried),
+  scryptSync-on-the-request-path (carried), the toast nested
+  live-region trade-off (carried), the error.tsx axe battery (carried),
+  the start tee pipe (carried)
+- Count lockstep: UNIT 571 → 586 (+15: landing-page +4, design-tokens
+  +3, a11y-controls +1, login-views +3, db-path +4), E2E 57 → 58 (the
+  /signup leg), badge 628 → 644; the PAD §12 rows re-anchored (db-path
+  254, navbar 196, generator-card 206, floating-icons 122); SKILL
+  v1.16.0 → v1.17.0 (frontmatter, §0.5, §5 item 5's cure note,
+  Appendix A's session-21 row, Appendix B re-certified); README's
+  session-21 row + gate line; AGENTS counts + the plans map's
+  twenty-first round; CLAUDE counts; PAD §8.1 + §12 + the hygiene
+  batch; worklog Task 21 (this entry); docs/session_21.md (the
+  pre-round transcript replaced by the round log); the plan's
+  post-execution record
+- Verified: lint 0/0 · tsc 0 · unit 586/586 (37 files) · build ·
+  smoke 15/15 · e2e 58/58 (9 specs) · census MATCH · the five cured
+  surfaces live-verified against the reference (the computed styles
+  byte-match: the sRGB gradients, the footer/pro-card CTA classes, the
+  menu pill text + hover family, the menu links' underline family) ·
+  captures 49/50 PIL-verified
+
 Task ID: 20
 Agent: main (Z.ai)
 Task: The session-20 ledger-count closure + resetToken index + limiter

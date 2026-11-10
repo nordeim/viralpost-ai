@@ -13,6 +13,11 @@ const signupLayout = async () => (await import("@/lib/login-reset")).LOGIN_SIGNU
 const verifyLayout = async () => (await import("@/lib/login-reset")).LOGIN_VERIFY_LAYOUT;
 const errorCallout = async () => (await import("@/lib/login-reset")).LOGIN_ERROR_CALLOUT;
 const verification = async () => import("@/lib/verification");
+// Lineage note (session-21, S21-12): the session numbers in this suite
+// (session-21 S21-P*, session-96/111/145/147, walk35/37…) cite the
+// NEO-CRM/digma donor ledgers — the template repos these views were
+// ported from. THIS repo's own session-21 findings are S21-1..S21-22
+// (docs/plans/2026-11-11-session21-*.md).
 
 // Session-21: the login-card error + view-state layer — the surface never
 // swept before (the reference's auth error banner, its in-place signup
@@ -593,3 +598,43 @@ describe("session-12: the UX-boundary batch (F12-3 + F12-4)", () => {
     expect(verify![0]).toMatch(/resolveFromUrl\(fromUrl \?\? "\/", window\.location\.origin\)/);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Session-21 (S21-7, THIS repo's ledger — refined): the OTP
+// keystroke/paste/autofill triage. `onChange` cannot tell a keystroke
+// from a paste from a browser AUTOFILL, so typing into an
+// already-filled box produced a two-char append that rode the
+// distribution path (the old digit stayed, the new one clobbered the
+// NEXT box). The refined contract: an append onto the box's OWN digit
+// (raw = current + one char) is a keystroke — replace in place; a
+// single digit replaces in place; anything longer (a paste that reached
+// onChange, or the one-time-code AUTOFILL that fills box 1 through the
+// input event) distributes via the shared arm; real pastes are
+// intercepted by onPaste (preventDefault — the stale-prefix
+// contamination never reaches onChange).
+// ---------------------------------------------------------------------------
+describe("session-21 (S21-7): the OTP keystroke/paste split", () => {
+  it("the inputs carry an onPaste interception (the primary paste path)", () => {
+    const src = loginCardSrc();
+    expect(src).toContain("onPaste={(e) => onCodePaste(idx, e)}");
+    expect(src).toMatch(/e\.preventDefault\(\)/);
+  });
+
+  it("the keystroke arm detects the append-onto-own-digit shape and replaces in place", () => {
+    const src = loginCardSrc();
+    expect(src).toContain("function onCodeDigit(idx: number, raw: string) {");
+    expect(src).toContain(
+      "const keystrokeAppend =\n      current !== \"\" && digits.length === current.length + 1 && digits.startsWith(current);",
+    );
+    expect(src).toContain("if (digits.length <= 1 || keystrokeAppend) {");
+    expect(src).toContain("const digit = digits.slice(-1);");
+  });
+
+  it("the paste/autofill arm distributes via the shared helper (onPaste + the onChange fallback)", () => {
+    const src = loginCardSrc();
+    expect(src).toContain("function distributeCodeFrom(idx: number, digits: string) {");
+    expect(src).toMatch(/otpDigitsAfterPaste\(e\.clipboardData\.getData\(\"text\"\), VERIFICATION_CODE_LENGTH\)/);
+    // Both paths converge on the shared arm.
+    expect((src.match(/distributeCodeFrom\(idx, digits\);/g) ?? []).length).toBe(2);
+  });
+})

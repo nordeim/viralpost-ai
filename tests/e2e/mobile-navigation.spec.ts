@@ -18,7 +18,9 @@ test("the hamburger opens the menu with every destination", async ({ page }) => 
   await expect(menu.getByRole("link", { name: "Tool" })).toBeVisible();
   await expect(menu.getByRole("link", { name: "Pricing" })).toBeVisible();
   await expect(menu.getByRole("link", { name: "Contact" })).toBeVisible();
-  await expect(menu.getByRole("link", { name: "Upgrade to Pro – $19" })).toBeVisible();
+  // Session-21 (S21-3): the reference's dropdown pill now says
+  // "Upgrade to Pro" (the priced form was its session-1-era text).
+  await expect(menu.getByRole("link", { name: "Upgrade to Pro", exact: true })).toBeVisible();
 });
 
 test("menu links navigate and the menu closes on route change", async ({ page }) => {

@@ -56,9 +56,14 @@ export async function POST(req: Request) {
   // invalid-token 400 below (a server condition masquerading as a client
   // error); every OTHER read failure stays a null user (the no-oracle
   // contract).
-  let user: Awaited<ReturnType<typeof db.user.findFirst>> = null;
+  // Session-21 (S21-19): findUnique on the S20-2 @unique index (computed
+  // ONCE — the hash previously ran twice) — the one-live-token invariant
+  // expressed structurally; behavior unchanged (the auth-reset suite is
+  // the characterization).
+  const tokenHash = hashResetToken(resetToken);
+  let user: Awaited<ReturnType<typeof db.user.findUnique>> = null;
   try {
-    user = await db.user.findFirst({ where: { resetToken: hashResetToken(resetToken) } });
+    user = await db.user.findUnique({ where: { resetToken: tokenHash } });
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -88,7 +93,7 @@ export async function POST(req: Request) {
   // no-bare-throw discipline).
   try {
     const result = await db.user.updateMany({
-      where: { id: user.id, resetToken: hashResetToken(resetToken), resetTokenExpiresAt: { gt: new Date() } },
+      where: { id: user.id, resetToken: tokenHash, resetTokenExpiresAt: { gt: new Date() } },
       data: {
         passwordHash: hashPassword(newPassword),
         resetToken: null,

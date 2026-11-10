@@ -31,6 +31,20 @@ export function ResetPasswordScreen() {
   const [pending, setPending] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [done, setDone] = React.useState(false);
+  // Session-21 (S21-6): the S19-10 focus map, extended to this screen —
+  // the success swap unmounts the focused submit button and focus fell
+  // to <body> (the login card's own pre-cure genus, WCAG 2.4.3). The
+  // card root anchors the query; the prev-state ref guard keeps the
+  // INITIAL mount from stealing focus.
+  const screenRef = React.useRef<HTMLDivElement | null>(null);
+  const prevDoneRef = React.useRef(done);
+  React.useEffect(() => {
+    if (prevDoneRef.current === done) return;
+    prevDoneRef.current = done;
+    if (done) {
+      screenRef.current?.querySelector<HTMLElement>("[data-view-focus]")?.focus();
+    }
+  }, [done]);
 
   async function onResetSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -92,7 +106,7 @@ export function ResetPasswordScreen() {
   }
 
   return (
-    <div className="w-full max-w-md">
+    <div className="w-full max-w-md" ref={screenRef}>
       <div className={LOGIN_LAYOUT.card}>
         <div className={LOGIN_LAYOUT.accent} aria-hidden="true" />
         <div className={LOGIN_LAYOUT.inner}>
@@ -102,7 +116,7 @@ export function ResetPasswordScreen() {
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50">
                   <Lock className="h-5 w-5 text-emerald-600" aria-hidden="true" />
                 </div>
-                <h1 className={LOGIN_LAYOUT.title}>Password reset</h1>
+                <h1 className={LOGIN_LAYOUT.title} tabIndex={-1} data-view-focus>Password reset</h1>
                 <p className={LOGIN_LAYOUT.subtitle}>
                   Your password has been reset successfully. Sign in with your new password.
                 </p>

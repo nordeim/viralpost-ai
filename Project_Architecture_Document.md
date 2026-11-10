@@ -3,7 +3,7 @@
 **Classification:** Internal Engineering Reference
 **Status:** DEFINITIVE, PRODUCTION-LOCKED BLUEPRINT
 **Companion Document:** `README.md` (onboarding), `AGENTS.md` (operator quick-reference), `CLAUDE.md` (agent contract), `viralpost-ai_SKILL.md` (distilled memory)
-**Last Updated:** 2026-11-09
+**Last Updated:** 2026-11-11
 **Audience:** Senior Engineers, Tech Leads, DevOps, and Onboarding Engineers
 **Rule:** Every architectural decision in this document traces to a specific rationale.
 Nothing is here "because it's popular."
@@ -18,12 +18,16 @@ Nothing is here "because it's popular."
 4. [Data Architecture](#4-data-architecture)
 5. [Design System Reference](#5-design-system-reference)
 6. [Security Architecture](#6-security-architecture)
-7. [Testing Strategy](#8-testing-strategy)
-8. [Build & Deployment](#9-build--deployment)
-9. [Developer Handbook](#10-developer-handbook)
-10. [Known Issues & Outstanding Tasks](#11-known-issues--outstanding-tasks)
-11. [Key Files Reference](#12-key-files-reference)
-12. [Glossary](#13-glossary)
+8. [Testing Strategy](#8-testing-strategy)
+9. [Build & Deployment](#9-build--deployment)
+10. [Developer Handbook](#10-developer-handbook)
+11. [Known Issues & Outstanding Tasks](#11-known-issues--outstanding-tasks)
+12. [Key Files Reference](#12-key-files-reference)
+13. [Glossary](#13-glossary)
+
+(The ladder skips §7 — a session-1 renumbering left the gap; the heading
+numbers are the citation currency (the "§12" pins), so the gap is kept
+rather than renumbering every reference. Session-21, S21-14.)
 
 ---
 
@@ -147,7 +151,8 @@ reveal/particle/WebGL/floating-icons effects are dependency-free.
   the seam is the template's most valuable inheritance.
 - **Consequences:** More moving parts than a token in localStorage; all
   battle-tested and pinned by the unit suite (the auth-family checks
-  inside the 488-test gate).
+  inside the unit gate — 586 tests at the session-21 ship, live-pinned by
+  the docs-counts census).
 - **Alternatives rejected:** Mirroring localStorage auth (a downgrade);
   NextAuth/JWT libraries (more dependencies, less control).
 
@@ -294,7 +299,7 @@ viralpost-ai/
 ├── prisma/schema.prisma        ← User + ContactMessage (SQLite)
 ├── prisma/seed.ts              ← idempotent demo user (upsert-by-email)
 ├── db/                         ← custom.db · e2e.db · smoke.db (gitignored)
-├── public/                     ← og-image.png · portrait · screenshots/
+├── public/                     ← og-image.png · hero-portrait (captures live in docs/screenshots/)
 ├── src/
 │   ├── app/
 │   │   ├── (site)/             ← public chrome: layout (Navbar+Footer),
@@ -551,8 +556,8 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 37 | 571 | `tests/*.test.ts` | Vitest (node env) |
-| E2E | 9 specs | 57 | `tests/e2e/*.spec.ts` | Playwright (production build) |
+| Unit | 37 | 586 | `tests/*.test.ts` | Vitest (node env) |
+| E2E | 9 specs | 58 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
 ### 8.2 Test Patterns
@@ -569,7 +574,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 571/57/15 and change together), and the
+(README/AGENTS/PAD/SKILL carry 586/58/15 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -669,7 +674,7 @@ Swept at session-2 ship — no open CRITICAL/HIGH items.
 
 ## 12. Key Files Reference
 
-(The Lines column is the live `wc -l` of each file at the session-19 ship
+(The Lines column is the live `wc -l` of each file at the session-21 ship
 — pinned by tests/docs-counts.test.ts's inventory census; edit the row in
 the same commit as the file.)
 
@@ -682,15 +687,15 @@ the same commit as the file.)
 | `src/lib/auth.ts` | 184 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
 | `src/lib/password.ts` | 68 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
-| `src/lib/db-path.ts` | 239 | THE database path resolver (ADR-008) |
+| `src/lib/db-path.ts` | 254 | THE database path resolver (ADR-008) |
 | `src/lib/site.ts` | 173 | The metadata factory + canonical origin seam |
 | `src/lib/api.ts` | 252 | The envelope + the bounded JSON reader (the non-object body guard, session-16, S16-1) |
 | `src/app/globals.css` | 222 | The Tailwind v4 theme (ADR-005) |
-| `src/components/marketing/navbar.tsx` | 179 | The nav + the mobile menu (parity-verified) |
-| `src/components/marketing/generator-card.tsx` | 203 | The core surface: quota dots, generate, copy, paywall |
+| `src/components/marketing/navbar.tsx` | 196 | The nav + the mobile menu (parity-verified) |
+| `src/components/marketing/generator-card.tsx` | 206 | The core surface: quota dots, generate, copy, paywall |
 | `src/components/effects/iridescence.tsx` | 241 | The WebGL hero background (aspect-aware shader) |
 | `src/components/effects/particle-text.tsx` | 330 | The canvas particle title |
-| `src/components/effects/floating-icons.tsx` | 117 | The monetization section's ten-icon float field (session-19, S19-2) |
+| `src/components/effects/floating-icons.tsx` | 122 | The monetization section's ten-icon float field (session-19, S19-2) |
 | `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |
 | `src/app/api/[...path]/route.ts` | 43 | The API subtree's envelope 404 (session-15, S15-7; OPTIONS joined session-18, S18-2) |
 | `src/app/api/route.ts` | 51 | The bare `/api` envelope 404 (session-16, S16-2; OPTIONS joined session-18, S18-2) |

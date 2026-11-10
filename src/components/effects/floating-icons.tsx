@@ -69,7 +69,12 @@ export function FloatingIcons() {
   const wrapRefs = React.useRef<Array<HTMLDivElement | null>>([]);
 
   React.useEffect(() => {
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Session-21 (S21-21): the guarded form the other three effects
+    // carry (a sandboxed/older embedding without matchMedia renders the
+    // static face instead of throwing inside the effect).
+    const reduced =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return; // the static render below IS the reduced-motion face
 
     let raf = 0;

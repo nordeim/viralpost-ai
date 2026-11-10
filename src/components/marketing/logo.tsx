@@ -18,7 +18,14 @@ export function Logo({ className }: { className?: string }) {
       <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center shadow-lg shadow-teal-500/30 group-hover:shadow-teal-400/50 transition-shadow">
         <Sparkles className="h-4 w-4 text-white" aria-hidden="true" />
       </div>
-      <span className="text-lg font-bold bg-gradient-to-r from-teal-400 to-amber-400 bg-clip-text text-transparent">
+      {/* Session-21 (S21-5): the sRGB inline form — v4 compiles the
+          hue-crossing utility pair `in oklab`, a ΔR≈26 midband drift
+          from the reference's v3 sRGB blend (pinned in
+          tests/design-tokens.test.ts). */}
+      <span
+        className="text-lg font-bold bg-clip-text text-transparent"
+        style={{ backgroundImage: "linear-gradient(to right, #2dd4bf, #fbbf24)" }}
+      >
         ViralPost AI
       </span>
     </Link>

@@ -29,8 +29,9 @@ describe("pageMetadata: the per-route family", () => {
   // platform ADOPTED the per-route description prefix between the
   // session-18 and session-19 walks — og/twitter/meta description on
   // /Tool /Pricing /Contact now ship "<Page> on ViralPost AI. " + a
-  // 70-char word-boundary-truncated tail of the root paragraph (the
-  // trailing comma normalized to a period). The session-8 F8-1
+  // 70-char tail of the root paragraph (the hard slice + the trailing
+  // comma normalized to a period — word-boundary-correct for the pinned
+  // string, the S20-15 wording). The session-8 F8-1
   // retirement (which pinned the PLAIN description) is re-anchored to
   // the reference's new live family; / and /login keep the plain
   // 170-char paragraph (unchanged on the reference).
@@ -55,10 +56,12 @@ describe("pageMetadata: the per-route family", () => {
     expect(login.twitter?.description).toBe(SITE_DESCRIPTION);
   });
 
-  it("the prefixed description derives from SITE_DESCRIPTION (the 70-char word-boundary tail, terminal period)", () => {
-    // The live-observed rule: the tail is SITE_DESCRIPTION cut at 70
-    // chars on a word boundary, the trailing comma normalized to a
-    // period. Pinned against the derivation, not a magic string, so a
+  it("the prefixed description derives from SITE_DESCRIPTION (the hard 70-char cut + comma normalization)", () => {
+    // The live-observed rule (S20-15's precise wording): the tail is
+    // SITE_DESCRIPTION hard-cut at 70 chars, the trailing comma
+    // normalized to a period — word-boundary-correct only because the
+    // pinned description's 70th character happens to be that comma.
+    // Pinned against the derivation, not a magic string, so a
     // root-description edit surfaces here instead of silently
     // diverging from the truncation contract.
     const tail = "An AI-powered social media generator that helps creators, influencers.";
@@ -115,6 +118,10 @@ describe("pageMetadata: the pages consume the factory", () => {
       "src/app/(site)/Contact/page.tsx",
       "src/app/login/page.tsx",
       "src/app/signup/page.tsx",
+      // Session-21 (S21-10): /reset-password joins the consumer list —
+      // its pageMetadata export was the one unpinned factory consumer
+      // (a dropped export would have shipped through a green gate).
+      "src/app/reset-password/page.tsx",
     ]) {
       expect(read(p), p).toContain("pageMetadata(");
     }

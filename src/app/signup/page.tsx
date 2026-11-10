@@ -14,12 +14,12 @@ export const metadata = pageMetadata({ page: null, route: "/signup", title: "Sig
 
 export const dynamic = "force-dynamic";
 
-// Session-67 (N-67f): NO authenticated redirect here either — /login
+// the CRM family's session-67 (N-67f — a donor-ledger number): NO authenticated redirect here either — /login
 // dropped its session-read redirect at s23-P2 as an invented scaffold
 // pattern (the reference serves the login card to authed visitors too);
 // /signup is our documented superset (the reference 404s it), so the
 // same pure-render shape applies. The page makes no session read — no
-// DB round-trip per visit — and the s43 deferred-ledger "signup-page
+// DB round-trip per visit — and the the donor s43 deferred-ledger "signup-page
 // session read" entry closes with it.
 export default function SignupPage() {
   return (

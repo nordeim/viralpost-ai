@@ -95,6 +95,19 @@ describe("named-control source pins (the open surfaces)", () => {
     expect(src).toMatch(/view === "verify"\) \{\s*codeRefs\.current\[0\]\?\.focus\(\);\s*return;/);
   });
 
+  // Session-21 (S21-6): the S19-10 genus, missed on the reset screen —
+  // its success swap unmounts the focused submit button and rendered
+  // the confirmation card with no focus management (focus fell to
+  // <body>). The done h1 now carries the focus target; a prev-state
+  // ref guard keeps the initial mount from stealing focus (the
+  // login-card doctrine).
+  it("session-21 (S21-6): the reset screen's success swap lands focus on the confirmation heading", () => {
+    const src = read("src/components/layout/reset-password-screen.tsx");
+    expect(src).toContain('<h1 className={LOGIN_LAYOUT.title} tabIndex={-1} data-view-focus>Password reset</h1>');
+    expect(src).toContain('screenRef.current?.querySelector<HTMLElement>("[data-view-focus]")?.focus()');
+    expect(src).toMatch(/prevDoneRef\.current === done\) return;/);
+  });
+
   it("the hero portrait img carries its alt text", () => {
     const hero = read("src/components/marketing/hero.tsx");
     expect(hero).toContain('alt="ViralPost AI user"');

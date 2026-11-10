@@ -23,7 +23,7 @@ function hiddenStyle(direction: RevealDirection): React.CSSProperties {
 /**
  * Wrap section content to reveal it on scroll.
  * - `up`: the default y:20 fade (the reference's section reveals)
- * - `left`: the x:-16 slide (the PT section's benefit rows)
+ * - `left`: the x:-16 slide (the monetization section's benefit rows)
  * - `delay`: an optional entrance delay in ms (the reference staggers at
  *   0.1s steps)
  */

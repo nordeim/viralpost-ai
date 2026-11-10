@@ -13,6 +13,9 @@ import { describe, expect, it } from "vitest";
 //   updateMany consumption (token + live expiry in the WHERE, count===0 →
 //   the invalid-token 400), the tokenVersion increment (the eviction), the
 //   8..200 password window, the P2024/P2028→503 family.
+// Lineage note (session-21, S21-12): the "session-163, digma S67-A/S76-A/
+// S124-A" citations are donor-ledger numbers (the template family);
+// this repo's own sessions are docs/session_1..21.
 
 function read(rel: string): string | null {
   const p = path.resolve(import.meta.dirname, "..", rel);
@@ -102,20 +105,26 @@ describe("reset-password route contract (session-163, digma S67-A/S76-A/S124-A)"
     expect(tokenIndex).toBeGreaterThan(-1);
     expect(passwordIndex).toBeGreaterThan(tokenIndex);
     // And the route's DB-level token-alive check precedes the hash write
-    // (the call site, not the import).
+    // (the call site, not the import). Session-21 (S21-19): findUnique
+    // since the @unique index landed — a -1 indexOf would pass vacuously,
+    // so the anchor follows the live call.
     const routeSrc = resetRoute();
-    expect(routeSrc.indexOf("findFirst")).toBeLessThan(routeSrc.indexOf("passwordHash: hashPassword"));
+    expect(routeSrc.indexOf("findUnique")).toBeGreaterThan(-1);
+    expect(routeSrc.indexOf("findUnique")).toBeLessThan(routeSrc.indexOf("passwordHash: hashPassword"));
   });
 
   it("consumes the token ATOMICALLY: updateMany with the HASHED token + live expiry in the WHERE", () => {
     const src = resetRoute();
     expect(src).toContain("updateMany");
-    expect(src).toMatch(/where:\s*\{\s*id: user\.id,\s*resetToken: hashResetToken\(resetToken\),[\s\S]*?resetTokenExpiresAt:\s*\{\s*gt:\s*new Date\(\)\s*\}/);
+    // Session-21 (S21-19): the hash is computed ONCE (tokenHash) and the
+    // WHERE carries it — the atomic contract unchanged, the double-hash
+    // retired.
+    expect(src).toMatch(/where:\s*\{\s*id: user\.id,\s*resetToken: tokenHash,[\s\S]*?resetTokenExpiresAt:\s*\{\s*gt:\s*new Date\(\)\s*\}/);
   });
 
-  it("looks the row up by the HASHED token (a DB read compromise never mints live reset URLs — session-164)", () => {
+  it("looks the row up by the HASHED token (a DB read compromise never mints live reset URLs — session-164; findUnique on the S20-2 index since session-21, S21-19)", () => {
     const src = resetRoute();
-    expect(src).toContain("findFirst({ where: { resetToken: hashResetToken(resetToken) } })");
+    expect(src).toContain("findUnique({ where: { resetToken: tokenHash } })");
   });
 
   it("answers the invalid-token 400 when the conditional write lands count 0 (the racing replay)", () => {

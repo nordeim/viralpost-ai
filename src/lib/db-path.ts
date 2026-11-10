@@ -103,20 +103,35 @@ export function resolveDatabaseUrl(rawUrl: string): string {
   return rawUrl;
 }
 
-/** Minimal dotenv parser: quotes stripped, comments/blanks skipped. */
+/**
+ * Minimal dotenv parser: quotes stripped, comments/blanks skipped.
+ * Session-21 (S21-8): an UNQUOTED trailing inline comment (`KEY=value #
+ * note`) is stripped too — bun's own loader does this, and a parser that
+ * disagrees breaks the bun-absolutization signature check in
+ * `effectiveDatabaseUrl` (the DB then silently lands outside the repo;
+ * live-verified divergence on bun 1.3.14). Bun's scan order (verified
+ * live, isolated): a QUOTE-OPENED value runs to its matching closing
+ * quote (a `#` inside survives; anything after the closing quote is
+ * discarded, so `KEY="v" # note` parses as `v`); an unquoted value cuts
+ * at the FIRST `#` anywhere — no whitespace guard (bun parses
+ * `KEY=abc#def` as `abc`; dotenv would keep it whole, but the seam
+ * exists to mirror bun, and a mid-token `#` in an unquoted URL is
+ * pathological — quote such values).
+ */
 export function parseEnvFile(contents: string): Record<string, string> {
   const out: Record<string, string> = {};
   for (const line of contents.split(/\r?\n/)) {
     const match = /^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/.exec(line);
     if (!match) continue; // comment or blank line
     let value = match[2].trim();
-    const first = value[0];
-    const last = value[value.length - 1];
-    if (
-      value.length >= 2 &&
-      ((first === '"' && last === '"') || (first === "'" && last === "'"))
-    ) {
-      value = value.slice(1, -1);
+    const quote = value[0];
+    if ((quote === '"' || quote === "'") && value.length >= 2) {
+      const closing = value.indexOf(quote, 1);
+      if (closing !== -1) value = value.slice(1, closing);
+    } else {
+      // The unquoted comment strip — bun's rule: the first `#` anywhere.
+      const comment = /#/.exec(value);
+      if (comment) value = value.slice(0, comment.index).trim();
     }
     out[match[1]] = value;
   }

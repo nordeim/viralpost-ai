@@ -78,7 +78,14 @@ export function MonetizationSection() {
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">
             Download Free.{" "}
-            <span className="bg-gradient-to-r from-teal-400 to-amber-400 bg-clip-text text-transparent">
+            {/* Session-21 (S21-5): the sRGB inline form — v4 compiles
+                the hue-crossing utility pair `in oklab`, a ΔR≈26 midband
+                drift from the reference's v3 sRGB blend (pinned in
+                tests/design-tokens.test.ts). */}
+            <span
+              className="bg-clip-text text-transparent"
+              style={{ backgroundImage: "linear-gradient(to right, #2dd4bf, #fbbf24)" }}
+            >
               If It Helps You, Help Us Too.
             </span>
           </h2>
@@ -428,11 +435,14 @@ export function PricingCards() {
               </li>
             ))}
           </ul>
+          {/* Session-21 (S21-2): re-anchored to the LIVE reference's
+              hover family (shadow + lift, transition-all) — our
+              hover:bg-teal-50 tint had drifted from it. */}
           <a
             href={GUMROAD_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 w-full py-3.5 text-center font-semibold rounded-2xl bg-white text-teal-700 hover:bg-teal-50 transition-colors inline-block"
+            className="mt-8 block w-full py-3.5 text-center font-semibold rounded-2xl bg-white text-teal-700 hover:shadow-lg hover:-translate-y-0.5 transition-all"
           >
             Upgrade to Pro – $19
           </a>
@@ -477,11 +487,15 @@ export function CtaSection() {
             Upgrade to the Pro version and generate unlimited social media posts
             designed to increase engagement and grow your audience.
           </p>
+          {/* Session-21 (S21-5): the gradient rides the sRGB inline form
+              (see the monetization headline above) — the utility pair
+              compiles `in oklab` and drifts from the reference. */}
           <a
             href={GUMROAD_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-2 mt-10 px-10 py-4 bg-gradient-to-r from-teal-400 to-amber-400 text-slate-900 font-bold rounded-full hover:shadow-2xl hover:shadow-teal-400/30 transition-all hover:-translate-y-0.5 text-lg"
+            className="group inline-flex items-center gap-2 mt-10 px-10 py-4 text-slate-900 font-bold rounded-full hover:shadow-2xl hover:shadow-teal-400/30 transition-all hover:-translate-y-0.5 text-lg"
+            style={{ backgroundImage: "linear-gradient(to right, #2dd4bf, #fbbf24)" }}
           >
             Get Unlimited Access
             <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />

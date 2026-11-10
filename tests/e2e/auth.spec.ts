@@ -65,6 +65,21 @@ test("signup view renders the minimal form (no Google, no divider)", async ({ pa
   await expect(page.getByRole("button", { name: "Continue with Google" })).toHaveCount(0);
 });
 
+// Session-21 (S21-9): the /signup ROUTE's first runtime coverage — the
+// UI-orphaned direct-navigation surface (nothing links to /signup; the
+// login card swaps in place instead) had zero e2e legs, so a render-time
+// break would have shipped through a green gate. PAD §8.3's "every
+// user-visible surface has an e2e pin" is true again.
+test("the /signup route renders the signup card with its metadata", async ({ page }) => {
+  await page.goto("/signup");
+  await expect(page).toHaveTitle("Sign up | ViralPost AI");
+  await expect(page.getByRole("heading", { name: "Create your account" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Create account" })).toBeVisible();
+  // The standalone auth page carries no site chrome.
+  await expect(page.getByRole("navigation")).toHaveCount(0);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", /\/signup$/);
+});
+
 test("signup with mismatched passwords answers the banner", async ({ page }) => {
   await page.goto("/login");
   await page.getByRole("button", { name: "Need an account? Sign up" }).click();

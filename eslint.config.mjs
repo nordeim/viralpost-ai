@@ -44,7 +44,10 @@ const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, {
     "no-useless-escape": "off",
   },
 }, {
-  ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts", "examples/**", "skills", "delivery/**", "research/**", "tool-results/**", "mini-services/**", ".zscripts/**"]
+  // Session-21 (S21-16): the scaffold-family phantom ignores pruned
+  // (examples/ delivery/ research/ tool-results/ mini-services/ .zscripts/
+  // out/ build/ never existed here); skills stays — the doctrine.
+  ignores: ["node_modules/**", ".next/**", "next-env.d.ts", "skills"]
 }];
 
 export default eslintConfig;

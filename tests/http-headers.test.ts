@@ -41,7 +41,7 @@ const sitemapSrc = () => readOr("src/app/sitemap.xml/route.ts");
 const robotsSrc = () => readOr("src/app/robots.txt/route.ts");
 const manifestSrc = () => readOr("src/app/manifest.json/route.ts");
 
-describe("session-20: the security-header set (S20-P1/P2/P3)", () => {
+describe("session-8: the security-header set (re-attributed from the CRM template's session-20 S20-P1/P2/P3 — session-21, S21-12)", () => {
   it("next.config.ts declares an async headers() field", () => {
     const src = configSrc();
     expect(src).toMatch(/async\s+headers\s*\(\s*\)\s*\{/);
@@ -52,21 +52,21 @@ describe("session-20: the security-header set (S20-P1/P2/P3)", () => {
     expect(src).toContain('source: "/:path*"');
   });
 
-  it("ships Referrer-Policy: strict-origin-when-cross-origin (S20-P1)", () => {
+  it("ships Referrer-Policy: strict-origin-when-cross-origin (CRM s20-P1, re-attributed)", () => {
     const src = configSrc();
     expect(src).toMatch(
       /key:\s*"Referrer-Policy",\s*value:\s*"strict-origin-when-cross-origin"/,
     );
   });
 
-  it("ships X-Content-Type-Options: nosniff (S20-P2)", () => {
+  it("ships X-Content-Type-Options: nosniff (CRM s20-P2, re-attributed)", () => {
     const src = configSrc();
     expect(src).toMatch(
       /key:\s*"X-Content-Type-Options",\s*value:\s*"nosniff"/,
     );
   });
 
-  it("ships Strict-Transport-Security: max-age=31536000 — bare, the reference's exact value (S20-P3)", () => {
+  it("ships Strict-Transport-Security: max-age=31536000 — bare, the reference's exact value (CRM s20-P3, re-attributed)", () => {
     const src = configSrc();
     expect(src).toMatch(
       /key:\s*"Strict-Transport-Security",\s*value:\s*"max-age=31536000"/,
@@ -85,7 +85,7 @@ describe("session-20: the security-header set (S20-P1/P2/P3)", () => {
   });
 });
 
-describe("session-20: the static-file content-types (S20-P4)", () => {
+describe("session-8: the static-file content-types (re-attributed from the CRM template's session-20 S20-P4 — session-21, S21-12)", () => {
   it("sitemap.xml serves bare application/xml — no charset suffix", () => {
     const src = sitemapSrc();
     expect(src).toContain('"content-type": "application/xml"');

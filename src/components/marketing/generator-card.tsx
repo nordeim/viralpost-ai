@@ -177,7 +177,10 @@ export function GeneratorCard() {
               <button
                 type="button"
                 onClick={copy}
-                className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-teal-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-teal-50"
+                // Session-21 (S21-20): the house focus-visible family (the
+                // S14-6 toast-dismiss / S15-8 hamburger arm) — keyboard-only
+                // visibility, the reference's base classes untouched.
+                className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-teal-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-teal-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
               >
                 {copied ? (
                   <>

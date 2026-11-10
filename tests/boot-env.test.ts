@@ -34,6 +34,10 @@
 // DX posture unchanged: the DEV fallback stays documented in auth.ts).
 //
 // RED at birth (the seam does not exist yet); GREEN when WP-3 lands it.
+// Lineage note (session-21, S21-12): the session numbers in this suite
+// (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
+// template repos these seams were ported from. This repo's own sessions
+// are docs/session_1..21.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";

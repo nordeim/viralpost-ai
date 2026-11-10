@@ -327,36 +327,73 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
 
   /** S21-P5: a single code input's change — keep the LAST digit typed and
    *  auto-advance (the reference's six boxes walk forward as digits land).
-   *  Session-11 (F11-15): a MULTI-DIGIT value (a pasted code) distributes
-   *  across the boxes from the focused index — the common OTP affordance
-   *  (a paste of "123456" used to leave only "6" in the first box).
-   *  Session-12 (F12-6): the paste rides the trailing-window seam
-   *  (`otpDigitsAfterPaste`) — pasting into a box that already held a
-   *  digit used to shift the code right and drop its last digit (the
-   *  stale leading digit survived at the focus index). */
+   *  Session-11 (F11-15) + Session-12 (F12-6): a MULTI-DIGIT value (a
+   *  pasted code) distributes across the boxes from the focused index,
+   *  riding the trailing-window seam (`otpDigitsAfterPaste`).
+   *  Session-21 (S21-7, refined): the keystroke/paste split. `onChange`
+   *  cannot tell a keystroke from a paste, so typing into an
+   *  already-filled box produced a two-char append that rode the
+   *  distribution path (the old digit stayed, the new one clobbered the
+   *  NEXT box). The disambiguation: an append onto the box's OWN digit
+   *  (raw = current + one char) is a keystroke — replace in place with
+   *  the last digit; anything longer is a paste or a browser OTP
+   *  AUTOFILL (`autoComplete="one-time-code"` fills box 1 with the whole
+   *  code through the input event, not the paste event) — distribute.
+   *  Real pastes are intercepted by onPaste below (preventDefault keeps
+   *  the stale-prefix contamination out — the F12-6 genus); this arm is
+   *  the autofill/fallback face. */
   function onCodeDigit(idx: number, raw: string) {
-    const digits = otpDigitsAfterPaste(raw, VERIFICATION_CODE_LENGTH);
-    if (digits.length > 1) {
+    const digits = raw.replace(/\D/g, "");
+    const current = codeDigits[idx];
+    const keystrokeAppend =
+      current !== "" && digits.length === current.length + 1 && digits.startsWith(current);
+    if (digits.length <= 1 || keystrokeAppend) {
+      const digit = digits.slice(-1);
       setCodeDigits((prev) => {
         const next = [...prev];
-        for (let i = 0; i < digits.length && idx + i < VERIFICATION_CODE_LENGTH; i++) {
-          next[idx + i] = digits[i] ?? "";
-        }
+        next[idx] = digit;
         return next;
       });
-      const last = Math.min(idx + digits.length, VERIFICATION_CODE_LENGTH) - 1;
-      codeRefs.current[last]?.focus();
+      if (digit && idx < VERIFICATION_CODE_LENGTH - 1) {
+        codeRefs.current[idx + 1]?.focus();
+      }
       return;
     }
-    const digit = digits.slice(-1);
+    distributeCodeFrom(idx, digits);
+  }
+
+  /** The distribution arm — pastes (onPaste) and browser autofill (the
+   *  onChange fallback) spread the digits from the focused box. */
+  function distributeCodeFrom(idx: number, digits: string) {
     setCodeDigits((prev) => {
       const next = [...prev];
-      next[idx] = digit;
+      for (let i = 0; i < digits.length && idx + i < VERIFICATION_CODE_LENGTH; i++) {
+        next[idx + i] = digits[i] ?? "";
+      }
       return next;
     });
-    if (digit && idx < VERIFICATION_CODE_LENGTH - 1) {
-      codeRefs.current[idx + 1]?.focus();
+    const last = Math.min(idx + digits.length, VERIFICATION_CODE_LENGTH) - 1;
+    codeRefs.current[last]?.focus();
+  }
+
+  /** Session-21 (S21-7): the paste interception — preventDefault keeps
+   *  the browser's native insertion (which would contaminate the raw
+   *  value with the box's stale digit — the F12-6 genus) out of
+   *  onChange; the clipboard payload distributes through the
+   *  trailing-window seam. A single-digit paste degrades to the
+   *  replace-in-place path. */
+  function onCodePaste(idx: number, e: React.ClipboardEvent<HTMLInputElement>) {
+    e.preventDefault();
+    const digits = otpDigitsAfterPaste(e.clipboardData.getData("text"), VERIFICATION_CODE_LENGTH);
+    if (digits.length <= 1) {
+      setCodeDigits((prev) => {
+        const next = [...prev];
+        next[idx] = digits;
+        return next;
+      });
+      return;
     }
+    distributeCodeFrom(idx, digits);
   }
 
   /** S21-P5: backspace on an empty box steps back and clears it (the OTP
@@ -587,6 +624,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                                   aria-label={`Digit ${idx + 1}`}
                                   value={digit}
                                   onChange={(e) => onCodeDigit(idx, e.target.value)}
+                                  onPaste={(e) => onCodePaste(idx, e)}
                                   onKeyDown={(e) => onCodeKeyDown(idx, e)}
                                   className={`flex rounded-lg border border-input bg-white px-3 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${LOGIN_VERIFY_LAYOUT.codeInput}`}
                                 />

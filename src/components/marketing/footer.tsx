@@ -63,11 +63,15 @@ export function Footer() {
           </div>
           <div>
             <h4 className="text-white font-semibold mb-4">Get Started</h4>
+            {/* Session-21 (S21-1): re-anchored to the LIVE reference's
+                classes (the 2026-11-11 computed-style walk found our
+                from-teal-400/text-slate-900//25 form had drifted from
+                its from-teal-500/text-white//30 pill). */}
             <a
               href={GUMROAD_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-slate-900 bg-gradient-to-r from-teal-400 to-teal-600 rounded-full hover:shadow-lg hover:shadow-teal-500/25 transition-all"
+              className="inline-block px-5 py-2.5 bg-gradient-to-r from-teal-500 to-teal-600 text-white text-sm font-semibold rounded-full hover:shadow-lg hover:shadow-teal-500/30 transition-all"
             >
               Upgrade – $19
             </a>

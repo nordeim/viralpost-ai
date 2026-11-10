@@ -14,7 +14,7 @@ export const metadata = pageMetadata({ page: null, route: "/login" });
 
 export const dynamic = "force-dynamic";
 
-// Session-23 (S23-P2): NO authenticated redirect here. The reference
+// the CRM family's session-23 (S23-P2 — a donor-ledger number): NO authenticated redirect here. The reference
 // serves the login card to AUTHENTICATED visitors too (live-verified:
 // its /login renders the card with the session cookie present, and an
 // authed wrong-password attempt draws the error banner on the card) —

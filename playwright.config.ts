@@ -64,7 +64,7 @@ export default defineConfig({
     url: `${BASE_URL}/api/health`,
     timeout: 60_000,
     reuseExistingServer: !process.env.CI,
-    // Session-69 (N-69a): the LOCAL-ONLY limiter hazard — a reused
+    // The CRM family's session-69 (N-69a — a donor-ledger number): the LOCAL-ONLY limiter hazard — a reused
     // server keeps its IN-MEMORY rate buckets alive across runs while
     // global-setup reseeds the DB, so a third run inside 15 minutes can
     // trip resend (6>5) or verify (21>20) and fail the ladder tests
@@ -77,7 +77,7 @@ export default defineConfig({
       NODE_ENV: "production",
       DATABASE_URL: E2E_DATABASE_URL,
       AUTH_SECRET: "playwright-e2e-session-secret",
-      // Session-195 (D-195a3): the in-app delivery kill-switches pinned
+      // The digma family's session-195 (D-195a3 — a donor-ledger number): the in-app delivery kill-switches pinned
       // OFF — a polluted parent shell exporting these would silently
       // hide the OTP/reset payloads the ladder tests assert (the signup
       // code + the reset link), failing e2e with confusing symptoms.

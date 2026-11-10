@@ -1,80 +1,169 @@
-仓库已成功克隆。现在正在审查核心项目文档。
-Now reading the session docs — session_19.md, session_20.md, the session-19 plan, and worklog.md.
-Worklog structure understood. Now let me complete the deep doc review — reading the persisted PAD and SKILL files.
-Docs internalized. Now setting up the environment — bun install, .env, DB push/seed/census.
-Environment ready — DATABASE_URL contract verified, census MATCH. Running the baseline gate.
-Baseline GREEN: lint 0/0 · tsc 0 · unit 561/561 (37 files) — matches the documented session-19 ship exactly. Now consulting the repo skills catalog.
-agent-browser is available. Checking reference app connectivity and neo-crm state, then dispatching the audit.
-neo-crm unchanged at `b3d0fbe` — recorded decisions stand. Reference is reachable. Dispatching three parallel audit subagents (session-19 pattern) while I run the live parity walk.
-Three audit reports received: **AUDIT-1: 0C/0H/0M/2L/7I · AUDIT-2: 0C/0H/0M/4L/5I · AUDIT-3: 0C/0H/1M/3L/4I**. Now hand-verifying the load-bearing findings in source before the parity walk.
-All load-bearing findings verified in source. Checking the smoke script's shell flags to confirm the trap-severity reading.
-Both confirmed: `set -euo pipefail` at line 29 + no `GATE_PID=""` init; SKILL:523 stale `56/56`. All load-bearing findings verified. Now the live parity walk — starting the clone's dev server and logging into the reference.
-Logged into the reference. Running the five-route head census to detect any new drift since session 19.
-Reference head census complete — no drift from session-19 captures. Now the clone's side.
-Description family matches byte-for-byte on all five routes. Now the mobile menu parity check at 390×844 — reference first.
-Reference: no Escape close (documented — the clone superset adds it). Now the clone's mobile menu.
-Clone mobile menu family fully verified — Escape close + focus return + auto-close + derived title all working. Now sitemap/robots and the monetization floaters on both sides.
-Clone floaters live-animating inside the observed envelope — monetization parity holds. Quick functional check of the generator on both sides, then I'll write the plan.
-Parity walk complete — **no live drift**; both session-19 cures hold, mobile menu family verified, generator superset working. Now validating the remediation plan against the pinning tests before executing.
-The pin landscape is validated — the effects-motion regex anchors on frame()'s reduced branch (first match, before init()), so the init() cure is pin-safe. Reading the docs-counts pin sites for the M-1 cure.
-All cure sites inspected. One last check — the landing-page pins on the inline pricing/contact blocks — then I write the plan.
-All validation complete. Writing the session-20 remediation plan.
-Plan written and validated. Now executing with TDD — starting with **R20-1** (the Appendix-B ledger count closure).
-Writing the R20-1 + R20-13 RED pins in docs-counts.test.ts.
-RED confirmed for both pins (+ the expected census diff). Now GREEN — curing the SKILL Appendix B and §7.
-Both pins GREEN (only the expected census diff remains — re-anchored at ship). Running the R20-1 mutation battery.
-The §7 edit shifted line numbers — my sed hit the wrong line (no-op). Redoing the mutation battery correctly.
-That mutated the frontmatter (line 6) instead — demonstrating the negative arm trips. Restoring and mutating the actual ledger line (524).
-**R20-1 complete** — mutation battery RED→restored→GREEN. Now **R20-2** (resetToken `@unique`).
-**R20-2 GREEN** — schema pushed, 26/26 pass. Now **R20-3** (smoke GATE_PID init).
-**R20-3 GREEN**. Now **R20-4** — the hero `"use client"` retirement. Reading hero.tsx in full first.
-Hero confirmed hook-free — pure composition. Writing the RED pin.
-**R20-4 GREEN**. Now **R20-5 + R20-12** — the effects pins (particle init + iridescence context-lost).
-Writing both RED pins in effects-motion.test.ts.
-Both RED. Now the GREEN cures.
-Now the iridescence context-lost cure. Let me view the relevant area first.
-**R20-5 + R20-12 GREEN** (10/10). Now **R20-6** — the toast focus pause.
-JSX comment in attribute position is invalid — fixing with `//` line comments.
-**R20-6 GREEN**. Now **R20-7** — the generate limiter key namespacing.
-**R20-7 complete** — mutation battery RED→restored→GREEN. Now **R20-11** (generator loop guard) — pin first.
-**R20-11 GREEN** (28/28 with property suite). Now the batch cures R20-8/9/10/14/15/16.
-Now R20-10 — moving the two bare CSPRNG calls inside their try blocks.
-Now R20-14 (type-gate comments), R20-15 (site.ts truncation comment), R20-16 (vitest exclude).
-Now R20-15 (site.ts comment) and R20-16 (vitest exclude).
-All cures in — lint 0/0, tsc 0. Only the two expected census diffs remain (the count re-anchor). Live count is **571** (561+10 new pins). Re-anchoring the constants and §12 rows.
-Now the count constants and ladder in docs-counts.test.ts.
-The lockstep gate is now driving the doc updates (as designed). Re-anchoring every count site: 561→571, badge 618→628.
-**Unit suite fully GREEN: 571/571 (37 files).** Now live-verifying the cured surfaces on the dev server before the docs lockstep.
-Hero verified live — server composition with both islands hydrating. Taking captures 47/48.
-The daemon resolves paths relative to its own CWD — using absolute paths.
-Full-page capture — need the viewport-sized form. Retaking.
-Capture 47 verified (1280×800, dark hero rendering). Now capture 48 — the open mobile menu at 390×844.
-Both captures verified. Now completing the docs lockstep — SKILL version bump, Appendix A row, README/AGENTS rows, worklog, session log.
-The session-19 commit missed its planned 1.15.0 version bump — bumping to 1.16.0 now (covering both) and noting it in the record. Writing the SKILL updates.
-Now the README session-20 row and AGENTS plans map.
-Now the worklog Task 20 and the session_20.md log (replacing the pre-round transcript per the established pattern).
-Now the session_20.md round log (replacing the pre-round transcript).
-Now the plan's post-execution record.
-All docs in lockstep. Stopping the dev server (the session-4 lesson: never build under a live dev server) and running the full gate.
-**FULL GATE GREEN**: lint 0/0 · tsc 0 · unit 571/571 · build · smoke 15/15 · e2e 57/57. Final pre-commit checks.
-All staged cleanly. Now reading the SSH wrapper runbook before the push.
-Runbook internalized. Creating the commit, then executing the push sequence.
-Commit `b280189` created. No ssh binary — deploying the paramiko shim per the runbook, then the push sequence.
-Dry-run clean — fast-forward `d6e17f4..b280189`. Executing the real push.
-**Session 20 complete — pushed `b280189` to `main`, remote-verified, key shredded, tree clean.**
+# Session 21 — The CTA-Class Re-Anchor + The oklab→sRGB Gradient Cure + The Mobile-Menu Pill + The Audit Batch (2026-11-11)
 
-## What this round did
+The round opened on a fresh `git clone` (the standing instruction's
+reset path), `bun install`, `.env` re-created from `.env.example`
+(AUTH_SECRET set for dev), `db:push` + `db:seed` + `db:census`
+(MATCH). The operator's standing asks were re-verified up front:
+`.env`'s `DATABASE_URL="file:../db/custom.db"` with `db/` at the repo
+root (the contract re-verified end-to-end on the clean machine), the
+vitest + playwright suites in place and current, the sitemap/robots/
+manifest/OG family byte-verified against the live reference, `skills/`
+excluded from every gate. This file's pre-round content was the
+session-20 transcript handoff (the established pattern — the content
+is preserved in the session-20 record and the session-20 plan); this
+round's log replaces it.
 
-**Setup & understanding** — Fresh clone at `d6e17f4`, all five core docs + the session-19 set read in full, `.env` created (`DATABASE_URL="file:../db/custom.db"`, `db/` at repo root), schema pushed/seeded, census MATCH. Baseline gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit 561/561). neo-crm unchanged at `b3d0fbe`.
+The core docs read in full (AGENTS, CLAUDE, README, PAD, SKILL), then
+the session-20 set (session_20.md, the session-20 plan, worklog Task
+20). This round is session 21. Baseline gate GREEN at the documented
+counts (lint 0/0 · tsc 0 · unit 571/571 (37 files)). neo-crm re-cloned
+at HEAD `b3d0fbe` — UNCHANGED since session 12's review; the recorded
+decisions stand.
 
-**The audit** (3 parallel subagents, findings hand-verified): **0 Critical / 0 High / 1 Medium / 9 Low / 16 Info.** The one Medium: the SKILL's Appendix-B verification ledger still said `e2e 56/56` — session 19 bumped the unit count in the same paragraph but missed the e2e count, and the docs-counts gate wasn't scoped to Appendix B.
+The web-application skill + the skills catalog internalized; the TDD
+skill consulted for the loop discipline. Three parallel audit
+subagents dispatched (API/lib seams, components/pages/effects,
+SEO/configs/tests/docs) while the findings were hand-verified in
+source. The audit returned **0 Critical / 0 High / 1 Medium / 11 Low /
+14 Info** — the one Medium being the oklab-gradient doctrine
+unimplemented (A2-1: the house rule says "use inline styles where the
+reference's blend must be exact"; zero inline gradients existed in
+src/).
 
-**The parity walk** (logged into the reference): **NO DRIFT** — the first clean walk since session 17. Five-route head census byte-matches the session-19 description family; the mobile menu verified working on both sides at 390×844 (the clone keeps its superset: Escape-with-focus-return, route-change auto-close, derived titles); the monetization floaters animate in-envelope; sitemap/robots identical; the Tailwind v4 trap catalog re-verified mitigated.
+The parity walk (live, both sides, logged into the reference) started
+clean — the five-route head census byte-matches the session-19
+description family; the monetization floaters (10 icons, identical
+class families, live transforms); sitemap/robots identical
+(origin-difference only); the generator round-trip green — **but the
+computed-style control census found FIVE LIVE CLASS-LEVEL DRIFTS, the
+first since session 19**:
 
-**The cures (TDD, +10 pins, 2 mutation batteries)**: the ledger-count closure + the docs-counts gate hole, `resetToken @unique` (the schema's last unindexed lookup path), the smoke trap's `GATE_PID` init, the hero's superfluous `"use client"` retired (live-verified — islands hydrate, DOM byte-identical), the S19-9 mount residual, the toast focus-pause pair, the generate limiter's uid/ip namespace split, two bare CSPRNG calls inside their try blocks, the generator's bank-capped paragraph count, the iridescence `webglcontextlost` guard, a five-site comment-truth batch, and the explicit vitest `skills/**` exclude.
+- **The footer CTA** — the reference's
+  `inline-block … from-teal-500 to-teal-600 text-white …
+  hover:shadow-teal-500/30` vs our `inline-flex … from-teal-400 …
+  text-slate-900 … /25` (four deltas).
+- **The Pro-card CTA** — its `hover:shadow-lg hover:-translate-y-0.5
+  transition-all` vs our `hover:bg-teal-50 transition-colors
+  inline-block`.
+- **The mobile-menu pill** — the reference's text is now "Upgrade to
+  Pro" (the priced "Upgrade to Pro – $19" was its session-1-era
+  capture — the dossier's own record), and its pill carries the
+  desktop hover family.
+- **The mobile-menu links** — the reference's dropdown re-renders the
+  DESKTOP link family (the LINK_BASE underline affordances); ours were
+  mobile-specific without them.
+- **The gradients** — the walk's decisive find: EVERY v4
+  `bg-gradient-to-*` compiles `linear-gradient(… in oklab, …)` while
+  the live reference (v3) blends sRGB. Same endpoints, different
+  midband — and on the hue-crossing `from-teal-400 to-amber-400`
+  brand family (the navbar/footer wordmark, the monetization
+  headline, the Get-Unlimited-Access CTA) the computed drift is
+  ΔR≈26. The audit's A2-1 Medium elevated to a live parity drift; the
+  Tailwind-V4-Validation-Report's "the hero gradient ships the
+  sRGB-equivalent arbitrary form" claim is a template leftover false
+  for this tree.
 
-**Gate**: lint 0/0 · tsc 0 · unit **571/571** (37 files) · build · smoke 15/15 · e2e **57/57** · census MATCH. Captures 47/48 PIL-verified; six docs + SKILL v1.16.0 in lockstep; badge 628.
+The session-21 plan written and validated against the codebase (the
+pin landscape — no existing pins anchored the cure sites; the e2e
+placement — auth.spec.ts for the /signup leg), then executed with TDD
+throughout:
 
-**Deferred (the honest register)**: the per-account login lockout (an enumeration-oracle hazard needing its own design round), the landing pricing/contact dedup (byte-identical DOM, pin churn), and seven smaller documented postures — each with its reason in the plan.
+- **R21-1..R21-4 (the class re-anchors)**: four pins RED first in
+  landing-page.test.ts's new session-21 describe, then the cures —
+  the footer CTA, the Pro-card CTA, the menu pill (text + hover
+  family; the e2e name re-pinned in the same commit), and the menu
+  links (LINK_BASE underline family + the touch-target layout kept as
+  the documented superset — the reference's bare text-sm links
+  measure ~20px, under the WCAG 2.5.8 24px floor; ours 36px).
+- **R21-5 (the gradient cure)**: three pins RED first in
+  design-tokens.test.ts (the exact sRGB string on the three sites +
+  THE BAN on the utility pair), then the inline-style cures per the
+  house doctrine. **Mutation battery**: the wordmark reverted to the
+  utility pair → exactly the two pins RED (the logo pin + the ban) →
+  restored → GREEN. **Live-verified**: the computed `backgroundImage`
+  is now `linear-gradient(to right, rgb(45, 212, 191), rgb(251, 191,
+  36))` — byte-identical to the reference, no `in oklab`.
+- **R21-6 (the reset focus map)**: the pin RED first, then the S19-10
+  pattern on the reset screen (the done-view h1 +
+  `data-view-focus` + the prev-state ref guard).
+- **R21-7 (the OTP triage, refined mid-round)**: three pins RED
+  first, then the split — and when the first e2e run failed (the
+  funnels' fill() legs route through onChange), the design was refined
+  rather than the e2e bent: a strict split would have broken the
+  browser OTP autofill (`autoComplete="one-time-code"` fills box 1
+  through the input event). The landed contract: append-onto-own-digit
+  or single digit → replace in place + advance; longer values → the
+  shared distribution arm (the autofill face); real pastes intercepted
+  by onPaste (preventDefault — the F12-6 stale-prefix genus). The pins
+  re-anchored; otp.test.ts untouched, green; both funnel legs green on
+  their original fill() code.
+- **R21-8 (the bun env parity)**: the pin RED first, then
+  `parseEnvFile` mirrors bun's scan order exactly (live-verified
+  isolated on bun 1.3.14: `K=v # note` → `v`; `K=abc#def` → `abc`
+  — bun cuts at ANY hash, no whitespace guard; quoted hashes
+  survive; `KEY="v" # note` → `v`). Four pins including the
+  quoted-hash and after-quote-comment faces.
+- **R21-9/R21-10 (the coverage pins)**: the /signup route's FIRST
+  e2e leg (title + card + canonical — e2e 57 → 58) and
+  /reset-password's pageMetadata consumption pinned.
+- **R21-11..R21-19 (the batch)**: ADR-004's stale "488-test gate"
+  re-anchored; the PAD's TOC renumbered to match the §7-less heading
+  ladder + the date + the public/ tree; the donor-ledger lineage
+  notes (the CRM's OWN session-20 S20-P1..P4 describes re-attributed
+  to this repo's session-8 — they actively collided with OUR
+  session-20 findings; the F10-4 note pattern on .env.example,
+  DEPLOYMENT.md, playwright.config.ts, four test headers, three page
+  comments; the SKILL's new §0.5 Citation Provenance section); the
+  PT reword + the page-titles S20-15 prose; the eslint phantom-ignore
+  prune; the x-real-ip warning face; the tolerant-email note; the
+  findUnique + single-hash refactor (the auth-reset pins re-anchored,
+  the vacuous ordering arm fixed); the Copy focus ring; the
+  floating-icons matchMedia guard.
 
-Rerun the standing instruction anytime — it will pick up as session 21 against `b280189`.
+The count re-anchor: UNIT 571 → 586 (+15 pins), E2E 57 → 58, badge
+628 → 644; the PAD §12 rows re-anchored (db-path 254, navbar 196,
+generator-card 206, floating-icons 122); SKILL v1.16.0 → v1.17.0.
+
+The full gate on the exact commit tree: **lint 0/0 · tsc 0 · unit
+586/586 (37 files) · build · smoke 15/15 · e2e 58/58 (9 specs)** ·
+census MATCH. Captures 49/50 taken on the dev server (the landing
+1280×800 + the OPEN mobile menu 390×844, via `localhost`, hydration
+awaited, the menu DOM-confirmed open before the shot), PIL-verified
+(49: 44.1% dark hero, 100% non-white; 50: 94.4% dark upper-third).
+README (the session-21 row, the gate line, the badge 644); AGENTS
+(counts, the plans map's twenty-first round, the e2e phrasing);
+CLAUDE (counts); PAD (§8.1, §12 rows, the hygiene batch); SKILL
+v1.17.0 (frontmatter, §0.5, §5 item 5's cure note, Appendix A's
+session-21 row, Appendix B re-certified through session 21); worklog
+Task 21; this log; the plan's post-execution record. The Conventional
+Commit and the SSH-wrapper push follow (dry-run first, key shredded
+after).
+
+## The round (summary)
+
+**Baseline:** the merged tree (`8c2fdcf`) passed lint 0/0 · tsc 0 ·
+unit 571/571 (37 files); census MATCH. neo-crm unchanged (`b3d0fbe`).
+
+**The audit** (three parallel subagents, every load-bearing finding
+hand-verified): **0 Critical / 0 High / 1 Medium / 11 Low / 14 Info.**
+
+**The parity walk (both sides, live): FIVE CLASS-LEVEL DRIFTS** — the
+footer CTA, the Pro-card CTA, the mobile-menu pill + links, and the
+oklab-vs-sRGB gradient interpolation on the hue-crossing brand family
+(the audit's Medium, elevated by the walk). All five cured with TDD,
+live-verified byte-identical.
+
+**The cures:** +15 unit pins, 1 mutation battery, +1 e2e leg — the
+five parity re-anchors, the reset focus map, the OTP keystroke/paste
+split, the bun env-comment parity, the /signup coverage, the
+metadata pin, and the eleven-item docs/comment batch.
+
+**Verified:** unit **586/586** (37 files) · e2e **58/58** (9 specs) ·
+smoke 15/15 · census MATCH · badge 644 · captures 49/50
+PIL-verified · the cured surfaces re-verified live against the
+reference · six docs + SKILL v1.17.0 in lockstep. **Deferred:** the
+honest register recorded in the plan (the signup admin-bootstrap
+race, the logout-CSRF posture, the landing section-header
+duplication, the Reveal no-JS trade-off, the offscreen-rAF pause,
+the h2-only swap headings, the per-account login lockout, and four
+carried postures — each with its reason).

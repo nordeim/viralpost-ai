@@ -42,6 +42,12 @@ export const passwordSchema = z
 
 export const loginSchema = z
   .object({
+    // Session-21 (S21-18): the TOLERANT-email posture, documented — the
+    // login/verify/resend family deliberately skips the format regex
+    // (signup/forgot/contact enforce it): every downstream branch is
+    // constant-shape (login → 401 INVALID_CREDENTIALS; verify → the
+    // invalid-code 400; resend → the no-op 200), so a malformed email
+    // leaks nothing and matches the password's own unbounded posture.
     email: emailField("Email and password are required"),
     password: z.string({ message: "Email and password are required" }),
   })

@@ -234,6 +234,53 @@ describe("landing: the page shells", () => {
   });
 });
 
+describe("landing: the session-21 CTA re-anchors (the live reference walk)", () => {
+  // The 2026-11-11 computed-style walk found five class-level drifts —
+  // the first since session 19. These pins hold the re-anchored class
+  // strings byte-for-byte against the LIVE reference captures (the
+  // round's agent-browser census, both sides, desktop + 390×844).
+
+  it("the footer 'Upgrade – $19' CTA carries the reference's exact classes (S21-1)", () => {
+    const footer = read("src/components/marketing/footer.tsx");
+    expect(footer).toContain(
+      "inline-block px-5 py-2.5 bg-gradient-to-r from-teal-500 to-teal-600 text-white text-sm font-semibold rounded-full hover:shadow-lg hover:shadow-teal-500/30 transition-all",
+    );
+    // The retired clone-form fragments must never return.
+    expect(footer).not.toContain("from-teal-400 to-teal-600");
+  });
+
+  it("the Pro-card CTA carries the reference's exact classes incl. the hover family (S21-2)", () => {
+    const sections = read("src/components/marketing/sections.tsx");
+    expect(sections).toContain(
+      "mt-8 block w-full py-3.5 text-center font-semibold rounded-2xl bg-white text-teal-700 hover:shadow-lg hover:-translate-y-0.5 transition-all",
+    );
+    // The retired hover-tint form is banned.
+    expect(sections).not.toContain("hover:bg-teal-50 transition-colors inline-block");
+  });
+
+  it("the mobile-menu pill says 'Upgrade to Pro' with the reference's hover family (S21-3)", () => {
+    const navbar = read("src/components/marketing/navbar.tsx");
+    // The menu pill's unique layout prefix + the reference's pill hover
+    // family (the desktop pill's own classes — the reference's dropdown
+    // now reuses them wholesale).
+    expect(navbar).toContain(
+      "block w-full text-center px-5 py-2.5 text-sm font-semibold text-slate-900 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full hover:shadow-lg hover:shadow-amber-400/30 transition-all hover:-translate-y-0.5",
+    );
+    // The retired priced form is banned (the reference changed its pill
+    // text after the session-1 dossier capture).
+    expect(navbar).not.toContain("Upgrade to Pro – $19");
+  });
+
+  it("the mobile-menu links carry the desktop underline family (S21-4)", () => {
+    const navbar = read("src/components/marketing/navbar.tsx");
+    expect(navbar).toContain(
+      "block w-full text-left py-2 text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-teal-400 after:transition-all",
+    );
+    expect(navbar).toContain("text-teal-400 after:w-full");
+    expect(navbar).toContain("text-slate-300 hover:text-white after:w-0 hover:after:w-full");
+  });
+});
+
 describe("landing: the fire-and-forget reset timers are unmount-safe (session-17, S17-6)", () => {
   // The toast's own ref + unmount-clearTimeout idiom (toast.tsx),
   // mirrored by the two marketing fire-and-forget resets (the copy

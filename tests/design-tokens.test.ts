@@ -322,3 +322,50 @@ describe("design tokens: session-12 — the stepped-semantic census arm (F12-7)"
     ).toEqual([]);
   });
 });
+
+describe("design tokens: session-21 — the oklab→sRGB gradient cure (S21-5)", () => {
+  // The 2026-11-11 computed-style walk: the live reference (v3) ships
+  // `linear-gradient(to right, rgb(45, 212, 191), rgb(251, 191, 36))`
+  // (sRGB interpolation); Tailwind v4 compiles `bg-gradient-to-r
+  // from-teal-400 to-amber-400` to the SAME endpoints interpolated
+  // `in oklab` — a ΔR≈26 midband drift on the hue-crossing brand
+  // family. The house doctrine (CLAUDE.md / SKILL §5 item 5: "use
+  // inline styles where the reference's blend must be exact") lands
+  // here: the three brand-gradient surfaces carry the sRGB form inline;
+  // the utility pair is banned from src/ so the drift cannot return.
+  // Same-family gradients (teal→teal, amber→amber) stay on utilities —
+  // their oklab delta is sub-threshold (Δ≤2 per channel, computed).
+
+  const BRAND_SRGB = "linear-gradient(to right, #2dd4bf, #fbbf24)";
+
+  it("the logo wordmark carries the sRGB inline gradient (the navbar + footer brand face)", () => {
+    const logo = readFileSync(
+      path.resolve(import.meta.dirname, "..", "src/components/marketing/logo.tsx"),
+      "utf8",
+    );
+    expect(logo).toContain(`backgroundImage: "${BRAND_SRGB}"`);
+  });
+
+  it("the monetization headline span carries the sRGB inline gradient", () => {
+    const sections = readFileSync(
+      path.resolve(import.meta.dirname, "..", "src/components/marketing/sections.tsx"),
+      "utf8",
+    );
+    // Exactly TWO inline brand gradients in sections.tsx: the headline
+    // span + the Get-Unlimited-Access CTA.
+    expect(sections.match(new RegExp(BRAND_SRGB.replace(/[()]/g, "\\$&"), "g"))).toHaveLength(2);
+  });
+
+  it("THE BAN: the hue-crossing utility pair never returns to src/", () => {
+    const srcDir = path.resolve(import.meta.dirname, "..", "src");
+    const offenders: string[] = [];
+    for (const file of walkSourceFiles(srcDir)) {
+      const text = readFileSync(file, "utf8");
+      if (/from-teal-400\s+to-amber-400/.test(text)) offenders.push(file);
+    }
+    expect(
+      offenders,
+      "the oklab-interpolated brand-gradient pair is banned — the reference blends these in sRGB (S21-5)",
+    ).toEqual([]);
+  });
+});

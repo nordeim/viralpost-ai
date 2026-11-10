@@ -58,6 +58,34 @@ describe("parseEnvFile", () => {
   it("keeps values containing equals signs intact", () => {
     expect(parseEnvFile("AUTH_SECRET=abc=def==")).toEqual({ AUTH_SECRET: "abc=def==" });
   });
+
+  // Session-21 (S21-8): bun's own loader strips an UNQUOTED trailing
+  // inline comment; the parser must agree or the bun-signature
+  // re-anchor misses and the DB silently lands outside the repo (the
+  // exact Error-code-14 class this seam exists to kill — live-verified
+  // divergence on bun 1.3.14 before this cure).
+  it("strips an unquoted trailing inline comment (the bun parity face)", () => {
+    expect(parseEnvFile("DATABASE_URL=file:../db/custom.db # the dev db")).toEqual({
+      DATABASE_URL: "file:../db/custom.db",
+    });
+    expect(parseEnvFile("DATABASE_URL=file:./ok.db\t# tab-prefixed note")).toEqual({
+      DATABASE_URL: "file:./ok.db",
+    });
+  });
+
+  it("keeps a hash INSIDE a quoted value (bun semantics)", () => {
+    expect(parseEnvFile('AUTH_SECRET="ab#cd"')).toEqual({ AUTH_SECRET: "ab#cd" });
+  });
+
+  it("cuts an unquoted value at the first hash anywhere (bun's rule, live-verified)", () => {
+    // bun 1.3.14 parses `KEY=abc#def` as `abc` — no whitespace guard.
+    // The seam mirrors bun (the signature check), not dotenv.
+    expect(parseEnvFile("AUTH_SECRET=abc#def")).toEqual({ AUTH_SECRET: "abc" });
+  });
+
+  it("a quoted value followed by a comment parses to the quoted content", () => {
+    expect(parseEnvFile('KEY="v" # after-quote note')).toEqual({ KEY: "v" });
+  });
 });
 
 describe("effectiveDatabaseUrl (bun absolutization re-anchoring)", () => {

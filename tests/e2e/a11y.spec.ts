@@ -31,7 +31,7 @@ interface Violation {
 const SANCTIONED: Record<string, Array<{ any: string[]; cite: string }>> = {
   "color-contrast": [
     {
-      // The marketing washes on the dark hero/PT surfaces (text-slate-400
+      // The marketing washes on the dark hero/monetization surfaces (text-slate-400
       // pills, text-slate-300 copy, teal-200/60 subs — the reference's
       // own palette).
       any: ["text-slate-300", "text-slate-400", "text-slate-500", "text-teal-200", "text-teal-100", "text-white/60", "text-white/80", "text-white/90"],
