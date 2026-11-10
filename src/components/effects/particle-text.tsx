@@ -62,7 +62,6 @@ export function ParticleText({
 }: ParticleTextProps) {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const wrapRef = React.useRef<HTMLDivElement | null>(null);
-  const reducedRef = React.useRef(false);
 
   React.useEffect(() => {
     const canvas = canvasRef.current;
@@ -72,7 +71,6 @@ export function ParticleText({
     const reduced =
       typeof window.matchMedia === "function" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    reducedRef.current = reduced;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;

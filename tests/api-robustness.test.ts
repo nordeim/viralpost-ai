@@ -160,6 +160,32 @@ describe("the { ok, error } envelope family", () => {
       expect(branch, "the over-length arm must gate on typeof rawIdea === 'string'").toBeTruthy();
     });
   });
+
+  // Session-16 (S16-1): the S15-2 route-local vocabulary completed for
+  // the NON-OBJECT class. The contact route's null-check guarded the
+  // null face only — a JSON body parsing to a string/array/number fed
+  // safeParse and leaked Zod's dev-facing "Invalid input: expected
+  // object, received string" (live-confirmed with '"hello"'). The
+  // widened arm owns the whole malformed-SHAPE class; generate needs no
+  // mirror (its narrowing bypasses the issue message — the pinned
+  // describe-first contract).
+  describe("session-16 (S16-1): the contact site's object-shape guard", () => {
+    it("contact widens the null arm to the non-object class (null OR non-object OR array, ahead of safeParse)", () => {
+      const src = stripComments(read("src/app/api/contact/route.ts") ?? "");
+      const arm = src.match(
+        /read\.value === null \|\| typeof read\.value !== "object" \|\| Array\.isArray\(read\.value\)/,
+      );
+      expect(arm, "the widened object-shape arm must be present").toBeTruthy();
+      // The arm sits ahead of safeParse (the null arm's S15-2 ordering).
+      const armIdx = src.indexOf("read.value === null");
+      const parse = src.indexOf("safeParse(");
+      expect(armIdx).toBeGreaterThan(-1);
+      expect(parse).toBeGreaterThan(armIdx);
+      // The arm answers the parseBody vocabulary.
+      const armWindow = src.slice(armIdx, armIdx + 240);
+      expect(armWindow).toContain('"Invalid request body"');
+    });
+  });
 });
 
 describe("the sessioned me/logout family", () => {

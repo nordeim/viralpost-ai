@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-599%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-604%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,7 +52,7 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 37 files / 543 tests, node env, pure seams |
+| Unit tests | Vitest | 5.0 | 37 files / 548 tests, node env, pure seams |
 | E2E | Playwright | 1.64 | 9 specs / 56 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
@@ -141,7 +141,7 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (37 files / 543 tests)
+bun run test            # Vitest unit suite (37 files / 548 tests)
 bun run test:e2e        # Playwright e2e (9 specs / 56 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
@@ -168,7 +168,7 @@ rate limiter).
 | `/api/auth/me` | GET | session | The session envelope |
 | `/api/auth/forgot-password` | POST | public | No-enumeration reset request |
 | `/api/auth/reset-password` | POST | public | Atomic single-use token consume |
-| `/api/*` (unknown) | any | public | The envelope's JSON 404 (never the HTML 404 body) |
+| `/api/*` (unknown) | any | public | The envelope's JSON 404 — subpaths via the `[...path]` catch-all, the bare `/api` via its own route (never the HTML 404 body) |
 
 All bodies are JSON, validated with Zod, read through a bounded reader
 (Content-Type gate + length checks). Responses use the envelope
@@ -227,6 +227,11 @@ the PostgreSQL swap.
 | Session 15 — the resend P2025 sibling arm + the null-body vocabulary + the API-envelope 404 | ✅ done | The resend route's vanished-row P2025 race joined the sibling doctrine (verify's S13-5 arm / forgot's stored=false — the no-op 200, never a raw 500); the route-local parse sites' null-body vocabulary (contact's Zod dev-message leak retired, generate's non-string idea no longer answers the over-length message — both live-confirmed pre-cure); the API subtree's unknown paths answer the JSON envelope 404 (the true-404 doctrine extended — the HTML 404 body retired, e2e-proven); the signin icons' aria-hidden; the hamburger's house keyboard focus ring (slate-300 — reads on the dark navbar); the Escape focus-return e2e assertion; `prisma` → devDependencies + the zod advisory chain retired via the resolutions pin (audit 10 → 9, all remaining dev-toolchain); badge 599 = 543+56; captures 37/38 |
 
 Gate at the session-15 ship: lint 0/0 · tsc 0 · unit 543/543 · build ·
+smoke 15/15 · e2e 56/56.
+
+| Session 16 — the parse-vocabulary completion + the bare-/api envelope + the polish batch | ✅ done | The S16-1 parse-vocabulary completion (the S15-2 genus closed: non-object JSON bodies — string/array/number/boolean — answer the pinned "Invalid request body" on the auth family AND contact; the three schema fields (verify's code, reset's new_password, signup's password) gain `{ message }` type-faces — no Zod dev-message reaches any client, 5 live-confirmed surfaces cured, 5 mutation batteries); the bare `/api` envelope 404 (S16-2 — the one shape a required catch-all can't match, `src/app/api/route.ts` closes the doctrine's last escaping shape, e2e-proven); the polish batch (S16-4 the dead `reducedRef` retired, S16-5 the footer-year build-time freeze documented as a deviation, S16-7 the generate-429 deviation comment, S16-3 the eslint off-switch blast radius re-recorded, S16-6 the PAD §12 header refreshed); badge 604 = 548+56; captures 39/40 |
+
+Gate at the session-16 ship: lint 0/0 · tsc 0 · unit 548/548 · build ·
 smoke 15/15 · e2e 56/56.
 
 ## License

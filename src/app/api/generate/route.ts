@@ -39,6 +39,12 @@ export async function POST(req: Request) {
   // zero auth traffic the generate: buckets were never reclaimed.
   sweepRateLimits();
   if (!limited.allowed) {
+    // Session-16 (S16-7): the family's ONE deliberate deviation from
+    // ERR.RATE_LIMITED — the hand-built 429 carries the GENERATOR's own
+    // client-facing copy ("Too many generations…", the paywall-adjacent
+    // vocabulary) rather than the auth family's "Too many attempts…".
+    // The envelope shape and the Retry-After header are identical; only
+    // the message differs, by design.
     return NextResponse.json(
       {
         ok: false,

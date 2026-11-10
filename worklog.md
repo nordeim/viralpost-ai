@@ -1,3 +1,98 @@
+Task ID: 16
+Agent: main (Z.ai)
+Task: The session-16 parse-vocabulary completion + bare-/api envelope +
+polish-batch round — re-run the standing instruction against the
+post-session-15 tree (de6e238): docs review, the baseline gate on the
+merged tree (GREEN at the documented 543/37 + 56/9 + 15 counts — MATCH;
+census MATCH), the comprehensive audit (0 Critical / 0 High / 1 Medium /
+2 Low / 8 Informational; the load-bearing finding live-confirmed on FIVE
+dev-API probes; the session-15 cures re-verified clean), the neo-crm
+repo re-review (HEAD b3d0fbe — UNCHANGED since session 12's review; its
+adoption and deferral decisions stand), the live reference parity walk
+(logged-in: /Home with the "ViralPost AI" title; the mobile menu at
+390x844 — 5 destinations, auto-close on navigation (the post-nav
+visible /Tool link is the FOOTER's — the panel itself closed), the
+no-aria hamburger byte-identical to the clone's base classes; the OG
+family live re-captured on ALL FIVE routes — prefixed og:title +
+per-route canonical on /Tool /Pricing /Contact, the unprefixed family on
+/ and /login, the plain description everywhere: the clone matches
+byte-for-byte, NO drift; sitemap/robots unchanged) + the clone's
+dev-server walk (hydration clean at 390x844; the menu open — 5
+destinations + brand; Escape WITH the focus return; navigate +
+auto-close + the derived "Tool | ViralPost AI" title; the hamburger
+carries the reference's base classes + the S15-8 slate-300 ring), the
+TDD cures, the mutation batteries (5), the gate, captures 39/40, push
+#16 to main via the SSH wrapper.
+
+Work Log:
+- THE PARSE-VOCABULARY COMPLETION (S16-1, MEDIUM — live-confirmed ×5):
+  the S15-2 cure guarded raw === null only, so a JSON body that PARSES
+  to a string/array/number/boolean fed safeParse and leaked Zod's
+  dev-facing "Invalid input: expected object, received string|array"
+  on the whole auth family (parseBody) AND contact's route-local site
+  (curl '"hello"' / '[1,2]' reproduced both); the three schema fields
+  without { message } (verifySchema.code, resetPasswordSchema.
+  new_password, passwordSchema at signup) leaked "Invalid input:
+  expected string, received number|undefined" for type errors (curl
+  {"code":12345} / {"reset_token":"abc"} / {"password":12345678}
+  reproduced all three). CURED by TDD: parseBody's guard widened to
+  the whole malformed-SHAPE class (null OR non-object OR array → the
+  pinned "Invalid request body"), contact mirrors the same arm, and
+  the three fields gain { message } type-faces carrying their own
+  pinned vocabularies ("Please enter all 6 digits" via
+  verificationIncompleteMessage(), "Password must be at least 8
+  characters long", "Password must be at least 8 characters").
+  Generate deliberately UNTOUCHED — its narrowing bypasses the issue
+  message (the pinned describe-first contract). +1 parse-body
+  behavioral pin (the four non-object forms co-pinned), +3 schema
+  field pins, +1 contact object-guard source pin; all 5 mutation
+  batteries RED exactly their pins (arm removal ×2, { message }
+  removal ×3) → restored → GREEN.
+- THE BARE-/API ENVELOPE 404 (S16-2, LOW): the exact zero-segment path
+  /api is the one shape a REQUIRED [...path] catch-all can never
+  match — it fell through to the page tree's [...catchAll] and
+  answered the HTML 404 (title "Api | ViralPost AI"). CURED:
+  src/app/api/route.ts — the same five-method envelope-404 family,
+  force-dynamic; the S15-7 e2e leg extended IN PLACE with the bare-path
+  assertions (RED proven against the pre-cure build — content-type
+  text/html — GREEN post-cure; no count change, the leg's purpose IS
+  this doctrine).
+- THE POLISH BATCH: the dead reducedRef retired from particle-text
+  (S16-4 — assigned, never read, visible only because no-unused-vars
+  is off); the footer ©-year build-time freeze documented as a
+  deviation (S16-5 — the (site) pages are statically prerendered, the
+  reference's SPA computes it live; divergence opens only past a
+  calendar-year boundary crossed by the last deploy; the in-code
+  comment + the PAD §11 row, a client-side island rejected on
+  hydration-risk grounds); the generate-429 deviation comment (S16-7 —
+  the family's ONE deliberate ERR.RATE_LIMITED deviation, the
+  generator's own client-facing copy); the PAD §11 S15-6 row
+  re-recorded with the TRUE blast radius (S16-3 — exhaustive-deps +
+  no-console + no-unused-vars + no-undef + no-unreachable are ALL off
+  tree-wide, not just the 2 documented flags; the deferral stands,
+  scoping requires restructuring particle-text's join-key idiom
+  first); the PAD §12 header's stale "session-11 ship" phrase
+  refreshed to the session-16 ship (S16-6).
+- THE VERIFICATION: lint 0/0 · tsc 0 · unit 548/548 (37 files, +5:
+  the S16-1 family) · build · smoke 15/15 · e2e 56/56 (9 specs — the
+  S16-2 assertions extended the existing S15-7 leg, no count change)
+  · census MATCH · the reality census re-anchored FIRST (UNIT 543 →
+  548; the PAD §12 inventory rows: api.ts 222 → 230, particle-text
+  315 → 313, + the new api/route.ts row at 34).
+- THE DOCS LOCKSTEP: README (badge 604 = 548+56, the architecture +
+  testing counts, the API table's catch-all row naming both routes,
+  the session-16 status row, the gate line) · AGENTS (counts, the
+  plans map's sixteenth round) · CLAUDE (counts) · PAD (§8.1
+  distribution, §8.3, §11's re-recorded S16-3 row + the new S16-5
+  deviation row, §12's inventory + header) · the SKILL v1.11.0 →
+  v1.12.0 (frontmatter, the §11 checklist counts, Appendix A's
+  session-16 row, Appendix B re-certified through session 16) · this
+  worklog Task 16 · the session-16 plan's execution record.
+- SHIPPED: the remediated tree + the six docs in lockstep + the plan
+  doc (docs/plans/2026-11-10-session16-parse-vocabulary-completion-
+  bare-api-envelope-and-polish-batch.md) + captures 39/40, committed to
+  main and pushed via docs/ssh_git_wrapper_v3.py
+
 Task ID: 15
 Agent: main (Z.ai)
 Task: The session-15 resend P2025 sibling arm + null-body vocabulary +

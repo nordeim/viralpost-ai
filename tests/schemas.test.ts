@@ -70,6 +70,24 @@ describe("passwordSchema", () => {
     // The 200 boundary itself passes (both surfaces agree on it).
     expect(passwordSchema.safeParse("x".repeat(200)).success).toBe(true);
   });
+
+  // Session-16 (S16-1): the field-level completion of the S15-2 doctrine
+  // — a NON-STRING password at signup used to answer Zod's dev-facing
+  // "Invalid input: expected string, received number" (live-confirmed on
+  // /api/auth/signup with {"password": 12345678}). The { message } param
+  // on the string constructor owns the TYPE face with the same pinned
+  // vocabulary the min face owns.
+  it("session-16 (S16-1): rejects a non-string password with the pinned minimum message (no Zod dev-message leak)", () => {
+    for (const password of [12345678, null, true]) {
+      const result = passwordSchema.safeParse(password);
+      expect(result.success, `password ${JSON.stringify(password)}`).toBe(false);
+      if (!result.success) {
+        expect(result.error.issues[0].message, `password ${JSON.stringify(password)}`).toBe(
+          "Password must be at least 8 characters",
+        );
+      }
+    }
+  });
 });
 
 describe("loginSchema", () => {
@@ -175,6 +193,23 @@ describe("verifySchema", () => {
       expect(result.error.issues[0].message).toBe("Email is required");
     }
   });
+
+  // Session-16 (S16-1): the field-level completion of the S15-2 doctrine
+  // — a NON-STRING code used to answer Zod's dev-facing "Invalid input:
+  // expected string, received number" (live-confirmed on /api/auth/verify
+  // with {"code": 12345}). The { message } param owns the TYPE face with
+  // the incomplete-digits vocabulary the length face owns.
+  it("session-16 (S16-1): rejects a non-string code with the incomplete message (no Zod dev-message leak)", () => {
+    for (const code of [12345, null, true]) {
+      const result = verifySchema.safeParse({ email: "a@b.co", code });
+      expect(result.success, `code ${JSON.stringify(code)}`).toBe(false);
+      if (!result.success) {
+        expect(result.error.issues[0].message, `code ${JSON.stringify(code)}`).toBe(
+          "Please enter all 6 digits",
+        );
+      }
+    }
+  });
 });
 
 describe("resendSchema", () => {
@@ -255,6 +290,24 @@ describe("resetPasswordSchema", () => {
     expect(result.success).toBe(false);
     if (!result.success) {
       expect(result.error.issues[0].message).toBe("Password must be reasonably sized");
+    }
+  });
+
+  // Session-16 (S16-1): the field-level completion of the S15-2 doctrine
+  // — a MISSING or NON-STRING new_password used to answer Zod's
+  // dev-facing "Invalid input: expected string, received undefined"
+  // (live-confirmed on /api/auth/reset-password with {"reset_token":"abc"}).
+  // The { message } param owns the TYPE face with the same pinned
+  // vocabulary the min face owns.
+  it("session-16 (S16-1): rejects a missing/non-string new_password with the 8-char message (no Zod dev-message leak)", () => {
+    for (const body of [{ reset_token: "abc" }, { reset_token: "abc", new_password: 12345678 }]) {
+      const result = resetPasswordSchema.safeParse(body);
+      expect(result.success, JSON.stringify(body)).toBe(false);
+      if (!result.success) {
+        expect(result.error.issues[0].message, JSON.stringify(body)).toBe(
+          "Password must be at least 8 characters long",
+        );
+      }
     }
   });
 });

@@ -93,4 +93,15 @@ test("session-15 (S15-7): unknown /api paths answer the JSON envelope 404 (not t
   const body = await post.json();
   expect(body.ok).toBe(false);
   expect(body.error.code).toBe("NOT_FOUND");
+  // Session-16 (S16-2): the BARE /api path (zero segments) is the one
+  // shape a required [...path] catch-all can never match — it used to
+  // fall through to the page tree's [...catchAll] and answer the HTML
+  // 404 (title "Api | ViralPost AI"). src/app/api/route.ts now owns it
+  // with the same envelope family.
+  const bare = await request.get("/api");
+  expect(bare.status()).toBe(404);
+  expect(bare.headers()["content-type"]).toContain("application/json");
+  const bareBody = await bare.json();
+  expect(bareBody.ok).toBe(false);
+  expect(bareBody.error.code).toBe("NOT_FOUND");
 });

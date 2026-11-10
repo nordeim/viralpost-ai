@@ -7,7 +7,7 @@
 
 import { z } from "zod";
 
-import { VERIFICATION_CODE_LENGTH } from "@/lib/verification";
+import { VERIFICATION_CODE_LENGTH, verificationIncompleteMessage } from "@/lib/verification";
 
 /** The shared email contract: trimmed, lowercased, the 160-char cap that
  *  bounds the SQLite lookup. */
@@ -31,9 +31,12 @@ export const emailSchema = emailFormat;
  * signup (the 16KB body cap allowed it) could never be REPLACED at reset
  * (reset's own cap rejected it while the old password still verified).
  * Login's password field stays unbounded — login never rejects on length
- * (the tolerant posture for hashes minted before the ceiling). */
+ * (the tolerant posture for hashes minted before the ceiling).
+ * Session-16 (S16-1): the { message } param owns the TYPE face — a
+ * non-string password used to answer Zod's dev-facing "Invalid input:
+ * expected string, received number" (live-confirmed at signup). */
 export const passwordSchema = z
-  .string()
+  .string({ message: "Password must be at least 8 characters" })
   .min(8, "Password must be at least 8 characters")
   .max(200, "Password must be reasonably sized");
 
@@ -64,8 +67,13 @@ export const signupSchema = z.object({
 
 export const verifySchema = z.object({
   email: emailField("Email is required").min(1, "Email is required"),
+  // Session-16 (S16-1): the { message } param owns the TYPE face — a
+  // non-string code used to answer Zod's dev-facing "Invalid input:
+  // expected string, received number" (live-confirmed). The incomplete
+  // message is the view's own pinned vocabulary (login-card re-uses
+  // verificationIncompleteMessage() for the same hint).
   code: z
-    .string()
+    .string({ message: verificationIncompleteMessage() })
     .transform((v) => v.replace(/\D/g, ""))
     .refine((v) => v.length === VERIFICATION_CODE_LENGTH, "Please enter all 6 digits"),
 });
@@ -84,8 +92,12 @@ export const resetPasswordSchema = z.object({
     .trim()
     .min(1, "Invalid or expired reset token")
     .max(200, "Token must be reasonably sized"),
+  // Session-16 (S16-1): the { message } param owns the TYPE face — a
+  // missing or non-string new_password used to answer Zod's dev-facing
+  // "Invalid input: expected string, received undefined"
+  // (live-confirmed).
   new_password: z
-    .string()
+    .string({ message: "Password must be at least 8 characters long" })
     .min(8, "Password must be at least 8 characters long")
     .max(200, "Password must be reasonably sized"),
 });

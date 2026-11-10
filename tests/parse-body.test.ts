@@ -115,4 +115,31 @@ describe("parseBody (session-163)", () => {
       expect(body.error.message).toBe("Request body too large");
     }
   });
+
+  // Session-16 (S16-1): the S15-2 null-body vocabulary completed for the
+  // NON-OBJECT class. A JSON body that PARSES but not to an object — a
+  // bare string, array, number, or boolean — used to pass the null-only
+  // guard and feed safeParse, leaking Zod's dev-facing "Invalid input:
+  // expected object, received string" to the client (live-confirmed on
+  // /api/auth/login with '"hello"' and '[1,2]'). The widened guard owns
+  // the whole malformed-SHAPE class with the same pinned message the
+  // null class owns. The four forms are co-pinned faces of one contract:
+  // "a body that is not a JSON object answers Invalid request body".
+  it("session-16 (S16-1): a non-object JSON body (string/array/number/boolean) answers the invalid-body envelope (no Zod dev-message leak)", async () => {
+    for (const serialized of ['"hello"', "[1,2]", "42", "true"]) {
+      const result = await parseBody(
+        jsonRequest(serialized),
+        loginSchema,
+      );
+      expect(result.ok, `body ${serialized}`).toBe(false);
+      if (!result.ok) {
+        expect(result.response.status, `body ${serialized}`).toBe(400);
+        const body = await result.response.json();
+        expect(body, `body ${serialized}`).toEqual({
+          ok: false,
+          error: { code: "BAD_REQUEST", message: "Invalid request body" },
+        });
+      }
+    }
+  });
 });

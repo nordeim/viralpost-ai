@@ -75,6 +75,14 @@ export function Footer() {
         </div>
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-500 text-sm">
+            {/* Session-16 (S16-5), documented deviation: the (site) pages
+                are statically prerendered, so this year evaluates at
+                `next build` and rolls only on the next deploy (the
+                reference's SPA computes it client-side every load — the
+                divergence window opens only after a calendar-year
+                boundary crosses the last deploy). A client-side island
+                here would trade hydration risk for zero current-day
+                value; see PAD §11. */}
             © {new Date().getFullYear()} ViralPost AI. All rights reserved.
           </p>
           <p className="text-slate-500 text-sm">Made with ❤️ for creators</p>

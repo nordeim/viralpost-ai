@@ -34,7 +34,13 @@ export async function POST(req: Request) {
   // "Invalid input: expected object, received null" to the client
   // (live-confirmed). The auth family's seam owns this message; the
   // route-local site joins it.
-  if (read.value === null) return fail("BAD_REQUEST", "Invalid request body");
+  // Session-16 (S16-1): the arm widened to the whole malformed-SHAPE
+  // class — a body parsing to a string/array/number leaked the same
+  // dev-message genus (live-confirmed with '"hello"'); parseBody's seam
+  // owns the widened form, this site mirrors it.
+  if (read.value === null || typeof read.value !== "object" || Array.isArray(read.value)) {
+    return fail("BAD_REQUEST", "Invalid request body");
+  }
   const parsed = contactSchema.safeParse(read.value);
   if (!parsed.success) {
     const first = parsed.error.issues[0];
