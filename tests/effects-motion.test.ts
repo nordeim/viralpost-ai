@@ -161,6 +161,24 @@ describe("session-20 (S20-12): the WebGL hero guards context loss", () => {
       .replace(/\/\*[\s\S]*?\*\//g, "")
       .replace(/\/\/[^\n]*/g, "");
 
+  // Session-24 (S24-6): in reduced mode the single static frame is
+  // seeded by the mount rAF timestamp (the S23-2 comment truth), but
+  // onResize re-rendered at a LITERAL t=0 — a resize visibly re-flowed
+  // the slow sine bands from a different point in the phase cycle,
+  // contradicting the comment the same week it was written. The cure:
+  // the first render's timestamp is captured and the resize branch
+  // re-renders at the SAME seed — the mount-time frame stays the
+  // mount-time frame across resizes.
+  it("session-24 (S24-6): the reduced-motion resize repaint keeps the mount-time seed (never a literal 0)", () => {
+    const src = bare();
+    const onResize = src.match(/const onResize = \(\) => \{[\s\S]*?\n {4}\};/);
+    expect(onResize, "the resize closure must exist").toBeTruthy();
+    expect(onResize![0], "the reduced branch re-renders at the captured seed").toMatch(/if \(reduced\) render\((?:seedT|seed|mountT)/);
+    expect(onResize![0]).not.toMatch(/render\(0\)/);
+    // The seed is captured from the first render call, not hardcoded.
+    expect(src).toMatch(/(?:seedT|seed|mountT) = t/);
+  });
+
   it("a webglcontextlost event stops the rAF loop and is removed on cleanup (no post-loss spin)", () => {
     const src = bare();
     expect(src, "the listener must be registered").toContain('addEventListener("webglcontextlost"');

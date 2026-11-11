@@ -31,6 +31,13 @@ type Listener = () => void;
 const listeners = new Set<Listener>();
 let toasts: ToastItem[] = [];
 
+// Session-24 (S24-5): the cached server snapshot — one stable empty
+// array for every getServerSnapshot call (React 19's hydration branch
+// calls it twice and compares with ===; a fresh literal per call trips
+// the dev-console "should be cached" error and forces one redundant
+// post-hydration render).
+const EMPTY_TOASTS: ToastItem[] = [];
+
 function emit() {
   for (const l of listeners) l();
 }
@@ -76,7 +83,15 @@ function useToasts(): ToastItem[] {
   // snapshot `() => toasts` is reference-stable between pushes (the
   // module reassigns on mutation); the server snapshot is the empty
   // viewport.
-  return React.useSyncExternalStore(subscribeToasts, () => toasts, () => []);
+  // Session-24 (S24-5): the server snapshot reads the module-level
+  // EMPTY_TOASTS const — the uncached `() => []` minted a fresh array
+  // per call, and React 19's hydration branch calls getServerSnapshot
+  // TWICE comparing with === (the dev-console "should be cached"
+  // error on every Toaster hydration) plus one redundant
+  // post-hydration render (the consistency check saw [] ≠ toasts).
+  // The generator-card `() => 0` precedent is value-cached the same
+  // way.
+  return React.useSyncExternalStore(subscribeToasts, () => toasts, () => EMPTY_TOASTS);
 }
 
 const ICONS: Record<ToastVariant, React.ReactNode> = {

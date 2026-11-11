@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-669%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-676%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,7 +52,7 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 38 files / 606 tests, node env, pure seams |
+| Unit tests | Vitest | 5.0 | 38 files / 613 tests, node env, pure seams |
 | E2E | Playwright | 1.64 | 9 specs / 63 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
@@ -141,7 +141,7 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (38 files / 606 tests)
+bun run test            # Vitest unit suite (38 files / 613 tests)
 bun run test:e2e        # Playwright e2e (9 specs / 63 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
@@ -234,7 +234,9 @@ the PostgreSQL swap.
 
 | Session 23 — the hamburger-aria superset re-anchor + the census depth + the AA focus superset + the audit batch | ✅ done | The audit round at 0 Critical / 0 High / 1 Medium / 12 Low / 14 Info (the lead's hand-verification upgraded the INTERNAL-answers-400 shape from style note to correctness bug); THE PARITY WALK FOUND THE REFERENCE REMOVED ITS HAMBURGER ARIA FAMILY — session-22's "parity" capture was another transient deploy state (the reference has flip-flopped: absent 1–21, present 22, absent 23) — ours STAYS as the documented superset rather than stripping a WCAG 4.1.2 contract (S23-1, comment + SKILL re-anchored); the INTERNAL-envelope status discipline: contact + generate answered server failures at HTTP 400 (fail()'s default) — contact now answers ERR.INTERNAL(), generate the explicit 500 (S23-8, pinned); the census DEPTH: the unit census scans tests/ recursively (a nested suite used to execute invisibly to every count arm — the planted-defect proof on record) + the anti-dodge shapes hardened with a decoy battery (S23-10/S23-13); the manifest + sitemap envelope contracts pinned field-for-field (the new seo-surfaces suite, S23-14/S23-15); the a11y batch: the skip-link target programmatically focusable (S23-3), the input surfaces' keyboard-only focus-visible rings over the reference's sub-3:1 focus styles (S23-21), the stats-band text-white recorded in the SANCTIONED register (S23-16); the toast store on useSyncExternalStore (S23-4, the missed-update window closed); the config/script batch: the bounded smoke wait-loops (S23-11), the smoke db-push diagnostics (S23-17), server.log in both hygiene lists (S23-18), the bun.lock workspace name re-anchored (S23-12), packageManager pinned (S23-19), the /Home 308 owned at e2e (S23-20), the e2e scratch-user prune (S23-22); unit 606/38 + e2e 63/9, badge 669; captures 53/54 |
 
-Gate at the session-23 ship: lint 0/0 · tsc 0 · unit 606/606 · build ·
+| Session 24 — the Appendix-B ledger closure + the e2e census depth + the status-announcement superset + the audit batch | ✅ done | The audit round at 0 Critical / 0 High / 5 Medium / 11 Low / 11 Info (the lead's hand-verification; AUDIT-1's in-app-delivery Medium re-adjudicated to the accepted register — the documented S13-1 posture); THE PARITY WALK FOUND NO DRIFT — the first fully-clean walk since the mobile-menu re-anchor rounds began (every control surface byte-identical; the reference's hamburger aria family remains absent — our documented superset stands); the Appendix-B ledger closure (S24-1 — the S20-1 docs-counts genus recurred: the session-23 re-anchor missed the UNIT count in the same ledger bullet whose e2e count was pinned; both counts pinned with retired-form negatives); the e2e census depth (S24-2 — the spec census scanned tests/e2e flat while Playwright's discovery is recursive; the recursive helpers + the planted-defect proof on record); the status-announcement superset (S24-3 — the contact form's success swap is announced to AT via a visually-hidden role="status" region, WCAG 2.2 AA 4.1.3); the Copy-ring AA unification (S24-4 — teal-500 ≈2.49:1 upgraded to the S23-3 teal-600 family, the sub-3:1 form banned); the audit batch: the toast server snapshot cached (S24-5), the iridescence reduced-resize mount-time seed (S24-6), the e2e-prune datasource pinned through the seam (S24-7), the landing pricing duplication retired (S24-8 — the DOM byte-identical by construction), the ROUTES pin made ordered + the page-titles duplicate face retired (S24-9 — the exactly-one-pin doctrine), the sitemap loc-absoluteness + robots body + og-dims pins (S24-10/S24-11, four mutation batteries); unit 613/38 + e2e 63/9, badge 676; captures 55/56 |
+
+Gate at the session-24 ship: lint 0/0 · tsc 0 · unit 613/613 · build ·
 smoke 15/15 · e2e 63/63.
 
 ## License

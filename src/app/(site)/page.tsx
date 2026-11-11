@@ -6,7 +6,7 @@ import {
   FeaturesSection,
   HowItWorksSection,
   MonetizationSection,
-  PricingCards,
+  PricingSection,
   StatsSection,
   TestimonialsSection,
   ToolSection,
@@ -31,15 +31,13 @@ export default function LandingPage() {
       <HowItWorksSection />
       <StatsSection />
       <TestimonialsSection />
-      <section id="pricing" className="py-24 px-6 bg-slate-50">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">Simple Pricing</h2>
-            <p className="mt-4 text-slate-500">No subscriptions. Pay once, create forever.</p>
-          </div>
-          <PricingCards />
-        </div>
-      </section>
+      {/* Session-24 (S24-8): the pricing block renders PricingSection —
+          the /Pricing page's own component — instead of the hand-inlined
+          duplicate (byte-identical markup today, but the session-19
+          unfaded-header cure had to be applied in TWO places; the
+          component IS the markup, so the DOM is unchanged by
+          construction). */}
+      <PricingSection />
       <CtaSection />
       <section id="contact" className="py-24 px-6 bg-white">
         <div className="max-w-2xl mx-auto">

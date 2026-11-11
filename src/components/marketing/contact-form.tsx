@@ -128,6 +128,17 @@ export function ContactForm() {
           </>
         )}
       </button>
+      {/* Session-24 (S24-3): the success swap's AT announcement. A button
+          label change is NOT re-announced by screen readers (even when
+          focused) — the swap alone left SR users with zero feedback
+          (WCAG 2.2 AA 4.1.3). The region renders BEFORE the state flips
+          (always in the tree, empty when idle) so AT catches the CONTENT
+          mutation rather than an insertion; the toast viewport (S19-8)
+          and InfoCallout (S14-5) are the family precedents. The visible
+          surface — the reference's own label swap — is untouched. */}
+      <p role="status" aria-live="polite" className="sr-only">
+        {sent ? "Message sent" : ""}
+      </p>
     </form>
   );
 }

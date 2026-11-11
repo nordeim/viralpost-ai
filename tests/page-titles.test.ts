@@ -133,16 +133,14 @@ describe("pageMetadata: the pages consume the factory", () => {
   });
 });
 
-describe("the sitemap route", () => {
-  it("lists the canonical routes and never the /Home alias", () => {
-    const sitemap = read("src/app/sitemap.xml/route.ts");
-    expect(sitemap).toContain('{ path: "/", priority: "1.0" }');
-    expect(sitemap).toContain('{ path: "/Tool", priority: "0.8" }');
-    expect(sitemap).toContain('{ path: "/Pricing", priority: "0.8" }');
-    expect(sitemap).toContain('{ path: "/Contact", priority: "0.8" }');
-    expect(sitemap).not.toContain('"/Home"');
-  });
-
+// Session-24 (S24-9): the sitemap ROUTES-table face here was RETIRED —
+// tests/seo-surfaces.test.ts (the suite built for the SEO route
+// contracts in session 23) owns it now with a single ORDERED spanning
+// pin (this suite's four independent toContains were order-blind and
+// duplicated the face — the AGENTS exactly-one-pin doctrine). The
+// /Home → / redirect below stays: a different face (next.config's
+// redirect table, not the sitemap's route table).
+describe("the /Home 308 alias", () => {
   it("the /Home → / redirect lives in next.config.ts", () => {
     const config = read("next.config.ts");
     expect(config).toContain('{ source: "/Home", destination: "/", permanent: true }');

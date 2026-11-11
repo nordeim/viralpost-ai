@@ -194,11 +194,22 @@ export function Iridescence({
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       if (!reduced) raf = requestAnimationFrame(render);
     };
-    raf = requestAnimationFrame(render);
+    // Session-24 (S24-6): the reduced-mode seed — the mount frame's own
+    // rAF timestamp, captured on the single draw so a later resize
+    // repaints the SAME frame. The old `render(0)` re-seeded u_time to a
+    // literal zero and visibly re-flowed the slow sine bands from a
+    // different point in the phase cycle (the S23-2 comment truth —
+    // "the static frame sits at mount-time, not t=0" — was written the
+    // same week the resize path violated it).
+    let seedT = 0;
+    raf = requestAnimationFrame((t) => {
+      seedT = t;
+      render(t);
+    });
 
     const onResize = () => {
       resize();
-      if (reduced) render(0);
+      if (reduced) render(seedT);
     };
     window.addEventListener("resize", onResize);
 

@@ -158,4 +158,19 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
     // array (the missed-update window's carrier).
     expect(src).not.toMatch(/useState<ToastItem\[\]>\(toasts\)/);
   });
+
+  // Session-24 (S24-5): the conversion's getServerSnapshot was the
+  // uncached `() => []` — React 19's hydration branch calls it TWICE and
+  // compares with ===, so every dev hydration of the root-mounted
+  // Toaster tripped the "should be cached" console error, plus one
+  // redundant post-hydration render (the consistency check sees a fresh
+  // [] ≠ the module toasts). The generator-card precedent (`() => 0`) is
+  // value-cached; the toast store gains the same: a module-level
+  // EMPTY_TOASTS const the snapshot reads.
+  it("session-24 (S24-5): the server snapshot is CACHED (a module-level empty const, never a fresh array per call)", () => {
+    expect(src).toMatch(/const EMPTY_TOASTS: ToastItem\[\] = \[\]/);
+    // The uncached literal form is banned in the store's call — the
+    // fresh-array-per-call shape React's hydration branch flags.
+    expect(src).not.toContain("() => []");
+  });
 });

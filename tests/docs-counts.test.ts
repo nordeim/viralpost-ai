@@ -92,7 +92,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 606;
+const UNIT = 613;
 /** Vitest suite files. */
 const SUITES = 38;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -119,6 +119,25 @@ function unitTestFiles(): string[] {
     .map(String)
     .filter((f) => f.endsWith(".test.ts"))
     .sort();
+}
+
+// Session-24 (S24-2): the e2e sibling of unitTestFiles — Playwright's
+// testDir discovery is RECURSIVE, so a spec at tests/e2e/<subdir>/
+// executes in the runner while a flat readdirSync cannot see it (the
+// planted-defect proof: the fixture sat green through the flat census).
+// The uncured half of S23-10 — the unit arm went recursive in session
+// 23; these three arms convert the same way. Returned paths carry
+// their subpath so every `tests/e2e/${f}` read stays valid.
+function e2eSpecFiles(): string[] {
+  return readdirSync(join(root, "tests", "e2e"), { recursive: true })
+    .map(String)
+    .filter((f) => f.endsWith(".spec.ts"))
+    .sort();
+}
+
+/** The e2e surface the forms-guard scans: specs + the setup project. */
+function e2eCountedFiles(): string[] {
+  return [...e2eSpecFiles(), "auth.setup.ts"].sort();
 }
 
 describe("docs-counts: the live-tense count sites (the badge-drift genus, retired)", () => {
@@ -176,12 +195,28 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
   // while the ledger contradicted its own document (56 vs the live 57).
   // The verification ledger is a LIVE-TENSE count site: scoped pin, plus
   // the retired-form negative (the README retired-badge ladder pattern).
+  // Session-24 (S24-1): the S20-1 genus RECURRED one notch over — the
+  // session-23 re-anchor updated the frontmatter, the e2e count here,
+  // and every other doc site but missed the UNIT count in this same
+  // bullet (599/37 shipped green against the live 606/38 because only
+  // the e2e face was pinned). BOTH counts in the ledger bullet are
+  // pinned now, each with its retired-form negative.
   it("the SKILL's Appendix-B verification ledger carries the live e2e count (S20-1)", () => {
     const skill = read("viralpost-ai_SKILL.md");
     const appendixB = skill.slice(skill.indexOf("## Appendix B"));
     expect(appendixB, "Appendix B must exist").toBeTruthy();
     expect(appendixB).toContain(`e2e\n  ${E2E}/${E2E} (${E2E_SPECS} specs`);
     expect(skill).not.toContain("56/56 (9 specs");
+  });
+
+  it("session-24 (S24-1): the Appendix-B ledger carries the live UNIT count too (the S20-1 recurrence, closed)", () => {
+    const skill = read("viralpost-ai_SKILL.md");
+    const appendixB = skill.slice(skill.indexOf("## Appendix B"));
+    expect(appendixB, "Appendix B must exist").toBeTruthy();
+    expect(appendixB).toContain(`unit ${UNIT}/${UNIT} (${SUITES} files`);
+    // The retired form that shipped green through session 23 (the exact
+    // miss this pin exists to make impossible).
+    expect(skill).not.toContain(`unit ${UNIT - 7}/${UNIT - 7} (37 files`);
   });
 
   it("the README env table carries the six-knob contract (both directions with .env.example)", () => {
@@ -302,9 +337,8 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
   });
 
   it("E2E/E2E_SPECS match the live Playwright surface (source test() + the a11y matrix expansion)", () => {
-    const e2eDir = join(root, "tests", "e2e");
-    const specFiles = readdirSync(e2eDir).filter((f) => f.endsWith(".spec.ts")).sort();
-    expect(specFiles.length, `tests/e2e/*.spec.ts on disk: ${specFiles.length} (E2E_SPECS says ${E2E_SPECS})`).toBe(E2E_SPECS);
+    const specFiles = e2eSpecFiles();
+    expect(specFiles.length, `tests/e2e/**:/*.spec.ts on disk: ${specFiles.length} (E2E_SPECS says ${E2E_SPECS})`).toBe(E2E_SPECS);
 
     // Source test() blocks across the specs + the setup project (the
     // setup's 1 test is part of the E2E total by the constant's contract).
@@ -379,9 +413,9 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
     const stripComments = (src: string) =>
       src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
     const unitFiles = unitTestFiles();
-    const e2eFiles = readdirSync(join(root, "tests", "e2e"))
-      .filter((f) => f.endsWith(".spec.ts") || f === "auth.setup.ts")
-      .sort();
+    // Session-24 (S24-2): recursive — a nested spec dodges a flat scan
+    // (the forms-guard's own blind spot until now).
+    const e2eFiles = e2eCountedFiles();
     for (const f of [...unitFiles.map((f) => `tests/${f}`), ...e2eFiles.map((f) => `tests/e2e/${f}`)]) {
       const src = stripComments(read(f));
       const form = src.match(/\.(each|skip|only|todo|concurrent|fails)\(/);

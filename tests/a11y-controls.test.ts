@@ -56,6 +56,24 @@ describe("named-control source pins (the open surfaces)", () => {
     }
   });
 
+  // Session-24 (S24-3): a successful submit's only indication was the
+  // button label swap — button label changes are NOT re-announced by AT
+  // (even focused), so screen-reader users got zero feedback (WCAG 2.2
+  // AA 4.1.3, Status Messages). The house's polite-live-region doctrine
+  // (toast.tsx S19-8's aria-live viewport, InfoCallout S14-5's
+  // role="status") gains its contact-surface member: a visually-hidden
+  // status node, present in the DOM before the change (AT catches the
+  // mutation), its content keyed on the sent state. The reference's
+  // visible surface (the label swap) stays byte-identical.
+  it("session-24 (S24-3): the contact form's success swap is ANNOUNCED (a polite status region, WCAG 4.1.3)", () => {
+    const src = read("src/components/marketing/contact-form.tsx");
+    expect(src).toMatch(/role="status"/);
+    expect(src).toMatch(/aria-live="polite"|className="sr-only"/);
+    // The region renders BEFORE the state flips (always in the tree, so
+    // the mutation — not the insertion — is what AT announces).
+    expect(src).not.toMatch(/\{sent &&[^}]*role="status"/);
+  });
+
   it("icon-only controls are aria-hidden or labeled (no nameless glyphs)", () => {
     // The marketing icons ride aria-hidden="true" inside named parents;
     // the hamburger is the only icon-only BUTTON and it is labeled.

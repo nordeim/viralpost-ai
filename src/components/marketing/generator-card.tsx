@@ -180,7 +180,11 @@ export function GeneratorCard() {
                 // Session-21 (S21-20): the house focus-visible family (the
                 // S14-6 toast-dismiss / S15-8 hamburger arm) — keyboard-only
                 // visibility, the reference's base classes untouched.
-                className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-teal-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-teal-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+                // Session-24 (S24-4): the ring joins the S23-3 AA family —
+                // teal-500 computed ≈2.49:1 on the near-white card, under
+                // the 1.4.11 3:1 floor; teal-600 (≈3.05:1) clears it and
+                // matches the textarea one block above.
+                className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-teal-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-teal-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
               >
                 {copied ? (
                   <>

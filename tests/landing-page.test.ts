@@ -22,7 +22,11 @@ describe("landing: the section composition", () => {
       "<HowItWorksSection />",
       "<StatsSection />",
       "<TestimonialsSection />",
-      "<PricingCards />",
+      // Session-24 (S24-8): <PricingCards /> → <PricingSection /> — the
+      // landing's pricing block renders the shared component now (the
+      // hand-inlined duplicate retired; PricingCards still renders, one
+      // level deeper inside PricingSection).
+      "<PricingSection />",
       "<CtaSection />",
       "<ContactForm />",
     ];
@@ -201,6 +205,19 @@ describe("landing: the generator card (the reference's core contract)", () => {
     expect(card).toContain("focus-visible:ring-2 focus-visible:ring-teal-600");
     const form = read("src/components/marketing/contact-form.tsx");
     expect(form).toContain("focus-visible:ring-2 focus-visible:ring-teal-600");
+  });
+
+  // Session-24 (S24-4): the Copy button's S21-20 superset ring rode
+  // ring-teal-500 (≈2.49:1 on the near-white card — under the floor)
+  // while the SAME FILE's textarea carried the S23-3 ring-teal-600
+  // (≈3.05:1): the pre-standardization superset survived the AA-floor
+  // round one row below the input it sits under. The family unifies —
+  // and the sub-3:1 form is banned outright so no future surface can
+  // reintroduce it (the reference's base classes stay untouched).
+  it("session-24 (S24-4): the Copy button's superset ring joins the AA family — and the sub-3:1 teal-500 form is banned", () => {
+    const card = read("src/components/marketing/generator-card.tsx");
+    expect(card).toContain("focus-visible:ring-2 focus-visible:ring-teal-600");
+    expect(card).not.toContain("focus-visible:ring-teal-500");
   });
 });
 

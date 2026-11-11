@@ -2402,3 +2402,142 @@ Stage Summary:
 - SHIPPED: the remediated codebase + the docs in lockstep, committed to
   main and pushed via docs/ssh_git_wrapper_v3.py (the remote verified;
   no new branches)
+
+Task ID: 24
+Agent: main (Z.ai)
+Task: The session-24 Appendix-B ledger closure + e2e census depth +
+status-announcement superset + audit batch round — re-run the standing
+instruction against the post-session-23 tree (846ba34 = 1bbb29f + the
+session-23 transcript handoff): docs review, the baseline gate on the
+merged tree (lint 0/0 · tsc 0 · unit 606/606 (38 files) · census MATCH;
+the DATABASE_URL contract verified in place), the comprehensive audit
+(0 Critical / 0 High / 5 Medium / 11 Low / 11 Info after the lead's
+hand-verification and adjudication — dispatched wide across three
+parallel subagents (API/lib seams, components/pages/effects,
+SEO/configs/tests/docs)), the neo-crm repo re-review (HEAD b3d0fbe —
+UNCHANGED since session 12; the recorded decisions stand), the live
+reference parity walk (logged-in; the five-route head census, the
+mobile-menu control census at 390×844, the desktop nav + pill, the
+footer CTA, the heading tree, sitemap/robots, the generator superset,
+the Escape-close + focus return) — NO DRIFT, the first fully-clean
+walk since the mobile-menu re-anchor rounds began — the TDD cures
+(R24-1..R24-11, +7 unit pins, 1 face retired, 6 mutation batteries),
+the gate, captures 55/56, push #24 to main via the SSH wrapper.
+
+Details:
+- S24-1 (MEDIUM, docs-counts): THE APPENDIX-B LEDGER CLOSURE — the
+  S20-1 genus recurred one notch over: the session-23 count re-anchor
+  updated the frontmatter, the e2e count inside Appendix B's ledger
+  bullet, and every other doc site but MISSED the unit count in the
+  same bullet (599/37 shipped green against the live 606/38 because
+  the census's Appendix-B arm pinned ONLY the e2e count — the pin's
+  own blind spot). Both counts pinned now, each with its retired-form
+  negative; the ledger re-anchored (and walked to the 613 ship count
+  by the count ladder); the heading's re-certification line refreshed
+  to session 24.
+- S24-2 (MEDIUM, census): THE E2E CENSUS DEPTH — the uncured half of
+  S23-10: the spec census scanned tests/e2e FLAT while Playwright's
+  testDir discovery is recursive (a nested spec would execute
+  invisibly to every e2e count arm — E2E_SPECS, the test-block count,
+  the forms-guard, the anti-dodge loop). The planted-defect proof on
+  record: the nested fixture sat GREEN through the flat census (the
+  blindness, demonstrated), then RED the recursive scan (10 ≠ 9 — the
+  mutation battery), then removed. The e2eSpecFiles/e2eCountedFiles
+  helpers mirror unitTestFiles; all three arms converted.
+- S24-3 (MEDIUM, a11y WCAG 2.2 AA 4.1.3): THE STATUS-ANNOUNCEMENT
+  SUPERSET — the contact form's success swap ("Send Message" →
+  "Message Sent!") was the only indication of a successful submit, and
+  button label changes are NOT re-announced by AT: screen-reader users
+  got zero feedback. A visually-hidden role="status" aria-live="polite"
+  region rides the sent state (present in the DOM before the flip so
+  AT catches the mutation); the reference's visible surface untouched;
+  pinned (a11y-controls, RED-first).
+- S24-4 (MEDIUM, a11y WCAG 1.4.11): THE COPY-RING AA UNIFICATION — the
+  Copy button's S21-20 superset ring rode focus-visible:ring-teal-500
+  (≈2.49:1 on the near-white card, under the 3:1 floor) while the same
+  file's textarea carried the S23-3 teal-600 (≈3.05:1). Upgraded to
+  the family form; the sub-3:1 form banned outright in the pin (the
+  reference's base classes untouched).
+- S24-5 (LOW, React 19): the toast conversion's getServerSnapshot was
+  the uncached () => [] — React 19's hydration branch calls it TWICE
+  comparing with === (the dev-console "should be cached" error on
+  every Toaster hydration) plus one redundant post-hydration render.
+  The module-level EMPTY_TOASTS const (the generator-card () => 0
+  precedent); pinned with the literal banned.
+- S24-6 (LOW, comment-truth + reduced-motion): the iridescence
+  reduced-mode resize re-rendered at a LITERAL t=0 (render(0)) while
+  the header comment — written the prior round — asserted the static
+  frame sits at mount-time. The first render's timestamp is captured
+  (seedT) and the resize branch re-renders at the same seed; pinned in
+  effects-motion.
+- S24-7 (LOW, seam discipline): e2e-prune.ts constructed a bare
+  PrismaClient — the only Prisma-consuming script not pinned through
+  the seam (a manual run from the repo root followed bun's .env
+  absolutization toward the parent-of-repo path). The seed's idiom
+  adopted (datasources.db.url = runtimeDatabaseUrl()); live-run
+  verified (pruned 2 leftover scratch rows through the seam).
+- S24-8 (LOW, drift risk): the landing page hand-inlined the pricing
+  section that PricingSection encapsulates — byte-identical today, but
+  the session-19 unfaded-header cure had to be applied in TWO places.
+  The landing renders <PricingSection /> now (the DOM unchanged by
+  construction — the component IS the markup); the landing-page order
+  pin co-updated in the same commit.
+- S24-9 (LOW, pin quality): the S23-15b "order" pin was four
+  independent toContains — order-INDEPENDENT, so a ROUTES reorder
+  shipped green while the comment claimed order was pinned (the
+  comment-truth genus, in a test). ONE spanning ordered regex now; the
+  duplicate face in page-titles.test.ts RETIRED (seo-surfaces owns
+  the ROUTES table — the exactly-one-pin doctrine restored; the /Home
+  308 next.config pin stays in page-titles as a different face).
+- S24-10/S24-11 (LOW/INFO→pin, coverage): the seo-surfaces suite
+  completes the SEO route contracts — the sitemap loc-absoluteness
+  (sitemaps.org's hard requirement; the composition was the one
+  unpinned link), the robots body (the exact four-line body, LF-only,
+  no trailing newline, lowercase User-agent — the route's own stated
+  reason for existing), and the og:image dims (the PNG IHDR read
+  directly, pinned against both the 1200×630 bytes and the site.ts
+  declaration). FOUR mutation batteries: relative locs, the robots
+  trailing newline, the dims mismatch, the ROUTES reorder — each
+  exactly the new pin RED, restored, GREEN.
+- Count re-anchor: UNIT 606 → 613 (+8 new pins − 1 retired face:
+  docs-counts +1, a11y-controls +1, landing-page +1, toast-anatomy +1,
+  effects-motion +1, seo-surfaces +3, page-titles −1), SUITES 38
+  unchanged, E2E 63 unchanged, badge 669 → 676; the PAD §12 rows
+  (generator-card 210, iridescence 254); the census walked RED-to-
+  GREEN site by site.
+- THE FULL GATE on the exact commit tree: lint 0/0 · tsc 0 · unit
+  613/613 (38 files) · build · smoke 15/15 · e2e 63/63 (9 specs) ·
+  census MATCH.
+- Captures 55/56 (the landing 1280×800 + the OPEN mobile menu
+  390×844, via localhost, hydration awaited, the menu DOM-confirmed
+  open before the shot), PIL-verified.
+- Docs lockstep: README (the session-24 row, the gate line, the badge
+  676, the counts), AGENTS (counts, the plans map's twenty-fourth
+  round), CLAUDE (counts), PAD (§12 rows, the test-distribution
+  table, the counts), SKILL v1.19.0 → v1.20.0 (frontmatter, Appendix
+  B both counts + lineage, Appendix A's session-24 row), worklog Task
+  24, docs/session_24.md (the pre-round transcript replaced by the
+  round log), the plan's post-execution record.
+
+Stage Summary:
+- THE PARITY ROUND: NO DRIFT — the first fully-clean walk since the
+  mobile-menu re-anchor rounds began (every control surface
+  byte-identical on both sides; the hamburger aria family remains our
+  documented superset)
+- THE DOCS-COUNTS FIND: the S20-1 Appendix-B genus recurred at the
+  UNIT count (the session-23 re-anchor's one miss, green through the
+  census's e2e-only pin) — both counts pinned, the arm closed
+- THE INFRASTRUCTURE FINDS: the e2e census's flat scan (the uncured
+  half of S23-10 — closed with the planted-defect proof), the
+  order-blind ROUTES pin (made spanning + the duplicate face
+  retired), the loc/robots/og coverage trio (pinned with four
+  mutation batteries)
+- THE A11Y SUPERSETS: the contact form's success announced to AT
+  (WCAG 4.1.3), the Copy button's focus ring at the 3:1 floor
+- THE VERIFICATION: lint 0/0 · tsc 0 · unit 613/613 (38 files) ·
+  build · smoke 15/15 · e2e 63/63 (9 specs) · census MATCH · badge
+  676 · captures 55/56 PIL-verified · the cured surfaces live-
+  verified
+- SHIPPED: the remediated codebase + the docs in lockstep, committed
+  to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
+  verified; no new branches)
