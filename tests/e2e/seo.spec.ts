@@ -42,6 +42,32 @@ test("the home head carries the canonical + OG family", async ({ page }) => {
     "content",
     /^https?:\/\/[^/]+\/?$/,
   );
+  // Session-29 (S29-5): the rendered-DOM superset — og:image and
+  // twitter:card were pinned only at the metadata-object level
+  // (pageMetadata's openGraph.images / OG_IMAGE const) and the asset
+  // level (the S24-11 IHDR), never the SERVED head. A framework-level
+  // metadata rendering change (relative image resolution against
+  // metadataBase, a page-level metadata-merge regression) would have
+  // shipped green while the most-shared URL's preview card degraded.
+  // The twitter:card arm carries the same one-share doctrine
+  // (summary_large_image — the reference's own card type, pinned live).
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    "content",
+    /\/og-image\.png$/,
+  );
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute(
+    "content",
+    "summary_large_image",
+  );
+  // The inner-route canonical face: / and /signup carried the DOM-level
+  // canonical assertions; the inner routes were pinned only as the
+  // metadata object's alternates.canonical. /Tool joins the rendered
+  // family (the route-prefixed canonical — the reference's own shape).
+  await page.goto("/Tool");
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    /\/Tool$/,
+  );
 });
 
 test("session-19 (S19-1): the inner routes ship the prefixed truncated description family", async ({ page }) => {

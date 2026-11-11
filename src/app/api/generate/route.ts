@@ -2,7 +2,7 @@ import { randomInt } from "crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-import { fail, isGuarded, ok, readBoundedJson, requireSession } from "@/lib/api";
+import { fail, isJsonObject, isGuarded, ok, readBoundedJson, requireSession } from "@/lib/api";
 import { generatePost, ideaTooLongMessage, sanitizeIdea } from "@/lib/generator";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
 
@@ -84,7 +84,10 @@ export async function POST(req: Request) {
   // 42, []) used to fall through to safeParse and answer the
   // describe-first message while every sibling route answered this
   // vocabulary. The empty-idea and over-length arms below are unchanged.
-  if (read.value === null || typeof read.value !== "object" || Array.isArray(read.value)) {
+  // Session-29 (S29-2): the inline guard is the SEAM's exported
+  // predicate now (api.ts's isJsonObject — the one-home cure); the
+  // vocabulary is unchanged.
+  if (!isJsonObject(read.value)) {
     return fail("BAD_REQUEST", "Invalid request body");
   }
   const parsed = bodySchema.safeParse(read.value);

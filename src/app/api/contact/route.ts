@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { ERR, fail, ok, readBoundedJson } from "@/lib/api";
+import { ERR, fail, isJsonObject, ok, readBoundedJson } from "@/lib/api";
 import { contactSchema } from "@/lib/schemas";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
 
@@ -38,7 +38,10 @@ export async function POST(req: Request) {
   // class — a body parsing to a string/array/number leaked the same
   // dev-message genus (live-confirmed with '"hello"'); parseBody's seam
   // owns the widened form, this site mirrors it.
-  if (read.value === null || typeof read.value !== "object" || Array.isArray(read.value)) {
+  // Session-29 (S29-2): the inline three-clause guard is the SEAM's
+  // exported predicate now (api.ts's isJsonObject — the one-home cure);
+  // the vocabulary is unchanged.
+  if (!isJsonObject(read.value)) {
     return fail("BAD_REQUEST", "Invalid request body");
   }
   const parsed = contactSchema.safeParse(read.value);

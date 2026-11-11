@@ -234,4 +234,36 @@ describe("session-24 (S24-11): the og:image asset matches its declared dimension
     expect(site).not.toMatch(/twitter:\s*\{[^}]*images:\s*\["\/og-image\.png"\]/);
     expect(layout).not.toMatch(/twitter:\s*\{[^}]*images:\s*\["\/og-image\.png"\]/);
   });
+
+  // Session-29 (S29-7): the ICON family joins the asset↔declaration
+  // doctrine — og-image's dims are pinned both directions (S24-11), but
+  // the icons were pinned only as "200 + image/png" (e2e S22-14) while
+  // manifest.json declares 192/512 (both served by icon.png, the
+  // reference's platform-posture) and apple-icon's 180 expectation
+  // floated. An icon asset swap shipping a wrong-sized file would pass
+  // every layer with a manifest still declaring the wrong dims.
+  it("S29-7: the icon assets' IHDRs match their expected dimensions (icon.png 512×512, apple-icon.png 180×180)", () => {
+    const readIhdr = (rel: string) => {
+      const png = readFileSync(path.resolve(import.meta.dirname, "..", rel));
+      // PNG: 8-byte signature, then IHDR — width at 16, height at 20.
+      expect(png.subarray(0, 8).toString("hex")).toBe("89504e470d0a1a0a");
+      expect(png.subarray(12, 16).toString("ascii")).toBe("IHDR");
+      return [png.readUInt32BE(16), png.readUInt32BE(20)] as const;
+    };
+    // icon.png serves BOTH manifest entries (192x192 and 512x512 — the
+    // reference's own same-src platform posture, the documented A3-I1
+    // parity note); its intrinsic 512×512 satisfies the largest
+    // declaration and scales down for the 192 entry.
+    expect(readIhdr("src/app/icon.png")).toEqual([512, 512]);
+    // apple-icon.png: the 180×180 apple touch-icon convention.
+    expect(readIhdr("src/app/apple-icon.png")).toEqual([180, 180]);
+    // The declared side: the manifest carries both entries at the
+    // declared sizes (the asset↔manifest contract, both directions).
+    const manifest = readFileSync(
+      path.resolve(import.meta.dirname, "..", "src/app/manifest.json/route.ts"),
+      "utf-8",
+    );
+    expect(manifest).toContain('"192x192"');
+    expect(manifest).toContain('"512x512"');
+  });
 });

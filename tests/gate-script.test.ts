@@ -80,4 +80,22 @@ describe("session-11: the gate-script pins (the neo-crm adoption)", () => {
     expect(gateInit, "the GATE_PID init line must exist").toBeTruthy();
     expect(smoke.indexOf('GATE_PID=""')).toBeLessThan(smoke.indexOf("trap cleanup EXIT"));
   });
+
+  // Session-29 (S29-6): the operator-path wiring census — db:push rides
+  // the prisma-env wrapper specifically to defeat bun's .env
+  // absolutization of the RELATIVE file: URL (the R-1 founding hazard:
+  // a raw `prisma db push` resolves file:../db/custom.db against the
+  // process CWD and CREATES a wrong db outside the repo). db:census was
+  // already pinned (db-census.test.ts); the push/seed mappings were the
+  // uncounted faces — a hand-edit reverting the wrapper string would
+  // ship green through every layer.
+  it("S29-6: the db operator scripts route through their wrappers (prisma-env for push, the seed module for seed)", () => {
+    expect(pkg.scripts["db:push"]).toContain("scripts/prisma-env.ts");
+    expect(pkg.scripts["db:push"]).toContain("db push");
+    expect(pkg.scripts["db:seed"]).toBe("bun prisma/seed.ts");
+    // The wrapper itself exists on disk (the string pin is honest only
+    // if the target is real).
+    expect(existsSync(path.resolve(import.meta.dirname, "..", "scripts", "prisma-env.ts"))).toBe(true);
+    expect(existsSync(path.resolve(import.meta.dirname, "..", "prisma", "seed.ts"))).toBe(true);
+  });
 });

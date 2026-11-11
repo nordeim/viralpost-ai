@@ -225,6 +225,18 @@ describe("landing: the generator card (the reference's core contract)", () => {
     expect(card).toContain("setGenerating(false)");
   });
 
+  // Session-29 (S29-3): the response parse mirrors the family's
+  // graceful-degradation idiom — login-card (×5), reset-password-screen,
+  // and contact-form all parse with `await res.json().catch(() => null)`
+  // so a NON-JSON error body (a proxy/CDN 502 HTML page) reaches the
+  // `!res.ok || !body?.ok` arm and renders the server's own failure
+  // face, not the catch block's network-error toast (misleading for a
+  // server-side failure — the button settles either way, D-1 holds).
+  it("S29-3: the response parse carries the family's .catch(() => null) (a non-JSON error body reaches the !res.ok arm, not the network catch)", () => {
+    const card = read("src/components/marketing/generator-card.tsx");
+    expect(card).toContain("res.json().catch(() => null)");
+  });
+
   // Session-23 (S23-21): the two highest-traffic input surfaces' focus
   // styles are the reference's own (focus:ring-teal-500/20 +
   // focus:border-teal-400 — the border ≈1.86:1, the 20%-alpha ring

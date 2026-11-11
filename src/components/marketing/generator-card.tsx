@@ -87,12 +87,17 @@ export function GeneratorCard() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idea }),
       });
-      const body = (await res.json()) as GenerateResponse;
-      if (!res.ok || !body.ok || !body.data) {
+      // Session-29 (S29-3): the family's graceful-degradation parse —
+      // a non-JSON error body (a proxy/CDN 502 HTML page) must reach the
+      // !res.ok arm below and render the server's own failure face,
+      // not throw into the catch block's network-error toast (the
+      // login-card/reset-password/contact-form idiom).
+      const body = (await res.json().catch(() => null)) as GenerateResponse | null;
+      if (!res.ok || !body?.ok || !body.data) {
         // The explicit error state the reference lacks (D-1): settle the
         // button, tell the user, keep their idea for a retry.
         toast.error(
-          body.error?.message ?? "Generation failed. Please try again.",
+          body?.error?.message ?? "Generation failed. Please try again.",
         );
         return;
       }

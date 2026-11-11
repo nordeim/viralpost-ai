@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-699%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-704%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,7 +52,7 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 38 files / 636 tests, node env, pure seams |
+| Unit tests | Vitest | 5.0 | 38 files / 641 tests, node env, pure seams |
 | E2E | Playwright | 1.64 | 9 specs / 63 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
@@ -141,7 +141,7 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (38 files / 636 tests)
+bun run test            # Vitest unit suite (38 files / 641 tests)
 bun run test:e2e        # Playwright e2e (9 specs / 63 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
@@ -249,6 +249,11 @@ smoke 15/15 · e2e 63/63.
 | Session 28 — the siteUrl path-fallback + the .env-example knob census + the generate shape vocabulary + the dead-token retirement + the audit batch | ✅ done | The audit round at 0 Critical / 0 High / 3 Medium / 8 Low / 10 Info (three parallel subagents + the lead's hand-verification; the in-app delivery default — the documented S13-1 posture — the first-signup admin TOCTOU, the parseEnvFile unterminated-quote divergence, the 400-not-413 vocabulary, and the standing parity-doctrine adjudications moved to the accepted register with reasons); THE PARITY WALK found NO DRIFT — the second consecutive fully-clean walk (the mobile-menu family at 390×844, the five-route head census, the footer Product column, sitemap/robots modulo origin, the desktop nav — all byte-identical; the scrolled bar's oklab background re-derived in-session to EXACTLY rgb(15,23,42) — the reference's slate-900; the reference still rides the cdn.tailwindcss.com v3-era posture); THE CURES: the siteUrl path-fallback (S28-1, MEDIUM — the S25-4 genus completed: a path-carrying canonical origin parsed with all four guarded fields empty and passed verbatim while the boot gate warned on the shape; the pathname joins the fallback family, closing the sitemap `<loc>` XML-invalid genus for the last shape), the .env-example knob census (S28-2, MEDIUM — the six-knob arm claimed "both directions with .env.example" while reading only README; the mirror direction parses the file's assignment keys and demands exact set equality), the generate shape vocabulary (S28-3 — a valid-JSON-non-object body answered the describe-first message while every sibling answered "Invalid request body"; the widened object-shape arm mirrors contact's + the 429 Retry-After floor (S28-8)), the dead-token retirement (S28-4 — the subtle-ink token's only "consumer" was a toast.tsx comment the prose-blind census read as live; the census is comment-blind now and the token retired), the minLength family (S28-5 — the reset screen's password inputs gain the signup pair's `minLength={8}`), the smoke disk census (S28-6 — the last count site without one: the ladder's leg markers + PASS echo pinned to the constant), and the comment-truth batch (S28-7 + S28-9 — the stale dashboard bullet, the overstated constant-shape claim, the PAD's ADR-006 unit-pin overreach); unit 636/38 (+5 pins) + e2e 63/9, badge 699; captures 63/64 |
 
 Gate at the session-28 ship: lint 0/0 · tsc 0 · unit 636/636 · build ·
+smoke 15/15 · e2e 63/63.
+
+| Session 29 — the logout session-gate + the shared shape-guard + the head-DOM SEO superset + the wiring pins + the audit batch | ✅ done | The audit round at 0 Critical / 0 High / 0 Medium / 8 Low / 13 Info (three parallel subagents + the lead's hand-verification; the sub-AA tone family RE-ADJUDICATED against fresh live evidence — the reference ships the exact slate-400/teal-100/70 classes, captured in this round's walk; the scryptSync async lift, the first-signup admin TOCTOU, the forgot-password non-transient residual, the parseEnvFile unterminated-quote divergence, the noValidate declarative-minLength note, the dead stepped gray tokens, the rAF offscreen posture, the once-sampled reduced-motion, the eager hero portrait, the standalone surfaces' `<main>` gap, and the allowedDevOrigins IPv4-only scope moved to the accepted register with reasons); THE PARITY WALK found NO DRIFT — the third consecutive fully-clean walk (the mobile-menu family at 390×844, the five-route head census, the footer social family, sitemap/robots modulo origin, the desktop nav — all byte-identical; the pricing sub-AA classes live-captured for the adjudication); THE CURES: the logout session-gate (S29-1 — the CSRF-logout class: logout was the only ungated side-effecting route, a cross-site `<form method="POST">` could hit it and the Set-Cookie cleared the victim's session regardless of SameSite=Lax (which gates cookie SENDING, not SETTING); requireSession now owns the clear — the Lax cookie never rides a cross-site POST so the gate answers 401, and the no-op call is honest), the shared shape-guard (S29-2 — the malformed-shape guard lived in three byte-identical copies that had already drifted once (contact widened in S16-1, generate only in S28-3 — twelve sessions of different vocabularies); the predicate is exported from the api.ts seam (isJsonObject) and consumed at all three sites, the vocabulary byte-identical), the generator-card parse mirror (S29-3 — the response parse carries the family's `.catch(() => null)` so a non-JSON error body reaches the !res.ok arm, not the network-error toast), the loginSchema comment-truth arm (S29-4 — the tolerant-email posture scoped: the 160-cap answers a third vocabulary on a fourth status), the head-DOM SEO superset (S29-5 — og:image + twitter:card + the /Tool canonical now asserted on the RENDERED head, folded in-place; the og:image family was pinned only at the metadata-object and asset levels), the db operator-script wiring census (S29-6 — db:push's prisma-env wrapper + db:seed's seed mapping pinned; a hand-edit reverting the wrapper would have shipped the R-1 wrong-DB hazard green), the icon IHDR pins (S29-7 — icon.png 512×512 + apple-icon.png 180×180 join the S24-11 asset↔declaration doctrine), and the docs/hygiene batch (S29-8 — CLAUDE's force-dynamic line scoped to the SEO routes' deliberate force-static; the .gitignore .auth entry re-filed under # playwright); unit 641/38 (+5 pins) + e2e 63/9 (the S29-5 fold in-place), badge 704; captures 65/66 |
+
+Gate at the session-29 ship: lint 0/0 · tsc 0 · unit 641/641 · build ·
 smoke 15/15 · e2e 63/63.
 
 ## License

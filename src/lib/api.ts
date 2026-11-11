@@ -214,6 +214,23 @@ export async function readBoundedJson(req: Request): Promise<BoundedJson> {
  *  the BAD_REQUEST envelope as a ready-made response — the route
  *  returns it verbatim. The schemas live in src/lib/schemas.ts (the
  *  seam). */
+// Session-16 (S16-1): the S15-2 null guard widened to the whole
+// malformed-SHAPE class — a JSON body that parses to a string, array,
+// number, or boolean used to feed safeParse and leak Zod's dev-facing
+// "Invalid input: expected object, received string" to the client
+// (live-confirmed on the auth family). Every non-object shape answers
+// the same pinned vocabulary the null class owns.
+// Session-29 (S29-2): the guard's ONE home — the three-clause predicate
+// lived in three byte-identical copies (this seam + the contact and
+// generate route-local sites) that had already drifted once (contact
+// widened in S16-1, generate only in S28-3 — twelve sessions of
+// different vocabularies for the same malformed body). The shared form
+// ends that genus (the S23-7 divergence hazard): the seam exports the
+// predicate, the route-local sites call it.
+export function isJsonObject(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
 export async function parseBody<S extends z.ZodTypeAny>(
   req: Request,
   schema: S,
@@ -221,13 +238,7 @@ export async function parseBody<S extends z.ZodTypeAny>(
   const read = await readBoundedJson(req);
   if (read.tooLarge) return { ok: false, response: ERR.BAD_REQUEST("Request body too large") };
   const raw: unknown = read.value;
-  // Session-16 (S16-1): the S15-2 null guard widened to the whole
-  // malformed-SHAPE class — a JSON body that parses to a string, array,
-  // number, or boolean used to feed safeParse and leak Zod's dev-facing
-  // "Invalid input: expected object, received string" to the client
-  // (live-confirmed on the auth family). Every non-object shape answers
-  // the same pinned vocabulary the null class owns.
-  if (raw === null || typeof raw !== "object" || Array.isArray(raw)) {
+  if (!isJsonObject(raw)) {
     return { ok: false, response: ERR.BAD_REQUEST("Invalid request body") };
   }
   const parsed = schema.safeParse(raw);

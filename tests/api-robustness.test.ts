@@ -138,19 +138,21 @@ describe("the { ok, error } envelope family", () => {
   // family's parseBody seam answers the pinned "Invalid request body"
   // for this class; the route-local sites join the vocabulary.
   describe("session-15 (S15-2): the route-local parse sites answer the parseBody null-body vocabulary", () => {
-    it("both routes null-check read.value ahead of safeParse (the pinned Invalid request body)", () => {
+    it("both routes shape-check read.value ahead of safeParse through the shared seam (the pinned Invalid request body)", () => {
       for (const rel of ["src/app/api/generate/route.ts", "src/app/api/contact/route.ts"]) {
         const src = stripComments(read(rel) ?? "");
-        // The null arm sits between the tooLarge arm and the safeParse.
+        // Session-29 (S29-2): the arm is the SEAM's predicate call now —
+        // the inline three-clause guard moved into api.ts's isJsonObject
+        // (the one-home cure); the ordering contract is unchanged.
         const tooLarge = src.indexOf("read.tooLarge");
-        const nullArm = src.indexOf("read.value === null");
+        const shapeArm = src.indexOf("!isJsonObject(read.value)");
         const parse = src.indexOf("safeParse(");
-        expect(nullArm, `${rel}: no read.value === null arm`).toBeGreaterThan(-1);
+        expect(shapeArm, `${rel}: no !isJsonObject(read.value) arm`).toBeGreaterThan(-1);
         expect(tooLarge, `${rel}: no tooLarge arm`).toBeGreaterThan(-1);
         expect(parse, `${rel}: no safeParse`).toBeGreaterThan(-1);
-        expect(nullArm, `${rel}: the null arm must precede safeParse`).toBeLessThan(parse);
-        const armWindow = src.slice(nullArm, nullArm + 160);
-        expect(armWindow, `${rel}: the null arm must answer the parseBody vocabulary`).toContain(
+        expect(shapeArm, `${rel}: the shape arm must precede safeParse`).toBeLessThan(parse);
+        const armWindow = src.slice(shapeArm, shapeArm + 160);
+        expect(armWindow, `${rel}: the shape arm must answer the parseBody vocabulary`).toContain(
           '"Invalid request body"',
         );
       }
@@ -188,14 +190,15 @@ describe("the { ok, error } envelope family", () => {
   // are unchanged (an OBJECT body's non-string idea field still takes
   // the describe-first branch — the F11-7 posture).
   describe("session-16 (S16-1): the contact site's object-shape guard", () => {
-    it("contact widens the null arm to the non-object class (null OR non-object OR array, ahead of safeParse)", () => {
+    it("contact guards the non-object class through the shared seam predicate, ahead of safeParse", () => {
       const src = stripComments(read("src/app/api/contact/route.ts") ?? "");
-      const arm = src.match(
-        /read\.value === null \|\| typeof read\.value !== "object" \|\| Array\.isArray\(read\.value\)/,
-      );
-      expect(arm, "the widened object-shape arm must be present").toBeTruthy();
+      // Session-29 (S29-2): the widened arm is the seam's predicate call
+      // now (api.ts's isJsonObject — null OR non-object OR array, the
+      // S15-2/S16-1/S28-3 lineage owned in one place).
+      const arm = src.match(/!isJsonObject\(read\.value\)/);
+      expect(arm, "the shared object-shape arm must be present").toBeTruthy();
       // The arm sits ahead of safeParse (the null arm's S15-2 ordering).
-      const armIdx = src.indexOf("read.value === null");
+      const armIdx = src.indexOf("!isJsonObject(read.value)");
       const parse = src.indexOf("safeParse(");
       expect(armIdx).toBeGreaterThan(-1);
       expect(parse).toBeGreaterThan(armIdx);
@@ -206,13 +209,12 @@ describe("the { ok, error } envelope family", () => {
 
     // Session-28 (S28-3): generate joins the widened vocabulary — the
     // same object-shape arm contact carries, ahead of safeParse.
-    it("S28-3: generate widens the null arm to the non-object class too (the S16-1 exemption re-adjudicated)", () => {
+    // Session-29 (S29-2): the arm is the seam's predicate call now.
+    it("S28-3: generate guards the non-object class through the shared seam predicate too (the S16-1 exemption re-adjudicated)", () => {
       const src = stripComments(read("src/app/api/generate/route.ts") ?? "");
-      const arm = src.match(
-        /read\.value === null \|\| typeof read\.value !== "object" \|\| Array\.isArray\(read\.value\)/,
-      );
-      expect(arm, "generate's widened object-shape arm must be present").toBeTruthy();
-      const armIdx = src.indexOf("read.value === null");
+      const arm = src.match(/!isJsonObject\(read\.value\)/);
+      expect(arm, "generate's shared object-shape arm must be present").toBeTruthy();
+      const armIdx = src.indexOf("!isJsonObject(read.value)");
       const parse = src.indexOf("safeParse(");
       expect(armIdx, "generate: no object-shape arm").toBeGreaterThan(-1);
       expect(parse, "generate: the arm must precede safeParse").toBeGreaterThan(armIdx);
@@ -221,6 +223,35 @@ describe("the { ok, error } envelope family", () => {
         '"Invalid request body"',
       );
     });
+
+    // Session-29 (S29-2): the shape-guard's ONE-HOME census — the
+    // three-clause predicate (null OR non-object OR array) lived in
+    // three byte-identical copies (api.ts + contact + generate) that had
+    // already drifted once (contact widened in S16-1, generate only in
+    // S28-3 — twelve sessions of different vocabularies for the same
+    // malformed body). The predicate is exported from the seam now; the
+    // route-local sites call it. The census counts the guard's
+    // Array.isArray clause across all three files — exactly one is the
+    // contract (the S23-7 divergence-hazard genus retired).
+    it("S29-2: the malformed-shape guard lives in exactly one place (the api.ts seam, not forked across the route-local sites)", () => {
+      const sites = [
+        "src/lib/api.ts",
+        "src/app/api/contact/route.ts",
+        "src/app/api/generate/route.ts",
+      ];
+      let copies = 0;
+      for (const rel of sites) {
+        const src = stripComments(read(rel) ?? "");
+        copies += (src.match(/Array\.isArray\(/g) ?? []).length;
+      }
+      expect(
+        copies,
+        "the shape-guard's Array.isArray clause must exist only in the api.ts predicate (a forked copy is the S23-7 divergence hazard)",
+      ).toBe(1);
+      // And the seam exports the predicate the sites consume.
+      const api = stripComments(read("src/lib/api.ts") ?? "");
+      expect(api).toMatch(/export function isJsonObject\(/);
+    });
   });
 });
 
@@ -228,6 +259,28 @@ describe("the sessioned me/logout family", () => {
   it("the me route answers the envelope with the session user", () => {
     const src = stripComments(read("src/app/api/auth/me/route.ts") ?? "");
     expect(src).toMatch(/requireSession|getSessionUser/);
+  });
+
+  // Session-29 (S29-1): the CSRF-logout cure — logout was the ONLY
+  // side-effecting route a classic cross-site <form method="POST"> could
+  // hit (it reads no body, so the family's content-type CSRF gate never
+  // fires, and the response's Set-Cookie cleared the victim's session
+  // regardless of SameSite=Lax, which gates cookie SENDING, not SETTING).
+  // requireSession closes the vector (the Lax cookie never rides a
+  // cross-site POST — the gate answers 401) and makes the no-op call
+  // honest (an already-signed-out caller gets the envelope's 401, not a
+  // meaningless 200 + a cookie clear that changed nothing).
+  it("S29-1: the logout route gates on a live session (the CSRF-logout cure)", () => {
+    const src = stripComments(read("src/app/api/auth/logout/route.ts") ?? "");
+    expect(src, "the requireSession gate must own the clear").toMatch(/requireSession/);
+    expect(src, "the gate's response branch must return ahead of the clear").toMatch(
+      /isGuarded\(gate\)\) return gate\.response/,
+    );
+    // The clear still happens after the gate (the happy path is unchanged).
+    const gateIdx = src.indexOf("requireSession()");
+    const clearIdx = src.indexOf("clearSessionCookie()");
+    expect(gateIdx).toBeGreaterThan(-1);
+    expect(clearIdx).toBeGreaterThan(gateIdx);
   });
 
   it("the health route is an honest 503 when the db is down", () => {

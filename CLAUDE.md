@@ -71,7 +71,11 @@ remediated by AI agents under the Meticulous Approach.
 - Metadata API: `pageMetadata()` from `src/lib/site.ts` builds every
   page's metadata (per-route titles, OG/Twitter, canonical). Pages never
   hand-roll metadata.
-- `force-dynamic` on every data route.
+- `force-dynamic` on every API/auth data route; the SEO route family
+  (`sitemap.xml`, `robots.txt`, `manifest.json`) is deliberately
+  `force-static` — the build-time `NEXT_PUBLIC_SITE_URL` inlining
+  posture those routes exist to enforce (their route-file comments are
+  the authority).
 - The icons ride the `icon.png` / `apple-icon.png` file conventions —
   declaring `metadata.icons` would REPLACE them.
 
@@ -138,7 +142,7 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 38 files / 636 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 38 files / 641 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.

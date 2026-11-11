@@ -3073,3 +3073,114 @@ Verified:
 - SHIPPED: the remediated codebase + the docs in lockstep,
   committed to main and pushed via docs/ssh_git_wrapper_v3.py
   (the remote verified; no new branches)
+
+## Task 29 — the logout session-gate + the shared shape-guard + the head-DOM SEO superset + the wiring pins + the audit batch (2026-11-11)
+
+Round opened on the pulled tree (`edde18f` — the owner's session log
+update holding the session-28 execution narration, the established
+pattern). Core docs read in full (AGENTS, CLAUDE, README, PAD, SKILL
+v1.24.0), then the session-28 set (session_28.md, the session-28 plan,
+worklog Task 28, the owner's session_29.md narration). Baseline gate
+GREEN at the documented counts (lint 0/0 · tsc 0 · unit 636/636, 38
+files); every standing ask re-verified in place (the .env
+DATABASE_URL contract with db/ at the repo root, census MATCH; the
+vitest + playwright suites current; the sitemap/robots/manifest/OG
+family fresh; skills/ excluded from every gate; .env.example present
+and matching). neo-crm re-checked at HEAD b3d0fbe — UNCHANGED since
+session 12.
+
+The audit (three parallel subagents — AUDIT-1 API/lib seams, AUDIT-2
+components/pages/effects, AUDIT-3 SEO/configs/tests/docs — every
+load-bearing finding hand-verified in source by the lead):
+AUDIT-1 0C/0H/0M/4L/3I · AUDIT-2 0C/0H/0M/2L/6I · AUDIT-3
+0C/0H/0M/2L/4I — combined 0 Critical / 0 High / 0 Medium / 8 Low /
+13 Info. The lead's adjudication took five Lows plus two Info
+hardening items into the working register (all cured this round —
+S29-1..S29-8); the rest moved to the accepted register with reasons
+(the sub-AA tone family RE-ADJUDICATED against fresh live evidence —
+the reference ships the exact slate-400/teal-100/70 classes, captured
+in this round's walk; the scryptSync async lift — the standing
+owner-level deferral; the first-signup admin TOCTOU; the
+forgot-password non-transient residual; the parseEnvFile
+unterminated-quote divergence; the noValidate declarative-minLength
+note; the dead stepped gray tokens; the rAF offscreen posture; the
+once-sampled reduced-motion; the eager hero portrait; the standalone
+surfaces' main-landmark gap; the allowedDevOrigins IPv4-only scope).
+
+The parity walk (live, both sides, logged into the reference): the
+mobile-menu census at 390×844 (hamburger base classes with our
+documented superset arms; the four links + the Gumroad pill
+byte-identical; the open panel max-height none + both surfaces
+transparent at scrollY=0; the bar's bg-transparent with the menu
+open; the scrolled-bar family byte-identical, the computed background
+the same color in its two spellings), the five-route head census (NO
+DRIFT — the S19-1 description family byte-for-byte; og:url +
+canonical differ by origin only; og:image the documented D-4
+self-hosted stand-in), the footer social family (our documented
+real-links superset), sitemap/robots (identical modulo origin), the
+desktop nav family (byte-identical), and the pricing sub-AA class
+family (byte-identical both sides — the A2-L1 adjudication evidence).
+NO DRIFT — the third consecutive fully-clean walk.
+
+The cures (TDD, every pin RED-first, every mutation battery on
+record):
+- S29-1 (LOW, the round's lead cure): the logout session-gate — the
+  CSRF-logout class closed (the only ungated side-effecting route; a
+  cross-site form POST could force the cookie clear regardless of
+  SameSite=Lax, which gates cookie SENDING, not SETTING).
+  requireSession owns the clear now; the no-op call answers the
+  envelope's 401 (live-verified: no-session POST → 401
+  UNAUTHENTICATED; the logged-in round-trip → 200 signedOut; the
+  smoke leg-12 + e2e session-spec faces unchanged).
+- S29-2: the shared shape-guard — the three byte-identical copies of
+  the malformed-shape guard (api.ts + contact + generate, already
+  drifted once across twelve sessions) collapsed into the seam's
+  exported isJsonObject predicate; the vocabulary byte-identical
+  (live-verified: the generate '"hello"' probe still answers
+  "Invalid request body"); the S15-2/S16-1/S28-3 pins re-anchored to
+  the call form in the same commit.
+- S29-3: the generator-card parse mirror — the family's
+  res.json().catch(() => null) idiom (a non-JSON error body reaches
+  the !res.ok arm, not the network-error catch).
+- S29-4: the loginSchema comment-truth arm (the 160-cap's 400 face
+  named — the tolerant posture covers the FORMAT face only).
+- S29-5: the head-DOM SEO superset — og:image + twitter:card + the
+  /Tool canonical asserted on the RENDERED head (folded in-place into
+  the e2e home-head test, no count change; the battery breaks the
+  OG_IMAGE const → RED against the build).
+- S29-6: the db operator-script wiring census — db:push's prisma-env
+  wrapper + db:seed's seed mapping pinned in gate-script (the R-1
+  wrong-DB hazard can no longer ship green through a hand-edit).
+- S29-7: the icon IHDR pins — icon.png 512×512 + apple-icon.png
+  180×180 join the S24-11 asset↔declaration doctrine (the manifest's
+  both size declarations co-pinned).
+- S29-8: the docs/hygiene batch — CLAUDE's force-dynamic line scoped
+  to the SEO routes' deliberate force-static (the build-time
+  inlining posture); the .gitignore .auth entry re-filed under
+  # playwright.
+
+Count re-anchor: UNIT 636 → 641 (+5 pins — the plan's projection
+exact, confirmed by the census before any doc site was touched),
+SUITES 38 unchanged, E2E 63 unchanged (the S29-5 fold in-place),
+badge 699 → 704; the PAD §12 rows (api.ts 252 → 263, generator-card
+266 → 271); the docs-counts constants re-anchored first (the census's
+own reality pointers); the census walked RED-to-GREEN site by site.
+
+Verified:
+- Unit (pre-gate): lint 0/0 · tsc 0 · 641/641 (38 files)
+- The full gate on the exact commit tree (below)
+- Captures 65/66 (the mobile-menu open clean-walk re-verification at
+  390×844 + the generator-card surface) PIL-verified; the cured
+  surfaces live-verified (the logout 401/200 faces; the generate
+  vocabulary probe through the shared predicate)
+- Docs lockstep: README (the session-29 row, the gate line, the badge
+  704, the counts); AGENTS (counts, the plans map's twenty-ninth
+  round); CLAUDE (counts + the S29-8 wording cure); PAD (the §12
+  rows, the test-distribution table, the counts); SKILL v1.24.0 →
+  v1.25.0 (frontmatter, Appendix A's session-29 row, Appendix B both
+  counts + the session-29 re-certification, the pre-ship checklist
+  counts); worklog Task 29; docs/session_29.md (this round's log);
+  the plan's post-execution record
+- SHIPPED: the remediated codebase + the docs in lockstep,
+  committed to main and pushed via docs/ssh_git_wrapper_v3.py
+  (the remote verified; no new branches)

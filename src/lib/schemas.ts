@@ -53,7 +53,12 @@ export const loginSchema = z
     // valid-credentials-but-unverified login answers the 403
     // VERIFICATION_REQUIRED; it fires only AFTER the password
     // verifies, so it is never an account-existence oracle for
-    // credential-less probes.)
+    // credential-less probes.) (Session-29 S29-4: the tolerant posture
+    // covers the FORMAT face only — emailField's shared 160-char cap
+    // answers a third vocabulary on a fourth status (400 "Email must
+    // be reasonably sized"), shared by every emailField consumer, so
+    // no account can carry such an email — no enumeration oracle, but
+    // not every non-credential login failure is a 401.)
     email: emailField("Email and password are required"),
     password: z.string({ message: "Email and password are required" }),
   })
