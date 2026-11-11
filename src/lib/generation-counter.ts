@@ -10,6 +10,14 @@
 
 export const GENERATIONS_KEY = "viralpost_generations";
 
+// Session-25 (S25-14): the free-quota ceiling, moved from
+// src/lib/generator.ts — that module imports node crypto (ideaSeed's
+// createHash) and the CLIENT generator-card's constant import dragged
+// it into the client graph (green only via bundler tolerance). This is
+// the quota module (zero imports, client-safe); the reference's own
+// `pl` constant, 3/day.
+export const FREE_LIMIT = 3;
+
 export interface QuotaRecord {
   date: string;
   count: number;

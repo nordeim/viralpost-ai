@@ -174,3 +174,35 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
     expect(src).not.toContain("() => []");
   });
 });
+
+// Session-25 (S25-9): the dismiss glyph rested at text-subtle
+// (#94a3b8 ≈2.57:1 on the white card — under the 1.4.11 3:1
+// graphical-object floor in its RESTING state; hover lifted it to
+// neutral-900). The toast's own description text already rides
+// text-muted (#64748b ≈4.76:1); the glyph joins it. The hover arm and
+// the S14-6 focus-visible ring stay untouched.
+describe("session-25 (S25-9): the dismiss glyph rests over the 3:1 floor (text-muted)", () => {
+  const read = (p: string) => readFileSync(path.join(root, p), "utf8");
+  it("the dismiss button's resting ink is text-muted, the sub-3:1 text-subtle form banned", () => {
+    const src = read("src/components/ui/toast.tsx");
+    expect(src).not.toContain("p-1 text-subtle");
+    expect(src).toContain("p-1 text-muted");
+  });
+
+  // Session-25 (S25-7): the S24-5 cure was incomplete — the store's
+  // own `let toasts: ToastItem[] = []` was a DIFFERENT array object
+  // from EMPTY_TOASTS, so the hydration consistency check
+  // (getSnapshot vs getServerSnapshot, Object.is) still failed and
+  // forced the one post-hydration re-render the S24-5 ledger listed as
+  // cured. Only the dev-console === warning had been fixed. The store
+  // only ever REASSIGNS (filter/spread — never mutates), so seeding
+  // from the const is safe and the compare passes.
+  it("session-25 (S25-7): the store's initial array IS the cached const (the hydration compare passes)", () => {
+    const src = read("src/components/ui/toast.tsx");
+    expect(src).toMatch(/let toasts: ToastItem\[\] = EMPTY_TOASTS;/);
+    // The fresh-literal init — the shape that kept the post-hydration
+    // re-render alive after S24-5 (two distinct objects; Object.is
+    // fails; numbers compare by value, arrays by reference).
+    expect(src).not.toMatch(/let toasts: ToastItem\[\] = \[\];/);
+  });
+});

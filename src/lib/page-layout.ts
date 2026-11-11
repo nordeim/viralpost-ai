@@ -50,7 +50,7 @@ export const LOGIN_LAYOUT = {
   inputWrap: "relative",
   inputIcon: "absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500",
   input:
-    "h-11 w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-10 pr-3 placeholder:text-slate-600 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 text-base md:text-sm sm:h-12",
+    "h-11 w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-10 pr-3 placeholder:text-slate-600 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2 text-base md:text-sm sm:h-12",
   // The auth inputs carry the stock text-base md:text-sm pair (16px <768,
   // 14px at desktop) and focus to a SOLID slate-400 2px ring + a 2px WHITE
   // offset.

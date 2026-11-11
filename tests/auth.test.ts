@@ -1,29 +1,14 @@
 import { createHmac } from "crypto";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
-import { hashPassword, verifyPassword, signSession, verifySessionToken, SESSION_COOKIE } from "@/lib/auth";
+import { signSession, verifySessionToken, SESSION_COOKIE } from "@/lib/auth";
 
-describe("password hashing", () => {
-  it("round-trips a password", () => {
-    const stored = hashPassword("Sup3rSecret!");
-    expect(stored.startsWith("scrypt:")).toBe(true);
-    expect(verifyPassword("Sup3rSecret!", stored)).toBe(true);
-  });
-
-  it("rejects a wrong password", () => {
-    const stored = hashPassword("Sup3rSecret!");
-    expect(verifyPassword("wrong", stored)).toBe(false);
-  });
-
-  it("produces unique salts for identical passwords", () => {
-    expect(hashPassword("same")).not.toBe(hashPassword("same"));
-  });
-
-  it("rejects malformed stored hashes", () => {
-    expect(verifyPassword("x", "not-a-hash")).toBe(false);
-    expect(verifyPassword("x", "bcrypt:abc:def")).toBe(false);
-    expect(verifyPassword("x", "scrypt:only-two")).toBe(false);
-  });
-});
+// Session-25 (S25-5): the "password hashing" describe that lived here —
+// four behavioral faces pinned via the @/lib/auth re-export — was the
+// pre-S24-9 duplicate of tests/password-seam.test.ts's own four faces
+// (round-trip, wrong-password, unique salts, malformed hashes; the
+// re-export WIRING is source-pinned there too, :118-124). Retired per
+// the exactly-one-pin doctrine (AGENTS:100): a behavior change tripped
+// two suites with no documented co-pin exemption.
 
 describe("session tokens", () => {
   it("signs and verifies a session", () => {

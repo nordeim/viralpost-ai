@@ -45,7 +45,10 @@ export default function GlobalError({
   return (
     <html lang="en">
       <body className="min-h-screen bg-slate-50 font-sans text-slate-900">
-        <div className="min-h-screen flex items-center justify-center p-6">
+        {/* Session-25 (S25-8): role="alert" on the card root — the swap
+            itself is announced to AT (the crash replaces the whole
+            document; a plain tree renders silently). */}
+        <div role="alert" className="min-h-screen flex items-center justify-center p-6">
           <div className="max-w-md w-full">
             <div className="text-center space-y-6">
               <div className="space-y-2">

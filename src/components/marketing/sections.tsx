@@ -18,6 +18,7 @@ import Link from "next/link";
 
 import { Reveal } from "@/components/effects/reveal";
 import { FloatingIcons } from "@/components/effects/floating-icons";
+import { ContactForm } from "./contact-form";
 import { GUMROAD_URL } from "./nav-config";
 
 // The landing page's marketing sections — class-for-class the reference's
@@ -501,6 +502,31 @@ export function CtaSection() {
             <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
           </a>
         </Reveal>
+      </div>
+    </section>
+  );
+}
+
+// ---- section 10: the contact block (the S24-8 dedup genus, completed) ---------
+//
+// Session-25 (S25-13): the landing page hand-inlined this exact
+// id="contact" block alongside the /Contact page's own copy — the same
+// duplication genus S24-8 cured for pricing (byte-identical today, but
+// every future contact-surface cure would apply in TWO places). Both
+// pages render this component now; the DOM is unchanged by
+// construction (the component IS the markup).
+export function ContactSection() {
+  return (
+    <section id="contact" className="py-24 px-6 bg-white">
+      <div className="max-w-2xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">Contact</h2>
+          <p className="mt-4 text-slate-500">
+            Have questions or partnership ideas? Reach out and let&apos;s build
+            something amazing.
+          </p>
+        </div>
+        <ContactForm />
       </div>
     </section>
   );

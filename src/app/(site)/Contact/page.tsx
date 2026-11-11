@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { ContactForm } from "@/components/marketing/contact-form";
+import { ContactSection } from "@/components/marketing/sections";
 import { pageMetadata } from "@/lib/site";
 
 // /Contact — the reference's contact page: teal-badged dark header, the
@@ -24,18 +24,10 @@ export default function ContactPage() {
           </p>
         </div>
       </div>
-      <section id="contact" className="py-24 px-6 bg-white">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">Contact</h2>
-            <p className="mt-4 text-slate-500">
-              Have questions or partnership ideas? Reach out and let&apos;s build
-              something amazing.
-            </p>
-          </div>
-          <ContactForm />
-        </div>
-      </section>
+      {/* Session-25 (S25-13): renders the shared ContactSection (the
+          landing's own section component) — the hand-inlined duplicate
+          retired, the S24-8 pricing-dedup genus completed. */}
+      <ContactSection />
     </>
   );
 }

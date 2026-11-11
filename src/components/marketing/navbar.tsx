@@ -177,7 +177,16 @@ export function Navbar() {
             <Link
               key={r.id}
               href={r.href}
-              onClick={() => setOpen(false)}
+              // Session-25 (S25-16): the link-click path returns focus to
+              // the toggle before closing — the Escape path's counterpart.
+              // The close hides the panel (display:none), which unloads
+              // the focused link; without the return, focus falls to
+              // <body> and post-navigation Tab resumes at the document
+              // top (WCAG 2.4.3).
+              onClick={() => {
+                menuButtonRef.current?.focus();
+                setOpen(false);
+              }}
               className={cn(
                 MENU_LINK_BASE,
                 active === r.id

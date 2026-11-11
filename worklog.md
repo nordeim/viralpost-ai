@@ -2541,3 +2541,136 @@ Stage Summary:
 - SHIPPED: the remediated codebase + the docs in lockstep, committed
   to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
   verified; no new branches)
+
+Task ID: 25
+Agent: main (Z.ai)
+Task: The session-25 footer-column parity + generator-status superset +
+paywall focus + landing dedup + audit batch round — re-run the standing
+instruction against the post-session-24 tree (20c8468 = 939358a + the
+session-24 round log held as docs/session_25.md): docs review, the
+baseline gate on the merged tree (lint 0/0 · tsc 0 · unit 613/613
+(38 files) · census MATCH; the .env DATABASE_URL="file:../db/custom.db"
+contract with db/ at the repo root; the vitest + playwright suites
+current; the sitemap/robots/manifest/OG family live-verified;
+skills/ excluded from every gate), the three-subagent audit (every
+load-bearing finding hand-verified in source), the live parity walk
+against the reference (both sides, logged in), the TDD cures, the
+gate, captures 57/58, push #25 to main via the SSH wrapper.
+
+Details:
+- S25-1 (MEDIUM, parity): THE FOOTER-COLUMN PARITY — the round's one
+  drift. The reference's footer Product column ships THREE links
+  (Home/Tool/Pricing — live-censused both sides at 390×844 and
+  1280×800; the dossier §footer has recorded the family since
+  session 1); ours mapped all four NAV_ROUTES (Contact included,
+  shipped since session 1 — the footer column was never in the
+  side-by-side census set until this round). The navs keep all four;
+  the footer filters the Product column; pinned (the filter form +
+  the unfiltered map banned) with the RED run as the mutation
+  battery; live-verified on the dev server post-cure.
+- S25-2 (MEDIUM, a11y WCAG 2.2 AA 4.1.3): THE GENERATOR-STATUS
+  SUPERSET — the S24-3 genus one file over: the app's core surface
+  announced NONE of its async success states (the result mounts
+  silently, the Copy confirmation is a label swap, the quota text
+  mutates unannounced, the paywall replaces the card). Two sr-only
+  role="status" regions ride the card OUTSIDE the limit branch
+  (present before every flip): node A the generation/limit text,
+  node B the copy confirmation (clears to empty on the 2s reset —
+  empty is not announced). Live-verified end-to-end ("Post generated
+  — 2 free generations remaining today."); the e2e quota locator
+  co-disambiguated ({ exact: true } — the strict-mode collision).
+- S25-3 (MEDIUM, a11y WCAG 1.4.11): THE AUTH-RING AA UPGRADE — the
+  login/signup/reset input constants rode focus:ring-slate-400
+  (≈2.57:1 on the white card, under the 3:1 floor) while their own
+  submit buttons carried ring-ring. Upgraded in place to slate-600
+  (≈7.5:1) — the S24-4 form (deterministic, no variant-cascade
+  fragility, resting classes untouched, parity-immaterial transient
+  shade); the sub-3:1 form banned in the pin (string-literal
+  context — the DOM-record comments legitimately spell the
+  reference's own classes).
+- S25-4 (MEDIUM, correctness/SEO): THE SITEURL NON-BARE-ORIGIN CURE —
+  a query-carrying NEXT_PUBLIC_SITE_URL ("https://x.com?utm=1&x=2")
+  parsed as absolute http(s) with pathname "/" (the F10-11/S22-19
+  blind spot) and rode unescaped into the sitemap's <loc> (raw & —
+  invalid XML, served 200) plus every og:url/canonical composition.
+  The seam now falls back to DEFAULT_SITE_URL on any
+  query/hash/userinfo; the boot gate warns (the query-carrying arm).
+  Pinned both sides (page-titles' siteUrl describe + boot-env).
+- S25-5/S25-12 (pin doctrine): the exactly-one-pin doctrine's
+  session-25 sweep — the auth.test.ts password-hashing describe
+  (four faces duplicating password-seam's) and the http-headers
+  content-type trio (source-literal guards duplicating
+  seo-surfaces' runtime body contracts) RETIRED (−7 tests; the
+  runtime pins are strictly stronger and own the readable
+  messages).
+- S25-6 (MEDIUM, pin coverage): THE OG_IMAGE ONE-DECLARATION — the
+  S24-11 og-dims pin saw only the pageMetadata() factory's literal
+  while the root layout hand-declared its own block (the landing /,
+  the most-shared URL, takes its OG family from the LAYOUT). The
+  dims now live in ONE exported const both consume; the pin pins
+  the declaration + the consumption + bans the hand-declared form.
+- S25-7/S25-9 (toast correctness): the store's initial array seeded
+  from EMPTY_TOASTS (the S24-5 post-hydration render actually cured
+  — the store only reassigns, so the const seed is safe; pinned)
+  and the dismiss glyph rests at text-muted (4.76:1, over the 3:1
+  graphical-object floor; the sub-3:1 text-subtle resting form
+  banned).
+- S25-8 (a11y): both error boundaries announce via role="alert" on
+  the crash card root (the swap was silent — the ErrorCallout/toast
+  family's idiom on the crash path); pinned.
+- S25-10/S25-11 (count-gate hygiene): the count-ladder's missing
+  s24 row appended (the header's own same-commit rule) and the
+  Appendix-B existence guards made real (indexOf >= 0 — the
+  slice(-1) form could never fail; mutation-batteried with a
+  planted-absent header, both guards RED, restored).
+- S25-13 (maintainability): THE CONTACTSECTION DEDUP — the S24-8
+  genus completed: the landing's hand-inlined contact block
+  retired; both pages render the shared component (the DOM
+  unchanged by construction); the order pin co-updated.
+- S25-14 (seam): FREE_LIMIT moved from generator.ts (which imports
+  node crypto for ideaSeed) to generation-counter.ts (the
+  client-safe quota module, zero imports) — the client card's
+  constant import no longer drags the node builtin into the client
+  graph; the client-crypto boundary pinned across all 13 "use
+  client" files.
+- S25-15/S25-16 (a11y WCAG 2.4.3): the S19-10 genus completed —
+  the paywall swap lands focus on its heading (tabIndex={-1} +
+  data-view-focus, transition-guarded, with a generatedThisMount
+  ref keeping the mount-settle path silent — live-verified: focus
+  stays on BODY for a returning limited-out user) and the mobile
+  menu's link-click path returns focus to the toggle (the Escape
+  path's counterpart); both pinned.
+- S25-17 (coverage): the og:url/twitter:url absoluteness arms fold
+  into the existing seo e2e test in place (the S18-2 precedent,
+  no count change).
+- S25-18 (hygiene): the e2e-prune manual-run target documented +
+  its disconnect awaited (the seed's idiom); the eslint posture
+  documented in the config header; the a11y-controls skip-link
+  redundant assertion dropped (the S23-3 pin owns the face); the
+  SKILL Appendix A rows re-sorted chronologically (they were
+  scrambled around the s18 insertion point).
+- Count re-anchor: UNIT 613 → 620 (+14 pins − 7 retired), SUITES 38
+  unchanged, E2E 63 unchanged, badge 676 → 683; the PAD §12 rows
+  (generator 457, generation-counter 110, site 199, navbar 219,
+  generator-card 259); the census walked RED-to-GREEN site by site.
+
+Verified:
+- Gate (the exact commit tree): lint 0/0 · tsc 0 · unit 620/620
+  (38 files) · build · smoke 15/15 · e2e 63/63 (9 specs) · census
+  MATCH · badge 683
+- Captures 57/58 (the landing full-page with the cured 3-link
+  footer; the mobile paywall) PIL-verified; the cured surfaces
+  live-verified on the dev server (the footer's 3-link Product
+  column, the paywall's data-view-focus heading + the silent
+  mount-settle, the status announcements)
+- Docs lockstep: README (the session-25 row, the gate line, the
+  badge 683, the counts); AGENTS (counts, the plans map's
+  twenty-fifth round); CLAUDE (counts); PAD (§12 rows, the
+  test-distribution table, the counts); SKILL v1.20.0 → v1.21.0
+  (frontmatter, Appendix A's session-25 row + the chronological
+  re-sort, Appendix B both counts + the session-25
+  re-certification); worklog Task 25; docs/session_25.md (this
+  round's log); the plan's post-execution record
+- SHIPPED: the remediated codebase + the docs in lockstep,
+  committed to main and pushed via docs/ssh_git_wrapper_v3.py
+  (the remote verified; no new branches)

@@ -24,7 +24,11 @@
 
 import { createHash } from "crypto";
 
-export const FREE_LIMIT = 3; // the reference's pl constant (3/day)
+// Session-25 (S25-14): FREE_LIMIT moved to src/lib/generation-counter.ts
+// (the client-safe quota module) — this module imports node crypto
+// (ideaSeed's createHash) and the client generator-card's constant
+// import dragged it into the client graph. Server consumers of the
+// limit (none today) would import it from the counter module.
 
 const MAX_IDEA_CHARS = 500;
 

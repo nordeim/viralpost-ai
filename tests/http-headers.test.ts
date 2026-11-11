@@ -37,9 +37,9 @@ const readOr = (rel: string): string => {
 };
 
 const configSrc = () => readOr("next.config.ts");
-const sitemapSrc = () => readOr("src/app/sitemap.xml/route.ts");
-const robotsSrc = () => readOr("src/app/robots.txt/route.ts");
-const manifestSrc = () => readOr("src/app/manifest.json/route.ts");
+// Session-25 (S25-12): the sitemap/robots/manifest source helpers
+// retired with the content-type trio (seo-surfaces owns the runtime
+// faces now).
 
 describe("session-8: the security-header set (re-attributed from the CRM template's session-20 S20-P1/P2/P3 — session-21, S21-12)", () => {
   it("next.config.ts declares an async headers() field", () => {
@@ -85,20 +85,13 @@ describe("session-8: the security-header set (re-attributed from the CRM templat
   });
 });
 
-describe("session-8: the static-file content-types (re-attributed from the CRM template's session-20 S20-P4 — session-21, S21-12)", () => {
-  it("sitemap.xml serves bare application/xml — no charset suffix", () => {
-    const src = sitemapSrc();
-    expect(src).toContain('"content-type": "application/xml"');
-    expect(src).not.toContain('"application/xml; charset=utf-8"');
-  });
-
-  it("robots.txt keeps its reference-matching text/plain; charset=utf-8 (regression guard)", () => {
-    const src = robotsSrc();
-    expect(src).toContain('"content-type": "text/plain; charset=utf-8"');
-  });
-
-  it("manifest.json keeps its reference-matching application/json (regression guard)", () => {
-    const src = manifestSrc();
-    expect(src).toContain('"content-type": "application/json"');
-  });
-});
+// Session-25 (S25-12): the static-file content-type trio that lived
+// here (the session-8 source-literal guards for sitemap.xml /
+// robots.txt / manifest.json) was RETIRED — the faces are owned by
+// tests/seo-surfaces.test.ts's RUNTIME body contracts (session-23/24),
+// which GET each route and assert the exact served content-type
+// (`expect(contentType).toBe("application/xml")` etc. — the exact
+// equality subsumes the no-charset negative). The exactly-one-pin
+// doctrine (AGENTS:100): an intentional content-type change tripped
+// BOTH suites; the runtime pin is strictly stronger and owns the
+// readable message.

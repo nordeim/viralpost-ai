@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Toaster } from "@/components/ui/toast";
-import { PWA_META, SITE_DESCRIPTION, siteUrl } from "@/lib/site";
+import { OG_IMAGE, PWA_META, SITE_DESCRIPTION, siteUrl } from "@/lib/site";
 import "./globals.css";
 
 // The document metadata layer — the reference's own head (DOM-verified
@@ -28,13 +28,9 @@ export const metadata: Metadata = {
     url: siteUrl(),
     type: "website",
     siteName: "ViralPost AI",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-      },
-    ],
+    // Session-25 (S25-6): rides the shared const — the dims live in
+    // ONE declaration (site.ts), pinned end-to-end by seo-surfaces.
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",

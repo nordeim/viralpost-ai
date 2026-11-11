@@ -18,6 +18,12 @@ import { runtimeDatabaseUrl } from "../src/lib/db-path";
 // followed bun's .env absolutization to the parent-of-repo path — the
 // exact wrong-DB shape db-path.ts documents as its founding bug. The
 // seam anchors on the repo regardless of the caller's env.
+// Session-25 (S25-18a): WHICH db a manual run targets — with no
+// DATABASE_URL override the seam resolves .env's
+// file:../db/custom.db, i.e. the DEV database (the wired gate path
+// targets db/e2e.db via the global setup's override). Scope is the
+// `e2e-` prefix either way: a manual run cleans stray scratch rows
+// out of the dev db — itself drift worth pruning.
 const db = new PrismaClient({
   datasources: { db: { url: runtimeDatabaseUrl() } },
 });
@@ -29,11 +35,15 @@ async function main() {
   console.log(`[e2e-prune] removed ${pruned.count} scratch user(s)`);
 }
 
+// Session-25 (S25-18b): the disconnect is AWAITED — the seed's idiom.
+// The fire-and-forget `void` form could exit the process before
+// teardown completes (harmless for SQLite, but the sibling scripts
+// should model one idiom).
 main()
   .catch((e) => {
     console.error(e);
     process.exit(1);
   })
-  .finally(() => {
-    void db.$disconnect();
+  .finally(async () => {
+    await db.$disconnect();
   });

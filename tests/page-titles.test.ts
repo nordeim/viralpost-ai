@@ -170,4 +170,22 @@ describe("siteUrl", () => {
     expect(siteUrl("http://127.0.0.1:3000")).toBe("http://127.0.0.1:3000");
     expect(siteUrl("https://viralpost.example.com///")).toBe("https://viralpost.example.com");
   });
+
+  // Session-25 (S25-4): a query/hash/userinfo-carrying origin parses
+  // as absolute http(s) with pathname "/" — the F10-11 family's blind
+  // spot (the S22-19 pathCarrying check passed silently too). The query
+  // then rode unescaped into every surface the seam feeds: the sitemap
+  // interpolated a raw & into <loc> (invalid XML, served 200) and
+  // og:url/twitter:url/canonical composed the garbage path. A bare
+  // origin carries NO credentials, query, or fragment — anything else
+  // is an operator paste error and takes the same fallback as a
+  // malformed value.
+  it("S25-4: a non-bare origin (query/hash/userinfo) falls back to the default", () => {
+    expect(siteUrl("https://example.com?utm=1&x=2")).toBe("http://localhost:3000");
+    expect(siteUrl("https://example.com/#section")).toBe("http://localhost:3000");
+    expect(siteUrl("https://user:pass@example.com")).toBe("http://localhost:3000");
+    // The bare-origin family still passes verbatim.
+    expect(siteUrl("https://example.com")).toBe("https://example.com");
+    expect(siteUrl("http://127.0.0.1:3000")).toBe("http://127.0.0.1:3000");
+  });
 });

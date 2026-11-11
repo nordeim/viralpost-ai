@@ -48,7 +48,11 @@ export default function ErrorPage({
   }, [error]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-slate-50">
+    // Session-25 (S25-8): role="alert" on the card root — the swap
+    // itself is announced to AT (a plain div/h1 tree renders silently;
+    // focus stays on the removed content). The ErrorCallout/toast
+    // family's idiom on the crash path.
+    <div role="alert" className="min-h-screen flex items-center justify-center p-6 bg-slate-50">
       <div className="max-w-md w-full">
         <div className="text-center space-y-6">
           <div className="space-y-2">

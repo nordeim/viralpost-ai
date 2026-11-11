@@ -182,11 +182,37 @@ describe("session-24 (S24-11): the og:image asset matches its declared dimension
     expect(png.readUInt32BE(16)).toBe(1200);
     expect(png.readUInt32BE(20)).toBe(630);
     // The declared side carries the same pair (the metadata ↔ asset
-    // contract, both directions).
+    // contract, both directions). Session-25 (S25-6): the declaration
+    // moved into the exported OG_IMAGE const (the one-declaration
+    // doctrine — the factory and the root layout both consume it; the
+    // consumption arm lives in the S25-6 test below).
     const site = readFileSync(
       path.resolve(import.meta.dirname, "..", "src/lib/site.ts"),
       "utf-8",
     );
-    expect(site).toContain('images: [{ url: "/og-image.png", width: 1200, height: 630 }]');
+    expect(site).toMatch(/export const OG_IMAGE[\s\S]*?url: "\/og-image\.png",[\s\S]*?width: 1200,[\s\S]*?height: 630,/);
+  });
+
+  // Session-25 (S25-6): the S24-11 pin covered the pageMetadata()
+  // factory's literal only — but the ROOT LAYOUT declares its own
+  // openGraph.images block (the landing `/`, the most-shared URL,
+  // takes its OG family from the LAYOUT, not the factory), and a dims
+  // edit there shipped green through every layer. The dims now live in
+  // ONE exported const (OG_IMAGE) the layout consumes — the pin is
+  // complete by construction, and this arm pins the consumption.
+  it("S25-6: the root layout's OG images ride the shared OG_IMAGE const (the one-declaration doctrine)", () => {
+    const site = readFileSync(
+      path.resolve(import.meta.dirname, "..", "src/lib/site.ts"),
+      "utf-8",
+    );
+    const layout = readFileSync(
+      path.resolve(import.meta.dirname, "..", "src/app/layout.tsx"),
+      "utf-8",
+    );
+    expect(site).toMatch(/export const OG_IMAGE[\s\S]*?url: "\/og-image\.png",[\s\S]*?width: 1200,[\s\S]*?height: 630,/);
+    expect(layout).toContain("images: [OG_IMAGE]");
+    // The hand-declared multiline block — the unpinned face that
+    // shipped sessions 1–24.
+    expect(layout).not.toMatch(/images:\s*\[\s*\{\s*url:/);
   });
 });

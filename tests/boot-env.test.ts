@@ -379,4 +379,15 @@ describe("session-22: the boot-warning precision batch", () => {
     expect(report.warnings).toHaveLength(1);
     expect(report.warnings[0]).toContain("path");
   });
+
+  it("S25-4: a query-carrying NEXT_PUBLIC_SITE_URL warns (the non-bare-origin contract)", () => {
+    // The S22-19 blind spot: "https://x.com?utm=1" parses with
+    // pathname "/" so the pathCarrying check passed silently — yet the
+    // query rode unescaped into /sitemap.xml's <loc> (invalid XML) and
+    // every og:url/canonical composition. The boot gate names the
+    // shape; the site seam falls back (pinned in page-titles).
+    const report = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "https://viralpost.example.com?utm=1&x=2" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("query");
+  });
 });

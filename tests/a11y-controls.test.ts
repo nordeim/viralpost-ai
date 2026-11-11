@@ -74,6 +74,77 @@ describe("named-control source pins (the open surfaces)", () => {
     expect(src).not.toMatch(/\{sent &&[^}]*role="status"/);
   });
 
+  // Session-25 (S25-2): the S24-3 genus, one file over — the generator
+  // card (the app's core surface) announced NONE of its async success
+  // states: the result card mounts silently, the Copy confirmation is a
+  // button-label swap (the exact form the S24-3 comment calls out as not
+  // re-announced), the quota text mutates unannounced, and the paywall
+  // swap replaces the whole card. Two sr-only status nodes now ride the
+  // card ABOVE the limit branch (present in the DOM before every flip —
+  // AT catches the mutation, not the insertion): (a) the generation +
+  // limit text, (b) the copy confirmation (clears to empty on the 2s
+  // reset; empty text is not announced). The reference's visible surface
+  // stays byte-identical.
+  it("session-25 (S25-2): the generator card's async success states are ANNOUNCED (polite status regions, WCAG 4.1.3)", () => {
+    const src = read("src/components/marketing/generator-card.tsx");
+    expect((src.match(/role="status"/g) ?? []).length).toBe(2);
+    expect(src).toMatch(/Post generated/);
+    expect(src).toMatch(/Daily free limit reached/);
+    expect(src).toMatch(/Copied to clipboard/);
+    // Both nodes render OUTSIDE the limit conditional (before every
+    // flip, not inside the swapped branch).
+    expect(src).not.toMatch(/\{limitReached &&[^}]*role="status"/);
+  });
+
+  // Session-25 (S25-3): the auth input constants carried
+  // focus:ring-slate-400 (#94a3b8 ≈2.57:1 on the white card — under the
+  // 1.4.11 3:1 floor) while the same constants' submit buttons carried
+  // the S14-6 ring-ring family (≈14:1). The S24-4 in-place upgrade form:
+  // slate-600 (#334155 ≈7.5:1) — deterministic (no focus:/focus-visible:
+  // cascade fragility), the resting classes untouched, the reference's
+  // transient focus shade is parity-immaterial (never in a byte-census
+  // family).
+  it("session-25 (S25-3): the auth input focus rings clear the 3:1 floor (slate-600 — the sub-3:1 form banned)", () => {
+    for (const f of ["src/lib/page-layout.ts", "src/lib/login-reset.ts"]) {
+      const src = read(f);
+      // The ban targets CLASS-STRING literals only — the DOM-record
+      // comments legitimately spell the reference's own
+      // focus:ring-slate-400 (the captured classes our superset
+      // deliberately upgrades; see login-reset's input docblock).
+      expect(src, f).not.toMatch(/"[^"\n]*focus:ring-slate-400/);
+      expect(src, f).toContain("focus:ring-slate-600");
+    }
+  });
+
+  // Session-25 (S25-15): the S19-10 genus on the generator — the
+  // free-limit paywall swap unmounts the focused control (textarea /
+  // Generate button) and focus fell to <body>. The paywall heading now
+  // carries the focus target (tabIndex={-1} + data-view-focus); a
+  // prev-limit ref guards the transition; and a generatedThisMount ref
+  // keeps the MOUNT-SETTLE path silent (a returning limited-out user's
+  // used counter settles 0→3 after hydration — that is the initial
+  // view, not a swap; only an in-session swap — a completed 3rd
+  // generation — lands focus).
+  it("session-25 (S25-15): the paywall swap lands focus on its heading, mount-settle silent (the S19-10 genus)", () => {
+    const src = read("src/components/marketing/generator-card.tsx");
+    expect(src).toMatch(/data-view-focus/);
+    expect(src).toMatch(/paywallHeadRef\.current\?\.focus\(\)/);
+    expect(src).toMatch(/generatedThisMountRef\.current/);
+  });
+
+  // Session-25 (S25-16): the mobile menu's link-click path closed the
+  // panel via onClick={() => setOpen(false)} — the panel becomes
+  // display:none, unloading the focused link; focus fell to <body> and
+  // the soft navigation did not relocate it (post-navigation Tab
+  // resumed at the document top — WCAG 2.4.3). The Escape path's
+  // focus-return counterpart now rides the click path too.
+  it("session-25 (S25-16): the mobile menu's link-click path returns focus to the toggle (the Escape path's counterpart)", () => {
+    const src = read("src/components/marketing/navbar.tsx");
+    // Two focus-return call sites: the Escape close + the link click.
+    expect((src.match(/menuButtonRef\.current\?\.focus\(\)/g) ?? []).length).toBe(2);
+    expect(src).toMatch(/menuButtonRef\.current\?\.focus\(\);\s*setOpen\(false\);/);
+  });
+
   it("icon-only controls are aria-hidden or labeled (no nameless glyphs)", () => {
     // The marketing icons ride aria-hidden="true" inside named parents;
     // the hamburger is the only icon-only BUTTON and it is labeled.
@@ -177,9 +248,10 @@ describe("session-22 (S22-11): the skip-to-content link (WCAG 2.4.1 bypass block
     const src = read("src/app/(site)/layout.tsx");
     expect(src).toContain('href="#main-content"');
     expect(src).toMatch(/className="[^"]*sr-only focus:not-sr-only/);
-    // Session-23 (S23-3): the anchor now carries tabIndex={-1} (the
-    // programmatic-focusability cure — the S23-3 pin below owns it).
-    expect(src).toContain('<main id="main-content" tabIndex={-1}>');
+    // Session-25 (S25-18d): the redundant `<main id="main-content"
+    // tabIndex={-1}>` assertion that lived here was dropped — its own
+    // comment said the S23-3 pin below owns the face (the exactly-one-
+    // pin doctrine, same-file edition).
   });
 
   // Session-23 (S23-3): the anchor alone is not enough — WebKit does not

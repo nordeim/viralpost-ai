@@ -55,6 +55,16 @@ export function siteUrl(
     if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
       return DEFAULT_SITE_URL;
     }
+    // Session-25 (S25-4): a bare origin carries NO credentials, query,
+    // or fragment. A query-carrying paste ("https://x.com?utm=1&x=2")
+    // parses as absolute http(s) with pathname "/" — it slipped past
+    // every prior check and rode unescaped into the sitemap's <loc>
+    // (raw & — invalid XML, served 200) and into og:url/canonical
+    // compositions. Same fallback as any malformed value; the boot
+    // gate names the shape (boot-env's query-carrying warning).
+    if (parsed.username || parsed.password || parsed.search || parsed.hash) {
+      return DEFAULT_SITE_URL;
+    }
     return parsed.toString().replace(/\/+$/, "");
   } catch {
     return DEFAULT_SITE_URL;
@@ -82,6 +92,18 @@ export const PWA_META: Record<string, string> = {
   "apple-mobile-web-app-status-bar-style": "black",
   "apple-mobile-web-app-title": "ViralPost AI",
 };
+
+// Session-25 (S25-6): the ONE declared OG image — consumed by BOTH
+// pageMetadata() and the root layout's own openGraph block (the
+// landing `/` takes its OG family from the LAYOUT, not the factory;
+// the dims were hand-declared in both places and the S24-11 pin only
+// saw the factory's literal, so a layout dims edit shipped green).
+// The asset's IHDR is pinned against these bytes in seo-surfaces.
+export const OG_IMAGE = {
+  url: "/og-image.png",
+  width: 1200,
+  height: 630,
+} as const;
 
 // Session-19 (S19-1, live re-verified 2026-11-10): the reference's
 // platform adopted the per-route description prefix between the
@@ -157,7 +179,11 @@ export function pageMetadata(opts: {
       url: opts.route,
       type: "website",
       siteName: "ViralPost AI",
-      images: [{ url: "/og-image.png", width: 1200, height: 630 }],
+      // Session-25 (S25-6): the ONE declared OG image — the root
+      // layout's own block rides the same const (the dims were
+      // hand-declared in both places; the S24-11 pin only saw this
+      // one).
+      images: [OG_IMAGE],
     },
     twitter: {
       card: "summary_large_image",

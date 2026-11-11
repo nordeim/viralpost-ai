@@ -1,7 +1,7 @@
 import { Hero } from "@/components/marketing/hero";
 import { GeneratorCard } from "@/components/marketing/generator-card";
-import { ContactForm } from "@/components/marketing/contact-form";
 import {
+  ContactSection,
   CtaSection,
   FeaturesSection,
   HowItWorksSection,
@@ -39,18 +39,10 @@ export default function LandingPage() {
           construction). */}
       <PricingSection />
       <CtaSection />
-      <section id="contact" className="py-24 px-6 bg-white">
-        <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">Contact</h2>
-            <p className="mt-4 text-slate-500">
-              Have questions or partnership ideas? Reach out and let&apos;s build
-              something amazing.
-            </p>
-          </div>
-          <ContactForm />
-        </div>
-      </section>
+      {/* Session-25 (S25-13): the S24-8 genus, completed — the contact
+          block renders the shared ContactSection (the /Contact page's
+          own section component) instead of the hand-inlined duplicate. */}
+      <ContactSection />
     </>
   );
 }

@@ -29,14 +29,21 @@ let toastSeq = 0;
 // setState-listener shape).
 type Listener = () => void;
 const listeners = new Set<Listener>();
-let toasts: ToastItem[] = [];
 
 // Session-24 (S24-5): the cached server snapshot — one stable empty
 // array for every getServerSnapshot call (React 19's hydration branch
 // calls it twice and compares with ===; a fresh literal per call trips
 // the dev-console "should be cached" error and forces one redundant
 // post-hydration render).
+// Session-25 (S25-7): the cure completed — the STORE's initial array is
+// the SAME const. S24-5 left `let toasts = []` a distinct object, so
+// the hydration consistency check (getSnapshot vs getServerSnapshot,
+// Object.is) still failed and the post-hydration re-render survived;
+// numbers compare by value, arrays by reference. The store only ever
+// REASSIGNS (filter/spread — never mutates), so seeding from the const
+// is safe and the compare passes at hydration.
 const EMPTY_TOASTS: ToastItem[] = [];
+let toasts: ToastItem[] = EMPTY_TOASTS;
 
 function emit() {
   for (const l of listeners) l();
@@ -188,7 +195,10 @@ function ToastCard({ item }: { item: ToastItem }) {
         // Session-14 (S14-6): the keyboard focus arm — the OTP inputs'
         // own focus-visible family, so the only per-toast control shows
         // its focus to keyboard users (hover-only was invisible focus).
-        className="shrink-0 rounded-md p-1 text-subtle transition-colors hover:bg-line-soft hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        // S25-9: the resting ink rides text-muted (4.76:1) — the
+        // text-subtle form (2.57:1) sat under the 1.4.11 floor in its
+        // resting state.
+        className="shrink-0 rounded-md p-1 text-muted transition-colors hover:bg-line-soft hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         aria-label="Dismiss notification"
       >
         <X className="h-3.5 w-3.5" aria-hidden="true" />

@@ -556,7 +556,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 38 | 613 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 38 | 620 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 63 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -574,7 +574,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 613/63/15 and change together), and the
+(README/AGENTS/PAD/SKILL carry 620/63/15 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -674,25 +674,25 @@ Swept at session-2 ship — no open CRITICAL/HIGH items.
 
 ## 12. Key Files Reference
 
-(The Lines column is the live `wc -l` of each file at the session-23 ship
+(The Lines column is the live `wc -l` of each file at the session-25 ship
 — pinned by tests/docs-counts.test.ts's inventory census; edit the row in
 the same commit as the file.)
 
 | File | Lines | Purpose |
 |------|-------|---------|
-| `src/lib/generator.ts` | 453 | The deterministic viral-formula engine + the reference's exact prompt |
-| `src/lib/generation-counter.ts` | 102 | The 3/day quota: pure functions + the store adapter |
+| `src/lib/generator.ts` | 457 | The deterministic viral-formula engine + the reference's exact prompt |
+| `src/lib/generation-counter.ts` | 110 | The 3/day quota: pure functions + the store adapter |
 | `src/lib/route-title.ts` | 56 | The unknown-route title derivation (ADR-006) |
 | `src/lib/from-url.ts` | 36 | The from_url open-redirect guard (session-13, S13-4; the leading-// arm, session-14, S14-1) |
 | `src/lib/auth.ts` | 188 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
 | `src/lib/password.ts` | 68 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
 | `src/lib/db-path.ts` | 267 | THE database path resolver (ADR-008) |
-| `src/lib/site.ts` | 173 | The metadata factory + canonical origin seam |
+| `src/lib/site.ts` | 199 | The metadata factory + canonical origin seam |
 | `src/lib/api.ts` | 252 | The envelope + the bounded JSON reader (the non-object body guard, session-16, S16-1) |
 | `src/app/globals.css` | 222 | The Tailwind v4 theme (ADR-005) |
-| `src/components/marketing/navbar.tsx` | 210 | The nav + the mobile menu (parity-verified) |
-| `src/components/marketing/generator-card.tsx` | 210 | The core surface: quota dots, generate, copy, paywall |
+| `src/components/marketing/navbar.tsx` | 219 | The nav + the mobile menu (parity-verified) |
+| `src/components/marketing/generator-card.tsx` | 259 | The core surface: quota dots, generate, copy, paywall |
 | `src/components/effects/iridescence.tsx` | 254 | The WebGL hero background (aspect-aware shader) |
 | `src/components/effects/particle-text.tsx` | 330 | The canvas particle title |
 | `src/components/effects/floating-icons.tsx` | 122 | The monetization section's ten-icon float field (session-19, S19-2) |

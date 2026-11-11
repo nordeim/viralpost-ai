@@ -182,3 +182,22 @@ describe("session-22 (S22-10): the error boundaries hold the AA floor on their o
     expect(src).not.toMatch(/[^-]focus:outline-none/);
   });
 });
+
+// Session-25 (S25-8): both boundary cards render as plain div/h1/h2
+// trees — when an uncaught error swaps the page for the card, AT users
+// got silence (focus stays on the removed content / <body>; the swap
+// itself is not announced — WCAG 2.2 AA 4.1.3 on the crash path). The
+// house family (ErrorCallout role="alert", the toast viewport's alert
+// cards) speaks the idiom; the boundary roots now carry it. The visible
+// surface is untouched.
+describe("session-25 (S25-8): the boundary cards ANNOUNCE themselves (role=alert on the crash root)", () => {
+  it("src/app/error.tsx: the route-segment card root carries role=alert", () => {
+    const src = read("src/app/error.tsx");
+    expect(src).toMatch(/role="alert"/);
+  });
+
+  it("src/app/global-error.tsx: the root card carries role=alert", () => {
+    const src = read("src/app/global-error.tsx");
+    expect(src).toMatch(/role="alert"/);
+  });
+});

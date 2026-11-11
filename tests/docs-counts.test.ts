@@ -85,6 +85,24 @@ import {
 // the e2e 63 unchanged (the /Home 308 assertion extends its test in
 // place — the S18-2 precedent; the a11y register's stats-band entry is
 // data, not a test).
+// s24: 613/38 (+8 the session-24 pins — the Appendix-B unit-count arm,
+// the contact status-announcement pin, the Copy-ring family pin, the
+// toast cached-snapshot pin, the iridescence seed pin, the landing
+// order co-update, the seo-surfaces loc/robots/og-dims trio; −1 the
+// page-titles ROUTES face retired to seo-surfaces) and the e2e 63
+// unchanged (the census-depth conversion — recursive helpers, no
+// count change; the S18-2 in-place precedent again).
+// s25: 620/38 (+14 the session-25 pins — the footer Product-column
+// parity pin, the generator status-announcement pin, the auth-ring AA
+// pin, the paywall-focus pin, the menu-click focus-return pin, the
+// boundary role=alert pair, the toast glyph pin, the toast store-init
+// pin, the siteUrl non-bare-origin pin, the boot-env query-carrying
+// pin, the OG_IMAGE one-declaration pin, the ContactSection dedup pin,
+// the client-crypto boundary pin; −7 the retired faces — the auth.test
+// password-hashing describe (−4, S25-5) and the http-headers
+// content-type trio (−3, S25-12)) and the e2e 63 unchanged (the
+// og:url/twitter:url arms fold into the existing seo test in place —
+// the S18-2 precedent).
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -92,7 +110,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 613;
+const UNIT = 620;
 /** Vitest suite files. */
 const SUITES = 38;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -203,16 +221,21 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
   // pinned now, each with its retired-form negative.
   it("the SKILL's Appendix-B verification ledger carries the live e2e count (S20-1)", () => {
     const skill = read("viralpost-ai_SKILL.md");
+    // Session-25 (S25-11): the guard was `expect(skill.slice(...)).toBeTruthy()`
+    // — with the header missing, indexOf returns -1 and slice(-1) yields
+    // the file's LAST CHARACTER (truthy), so the existence guard could
+    // never fail. The indexOf form fails for real.
+    expect(skill.indexOf("## Appendix B"), "Appendix B must exist").toBeGreaterThanOrEqual(0);
     const appendixB = skill.slice(skill.indexOf("## Appendix B"));
-    expect(appendixB, "Appendix B must exist").toBeTruthy();
     expect(appendixB).toContain(`e2e\n  ${E2E}/${E2E} (${E2E_SPECS} specs`);
     expect(skill).not.toContain("56/56 (9 specs");
   });
 
   it("session-24 (S24-1): the Appendix-B ledger carries the live UNIT count too (the S20-1 recurrence, closed)", () => {
     const skill = read("viralpost-ai_SKILL.md");
+    // S25-11: the real existence guard (see the S20-1 arm above).
+    expect(skill.indexOf("## Appendix B"), "Appendix B must exist").toBeGreaterThanOrEqual(0);
     const appendixB = skill.slice(skill.indexOf("## Appendix B"));
-    expect(appendixB, "Appendix B must exist").toBeTruthy();
     expect(appendixB).toContain(`unit ${UNIT}/${UNIT} (${SUITES} files`);
     // The retired form that shipped green through session 23 (the exact
     // miss this pin exists to make impossible).

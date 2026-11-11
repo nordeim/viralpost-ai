@@ -28,6 +28,20 @@ test("the home head carries the canonical + OG family", async ({ page }) => {
     "content",
     /AI-powered social media generator/,
   );
+  // Session-25 (S25-17): og:url / twitter:url absoluteness on the
+  // RENDERED DOM (the canonical arm above owned the link form; these
+  // two ride the metadata.other escape hatch — the S24-10 loc family
+  // pinned the sitemap side, this closes the head side). Folded into
+  // the existing block — the S18-2 in-place precedent, no count
+  // change.
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+    "content",
+    /^https?:\/\/[^/]+\/?$/,
+  );
+  await expect(page.locator('meta[name="twitter:url"]')).toHaveAttribute(
+    "content",
+    /^https?:\/\/[^/]+\/?$/,
+  );
 });
 
 test("session-19 (S19-1): the inner routes ship the prefixed truncated description family", async ({ page }) => {

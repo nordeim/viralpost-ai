@@ -15,8 +15,11 @@ import * as React from "react";
 import { Check, Copy, Infinity as InfinityIcon, Loader2, WandSparkles } from "lucide-react";
 
 import { toast } from "@/components/ui/toast";
-import { FREE_LIMIT } from "@/lib/generator";
+// Session-25 (S25-14): FREE_LIMIT imports from the quota module now —
+// generator.ts carries node crypto (ideaSeed) and must stay
+// server-side (pinned: landing-page's client-boundary test).
 import {
+  FREE_LIMIT,
   getUsedTodayLive,
   incrementLive,
   subscribeUsage,
@@ -54,8 +57,25 @@ export function GeneratorCard() {
     if (resetTimer.current) clearTimeout(resetTimer.current);
   }, []);
 
-
   const limitReached = used >= FREE_LIMIT;
+
+  // Session-25 (S25-15): the paywall swap's focus landing (the S19-10
+  // login-card idiom — the swap unmounts the focused textarea/button
+  // and focus used to fall to <body>). The prev-limit ref guards the
+  // transition edge; generatedThisMountRef keeps the MOUNT-SETTLE path
+  // silent — a returning limited-out user's counter settles 0→3 after
+  // hydration, and that is the initial view, not a swap. Only an
+  // in-session swap — a completed 3rd generation — lands focus.
+  const prevLimitRef = React.useRef(false);
+  const generatedThisMountRef = React.useRef(false);
+  const paywallHeadRef = React.useRef<HTMLParagraphElement>(null);
+  React.useEffect(() => {
+    if (limitReached && !prevLimitRef.current && generatedThisMountRef.current) {
+      paywallHeadRef.current?.focus();
+    }
+    prevLimitRef.current = limitReached;
+  }, [limitReached]);
+
 
   const generate = async () => {
     if (!idea.trim() || generating || limitReached) return;
@@ -77,6 +97,7 @@ export function GeneratorCard() {
         return;
       }
       setPost(body.data.text);
+      generatedThisMountRef.current = true;
       incrementLive();
     } catch {
       toast.error("Network error — check your connection and try again.");
@@ -97,34 +118,60 @@ export function GeneratorCard() {
     }
   };
 
-  if (limitReached) {
-    return (
-      <Reveal className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-teal-100/50 p-6 sm:p-8">
-        <div className="text-center py-8">
-          <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-teal-50 mb-4">
-            <InfinityIcon className="h-6 w-6 text-teal-600" aria-hidden="true" />
-          </div>
-          <p className="text-slate-700 font-semibold text-lg mb-2">
-            You reached the free limit
-          </p>
-          <p className="text-slate-500 text-sm mb-6">
-            Upgrade to generate unlimited viral social media posts.
-          </p>
-          <a
-            href={GUMROAD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold rounded-full hover:shadow-lg hover:shadow-teal-200 transition-all hover:-translate-y-0.5"
-          >
-            Unlock Unlimited Posts – $19
-          </a>
-        </div>
-      </Reveal>
-    );
-  }
-
   return (
-    <Reveal delay={100} className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-teal-100/50 p-6 sm:p-8">
+    <>
+      {/* Session-25 (S25-2): the S24-3 status-announcement genus, one
+          file over. The card's async SUCCESS flips were visual-only —
+          the result mounts silently, the Copy confirmation is a label
+          swap, the quota text mutates unannounced, the paywall replaces
+          the card. Two sr-only polite regions ride the card OUTSIDE the
+          limit branch (present in the DOM before every flip — AT
+          announces the mutation, not the insertion): node A carries the
+          generation/limit text, node B the copy confirmation (clears to
+          empty on the 2s reset — empty text is not announced). The
+          reference's visible surface stays byte-identical. */}
+      <p className="sr-only" role="status" aria-live="polite">
+        {limitReached
+          ? "Daily free limit reached — upgrade to keep generating."
+          : post
+            ? `Post generated — ${FREE_LIMIT - used} free generation${FREE_LIMIT - used !== 1 ? "s" : ""} remaining today.`
+            : ""}
+      </p>
+      <p className="sr-only" role="status" aria-live="polite">
+        {copied ? "Copied to clipboard." : ""}
+      </p>
+      {limitReached ? (
+        <Reveal className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-teal-100/50 p-6 sm:p-8">
+          <div className="text-center py-8">
+            <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-teal-50 mb-4">
+              <InfinityIcon className="h-6 w-6 text-teal-600" aria-hidden="true" />
+            </div>
+            {/* S25-15: the swap's focus target (the login-card
+                data-view-focus genus — programmatically focusable in
+                every engine). */}
+            <p
+              ref={paywallHeadRef}
+              tabIndex={-1}
+              data-view-focus
+              className="text-slate-700 font-semibold text-lg mb-2"
+            >
+              You reached the free limit
+            </p>
+            <p className="text-slate-500 text-sm mb-6">
+              Upgrade to generate unlimited viral social media posts.
+            </p>
+            <a
+              href={GUMROAD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold rounded-full hover:shadow-lg hover:shadow-teal-200 transition-all hover:-translate-y-0.5"
+            >
+              Unlock Unlimited Posts – $19
+            </a>
+          </div>
+        </Reveal>
+      ) : (
+        <Reveal delay={100} className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-teal-100/50 p-6 sm:p-8">
       <div className="flex items-center justify-between mb-4">
         <span className="text-xs font-medium text-slate-400">
           {FREE_LIMIT - used} free generation{FREE_LIMIT - used !== 1 ? "s" : ""} remaining
@@ -205,6 +252,8 @@ export function GeneratorCard() {
           </div>
         </div>
       )}
-    </Reveal>
+        </Reveal>
+      )}
+    </>
   );
 }

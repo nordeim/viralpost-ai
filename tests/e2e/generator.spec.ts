@@ -56,7 +56,13 @@ test.describe("generator (desktop)", () => {
       await TEXTBOX(page).fill(`fitness motivation post number ${i + 1}`);
       await page.getByRole("button", { name: "Generate Post" }).click();
       await expect(page.getByText("Generated Post")).toBeVisible({ timeout: 15_000 });
-      await expect(page.getByText(`${2 - i} free generation${2 - i !== 1 ? "s" : ""} remaining`)).toBeVisible();
+      // Session-25 (S25-2): exact:true disambiguates the VISIBLE quota
+      // span from the new sr-only status region ("Post generated — 2
+      // free generations remaining today.") — substring matching
+      // resolved to both and tripped strict mode.
+      await expect(
+        page.getByText(`${2 - i} free generation${2 - i !== 1 ? "s" : ""} remaining`, { exact: true }),
+      ).toBeVisible();
     }
 
     // The THIRD generation consumes the last slot — the card swaps to the

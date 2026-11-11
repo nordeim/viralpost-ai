@@ -3,11 +3,11 @@ import fc from "fast-check";
 
 import {
   countWords,
-  FREE_LIMIT,
-  generatePost,
+    generatePost,
   generatorPrompt,
   sanitizeIdea,
 } from "@/lib/generator";
+import { FREE_LIMIT } from "@/lib/generation-counter";
 import { computeWatermark, rateLimit } from "@/lib/rate-limit";
 
 // The property layer (session-9, F9-5 — the PAD's "property tests

@@ -28,7 +28,11 @@ describe("landing: the section composition", () => {
       // level deeper inside PricingSection).
       "<PricingSection />",
       "<CtaSection />",
-      "<ContactForm />",
+      // Session-25 (S25-13): <ContactForm /> → <ContactSection /> — the
+      // contact block renders the shared component now (ContactForm
+      // still renders, one level deeper inside ContactSection — the
+      // S24-8 pricing precedent).
+      "<ContactSection />",
     ];
     const positions = order.map((marker) => page.indexOf(marker));
     for (const p of positions) expect(p).toBeGreaterThanOrEqual(0);
@@ -247,6 +251,59 @@ describe("landing: the page shells", () => {
     expect(footer).toContain("Smart AI tools for creators, influencers, and businesses.");
     expect(footer).toContain("viral-ready social media posts in seconds");
     expect(footer).toContain("Upgrade – $19");
+  });
+
+  // Session-25 (S25-1): the reference's footer Product column ships
+  // THREE links — Home / Tool / Pricing — live-censused on both sides
+  // this round (390×844 + 1280×800; the dossier §footer has recorded
+  // the family since session 1). Ours mapped all four NAV_ROUTES
+  // (Contact included) since session 1 — the footer column was never in
+  // the side-by-side census set until this round. The navs (desktop +
+  // mobile) keep all four routes; the footer is its own surface.
+  it("session-25 (S25-1): the footer Product column is the reference's THREE-link family (no Contact)", () => {
+    const footer = read("src/components/marketing/footer.tsx");
+    expect(footer).toContain('NAV_ROUTES.filter((r) => r.id !== "contact")');
+    // The unfiltered map — the drift form that shipped sessions 1–24.
+    expect(footer).not.toMatch(/\{NAV_ROUTES\.map/);
+  });
+
+  it("session-25 (S25-13): the contact section is ONE component (both pages render ContactSection, the hand-inlined duplicate retired)", () => {
+    const landing = read("src/app/(site)/page.tsx");
+    const contact = read("src/app/(site)/Contact/page.tsx");
+    expect(landing).toContain("<ContactSection />");
+    expect(contact).toContain("<ContactSection />");
+    // The hand-inlined duplicate — the drift-risk form that shipped
+    // sessions 1–24 (the next contact-surface cure would have applied
+    // in two places).
+    expect(landing).not.toMatch(/<section id="contact"/);
+    expect(contact).not.toMatch(/<section id="contact"/);
+  });
+
+  // Session-25 (S25-14): generator.ts imports node `crypto` (ideaSeed's
+  // createHash) — the client card's FREE_LIMIT import dragged the
+  // module (and its node builtin) into the client graph, green only via
+  // bundler tolerance. FREE_LIMIT lives in generation-counter.ts now
+  // (the client-safe quota module, zero imports); this boundary pin
+  // keeps the crypto-bearing module server-side.
+  it("session-25 (S25-14): NO client component imports @/lib/generator (the node-crypto client boundary)", () => {
+    const clientFiles = [
+      "src/app/error.tsx",
+      "src/app/global-error.tsx",
+      "src/app/not-found-body.tsx",
+      "src/components/effects/floating-icons.tsx",
+      "src/components/effects/iridescence.tsx",
+      "src/components/effects/particle-text.tsx",
+      "src/components/effects/reveal.tsx",
+      "src/components/layout/login-card.tsx",
+      "src/components/layout/reset-password-screen.tsx",
+      "src/components/marketing/contact-form.tsx",
+      "src/components/marketing/generator-card.tsx",
+      "src/components/marketing/navbar.tsx",
+      "src/components/ui/toast.tsx",
+    ];
+    for (const f of clientFiles) {
+      expect(read(f), f).not.toContain('from "@/lib/generator"');
+    }
   });
 
   it("the site layout wraps every page in navbar + footer", () => {

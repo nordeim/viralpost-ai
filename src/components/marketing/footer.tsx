@@ -49,7 +49,12 @@ export function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4">Product</h4>
             <ul className="space-y-2">
-              {NAV_ROUTES.map((r) => (
+              {/* Session-25 (S25-1): the reference's footer Product column
+                  ships THREE links — Home / Tool / Pricing (live-censused
+                  both sides this round; the dossier §footer has recorded
+                  the family since session 1). Contact is a NAV route (the
+                  navs keep all four) but NOT a footer Product link. */}
+              {NAV_ROUTES.filter((r) => r.id !== "contact").map((r) => (
                 <li key={r.id}>
                   {/* Session-10 (F10-8): Link over the raw anchor — soft nav
                       like the navbar; the rendered <a> keeps the reference's

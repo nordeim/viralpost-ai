@@ -3,6 +3,13 @@ import nextTypescript from "eslint-config-next/typescript";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
+// Session-25 (S25-18c), the documented posture: this config runs with
+// most of the correctness-oriented base rules OFF (see the list below)
+// — the type gate (`tsc --strict` + the build-as-type-gate) and the
+// census/source-pin batteries own correctness for this repo; lint owns
+// the Next-specific core-web-vitals family. "lint 0/0" therefore means
+// the Next rules pass, not a full correctness sweep.
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 

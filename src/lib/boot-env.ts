@@ -80,6 +80,7 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
   if (siteUrl !== undefined && siteUrl !== "") {
     let malformed = false;
     let pathCarrying = false;
+    let queryCarrying = false;
     try {
       const parsed = new URL(siteUrl.trim().replace(/\/+$/, ""));
       malformed = parsed.protocol !== "http:" && parsed.protocol !== "https:";
@@ -90,6 +91,17 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
       // concatenation for the twitter:url cards). Name the shape at
       // the earliest signal. (A bare origin parses with pathname "/".)
       pathCarrying = !malformed && parsed.pathname !== "/";
+      // Session-25 (S25-4): the non-bare-origin extension — a query (or
+      // fragment, or userinfo) parses with pathname "/" so the check
+      // above passed silently, yet the query rode unescaped into
+      // /sitemap.xml's <loc> values (raw & — invalid XML) and every
+      // og:url/canonical composition. The site seam falls back to the
+      // default on the same shapes; this warning is the operator's
+      // earliest signal.
+      queryCarrying =
+        !malformed && !pathCarrying &&
+        (parsed.search !== "" || parsed.hash !== "" ||
+          parsed.username !== "" || parsed.password !== "");
     } catch {
       malformed = true;
     }
@@ -101,6 +113,11 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
     if (pathCarrying) {
       warnings.push(
         `[boot] NEXT_PUBLIC_SITE_URL="${siteUrl}" carries a path — the value must be the bare ORIGIN. A path prefix composes inconsistently across metadataBase/canonicals (URL resolution) and the twitter:url cards (string concat); set e.g. https://viralpost.example.com with no trailing path.`,
+      );
+    }
+    if (queryCarrying) {
+      warnings.push(
+        `[boot] NEXT_PUBLIC_SITE_URL="${siteUrl}" carries a query string (or fragment/credentials) — the value must be the bare ORIGIN. A query rides unescaped into /sitemap.xml's <loc> values (invalid XML) and composes broken og:url/canonical paths; the site seam falls back to http://localhost:3000 until it is fixed.`,
       );
     }
   }

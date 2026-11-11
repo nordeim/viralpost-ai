@@ -20,11 +20,11 @@ import fc from "fast-check";
 import {
   countWords,
   extractHashtags,
-  FREE_LIMIT,
   generatePost,
   generatorPrompt,
   sanitizeIdea,
 } from "@/lib/generator";
+import { FREE_LIMIT } from "@/lib/generation-counter";
 
 // Non-throwing mirror of sanitizeIdea's emptiness rule (sanitizeIdea itself
 // throws on empty input — a throwing filter breaks fast-check's runner).
