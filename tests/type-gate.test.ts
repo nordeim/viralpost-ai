@@ -52,12 +52,56 @@ const root = join(import.meta.dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
 
 // The comment-stripped views (the s46 idiom — a config-file comment can
-// never masquerade as a live directive). tsconfig.json carries // line
-// comments; next.config.ts carries // line comments + one /* */ block.
-const stripComments = (s: string) =>
-  s
-    .replace(/\/\*[\s\S]*?\*\//g, "")
-    .replace(/(^|\s)\/\/[^\n]*$/gm, "$1");
+// never masquerade as a live directive). Session-26 (S26-6) made the
+// stripper STRING-AWARE: the regex block-comment pass treated the `/*`
+// inside tsconfig's glob strings ("@/*", "**/*.mts") as a phantom
+// comment OPEN and swallowed everything to the next `*/` — the include
+// array vanished from the stripped view (live-caught by the S26-6 mts
+// pin; the strict/exclude pins survived only because they sit outside
+// the swallowed span). The state machine below tracks in-string state
+// so comment markers inside string literals are never comment markers;
+// escaped quotes inside strings are passed through. tsconfig.json
+// carries // line comments; next.config.ts carries // lines + one
+// /* */ block.
+const stripComments = (s: string) => {
+  let out = "";
+  let i = 0;
+  let inString = false;
+  while (i < s.length) {
+    const c = s[i];
+    if (inString) {
+      if (c === "\\") {
+        out += c + (s[i + 1] ?? "");
+        i += 2;
+        continue;
+      }
+      if (c === '"') inString = false;
+      out += c;
+      i += 1;
+      continue;
+    }
+    if (c === '"') {
+      inString = true;
+      out += c;
+      i += 1;
+      continue;
+    }
+    if (c === "/" && s[i + 1] === "*") {
+      const end = s.indexOf("*/", i + 2);
+      i = end < 0 ? s.length : end + 2;
+      out += " ";
+      continue;
+    }
+    if (c === "/" && s[i + 1] === "/") {
+      const nl = s.indexOf("\n", i);
+      i = nl < 0 ? s.length : nl;
+      continue;
+    }
+    out += c;
+    i += 1;
+  }
+  return out;
+};
 
 const nextConfig = () => stripComments(read("next.config.ts"));
 const tsconfig = () => stripComments(read("tsconfig.json"));
@@ -147,5 +191,39 @@ describe("session-22: THE BUN POSTINSTALL PERMISSION (trustedDependencies, S22-8
 
   it("the dead allowScripts block is retired (Bun never read it)", () => {
     expect(manifest().allowScripts).toBeUndefined();
+  });
+});
+
+// Session-26 (S26-6): THE THREE-CONFIG SKILLS-EXCLUSION DOCTRINE, PINNED.
+// tsconfig, eslint, and vitest each exclude the owner's `skills/` catalog
+// (not app code — its own .test.ts files must never run in the app's gates)
+// and tsconfig's `**/*.mts` include keeps the vitest config inside
+// `tsc --noEmit` (the documented S18-5 silent gap: the TS glob "**/*.ts"
+// does NOT match .mts files, so the session-18 rename silently dropped
+// the vitest config from the typecheck gate — a type error there
+// surfaced only as a Vite runtime failure). All four mechanics were
+// comment-only (unpinned) — silent-regression surfaces with precedent.
+// Mutation battery: plant a missing exclude/include in a scratch copy
+// → the pin REDs.
+describe("session-26 (S26-6): the config mechanics — skills excluded from every gate, the .mts include (the S18-5/S20-16 doctrine, pinned)", () => {
+  it("tsconfig.json includes **/*.mts (the vitest config stays inside tsc --noEmit)", () => {
+    const cfg = tsconfig();
+    expect(cfg).toMatch(/"include"\s*:\s*\[[^\]]*"\*\*\/\*\.mts"/);
+  });
+
+  it("tsconfig.json excludes skills/", () => {
+    const cfg = tsconfig();
+    expect(cfg).toMatch(/"exclude"\s*:\s*\[[^\]]*"skills"/);
+  });
+
+  it("eslint.config.mjs ignores skills/ (the catalog is not linted)", () => {
+    const eslint = read("eslint.config.mjs");
+    // The ignores array: ["node_modules/**", ".next/**", "next-env.d.ts", "skills"]
+    expect(eslint).toMatch(/ignores:\s*\[[^\]]*"skills"/);
+  });
+
+  it("vitest.config.mts excludes skills/** (the catalog's own tests never run)", () => {
+    const vitest = read("vitest.config.mts");
+    expect(vitest).toMatch(/exclude:\s*\[[^\]]*"skills\/\*\*"/);
   });
 });

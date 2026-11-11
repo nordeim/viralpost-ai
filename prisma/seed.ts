@@ -25,13 +25,19 @@ async function main() {
   // reseed keep resolving. The update path resets every seeded field
   // (the tokenVersion reset included, BY DESIGN — a pristine demo
   // state evicts post-reset sessions whose password the reseed also
-  // reverted; only v=0 cookies survive).
+  // reverted; only v=0 cookies survive). Session-26 (S26-8): the update
+  // branch now carries avatarColor + photoUrl too — the "every seeded
+  // field" claim is true (the comment previously overclaimed: a future
+  // avatar-edit surface would have left a drifted value behind a
+  // reseed).
   await db.user.upsert({
     where: { email: "sepnetflix2023@outlook.com" },
     update: {
       name: "Demo Creator",
       passwordHash: hashPassword("$Abcd1234"),
       role: "admin",
+      avatarColor: "#14b8a6",
+      photoUrl: null,
       verificationCodeHash: null,
       verificationAttempts: 0,
       verificationExpiresAt: null,

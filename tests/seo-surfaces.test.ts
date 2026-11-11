@@ -200,6 +200,12 @@ describe("session-24 (S24-11): the og:image asset matches its declared dimension
   // edit there shipped green through every layer. The dims now live in
   // ONE exported const (OG_IMAGE) the layout consumes — the pin is
   // complete by construction, and this arm pins the consumption.
+  // Session-26 (S26-5): the doctrine completed to the TWITTER families
+  // — both twitter blocks (the factory's + the layout's) carried
+  // hand-written "/og-image.png" literals outside the const, so an
+  // asset rename drifted both preview cards greenly. Co-pinned with the
+  // openGraph faces (one pin owns the one-declaration doctrine; the
+  // mutation battery reverts either twitter block's literal → RED).
   it("S25-6: the root layout's OG images ride the shared OG_IMAGE const (the one-declaration doctrine)", () => {
     const site = readFileSync(
       path.resolve(import.meta.dirname, "..", "src/lib/site.ts"),
@@ -214,5 +220,11 @@ describe("session-24 (S24-11): the og:image asset matches its declared dimension
     // The hand-declared multiline block — the unpinned face that
     // shipped sessions 1–24.
     expect(layout).not.toMatch(/images:\s*\[\s*\{\s*url:/);
+    // Session-26 (S26-5): both twitter blocks ride the const's url —
+    // the hand-written literal form is banned in BOTH files.
+    expect(site).toContain("images: [OG_IMAGE.url]");
+    expect(layout).toContain("images: [OG_IMAGE.url]");
+    expect(site).not.toMatch(/twitter:[\s\S]{0,200}images: \["\/og-image\.png"\]/);
+    expect(layout).not.toMatch(/twitter:[\s\S]{0,200}images: \["\/og-image\.png"\]/);
   });
 });

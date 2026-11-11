@@ -103,6 +103,15 @@ import {
 // content-type trio (−3, S25-12)) and the e2e 63 unchanged (the
 // og:url/twitter:url arms fold into the existing seo test in place —
 // the S18-2 precedent).
+// s26: 629/38 (+9 the session-26 pins — the panel height-cap parity
+// pin (S26-1), the bar scrolled-key parity pin (S26-3), the generator
+// busy-announcement pin (S26-2), the FOUR config-mechanics pins
+// (S26-6: the .mts include, the tsconfig skills exclude, the eslint
+// skills ignore, the vitest skills exclude), the one-shot-script
+// URL-seam pin (S26-7), the :memory: passthrough pin (S26-9); the
+// S26-4 roster→census conversion and the S26-5 twitter arms fold into
+// existing tests in place — no count change) and the e2e 63
+// unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -110,7 +119,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 620;
+const UNIT = 629;
 /** Vitest suite files. */
 const SUITES = 38;
 /** Playwright e2e checks (incl. the setup project's 1). */

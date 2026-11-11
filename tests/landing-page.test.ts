@@ -1,9 +1,29 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const root = join(import.meta.dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
+
+// Session-26 (S26-4): the DISK CENSUS walker — every .ts/.tsx file under
+// src/ whose content begins with the "use client" directive. The
+// hardcoded 13-file roster this test replaced went stale silently the
+// day a 14th client component shipped (a new file importing
+// @/lib/generator would never be scanned); the census can never miss
+// one. The docs-counts reality-census idiom (scan, never hardcode).
+function listClientFiles(dir: string): string[] {
+  const out: string[] = [];
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry);
+    if (statSync(full).isDirectory()) {
+      out.push(...listClientFiles(full));
+    } else if (/\.(ts|tsx)$/.test(entry)) {
+      const content = readFileSync(full, "utf8").trimStart();
+      if (content.startsWith('"use client"')) out.push(full);
+    }
+  }
+  return out;
+}
 
 // The landing page's composition pins — the reference's 10-section
 // structure (docs/reference-investigation.md §3.2) read at the source
@@ -285,24 +305,19 @@ describe("landing: the page shells", () => {
   // bundler tolerance. FREE_LIMIT lives in generation-counter.ts now
   // (the client-safe quota module, zero imports); this boundary pin
   // keeps the crypto-bearing module server-side.
+  // Session-26 (S26-4): the roster is now a DISK CENSUS — the walker at
+  // the file top scans every src/ file carrying the "use client"
+  // directive (the hardcoded 13-file roster could not see a 14th
+  // client component). The floor documents today's census without
+  // failing legitimate growth.
   it("session-25 (S25-14): NO client component imports @/lib/generator (the node-crypto client boundary)", () => {
-    const clientFiles = [
-      "src/app/error.tsx",
-      "src/app/global-error.tsx",
-      "src/app/not-found-body.tsx",
-      "src/components/effects/floating-icons.tsx",
-      "src/components/effects/iridescence.tsx",
-      "src/components/effects/particle-text.tsx",
-      "src/components/effects/reveal.tsx",
-      "src/components/layout/login-card.tsx",
-      "src/components/layout/reset-password-screen.tsx",
-      "src/components/marketing/contact-form.tsx",
-      "src/components/marketing/generator-card.tsx",
-      "src/components/marketing/navbar.tsx",
-      "src/components/ui/toast.tsx",
-    ];
+    const clientFiles = listClientFiles(join(root, "src"));
+    expect(
+      clientFiles.length,
+      "the client census found the expected floor of client components",
+    ).toBeGreaterThanOrEqual(13);
     for (const f of clientFiles) {
-      expect(read(f), f).not.toContain('from "@/lib/generator"');
+      expect(readFileSync(f, "utf8"), f).not.toContain('from "@/lib/generator"');
     }
   });
 

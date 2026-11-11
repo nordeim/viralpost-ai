@@ -97,7 +97,15 @@ export function Navbar() {
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled || open
+        // Session-26 (S26-3): `scrolled` alone — the LIVE reference's own
+        // key (censused this round: its bar stays bg-transparent with the
+        // menu OPEN at scrollY=0). The open-keyed half of this arm shipped
+        // from session 1 and was never side-by-side censused — it darkened
+        // our bar the moment the menu opened over the hero, and painted
+        // the DESKTOP bar dark after a mobile→desktop cross with the menu
+        // open, since the open state survives a breakpoint the
+        // panel/toggle do not.
+        scrolled
           ? "bg-slate-900/95 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/20"
           : "bg-transparent",
       )}
@@ -150,25 +158,31 @@ export function Navbar() {
           )}
         </button>
       </div>
-      {/* The mobile menu — the reference's own dropdown. The
-          height/opacity transition classes are INERT by design: the
-          `hidden` attribute removes display, so no transition can play
-          (the reference's menu has no transition either — SKILL §9
-          item 13); they stay as harmless dead classes. Transparent over
-          the hero (the reference's dead /98 class — the WebGL glow
-          bleeds through); dark + blurred on light pages (our superset). */}
+      {/* The mobile menu — the reference's own dropdown, class-for-class
+          (its family: md:hidden + its dead bg-slate-900/98 + border-b +
+          overflow-hidden; the /98 computes transparent in its Tailwind
+          build — the S22-5 transparent-render replication). Session-26
+          (S26-1): the height-cap/opacity arms and the transition classes
+          are RETIRED — they were documented as inert dead classes, but
+          the 384px cap was LIVE as a hard layout bound (the reference
+          computes max-height none), clipping the Contact link + pill
+          unreachable at text sizes ≈145%+ (WCAG 1.4.4). The `hidden`
+          attribute owns the open/close mechanics (display:block ↔ none —
+          the reference unmounts its closed panel; behaviorally
+          equivalent, and our aria-controls target stays stable).
+          Transparent over the hero (the reference's dead /98 render);
+          dark + blurred on light pages (our superset). */}
       <div
         id="mobile-menu"
         className={cn(
-          "md:hidden border-b border-white/10 overflow-hidden transition-all duration-300",
+          "md:hidden border-b border-white/10 overflow-hidden",
           // Session-22 (S22-5): the scrolled arm — the home route's own
           // landing sections are light below the hero, and a route-only
           // key left the panel transparent there (slate-300 links over
-          // #f8fafc ≈ 1.48:1). Mirrors the bar's `scrolled ||` key;
+          // #f8fafc ≈ 1.48:1). Mirrors the bar's `scrolled` key;
           // top-of-hero unscrolled stays transparent (the reference's
           // dead /98 render over the hero).
           (!onHero || scrolled) && "bg-slate-900/95 backdrop-blur-xl",
-          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0",
         )}
         hidden={!open}
       >

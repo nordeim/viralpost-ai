@@ -317,6 +317,19 @@ describe("resolveDatabaseUrl", () => {
     expect(resolveDatabaseUrl("file:")).toBe("file:");
   });
 
+  // Session-26 (S26-9): the standard SQLite in-memory spelling
+  // `file::memory:` — the guard comment claimed "absolute or in-memory"
+  // but the `:memory:` ref does NOT start with "/", so it fell through
+  // to the anchors and re-anchored to a literal <repo>/prisma/:memory:
+  // file (no live caller — the latent misroute; the comment now says
+  // what the code does and the ref passes through).
+  it("passes through the :memory: spelling untouched (S26-9 — the ref is not a schema-relative path)", () => {
+    expect(resolveDatabaseUrl("file::memory:")).toBe("file::memory:");
+    expect(resolveDatabaseUrl("file::memory:?cache=shared")).toBe(
+      "file::memory:?cache=shared",
+    );
+  });
+
   it("resolves a repo-relative URL against the module's repo root", () => {
     const resolved = resolveDatabaseUrl("file:../db/custom.db");
     expect(resolved.startsWith("file:")).toBe(true);

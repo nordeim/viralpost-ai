@@ -86,7 +86,12 @@ export function urlForRoot(root: string, ref: string): string {
 export function resolveDatabaseUrl(rawUrl: string): string {
   if (!rawUrl.startsWith("file:")) return rawUrl; // postgres etc. — pass through
   const ref = rawUrl.slice("file:".length);
-  if (!ref || ref.startsWith("/")) return rawUrl; // absolute or in-memory
+  // Absolute, or the SQLite in-memory spelling — both pass through
+  // (Session-26, S26-9: the `:memory:` ref does NOT start with "/", so
+  // it previously fell through to the anchors and re-anchored to a
+  // literal <repo>/prisma/:memory: file — the guard comment claimed
+  // "in-memory" but the code misrouted it).
+  if (!ref || ref.startsWith("/") || ref.startsWith(":memory:")) return rawUrl;
 
   // Validated anchors: trust them even on first boot (db/ may not exist
   // yet) — urlForRoot creates the folder.

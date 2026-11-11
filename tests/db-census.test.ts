@@ -78,4 +78,27 @@ describe("session-53: the census seam (S53-P2, N-53b)", () => {
   it("the db:census package script is wired", () => {
     expect(pkg().scripts?.["db:census"]).toBe("bun scripts/census.ts");
   });
+
+  // Session-26 (S26-7): THE ONE-SHOT-SCRIPT EXEMPTION, PINNED. The AGENTS
+  // contract says "PrismaClient constructed only in src/lib/db.ts" — but
+  // two one-shot scripts (prisma/seed.ts, scripts/e2e-prune.ts)
+  // deliberately construct their own clients with an EXPLICIT datasource
+  // URL routed through the sanctioned runtimeDatabaseUrl() resolver (the
+  // engine's target is pinned visibly at the construction site — never a
+  // bare process.env.DATABASE_URL read, never the Prisma engine's or
+  // bun's own env-absolutization). The exemption is now codified in the
+  // AGENTS wording; this pin holds the seam-mandatory form so a future
+  // edit can never silently bypass the resolver. Mutation battery:
+  // point a script's datasource at a bare env read → RED.
+  it("session-26 (S26-7): the one-shot DB scripts construct through the sanctioned URL seam (runtimeDatabaseUrl — the db.ts-singleton exemption, pinned)", () => {
+    for (const f of ["prisma/seed.ts", "scripts/e2e-prune.ts"]) {
+      const src = stripComments(read(f) ?? "");
+      expect(src, `${f} must construct a client`).toMatch(/new PrismaClient\(/);
+      expect(src, `${f} must route the datasource through the sanctioned resolver`).toMatch(
+        /datasources:\s*\{\s*db:\s*\{\s*url:\s*runtimeDatabaseUrl\(\)\s*\}\s*\}/,
+      );
+      // The bare direct-env form is banned in the construction site.
+      expect(src).not.toMatch(/datasources:\s*\{\s*db:\s*\{\s*url:\s*process\.env\.DATABASE_URL/);
+    }
+  });
 });

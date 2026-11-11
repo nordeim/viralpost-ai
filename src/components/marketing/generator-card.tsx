@@ -129,13 +129,20 @@ export function GeneratorCard() {
           announces the mutation, not the insertion): node A carries the
           generation/limit text, node B the copy confirmation (clears to
           empty on the 2s reset — empty text is not announced). The
-          reference's visible surface stays byte-identical. */}
+          reference's visible surface stays byte-identical.
+          Session-26 (S26-2): node A gains the BUSY arm — the pending
+          window previously rendered "" (post cleared, limit false) and
+          the button's "Generating…" label swap is the exact
+          not-re-announced form the S24-3 comment calls out. AT users
+          now hear "Generating your post…" between click and settle. */}
       <p className="sr-only" role="status" aria-live="polite">
         {limitReached
           ? "Daily free limit reached — upgrade to keep generating."
-          : post
-            ? `Post generated — ${FREE_LIMIT - used} free generation${FREE_LIMIT - used !== 1 ? "s" : ""} remaining today.`
-            : ""}
+          : generating
+            ? "Generating your post…"
+            : post
+              ? `Post generated — ${FREE_LIMIT - used} free generation${FREE_LIMIT - used !== 1 ? "s" : ""} remaining today.`
+              : ""}
       </p>
       <p className="sr-only" role="status" aria-live="polite">
         {copied ? "Copied to clipboard." : ""}

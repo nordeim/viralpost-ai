@@ -2674,3 +2674,149 @@ Verified:
 - SHIPPED: the remediated codebase + the docs in lockstep,
   committed to main and pushed via docs/ssh_git_wrapper_v3.py
   (the remote verified; no new branches)
+
+---
+
+Task ID: 26
+Agent: main (Z.ai)
+Task: The session-26 mobile-menu cap parity + the busy-state announcement
++ the bar open-arm retirement + the pin-doctrine batch round — re-run the
+standing instruction against the post-session-25 tree (6a096fc = 8856303 +
+the session-25 round log held as docs/session_26.md): docs review, the
+baseline gate on the merged tree (lint 0/0 · tsc 0 · unit 620/620
+(38 files) · census MATCH; the DATABASE_URL contract re-verified
+end-to-end on a fresh clone — db/ pushed + seeded at the repo root), the
+comprehensive audit (0 Critical / 0 High / 1 Medium / 6 Low / 5 Info —
+dispatched wide across three parallel subagents (AUDIT-1 API/lib seams,
+AUDIT-2 components/pages/effects, AUDIT-3 SEO/configs/tests/docs), every
+load-bearing finding hand-verified in source), the neo-crm repo re-review
+(HEAD b3d0fbe — UNCHANGED since session 12; the recorded decisions stand),
+the live reference parity walk (logged-in; the five-route head census, the
+mobile-menu control census at 390×844 — links + pill + Gumroad href
+byte-identical, hamburger base classes byte-identical + our documented aria
+superset, Escape/link-click close + focus-return + route-change auto-close
+all live-verified on the clone; the desktop nav family; the footer Product
+column at 3 links both sides — the S25-1 cure holds; sitemap/robots
+identical origin-difference only; the generator round-trip green with node
+A announcing) — TWO LIVE-CENSUSED DIVERGENCES on the mobile-menu surface
+(the panel's max-h-96 cap vs the reference's computed max-height:none; the
+bar's scrolled-\|\|-open arm vs the reference's transparent-with-menu-open
+render), the TDD cures (S26-1..S26-9, +9 unit pins, each with its
+mutation battery on record — one of which surfaced and cured a latent
+type-gate stripper bug), the gate, captures 59/60, push #26 to main via
+the SSH wrapper.
+
+Details:
+- S26-1 (MEDIUM, parity + WCAG 1.4.4): THE PANEL HEIGHT-CAP PARITY — the
+  mobile-menu panel shipped max-h-96 (384px) + overflow-hidden with no
+  scroll path while the LIVE reference's open panel computes
+  max-height:none (its class family carries no max-h/opacity/transition
+  anywhere — live-censused both sides this round). The cap was invisible
+  at 100% text (≈264px content) but Safari/Chrome text-size scaling
+  grows the rem-based links past 384px at ≈145%+, clipping the Contact
+  link + the Upgrade pill unreachable (the reflow family the axe battery
+  cannot see). The file's own comment called the classes "inert dead
+  classes… no transition can play" — TRUE for the transition, FALSE for
+  the cap: max-h-96 was LIVE as a hard layout bound whenever the panel
+  displayed. The class family is re-anchored to the reference's own bare
+  base + the S22-5 superset arm + the hidden-attribute mechanics; the
+  panel grows with content now. Pinned (the max-h literal banned in
+  class-string context, the bare base + hidden form required);
+  mutation-batteried (re-plant the cap → RED). Live re-verified
+  post-cure: panelMaxH none, height 265 — byte-matching the reference.
+- S26-3 (LOW, parity + correctness): THE BAR OPEN-ARM RETIREMENT — the
+  bar's dark arm keyed on scrolled \|\| open, but the live reference's
+  bar stays bg-transparent with the menu OPEN at scrollY=0 (censused:
+  open-menu + scrollY=0 → bg-transparent; scrolled → the dark glass).
+  The open half shipped from session 1, never side-by-side censused
+  until now — it darkened our bar the moment the menu opened over the
+  hero, AND its side effect painted the DESKTOP bar dark after a
+  mobile→desktop breakpoint cross with the menu open (the panel/toggle
+  go md:hidden but open survives). The arm keys on scrolled alone now —
+  the reference's own key; the desktop-cross artifact dies with the same
+  edit. Pinned (the open-keyed form banned); mutation-batteried.
+  Live re-verified post-cure: barBg rgba(0,0,0,0) with the menu open.
+- S26-2 (LOW, a11y WCAG 4.1.3): THE BUSY-STATE ANNOUNCEMENT — the
+  generator's pending window rendered "" in node A (post cleared, limit
+  false) while the button's "Generating…" label swap is exactly the
+  not-re-announced form the S24-3 comment calls out; AT users got zero
+  feedback between click and settle. Node A gains the generating arm
+  ("Generating your post…"); the S25-2 pin keeps the success/limit arms,
+  the new pin owns the busy arm — one face per pin. Live-verified
+  end-to-end: "Generating your post…" during pending → "Post generated —
+  1 free generation remaining today." on settle → "Daily free limit
+  reached — upgrade to keep generating." at the paywall swap.
+- S26-5 (LOW, one-declaration doctrine): the twitter images literals
+  "/og-image.png" in BOTH twitter blocks (pageMetadata's + the root
+  layout's) retired — both ride OG_IMAGE.url now (the S25-6 doctrine
+  completed; an asset rename can no longer drift both preview cards
+  greenly). The S25-6 pin extends to the twitter consumption faces;
+  mutation-batteried (revert one literal → RED).
+- S26-4 (LOW, pin quality): the client-crypto boundary pin's hardcoded
+  13-file roster converted to a dynamic "use client" DISK CENSUS (the
+  docs-counts reality-census idiom — scan src/ for files whose content
+  begins with the directive). Mutation-batteried with a planted 14th
+  client file importing @/lib/generator: the census REDs where the roster
+  was structurally blind.
+- S26-6 (LOW, config mechanics pinned): the tsconfig .mts include, the
+  tsconfig/eslint/vitest skills exclusions — all four mechanics were
+  comment-only (silent-regression surfaces with the S18-5 precedent).
+  Four pins added to type-gate. WRITING THEM SURFACED A LATENT BUG IN
+  THE SHARED STRIPPER: the regex block-comment pass misfired on the /*
+  inside tsconfig's glob strings ("@/*" in paths opened a phantom block
+  comment that swallowed everything to the next */ — the include array
+  vanished from the stripped view; the strict/exclude pins survived only
+  because they sit outside the swallowed span). Root cause fixed: the
+  stripper is STRING-AWARE now (a small state machine tracking
+  in-string state; escaped quotes passed through). All existing pins
+  re-run green; the mts pin mutation-batteried (drop the include entry →
+  RED).
+- S26-7 (LOW, contract codification): the one-shot-script PrismaClient
+  exemption — prisma/seed.ts + scripts/e2e-prune.ts deliberately
+  construct their own clients with the datasource URL routed through
+  runtimeDatabaseUrl() (the in-file rationale; the engine's target
+  pinned visibly at the construction site). The AGENTS wording now
+  states the exemption; db-census pins the URL-seam-mandatory form for
+  both scripts (the bare direct-env form banned).
+  Mutation-batteried (point a datasource at a bare env read → RED).
+- S26-8 (LOW, comment-truth): the seed's update branch gains avatarColor
+  "#14b8a6" + photoUrl null — the "resets every seeded field" claim is
+  true now (a future avatar-edit surface can no longer leave a drifted
+  value behind a reseed). Re-seeded + census MATCH re-run.
+- S26-9 (LOW, comment-truth + latent misroute): db-path's guard claimed
+  "absolute or in-memory" but the :memory: spelling does not start with
+  "/" so it fell through to the anchors and re-anchored to a literal
+  <repo>/prisma/:memory: file (no live caller — latent). The
+  startsWith(":memory:") pass-through arm added; the comment keeps its
+  wording truthfully. Pinned (both spellings passthrough);
+  RED-first (the pin failed pre-cure).
+- Count re-anchor: UNIT 620 → 629 (+9 pins: S26-1, S26-3, S26-2, the
+  FOUR S26-6 mechanics pins, S26-7, S26-9 — the S26-4 census conversion
+  and the S26-5 twitter arms fold into existing tests in place), SUITES
+  38 unchanged, E2E 63 unchanged, badge 683 → 692; the PAD §12 rows
+  (db-path 272, site 202, navbar 233, generator-card 266); the census
+  walked RED-to-GREEN site by site. Appendix A's 25/24 inversion (the
+  session-25 S25-18e re-sort's tail) fixed in the same commit — the rows
+  run chronologically 23 → 24 → 25 → 26 now.
+
+Verified:
+- Gate (the exact commit tree): lint 0/0 · tsc 0 · unit 629/629
+  (38 files) · build · smoke 15/15 · e2e 63/63 (9 specs) · census
+  MATCH · badge 692
+- Captures 59/60 (the cured open mobile menu at 390×844 — the
+  max-height:none panel + the transparent bar; the generator paywall
+  with the focus-landing heading) PIL-verified; the cured surfaces
+  live-verified on the dev server (panel max-height none + height 265 +
+  bar rgba(0,0,0,0) with the menu open at scrollY=0; the busy → success
+  → limit announcement sequence; the paywall's data-view-focus landing)
+- Docs lockstep: README (the session-26 row, the gate line, the
+  badge 692, the counts); AGENTS (counts, the db-path exemption
+  wording, the plans map's twenty-sixth round); CLAUDE (counts); PAD
+  (§12 rows, the test-distribution table, the counts); SKILL v1.21.0 →
+  v1.22.0 (frontmatter, Appendix A's session-26 row + the tail
+  chronological fix, Appendix B both counts + the session-26
+  re-certification); worklog Task 26; docs/session_26.md (this round's
+  log); the plan's post-execution record
+- SHIPPED: the remediated codebase + the docs in lockstep,
+  committed to main and pushed via docs/ssh_git_wrapper_v3.py
+  (the remote verified; no new branches)

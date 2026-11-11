@@ -189,7 +189,10 @@ export function pageMetadata(opts: {
       card: "summary_large_image",
       title: fullTitle,
       description,
-      images: ["/og-image.png"],
+      // Session-26 (S26-5): the twitter family rides the shared const's
+      // url — the hand-written literal drifted greenly on asset renames
+      // (the S25-6 one-declaration doctrine, completed).
+      images: [OG_IMAGE.url],
     },
     other: {
       "twitter:url": `${siteUrl()}${opts.route}`,

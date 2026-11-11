@@ -36,7 +36,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ViralPost AI",
     description: SITE_DESCRIPTION,
-    images: ["/og-image.png"],
+    // Session-26 (S26-5): the twitter family rides the shared const's
+    // url — the S25-6 one-declaration doctrine, completed.
+    images: [OG_IMAGE.url],
   },
   // The Next twitter metadata object has no url field — the twitter:url
   // rides the `other` escape hatch. PWA_META adds the

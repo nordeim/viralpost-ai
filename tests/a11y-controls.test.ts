@@ -145,6 +145,63 @@ describe("named-control source pins (the open surfaces)", () => {
     expect(src).toMatch(/menuButtonRef\.current\?\.focus\(\);\s*setOpen\(false\);/);
   });
 
+  // Session-26 (S26-1): the mobile-menu panel shipped `max-h-96` (384px)
+  // + `overflow-hidden` with no scroll path — the LIVE reference's open
+  // panel computes max-height:none (its class family carries no
+  // max-h/opacity/transition anywhere; live-censused both sides this
+  // round). The cap was invisible at 100% text size (≈264px content) but
+  // Safari/Chrome text-size scaling grows the rem-based links past 384px
+  // at ≈145%+, clipping the Contact link + Upgrade pill unreachable
+  // (WCAG 1.4.4 reflow family — the axe battery cannot see zoom). The
+  // panel's class family is re-anchored to the reference's own: the bare
+  // base + the S22-5 superset arm + the `hidden` attribute (the
+  // open/close mechanics — the reference unmounts its closed panel;
+  // behaviorally equivalent). Mutation battery: re-plant max-h-96 → RED.
+  it("session-26 (S26-1): the mobile-menu panel carries NO height cap (the reference computes max-height:none — the max-h form banned)", () => {
+    const src = read("src/components/marketing/navbar.tsx");
+    // The ban targets the class-string literal context — the comment
+    // history legitimately spells the retired forms.
+    expect(src).not.toMatch(/"[^"\n]*max-h-(96|0)/);
+    expect(src).not.toMatch(/open \? "max-h-96 opacity-100" : "max-h-0 opacity-0"/);
+    // The bare panel base (the reference's own family, minus its dead
+    // /98 class — the S22-5 transparent-render replication) + the
+    // open/close mechanics unchanged.
+    expect(src).toContain('"md:hidden border-b border-white/10 overflow-hidden"');
+    expect(src).toContain('hidden={!open}');
+  });
+
+  // Session-26 (S26-3): the bar's dark arm keyed on `scrolled || open` —
+  // but the live reference's bar stays bg-transparent with the menu OPEN
+  // at scrollY=0 (live-censused this round; the `|| open` half shipped
+  // from session 1, never side-by-side censused until now). Two defects
+  // in one arm: a mobile parity drift (our bar darkens the moment the
+  // menu opens over the hero) and a desktop artifact (a mobile→desktop
+  // breakpoint cross with the menu open keeps `open` true, painting the
+  // unscrolled desktop page in the scrolled arm — the panel/toggle are
+  // md:hidden but the bar is not). The arm now keys on `scrolled` alone
+  // — the reference's own key. Mutation battery: re-plant `|| open` → RED.
+  it("session-26 (S26-3): the bar's dark arm keys on scrolled alone (the reference stays transparent with the menu open — the open-arm banned)", () => {
+    const src = read("src/components/marketing/navbar.tsx");
+    expect(src).not.toContain("scrolled || open");
+    expect(src).toMatch(/scrolled\s*\?\s*"bg-slate-900\/95 backdrop-blur-xl border-b border-white/);
+  });
+
+  // Session-26 (S26-2): the S24-3/S25-2 genus, the busy window — node A
+  // rendered "" while the fetch was in flight (post cleared, limit false)
+  // and the button's "Generating…" label swap is exactly the
+  // not-re-announced form the S24-3 comment calls out. AT users got zero
+  // feedback between clicking Generate and the result/error. Node A now
+  // carries the generating arm ("Generating your post…"); the S25-2 pin
+  // owns the success/limit arms, this pin owns the busy arm — one face
+  // per pin. Mutation battery: drop the arm → RED.
+  it("session-26 (S26-2): the generator's busy window is ANNOUNCED (node A's generating arm, WCAG 4.1.3)", () => {
+    const src = read("src/components/marketing/generator-card.tsx");
+    expect(src).toMatch(/generating\s*\?\s*"Generating your post…"\s*:\s*post/);
+    // The arm rides node A (the FIRST status region — before node B's
+    // copy-confirmation text), never a third live region.
+    expect((src.match(/role="status"/g) ?? []).length).toBe(2);
+  });
+
   it("icon-only controls are aria-hidden or labeled (no nameless glyphs)", () => {
     // The marketing icons ride aria-hidden="true" inside named parents;
     // the hamburger is the only icon-only BUTTON and it is labeled.
