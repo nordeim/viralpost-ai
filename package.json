@@ -45,12 +45,10 @@
     "vitest": "^5.0.5"
   },
   "trustedDependencies": [
-    "unrs-resolver"
+    "unrs-resolver",
+    "prisma",
+    "@prisma/client"
   ],
-  "allowScripts": {
-    "prisma@6.19.3": true,
-    "@prisma/client@6.19.3": true
-  },
   "resolutions": {
     "zod": "4.6.7"
   }

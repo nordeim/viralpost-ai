@@ -54,6 +54,28 @@ describe("session tokens", () => {
     expect(verifySessionToken("....")).toBeNull();
   });
 
+  it("session-22 (S22-16): a non-number iat normalizes to 0 — the parse never widens the payload type", () => {
+    // uid/exp/v all carry typeof guards ("the parse must never widen
+    // what the mint sites can write"); iat was the one field that
+    // passed any type through. Unforgeable in practice (the iat rides
+    // the HMAC body) — this is the hygiene arm of the module's own
+    // stated standard.
+    const savedSecret = process.env.AUTH_SECRET;
+    process.env.AUTH_SECRET = "unit-test-secret-32-chars-long-abcdef";
+    try {
+      const body = Buffer.from(
+        JSON.stringify({ uid: "u1", iat: "x", exp: Date.now() + 60_000, v: 1 }),
+      ).toString("base64url");
+      const sig = createHmac("sha256", process.env.AUTH_SECRET).update(body).digest("hex");
+      const payload = verifySessionToken(`${body}.${sig}`);
+      expect(payload?.uid).toBe("u1");
+      expect(payload?.iat).toBe(0);
+    } finally {
+      if (savedSecret === undefined) delete process.env.AUTH_SECRET;
+      else process.env.AUTH_SECRET = savedSecret;
+    }
+  });
+
   it("exports the expected cookie name", () => {
     expect(SESSION_COOKIE).toBe("viralpost_session");
   });

@@ -470,8 +470,12 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                               />
                             </div>
                           </div>
-                          <button type="submit" className={LOGIN_RESET_LAYOUT.send}>
-                            Send reset link
+                          {/* Session-22 (S22-6): the pending face joins the
+                              three sibling submits (signin/signup/verify) —
+                              the logic guard existed but the button stayed
+                              interactive-looking through the round-trip. */}
+                          <button type="submit" disabled={pending} className={LOGIN_RESET_LAYOUT.send}>
+                            {pending ? "Please wait…" : "Send reset link"}
                           </button>
                         </form>
                       </>

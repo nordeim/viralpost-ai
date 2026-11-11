@@ -148,3 +148,17 @@ describe("named-control source pins (the open surfaces)", () => {
     );
   });
 });
+
+describe("session-22 (S22-11): the skip-to-content link (WCAG 2.4.1 bypass blocks)", () => {
+  // The marketing chrome mounts a fixed navbar before <main> — a keyboard
+  // user tabs through 6 nav controls before reaching content. The
+  // reference ships no skip link (parity-neutral: sr-only until focused,
+  // so the visual surface is untouched); this is the a11y-superset genus
+  // the hamburger's aria attributes established.
+  it("the (site) layout ships the sr-only skip link + the main anchor", () => {
+    const src = read("src/app/(site)/layout.tsx");
+    expect(src).toContain('href="#main-content"');
+    expect(src).toMatch(/className="[^"]*sr-only focus:not-sr-only/);
+    expect(src).toContain("<main id=\"main-content\">");
+  });
+});

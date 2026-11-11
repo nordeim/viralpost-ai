@@ -33,6 +33,11 @@ server.log
 # database binaries — recreate with db:push + db:seed
 db/*.db
 db/*.db-journal
+# Session-22 (S22-13): the WAL-mode sidecars — non-live today (Prisma
+# runs rollback-journal mode) but a driver change would leak them into
+# git status otherwise.
+db/*.db-wal
+db/*.db-shm
 
 # typescript
 *.tsbuildinfo

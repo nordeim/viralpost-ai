@@ -114,7 +114,11 @@ export function verifySessionToken(token: string | undefined | null, now = Date.
     // is the pre-163 form and reads as 0.
     const version = payload.v ?? 0;
     if (typeof version !== "number" || !Number.isInteger(version) || version < 0) return null;
-    return { uid: payload.uid, iat: payload.iat ?? 0, exp: payload.exp, v: version };
+    // Session-22 (S22-16): iat joins the shape-guard family — a
+    // non-number normalizes to 0 instead of widening the payload type
+    // (unforgeable in practice — it rides the HMAC body; hygiene).
+    const iat = typeof payload.iat === "number" ? payload.iat : 0;
+    return { uid: payload.uid, iat, exp: payload.exp, v: version };
   } catch {
     return null;
   }

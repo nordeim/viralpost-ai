@@ -17,8 +17,10 @@
 // dependencies — the seam is pure, node-testable (tests/
 // chunk-recovery.test.ts), and never touches globals it was not handed.
 // Storage access is guarded: an unavailable sessionStorage (Safari
-// private mode, disabled storage) DISABLES the reload — the recovery
-// path must never throw.
+// private mode, disabled storage, OR simply not handed in deps — the
+// session-22 S22-4 cure) DISABLES the reload — the recovery path must
+// never throw, and a cooldown it cannot read is a loop guard it does
+// not have.
 
 /** The sessionStorage flag key (the app-namespaced form). */
 export const CHUNK_RELOAD_FLAG = "viralpost:chunk-reload-at";
@@ -74,6 +76,14 @@ export function reloadOnStaleChunk(error: Error, deps: ReloadDeps = {}): boolean
   // A non-chunk error is a REAL bug — the boundary card is the honest
   // surface for it; no storage is touched.
   if (!isStaleChunkError(error.message)) return false;
+
+  // Session-22 (S22-4): ABSENT storage disables the reload too. The
+  // original optional-chained read silently yielded null for a missing
+  // storage (no throw — the catch arm below never fired), so every
+  // stale-chunk error reloaded immediately: the cooldown and the
+  // crash-mid-reload loop guard were inert whenever a caller forgot to
+  // hand the storage. Fail safe instead: no readable record, no reload.
+  if (!storage) return false;
 
   // Read the last-reload record (a corrupt value is treated as absent —
   // the first-reload path, never a crash).

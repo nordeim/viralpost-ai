@@ -165,4 +165,24 @@ describe("session-170 (WP-2): the guarded reload (reloadOnStaleChunk)", () => {
     expect(ok).toBe(true); // NaN -> null -> reload (the honest recovery)
     expect(reloads).toBe(1);
   });
+
+  it("ABSENT storage (no deps.storage) disables the reload too (S22-4) — the production boundary's call shape must never loop", () => {
+    // Session-22 (S22-4): the boundaries originally called
+    // reloadOnStaleChunk(error) with NO deps — storage defaulted to
+    // null, the optional-chained read silently yielded null (no throw,
+    // so the catch-arm never fired), and EVERY stale-chunk error
+    // reloaded immediately: the 10s cooldown and the crash-mid-reload
+    // loop guard were inert in production. The absent-storage face now
+    // honors the same "unavailable storage disables the reload"
+    // contract the throwing face always owned.
+    let reloads = 0;
+    const ok = reloadOnStaleChunk(new Error("ChunkLoadError: Loading chunk 42 failed."), {
+      now: () => 1_000,
+      reload: () => {
+        reloads += 1;
+      },
+    });
+    expect(ok).toBe(false);
+    expect(reloads).toBe(0);
+  });
 });

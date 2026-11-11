@@ -43,9 +43,14 @@ describe("session-170 (WP-4): the route-segment boundary (src/app/error.tsx)", (
     expect(src).toContain('"use client"');
   });
 
-  it("wires the stale-chunk self-heal in useEffect with the [error] deps", () => {
-    expect(src).toContain("reloadOnStaleChunk(error)");
-    expect(src).toMatch(/useEffect\(\(\) => \{[\s\S]*?reloadOnStaleChunk\(error\)[\s\S]*?\}, \[error\]\)/);
+  it("wires the stale-chunk self-heal in useEffect with the [error] deps + the guarded storage (S22-4)", () => {
+    // Session-22 (S22-4): the bare reloadOnStaleChunk(error) call left
+    // storage null — the cooldown and the loop guard were inert in
+    // production. The boundary now hands the guarded sessionStorage
+    // accessor (a throwing access still disables the reload).
+    expect(src).toContain("reloadOnStaleChunk(error, { storage: safeSessionStorage() })");
+    expect(src).toMatch(/useEffect\(\(\) => \{[\s\S]*?reloadOnStaleChunk\(error[\s\S]*?\}, \[error\]\)/);
+    expect(src).toMatch(/function safeSessionStorage\(\)[\s\S]*?try[\s\S]*?window\.sessionStorage[\s\S]*?catch[\s\S]*?return null/);
   });
 
   it("carries the reset() Try-again affordance + the digest ref", () => {
@@ -91,7 +96,7 @@ describe("session-170 (WP-4): the root boundary (src/app/global-error.tsx)", () 
   });
 
   it("wires the same recovery + copy + reset contract as the segment boundary", () => {
-    expect(src).toContain("reloadOnStaleChunk(error)");
+    expect(src).toContain("reloadOnStaleChunk(error, { storage: safeSessionStorage() })");
     expect(src).toContain("reset");
     expect(src).toContain("Try again");
     expect(src).toContain("error.digest");
@@ -145,5 +150,35 @@ describe("session-170 (WP-5): the smoke leg (scripts/smoke-test.sh, the §13.4 s
 
   it("kills its own server on exit (the trap)", () => {
     expect(script).toContain("trap");
+  });
+});
+
+describe("session-22 (S22-10): the error boundaries hold the AA floor on their own superset surface", () => {
+  // The h1 mirrored the 404's text-slate-300 (parity-protected THERE —
+  // the reference's own designed page) but the boundaries are superset
+  // surfaces with no reference to protect the choice: slate-300 over
+  // bg-slate-50 computes ~1.48:1, under the 3:1 large-text floor. The
+  // h1 steps to slate-500 (~4.6:1 — passes even normal-text AA); the
+  // Try-again buttons join the house keyboard-only focus-visible family
+  // (S14-6/S15-8/S21-20). (Unrolled per-file — the census counts
+  // source it( blocks, so no loop registration.)
+  it("src/app/error.tsx: the h1 holds large-text AA + the button is keyboard-only focus ring", () => {
+    const src = read("src/app/error.tsx");
+    expect(src).toContain('<h1 className="text-4xl font-light text-slate-500">');
+    expect(src).not.toContain("text-slate-300");
+    expect(src).toMatch(
+      /focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/,
+    );
+    expect(src).not.toMatch(/[^-]focus:outline-none/);
+  });
+
+  it("src/app/global-error.tsx: the h1 holds large-text AA + the button is keyboard-only focus ring", () => {
+    const src = read("src/app/global-error.tsx");
+    expect(src).toContain('<h1 className="text-4xl font-light text-slate-500">');
+    expect(src).not.toContain("text-slate-300");
+    expect(src).toMatch(
+      /focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/,
+    );
+    expect(src).not.toMatch(/[^-]focus:outline-none/);
   });
 });

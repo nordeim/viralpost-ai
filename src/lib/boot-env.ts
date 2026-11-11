@@ -70,15 +70,28 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
   // operator's earliest, most actionable signal.
   if (siteUrl !== undefined && siteUrl !== "") {
     let malformed = false;
+    let pathCarrying = false;
     try {
       const parsed = new URL(siteUrl.trim().replace(/\/+$/, ""));
       malformed = parsed.protocol !== "http:" && parsed.protocol !== "https:";
+      // Session-22 (S22-19): the origin-only contract — a non-root
+      // pathname parses fine yet flows into metadataBase/canonical
+      // composition as a PREFIX (and the two surfaces compose
+      // differently: URL path resolution vs plain string
+      // concatenation for the twitter:url cards). Name the shape at
+      // the earliest signal. (A bare origin parses with pathname "/".)
+      pathCarrying = !malformed && parsed.pathname !== "/";
     } catch {
       malformed = true;
     }
     if (malformed) {
       warnings.push(
         `[boot] NEXT_PUBLIC_SITE_URL="${siteUrl}" could not be parsed as an http(s) origin — metadataBase, /robots.txt, /sitemap.xml and the OG/Twitter cards fall back to http://localhost:3000 until it is fixed. Set the canonical origin (e.g. https://viralpost.example.com) BEFORE \`bun run build\` (it is inlined at build time).`,
+      );
+    }
+    if (pathCarrying) {
+      warnings.push(
+        `[boot] NEXT_PUBLIC_SITE_URL="${siteUrl}" carries a path — the value must be the bare ORIGIN. A path prefix composes inconsistently across metadataBase/canonicals (URL resolution) and the twitter:url cards (string concat); set e.g. https://viralpost.example.com with no trailing path.`,
       );
     }
   }
@@ -151,7 +164,15 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
     }
   }
   const hops = env.VIRALPOST_PROXY_HOPS;
-  if (hops !== undefined && hops !== "" && !/^\d+$/.test(hops)) {
+  // Session-22 (S22-18): the predicate mirrors proxyHopDepth's own
+  // parse (Number.parseInt) — the old /^\d+$/ form warned "unparsable"
+  // for parseInt-accepted values like "+1", " 1", "0x2" (a false
+  // alarm eroding the warning's authority; the fail-closed claim was
+  // wrong for them too — the seam happily parsed them).
+  const hopsUnparsable =
+    hops !== undefined && hops !== "" &&
+    (Number.isNaN(Number.parseInt(hops, 10)) || Number.parseInt(hops, 10) < 0);
+  if (hopsUnparsable) {
     warnings.push(
       `[boot] VIRALPOST_PROXY_HOPS="${hops}" is unparsable — the rate-limit seam fails CLOSED onto hop 1 (a bad value never widens trust); fix the value to unset, 0, or an N ≥ 1.`,
     );

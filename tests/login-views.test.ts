@@ -638,3 +638,23 @@ describe("session-21 (S21-7): the OTP keystroke/paste split", () => {
     expect((src.match(/distributeCodeFrom\(idx, digits\);/g) ?? []).length).toBe(2);
   });
 })
+
+describe("session-22: the forgot-password submit joins the pending-face family (S22-6)", () => {
+  it("the reset submit disables + relabels in flight, matching the three sibling submits", () => {
+    const src = loginCardSrc()
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/[^\n]*/g, "");
+    // S22-6: the forgot submit had the logic guard (`if (pending) return;`)
+    // but no disabled/label face — the `disabled:pointer-events-none
+    // disabled:opacity-50` utilities in LOGIN_RESET_LAYOUT.send could
+    // never fire, and the user got no in-flight feedback.
+    expect(src).toContain(
+      '<button type="submit" disabled={pending} className={LOGIN_RESET_LAYOUT.send}>',
+    );
+    expect(src).toContain('{pending ? "Please wait…" : "Send reset link"}');
+    // The four in-card submits now ALL carry the face (signin, signup,
+    // verify, forgot) — the reset screen's own submit is a separate file.
+    const faces = src.match(/<button type="submit" disabled=\{pending\}/g) ?? [];
+    expect(faces.length).toBe(4);
+  });
+})

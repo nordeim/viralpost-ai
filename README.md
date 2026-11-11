@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-644%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-662%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,8 +52,8 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 37 files / 586 tests, node env, pure seams |
-| E2E | Playwright | 1.64 | 9 specs / 58 tests against the production build |
+| Unit tests | Vitest | 5.0 | 37 files / 599 tests, node env, pure seams |
+| E2E | Playwright | 1.64 | 9 specs / 63 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
 
@@ -141,8 +141,8 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (37 files / 586 tests)
-bun run test:e2e        # Playwright e2e (9 specs / 58 tests) — needs bun run build first
+bun run test            # Vitest unit suite (37 files / 599 tests)
+bun run test:e2e        # Playwright e2e (9 specs / 63 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
 ```
@@ -230,9 +230,10 @@ the PostgreSQL swap.
 | Session 19 — the description-family re-anchor + the monetization redesign + the reader-envelope closure + the a11y batch | ✅ done | The audit round at 0 Critical / 0 High / 2 Medium / 10 Low / 26 Info; THE PARITY WALK FOUND TWO LIVE DRIFTS — the reference adopted the per-route description prefix (`"<Page> on ViralPost AI. "` + a 70-char word-boundary-truncated tail on meta/og/twitter alike) on /Tool /Pricing /Contact (cured: `pageDescription()` + the top-level field, byte-pinned + the e2e leg + mutation battery) and redesigned the monetization section EN with ten floating icons (cured: `MonetizationSection` + the `FloatingIcons` rAF island, pink-400/sky-400 joined the palette pins, 2 mutation batteries); the errored-body-stream envelope closure (a raw-500 class, live-reproduced — the bounded reader now catches, cancels, and answers the null contract); the verify lockout scrypt burn (timing-oracle closure); the toast aria-hidden + polite-live-region pair; the reduced-motion resize repaint; the login view-swap focus map; the pricing-header reveal retired (live-verified unfaded on both reference routes); `vitest.config.mts` re-admitted to the `tsc` program; the proxyless shared-bucket warning; the lockstep batch (runtime-deps 8, `install_packages.sh` retired, the smoke `GATE_PID` trap, the 405→204 comment truth); unit 561/37 + e2e 57/9, badge 618; captures 45/46 |
 | Session 20 — the ledger-count closure + the resetToken index + the limiter namespace + the hygiene batch | ✅ done | The audit round at 0 Critical / 0 High / 1 Medium / 9 Low / 16 Info; the parity walk found NO drift (the session-19 description family + monetization redesign + mobile menu family all hold byte-for-byte on both sides). Cured with TDD (+10 pins, 2 mutation batteries): the SKILL Appendix-B ledger's stale e2e count (56→57, the docs-counts gate hole closed with the scoped pin), the `resetToken @unique` index (the schema's only unindexed lookup path), the smoke trap's `GATE_PID` init (early-leg failures aborted cleanup under `set -u`), the hero's superfluous `"use client"` retired (server composition, live-verified), the S19-9 mount residual (reduced-mode `init()` skips the never-drawn particle build), the toast focus-pause pair (keyboard/AT parity with the hover pause), the generate limiter's uid/ip namespace split (the forged-XFF bucket-collision class), the two bare CSPRNG calls inside their try blocks, the generator's bank-capped paragraph count (latent infinite loop), the iridescence `webglcontextlost` guard + the loseContext-why comment, the comment-truth batch (verify fsync residual, seed tokenVersion claim, SKILL §7 EN re-anchor, type-gate scripts note, site.ts truncation mechanism), and the explicit vitest `skills/**` exclude. Unit 571/37 + e2e 57/9, badge 628; captures 47/48 |
 | Session 21 — the CTA-class re-anchor + the oklab→sRGB gradient cure + the mobile-menu pill + the audit batch | ✅ done | The audit round at 0 Critical / 0 High / 1 Medium / 11 Low / 14 Info; THE PARITY WALK FOUND FIVE LIVE CLASS-LEVEL DRIFTS (the first since session 19), all cured TDD-style (+15 pins, 1 mutation battery) and live-verified: the footer CTA re-anchored to the reference's from-teal-500/text-white form (S21-1), the Pro-card CTA's hover family (S21-2), the mobile-menu pill — the reference's text is now "Upgrade to Pro" (S21-3) — plus the menu links' desktop underline family with our touch-target layout kept as the documented superset (S21-4), and the oklab→sRGB gradient cure: every v4 gradient compiles `in oklab` while the reference blends sRGB — the hue-crossing teal-400→amber-400 brand family (wordmark, monetization headline, the Get-Unlimited-Access CTA) drifted ΔR≈26 midband; the three surfaces now carry the inline sRGB form and the utility pair is banned by census (S21-5, mutation-batteried); the audit batch: the reset screen's success-swap focus map (S21-6), the OTP keystroke/paste split — typing into a filled box replaces in place, only pastes distribute (S21-7), parseEnvFile strips unquoted inline comments for bun parity (S21-8), the /signup route's first e2e leg (S21-9), the reset-password metadata pin (S21-10), and the docs/comment batch (ADR-004's stale 488, the donor-ledger lineage notes with the CRM S20-P1..P4 collision re-attributed, the PT reword, the PAD TOC/date/tree hygiene, the eslint phantom-ignore prune, the x-real-ip warning face, the tolerant-email note, the findUnique refactor, the Copy focus ring, the floating-icons matchMedia guard); unit 586/37 + e2e 58/9, badge 644; captures 49/50 |
+| Session 22 — the mobile-menu re-anchor + the chunk-recovery storage + the panel scroll arm + the audit batch | ✅ done | The audit round at 0 Critical / 0 High / 2 Medium / 7 Low / 12 Info; THE PARITY WALK FOUND THE REFERENCE'S MOBILE DROPDOWN REVERTED to its session-1-era form (the session-21 captures were a transient deploy state) — three drifts cured TDD-style and live-verified byte-identical: the pill text back to "Upgrade to Pro – $19" (S22-1), the pill's bare class form (S22-2), and the menu links' bare mobile family (S22-3); the chunk-recovery cooldown is LIVE in production shape — the boundaries never handed the storage, so the 10s cooldown and the crash-mid-reload loop guard were inert (S22-4, seam + wiring + pins); the mobile-menu panel darkens when the home route scrolls into light sections (S22-5, the ~1.48:1 contrast gap); the audit batch: the forgot-submit pending face (S22-6), the signup name message (S22-7, live-verified), the Bun trustedDependencies move retiring the dead allowScripts block (S22-8), the a11y matrix extended to /signup + /reset-password — the "every route" docs claim true again (S22-9, e2e 58→63 via +4 a11y legs + the icon-resolution leg), the error boundaries' AA floor + keyboard-only focus rings (S22-10), the skip-to-content link (S22-11), the smoke ladder's portability + bounded curls (S22-12), the WAL-sidecar gitignore (S22-13), the manifest icon e2e leg (S22-14), the census anti-dodge guard's registration-loop shapes (S22-15), the iat shape guard (S22-16), the standalone anchor's basename-pair gate (S22-17), the hops-warning predicate aligned to the seam's parse (S22-18), the path-carrying-origin boot warning (S22-19), and the comment-truth batch (the hero portrait rationale, the reset-password Suspense note, the hamburger-aria parity re-anchor — the reference now ships the family itself); unit 599/37 + e2e 63/9, badge 662; captures 51/52 |
 
-Gate at the session-21 ship: lint 0/0 · tsc 0 · unit 586/586 · build ·
-smoke 15/15 · e2e 58/58.
+Gate at the session-22 ship: lint 0/0 · tsc 0 · unit 599/599 · build ·
+smoke 15/15 · e2e 63/63.
 
 ## License
 

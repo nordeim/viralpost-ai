@@ -258,26 +258,45 @@ describe("landing: the session-21 CTA re-anchors (the live reference walk)", () 
     expect(sections).not.toContain("hover:bg-teal-50 transition-colors inline-block");
   });
 
-  it("the mobile-menu pill says 'Upgrade to Pro' with the reference's hover family (S21-3)", () => {
+  it("the mobile-menu pill says 'Upgrade to Pro – $19' in the reference's bare form (S22-1/S22-2)", () => {
     const navbar = read("src/components/marketing/navbar.tsx");
-    // The menu pill's unique layout prefix + the reference's pill hover
-    // family (the desktop pill's own classes — the reference's dropdown
-    // now reuses them wholesale).
+    // The session-22 walk (2026-11-11): the reference's dropdown REVERTED
+    // to its session-1-era form — the priced text WITHOUT the hover family
+    // (the session-21 "Upgrade to Pro" + hover-family capture was a
+    // transient deploy state on the reference). The closing quote pins
+    // that no hover family follows the rounded-full.
     expect(navbar).toContain(
-      "block w-full text-center px-5 py-2.5 text-sm font-semibold text-slate-900 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full hover:shadow-lg hover:shadow-amber-400/30 transition-all hover:-translate-y-0.5",
+      'className="block w-full text-center px-5 py-2.5 text-sm font-semibold text-slate-900 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full"',
     );
-    // The retired priced form is banned (the reference changed its pill
-    // text after the session-1 dossier capture).
-    expect(navbar).not.toContain("Upgrade to Pro – $19");
+    // The priced text rides the MENU pill specifically (the desktop pill
+    // keeps the bare "Upgrade to Pro" — the reference's own split).
+    expect(navbar).toMatch(/rounded-full"\s*>\s*Upgrade to Pro – \$19/);
   });
 
-  it("the mobile-menu links carry the desktop underline family (S21-4)", () => {
+  it("the mobile-menu links carry the reference's bare mobile family (S22-3)", () => {
     const navbar = read("src/components/marketing/navbar.tsx");
+    // The session-22 walk: the reference's dropdown links show the BARE
+    // mobile family again (no after:* underline affordances — the
+    // session-21 S21-4 adoption is retired; py-2 rides the reference's
+    // own base now, so the touch target matches ours).
     expect(navbar).toContain(
-      "block w-full text-left py-2 text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-teal-400 after:transition-all",
+      'const MENU_LINK_BASE =\n  "block w-full text-left text-sm font-medium py-2 transition-colors";',
     );
-    expect(navbar).toContain("text-teal-400 after:w-full");
-    expect(navbar).toContain("text-slate-300 hover:text-white after:w-0 hover:after:w-full");
+    expect(navbar).toContain('? "text-teal-400"\n                  : "text-slate-300 hover:text-white",');
+    // The underline family is banned from the menu composition (the
+    // desktop LINK_BASE keeps it — only the MENU const is pinned bare).
+    expect(navbar).not.toMatch(/MENU_LINK_BASE[\s\S]{0,400}after:absolute/);
+  });
+
+  it("the menu panel darkens when the home route scrolls into light sections (S22-5)", () => {
+    const navbar = read("src/components/marketing/navbar.tsx");
+    // Session-22 (S22-5): `onHero` alone keyed the dark-panel superset on
+    // the ROUTE — on `/` the panel never gained bg-slate-900/95 even
+    // scrolled deep into the landing's light sections (slate-300 links
+    // over #f8fafc compute ~1.48:1). The scrolled arm mirrors the bar's
+    // own `scrolled ||` key; top-of-hero unscrolled stays transparent
+    // (the reference's dead /98 render over the hero).
+    expect(navbar).toContain('(!onHero || scrolled) && "bg-slate-900/95 backdrop-blur-xl"');
   });
 });
 

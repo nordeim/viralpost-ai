@@ -38,7 +38,7 @@
 // a postgres URL, a production absolute path) is respected as-is.
 
 import { existsSync, mkdirSync, readFileSync } from "fs";
-import { dirname, join, resolve } from "path";
+import { basename, dirname, join, resolve } from "path";
 import { fileURLToPath } from "url";
 
 export const DEFAULT_DATABASE_URL = "file:../db/custom.db";
@@ -56,7 +56,12 @@ function repoRootFromModule(): string | null {
 
 function repoRootFromStandaloneCwd(dir: string = process.cwd()): string | null {
   try {
-    if (!dir.includes(".next")) return null;
+    // Session-22 (S22-17): the basename PAIR, not a substring — the
+    // loose `includes(".next")` gate accepted decoy layouts (any path
+    // containing the substring anywhere, e.g. `.next-misc/standalone-ish`).
+    if (basename(dir) !== "standalone" || basename(dirname(dir)) !== ".next") {
+      return null;
+    }
     // <repo>/.next/standalone -> <repo>
     const root = resolve(dir, "..", "..");
     if (existsSync(join(root, "prisma", "schema.prisma"))) return root;
@@ -94,8 +99,12 @@ export function resolveDatabaseUrl(rawUrl: string): string {
     if (root) return urlForRoot(root, ref);
   }
 
-  // Unvalidated last resort: only accept when the target already exists —
-  // never mkdir from an unproven root (a stray CWD must not grow a db/).
+  // Unvalidated last resort: accept only when the target (or at least its
+  // parent directory — the Prisma/SQLite engine then creates the file
+  // there) already exists under the CWD — never mkdir from an unproven
+  // root (a stray CWD must not grow a db/ beyond what already exists).
+  // (Session-22, S22-17: the comment now states the dirname arm's real
+  // behavior — the original "the target already exists" oversold it.)
   const candidate = join(process.cwd(), "prisma", ref);
   if (existsSync(candidate) || existsSync(dirname(candidate))) {
     return `file:${candidate}`;

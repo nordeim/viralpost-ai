@@ -331,3 +331,36 @@ describe("resolveDatabaseUrl", () => {
     expect(resolved).not.toBe("file:../db/custom.db");
   });
 });
+
+describe("session-22 (S22-17): the standalone anchor gates on the .next/standalone folder PAIR", () => {
+  // The loose `dir.includes(".next")` gate accepted any cwd with the
+  // substring anywhere (e.g. `.next-misc/standalone-ish`) — gated only
+  // by the schema-existence check two levels up, which a coincidental
+  // layout can satisfy. The basename-pair gate matches the real
+  // standalone shape exactly.
+  it("a mid-path .next substring is NOT a standalone anchor (the loose-gate genus)", () => {
+    // <repo>/.next-misc/standalone-ish contains ".next" and resolves
+    // two levels up at <repo> — where a schema exists. The loose gate
+    // would return <repo> as the anchor; the pair gate rejects and the
+    // resolution falls through to the other anchors (here: the module
+    // anchor of THIS test run, whose db/ path the URL must carry
+    // instead — never the decoy repo's).
+    const repo = mkdtempSync(join(tmpdir(), "viralpost-loose-anchor-"));
+    tempDirs.push(repo);
+    mkdirSync(join(repo, "prisma"), { recursive: true });
+    writeFileSync(join(repo, "prisma", "schema.prisma"), "// decoy schema\n");
+    const decoyCwd = join(repo, ".next-misc", "standalone-ish");
+    mkdirSync(decoyCwd, { recursive: true });
+
+    const prevCwd = process.cwd();
+    process.chdir(decoyCwd);
+    try {
+      const url = resolveDatabaseUrl("file:../db/custom.db");
+      // The decoy repo must NOT own the URL (the loose gate would have
+      // returned file:<decoy>/db/custom.db).
+      expect(url).not.toContain(repo);
+    } finally {
+      process.chdir(prevCwd);
+    }
+  });
+});

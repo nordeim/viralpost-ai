@@ -64,7 +64,18 @@ DATABASE_URL="$SMOKE_DB_URL" bun run db:push >/dev/null 2>&1
 DATABASE_URL="$SMOKE_DB_URL" bun run db:seed >/dev/null 2>&1
 
 # --- 2. kill squatters on the smoke port ------------------------------------
-lsof -ti:"$PORT" | xargs -r kill 2>/dev/null || true
+# Session-22 (S22-12): portable across GNU/BSD — `xargs -r` is GNU-only
+# (BSD rejects it), so `grep .` provides the empty-input no-op instead;
+# the lsof guard keeps a missing binary loud-but-liminal instead of a
+# silent 30-second health-wait mystery at leg 00.
+kill_port_squatters() {
+  if command -v lsof >/dev/null 2>&1; then
+    lsof -ti:"$1" | grep . | xargs kill 2>/dev/null || true
+  else
+    echo "smoke: lsof not found — skipping the squatter-kill for port $1" >&2
+  fi
+}
+kill_port_squatters "$PORT"
 sleep 1
 
 # --- 3. boot the standalone artifact ----------------------------------------
@@ -81,8 +92,8 @@ done
 [ "$up" = 0 ] || { fail "00" "the standalone server never became healthy"; cat "$SERVER_LOG" >&2; exit 1; }
 
 # --- 4. the assertion ladder -------------------------------------------------
-body() { curl -s "$@"; }
-code() { curl -s -o /dev/null -w "%{http_code}" "$@"; }
+body() { curl -s --max-time 10 "$@"; }
+code() { curl -s --max-time 10 -o /dev/null -w "%{http_code}" "$@"; }
 
 # 01 — health: the db round-trip
 [ "$(code "$BASE/api/health")" = 200 ] && body "$BASE/api/health" | grep -q '"status":"healthy"' \
@@ -155,7 +166,7 @@ body -b "$COOKIE_JAR" "$BASE/api/auth/me" | grep -q '"data":null' \
   && ok 13 "sitemap + robots + manifest 200" || { fail 13 "the SEO family"; exit 1; }
 
 # --- 14. THE BOOT-GATE PROBE: a secretless production boot refuses -----------
-lsof -ti:3211 | xargs -r kill 2>/dev/null || true
+kill_port_squatters 3211
 sleep 1
 DATABASE_URL="$SMOKE_DB_URL" AUTH_SECRET="" NODE_ENV=production PORT=3211 \
   node .next/standalone/server.js >"$GATE_LOG" 2>&1 &

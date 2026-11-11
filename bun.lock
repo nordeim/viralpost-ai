@@ -32,6 +32,8 @@
     },
   },
   "trustedDependencies": [
+    "prisma",
+    "@prisma/client",
     "unrs-resolver",
   ],
   "overrides": {

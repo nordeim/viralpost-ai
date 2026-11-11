@@ -2,7 +2,11 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { SURFACES as A11Y_SURFACES, WIDTHS as A11Y_WIDTHS } from "./e2e/a11y-matrix";
+import {
+  LOGGED_OUT_SURFACES as A11Y_LOGGED_OUT,
+  SURFACES as A11Y_SURFACES,
+  WIDTHS as A11Y_WIDTHS,
+} from "./e2e/a11y-matrix";
 
 // The docs-counts gate (session-9, F9-13 — the neo-crm session-102/S102-P1
 // pattern adopted for this repo). The badge-drift genus has recurred THREE
@@ -79,11 +83,11 @@ import { SURFACES as A11Y_SURFACES, WIDTHS as A11Y_WIDTHS } from "./e2e/a11y-mat
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 586;
+const UNIT = 599;
 /** Vitest suite files. */
 const SUITES = 37;
 /** Playwright e2e checks (incl. the setup project's 1). */
-const E2E = 58;
+const E2E = 63;
 /** Playwright e2e spec files. */
 const E2E_SPECS = 9;
 /** Smoke ladder legs. */
@@ -292,21 +296,33 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
     // The a11y spec registers tests inside width loops — its source
     // count (3) expands through the shared matrix (the single source
     // both the spec and this census import):
-    //   (SURFACES + the 404) × WIDTHS  +  the login card × WIDTHS
+    //   (SURFACES + the 404) × WIDTHS  +  LOGGED_OUT_SURFACES × WIDTHS
+    // (Session-22, S22-9: the logged-out family grew from the login
+    // card alone to /signup + /reset-password — 12 → 16 a11y tests.)
     const A11Y_SOURCE_TESTS = 3;
     const a11ySource = (read("tests/e2e/a11y.spec.ts").match(/^\s*test\(/gm) ?? []).length;
     expect(a11ySource, `a11y.spec.ts carries ${A11Y_SOURCE_TESTS} source test() blocks — if you added or moved one, update A11Y_SOURCE_TESTS and the expansion formula`).toBe(A11Y_SOURCE_TESTS);
     const expansion =
       (A11Y_SURFACES.length + 1) * A11Y_WIDTHS.length + // + 1 = the 404 test
-      A11Y_WIDTHS.length; // the logged-out login describe
+      A11Y_LOGGED_OUT.length * A11Y_WIDTHS.length; // the logged-out describe
     expect(source - A11Y_SOURCE_TESTS + expansion, `e2e tests on disk: ${source - A11Y_SOURCE_TESTS + expansion} (E2E says ${E2E}) — re-anchor E2E + every doc site above`).toBe(E2E);
 
-    // The width-loop pattern stays a11y-only: a registration loop
-    // copied into another spec would silently dodge this census (its
-    // source count would understate its real tests).
+    // Session-22 (S22-15): the anti-dodge guard matches TEST-REGISTRATION
+    // loops, not one literal — a `for (…) { test(…) }`,
+    // `.forEach(… => test(…))`, or `.map(… => test(…))` in another spec
+    // would undercount the census the same way a copied width-loop
+    // would. Assertion-only loops (seo.spec's `for (const path of …)`
+    // with expects) are legitimate and stay invisible to this shape.
+    // Comment-stripped so a prose mention is not a violation; a11y owns
+    // the one sanctioned registration family.
+    const loopShapes =
+      /for\s*\([^)]*\)\s*\{\s*(?:\/\/[^\n]*\n\s*)*test\(|\.forEach\s*\(\s*[^)]*=>\s*\{\s*(?:\/\/[^\n]*\n\s*)*test\(|\.map\s*\(\s*[^)]*=>\s*(?:\{\s*)?(?:\/\/[^\n]*\n\s*)*test\(/;
     for (const f of specFiles) {
       if (f === "a11y.spec.ts") continue;
-      expect(read(`tests/e2e/${f}`), `${f} registers tests inside a width loop — extend the reality census's expansion formula`).not.toContain("for (const width");
+      const bare = read(`tests/e2e/${f}`)
+        .replace(/\/\*[\s\S]*?\*\//g, "")
+        .replace(/\/\/[^\n]*/g, "");
+      expect(bare, `${f} registers tests inside a loop — extend the reality census's expansion formula`).not.toMatch(loopShapes);
     }
   });
 

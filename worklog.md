@@ -1,3 +1,134 @@
+Task ID: 22
+Agent: main (Z.ai)
+Task: The session-22 mobile-menu re-anchor + chunk-recovery storage +
+panel scroll arm + audit batch round — re-run the standing instruction
+against the post-session-21 tree (fa18dcf = a8b1c27 + the session-21
+round log): docs review, the baseline gate on the merged tree (lint 0/0
+· tsc 0 · unit 586/586 (37 files) · census MATCH; the DATABASE_URL
+contract re-verified end-to-end on a clean clone), the comprehensive
+audit (0 Critical / 0 High / 2 Medium / 7 Low / 12 Info — dispatched
+wide across three parallel subagents (API/lib seams,
+components/pages/effects, SEO/configs/tests/docs), every load-bearing
+finding hand-verified in source), the neo-crm repo re-review (HEAD
+b3d0fbe — UNCHANGED since session 12; the recorded decisions stand),
+the live reference parity walk (logged-in; the five-route head census,
+the computed-style control census at desktop + 390×844, the
+monetization floaters, sitemap/robots, the generator superset) — THE
+REFERENCE'S MOBILE DROPDOWN REVERTED to its session-1-era form (three
+drifts), the TDD cures (R22-1..R22-22, +13 unit pins, +5 e2e tests),
+the gate, captures 51/52, push #22 to main via the SSH wrapper.
+
+Details:
+- THE THREE MOBILE-MENU DRIFTS (all live-verified on both sides, all
+  cured + re-verified live byte-identical): S22-1 the pill text — the
+  reference's dropdown says "Upgrade to Pro – $19" again (the priced
+  form; the session-21 "Upgrade to Pro" capture was a transient deploy
+  state; the DESKTOP pill keeps the bare text — the reference's own
+  split, now ours); S22-2 the pill's bare class form (no hover family —
+  the session-21 hover adoption retired); S22-3 the menu links' bare
+  mobile family (block w-full text-left text-sm font-medium py-2
+  transition-colors + the color states — the S21-4 underline adoption
+  retired; py-2 rides the reference's own base so the touch target
+  matches). The hamburger's aria family is PARITY now (the live
+  reference ships aria-expanded + the relabeling label +
+  aria-controls) — the "our superset" claims re-anchored in the
+  navbar comment + SKILL §8 (S22-22).
+- S22-4 (MEDIUM): THE CHUNK-RECOVERY STORAGE — both error boundaries
+  called reloadOnStaleChunk(error) with NO deps, so storage defaulted
+  to null, the optional-chained read silently yielded null (no throw —
+  the catch-arm never fired), and EVERY stale-chunk error reloaded
+  immediately: the 10s cooldown and the crash-mid-reload loop guard
+  were inert in production (a recurring chunk error trapped the user
+  in a reload loop; the error card unreachable). The seam's
+  absent-storage face now fails safe (if (!storage) return false —
+  honoring the documented "unavailable storage disables the reload"
+  contract for the absent face too), both boundaries hand a guarded
+  safeSessionStorage() accessor, the error-boundaries source pin
+  re-anchored to the storage-handed call shape, and the seam gained
+  the absent-storage pin (runtime-probe-verified pre-cure).
+- S22-5 (MEDIUM): THE PANEL SCROLL ARM — onHero keyed the dark-panel
+  superset on the ROUTE alone, so on / the panel never gained
+  bg-slate-900/95 even scrolled deep into the landing's light sections
+  (slate-300 links over #f8fafc compute ~1.48:1, far under both AA
+  floors — the file's own comment claimed the superset covered light
+  pages). (!onHero || scrolled) now mirrors the bar's own scrolled ||
+  key; top-of-hero unscrolled stays transparent (the reference's dead
+  /98 render); e2e-pinned (the scrolled test extended in place) +
+  live-verified (home scrolled + menu open → the panel carries the
+  dark glass classes).
+- The audit batch: S22-6 the forgot-password submit joins the pending
+  face family (disabled + "Please wait…", matching the three sibling
+  submits); S22-7 the signup name message (".max(80)" carried no
+  message — Zod's built-in "Too big…" leaked, the S16-1 genus;
+  live-verified: the API now answers "Name must be reasonably sized");
+  S22-8 the Bun trustedDependencies move (the allowScripts block was
+  dead config — Bun's postinstall-permission mechanism is
+  trustedDependencies, binary-scan-verified; prisma + @prisma/client
+  join unrs-resolver, the lock synced, pinned in type-gate); S22-9 the
+  a11y matrix extended to /signup + /reset-password (LOGGED_OUT_SURFACES
+  — the "every route at two widths" docs claim true again; e2e 58 → 63);
+  S22-10 the error boundaries' AA floor (the h1 mirrored the 404's
+  parity-protected slate-300 but the boundaries are superset surfaces —
+  slate-500 at ~4.6:1) + the keyboard-only focus-visible family;
+  S22-11 the skip-to-content link (the (site) layout's first focusable
+  element — sr-only until focused, the fixed-position reveal over the
+  z-50 chrome, #main-content on the main; the reveal verified live at
+  scroll depth); S22-12 the smoke ladder's portability (xargs -r is
+  GNU-only; grep . provides the empty-input no-op + the lsof
+  availability guard) + bounded curls (--max-time 10 — a wedged server
+  fails the ladder instead of hanging the gate forever); S22-13 the
+  WAL-sidecar gitignore (db/*.db-wal + db/*.db-shm); S22-14 the
+  manifest icon-resolution e2e leg (/icon.png + /apple-icon.png → 200
+  image/png — a deleted icon or convention break ships green
+  otherwise); S22-15 the census anti-dodge guard's registration-loop
+  shapes (for/forEach/map + test-as-first-statement — assertion-only
+  loops stay legitimate); S22-16 the iat shape guard (verifySessionToken
+  now normalizes a non-number iat to 0 — the parse never widens the
+  payload type); S22-17 the standalone anchor's basename-pair gate (the
+  loose .next substring accepted decoy layouts like
+  .next-misc/standalone-ish; the pair gate matches the real shape) +
+  the last-resort comment aligned to the dirname arm's real behavior;
+  S22-18 the hops-warning predicate aligned to proxyHopDepth's own
+  parseInt ("+1"/" 1"/"0x2" no longer warn "unparsable" for values the
+  seam happily parses); S22-19 the path-carrying-origin boot warning
+  (NEXT_PUBLIC_SITE_URL="https://x.com/base" — a pathname composes
+  inconsistently across metadataBase/canonicals vs the twitter:url
+  string form); S22-20 the hero portrait's plain-img rationale
+  documented (the standalone-parity choice every other deviation
+  carries); S21-21 the reset-password Suspense comment reworded (the
+  boundary is defensive weight on a force-dynamic route — it never
+  engages).
+- The same-family amber gradient re-adjudicated with data: the
+  oklab-vs-sRGB midband delta for amber-400→amber-500 computes to
+  (0,0,2) — sub-threshold confirmed, the utilities stay (the session-21
+  adjudication now has its arithmetic on record).
+- The count re-anchor: UNIT 586 → 599 (+13 pins: landing-page +2,
+  chunk-recovery +1, error-boundaries +2, login-views +1, schemas +1,
+  type-gate +2, a11y-controls +1, auth +1, db-path +1, boot-env +2 —
+  the census's mid-round REDs walked to GREEN site by site), E2E 58 →
+  63 (the a11y matrix's +4 logged-out legs + the icon-resolution leg),
+  badge 644 → 662; the PAD §12 rows (auth 188, db-path 263, navbar
+  206, smoke 194).
+- The comment/census discipline notes: two of the round's own comment
+  drafts tripped the step-less color census (the prose "skip-to-content"
+  matched to-content; "string-concat" matched ring-concat via the
+  st-ring substring) — reworded; the error-boundaries loop registration
+  unrolled per the census's source-block contract. The census guards
+  work.
+
+Verified: unit 599/599 (37 files) · e2e 63/63 (9 specs) · smoke 15/15
+· census MATCH · badge 662 · captures 51/52 PIL-verified (51: 100%
+non-white, 66.9% dark hero; 52: 95.6% dark upper-third) · the cured
+surfaces re-verified live against the reference (the menu family
+byte-identical at 390×844) · the panel scroll arm + the skip link +
+the name message live-verified on the dev server · six docs + SKILL
+v1.18.0 in lockstep. Deferred: the honest register carried from
+session 21 unchanged (the signup admin-bootstrap race, the logout-CSRF
+posture, the section-header duplication, the Reveal no-JS trade-off,
+the offscreen-rAF pause, the h2-only swap headings, the per-account
+login lockout, scryptSync, the toast live regions, the start tee pipe)
+— re-read, nothing new to add.
+
 Task ID: 21
 Agent: main (Z.ai)
 Task: The session-21 CTA-class re-anchor + oklab→sRGB gradient cure +

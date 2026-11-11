@@ -18,9 +18,10 @@ test("the hamburger opens the menu with every destination", async ({ page }) => 
   await expect(menu.getByRole("link", { name: "Tool" })).toBeVisible();
   await expect(menu.getByRole("link", { name: "Pricing" })).toBeVisible();
   await expect(menu.getByRole("link", { name: "Contact" })).toBeVisible();
-  // Session-21 (S21-3): the reference's dropdown pill now says
-  // "Upgrade to Pro" (the priced form was its session-1-era text).
-  await expect(menu.getByRole("link", { name: "Upgrade to Pro", exact: true })).toBeVisible();
+  // Session-22 (S22-1): the reference's dropdown pill reverted to its
+  // session-1-era priced text (the session-21 "Upgrade to Pro" capture
+  // was a transient deploy state on the reference).
+  await expect(menu.getByRole("link", { name: "Upgrade to Pro – $19", exact: true })).toBeVisible();
 });
 
 test("menu links navigate and the menu closes on route change", async ({ page }) => {
@@ -80,4 +81,12 @@ test("the scrolled navbar gains the slate glass background", async ({ page }) =>
   const nav = page.getByRole("navigation");
   await expect(nav).toHaveClass(/bg-slate-900\/95/);
   await expect(nav).toHaveClass(/backdrop-blur-xl/);
+  // Session-22 (S22-5): the menu PANEL darkens on the scrolled home
+  // route too (the dark-panel superset previously keyed on the route
+  // alone — home scrolled into light sections left slate-300 links on
+  // a transparent panel at ~1.48:1 contrast).
+  await page.getByRole("button", { name: "Open menu" }).click();
+  const panel = page.locator("#mobile-menu");
+  await expect(panel).toHaveClass(/bg-slate-900\/95/);
+  await expect(panel).toHaveClass(/backdrop-blur-xl/);
 });

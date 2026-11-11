@@ -167,3 +167,17 @@ test("session-15 (S15-7): unknown /api paths answer the JSON envelope 404 (not t
     expect(optionsBody.error.code, path).toBe("NOT_FOUND");
   }
 });
+
+// Session-22 (S22-14): the manifest's icon contract — the two entries
+// point at ${origin}/icon.png (the file-convention route). No test at
+// any layer asserted the icons RESOLVE; a deleted file or a convention
+// break would ship green with the manifest pointing at a 404. The
+// apple-icon rides the same convention family.
+test("the manifest's icon routes resolve (the file-convention contract)", async ({ request }) => {
+  const icon = await request.get("/icon.png");
+  expect(icon.status()).toBe(200);
+  expect(icon.headers()["content-type"]).toBe("image/png");
+  const apple = await request.get("/apple-icon.png");
+  expect(apple.status()).toBe(200);
+  expect(apple.headers()["content-type"]).toBe("image/png");
+});

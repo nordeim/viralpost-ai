@@ -128,6 +128,22 @@ describe("signupSchema", () => {
     expect(parsed.name).toBe("Ada");
   });
 
+  it("session-22 (S22-7): rejects an 81+ char name with the HOUSE message (no Zod dev-message leak)", () => {
+    const result = signupSchema.safeParse({
+      email: "a@b.co",
+      password: "Demo1234!",
+      name: "x".repeat(81),
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      const msg = result.error.issues[0].message;
+      // The S16-1 genus: the module's own header claims "every message
+      // string is the pinned user-facing contract" — Zod's built-in
+      // "Too big: expected string to have <=80 characters" is not it.
+      expect(msg).toBe("Name must be reasonably sized");
+    }
+  });
+
   it("rejects a non-string name (the isBadFK guard's contract: 'Invalid name')", () => {
     const result = signupSchema.safeParse({ email: "a@b.co", password: "Demo1234!", name: 123 });
     expect(result.success).toBe(false);

@@ -85,6 +85,12 @@ export function Hero() {
           </Reveal>
           <div className="relative flex justify-center lg:justify-end">
             <div className="absolute inset-0 bg-teal-400/20 rounded-full blur-3xl scale-75" aria-hidden="true" />
+            {/* Session-22 (S22-20): the plain <img> is the documented
+                standalone-parity choice — next/image rewrites to
+                /_next/image URLs the standalone artifact must serve
+                itself; the explicit width/height carry the CLS contract,
+                and the portrait rides the hero's lazy default (below the
+                LCP text/particle surface). */}
             <img
               src="/hero-portrait.png"
               alt="ViralPost AI user"

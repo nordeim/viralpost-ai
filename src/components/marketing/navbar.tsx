@@ -6,15 +6,19 @@
 // hamburger → dropdown on mobile (the reference's own working mobile menu —
 // verified live at 390×844).
 //
-// Supersets (documented in the Deviations Ledger): the hamburger carries an
-// aria-label + aria-expanded and the menu closes on route change and on
-// Escape (keyboard/a11y hardening the reference lacks). The reference's
-// panel class `bg-slate-900/98` is a DEAD class in its Tailwind build
-// (computed backgroundColor: transparent — /98 is not a generated opacity
-// step), so over the hero its menu shows the WebGL glow through the panel.
-// We replicate that by leaving the panel transparent on the hero route, and
-// SUPERSET: on light pages the panel gets slate-900/95 + blur (the reference
-// leaves slate-300 links unreadable on light pages there).
+// Session-22 (S22-22): the reference's hamburger NOW SHIPS the aria
+// family itself (aria-label relabeling Open/Close menu, aria-expanded,
+// aria-controls — live-verified on both sides); ours is PARITY there.
+// The remaining supersets (documented in the Deviations Ledger): the
+// menu closes on route change and on Escape with focus return
+// (keyboard hardening the reference lacks). The reference's panel class
+// `bg-slate-900/98` is a DEAD class in its Tailwind build (computed
+// backgroundColor: transparent — /98 is not a generated opacity step),
+// so over the hero its menu shows the WebGL glow through the panel. We
+// replicate that by leaving the panel transparent on the hero route
+// (unscrolled), and SUPERSET: scrolled or on light pages the panel gets
+// slate-900/95 + blur (session-22's scrolled arm — the reference leaves
+// slate-300 links unreadable over light content).
 
 import * as React from "react";
 import Link from "next/link";
@@ -28,15 +32,14 @@ import { cn } from "@/lib/utils";
 const LINK_BASE =
   "text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-teal-400 after:transition-all";
 
-// Session-21 (S21-4): the mobile menu reuses the desktop link family —
-// the reference's dropdown re-renders its own LINK_BASE underline
-// affordances (verified live 2026-11-11). The menu links keep
-// `block w-full text-left py-2` as the touch-target superset (the
-// reference's bare text-sm links measure ~20px tall — under the
-// WCAG 2.5.8 24px floor; ours measure 36px). Spelled out in full
-// (not composed from LINK_BASE) so the source pin owns one literal.
+// Session-22 (S22-3): the reference's dropdown links show the BARE
+// mobile family again (verified live 2026-11-11 — the session-21
+// LINK_BASE adoption is retired; the reference reverted to its
+// session-1-era form). `py-2` rides the reference's own base now, so
+// its touch target (36px) matches ours. Spelled out in full so the
+// source pin owns one literal.
 const MENU_LINK_BASE =
-  "block w-full text-left py-2 text-sm font-medium transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-teal-400 after:transition-all";
+  "block w-full text-left text-sm font-medium py-2 transition-colors";
 
 export function Navbar() {
   const pathname = usePathname() ?? "/";
@@ -154,7 +157,13 @@ export function Navbar() {
         id="mobile-menu"
         className={cn(
           "md:hidden border-b border-white/10 overflow-hidden transition-all duration-300",
-          !onHero && "bg-slate-900/95 backdrop-blur-xl",
+          // Session-22 (S22-5): the scrolled arm — the home route's own
+          // landing sections are light below the hero, and a route-only
+          // key left the panel transparent there (slate-300 links over
+          // #f8fafc ≈ 1.48:1). Mirrors the bar's `scrolled ||` key;
+          // top-of-hero unscrolled stays transparent (the reference's
+          // dead /98 render over the hero).
+          (!onHero || scrolled) && "bg-slate-900/95 backdrop-blur-xl",
           open ? "max-h-96 opacity-100" : "max-h-0 opacity-0",
         )}
         hidden={!open}
@@ -168,26 +177,27 @@ export function Navbar() {
               className={cn(
                 MENU_LINK_BASE,
                 active === r.id
-                  ? "text-teal-400 after:w-full"
-                  : "text-slate-300 hover:text-white after:w-0 hover:after:w-full",
+                  ? "text-teal-400"
+                  : "text-slate-300 hover:text-white",
               )}
               aria-current={active === r.id ? "page" : undefined}
             >
               {r.label}
             </Link>
           ))}
-          {/* Session-21 (S21-3): re-anchored to the LIVE reference — its
-              dropdown pill says "Upgrade to Pro" (the priced form was the
-              session-1 capture; the reference changed it) and carries the
-              desktop pill's full hover family. The `block w-full
-              text-center` prefix stays (the touch-target superset). */}
+          {/* Session-22 (S22-1/S22-2): re-anchored to the LIVE reference
+              (verified 2026-11-11) — its dropdown pill reverted to the
+              session-1-era priced text WITHOUT the hover family (the
+              session-21 "Upgrade to Pro" + hover-family capture was a
+              transient deploy state on the reference; the desktop pill
+              keeps the bare text + hover family). */}
           <a
             href={GUMROAD_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="block w-full text-center px-5 py-2.5 text-sm font-semibold text-slate-900 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full hover:shadow-lg hover:shadow-amber-400/30 transition-all hover:-translate-y-0.5"
+            className="block w-full text-center px-5 py-2.5 text-sm font-semibold text-slate-900 bg-gradient-to-r from-amber-400 to-amber-500 rounded-full"
           >
-            Upgrade to Pro
+            Upgrade to Pro – $19
           </a>
         </div>
       </div>

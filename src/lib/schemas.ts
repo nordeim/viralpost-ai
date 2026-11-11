@@ -64,7 +64,10 @@ export const signupSchema = z.object({
   name: z
     .string({ message: "Invalid name" })
     .trim()
-    .max(80)
+    // Session-22 (S22-7): the house message — Zod's built-in "Too big…"
+    // leaked here (the S16-1 dev-message genus; the module's header
+    // claims every message is the pinned contract).
+    .max(80, "Name must be reasonably sized")
     .transform((v) => (v === "" ? undefined : v))
     .optional(),
   email: emailFormat,

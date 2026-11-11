@@ -125,3 +125,27 @@ describe("session-7: THE DEV-SCRIPT WATCH-ROOT CONTRACT (the tee feedback loop)"
     expect(pkg().scripts?.dev).toBe("next dev -p 3000");
   });
 });
+
+describe("session-22: THE BUN POSTINSTALL PERMISSION (trustedDependencies, S22-8)", () => {
+  // S22-8: package.json carried a dead `allowScripts` block — Bun does
+  // not read that field (its postinstall-permission mechanism is
+  // `trustedDependencies`, binary-scan-verified), so the documented
+  // "let prisma's postinstall run prisma generate on install" permission
+  // never applied. The permission now lives where Bun reads it.
+  const manifest = () =>
+    JSON.parse(read("package.json")) as {
+      trustedDependencies?: string[];
+      allowScripts?: Record<string, boolean>;
+    };
+
+  it("trustedDependencies carries prisma + @prisma/client (the install-time generate)", () => {
+    const trusted = manifest().trustedDependencies ?? [];
+    expect(trusted).toContain("prisma");
+    expect(trusted).toContain("@prisma/client");
+    expect(trusted).toContain("unrs-resolver"); // the pre-existing entry stays
+  });
+
+  it("the dead allowScripts block is retired (Bun never read it)", () => {
+    expect(manifest().allowScripts).toBeUndefined();
+  });
+});

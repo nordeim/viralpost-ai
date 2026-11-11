@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { SURFACES, WIDTHS } from "./a11y-matrix";
+import { LOGGED_OUT_SURFACES, SURFACES, WIDTHS } from "./a11y-matrix";
 
 // The a11y battery — every public surface at BOTH widths (the template's
 // two-gate doctrine, adapted to the new app): STRUCTURAL violations must
@@ -118,18 +118,23 @@ for (const width of WIDTHS) {
   });
 }
 
-// The logged-out login surface (its own describe so the empty
-// storageState can ride test.use at the legal level).
-test.describe("a11y — logged-out login", () => {
+// The logged-out auth surfaces (their own describe so the empty
+// storageState can ride test.use at the legal level). Session-22
+// (S22-9): the family grew from the login card alone to /signup and
+// /reset-password — the docs' "every route at two widths" claim is
+// true again.
+test.describe("a11y — logged-out auth surfaces", () => {
   test.use({ storageState: { cookies: [], origins: [] } });
 
   for (const width of WIDTHS) {
-    test(`login (/login) @${width} — the auth card`, async ({ page }) => {
-      await page.setViewportSize({ width, height: width === 390 ? 844 : 800 });
-      await page.goto("/login");
-      await page.waitForLoadState("networkidle");
-      const violations = await axeViolations(page);
-      assertAdjudicated(violations);
-    });
+    for (const surface of LOGGED_OUT_SURFACES) {
+      test(`${surface.name} @${width} — the auth card`, async ({ page }) => {
+        await page.setViewportSize({ width, height: width === 390 ? 844 : 800 });
+        await page.goto(surface.path);
+        await page.waitForLoadState("networkidle");
+        const violations = await axeViolations(page);
+        assertAdjudicated(violations);
+      });
+    }
   }
 });

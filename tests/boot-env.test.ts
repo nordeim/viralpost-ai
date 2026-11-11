@@ -349,3 +349,34 @@ describe("session-170 (WP-3): the instrumentation hook (the Next form, source-pi
     expect(hook).toContain("applyBootEnvReport");
   });
 });
+
+describe("session-22: the boot-warning precision batch", () => {
+  it("S22-18: the hops warning fires ONLY on values the rate-limit seam cannot parse — parseInt-accepted forms stay silent", () => {
+    // proxyHopDepth parses with Number.parseInt: "+1", " 1", and "0x2"
+    // all resolve (2, 1, 2). The boot gate's old /^\\d+$/ predicate
+    // warned "unparsable" for every one of them — a false alarm that
+    // eroded the warning's authority. The predicate now mirrors the
+    // seam's own parse.
+    for (const hops of ["+1", " 1", "0x2"]) {
+      const report = bootEnvCheck(env({ VIRALPOST_PROXY_HOPS: hops }));
+      expect(report.warnings, `hops="${hops}" should not warn`).toHaveLength(0);
+    }
+    // The genuinely unparsable + negative faces still warn. ("1.5" and
+    // "1abc" stay silent too — parseInt truncates exactly like the seam.)
+    for (const hops of ["abc", "-1", "xyz2"]) {
+      const report = bootEnvCheck(env({ VIRALPOST_PROXY_HOPS: hops }));
+      expect(report.warnings.some((w) => w.includes("VIRALPOST_PROXY_HOPS")), `hops="${hops}" must warn`).toBe(true);
+    }
+  });
+
+  it("S22-19: a path-carrying NEXT_PUBLIC_SITE_URL warns (the origin-only contract)", () => {
+    // siteUrl() only strips trailing slashes — "https://x.com/base"
+    // parses as an origin yet flows into metadataBase/canonical
+    // composition as a PREFIX, and the two surfaces compose differently
+    // (new URL path-resolution vs twitter:url string-concat). The boot
+    // gate now names the shape.
+    const report = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "https://viralpost.example.com/base" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("path");
+  });
+});
