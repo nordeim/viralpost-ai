@@ -55,11 +55,13 @@ const INFO_BANNER_MS = 3000;
  * swaps to a minimal signup view (Email / Password / Confirm Password —
  * NO name field, NO Google button, NO divider), whose success swaps again
  * to the verify-email view (six single-digit inputs + the attempts
- * ladder). Every error renders the Callout banner; ZERO toasts fire on
- * the auth flows (login failure = the banner only, login/signup success
- * = a silent redirect). The signin/signup/reset views are
- * dossier-Verified on this reference (§3.6, 2026-11-09 DOM dumps); the
- * VERIFY view rides the base44 platform's shared auth component
+ * ladder). Every error renders the Callout banner; zero toasts ride the
+ * auth flow OUTCOMES (login failure = the banner only, login/signup
+ * success = a silent redirect — Session-27, S27-3: the card's ONE
+ * toast call site is the unconfigured Google button's info notice,
+ * which is neither an outcome nor an error). The signin/signup/reset
+ * views are dossier-Verified on this reference (§3.6, 2026-11-09 DOM
+ * dumps); the VERIFY view rides the base44 platform's shared auth component
  * (inherited from the scaffold family — this reference's signup probe
  * was platform-rejected, so the view never rendered here; Reasoned —
  * re-attributed session 8, F8-6). The `/signup` page (the reference

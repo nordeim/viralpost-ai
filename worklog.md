@@ -2820,3 +2820,152 @@ Verified:
 - SHIPPED: the remediated codebase + the docs in lockstep,
   committed to main and pushed via docs/ssh_git_wrapper_v3.py
   (the remote verified; no new branches)
+
+---
+
+Task ID: 27
+Agent: main (Z.ai)
+Task: The session-27 generator-submit focus rings + the launch :memory:
+pass-through + the pin-hardening batch round — re-run the standing
+instruction against the post-session-26 tree (899ec82 = 0cd72eb + the
+session-26 round log held as docs/session_27.md): docs review, the
+baseline gate on the merged tree (lint 0/0 · tsc 0 · unit 629/629
+(38 files) · census MATCH; the DATABASE_URL contract re-verified —
+.env `file:../db/custom.db` with db/ at the repo root, pushed + seeded;
+the vitest/playwright suites current; the sitemap/robots/manifest/OG
+family live-verified against the reference; skills/ excluded from every
+gate, all pinned), the comprehensive audit (0 Critical / 0 High /
+1 Medium / 5 Low / 10 Info — dispatched wide across three parallel
+subagents (API/lib seams, components/pages/effects,
+SEO/configs/tests/docs), every load-bearing finding hand-verified in
+source), the neo-crm repo re-review (HEAD b3d0fbe — UNCHANGED since
+session 12; the recorded decisions stand), the live reference parity
+walk (NO DRIFT — the first fully-clean walk since session 24; the
+mobile-menu family at 390x844, the five-route head census, the footer
+Product column, sitemap/robots, the desktop nav, the generator
+round-trip — all byte-identical; the scrolled bar's computed background
+differs only in color-space spelling, our Tailwind v4 oklab form
+numerically converts to the reference's exact rgba(15,23,42,0.95) —
+verified in code, not a drift), then the TDD remediation of seven
+adjudicated findings.
+
+Findings (the working register, all cured):
+- S27-1 (MEDIUM, a11y): the two highest-traffic submit buttons —
+  Generate Post + Send Message — carried NO focus/focus-visible arm
+  (UA-default outline only) while every sibling control one element
+  away carries the house family (the textarea S23-21, the Copy button
+  S21-20, the hamburger S15-8, the auth submits S14-6). The session-25
+  accepted register scopes the UA-default-focus acceptance to
+  reference-owned LINK families (byte-parity pins); these buttons' pins
+  are toContain substrings that survive appended arms. Cure: the S21-20
+  family appended to both class strings (focus-visible:outline-none +
+  ring-2 + ring-teal-600), resting classes byte-untouched. Pinned
+  (a11y-controls, both buttons co-pinned — the S25-3 family form);
+  RED-first; mutation-batteried (drop the arm from one button → RED).
+  Live-verified on the dev server: the ring renders
+  rgb(13,148,136) 0px 0px 0px 2px on keyboard focus (the Generate
+  verification needed the idea filled first — the disabled control is
+  not tabbable; on record in the plan).
+- S27-2 (LOW, latent misroute — the S26-9 genus on the launch arm):
+  the standalone-launch recovery arm re-anchors bun's absolutized
+  export through urlForRoot DIRECTLY, bypassing resolveDatabaseUrl's
+  :memory: guard — a launch .env carrying file::memory: (bun
+  absolutizes to file:<repo>/:memory:, matching the arm's signature)
+  re-anchored to a literal <repo>/prisma/:memory: file (AUDIT-1
+  live-reproduced in a /tmp sandbox pre-cure; the RED pin reproduced it
+  exactly). Cure: the arm returns the raw launchEnvUrl when its ref
+  starts with :memory: (the arm's own purpose — replacing bun's
+  corrupted value with the .env's original). Pinned (db-path, the
+  session-34 standalone describe); RED-first; mutation-batteried
+  (remove the guard → RED).
+- S27-3 (LOW, comment-truth): the login-card docblock claimed "ZERO
+  toasts fire on the auth flows" while the card's Google button fires
+  toast.info at :762 — scoped to outcomes ("zero toasts ride the auth
+  flow OUTCOMES; the unconfigured Google button's info notice is the
+  card's sole toast call site").
+- S27-4 (LOW, pin quality): the S26-5 negative arms' {0,200}-windows
+  were geometrically unreachable at source (the images: line sits 291
+  chars after twitter: in site.ts, 233 in layout.tsx — measured; the
+  revert mutation stayed green through them; only the positive
+  toContain arms could RED — the guard overstates its ban, the S24-9
+  genus). Cure: re-anchored to block-scoped twitter:\s*\{[^}]*images:
+  forms that reach ANY position inside the twitter object literal.
+  Mutation-batteried (the planted revert REDs the pin; the negative arm
+  fires independently — proven against both the mutated and healthy
+  forms).
+- S27-5 (LOW, pin quality): the S24-1 Appendix-B negative arm banned
+  unit ${UNIT-7}/${UNIT-7} — a form that NEVER existed on disk (the
+  session-23 miss was the 599 count; the dynamic offset drifted with
+  every re-anchor, guarding nothing real). Cure: frozen at the
+  historical literal, spelled digit-for-digit inside the assertion
+  only. Mutation-batteried (plant the literal in a scratch SKILL copy →
+  RED).
+- S27-6 (LOW, docs-truth made mechanical): the 404 noindex superset is
+  claimed in README/PAD/SKILL but rg "noindex" src/ tests/ returned
+  ZERO hits — the face rode Next's built-in not-found meta (present in
+  the built _not-found.html; an upgrade changing that emission ships
+  green). Cure: the e2e unknown-route test gains the meta-robots arm
+  in place (the S25-17 fold-in precedent; live-verified on the dev
+  server pre-merge). The PAD ADR-006 wording becomes truthful via the
+  pin.
+- S27-7 (INFO→cure, guard hardening): the S26-4 client-crypto census
+  matched only the double-quoted "use client" — a single-quoted
+  'use client' client component was invisible to the census, exempting
+  it from the @/lib/generator node:crypto import ban (zero live
+  instances; the header's "can never miss one" claim overstated).
+  Cure: both spellings admitted. Mutation-batteried (a planted
+  single-quoted file importing @/lib/generator REDs the census).
+
+Accepted register (adjudicated this round, with reasons): the
+scryptSync request-path posture (the documented pure-seam importability
+trade, bounded by the per-IP limits); the first-signup admin TOCTOU (no
+admin-gated surface exists; the seeded demo user makes count>=1); the
+start-script pipeline exit mask (logs + health/smoke carry the real
+signal); the seed/prune failure-path disconnect skip (process death
+closes the SQLite handle); the forgot-password non-transient residual
+(the documented no-enumeration posture); the reference-inherited
+sub-AA text tones (the standing parity-doctrine adjudication); the
+quota counter's missing cross-tab storage sync (reference parity — a
+superset cure is an owner-level deviations-ledger decision, recorded
+for the ledger); the stripper's single-quote robustness footnote
+(a mis-strip can only false-RED at gate time, never silently pass).
+The standing accepted register carries unchanged.
+
+Mid-round deviations (on record in the plan's post-execution record):
+- The plan's count projection said 630; the executed count is 631 (the
+  plan's own cure list names +2 pins — an arithmetic slip in the prose;
+  the reality census caught it exactly as designed).
+- One pin-drafting trip: the S27-1 pin initially carried a redundant
+  /s-flag assertion the tsconfig target does not support (TS1501) —
+  dropped rather than weakening any gate (the toContain arms own the
+  face).
+- One S25-3 recurrence: the session-27 Appendix A row spelled the
+  newly-banned historical literal in prose — the S27-5 arm REDed on
+  the cure's own documentation; reworded to describe without spelling
+  (the session-26 lesson applied the same hour).
+
+Count re-anchor: UNIT 629 → 631 (+2 pins: S27-1, S27-2 — the S27-4
+re-anchor, the S27-5 freeze, and the S27-7 hardening fold into
+existing its in place), SUITES 38 unchanged, E2E 63 unchanged (the
+S27-6 arm folds into the existing unknown-route test in place — the
+S25-17 precedent), badge 692 → 694; the PAD §12 row (db-path 272 →
+280); the census walked RED-to-GREEN site by site.
+
+Verified:
+- Gate (the exact commit tree): lint 0/0 · tsc 0 · unit 631/631
+  (38 files) · build · smoke 15/15 · e2e 63/63 (9 specs) · census
+  MATCH · badge 694
+- Captures 61/62 (the Generate + Send submit buttons' keyboard focus
+  rings on the dev server at 390x844) PIL-verified; the cured surfaces
+  live-verified (rgb(13,148,136) 0px 0px 0px 2px on both buttons)
+- Docs lockstep: README (the session-27 row, the gate line, the badge
+  694, the counts); AGENTS (counts, the plans map's twenty-seventh
+  round); CLAUDE (counts); PAD (the §12 db-path row, the
+  test-distribution table, the counts); SKILL v1.22.0 → v1.23.0
+  (frontmatter, Appendix A's session-27 row, Appendix B both counts +
+  the session-27 re-certification, the pre-ship checklist counts);
+  worklog Task 27; docs/session_27.md (this round's log); the plan's
+  post-execution record
+- SHIPPED: the remediated codebase + the docs in lockstep,
+  committed to main and pushed via docs/ssh_git_wrapper_v3.py
+  (the remote verified; no new branches)

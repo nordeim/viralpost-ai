@@ -300,6 +300,28 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34)", () =>
     // And no junk directories were created on the way.
     expect(existsSync(join(repo, "prisma", "var"))).toBe(false);
   });
+
+  // Session-27 (S27-2): the S26-9 genus on the LAUNCH arm. The recovery
+  // arm re-anchors bun's absolutized export through urlForRoot DIRECTLY
+  // — bypassing resolveDatabaseUrl's :memory: guard. A launch .env
+  // carrying `file::memory:` (bun absolutizes it to `file:<repo>/:memory:`,
+  // which MATCHES the arm's signature) was re-anchored into a literal
+  // <repo>/prisma/:memory: file (live-reproduced in a /tmp sandbox — the
+  // AUDIT-1 A1-L1 finding). No live caller — the same latent class
+  // S26-9 itself was cured for. Mutation battery: remove the launch-arm
+  // guard → this pin REDs.
+  it("passes the :memory: spelling through in the LAUNCH shape too (S27-2 — the S26-9 sibling)", () => {
+    const { repo, standalone } = buildStandaloneRepo();
+    writeFileSync(join(repo, ".env"), 'DATABASE_URL="file::memory:"\n');
+    // What bun exports at launch: the in-memory spelling absolutized
+    // against the launch cwd (the repo root) — the corrupted form the
+    // recovery arm exists to replace.
+    const launchAbsolutized = `file:${join(repo, ":memory:")}`;
+    withEnv(launchAbsolutized, () => {
+      const url = runtimeDatabaseUrl(standalone);
+      expect(url).toBe("file::memory:");
+    });
+  });
 });
 
 describe("resolveDatabaseUrl", () => {

@@ -202,6 +202,26 @@ describe("named-control source pins (the open surfaces)", () => {
     expect((src.match(/role="status"/g) ?? []).length).toBe(2);
   });
 
+  // Session-27 (S27-1): the two highest-traffic submit buttons — Generate
+  // Post and Send Message — carried NO focus/focus-visible arm (UA-default
+  // outline only) while every sibling control one element away carries the
+  // house family (the textarea S23-21, the Copy button S21-20, the
+  // hamburger S15-8, the auth submits S14-6). The session-25 accepted
+  // register scopes the UA-default-focus acceptance to reference-owned LINK
+  // families (byte-parity pins); these buttons' pins are toContain
+  // substrings that survive appended arms. Both buttons co-pinned here (the
+  // S25-3 family form — one genus, one pin, one RED per mutation).
+  // Mutation battery: drop the arm from either button → this pin REDs.
+  it("session-27 (S27-1): the core submit buttons carry the house keyboard focus ring (teal-600 — the S21-20 family, the sibling controls' own)", () => {
+    const FAMILY = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600";
+    const gen = read("src/components/marketing/generator-card.tsx");
+    const contact = read("src/components/marketing/contact-form.tsx");
+    // The Generate Post button's class string carries the family.
+    expect(gen).toContain(`mt-4 w-full py-3.5 bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-teal-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${FAMILY}`);
+    // The Send Message button's class string carries the family.
+    expect(contact).toContain(`mt-6 w-full py-3.5 bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-teal-200 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${FAMILY}`);
+  });
+
   it("icon-only controls are aria-hidden or labeled (no nameless glyphs)", () => {
     // The marketing icons ride aria-hidden="true" inside named parents;
     // the hamburger is the only icon-only BUTTON and it is labeled.

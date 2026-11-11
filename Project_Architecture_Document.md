@@ -556,7 +556,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 38 | 629 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 38 | 631 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 63 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -574,7 +574,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 629/63/15 and change together), and the
+(README/AGENTS/PAD/SKILL carry 631/63/15 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -687,7 +687,7 @@ the same commit as the file.)
 | `src/lib/auth.ts` | 188 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
 | `src/lib/password.ts` | 68 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
-| `src/lib/db-path.ts` | 272 | THE database path resolver (ADR-008) |
+| `src/lib/db-path.ts` | 280 | THE database path resolver (ADR-008) |
 | `src/lib/site.ts` | 202 | The metadata factory + canonical origin seam |
 | `src/lib/api.ts` | 252 | The envelope + the bounded JSON reader (the non-object body guard, session-16, S16-1) |
 | `src/app/globals.css` | 222 | The Tailwind v4 theme (ADR-005) |

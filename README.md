@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-692%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-694%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,7 +52,7 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 38 files / 629 tests, node env, pure seams |
+| Unit tests | Vitest | 5.0 | 38 files / 631 tests, node env, pure seams |
 | E2E | Playwright | 1.64 | 9 specs / 63 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
@@ -141,7 +141,7 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (38 files / 629 tests)
+bun run test            # Vitest unit suite (38 files / 631 tests)
 bun run test:e2e        # Playwright e2e (9 specs / 63 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
@@ -239,6 +239,11 @@ the PostgreSQL swap.
 | Session 26 — the mobile-menu cap parity + the busy-state announcement + the bar open-arm retirement + the pin-doctrine batch | ✅ done | The audit round at 0 Critical / 0 High / 1 Medium / 6 Low / 5 Info (three parallel subagents + the lead's hand-verification; the 3rd-generation result discard, the h2-first auth views, and the vitest exclude note adjudicated to the accepted register with reasons); THE PARITY WALK found TWO LIVE-CENSUSED DIVERGENCES on the mobile-menu surface — both cured: (1) the panel's max-h-96 cap (S26-1, MEDIUM — the reference's open panel computes max-height:none; ours capped at 384px with overflow-hidden and no scroll path, clipping the Contact link + Upgrade pill unreachable at text sizes ≈145%+, the WCAG 1.4.4 reflow family; the class family re-anchored to the reference's own, the "inert dead classes" claim corrected — the cap was live); (2) the bar's dark arm keyed on scrolled \|\| open (S26-3 — the live reference's bar stays bg-transparent with the menu OPEN at scrollY=0; the open half also painted the desktop bar dark after a mobile→desktop cross — the arm now keys on scrolled alone, the reference's own key); the busy-state announcement (S26-2 — the generator's pending window rendered "": node A gains the generating arm, WCAG 4.1.3); the SEO one-declaration completion (S26-5 — both twitter blocks ride OG_IMAGE.url, the rename-drift vector closed); the pin-doctrine batch (S26-4 the client-crypto roster pin converted to a dynamic "use client" disk census; S26-6 the four config-mechanics pinned — the .mts include, the tsconfig/eslint/vitest skills exclusions — which surfaced and cured a latent type-gate stripper bug: the regex block-comment pass misfired on glob strings like "@/*" and swallowed the include array; the stripper is string-aware now); the contract batch (S26-7 the one-shot-script PrismaClient exemption codified + the URL-seam-mandatory form pinned; S26-8 the seed's update branch gains avatarColor + photoUrl — the "resets every seeded field" claim true; S26-9 the db-path :memory: pass-through arm); unit 629/38 (+9 pins) + e2e 63/9, badge 692; captures 59/60 |
 
 Gate at the session-26 ship: lint 0/0 · tsc 0 · unit 629/629 · build ·
+smoke 15/15 · e2e 63/63.
+
+| Session 27 — the generator-submit focus rings + the launch `:memory:` pass-through + the pin-hardening batch | ✅ done | The audit round at 0 Critical / 0 High / 1 Medium / 5 Low / 10 Info (three parallel subagents + the lead's hand-verification; the scryptSync request-path posture, the first-signup admin TOCTOU, the start-script pipeline, the seed/prune disconnect skip, the forgot-password residual, the quota cross-tab sync, and the stripper single-quote footnote adjudicated to the accepted register with reasons); THE PARITY WALK found NO DRIFT — the first fully-clean walk since session 24 (the mobile-menu family, the five-route head census, the footer Product column, sitemap/robots, the desktop nav — all byte-identical; the scrolled bar's computed background differs only in color-space spelling, our oklab form numerically verified to convert to the reference's exact rgba(15, 23, 42, 0.95)); THE CURES: the core-submit focus rings (S27-1, MEDIUM — the Generate Post + Send Message buttons carried no focus-visible arm while every sibling control one element away carries the house family; the S21-20 teal-600 family appended, resting classes untouched), the launch-shape `:memory:` pass-through (S27-2 — the S26-9 genus on the standalone-launch recovery arm: a launch .env carrying `file::memory:` was re-anchored into a literal `<repo>/prisma/:memory:` file, live-reproduced in a /tmp sandbox pre-cure), the pin-hardening batch (S27-4 the S26-5 negative arms re-anchored to block-scoped forms that can actually reach the twitter images position — the shipped {0,200}-windows were geometrically unreachable; S27-5 the Appendix-B negative frozen at the historical literal; S27-7 the client-crypto census admits the single-quoted `'use client'` spelling), the noindex superset pinned (S27-6 — the 404 noindex claim rode Next's built-in meta with zero assertions in src/ or tests/; the e2e unknown-route test gains the meta-robots arm in place), and the login-card comment-truth fix (S27-3 — "ZERO toasts fire on the auth flows" scoped to outcomes, the Google button's info notice acknowledged); unit 631/38 (+2 pins) + e2e 63/9, badge 694; captures 61/62 |
+
+Gate at the session-27 ship: lint 0/0 · tsc 0 · unit 631/631 · build ·
 smoke 15/15 · e2e 63/63.
 
 ## License

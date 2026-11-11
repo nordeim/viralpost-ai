@@ -259,7 +259,15 @@ export function runtimeDatabaseUrl(cwd: string = process.cwd()): string {
         // Re-anchor on the launch directory's own value through the
         // ALREADY-VALIDATED standalone root (the schema rule — identical
         // to resolveDatabaseUrl, but anchored exactly where bun loaded it).
+        // Session-27 (S27-2 — the S26-9 sibling): the in-memory spelling
+        // must pass through RAW here too. `file::memory:` in a launch .env
+        // gets bun-absolutized into `file:<repo>/:memory:` (matching this
+        // arm's signature), and urlForRoot would re-anchor it into a
+        // literal <repo>/prisma/:memory: file — the operator's in-memory
+        // intent silently becoming a junk disk file. The arm's own purpose
+        // is replacing bun's corrupted value with the .env's original.
         const ref = launchEnvUrl.slice("file:".length);
+        if (ref.startsWith(":memory:")) return launchEnvUrl;
         return urlForRoot(launchDir, ref);
       }
     }

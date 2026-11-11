@@ -91,6 +91,16 @@ test("the 404 page renders for unknown routes", async ({ page }) => {
   await page.goto("/definitely-not-a-route");
   await expect(page.getByRole("heading", { name: "404" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Page Not Found" })).toBeVisible();
+  // Session-27 (S27-6): the noindex superset, PINNED — the README/PAD/
+  // SKILL claims ride Next's built-in not-found meta, which no source
+  // literal or test asserted (rg "noindex" src/ tests/ returned zero
+  // hits — an upgrade changing that emission would ship green). The
+  // meta rides the server HTML head (live-verified; the body text is
+  // the documented client-stream fallback).
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    "content",
+    /noindex/,
+  );
   await page.getByRole("link", { name: "Go Home" }).click();
   await page.waitForURL("/");
 });

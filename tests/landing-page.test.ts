@@ -19,7 +19,15 @@ function listClientFiles(dir: string): string[] {
       out.push(...listClientFiles(full));
     } else if (/\.(ts|tsx)$/.test(entry)) {
       const content = readFileSync(full, "utf8").trimStart();
-      if (content.startsWith('"use client"')) out.push(full);
+      // Session-27 (S27-7): the single-quoted directive is legal
+      // TS/React/Next — the census was blind to it (the double-quoted
+      // form alone exempted a 'use client' file from the node:crypto
+      // import ban). Both spellings admitted now.
+      if (
+        content.startsWith('"use client"') ||
+        content.startsWith("'use client'")
+      )
+        out.push(full);
     }
   }
   return out;

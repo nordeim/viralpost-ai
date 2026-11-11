@@ -222,9 +222,16 @@ describe("session-24 (S24-11): the og:image asset matches its declared dimension
     expect(layout).not.toMatch(/images:\s*\[\s*\{\s*url:/);
     // Session-26 (S26-5): both twitter blocks ride the const's url —
     // the hand-written literal form is banned in BOTH files.
+    // Session-27 (S27-4): the negative arms re-anchored to the
+    // block-scoped form — the shipped {0,200}-window forms were
+    // geometrically unreachable at source (the images: line sits 291
+    // chars after twitter: in site.ts, 233 in layout.tsx — measured;
+    // the revert mutation stayed green through them, only the positive
+    // toContain arms RED). The [^}]* form reaches ANY position inside
+    // the twitter object literal, so the ban can actually fire.
     expect(site).toContain("images: [OG_IMAGE.url]");
     expect(layout).toContain("images: [OG_IMAGE.url]");
-    expect(site).not.toMatch(/twitter:[\s\S]{0,200}images: \["\/og-image\.png"\]/);
-    expect(layout).not.toMatch(/twitter:[\s\S]{0,200}images: \["\/og-image\.png"\]/);
+    expect(site).not.toMatch(/twitter:\s*\{[^}]*images:\s*\["\/og-image\.png"\]/);
+    expect(layout).not.toMatch(/twitter:\s*\{[^}]*images:\s*\["\/og-image\.png"\]/);
   });
 });

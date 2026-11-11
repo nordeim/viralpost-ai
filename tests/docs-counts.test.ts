@@ -112,6 +112,13 @@ import {
 // S26-4 roster→census conversion and the S26-5 twitter arms fold into
 // existing tests in place — no count change) and the e2e 63
 // unchanged.
+// s27: 631/38 (+2 the session-27 pins — the core-submit focus-ring pin
+// (S27-1, both buttons co-pinned — the S25-3 family form) and the
+// launch-shape :memory: passthrough pin (S27-2); the S27-4
+// negative-arm re-anchor, the S27-5 frozen literal, and the S27-7
+// census hardening fold into existing tests in place — no count
+// change) and the e2e 63 unchanged (the S27-6 noindex arm folds into
+// the existing unknown-route test in place — the S25-17 precedent).
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -119,7 +126,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 629;
+const UNIT = 631;
 /** Vitest suite files. */
 const SUITES = 38;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -247,8 +254,13 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
     const appendixB = skill.slice(skill.indexOf("## Appendix B"));
     expect(appendixB).toContain(`unit ${UNIT}/${UNIT} (${SUITES} files`);
     // The retired form that shipped green through session 23 (the exact
-    // miss this pin exists to make impossible).
-    expect(skill).not.toContain(`unit ${UNIT - 7}/${UNIT - 7} (37 files`);
+    // miss this pin exists to make impossible). Session-27 (S27-5): the
+    // literal FROZEN at the historical form — the shipped dynamic-offset
+    // arm banned `unit ${UNIT - 7}/...` (a form that never existed on
+    // disk; the offset drifted with every re-anchor, guarding nothing
+    // real). The sibling arms freeze historical literals; this arm does
+    // too now.
+    expect(skill).not.toContain("unit 599/599 (37 files");
   });
 
   it("the README env table carries the six-knob contract (both directions with .env.example)", () => {
