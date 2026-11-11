@@ -560,7 +560,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 38 | 641 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 38 | 644 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 63 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -578,7 +578,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 641/63/15 and change together), and the
+(README/AGENTS/PAD/SKILL carry 644/63/15 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -668,7 +668,7 @@ delivery.
 | LOW | The generator is formula-driven, not model-generated | Post quality ceiling | By design (ADR-002); the provider face is the documented lift |
 | LOW | Signup verification codes are delivered in-response (demo mode) until a mail transport is configured | Demo posture in dev | Mitigated in prod by `VIRALPOST_DISABLE_IN_APP_OTP` |
 | LOW | `skills/` (the owner's catalog) rides in the repo but is excluded from every gate | Repo weight only | By the owner's design; artifact hygiene asserts it never ships |
-| LOW | The logout endpoint carries no CSRF defense (session-15, S15-5) | A cross-site page can force a logout (Set-Cookie clears the session regardless of SameSite sending rules) — nuisance only, no account takeover | Accepted: an Origin check would risk breaking self-hosted proxy topologies (Origin ≠ Host); the family template's §16 checklist does not require it |
+| LOW | The logout route's CSRF-logout class — CURED at session-29 (S29-1) and retired from this register at session-30 (S30-3): the route now gates through `requireSession()` ahead of `clearSessionCookie()` (a cross-site `<form method="POST">` carries no Lax cookie, so the gate answers the envelope's 401 and never clears the victim's session); pinned by `tests/api-robustness.test.ts` (the "sessioned me/logout family" describe) | Closed (the S29-1 cure; the S15-5 acceptance is superseded) |
 | LOW | `eslint.config.mjs` ships the family template's off-switches — TREE-WIDE, not just `react-hooks/exhaustive-deps` (session-15, S15-6; blast radius re-recorded session-16, S16-3) | No automated tripwire for hook-dependency regressions, stray `console.log`s, dead writes (`no-unused-vars`/`no-undef`/`no-unreachable`/`no-console` also off) | Accepted with evidence: a dry run surfaces exactly 2 exhaustive-deps flags, both `particle-text.tsx`'s deliberate `texts.join("\|")` stability idiom — INDEPENDENTLY RE-VERIFIED live at session-17 (S17-8: the warn-level dry-run re-counted, config restored clean; both flags at particle-text.tsx:293); scoping the off-switches per-file requires restructuring that idiom first — the tsc-strict gate + the census tests compensate meanwhile |
 | LOW | The footer's © year evaluates at `next build` on the statically-prerendered `(site)` pages (session-16, S16-5) | The displayed year rolls only on the next deploy (the reference's SPA computes it client-side every load — divergence opens only after a calendar-year boundary crosses the last deploy) | Accepted + documented in-code: a client-side island would trade hydration risk for zero current-day value |
 
@@ -678,9 +678,9 @@ Swept at session-2 ship — no open CRITICAL/HIGH items.
 
 ## 12. Key Files Reference
 
-(The Lines column is the live `wc -l` of each file at the session-25 ship
-— pinned by tests/docs-counts.test.ts's inventory census; edit the row in
-the same commit as the file.)
+(The Lines column is the live `wc -l` of each file — pinned by
+tests/docs-counts.test.ts's inventory census; edit the row in the same
+commit as the file.)
 
 | File | Lines | Purpose |
 |------|-------|---------|
@@ -691,7 +691,7 @@ the same commit as the file.)
 | `src/lib/auth.ts` | 188 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
 | `src/lib/password.ts` | 68 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
-| `src/lib/db-path.ts` | 280 | THE database path resolver (ADR-008) |
+| `src/lib/db-path.ts` | 292 | THE database path resolver (ADR-008) |
 | `src/lib/site.ts` | 219 | The metadata factory + canonical origin seam |
 | `src/lib/api.ts` | 263 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2) |
 | `src/app/globals.css` | 226 | The Tailwind v4 theme (ADR-005) |

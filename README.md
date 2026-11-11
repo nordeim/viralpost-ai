@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-704%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-707%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,7 +52,7 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 38 files / 641 tests, node env, pure seams |
+| Unit tests | Vitest | 5.0 | 38 files / 644 tests, node env, pure seams |
 | E2E | Playwright | 1.64 | 9 specs / 63 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
@@ -141,7 +141,7 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (38 files / 641 tests)
+bun run test            # Vitest unit suite (38 files / 644 tests)
 bun run test:e2e        # Playwright e2e (9 specs / 63 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
@@ -254,6 +254,11 @@ smoke 15/15 · e2e 63/63.
 | Session 29 — the logout session-gate + the shared shape-guard + the head-DOM SEO superset + the wiring pins + the audit batch | ✅ done | The audit round at 0 Critical / 0 High / 0 Medium / 8 Low / 13 Info (three parallel subagents + the lead's hand-verification; the sub-AA tone family RE-ADJUDICATED against fresh live evidence — the reference ships the exact slate-400/teal-100/70 classes, captured in this round's walk; the scryptSync async lift, the first-signup admin TOCTOU, the forgot-password non-transient residual, the parseEnvFile unterminated-quote divergence, the noValidate declarative-minLength note, the dead stepped gray tokens, the rAF offscreen posture, the once-sampled reduced-motion, the eager hero portrait, the standalone surfaces' `<main>` gap, and the allowedDevOrigins IPv4-only scope moved to the accepted register with reasons); THE PARITY WALK found NO DRIFT — the third consecutive fully-clean walk (the mobile-menu family at 390×844, the five-route head census, the footer social family, sitemap/robots modulo origin, the desktop nav — all byte-identical; the pricing sub-AA classes live-captured for the adjudication); THE CURES: the logout session-gate (S29-1 — the CSRF-logout class: logout was the only ungated side-effecting route, a cross-site `<form method="POST">` could hit it and the Set-Cookie cleared the victim's session regardless of SameSite=Lax (which gates cookie SENDING, not SETTING); requireSession now owns the clear — the Lax cookie never rides a cross-site POST so the gate answers 401, and the no-op call is honest), the shared shape-guard (S29-2 — the malformed-shape guard lived in three byte-identical copies that had already drifted once (contact widened in S16-1, generate only in S28-3 — twelve sessions of different vocabularies); the predicate is exported from the api.ts seam (isJsonObject) and consumed at all three sites, the vocabulary byte-identical), the generator-card parse mirror (S29-3 — the response parse carries the family's `.catch(() => null)` so a non-JSON error body reaches the !res.ok arm, not the network-error toast), the loginSchema comment-truth arm (S29-4 — the tolerant-email posture scoped: the 160-cap answers a third vocabulary on a fourth status), the head-DOM SEO superset (S29-5 — og:image + twitter:card + the /Tool canonical now asserted on the RENDERED head, folded in-place; the og:image family was pinned only at the metadata-object and asset levels), the db operator-script wiring census (S29-6 — db:push's prisma-env wrapper + db:seed's seed mapping pinned; a hand-edit reverting the wrapper would have shipped the R-1 wrong-DB hazard green), the icon IHDR pins (S29-7 — icon.png 512×512 + apple-icon.png 180×180 join the S24-11 asset↔declaration doctrine), and the docs/hygiene batch (S29-8 — CLAUDE's force-dynamic line scoped to the SEO routes' deliberate force-static; the .gitignore .auth entry re-filed under # playwright); unit 641/38 (+5 pins) + e2e 63/9 (the S29-5 fold in-place), badge 704; captures 65/66 |
 
 Gate at the session-29 ship: lint 0/0 · tsc 0 · unit 641/641 · build ·
+smoke 15/15 · e2e 63/63.
+
+| Session 30 — the db-path empty-string normalization + the sections dead-import retirement + the docs-truth batch | ✅ done | The audit round at 0 Critical / 0 High / 0 Medium / 4 Low / 7 Info (three parallel subagents + the lead's hand-verification; the in-app-delivery default posture, the me-route unthrottled read, the 36px touch targets, the cross-tab quota staleness, and the two formatting nits moved to the accepted register with reasons); THE PARITY WALK found NO DRIFT — the fourth consecutive fully-clean walk (the mobile-menu family at 390×844 with the full functional battery — the aria family, link-click navigate+close, the /Tool light-page dark-panel superset, Escape + focus return, history close; the five-route head census; the footer social family; sitemap/robots modulo origin; the desktop nav — the two reported active-state deltas were walk-sequencing artifacts, the class families byte-identical; the clone's login round-trip verified live: 200 → router.push("/") → the session cookie → the me envelope); THE CURES: the db-path empty-string normalization (S30-1 — an empty-string DATABASE_URL is now "unset" at both boundaries: it previously masked a valid .env value through the `??` chain (the docker-compose/CI empty-passthrough shape, live-probed with the Prisma nonempty-URL failure) and skipped the documented DEFAULT_DATABASE_URL fallback for an empty .env line; +2 pins), the sections dead-import retirement (S30-2 — the dead `Link` + `Sparkles` imports, gate-blind since the session-19 file introduction, retired + the dead-import census pin), the PAD §11 logout-CSRF row retirement (S30-3 — the register still listed the S15-5 class the S29-1 cure had already closed), the provenance range re-anchor (S30-4 — the five `session_1..21` sites re-anchored to `1..30` + the donor-marker rule), and the docs/hygiene batch (S30-5 — PAD §12's "session-25 ship" phrase dropped, the db-path §12 row 280→292, the SKILL §15 z-index table gained the skip-link row); unit 644/38 (+3 pins) + e2e 63/9, badge 707; captures 67/68 |
+
+Gate at the session-30 ship: lint 0/0 · tsc 0 · unit 644/644 · build ·
 smoke 15/15 · e2e 63/63.
 
 ## License

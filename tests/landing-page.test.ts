@@ -148,6 +148,21 @@ describe("landing: the section composition", () => {
     expect(icons).toContain('icon: Star, color: "text-teal-300/40", left: "60%", top: "88%", size: 18');
   });
 
+  // Session-30 (S30-2): the dead-import census — the F12-11 genus
+  // resurfacing. `import Link` and the bare `Sparkles` import line rode
+  // the session-19 file in dead (zero consumer references; the only
+  // Sparkles-shaped symbol consumed is WandSparkles) and were invisible
+  // to every gate (noUnusedLocals off, no-unused-vars off). This census
+  // owns the dead-import face (the one-owner doctrine).
+  it("sections.tsx carries no dead imports (the Link + Sparkles retirement, S30-2)", () => {
+    const sections = read("src/components/marketing/sections.tsx");
+    expect(sections).not.toMatch(/^import Link from "next\/link";$/m);
+    // The bare lucide `Sparkles,` import line — anchored on the
+    // two-space indent so the CONSUMED `WandSparkles,` line never matches.
+    expect(sections).not.toMatch(/^ {2}Sparkles,$/m);
+    expect(sections).toMatch(/^ {2}WandSparkles,$/m);
+  });
+
   it("the features section ships the six reference cards", () => {
     const sections = read("src/components/marketing/sections.tsx");
     for (const title of [

@@ -3184,3 +3184,101 @@ Verified:
 - SHIPPED: the remediated codebase + the docs in lockstep,
   committed to main and pushed via docs/ssh_git_wrapper_v3.py
   (the remote verified; no new branches)
+
+## Task 30 — the db-path empty-string normalization + the sections dead-import retirement + the docs-truth batch (2026-11-12)
+
+Round opened on the pulled tree (`250a1b4` — the owner's session log
+update holding the session-29 execution narration, the established
+pattern). Core docs read in full (AGENTS, CLAUDE, README, PAD, SKILL
+v1.25.0), then the session-29 set (session_29.md, the session-29 plan,
+worklog Task 29, the owner's session_30.md narration). Baseline gate
+GREEN at the documented counts (lint 0/0 · tsc 0 · unit 641/641, 38
+files); every standing ask re-verified in place (the .env DATABASE_URL
+contract with db/ at the repo root, census MATCH; the vitest +
+playwright suites current; the sitemap/robots/manifest/OG family fresh
+against the live reference; skills/ excluded from every gate; the
+committed .env.example matching the six-knob contract). neo-crm
+re-checked at HEAD b3d0fbe — UNCHANGED since session 12; the recorded
+decisions stand.
+
+The audit (three parallel subagents — AUDIT-1 API/lib seams, AUDIT-2
+components/pages/effects, AUDIT-3 SEO/configs/tests/docs — every
+load-bearing finding hand-verified in source by the lead):
+AUDIT-1 0C/0H/0M/1L/2I · AUDIT-2 0C/0H/0M/1L/4I · AUDIT-3
+0C/0H/0M/2L/1I — combined 0 Critical / 0 High / 0 Medium / 4 Low /
+7 Info. The lead's adjudication took all four Lows plus two Info docs
+items into the working register (all cured this round — S30-1..S30-5);
+the rest moved to the accepted register with reasons (the in-app
+delivery default posture — the standing owner-level deferral; the
+me-route unthrottled read — the single-node limiter posture; the 36px
+touch targets — the documented class-for-class parity decision with
+WCAG AA's 24px floor cleared; the cross-tab quota staleness — the
+documented fail-open doctrine; the two formatting nits).
+
+The parity walk (live, both sides, logged into the reference): the
+mobile-menu census at 390×844 with the full FUNCTIONAL battery (the
+aria family, link-click navigate+close, the /Tool light-page dark-panel
+superset, Escape + focus return, the history-navigation close), the
+five-route head census (NO DRIFT — titles, og, descriptions,
+twitter:card byte-identical; canonical/og:url by origin only; og:image
+the documented D-4 stand-in), the desktop nav (the two reported
+active-state deltas adjudicated as walk-sequencing artifacts — the
+class families byte-identical), the scrolled-bar two-spelling
+conversion (oklab = rgba(15, 23, 42, 0.95)), the dead /98 panel class
+(both surfaces computed transparent), sitemap/robots identical modulo
+origin, and the clone's login round-trip verified live (200 →
+router.push("/") → the viralpost_session cookie → the me envelope).
+NO DRIFT — the FOURTH consecutive fully-clean walk. The Tailwind v4
+trap catalog re-verified mitigated throughout.
+
+The cures (TDD, every pin RED-first, every mutation battery on
+record):
+- S30-1 (LOW): the db-path empty-string normalization — an
+  empty-string DATABASE_URL was "unset" for the re-anchor arms but
+  "set" for the tail `??` chain, masking a valid .env value (the
+  docker-compose/CI empty-passthrough shape) and skipping the
+  documented DEFAULT_DATABASE_URL fallback for an empty .env line
+  (live-probed: the seam answered `""`; Prisma 6.19.3 fails at first
+  query with "You must provide a nonempty URL"). The one-home
+  normalization lives in effectiveDatabaseUrl (`|| undefined` at both
+  boundaries); +2 pins; both mutation batteries RED→GREEN.
+- S30-2 (LOW): the sections dead-import retirement — the dead
+  `import Link` + bare `Sparkles` import line (zero consumers since
+  the session-19 file introduction, gate-blind: noUnusedLocals off,
+  no-unused-vars off — the F12-11 genus resurfacing) retired + the
+  dead-import census pin; WandSparkles (the consumed symbol)
+  untouched; the battery re-adds the import → RED.
+- S30-3 (LOW): the PAD §11 logout-CSRF row retirement — the register
+  still listed the S15-5 class the S29-1 cure had already closed,
+  contradicting the same commit-set's session-29 records; the row now
+  records the cure + its pin (the S27-6/S28-9 precedent).
+- S30-4 (LOW): the provenance range re-anchor — the five
+  `session_1..21` sites (SKILL §0.5, .env.example, boot-env.test.ts,
+  error-boundaries.test.ts, auth-reset.test.ts) re-anchored to
+  `1..30` + the explicit donor-marker rule, resolving the S22–S29
+  misattribution the ≤ 21 discriminator produced.
+- S30-5 (INFO→cure): the docs/hygiene batch — PAD §12's "at the
+  session-25 ship" phrase dropped; the db-path §12 row re-anchored
+  280 → 292; the SKILL §15 z-index table gained the skip-link z-[60]
+  (focus-only) row.
+
+Count re-anchor: UNIT 641 → 644 (+3 pins — the plan's projection
+exact, confirmed by the census before any doc site was touched),
+SUITES 38 unchanged, E2E 63 unchanged, badge 704 → 707; the
+docs-counts constants re-anchored FIRST (the session-29 lesson), the
+census then walked GREEN site by site.
+
+Verified:
+- The full gate on the exact commit tree (below)
+- Captures 67/68 on the dev server (the owner-instructed posture, the
+  session-29 precedent): the mobile-menu open clean-walk at 390×844
+  (functionally verified open: display block + 5 links) + the landing
+  monetization section (the S30-2 surface), PIL-verified (390×844,
+  ~19k unique colors each)
+- Docs lockstep: README (the session-30 row, the gate line, badge
+  707, the counts); AGENTS (counts, the plans map's thirtieth round);
+  CLAUDE (counts); PAD (§11 row, §12 phrase + the db-path row, the
+  test-distribution table, the counts); SKILL v1.25.0 → v1.26.0
+  (frontmatter, §0.5, §15, Appendix A's session-30 row, Appendix B,
+  the pre-ship checklist counts); worklog Task 30; docs/session_30.md
+  (this round's log); the plan's post-execution record

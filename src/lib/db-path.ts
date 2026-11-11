@@ -180,7 +180,19 @@ export function effectiveDatabaseUrl(input: {
   envFileUrl?: string | undefined;
   envFileDir: string;
 }): string {
-  const { envUrl, envFileUrl, envFileDir } = input;
+  // Session-30 (S30-1): an empty string is "unset", never an intentional
+  // override. The `if (envUrl && …)` arms always treated "" as unset
+  // (falsy), but the tail `??` chain passed it through as a SET override —
+  // so a `DATABASE_URL=""` process env (the docker-compose/CI
+  // empty-passthrough shape) MASKED a valid .env value, and an empty .env
+  // line skipped the DEFAULT_DATABASE_URL fallback a missing line gets.
+  // Prisma has no valid empty URL (it fails at first query with "You must
+  // provide a nonempty URL"), so "" can never be a legitimate value; both
+  // boundary spellings normalize to undefined here, in the one-home seam
+  // every consumer already routes through.
+  const envUrl = input.envUrl || undefined;
+  const envFileUrl = input.envFileUrl || undefined;
+  const { envFileDir } = input;
   if (envUrl && isRelativeFileUrl(envFileUrl)) {
     if (envUrl === bunAbsolutized(envFileUrl, envFileDir)) {
       return resolveDatabaseUrl(envFileUrl);

@@ -132,6 +132,32 @@ describe("effectiveDatabaseUrl (bun absolutization re-anchoring)", () => {
     });
     expect(url).toContain("/db/custom.db");
   });
+
+  // Session-30 (S30-1): the empty-value family. The `if (envUrl && …)`
+  // arms already treat "" as unset (falsy), but the tail `??` chain passed
+  // it through as a SET override — masking a valid .env value (the
+  // docker-compose/CI empty-passthrough shape) and skipping the documented
+  // DEFAULT_DATABASE_URL fallback for an empty .env line. Prisma has no
+  // valid empty URL either way; "" can never be an intentional override.
+  it("an empty-string process env never masks the .env value (S30-1)", () => {
+    const url = effectiveDatabaseUrl({
+      envUrl: "",
+      envFileUrl: "file:../db/custom.db",
+      envFileDir: "/repo",
+    });
+    expect(url).toContain("/db/custom.db");
+  });
+
+  it("an empty .env value falls back to the default (S30-1)", () => {
+    const url = effectiveDatabaseUrl({
+      envUrl: undefined,
+      envFileUrl: "",
+      envFileDir: "/repo",
+    });
+    // DEFAULT_DATABASE_URL ("file:../db/custom.db") resolved through the
+    // schema rule — the same fallback a MISSING .env line always got.
+    expect(url).toContain("/db/custom.db");
+  });
 });
 
 describe("runtimeDatabaseUrl (cwd .env discovery)", () => {

@@ -132,7 +132,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 641;
+const UNIT = 644;
 /** Vitest suite files. */
 const SUITES = 38;
 /** Playwright e2e checks (incl. the setup project's 1). */

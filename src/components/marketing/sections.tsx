@@ -7,14 +7,18 @@ import {
   Lock,
   PenLine,
   Rocket,
-  Sparkles,
   Star,
   Target,
   TrendingUp,
   WandSparkles,
   Zap,
 } from "lucide-react";
-import Link from "next/link";
+// Session-30 (S30-2): the dead `Sparkles` import line and `import Link
+// from "next/link"` — both zero-consumer since the session-19
+// introduction (the only Sparkles-shaped symbol consumed is
+// WandSparkles; the only Link occurrences were the import, prose
+// comments, and LinkedIn substrings) — are RETIRED, pinned by the
+// dead-import census in tests/landing-page.test.ts.
 
 import { Reveal } from "@/components/effects/reveal";
 import { FloatingIcons } from "@/components/effects/floating-icons";
