@@ -156,8 +156,9 @@ export interface SessionUser {
   email: string;
   name: string;
   avatarColor: string;
-  // Session-30 (S30-P3): carried so the topbar avatar can render the
-  // uploaded photo (the reference's profile_picture).
+  // Session-30 (S30-P3 — a donor-ledger number): carried so the topbar
+  // avatar can render the uploaded photo (the reference's
+  // profile_picture).
   photoUrl: string | null;
   role: string;
 }

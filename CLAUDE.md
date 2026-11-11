@@ -125,7 +125,7 @@ bun run dev
 | `bun run lint` | ESLint, `--max-warnings 0` |
 | `bun run typecheck` | `tsc --noEmit` |
 | `bun run test` | Vitest unit suite |
-| `CI=1 bun run test:e2e` | Playwright against the build |
+| `CI=1 bun run test:e2e` | Playwright against the build (one-time `bunx playwright install chromium` first — bun's trustedDependencies skips the postinstall) |
 | `./scripts/smoke-test.sh` | 15-leg curl ladder |
 | `bun run gate` | All of the above, in order |
 
@@ -142,11 +142,11 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 38 files / 644 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 38 files / 648 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.
-- **E2E (Playwright)**: 9 specs / 63 tests against the production build,
+- **E2E (Playwright)**: 9 specs / 65 tests against the production build,
   own port + own `db/e2e.db`, one shared login via `storageState`,
   axe-core a11y assertions on every route at two widths.
 - **Smoke (bash)**: 15 legs against the standalone artifact with a

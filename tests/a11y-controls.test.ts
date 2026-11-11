@@ -42,6 +42,29 @@ describe("named-control source pins (the open surfaces)", () => {
     expect(src).toMatch(/menuButtonRef\.current\?\.focus\(\)/);
   });
 
+  // Session-31 (S31-2): the THIRD close arm's focus return. Escape
+  // (F11-11) and the link-click (S25-16) already restore focus to the
+  // toggle — the S25-16 rationale ("the close unloads the focused link;
+  // without the return, focus falls to <body> and post-navigation Tab
+  // resumes at the document top — WCAG 2.4.3") applies verbatim to the
+  // history-navigation close (F10-10, browser back/forward): the
+  // adjust-during-render close hid the panel with no focus return. The
+  // cure records the pre-close open state as STATE (the react-hooks/refs
+  // rule bans render-phase ref writes) and the pathname-keyed layout
+  // effect returns focus to the toggle.
+  it("session-31 (S31-2): the history-close arm returns focus to the toggle (the third close arm's WCAG 2.4.3 completion)", () => {
+    const src = read("src/components/marketing/navbar.tsx");
+    // The adjust-during-render close records the pre-close open state
+    // (the link-click path closes first — its own focus return already
+    // ran — so the state stays false there).
+    expect(src).toMatch(/setMenuWasOpen\(open\);/);
+    // The pathname-keyed layout effect returns focus to the toggle (a
+    // DOM-focus effect — never the banned setState-in-effect form).
+    expect(src).toMatch(
+      /useLayoutEffect\(\(\) => \{\s*if \(menuWasOpen\) \{\s*menuButtonRef\.current\?\.focus\(\);/,
+    );
+  });
+
   it("the generator textarea carries a wired label", () => {
     const src = read("src/components/marketing/generator-card.tsx");
     expect(src).toMatch(/<label htmlFor="post-idea"/);
@@ -140,8 +163,11 @@ describe("named-control source pins (the open surfaces)", () => {
   // focus-return counterpart now rides the click path too.
   it("session-25 (S25-16): the mobile menu's link-click path returns focus to the toggle (the Escape path's counterpart)", () => {
     const src = read("src/components/marketing/navbar.tsx");
-    // Two focus-return call sites: the Escape close + the link click.
-    expect((src.match(/menuButtonRef\.current\?\.focus\(\)/g) ?? []).length).toBe(2);
+    // Three focus-return call sites since session-31: the Escape close
+    // (F11-11) + the link click (S25-16) + the history-navigation close's
+    // pathname-keyed layout effect (S31-2 — the mechanism pinned by its
+    // own arm above; this count is the family census face).
+    expect((src.match(/menuButtonRef\.current\?\.focus\(\)/g) ?? []).length).toBe(3);
     expect(src).toMatch(/menuButtonRef\.current\?\.focus\(\);\s*setOpen\(false\);/);
   });
 

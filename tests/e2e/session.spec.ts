@@ -18,3 +18,19 @@ test("the authenticated session reads and signs out cleanly", async ({ request }
   const after = await meAfter.json();
   expect(after.data).toBeNull();
 });
+
+// Session-31 (S31-7b): the authenticated-visitor /login render — a
+// documented parity posture (the CRM family's session-23, S23-P2 — a
+// donor-ledger number: the reference serves the login card to
+// AUTHENTICATED visitors too, NO redirect) that had no behavioral pin:
+// a regression reintroducing `if (user) redirect("/")` on /login would
+// have shipped green through every layer (session.spec exercised the
+// API envelope only; auth.spec opts out of the shared storageState).
+// Rides the setup project's signed-in cookie via the page fixture.
+test("the authenticated visitor still gets the login card (the s23-P2 no-redirect parity posture)", async ({ page }) => {
+  await page.goto("/login");
+  await expect(page.getByRole("heading", { name: "Welcome to ViralPost AI" })).toBeVisible();
+  // No redirect: the login card renders AT /login for the signed-in
+  // visitor, exactly as the reference behaves.
+  await expect(page).toHaveURL(/\/login$/);
+});

@@ -158,6 +158,33 @@ describe("effectiveDatabaseUrl (bun absolutization re-anchoring)", () => {
     // schema rule — the same fallback a MISSING .env line always got.
     expect(url).toContain("/db/custom.db");
   });
+
+  // Session-31 (S31-1): the whitespace-only family — the S30-1 genus one
+  // notch deeper. `input.envUrl || undefined` normalizes "" but not " "
+  // (truthy), so a quoted-space DATABASE_URL still masked a valid .env
+  // value and still skipped the DEFAULT_DATABASE_URL fallback. A
+  // whitespace URL is never a legitimate Prisma datasource (the S30-1
+  // rationale applies verbatim); the cure trims at the one-home boundary.
+  it("a whitespace-only process env never masks the .env value (S31-1)", () => {
+    const url = effectiveDatabaseUrl({
+      envUrl: " ",
+      envFileUrl: "file:../db/custom.db",
+      envFileDir: "/repo",
+    });
+    expect(url).toContain("/db/custom.db");
+  });
+
+  it("a whitespace-only .env value falls back to the default (S31-1)", () => {
+    const url = effectiveDatabaseUrl({
+      envUrl: undefined,
+      envFileUrl: " ",
+      envFileDir: "/repo",
+    });
+    // The same DEFAULT_DATABASE_URL fallback a missing line gets — a
+    // quoted-space .env line (DATABASE_URL=" ") is a typo, not an
+    // intentional override.
+    expect(url).toContain("/db/custom.db");
+  });
 });
 
 describe("runtimeDatabaseUrl (cwd .env discovery)", () => {

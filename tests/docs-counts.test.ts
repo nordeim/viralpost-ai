@@ -125,6 +125,17 @@ import {
 // (S28-5), and the smoke-leg disk census (S28-6); the S28-4
 // comment-blind dead-token census hardening folds into the existing
 // dead-token it in place) and the e2e 63 unchanged.
+// s30: 644/38 (+3 the session-30 pins — the db-path empty-string pair
+// (S30-1) and the sections dead-import census (S30-2)) and the e2e 63
+// unchanged.
+// s31: 648/38 (+4 the session-31 pins — the db-path whitespace pair
+// (S31-1), the history-close focus-return pin (S31-2), the generalized
+// dead-import census (S31-6); the S25-16 focus-count arm re-anchored
+// 2 → 3 in place — the family-census face of the S31-2 cure) and the
+// e2e 63 → 65 (+2 the session-31 superset legs — the authed /login
+// render (S31-7b) and the reset-screen API-rejected banner (S31-7c);
+// the og:image dims arms fold into the existing seo test in place —
+// the S18-2 precedent).
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -132,11 +143,11 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 644;
+const UNIT = 648;
 /** Vitest suite files. */
 const SUITES = 38;
 /** Playwright e2e checks (incl. the setup project's 1). */
-const E2E = 63;
+const E2E = 65;
 /** Playwright e2e spec files. */
 const E2E_SPECS = 9;
 /** Smoke ladder legs. */

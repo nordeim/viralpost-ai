@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-707%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-713%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,8 +52,8 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 38 files / 644 tests, node env, pure seams |
-| E2E | Playwright | 1.64 | 9 specs / 63 tests against the production build |
+| Unit tests | Vitest | 5.0 | 38 files / 648 tests, node env, pure seams |
+| E2E | Playwright | 1.64 | 9 specs / 65 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
 
@@ -141,11 +141,15 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (38 files / 644 tests)
-bun run test:e2e        # Playwright e2e (9 specs / 63 tests) — needs bun run build first
+bun run test            # Vitest unit suite (38 files / 648 tests)
+bun run test:e2e        # Playwright e2e (9 specs / 65 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
 ```
+
+One-time setup for e2e: `bunx playwright install chromium` (bun's
+`trustedDependencies` skips Playwright's postinstall, so the browser
+never downloads implicitly on a fresh clone).
 
 The e2e suite boots the **production standalone build** on its own port
 with its own scratch database (`db/e2e.db`) — the dev server lies about
@@ -260,6 +264,11 @@ smoke 15/15 · e2e 63/63.
 
 Gate at the session-30 ship: lint 0/0 · tsc 0 · unit 644/644 · build ·
 smoke 15/15 · e2e 63/63.
+
+| Session 31 — the db-path whitespace normalization + the history-close focus return + the import-census generalization + the e2e superset batch | ✅ done | The audit round at 0 Critical / 0 High / 0 Medium / 3 Low / 8 Info (three parallel subagents + the lead's hand-verification — every load-bearing finding live-probed or source-verified; the signup admin-bootstrap race re-confirmed as the standing session-27 adjudication, the formatting nits carried forward — the accepted register); THE PARITY WALK found NO DRIFT — the fifth consecutive fully-clean walk (the mobile-menu census at 390×844 — the hamburger base classes byte-identical + the documented superset arms, the five links + the Gumroad pill byte-identical, the bar families byte-identical with the two documented same-color spellings; the five-route head census — titles/og/descriptions/twitter byte-identical, canonical + og:url by origin only; sitemap/robots modulo origin; the clone's login round-trip + the full mobile-menu functional battery incl. the history close); THE CURES: the db-path whitespace normalization (S31-1 — the S30-1 genus one notch deeper: a whitespace-only `DATABASE_URL` rode through the `??` chain as a SET override, masking a valid .env value and skipping the `DEFAULT_DATABASE_URL` fallback — live-probed pre-cure; the cure trims at the one-home boundary; +2 pins), the history-close focus return (S31-2 — the mobile menu's third close arm (browser back/forward) now returns focus to the toggle like its Escape/link-click siblings — the WCAG 2.4.3 completion; the state-flag shape the lint gate's react-hooks/refs rule demanded; +1 pin), the playwright browser-install prerequisite (S31-3 — `bunx playwright install chromium` documented at the three operator sites; bun's trustedDependencies never runs the postinstall), the donor marker (S31-4 — auth.ts's S30-P3 citation), the prose-safe /98 + Reveal contract batch (S31-5 — the navbar's two dead-class comment mentions re-spelled per the S28-4 doctrine, with the .md-scanner residual accepted on compile evidence; Reveal's mount-time-constants contract), the generalized dead-import census (S31-6 — the genus guard walks every `src/**` import clause; the planted-defect battery names the file + symbol), and the e2e superset batch (S31-7 — the og:image dims on the rendered head, the authed-visitor /login no-redirect posture, and the reset screen's API-rejected banner — +2 legs); unit 648/38 (+4 pins) + e2e 65/9 (+2 legs), badge 713; captures 69/70 |
+
+Gate at the session-31 ship: lint 0/0 · tsc 0 · unit 648/648 · build ·
+smoke 15/15 · e2e 65/65.
 
 ## License
 

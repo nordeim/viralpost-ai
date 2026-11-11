@@ -15,14 +15,17 @@
 // STAYS, as a DOCUMENTED SUPERSET (the a11y doctrine's genus). The
 // supersets (Deviations Ledger): the aria family itself, the menu
 // closing on route change and on Escape with focus return (keyboard
-// hardening the reference lacks). The reference's panel class
-// `bg-slate-900/98` is a DEAD class in its Tailwind build (computed
-// backgroundColor: transparent — /98 is not a generated opacity step),
-// so over the hero its menu shows the WebGL glow through the panel. We
-// replicate that by leaving the panel transparent on the hero route
-// (unscrolled), and SUPERSET: scrolled or on light pages the panel gets
-// slate-900/95 + blur (session-22's scrolled arm — the reference leaves
-// slate-300 links unreadable over light content).
+// hardening the reference lacks). The reference's panel token —
+// slate-900 at the 98-percent opacity step — is a DEAD class in its
+// Tailwind build (computed backgroundColor: transparent; the step is
+// not generated), so over the hero its menu shows the WebGL glow
+// through the panel. We replicate that by leaving the panel transparent
+// on the hero route (unscrolled), and SUPERSET: scrolled or on light
+// pages the panel gets slate-900/95 + blur (session-22's scrolled arm —
+// the reference leaves slate-300 links unreadable over light content).
+// (Session-31, S31-5a: the token is spelled prose-safe here — Tailwind
+// v4's candidate scanner reads comments, and the verbatim spelling
+// emitted a never-matched rule into every build; the S28-4 doctrine.)
 
 import * as React from "react";
 import Link from "next/link";
@@ -62,11 +65,34 @@ export function Navbar() {
   // click. The adjust-during-render pattern (a prev-value comparison,
   // never `useEffect(() => setState)` — the React-19 rule) re-closes the
   // menu exactly once per navigation, hydration-safe.
+  // Session-31 (S31-2): the history-close arm's focus return — the third
+  // close arm's WCAG 2.4.3 completion (the Escape arm is F11-11, the
+  // link-click arm S25-16 — both already return focus to the toggle).
+  // The adjust block records, as STATE (never a render-phase ref write —
+  // the react-hooks/refs rule), that the navigation is closing an open
+  // menu; the pathname-keyed layout effect below consumes it. The
+  // link-click path never sets it (its own focus return already ran —
+  // this block sees open=false).
   const [prevPathname, setPrevPathname] = React.useState(pathname);
+  const [menuWasOpen, setMenuWasOpen] = React.useState(false);
   if (pathname !== prevPathname) {
     setPrevPathname(pathname);
+    setMenuWasOpen(open);
     setOpen(false);
   }
+
+  // Session-31 (S31-2): after the DOM commit of the navigation that
+  // closed an open menu, return focus to the toggle — a DOM-focus
+  // effect (never the banned setState-in-effect form), so the focus
+  // lands before paint instead of falling to <body> with the unloaded
+  // panel link (the S25-16 rationale, verbatim, for the history path).
+  // Fires on mount and per navigation; menuWasOpen is false on every
+  // path but the history-closed-open-menu one.
+  React.useLayoutEffect(() => {
+    if (menuWasOpen) {
+      menuButtonRef.current?.focus();
+    }
+  }, [pathname]);
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -159,9 +185,10 @@ export function Navbar() {
         </button>
       </div>
       {/* The mobile menu — the reference's own dropdown, class-for-class
-          (its family: md:hidden + its dead bg-slate-900/98 + border-b +
-          overflow-hidden; the /98 computes transparent in its Tailwind
-          build — the S22-5 transparent-render replication). Session-26
+          (its family: md:hidden + its dead 98-percent panel token +
+          border-b + overflow-hidden; the token computes transparent in
+          its Tailwind build — the S22-5 transparent-render replication;
+          S31-5a: spelled prose-safe, the S28-4 doctrine). Session-26
           (S26-1): the height-cap/opacity arms and the transition classes
           are RETIRED — they were documented as inert dead classes, but
           the 384px cap was LIVE as a hard layout bound (the reference
@@ -170,7 +197,7 @@ export function Navbar() {
           attribute owns the open/close mechanics (display:block ↔ none —
           the reference unmounts its closed panel; behaviorally
           equivalent, and our aria-controls target stays stable).
-          Transparent over the hero (the reference's dead /98 render);
+          Transparent over the hero (the reference's dead 98-percent render);
           dark + blurred on light pages (our superset). */}
       <div
         id="mobile-menu"
@@ -181,7 +208,7 @@ export function Navbar() {
           // key left the panel transparent there (slate-300 links over
           // #f8fafc ≈ 1.48:1). Mirrors the bar's `scrolled` key;
           // top-of-hero unscrolled stays transparent (the reference's
-          // dead /98 render over the hero).
+          // dead 98-percent render over the hero).
           (!onHero || scrolled) && "bg-slate-900/95 backdrop-blur-xl",
         )}
         hidden={!open}

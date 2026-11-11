@@ -190,8 +190,13 @@ export function effectiveDatabaseUrl(input: {
   // provide a nonempty URL"), so "" can never be a legitimate value; both
   // boundary spellings normalize to undefined here, in the one-home seam
   // every consumer already routes through.
-  const envUrl = input.envUrl || undefined;
-  const envFileUrl = input.envFileUrl || undefined;
+  // Session-31 (S31-1): the whitespace-only family joins — `|| undefined`
+  // normalizes "" but a quoted-space " " is truthy and rode through as a
+  // SET override (the same masking/fallback-skip shapes). No legitimate
+  // Prisma URL is whitespace-only; trimming at the one-home boundary keeps
+  // the bun-signature comparison consistent on both faces.
+  const envUrl = input.envUrl?.trim() || undefined;
+  const envFileUrl = input.envFileUrl?.trim() || undefined;
   const { envFileDir } = input;
   if (envUrl && isRelativeFileUrl(envFileUrl)) {
     if (envUrl === bunAbsolutized(envFileUrl, envFileDir)) {

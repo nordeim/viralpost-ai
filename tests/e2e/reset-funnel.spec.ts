@@ -92,3 +92,25 @@ test("the reset-password screen answers the invalid-link state (no token → the
   await expect(page.getByText("This password reset link is invalid or has expired.")).toBeVisible();
   await expect(page.getByRole("button", { name: "Back to login" })).toBeVisible();
 });
+
+// Session-31 (S31-7c): the screen's failed-submit surface — the error
+// banner branch (the API-rejected shape) had no behavioral pin: the
+// no-token card and the happy path were walked, but a wiring break in
+// the screen's error path (setError never called, the banner never
+// rendered) would have shipped green. A garbage token renders the FORM
+// (the screen only gates a MISSING token client-side); matching
+// passwords submit to the API, which answers the envelope's 400 with
+// "Invalid or expired reset token", and the role="alert" banner must
+// carry it. Auth-rate budget: +1 reset POST (the wall is 10/15 min).
+test("the reset-password screen surfaces the API-rejected branch (garbage token → the inline error banner)", async ({ page }) => {
+  await page.goto("/reset-password?token=e2e-garbage-token-not-in-db");
+  await expect(page.getByRole("heading", { name: "Set new password" })).toBeVisible();
+  await page.fill("#password", "NewPassword456!");
+  await page.fill("#confirmPassword", "NewPassword456!");
+  await page.getByRole("button", { name: "Reset password" }).click();
+  // Scoped to the form: Next's route announcer also carries role="alert"
+  // (aria-live assertive) — the banner is the form's own inline node.
+  const banner = page.locator('form [role="alert"]');
+  await expect(banner).toBeVisible();
+  await expect(banner).toHaveText("Invalid or expired reset token");
+});

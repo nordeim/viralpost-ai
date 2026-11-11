@@ -26,6 +26,13 @@ function hiddenStyle(direction: RevealDirection): React.CSSProperties {
  * - `left`: the x:-16 slide (the monetization section's benefit rows)
  * - `delay`: an optional entrance delay in ms (the reference staggers at
  *   0.1s steps)
+ *
+ * CONTRACT (session-31, S31-5b): `direction` and `delay` are MOUNT-TIME
+ * constants. The observer effect arms once with `[]` deps while the
+ * hidden inline style derives from the props — a call site that changes
+ * either after mount would re-apply the hidden style to an element whose
+ * observer has already disconnected (stuck invisible). Every live call
+ * site passes literals; dynamic usage must remount via `key` instead.
  */
 export function Reveal({
   children,

@@ -560,8 +560,8 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 38 | 644 | `tests/*.test.ts` | Vitest (node env) |
-| E2E | 9 specs | 63 | `tests/e2e/*.spec.ts` | Playwright (production build) |
+| Unit | 38 | 648 | `tests/*.test.ts` | Vitest (node env) |
+| E2E | 9 specs | 65 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
 ### 8.2 Test Patterns
@@ -578,7 +578,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 644/63/15 and change together), and the
+(README/AGENTS/PAD/SKILL carry 648/65/15 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -688,14 +688,14 @@ commit as the file.)
 | `src/lib/generation-counter.ts` | 110 | The 3/day quota: pure functions + the store adapter |
 | `src/lib/route-title.ts` | 56 | The unknown-route title derivation (ADR-006) |
 | `src/lib/from-url.ts` | 36 | The from_url open-redirect guard (session-13, S13-4; the leading-// arm, session-14, S14-1) |
-| `src/lib/auth.ts` | 188 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
+| `src/lib/auth.ts` | 189 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
 | `src/lib/password.ts` | 68 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
-| `src/lib/db-path.ts` | 292 | THE database path resolver (ADR-008) |
+| `src/lib/db-path.ts` | 297 | THE database path resolver (ADR-008) |
 | `src/lib/site.ts` | 219 | The metadata factory + canonical origin seam |
 | `src/lib/api.ts` | 263 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2) |
 | `src/app/globals.css` | 226 | The Tailwind v4 theme (ADR-005) |
-| `src/components/marketing/navbar.tsx` | 233 | The nav + the mobile menu (parity-verified) |
+| `src/components/marketing/navbar.tsx` | 260 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 271 | The core surface: quota dots, generate, copy, paywall |
 | `src/components/effects/iridescence.tsx` | 254 | The WebGL hero background (aspect-aware shader) |
 | `src/components/effects/particle-text.tsx` | 330 | The canvas particle title |

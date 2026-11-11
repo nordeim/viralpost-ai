@@ -377,3 +377,81 @@ describe("design tokens: session-21 — the oklab→sRGB gradient cure (S21-5)",
     ).toEqual([]);
   });
 });
+
+// Session-31 (S31-6): the dead-import census, GENERALIZED. The genus has
+// struck twice (F12-11's register claim predates sections.tsx; S30-2
+// retired its two dead imports) and is GATE-BLIND by configuration —
+// noUnusedLocals is not in tsconfig and no-unused-vars is off in eslint's
+// documented posture — so a new dead import in ANY src/ file passes the
+// entire gate. The S30-2 pin owns the sections.tsx composition face
+// (its two literal arms + the WandSparkles keeper); THIS census owns the
+// genus face across src/** — the documented co-pin (the N12-2 one-owner
+// doctrine's sanctioned form: a dead import in sections.tsx trips both;
+// a dead import anywhere else trips only this one, which is exactly the
+// generalization the one-file pin lacked).
+//
+// The comment-blind boundary (the S28-4 doctrine's known residual): an
+// identifier that occurs ONLY in prose comments would satisfy the census
+// — textual occurrence is the guard, not semantic usage. The census
+// exists to catch the S30-2 shape (a forgotten import after a refactor),
+// which never coincides with its name surviving in comments.
+describe("design tokens: session-31 (S31-6) — the source tree's dead-import census (the F12-11/S30-2 genus, generalized)", () => {
+  // Parse an import clause into the identifiers it binds locally:
+  //   { a, b as c, type d }  → a, c, d
+  //   X                       → X
+  //   * as X                  → X
+  //   X, { a }                → X, a
+  function importSymbols(clause: string): string[] {
+    const out: string[] = [];
+    const ns = clause.match(/\*\s+as\s+(\w+)/);
+    if (ns) out.push(ns[1]);
+    const block = clause.match(/\{([^}]*)\}/);
+    if (block) {
+      for (const raw of block[1].split(",")) {
+        const part = raw.trim().replace(/^type\s+/, "");
+        if (!part) continue;
+        const aliased = part.match(/^(\w+)\s+as\s+(\w+)$/);
+        out.push(aliased ? aliased[2] : part);
+      }
+    }
+    const head = clause
+      .replace(/\{[^}]*\}/, "")
+      .replace(/\*/g, "")
+      .replace(/,/g, " ")
+      .trim();
+    if (/^\w+$/.test(head)) out.push(head);
+    return out;
+  }
+
+  it("every import statement across src/**/*.{ts,tsx} binds at least one consumed identifier", () => {
+    const srcDir = path.resolve(import.meta.dirname, "..", "src");
+    // Static import statements only: `import [type] <clause> from "…" ;`
+    // and side-effect `import "…" ;`. Dynamic `import("…")` (the
+    // instrumentation boot gate) has no clause and no match here.
+    const importStatement =
+      /import\s+(?:type\s+)?((?:(?![;\n]*\bfrom\b)[^;])*?)\s*from\s*["'][^"']+["']\s*;?|import\s+["'][^"']+["']\s*;?/g;
+    let statementsChecked = 0;
+    for (const file of walkSourceFiles(srcDir)) {
+      if (!/\.(ts|tsx)$/.test(file)) continue;
+      const text = readFileSync(file, "utf8");
+      const statements = [...text.matchAll(importStatement)];
+      if (statements.length === 0) continue;
+      const stripped = text.replace(importStatement, "");
+      for (const statement of statements) {
+        const clause = statement[1];
+        if (!clause) continue; // side-effect import (globals.css riders)
+        for (const symbol of importSymbols(clause)) {
+          statementsChecked++;
+          expect(
+            new RegExp(`\\b${symbol}\\b`).test(stripped),
+            `${path.relative(srcDir, file)}: the import "${symbol}" has no consumer — the F12-11/S30-2 dead-import genus (gate-blind: noUnusedLocals off, no-unused-vars off)`,
+          ).toBe(true);
+        }
+      }
+    }
+    // The census is non-vacuous: it must have checked a meaningful
+    // number of bound identifiers (the planted-defect proof lives in
+    // the session-31 mutation battery — a dead import REDs it).
+    expect(statementsChecked).toBeGreaterThan(150);
+  });
+});

@@ -59,6 +59,20 @@ test("the home head carries the canonical + OG family", async ({ page }) => {
     "content",
     "summary_large_image",
   );
+  // Session-31 (S31-7a): the dims join the rendered-DOM superset — they
+  // were pinned at the const level (OG_IMAGE) and the asset level (the
+  // IHDR), never on the SERVED head. A metadata-rendering change that
+  // drops the width/height attrs would degrade link-preview layout on
+  // consumers that trust the declared dims. The reference ships NO dims
+  // (walk-verified) — this is the documented superset face.
+  await expect(page.locator('meta[property="og:image:width"]')).toHaveAttribute(
+    "content",
+    "1200",
+  );
+  await expect(page.locator('meta[property="og:image:height"]')).toHaveAttribute(
+    "content",
+    "630",
+  );
   // The inner-route canonical face: / and /signup carried the DOM-level
   // canonical assertions; the inner routes were pinned only as the
   // metadata object's alternates.canonical. /Tool joins the rendered
