@@ -1,116 +1,163 @@
-I'll start by checking the current workspace state and refreshing the repository.
-Repo cloned successfully. Prior sessions (27-30) already made substantial progress — `.env.example`, `db/`, vitest/playwright configs exist. Let me set up my task plan and start the deep document review.
-Core contracts understood. Now reading README and the architecture document.
-The project is mature — 30 sessions done. Now let me read the session docs (30, 31, plan, worklog tail) and check git state.
-The session pattern is clear: `docs/session_31.md` currently holds session-30's execution narration and will be replaced by this round's (session 31) log. Let me read the session-30 plan and worklog tail.
-Now reading the PAD (architecture blueprint) in full.
-Now reading the viralpost-ai_SKILL.md (the distilled engineering memory).
-Docs fully internalized. Now validating understanding against the codebase — checking structure, key seams, and configs.
-Codebase matches docs. Now setting up the environment: creating `.env` with the standing DATABASE_URL contract, installing dependencies, and pushing the DB.
-DB ready — census MATCH. Running the baseline gate (lint → typecheck → unit).
-Baseline GREEN at documented counts (lint 0/0 · tsc 0 · unit 644/644, 38 files). Now reading the repo skills for the audit.
-The web-application skill is internalized. Now reading the mobile-navigation doctrine and Tailwind v4 / TDD skills for the audit focus areas.
-Doctrine internalized. Now checking the recent commits to focus the audit, then dispatching parallel audit subagents.
-Session-30 changes confirmed. Dispatching three parallel audit subagents per the established pattern (AUDIT-1 API/lib seams, AUDIT-2 components/pages/effects, AUDIT-3 SEO/configs/tests/docs + full gate).
-All three audits returned: **combined 0 Critical / 0 High / 0 Medium / 3 Low / 8 Info** (AUDIT-3 also ran the full gate live: build PASS, smoke 15/15, e2e 63/63). Now hand-verifying the load-bearing findings in source before adjudication.
-A1-L1 confirmed in source — the `|| undefined` normalization only catches `""`, not whitespace. Let me probe it live to verify.
-A1-L1 VERIFIED live — whitespace leaks as `" "`. Now verifying A2-L1 (history-close focus gap) in navbar.tsx.
-A2-L1 VERIFIED — the history-close arm (lines 65-69) lacks the focus return its two sibling arms have. Now verifying A1-I1 (donor marker) and A3-L1 (playwright install docs gap).
-All findings hand-verified:
-- **A1-L1** (whitespace DB URL leak): VERIFIED live — `" "` passes through as a set override
-- **A2-L1** (history-close focus gap): VERIFIED in source — the third close arm lacks its siblings' focus return
-- **A1-I1** (missing donor marker): VERIFIED — convention violated at auth.ts:159
-- **A3-L1** (playwright install gap): VERIFIED — zero doc mentions + trustedDependencies excludes playwright (AUDIT-3 hit it live)
+# Session 32 — The Launch-DB Trim + The Smoke 429 Leg + The Strengthened Session Arms + The Prose-Safe Batch + The E2E Superset (2026-11-12)
 
-Now the parity walk phase — booting the dev server and walking both sides against the live reference.
-The `/98` literal lives in two src/ comment sites (the CSS-emitting ones) plus docs. The cure will re-spell src/ and verify by compiling. Now booting the dev server for the parity walk.
-Dev server healthy. Writing the parity walk script (outside the repo tree, per the session-30 lint lesson).
-**Parity walk verdict: NO DRIFT — the fifth consecutive fully-clean walk.** All deltas are the documented deviations (origin-only canonical/og:url, the D-4 og:image stand-in, our og-dims superset, the aria/focus-ring supersets, the dead /98 token, the oklab/rgba same-color spelling). The clone's mobile menu passed the full functional battery, and the login round-trip works (200 → `/` → cookie → me envelope).
+The round opened on the pulled tree (`60259ca` — the owner's session log
+update holding the session-31 execution narration, the established
+pattern). The core docs read in full (AGENTS, CLAUDE, README, PAD, SKILL
+v1.27.0), then the session-31 set (session_31.md, the session-31 plan,
+worklog Task 31, the owner's session_32.md narration). This round is
+session 32. Baseline gate GREEN at the documented counts (lint 0/0 · tsc
+0 · unit 648/648, 38 files · build · smoke 15/15 · e2e 65/65, 9 specs ·
+census MATCH); the standing asks re-verified up front (the `.env`
+`DATABASE_URL="file:../db/custom.db"` contract with `db/` at the repo
+root — the seam re-anchors the ambient shell override to
+`<repo>/db/custom.db`; the vitest + playwright suites in place and
+current — the standing "add the test suites via the config files" ask
+has been fully realized since the earlier rounds; the
+sitemap/robots/manifest/OG family; `skills/` excluded from every gate;
+the committed `.env.example` matching the six-knob contract). neo-crm
+re-checked at HEAD `b3d0fbe` — UNCHANGED since session 12; the recorded
+decisions stand.
 
-Now reading the test files I'll extend for the cures, plus the SSH runbook, before writing the plan.
-All research complete (SSH shim path needed; neo-crm unchanged at `b3d0fbe`). Checking a few remaining design details for the cures — the reset error banner DOM and the import shapes the census must parse.
-All details confirmed. Now writing the session-31 remediation plan.
-Plan written. Now validating its anchors against the codebase before executing (per the standing instruction).
-All plan anchors validated. Executing now — **Batch 1: the RED pins**. First checking design-tokens.test.ts helpers for the census implementation.
-`src/instrumentation.ts` has a dynamic import (safe — no clause to parse). Writing Batch 1 — the RED pins.
-Now the S31-2 pin in a11y-controls.test.ts.
-Now the S31-6 general dead-import census in design-tokens.test.ts.
-The `walkSourceFiles` helper exists. Appending the S31-6 census describe.
-Census GREEN on the clean tree. Now confirming the RED states of the S31-1/S31-2 pins.
-RED confirmed — exactly the 3 designed pins. **Batch 2: the GREEN cures.** First S31-1 (db-path trim).
-Now S31-2 (history-close focus arm) + S31-5a (prose-safe /98 re-spell) in navbar.tsx.
-Now S31-4 (auth.ts donor marker) and S31-5b (reveal.tsx docstring contract).
-All Batch-2 cures applied. Verifying GREEN (typecheck + unit).
-Two expected failures (count re-anchor) + one unexpected: the S25-16 pin. Investigating.
-The S25-16 pin asserts exactly 2 focus-return call sites; the S31-2 cure adds a third. Updating the pin in the same commit (the sanctioned pin-update doctrine).
-Now running Batch 3 — the mutation batteries. First: verify unit cures GREEN on the affected suites, then mutate.
-All GREEN. Running the mutation batteries — first S31-1 (revert the trim).
-S31-1 battery proven (2 RED → restored GREEN). Now S31-2 battery (remove the focus arm).
-The restore script's anchor mismatched. Let me inspect the current state and fix with Edit.
-The battery proved RED (both pins). Restoring the effect properly.
-S31-2 restored (28/28 GREEN). The footer already imports Link — choosing a symbol it doesn't use for the plant.
-Census battery proven — precise RED with the file + symbol named. Removing the plant.
-All three batteries proven. Now the S31-5a verification — compiling the real stylesheet to confirm the dead `/98` rule is gone.
-The `/98` rule still emits — the src/ comments are fixed, so another source feeds it. Testing whether .md files are scanned by Tailwind v4's auto source detection.
-**S31-5a verdict:** the isolated test proves `.md` files feed the scanner — the residual `/98` rule emits from the immutable historical-record docs (worklog, session logs), which the records doctrine forbids re-spelling. The src/ face is cured; the residual goes to the accepted register with this compile evidence (the plan's pre-registered branch).
+The web-application skill + the skills catalog internalized (the family
+skill every prior round internalized); tdd, clone-app-pat-pro, and the
+agent-browser doctrine (computed styles as ground truth, never
+eyeballs) applied throughout.
 
-**Batch 4: the e2e legs.** Reading the spec insertion points.
-Writing the three e2e legs.
-All e2e legs written. Now **Batch 5: the count re-anchor** — first the reality check on disk.
-Reality: 38 files / 648 unit, 9 specs / 65 e2e — exactly the plan's projection. Re-anchoring the constants FIRST.
-No duplicate — the s30/s31 entries fill the ladder gap. Now running the census to see which doc sites need the walk.
-10 RED doc sites — walking them all now. First the live line counts for PAD §12.
-5 remaining REDs — the README e2e line's tail must keep its pinned shape, and auth.ts's line count changed. Fixing precisely.
-Census fully GREEN (27/27). Now the full gate on the cure tree — stopping the dev server first (the session-4 lesson).
-Unit 648/648 ✓ but lint failed. Investigating.
-The `react-hooks/refs` rule rejects render-phase ref writes. Redesigning the cure with a state-flag shape (no ref writes during render).
-Now updating the S31-2 pin to match the state-flag mechanism.
-Re-verifying: lint, navbar line count (PAD row), and re-running the S31-2 mutation battery on the new shape.
-Lint clean, battery v2 proven (2 RED). Restoring the effect + fixing the PAD row (260 lines).
-Full gate now: lint → typecheck → unit → build → smoke → e2e.
-The new reset-banner leg failed. Investigating.
-The banner works — the assertion hit Next's route announcer (a second `role="alert"`). Scoping the locator to the form.
-**FULL GATE GREEN: lint 0/0 · tsc 0 · unit 648/648 (38 files) · build · smoke 15/15 · e2e 65/65 (9 specs).**
+## The audit
 
-Now the captures (69/70 on the dev server, per the standing instruction).
-Both captures PIL-verified (390×844, rich color depth, functionally confirmed). Now the round documents — first the plan's post-execution record.
-Now the SKILL frontmatter + Appendix A session-31 row.
-Now appending the session-31 row to Appendix A.
-Fixing the escaped-quote artifacts in the new row.
-Now the README session-31 row + gate line, and AGENTS plans map.
-Now worklog Task 31.
-Now replacing docs/session_31.md with this round's log.
-Session log written. Final verification — checking the tree state, then the complete final gate.
-Tree carries exactly the expected changes. Running the complete final gate on the exact commit tree.
-**FINAL GATE GREEN: lint 0/0 · tsc 0 · unit 648/648 · build · smoke 15/15 · e2e 65/65 · census MATCH.**
+Three parallel dispatched subagents (AUDIT-1 API/lib seams, AUDIT-2
+components/pages/effects, AUDIT-3 SEO/configs/tests/docs — every
+load-bearing finding hand-verified in source by the lead):
+**AUDIT-1: 0C/0H/0M/3L/1I · AUDIT-2: 0C/0H/0M/2L/3I · AUDIT-3:
+0C/0H/0M/0L/2I** — combined **0 Critical / 0 High / 0 Medium / 5 Low /
+6 Info**. AUDIT-2 compiled the real stylesheet with the installed
+@tailwindcss/postcss 4.3.3 using per-file recompile probes
+(`@import "tailwindcss" source(none); @source <file>`) that attribute
+every dead CSS rule to its demand source — all eight documented
+Tailwind v4 traps verified mitigated in the COMPILED output (zero
+`(hover: hover)` queries, literal-hex `@theme`, the re-pinned
+`--shadow-sm`/`--blur-sm`, no banned gradient pair, zero dead rules
+emitted from src/navbar). The lead's adjudication took four Lows plus
+four Info items into the working register (all cured — S32-1..S32-8);
+the rest moved to the accepted register with reasons.
 
-Now the commit + push phase. Reading the runbook's Appendix A shim (no ssh binary, no paramiko here).
-Deploying the Appendix-A shim path: install paramiko, create the workspace bin/ssh outside the repo.
-Shim deployed. Writing the operator key to a 0600 file outside the repo (never printed), then sanity-checking.
-Key verified (ed25519). Making the Conventional Commit on main.
-Commit `bee936d` on main, tree clean. Dry-run push first.
-Dry-run green. Executing the real push.
-Push verified (`main @ bee936d`), but my shred script had a bug — fixing it now.
-Session 31 complete and shipped. Final handoff:
+## The parity walk
 
-## Round summary
+Live, both sides, logged into the reference with
+`sepnetflix2023@outlook.com`: the mobile-menu census at 390×844 — the
+hamburger base classes byte-identical (the reference still ships the
+bare button; our aria family the documented superset), the open panel
+computed transparent both sides at scrollY=0 (`max-height: none`,
+display block, the five links + the Gumroad pill "Upgrade to Pro – $19"
+byte-identical), the bar `bg-transparent` with the menu open, the
+scrolled-bar class family byte-identical with the computed background
+the same color in its two spellings (our oklab form = the reference's
+`rgba(15, 23, 42, 0.95)`), the desktop nav family byte-identical, the
+five-route head census — **NO DRIFT** (titles, og:title, og:description,
+meta description, twitter:card byte-identical across all five routes;
+canonical + og:url differ by origin only; the icon links the documented
+file-convention posture — the reference ships a supabase-hosted
+logo.png, ours the `icon.png`/`apple-icon.png` conventions), sitemap.xml
++ robots.txt identical modulo origin (curl-diffed both directions), the
+login round-trip live on both sides (both land on `/`; the reference's
+localStorage-token posture vs our httpOnly `viralpost_session` cookie
+the documented superset). **NO DRIFT FOUND — the sixth consecutive
+fully-clean walk.** The mobile menu works as expected; the standing
+sitemap/SEO ask verified contract-complete.
 
-**Baseline:** cloned to `98912fa` (the owner's session-30 log update); gate GREEN at the documented counts (unit 644/644 · e2e 63/63 · smoke 15/15 · census MATCH); all standing asks re-verified (`.env` `DATABASE_URL="file:../db/custom.db"` with `db/` at repo root, vitest + playwright configs, sitemap/robots/manifest/OG family, `skills/` excluded from every gate, `.env.example` six-knob contract). neo-crm unchanged (`b3d0fbe`).
+## The cures (TDD — every pin RED first, mutation battery per the house doctrine)
 
-**Audit** (3 parallel subagents + hand-verification of every load-bearing finding): **0 Critical / 0 High / 0 Medium / 3 Low / 8 Info.**
+- **S32-1 (LOW)** — the launch-db trim: the S30-1/S31-1 trim doctrine
+  extended one face deeper. The launch-recovery arm compared UNTRIMMED
+  faces (`process.env.DATABASE_URL` vs `bunAbsolutized(launchEnvUrl)`,
+  then `urlForRoot` with the untrimmed ref), so a whitespace-PADDED
+  quoted launch `.env` value matched its own padded absolutization and
+  resolved to a trailing-space filename SQLite silently creates as a
+  fresh empty DB; the padded `file::memory:` shape returned the RAW
+  padded form through the S27-2 pass-through. Both faces now trim at
+  the top of `runtimeDatabaseUrl`. +2 pins (both RED-first); the
+  mutation battery on record (both trims reverted → both pins RED;
+  restored → GREEN).
+- **S32-2 (LOW)** — the smoke session-arm strengthening: leg 08's grep
+  carried only `ok:true`, which the logged-out `data:null` face also
+  produces — a cookie-VERIFICATION regression shipped green through
+  the whole ladder. The grep now carries the USER row
+  (`"email":"sepnetflix2023@outlook.com"`); leg 12 asserts the logout
+  200 (the S29-1 gate answers 401 for cookie-less callers).
+- **S32-3 (LOW)** — the live 429 leg: the master skill's smoke-tier
+  rate-limit contract (§14.3 "rate limit (429)"), restored from the
+  CRM-era 11th-login shape the session-1 transform dropped. Leg 07's
+  login + 10 wrong-password POSTs: the first nine answer 401, the
+  tenth additional (the 11th cumulative) answers 429 with Retry-After
+  + the RATE_LIMITED envelope. Broken-OPEN and broken-CLOSED both
+  fail the exact code sequence. SMOKE 15 → 16; the SEO family
+  renumbered to 14, the boot-gate probe to 15, the hygiene leg to 16;
+  PAD's boot-gate row and next.config.ts's hygiene comment
+  re-anchored in the same commit.
+- **S32-4 (LOW)** — the prose-safe + comment-truth batch: login-reset's
+  negative-mb-2 and slate-400-ring comment spellings and Reveal's
+  zero-opacity mention re-spelled (the S28-4/S31-5a doctrine), per-file
+  recompile-probe-verified CLEAN; the login-card /login "under the
+  navbar" rationale corrected (no navbar renders on /login).
+- **S32-5 (LOW)** — the CLAUDE hover-unwrap fix: CLAUDE.md:93 had
+  stated the INVERTED mechanism ("keeps hover styles off touch
+  devices"); the unwrap restores v3 bare-`:hover` semantics — hovers
+  apply on touch exactly like the reference's v3-era stylesheet. A
+  future agent could have "fixed" the code toward the doc and broken
+  the pinned touch-hover parity.
+- **S32-6 (INFO→cure)** — the history-close focus-return's first
+  BEHAVIORAL pin. The battery caught TWO of its own flaws: its first
+  shape was VACUOUS (focus had never left the toggle, so the arm could
+  be deleted with the assertion green) — redesigned to focus a link
+  INSIDE the open panel first; and the battery's rebuild lesson — the
+  e2e runs against the BUILD, so a source mutation only REDs after a
+  rebuild. Both on record; the final battery: arm removed from the
+  build → RED; restored → GREEN.
+- **S32-7 (INFO→cure)** — the head-level icon face: the SERVED head
+  now asserted to carry `link[rel=icon]` + `link[rel=apple-touch-icon]`
+  with the file-convention hrefs (a `metadata.icons` declaration would
+  REPLACE them). The battery: `metadata.icons` planted → RED (the
+  links replaced); restored → GREEN. The S29-5/S31-7a rendered-DOM
+  genus, its last open face.
+- **S32-8 (INFO→cure)** — the rate-limit fixture hygiene: the
+  assertion-free env-restore it() converted to a proper afterEach
+  (per-test isolation); UNIT −1 in the same commit.
 
-**Parity walk** (live, both sides, logged into the reference — mobile menu at 390×844 with the full functional battery, five-route head census, sitemap/robots, desktop nav, login round-trip): **NO DRIFT — the fifth consecutive fully-clean walk.** The mobile menu works as expected; all deltas were the documented deviations (origin-only canonical/og:url, the D-4 og:image stand-in, the superset arms, the oklab/rgba same-color spelling, the reference's dead 98-percent panel token). The Tailwind v4 trap catalog verified mitigated in the **compiled output** (zero `(hover: hover)` queries, literal-hex `@theme`, zero unmatched v4 classes).
+## The count re-anchor
 
-**Cures (TDD, +4 unit pins + 2 e2e legs, every mutation battery on record):**
-- **S31-1** db-path whitespace normalization — a `" "` DATABASE_URL still masked valid values post-S30-1; live-probed pre-cure, cured with a one-home `trim()`
-- **S31-2** history-close focus return — the mobile menu's third close arm now returns focus like its siblings; the first cure shape (render-phase ref) was **rejected by the lint gate** (`react-hooks/refs`) and redesigned to the state-flag shape — the round's design lesson, on record
-- **S31-3** the undocumented `bunx playwright install chromium` prerequisite (bun's trustedDependencies never runs it — a fresh clone's gate fails opaquely) documented at three operator sites
-- **S31-4** donor-ledger marker on auth.ts's colliding citation · **S31-5** prose-safe `/98` comments + Reveal's mount-time contract (the .md-scanner residual accepted on compile evidence) · **S31-6** the dead-import census generalized tree-wide (planted-defect battery names file + symbol) · **S31-7** e2e superset: og:image dims on the served head, the authed `/login` no-redirect posture, the reset-screen error banner
+UNIT 648 → **649** (+2 the S32-1 pins, −1 the S32-8 vacuous
+registration), E2E 65 unchanged (the S32-6/S32-7 folds are in-place —
+the S18-2 precedent), SMOKE 15 → **16**, SUITES 38 unchanged, badge 713
+→ **714**. Constants re-anchored FIRST; the census then walked the doc
+sites GREEN in one pass. The PAD §12 rows re-anchored to the live
+`wc -l`: db-path.ts 297 → 308, smoke-test.sh 212 → 246.
 
-**Verified:** full gate GREEN on the exact commit tree — lint 0/0 · tsc 0 · unit **648/648** (38 files) · build · smoke 15/15 · e2e **65/65** (9 specs) · census MATCH · badge 713. Captures **69/70** PIL-verified under `docs/screenshots/`. Six docs + SKILL v1.27.0 + the five provenance sites in lockstep.
+## Verified
 
-**Reasoned:** the reference's post-login `/Home` destination (its own duplicate-content posture; ours 308-redirects — the documented deviation).
+- The full gate on the exact commit tree (below)
+- Captures 71/72 on the dev server (the owner-instructed posture, the
+  session-29/30/31 precedent): the mobile-menu open clean-walk at
+  390×844 + the landing hero, PIL-verified
+- Docs lockstep: README (the session-32 row, the gate line, badge 714,
+  the counts); AGENTS (counts, the plans map's thirty-second round);
+  CLAUDE (counts, the S32-5 line); PAD (§8.1 table, §12 rows, the
+  counts); SKILL v1.27.0 → v1.28.0 (frontmatter, §0.5's range 1..32,
+  Appendix A's session-32 row, Appendix B, the pre-ship checklist
+  counts); the five provenance sites re-anchored to 1..32; worklog
+  Task 32; this session log; the plan's post-execution record
 
-**Deferred (accepted register, with reasons):** the in-app-delivery default flip (standing owner-level), me-route unthrottled read, 36px touch targets (parity doctrine), cross-tab quota staleness, formatting nits, the signup admin-bootstrap race (standing session-27 adjudication), and the ~100-byte dead CSS rule emitted from the immutable history docs (compile-evidence acceptance).
+**Gate at the session-32 ship: lint 0/0 · tsc 0 · unit 649/649 (38
+files) · build · smoke 16/16 · e2e 65/65 (9 specs) · census MATCH.**
 
-**Shipped:** commit `bee936d` on **main** (no new branches), pushed via `docs/ssh_git_wrapper_v3.py` (dry-run first, remote ref verified `main @ bee936d`, operator key + temp material shredded) — 25 files.
+**Deferred (accepted register, with reasons):** the bun-absolutization
+causal model's non-reproduction on this sandbox's bun 1.3.14 (probed
+across 7 shapes — the header's model stands, defensive under both
+models; re-verify on the deployment bun before any rewording); the
+natural-English prose-collision dead rules (~150 B/rule from ordinary
+words — the inherent cost of v4's comment scanning); the test-pin
+literal face of the S32-4 cure (the standing tests/.md residual family
+— the src/ face is the app-code doctrine face and IS cured); the
+standing accepted register carried forward (the in-app-delivery default
+flip — the owner-level deferral; the me-route unthrottled read; the
+36px touch targets; the cross-tab quota staleness; the formatting nits;
+the signup admin-bootstrap race; the Tailwind .md-scanner residual).

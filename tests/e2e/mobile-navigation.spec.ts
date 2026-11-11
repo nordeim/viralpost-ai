@@ -50,10 +50,21 @@ test("history navigation closes the open menu too (session-10, F10-10)", async (
   // button — no link click fires.
   await page.getByRole("button", { name: "Open menu" }).click();
   await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
+  // Session-32 (S32-6): the S31-2 focus return's first BEHAVIORAL pin (the
+  // mechanism was source-pinned only — the Escape arm's return has been
+  // e2e-asserted since session 15). Focus a link INSIDE the open panel
+  // first (the keyboard/AT posture) so the history close unloads the
+  // focused link and only the layout-effect arm can land focus back on
+  // the toggle — the battery's first shape was VACUOUS (focus had never
+  // left the toggle, so the arm could be deleted with the assertion
+  // still green); this shape makes the deletion RED.
+  await page.getByRole("navigation").getByRole("link", { name: "Tool" }).focus();
+  await expect(page.getByRole("navigation").getByRole("link", { name: "Tool" })).toBeFocused();
   await page.goBack();
   await page.waitForURL((url) => url.pathname === "/");
   await expect(page.getByRole("button", { name: "Open menu" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Close menu" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "Open menu" })).toBeFocused();
 });
 
 test("Escape closes the open menu (the a11y superset)", async ({ page }) => {

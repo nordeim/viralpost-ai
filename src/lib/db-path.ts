@@ -236,7 +236,16 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  * is still honored exactly as before.
  */
 export function runtimeDatabaseUrl(cwd: string = process.cwd()): string {
-  const envUrl = process.env.DATABASE_URL;
+  // Session-32 (S32-1): the launch-recovery arm used to compare UNTRIMMED
+  // faces — a whitespace-PADDED quoted launch .env value (a one-keystroke
+  // typo) matched its own padded absolutization and re-anchored through
+  // urlForRoot with the untrimmed ref, resolving to a trailing-space
+  // filename SQLite silently creates as a fresh empty DB (the S30-1/S31-1
+  // genus, one face deeper). Trim both faces here so the signature
+  // comparison, the :memory: pass-through and urlForRoot all see clean
+  // values — the same one-home doctrine the tail seam already applies
+  // (effectiveDatabaseUrl's own trim is idempotent on pre-trimmed input).
+  const envUrl = process.env.DATABASE_URL?.trim() || undefined;
   const envFileUrl = readDatabaseUrlFromEnvAt(cwd);
   // Session-23 (S23-7): the cwd-side bun-signature early return is
   // RETIRED — the tail effectiveDatabaseUrl({envUrl, envFileUrl,
@@ -260,7 +269,9 @@ export function runtimeDatabaseUrl(cwd: string = process.cwd()): string {
   if (envUrl) {
     const launchDir = repoRootFromStandaloneCwd(cwd);
     if (launchDir && launchDir !== cwd) {
-      const launchEnvUrl = readDatabaseUrlFromEnvAt(launchDir);
+      // Session-32 (S32-1): the launch .env's value joins the one-home
+      // trim — see the runtimeDatabaseUrl header comment.
+      const launchEnvUrl = readDatabaseUrlFromEnvAt(launchDir)?.trim() || undefined;
       // Session-35 guard: only a RELATIVE launch value can be a bun
       // absolutization candidate. An absolute launch .env value (the
       // documented production form, docs/DEPLOYMENT.md §4) passes through

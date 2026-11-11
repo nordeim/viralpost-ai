@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
   // shipping .env (the real AUTH_SECRET), .git/, db/ (the dev SQLite
   // file with user rows), skills/ and docs/ inside every deployable
   // artifact. The excludes keep the artifact to the server's true
-  // runtime needs (smoke leg 15 asserts the built artifact carries none
+  // runtime needs (smoke leg 16 asserts the built artifact carries none
   // of them; prisma/schema.prisma stays traced and the db-path anchors
   // still validate). Next's own writeStandaloneDirectory ALSO copies
   // .env explicitly (build/index.js — immune to excludes): the build

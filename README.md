@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-713%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-714%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,7 +52,7 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 38 files / 648 tests, node env, pure seams |
+| Unit tests | Vitest | 5.0 | 38 files / 649 tests, node env, pure seams |
 | E2E | Playwright | 1.64 | 9 specs / 65 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
@@ -141,9 +141,9 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (38 files / 648 tests)
+bun run test            # Vitest unit suite (38 files / 649 tests)
 bun run test:e2e        # Playwright e2e (9 specs / 65 tests) — needs bun run build first
-./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
+./scripts/smoke-test.sh # 16-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
 ```
 
@@ -269,6 +269,11 @@ smoke 15/15 · e2e 63/63.
 
 Gate at the session-31 ship: lint 0/0 · tsc 0 · unit 648/648 · build ·
 smoke 15/15 · e2e 65/65.
+
+| Session 32 — the launch-db trim + the smoke 429 leg + the strengthened session arms + the prose-safe batch + the e2e superset | ✅ done | The audit round at 0 Critical / 0 High / 0 Medium / 5 Low / 6 Info (three parallel subagents + the lead's hand-verification — every load-bearing finding live-probed, source-verified, or probe-compiled; the bun-absolutization non-reproduction, the natural-English prose collisions, and the test-pin literal face moved to the accepted register with reasons); THE PARITY WALK found NO DRIFT — the sixth consecutive fully-clean walk (the mobile-menu census at 390×844 — the hamburger base classes byte-identical, the open panel computed transparent both sides at scrollY=0, the five links + the Gumroad pill byte-identical, the bar families byte-identical with the two documented same-color spellings; the five-route head census — titles/og/descriptions/twitter byte-identical, canonical + og:url by origin only, the icon links the documented file-convention posture; sitemap/robots identical modulo origin, curl-diffed both directions; the login round-trip live on both sides); THE CURES: the launch-db trim (S32-1 — the S30-1/S31-1 trim doctrine extended to the launch-recovery arm: a whitespace-PADDED quoted launch .env value matched its own padded absolutization and re-anchored to a trailing-space filename; both faces now trim at the top of runtimeDatabaseUrl; +2 pins, both mutation batteries on record), the smoke session-arm strengthening (S32-2 — leg 08's grep carries the USER row so a cookie-VERIFICATION regression fails the leg; leg 12 asserts the logout 200), the live 429 leg (S32-3 — the master skill's smoke-tier rate-limit contract restored from the CRM-era 11th-login shape; the first nine answers 401 + the tenth additional 429 + Retry-After; SMOKE 15→16), the prose-safe + comment-truth batch (S32-4 — login-reset's negative-mb-2 and slate-400-ring comment spellings and Reveal's zero-opacity mention re-spelled, probe-verified clean; the login-card /login navbar comment corrected), the CLAUDE hover-unwrap mechanism fix (S32-5 — the line had stated the inverted mechanism), the e2e superset folds (S32-6/S32-7 — the history-close focus return's first behavioral pin + the head-level icon links; both batteries on record), and the rate-limit fixture hygiene (S32-8 — the vacuous env-restore it() converted to afterEach); unit 649/38 (+2 pins −1 vacuous) + e2e 65/9 (folds in place), badge 714; captures 71/72 |
+
+Gate at the session-32 ship: lint 0/0 · tsc 0 · unit 649/649 · build ·
+smoke 16/16 · e2e 65/65.
 
 ## License
 

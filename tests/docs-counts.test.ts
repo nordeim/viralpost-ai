@@ -136,6 +136,12 @@ import {
 // render (S31-7b) and the reset-screen API-rejected banner (S31-7c);
 // the og:image dims arms fold into the existing seo test in place —
 // the S18-2 precedent).
+// s32: 649/38 (+2 the session-32 pins — the db-path launch-arm trim pair
+// (S32-1); the S32-8 vacuous env-restore it() converted to afterEach
+// −1 in the same commit) and the e2e 65 unchanged (the S32-6 history-
+// close focus arm and the S32-7 head-level icon arms fold into existing
+// tests in place — the S18-2 precedent). SMOKE 15 → 16 (the S32-3
+// live-429 leg; the S32-2 leg-08/leg-12 strengthening is in-place).
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -143,7 +149,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 648;
+const UNIT = 649;
 /** Vitest suite files. */
 const SUITES = 38;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -151,7 +157,7 @@ const E2E = 65;
 /** Playwright e2e spec files. */
 const E2E_SPECS = 9;
 /** Smoke ladder legs. */
-const SMOKE = 15;
+const SMOKE = 16;
 /** The README badge total (unit + e2e). */
 const BADGE = UNIT + E2E;
 

@@ -121,8 +121,8 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
   // the focused control — Forgot password? / Need an account? / the Back
   // buttons — and focus used to fall to <body>, the next Tab starting at
   // the document top; WCAG 2.4.3). The prev-view guard keeps the INITIAL
-  // mount from stealing focus (the card renders mid-page under the
-  // navbar on /login).
+  // mount from stealing focus (the card renders mid-page on /login —
+  // no navbar sits above it; session-32 S32-4 comment-truth).
   const prevViewRef = React.useRef(view);
   React.useEffect(() => {
     if (prevViewRef.current === view) return;

@@ -375,6 +375,41 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34)", () =>
       expect(url).toBe("file::memory:");
     });
   });
+
+  // Session-32 (S32-1): the S30-1/S31-1 trim doctrine, one face deeper.
+  // The one-home trim lived ONLY in effectiveDatabaseUrl; the launch-
+  // recovery arm compared UNTRIMMED faces, so a whitespace-PADDED quoted
+  // launch .env value (a one-keystroke typo) matched its own padded
+  // absolutization and re-anchored through urlForRoot with the untrimmed
+  // ref — resolving to a trailing-space filename SQLite silently creates
+  // as a fresh empty DB. Mutation battery: revert the two trims in
+  // runtimeDatabaseUrl → BOTH pins RED.
+  it("a whitespace-padded launch .env value resolves to the CLEAN path (S32-1)", () => {
+    const { repo, standalone } = buildStandaloneRepo();
+    // The padded launch .env (trailing space inside the quotes) and the
+    // padded absolutization bun would export for it.
+    writeFileSync(join(repo, ".env"), 'DATABASE_URL="file:../db/custom.db "\n');
+    const launchAbsolutized = `file:${join(repo, "..", "db", "custom.db")} `;
+    withEnv(launchAbsolutized, () => {
+      const url = runtimeDatabaseUrl(standalone);
+      expect(url).toBe(`file:${join(repo, "db", "custom.db")}`);
+      // Never a trailing-space path — the pre-cure shape resolved to
+      // "<repo>/db/custom.db " (a fresh empty wrong DB).
+      expect(url).not.toMatch(/custom\.db $/);
+    });
+  });
+
+  it("a whitespace-padded :memory: launch value returns the TRIMMED raw spelling (S32-1)", () => {
+    const { repo, standalone } = buildStandaloneRepo();
+    // The S27-2 arm returns the launch .env's own value — the padded
+    // spelling must come back TRIMMED, never the padded raw.
+    writeFileSync(join(repo, ".env"), 'DATABASE_URL="file::memory: "\n');
+    const launchAbsolutized = `file:${join(repo, ":memory:")} `;
+    withEnv(launchAbsolutized, () => {
+      const url = runtimeDatabaseUrl(standalone);
+      expect(url).toBe("file::memory:");
+    });
+  });
 });
 
 describe("resolveDatabaseUrl", () => {

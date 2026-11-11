@@ -90,7 +90,11 @@ remediated by AI agents under the Meticulous Approach.
 - CSS-first: tokens in `@theme` with **literal hex** (a bare HSL
   triplet silently resolves to transparent; v4's default oklch palette
   drifts from intended hexes).
-- The `@custom-variant hover` unwrap keeps hover styles off touch devices.
+- The `@custom-variant hover` unwrap restores v3 bare-`:hover` semantics —
+  hover styles apply on touch devices, exactly like the reference's
+  v3-era stylesheet (v4's default `(hover: hover)` media wrap would keep
+  them off touch). (Session-32, S32-5: this line used to state the
+  inverted mechanism.)
 - (Session-11: the vendored `tw-animate.css` is retired — dead bytes on a
   phantom Radix claim; the design-tokens censuses guard the theme.)
 - Brand gradients interpolate in oklab — use inline styles where the
@@ -126,7 +130,7 @@ bun run dev
 | `bun run typecheck` | `tsc --noEmit` |
 | `bun run test` | Vitest unit suite |
 | `CI=1 bun run test:e2e` | Playwright against the build (one-time `bunx playwright install chromium` first — bun's trustedDependencies skips the postinstall) |
-| `./scripts/smoke-test.sh` | 15-leg curl ladder |
+| `./scripts/smoke-test.sh` | 16-leg curl ladder |
 | `bun run gate` | All of the above, in order |
 
 ### Database (Prisma)
@@ -142,16 +146,17 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 38 files / 648 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 38 files / 649 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.
 - **E2E (Playwright)**: 9 specs / 65 tests against the production build,
   own port + own `db/e2e.db`, one shared login via `storageState`,
   axe-core a11y assertions on every route at two widths.
-- **Smoke (bash)**: 15 legs against the standalone artifact with a
-  pinned env — health, page renders, auth round-trip, generator
-  round-trip, SEO endpoints, the boot gate, artifact hygiene.
+- **Smoke (bash)**: 16 legs against the standalone artifact with a
+  pinned env — health, page renders, auth round-trip, the live 429
+  rate-limit leg (session-32), generator round-trip, SEO endpoints,
+  the boot gate, artifact hygiene.
 - **Parity walks**: agent-browser against the LIVE reference for anything
   visual — screenshots + computed styles, not eyeballs.
 

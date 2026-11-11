@@ -33,11 +33,13 @@
  * view (six single-digit inputs + the attempts ladder). The signup view's
  * error banner is the Callout vocabulary below (the red variant of the
  * s11 sent-callout). Session-79 (M-79c2) v4-FALSIFIED the s21 claim
- * that the back buttons' -mb-2 mirrors verbatim: under v4's
+ * that the back buttons mirrored the reference's negative mb-2 margin
+ * form verbatim: under v4's
  * :where() margin-BOTTOM space-y, the negative own-class margin WINS
  * the specificity fight and computes a -8px OVERLAP (LIVE-measured on
  * our dev server) where the reference computes +8px at BOTH widths —
- * mb-2 (signup/verify) and mb-2 sm:mb-4 (reset) are the v4-correct
+ * the positive mb-2 form (signup/verify) and the mb-2-plus-sm-mb-4
+ * ladder (reset) are the v4-correct
  * expressions of the reference's computed gaps.
  */
 
@@ -78,12 +80,13 @@ export const LOGIN_RESET_LAYOUT = {
   /** The space-y-4 sm:space-y-6 stack both views render inside. */
   viewStack: "space-y-4 sm:space-y-6",
   /** The reset view's left-aligned Back to sign in. NOTE: the reference's
-   *  class is `… -mb-2`, which under ITS v3-era space-y (margin-TOP on
+   *  own class carries its negative mb-2 margin form, which under ITS v3-era space-y (margin-TOP on
    *  following siblings) collapses to an 8px gap at <640 (under space-y-4)
    *  and a 16px gap at >=640 (under sm:space-y-6) — LIVE-measured at 390
    *  and 1512 (session-79). Under OUR Tailwind v4, space-y is wrapped in
    *  :where() and sets margin-BOTTOM — where any own mb class WINS the
-   *  specificity fight — so `mb-2 sm:mb-4` expresses the SAME computed
+   *  specificity fight — so the positive mb-2-plus-sm-mb-4 ladder
+   *  expresses the SAME computed
    *  ladder directly. (Session-11 VLM round: the clone rendered -8px
    *  until the re-pin; session-79: the flat mb-4 was 8px too tall at
    *  phones.) */
@@ -152,11 +155,12 @@ export const LOGIN_SIGNUP_LAYOUT = {
   viewColumn: "w-full",
   /** The space-y-4 stack (NO sm variant — unlike the reset view's sm:space-y-6). */
   viewStack: "space-y-4",
-  /** The back button — the reference's computed +8px gap (its -mb-2
-   *  collapses under v3 space-y-4 at ALL widths; session-79 M-79c2
-   *  LIVE-falsified the s21 "verbatim -mb-2" claim: under our v4 the
-   *  own class WINS the :where() fight and computed an 8px OVERLAP —
-   *  `mb-2` is the v4-correct direct expression). */
+  /** The back button — the reference's computed +8px gap (its negative
+   *  mb-2 form collapses under v3 space-y-4 at ALL widths; session-79
+   *  M-79c2 LIVE-falsified the s21 "verbatim mirror" claim: under our
+   *  v4 the own class WINS the :where() fight and computed an 8px
+   *  OVERLAP — the positive mb-2 form is the v4-correct direct
+   *  expression). */
   back: "flex items-center gap-2 text-sm text-slate-500 hover:text-slate-700 font-medium transition-colors mb-2",
   /** The back button's ArrowLeft icon size (the s11 pin). */
   backIcon: "h-4 w-4",
@@ -180,10 +184,12 @@ export const LOGIN_SIGNUP_LAYOUT = {
   /** The input — the s11 resetInput family (h-10 sm:h-11, ONE size down
    *  from the signin form's h-11 sm:h-12), DOM-verified on the reference's
    *  signup view: …pl-10 h-10 sm:h-11 bg-slate-50/50 border-slate-200
-   *  focus:border-slate-400 focus:ring-slate-400 rounded-xl
-   *  placeholder:text-slate-400 text-sm sm:text-base.
+   *  focus:border-slate-400 rounded-xl placeholder:text-slate-400
+   *  text-sm sm:text-base, plus the reference's own slate-400 focus
+   *  ring (S32-4: that ring form is re-spelled prose-safe — its
+   *  compiled rule never matched a live consumer here).
    *  Session-25 (S25-3): the RING is our superset upgrade — the
-   *  reference's own focus:ring-slate-400 computes ≈2.57:1 on the white
+   *  reference's own slate-400 focus ring computes ≈2.57:1 on the white
    *  card (under the WCAG 1.4.11 3:1 focus-indicator floor); ours rides
    *  slate-600 (≈7.5:1), the S24-4 in-place upgrade form. The resting
    *  classes stay the reference's byte-for-byte. */

@@ -11,15 +11,21 @@
 #   05  /Home 308-redirects to /                     (the canonical alias)
 #   06  the unknown route answers the designed 404   (the not-found page)
 #   07  the demo login -> the viralpost_session cookie (the auth round-trip)
-#   08  the sessioned /api/auth/me -> 200 + the user (the envelope ok:true)
+#   08  the sessioned /api/auth/me -> 200 + the USER row (envelope; the
+#       logged-out data:null face can never satisfy it — session-32 S32-2)
 #   09  an invalid contact payload -> 400            (the Zod seam)
 #   10  a valid contact submit -> 200 (the persistence superset)
 #   11  the generator round-trip -> 200 + hashtags   (the core workflow!)
-#   12  logout -> /api/auth/me data:null             (the cookie teardown)
-#   13  /sitemap.xml + /robots.txt + /manifest.json all 200 (the SEO family)
-#   14  THE BOOT-GATE PROBE: a second boot WITHOUT AUTH_SECRET refuses
+#   12  logout -> 200; /api/auth/me data:null     (the cookie teardown)
+#   13  the 11th login answers 429 + Retry-After  (the LIVE rate limit —
+#       the master skill's smoke-tier contract, restored from the CRM-era
+#       11th-login shape; session-32 S32-3: leg 07's login + 10 wrong-
+#       password POSTs, the first nine answer 401, the tenth additional
+#       is the 11th in the login window)
+#   14  /sitemap.xml + /robots.txt + /manifest.json all 200 (the SEO family)
+#   15  THE BOOT-GATE PROBE: a second boot WITHOUT AUTH_SECRET refuses
 #       to serve — the fail-fast posture (the log carries the message)
-#   15  THE ARTIFACT-HYGIENE assertions: the built artifact contains NO
+#   16  THE ARTIFACT-HYGIENE assertions: the built artifact contains NO
 #       .env / .git / db / skills / docs / uploads / worklog.md /
 #       test-results entries
 #
@@ -149,9 +155,11 @@ login_code=$(code -c "$COOKIE_JAR" -H "Content-Type: application/json" \
 [ "$login_code" = 200 ] && grep -q "viralpost_session" "$COOKIE_JAR" \
   && ok 07 "demo login + the viralpost_session cookie" || { fail 07 "login"; exit 1; }
 
-# 08 — the sessioned envelope
-[ "$(code -b "$COOKIE_JAR" "$BASE/api/auth/me")" = 200 ] && body -b "$COOKIE_JAR" "$BASE/api/auth/me" | grep -q '"ok":true' \
-  && ok 08 "sessioned me 200 + ok:true" || { fail 08 "sessioned read"; exit 1; }
+# 08 — the sessioned envelope (session-32 S32-2: the grep carries the USER
+# row — the logged-out ok:true,data:null face can never satisfy it, so a
+# cookie-VERIFICATION regression now fails the leg instead of riding green)
+[ "$(code -b "$COOKIE_JAR" "$BASE/api/auth/me")" = 200 ] && body -b "$COOKIE_JAR" "$BASE/api/auth/me" | grep -q '"email":"sepnetflix2023@outlook.com"' \
+  && ok 08 "sessioned me 200 + the user row" || { fail 08 "sessioned read"; exit 1; }
 
 # 09 — the invalid payload (the Zod seam's 400)
 [ "$(code -b "$COOKIE_JAR" -H "Content-Type: application/json" -d '{"name":"x","email":"not-an-email","message":"y"}' "$BASE/api/contact")" = 400 ] \
@@ -171,16 +179,42 @@ echo "$gen_body" | grep -q '"ok":true' && echo "$gen_body" | grep -q '#' \
   && ok 11 "generate 200 + a hashtagged post" || { fail 11 "generator (body: $gen_body)"; exit 1; }
 
 # 12 — the logout teardown (-c: the jar takes the cleared cookie; /me is
-# the by-design data:null face — a logged-out caller gets 200 + data:null)
-code -b "$COOKIE_JAR" -c "$COOKIE_JAR" -X POST "$BASE/api/auth/logout" >/dev/null
-body -b "$COOKIE_JAR" "$BASE/api/auth/me" | grep -q '"data":null' \
-  && ok 12 "logout + post-logout data:null" || { fail 12 "logout teardown"; exit 1; }
+# the by-design data:null face — a logged-out caller gets 200 + data:null).
+# Session-32 (S32-2): the STATUS is asserted too — the S29-1 session gate
+# answers 401 for cookie-less callers; with the jar it must be 200.
+logout_code=$(code -b "$COOKIE_JAR" -c "$COOKIE_JAR" -X POST "$BASE/api/auth/logout")
+[ "$logout_code" = 200 ] && body -b "$COOKIE_JAR" "$BASE/api/auth/me" | grep -q '"data":null' \
+  && ok 12 "logout 200 + post-logout data:null" || { fail 12 "logout teardown (code $logout_code)"; exit 1; }
 
-# 13 — the SEO family
+# 13 — the LIVE rate limiter (session-32 S32-3): the master skill's
+# smoke-tier contract (web-application §14.3 "rate limit (429)"), restored
+# from the CRM-era 11th-login shape the session-1 transform dropped.
+# leg 07's login + 10 wrong-password POSTs = 11 in the login window; the
+# first nine answer 401 (allowed, wrong credentials — the timing
+# equalizer burns on each), the tenth additional is the 11th cumulative
+# and must answer 429 with Retry-After + the RATE_LIMITED envelope.
+# Broken-OPEN (never 429) and broken-CLOSED (429 too early) both fail
+# the exact code sequence.
+rl_body="$(mktemp)"; rl_headers="$(mktemp)"; rl_codes=""
+for _ in $(seq 1 10); do
+  rl_c=$(curl -s --max-time 10 -o "$rl_body" -D "$rl_headers" \
+    -H "Content-Type: application/json" \
+    -d '{"email":"sepnetflix2023@outlook.com","password":"definitely-wrong"}' \
+    -w "%{http_code}" "$BASE/api/auth/login")
+  rl_codes="$rl_codes $rl_c"
+done
+[ "$rl_codes" = " 401 401 401 401 401 401 401 401 401 429" ] \
+  && grep -qi '^retry-after:' "$rl_headers" \
+  && grep -q 'RATE_LIMITED' "$rl_body" \
+  && ok 13 "the 11th login answers 429 + Retry-After (the live limiter)" \
+  || { fail 13 "rate limit (codes:$rl_codes)"; exit 1; }
+rm -f "$rl_body" "$rl_headers"
+
+# 14 — the SEO family
 [ "$(code "$BASE/sitemap.xml")" = 200 ] && [ "$(code "$BASE/robots.txt")" = 200 ] && [ "$(code "$BASE/manifest.json")" = 200 ] \
-  && ok 13 "sitemap + robots + manifest 200" || { fail 13 "the SEO family"; exit 1; }
+  && ok 14 "sitemap + robots + manifest 200" || { fail 14 "the SEO family"; exit 1; }
 
-# --- 14. THE BOOT-GATE PROBE: a secretless production boot refuses -----------
+# --- 15. THE BOOT-GATE PROBE: a secretless production boot refuses -----------
 kill_port_squatters 3211
 sleep 1
 DATABASE_URL="$SMOKE_DB_URL" AUTH_SECRET="" NODE_ENV=production PORT=3211 \
@@ -194,10 +228,10 @@ done
 kill "$GATE_PID" 2>/dev/null || true
 wait "$GATE_PID" 2>/dev/null || true
 [ "$served" = 1 ] && grep -q "AUTH_SECRET" "$GATE_LOG" \
-  && ok 14 "the secretless production boot refuses to serve (the log names AUTH_SECRET)" \
-  || { fail 14 "the boot gate did not refuse"; cat "$GATE_LOG" >&2; exit 1; }
+  && ok 15 "the secretless production boot refuses to serve (the log names AUTH_SECRET)" \
+  || { fail 15 "the boot gate did not refuse"; cat "$GATE_LOG" >&2; exit 1; }
 
-# --- 15. THE ARTIFACT-HYGIENE assertions -------------------------------------
+# --- 16. THE ARTIFACT-HYGIENE assertions -------------------------------------
 hygiene_fail=""
 # Session-23 (S23-18): server.log joins dev.log — the start script's tee
 # creates it at the repo root; a stale one belongs to the F-170a nft-baggage
@@ -206,7 +240,7 @@ for entry in .env .git db skills docs uploads worklog.md test-results dev.log se
   [ -e ".next/standalone/$entry" ] && hygiene_fail="$hygiene_fail $entry"
 done
 [ -z "$hygiene_fail" ] \
-  && ok 15 "the artifact carries no .env/.git/db/skills/docs/uploads/logs" \
-  || { fail 15 "the artifact ships:$hygiene_fail"; exit 1; }
+  && ok 16 "the artifact carries no .env/.git/db/skills/docs/uploads/logs" \
+  || { fail 16 "the artifact ships:$hygiene_fail"; exit 1; }
 
-echo "SMOKE: 15/15 PASS"
+echo "SMOKE: 16/16 PASS"

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { rateLimit, sweepRateLimits, clientKey } from "@/lib/rate-limit";
 
 describe("rateLimit", () => {
@@ -48,6 +48,16 @@ describe("rateLimit", () => {
 
 describe("clientKey (session-163: last-hop trust + declared depth)", () => {
   const ORIGINAL = process.env.VIRALPOST_PROXY_HOPS;
+
+  // Session-32 (S32-8): the restore used to ride an assertion-free it()
+  // at the describe's tail — a vacuous test registration that only held
+  // under vitest's in-order file execution. A proper afterEach restores
+  // after EVERY test (per-test isolation; the census drops the vacuous
+  // registration from UNIT in the same commit).
+  afterEach(() => {
+    if (ORIGINAL === undefined) delete process.env.VIRALPOST_PROXY_HOPS;
+    else process.env.VIRALPOST_PROXY_HOPS = ORIGINAL;
+  });
 
   it("keys on the LAST x-forwarded-for hop at the default depth (the proxy-appended real IP)", () => {
     delete process.env.VIRALPOST_PROXY_HOPS;
@@ -110,10 +120,6 @@ describe("clientKey (session-163: last-hop trust + declared depth)", () => {
     expect(clientKey(new Request("http://x"))).toBe("unknown");
   });
 
-  it("restores the environment after the battery", () => {
-    if (ORIGINAL === undefined) delete process.env.VIRALPOST_PROXY_HOPS;
-    else process.env.VIRALPOST_PROXY_HOPS = ORIGINAL;
-  });
 });
 
 // ---- session-164: the amortized sweep (the digma S76-G port) --------------

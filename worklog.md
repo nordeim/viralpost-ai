@@ -3428,3 +3428,90 @@ smoke 15/15 · e2e 65/65.
 - SHIPPED: the remediated codebase + the docs in lockstep,
   committed to main and pushed via docs/ssh_git_wrapper_v3.py
   (the remote verified; no new branches)
+
+
+## Task 32 — The launch-db trim + the smoke 429 leg + the strengthened session arms + the prose-safe batch + the e2e superset (2026-11-12)
+
+Task ID: 32
+Agent: main (Z.ai)
+Task: the standing instruction — docs review → baseline gate → the
+comprehensive audit → the neo-crm re-review → the live reference parity
+walk → the TDD cures → the gate → captures → push.
+
+Details:
+- Round opened on the pulled tree (60259ca — the owner's session-log
+  update holding the session-31 execution narration as
+  docs/session_32.md, the established pattern). Core docs read in full
+  (AGENTS, CLAUDE, README, PAD, SKILL v1.27.0) + the session-31 set
+  (session_31.md, the session-31 plan, worklog Task 31,
+  docs/session_32.md). Baseline gate GREEN at the documented counts
+  (lint 0/0 · tsc 0 · unit 648/648 · build · smoke 15/15 · e2e 65/65 ·
+  census MATCH); the standing asks re-verified up front (the .env
+  DATABASE_URL="file:../db/custom.db" contract with db/ at the repo
+  root — the seam re-anchors the ambient shell override to
+  <repo>/db/custom.db, census MATCH; the vitest + playwright suites
+  in place; the sitemap/robots/manifest/OG family; skills/ excluded
+  from every gate; the committed .env.example matching the six-knob
+  contract). neo-crm re-checked at HEAD b3d0fbe — UNCHANGED since
+  session 12.
+- The web-application skill + the skills catalog re-internalized (tdd,
+  clone-app-pat-pro, agent-browser doctrine — computed styles as the
+  ground truth, never eyeballs).
+- THE AUDIT (three parallel subagents — AUDIT-1 API/lib seams, AUDIT-2
+  components/pages/effects, AUDIT-3 SEO/configs/tests/docs; every
+  load-bearing finding hand-verified by the lead): 0 Critical / 0 High
+  / 0 Medium / 5 Low / 6 Info. AUDIT-2 compiled the real stylesheet
+  with per-file recompile probes (the S31-5a method) attributing every
+  dead rule to its demand source; AUDIT-3 ran the reality inventory.
+  Four Lows + four Infos cured (S32-1..S32-8); the rest to the
+  accepted register with reasons.
+- THE PARITY WALK (live, both sides, logged into the reference):
+  NO DRIFT — the sixth consecutive fully-clean walk. The mobile-menu
+  census at 390×844 (the hamburger classes, the open panel, the five
+  links + the pill, the bar families, the scrolled bar's two
+  same-color spellings), the five-route head census, sitemap/robots
+  curl-diffed identical modulo origin, the login round-trip on both
+  sides. All deltas the documented deviations (the aria superset, the
+  oklab/rgba spelling, the file-convention icons, the localStorage-vs-
+  cookie auth).
+- THE CURES (TDD): S32-1 the launch-db trim (the S30-1/S31-1 doctrine
+  extended to the launch-recovery arm — both faces trim at the top of
+  runtimeDatabaseUrl; +2 pins; the mutation battery on record: both
+  trims reverted → both pins RED); S32-2 the smoke session-arm
+  strengthening (leg 08's grep carries the USER row; leg 12 asserts
+  the logout 200); S32-3 the live 429 leg (SMOKE 15 → 16 — the SEO
+  family 14, the boot-gate probe 15, the hygiene leg 16; PAD:517 +
+  next.config.ts:20 re-anchored); S32-4 the prose-safe + comment-truth
+  batch (login-reset + reveal + login-card, per-file recompile probes
+  CLEAN); S32-5 the CLAUDE hover-unwrap mechanism fix (the line had
+  stated the inverted mechanism); S32-6/S32-7 the e2e superset folds
+  (both batteries on record — the S32-6 battery caught its own first
+  shape being VACUOUS and the battery's rebuild lesson: the e2e runs
+  against the BUILD, so a mutation battery must rebuild before the RED
+  leg); S32-8 the rate-limit fixture hygiene (the vacuous it() →
+  afterEach, UNIT −1).
+- Count re-anchor: UNIT 648 → 649 (+2 −1), E2E 65 (folds in place),
+  SMOKE 15 → 16, badge 713 → 714. Constants re-anchored FIRST; the
+  census then walked the doc sites GREEN in one pass (the PAD §12 rows
+  re-anchored: db-path 297 → 308, smoke-test 212 → 246).
+
+Verified:
+- The full gate on the exact commit tree (below)
+- Captures 71/72 on the dev server (the owner-instructed posture):
+  the mobile-menu open clean-walk at 390×844 + the landing hero,
+  PIL-verified
+- Docs lockstep: README (the session-32 row, the gate line, badge
+  714, the counts); AGENTS (counts, the plans map's thirty-second
+  round); CLAUDE (counts, the S32-5 line); PAD (§8.1 table, §12 rows,
+  the counts); SKILL v1.27.0 → v1.28.0 (frontmatter, §0.5's range
+  1..32, Appendix A's session-32 row, Appendix B, the pre-ship
+  checklist counts); the five provenance sites re-anchored to 1..32;
+  worklog Task 32; docs/session_32.md (this round's log); the plan's
+  post-execution record
+
+Gate at the session-32 ship: lint 0/0 · tsc 0 · unit 649/649 · build ·
+smoke 16/16 · e2e 65/65.
+
+- SHIPPED: the remediated codebase + the docs in lockstep, committed
+  to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
+  verified; no new branches)

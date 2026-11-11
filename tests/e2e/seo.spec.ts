@@ -227,11 +227,23 @@ test("session-15 (S15-7): unknown /api paths answer the JSON envelope 404 (not t
 // any layer asserted the icons RESOLVE; a deleted file or a convention
 // break would ship green with the manifest pointing at a 404. The
 // apple-icon rides the same convention family.
-test("the manifest's icon routes resolve (the file-convention contract)", async ({ request }) => {
+test("the manifest's icon routes resolve (the file-convention contract)", async ({ request, page }) => {
   const icon = await request.get("/icon.png");
   expect(icon.status()).toBe(200);
   expect(icon.headers()["content-type"]).toBe("image/png");
   const apple = await request.get("/apple-icon.png");
   expect(apple.status()).toBe(200);
   expect(apple.headers()["content-type"]).toBe("image/png");
+  // Session-32 (S32-7): the head-level face — the SERVED head must carry
+  // the file-convention icon links (a regression declaring metadata.icons
+  // would REPLACE them and change the head output while every existing
+  // pin stayed green — the S29-5/S31-7a rendered-DOM superset genus, its
+  // last open face).
+  await page.goto("/");
+  const iconLink = page.locator('link[rel="icon"]');
+  await expect(iconLink).toHaveCount(1);
+  await expect(iconLink).toHaveAttribute("href", /\/icon\.png/);
+  const appleLink = page.locator('link[rel="apple-touch-icon"]');
+  await expect(appleLink).toHaveCount(1);
+  await expect(appleLink).toHaveAttribute("href", /\/apple-icon\.png/);
 });

@@ -5,7 +5,9 @@
 // IntersectionObserver flips the element's own inline styles directly
 // (no React state — no cascading renders, no hydration mismatch:
 // SSR renders the hidden form exactly like the reference's own
-// opacity-0 inline styles, and the observer settles it on view).
+// zero-opacity inline form (S32-4: re-spelled prose-safe — the compiled
+// rule never matched a live consumer here), and the observer settles it
+// on view).
 // `prefers-reduced-motion` settles immediately; no observer support
 // settles immediately too.
 
