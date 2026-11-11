@@ -85,11 +85,14 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
       const parsed = new URL(siteUrl.trim().replace(/\/+$/, ""));
       malformed = parsed.protocol !== "http:" && parsed.protocol !== "https:";
       // Session-22 (S22-19): the origin-only contract — a non-root
-      // pathname parses fine yet flows into metadataBase/canonical
-      // composition as a PREFIX (and the two surfaces compose
-      // differently: URL path resolution vs plain string
-      // concatenation for the twitter:url cards). Name the shape at
-      // the earliest signal. (A bare origin parses with pathname "/".)
+      // pathname parses fine yet used to flow into
+      // metadataBase/canonical composition as a PREFIX (and the two
+      // surfaces compose differently: URL path resolution vs plain
+      // string concatenation for the twitter:url cards). Name the shape
+      // at the earliest signal. (A bare origin parses with pathname
+      // "/".) Session-28 (S28-1): the seam now takes the SAME
+      // fallback as every non-bare shape — a path-carrying value never
+      // reaches the surfaces (the warning text below states it).
       pathCarrying = !malformed && parsed.pathname !== "/";
       // Session-25 (S25-4): the non-bare-origin extension — a query (or
       // fragment, or userinfo) parses with pathname "/" so the check
@@ -112,7 +115,7 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
     }
     if (pathCarrying) {
       warnings.push(
-        `[boot] NEXT_PUBLIC_SITE_URL="${siteUrl}" carries a path — the value must be the bare ORIGIN. A path prefix composes inconsistently across metadataBase/canonicals (URL resolution) and the twitter:url cards (string concat); set e.g. https://viralpost.example.com with no trailing path.`,
+        `[boot] NEXT_PUBLIC_SITE_URL="${siteUrl}" carries a path — the value must be the bare ORIGIN. The site seam falls back to http://localhost:3000 until it is fixed (S28-1 — a path prefix used to compose inconsistently across metadataBase/canonicals and the twitter:url cards); set e.g. https://viralpost.example.com with no trailing path.`,
       );
     }
     if (queryCarrying) {

@@ -41,7 +41,11 @@
   --color-background: #ffffff;
   --color-foreground: #0f172a;
   --color-muted: #64748b;
-  --color-subtle: #94a3b8;
+  /* Session-28 (S28-4): the old subtle-ink token RETIRED — zero live
+     consumers (the only "consumer" was a toast.tsx comment naming its
+     old sub-3:1 ink form; the dead-token census is comment-blind now,
+     and its RED named exactly this token). The stock slate-400 literal
+     covers the family if a consumer ever returns. */
   --color-line: #e2e8f0; /* slate-200 — the reference's border family */
   --color-line-soft: #f1f5f9;
   --color-ring: #0f172a;

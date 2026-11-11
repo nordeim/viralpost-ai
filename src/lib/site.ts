@@ -62,7 +62,21 @@ export function siteUrl(
     // (raw & — invalid XML, served 200) and into og:url/canonical
     // compositions. Same fallback as any malformed value; the boot
     // gate names the shape (boot-env's query-carrying warning).
-    if (parsed.username || parsed.password || parsed.search || parsed.hash) {
+    // Session-28 (S28-1): the PATH shape joins the family. A
+    // path-carrying value ("https://x.com/base") parses with all four
+    // guarded fields empty and used to pass VERBATIM — the S22-19 boot
+    // warning named the shape while the seam never took the fallback,
+    // and a path carrying & rode into <loc> the same way (plus the
+    // prefix composes inconsistently: metadataBase/canonical resolve
+    // URLs, the twitter:url cards concatenate). A bare origin carries
+    // no path either — anything else is an operator paste error.
+    if (
+      parsed.username ||
+      parsed.password ||
+      parsed.search ||
+      parsed.hash ||
+      parsed.pathname !== "/"
+    ) {
       return DEFAULT_SITE_URL;
     }
     return parsed.toString().replace(/\/+$/, "");
@@ -147,9 +161,12 @@ export function pageDescription(page: string): string {
  *   plain paragraph). Login keeps its ABSOLUTE title (the s13
  *   anti-doubling pin); pass `title` for other absolute spellings
  *   (signup: "Sign up | ViralPost AI").
- * - The dashboard needs NO factory call — it inherits the root layout's
- *   metadata wholesale (og:url = the origin root, which is exactly the
- *   reference's unprefixed family for / and /Dashboard).
+ * - /Dashboard is NOT a page here — unknown routes 404 through
+ *   [...catchAll] with the derived title (ADR-006; session-28 S28-7
+ *   reworded this bullet — the old text described a "dashboard" page
+ *   that never existed in this tree, a stale donor-era claim). The
+ *   root layout's metadata (og:url = the origin root) is what the
+ *   reference's unprefixed family shows for its own /Dashboard.
  */
 export function pageMetadata(opts: {
   page: string | null;

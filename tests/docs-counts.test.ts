@@ -119,6 +119,12 @@ import {
 // census hardening fold into existing tests in place — no count
 // change) and the e2e 63 unchanged (the S27-6 noindex arm folds into
 // the existing unknown-route test in place — the S25-17 precedent).
+// s28: 636/38 (+5 the session-28 pins — the siteUrl path-fallback pin
+// (S28-1), the .env.example knob-set census (S28-2), the generate
+// object-shape vocabulary pin (S28-3), the minLength family pin
+// (S28-5), and the smoke-leg disk census (S28-6); the S28-4
+// comment-blind dead-token census hardening folds into the existing
+// dead-token it in place) and the e2e 63 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -126,7 +132,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 631;
+const UNIT = 636;
 /** Vitest suite files. */
 const SUITES = 38;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -277,6 +283,33 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
         `| \`${knob}\` |`,
       );
     }
+  });
+
+  // Session-28 (S28-2): the arm above claimed "both directions with
+  // .env.example" while its body read only README — the mirror face
+  // had no mechanical owner (a 7th var or a dropped knob in
+  // .env.example shipped green through the gate). This direction
+  // parses the file's assignment keys and demands EXACT set equality:
+  // both a missing knob and a stranger var RED. Commented examples
+  // (the PostgreSQL line) never match — they start with '#'.
+  it("S28-2: the .env.example carries the six-knob contract exactly (no missing knob, no stranger var)", () => {
+    const envExample = read(".env.example") ?? "";
+    const keys = new Set(
+      [...(envExample.match(/^[A-Z_]+=/gm) ?? [])].map((k) => k.slice(0, -1)),
+    );
+    expect(
+      [...keys].sort(),
+      ".env.example's assignment keys must equal the six-knob contract exactly",
+    ).toEqual(
+      [
+        "AUTH_SECRET",
+        "DATABASE_URL",
+        "NEXT_PUBLIC_SITE_URL",
+        "VIRALPOST_DISABLE_IN_APP_OTP",
+        "VIRALPOST_DISABLE_IN_APP_RESET",
+        "VIRALPOST_PROXY_HOPS",
+      ].sort(),
+    );
   });
 
   it("the AGENTS plans map carries the session-9 round (the living plans census)", () => {
@@ -500,6 +533,20 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
         }
       }
     }
+  });
+
+  // Session-28 (S28-6): the last count site joins the disk family.
+  // UNIT/SUITES/E2E/E2E_SPECS all have reality censuses above; SMOKE
+  // had none — the ladder's `ok NN` leg markers and its own
+  // `SMOKE: 15/15 PASS` echo literal were hand-maintained (the S27-6
+  // genus: a docs claim with zero assertions). The census counts the
+  // leg markers on disk and demands equality with the constant, plus
+  // the echo literal shape.
+  it("SMOKE matches the live ladder on disk (the ok NN leg markers + the PASS echo literal)", () => {
+    const smoke = read("scripts/smoke-test.sh") ?? "";
+    const legs = smoke.match(/\bok \d{2} "/g) ?? [];
+    expect(legs.length, `smoke legs on disk: ${legs.length} (SMOKE says ${SMOKE}) — re-anchor SMOKE + every doc site above`).toBe(SMOKE);
+    expect(smoke, "the ladder's own summary line must carry the constant").toContain(`SMOKE: ${SMOKE}/${SMOKE} PASS`);
   });
 });
 

@@ -195,9 +195,11 @@ function ToastCard({ item }: { item: ToastItem }) {
         // Session-14 (S14-6): the keyboard focus arm — the OTP inputs'
         // own focus-visible family, so the only per-toast control shows
         // its focus to keyboard users (hover-only was invisible focus).
-        // S25-9: the resting ink rides text-muted (4.76:1) — the
-        // text-subtle form (2.57:1) sat under the 1.4.11 floor in its
-        // resting state.
+        // S25-9: the resting ink rides text-muted (4.76:1) — the old
+        // sub-3:1 slate-400 ink (2.57:1) sat under the 1.4.11 floor in
+        // its resting state. (S28-4: spell the retired form only in
+        // prose-safe words — the raw-text step-less census would read
+        // the class-shaped spelling as a live consumer demand.)
         className="shrink-0 rounded-md p-1 text-muted transition-colors hover:bg-line-soft hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         aria-label="Dismiss notification"
       >

@@ -274,6 +274,22 @@ describe("named-control source pins (the open surfaces)", () => {
     expect(src).toMatch(/prevDoneRef\.current === done\) return;/);
   });
 
+  // Session-28 (S28-5): the validation-family consistency arm — the
+  // signup view's two password inputs and the reset screen's two carry
+  // the native minLength={8} affordance alongside the server-side
+  // schema bound (the hint text "Must be at least 8 characters" is
+  // rendered on both surfaces; the signup pair already had the
+  // attribute, the reset pair lacked it — a sub-8-char password got a
+  // network round-trip + banner here but the inline browser affordance
+  // there). All four co-pinned in one it (the S25-3 family form —
+  // the faces are the same contract, one pin owns them).
+  it("S28-5: every password input carries minLength={8} (the signup pair + the reset pair — one family)", () => {
+    const signup = read("src/components/layout/login-card.tsx");
+    const reset = read("src/components/layout/reset-password-screen.tsx");
+    expect((signup.match(/minLength=\{8\}/g) ?? []).length, "the signup view's two password inputs").toBe(2);
+    expect((reset.match(/minLength=\{8\}/g) ?? []).length, "the reset screen's two password inputs").toBe(2);
+  });
+
   it("the hero portrait img carries its alt text", () => {
     const hero = read("src/components/marketing/hero.tsx");
     expect(hero).toContain('alt="ViralPost AI user"');

@@ -244,13 +244,21 @@ describe("design tokens: session-11 — the census completion + the dead-CSS ret
     // utility class in src/ or by a var() reference in globals.css
     // outside @theme (the base layer). A token with neither is dead
     // weight shipping in every build.
+    // Session-28 (S28-4): the census is now COMMENT-BLIND — each
+    // scanned file is comment-stripped BEFORE the consumer regex (the
+    // api-robustness stripComments idiom). The F11-5 form could be
+    // fooled by PROSE: a comment mentioning a utility form ("the
+    // text-subtle form (2.57:1)…") kept a zero-consumer token alive
+    // through every prior census run. A mis-strip can only FALSE-RED
+    // at gate time (a real consumer on a stripped line), never
+    // silently pass.
     const semantic = [...css.matchAll(/--color-([a-z][a-z0-9-]*):/g)]
       .map((m) => m[1])
       .filter((name) => !/\d/.test(name));
     expect(semantic.length).toBeGreaterThan(5); // the census actually censused
     const srcText = walkSourceFiles(srcDir)
       .filter((f) => !f.endsWith("globals.css"))
-      .map((f) => readFileSync(f, "utf8"))
+      .map((f) => readFileSync(f, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, ""))
       .join("\n");
     const baseLayer = (css.match(/@layer base\s*\{[\s\S]*\n\}/) ?? [""])[0];
     const dead = semantic.filter(

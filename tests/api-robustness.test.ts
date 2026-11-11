@@ -177,6 +177,16 @@ describe("the { ok, error } envelope family", () => {
   // widened arm owns the whole malformed-SHAPE class; generate needs no
   // mirror (its narrowing bypasses the issue message — the pinned
   // describe-first contract).
+  // Session-28 (S28-3): the exemption above is RE-ADJUDICATED. The
+  // S16-era reasoning addressed the Zod dev-message LEAK (true —
+  // generate's narrowing never leaked); the vocabulary half of the
+  // S15-2 doctrine ("the route-local sites join the vocabulary") was
+  // never completed for generate: a valid-JSON-non-object body
+  // ("hello", 42, []) answered the describe-first message while
+  // contact answered "Invalid request body" for the same shape class.
+  // The mirror closes it; the empty-idea and over-length arms above
+  // are unchanged (an OBJECT body's non-string idea field still takes
+  // the describe-first branch — the F11-7 posture).
   describe("session-16 (S16-1): the contact site's object-shape guard", () => {
     it("contact widens the null arm to the non-object class (null OR non-object OR array, ahead of safeParse)", () => {
       const src = stripComments(read("src/app/api/contact/route.ts") ?? "");
@@ -192,6 +202,24 @@ describe("the { ok, error } envelope family", () => {
       // The arm answers the parseBody vocabulary.
       const armWindow = src.slice(armIdx, armIdx + 240);
       expect(armWindow).toContain('"Invalid request body"');
+    });
+
+    // Session-28 (S28-3): generate joins the widened vocabulary — the
+    // same object-shape arm contact carries, ahead of safeParse.
+    it("S28-3: generate widens the null arm to the non-object class too (the S16-1 exemption re-adjudicated)", () => {
+      const src = stripComments(read("src/app/api/generate/route.ts") ?? "");
+      const arm = src.match(
+        /read\.value === null \|\| typeof read\.value !== "object" \|\| Array\.isArray\(read\.value\)/,
+      );
+      expect(arm, "generate's widened object-shape arm must be present").toBeTruthy();
+      const armIdx = src.indexOf("read.value === null");
+      const parse = src.indexOf("safeParse(");
+      expect(armIdx, "generate: no object-shape arm").toBeGreaterThan(-1);
+      expect(parse, "generate: the arm must precede safeParse").toBeGreaterThan(armIdx);
+      const armWindow = src.slice(armIdx, armIdx + 240);
+      expect(armWindow, "generate: the arm must answer the parseBody vocabulary").toContain(
+        '"Invalid request body"',
+      );
     });
   });
 });

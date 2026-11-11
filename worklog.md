@@ -2969,3 +2969,107 @@ Verified:
 - SHIPPED: the remediated codebase + the docs in lockstep,
   committed to main and pushed via docs/ssh_git_wrapper_v3.py
   (the remote verified; no new branches)
+
+## Task 28 — the siteUrl path-fallback + the .env-example knob census + the generate shape vocabulary + the dead-token retirement + the audit batch (2026-11-11)
+
+Round opened on the pulled tree (`af63c73` — the owner's session log
+update holding the session-27 execution narration, the established
+pattern). Core docs read in full (AGENTS, CLAUDE, README, PAD, SKILL
+v1.23.0), then the session-27 set (session_27.md, the session-27 plan,
+worklog Task 27, the owner's session_28.md narration). Baseline gate
+GREEN at the documented counts (lint 0/0 · tsc 0 · unit 631/631, 38
+files); every standing ask re-verified in place (the .env
+DATABASE_URL contract with db/ at the repo root, census MATCH; the
+vitest + playwright suites current; sitemap/robots/manifest/OG fresh;
+skills/ excluded from every gate; .env.example present and matching).
+neo-crm re-checked at HEAD b3d0fbe — UNCHANGED since session 12.
+
+The audit (three parallel subagents — AUDIT-1 API/lib seams, AUDIT-2
+components/pages/effects, AUDIT-3 SEO/configs/tests/docs — every
+load-bearing finding hand-verified in source by the lead):
+AUDIT-1 0C/0H/1M/3L/4I · AUDIT-2 0C/0H/0M/2L/4I · AUDIT-3
+0C/0H/2M/3L/2I — combined 0 Critical / 0 High / 3 Medium / 8 Low /
+10 Info. The lead's adjudication held the two SEO/census Mediums
+(A3-M1 siteUrl path-carrying fallback, A3-M2 the .env.example census
+gap), re-adjudicated the generate vocabulary Low (A1-L1 — the S16-1
+exemption note addressed the dev-message leak, not the vocabulary
+consistency), and took the minLength family, the smoke disk census,
+and the comment-truth items into the working register; the rest moved
+to the accepted register with reasons (the in-app delivery default —
+the documented S13-1 posture; the first-signup admin TOCTOU — the
+session-27 adjudication stands; the parseEnvFile unterminated-quote
+divergence; the 400-not-413 vocabulary; the FILE: case note; the
+uncached getSnapshot; the reference-inherited sub-AA tones; the
+toast live-region pattern; Reveal's no-JS posture; the manifest
+192/512 parity; the e2e canonical-host regex compensation).
+
+The parity walk (live, both sides, logged into the reference): the
+mobile-menu census at 390×844 (hamburger base classes, the four
+links + the pill byte-identical, the panel max-height none + both
+transparent at scrollY=0, the bar transparent with the menu open,
+the scrolled family byte-identical with the oklab background
+re-derived in-session to EXACTLY rgb(15,23,42)), the five-route head
+census (NO DRIFT), the footer Product column (3 links both sides),
+sitemap/robots (identical modulo origin), the desktop nav
+(byte-identical), and the reference's cdn.tailwindcss.com console
+message (the v3-era posture, unchanged). NO DRIFT — the second
+consecutive fully-clean walk.
+
+The cures (TDD, every pin RED-first, every mutation battery on
+record):
+- S28-1 (MEDIUM): siteUrl's pathname arm — a path-carrying
+  NEXT_PUBLIC_SITE_URL joined the S25-4 fallback family (the
+  sitemap-<loc> XML-invalid genus closed for the last shape; the
+  S22-19 boot warning text updated to the post-cure truth).
+- S28-2 (MEDIUM): the .env-example knob census — the six-knob arm's
+  claimed mirror direction made real (assignment keys parsed, exact
+  set equality demanded both ways).
+- S28-3 (+S28-8): the generate route's widened object-shape arm
+  (contact's S16-1 form mirrored — a valid-JSON-non-object body now
+  answers "Invalid request body", live-verified on the dev server)
+  + the 429 Retry-After Math.max floor.
+- S28-4: the dead-token retirement + the census comment-blindness
+  (the subtle-ink token's only "consumer" was a toast comment; the
+  census strips comments now — a re-planted token with only the
+  comment consumer REDs the census, the proof of the hardening).
+- S28-5: minLength={8} on the reset screen's two password inputs
+  (the signup pair's family; live-probed through a minted reset
+  token).
+- S28-6: the SMOKE disk census (the ladder's ok NN leg markers + the
+  PASS echo literal pinned to the constant — the last count site
+  without a disk census).
+- S28-7/S28-9: the comment-truth batch (site.ts's stale dashboard
+  bullet, schemas.ts's overstated constant-shape claim, the PAD's
+  ADR-006 unit-pin overreach).
+
+Mid-round deviations (on record in the plan's post-execution
+record): one comment-prose trip — the S28-1 cure's comment spelled
+"string-concat" which the raw-text step-less census read as a
+ring-<word> utility (the S17-5 genus); reworded the same hour, and
+the S28-4 comments were reworded proactively to prose-safe spellings
+(the S25-3 rule).
+
+Count re-anchor: UNIT 631 → 636 (+5 pins), SUITES 38 unchanged, E2E
+63 unchanged, badge 694 → 699; the PAD §12 rows (site.ts 202 → 219,
+globals.css 222 → 226); the census walked RED-to-GREEN site by site.
+
+Verified:
+- Gate (the exact commit tree): lint 0/0 · tsc 0 · unit 636/636
+  (38 files) · build · smoke 15/15 · e2e 63/63 (9 specs) · census
+  MATCH · badge 699
+- Captures 63/64 (the reset-password token-view minLength family +
+  the mobile-menu open clean-walk re-verification, both at 390×844
+  on the dev server) PIL-verified; the generate vocabulary and the
+  minLength family live-verified
+- Docs lockstep: README (the session-28 row, the gate line, the
+  badge 699, the counts); AGENTS (counts, the plans map's
+  twenty-eighth round); CLAUDE (counts); PAD (the §12 rows, the
+  test-distribution table, the ADR-006 reword, the counts); SKILL
+  v1.23.0 → v1.24.0 (frontmatter, §4's token block, Appendix A's
+  session-28 row, Appendix B both counts + the session-28
+  re-certification, the pre-ship checklist counts); worklog Task 28;
+  docs/session_28.md (this round's log); the plan's post-execution
+  record
+- SHIPPED: the remediated codebase + the docs in lockstep,
+  committed to main and pushed via docs/ssh_git_wrapper_v3.py
+  (the remote verified; no new branches)

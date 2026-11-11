@@ -191,7 +191,11 @@ reveal/particle/WebGL/floating-icons effects are dependency-free.
   digits never split, upperFirst per word, empty → bare title); the page
   calls `notFound()`; the segment `not-found.tsx` renders the standard
   404 body. Result: derived title in the SSR HTML + true 404 status +
-  `noindex` — verified across 13 unit pins and an e2e assertion.
+  `noindex` — the title derivation is unit-pinned (13 arms in
+  `route-title.test.ts`), and the title + status + noindex ride the e2e
+  unknown-route test (session-27, S27-6's meta-robots arm) plus smoke
+  leg 06 (session-28, S28-9: the old "verified across 13 unit pins and
+  an e2e assertion" sentence overstated the unit layer's reach).
 - **Rationale:** Layouts render around not-found boundaries, so their
   metadata survives — the only SSR-correct home for the derivation.
 - **Consequences:** The 404 body renders through the client stream (the
@@ -556,7 +560,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 38 | 631 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 38 | 636 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 63 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -574,7 +578,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 631/63/15 and change together), and the
+(README/AGENTS/PAD/SKILL carry 636/63/15 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -688,9 +692,9 @@ the same commit as the file.)
 | `src/lib/password.ts` | 68 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
 | `src/lib/db-path.ts` | 280 | THE database path resolver (ADR-008) |
-| `src/lib/site.ts` | 202 | The metadata factory + canonical origin seam |
+| `src/lib/site.ts` | 219 | The metadata factory + canonical origin seam |
 | `src/lib/api.ts` | 252 | The envelope + the bounded JSON reader (the non-object body guard, session-16, S16-1) |
-| `src/app/globals.css` | 222 | The Tailwind v4 theme (ADR-005) |
+| `src/app/globals.css` | 226 | The Tailwind v4 theme (ADR-005) |
 | `src/components/marketing/navbar.tsx` | 233 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 266 | The core surface: quota dots, generate, copy, paywall |
 | `src/components/effects/iridescence.tsx` | 254 | The WebGL hero background (aspect-aware shader) |

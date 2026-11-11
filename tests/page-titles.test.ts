@@ -188,4 +188,22 @@ describe("siteUrl", () => {
     expect(siteUrl("https://example.com")).toBe("https://example.com");
     expect(siteUrl("http://127.0.0.1:3000")).toBe("http://127.0.0.1:3000");
   });
+
+  // Session-28 (S28-1): the S25-4 genus, completed for the PATH shape.
+  // A path-carrying origin parses absolute http(s) with all four S25-4
+  // guarded fields empty, so it passed verbatim — while the boot gate
+  // has warned on exactly this shape since S22-19 (the warning's own
+  // comment: the prefix composes inconsistently across
+  // metadataBase/canonical URL resolution vs the twitter:url string
+  // concat). The doctrine line above — "anything else is an operator
+  // paste error" — includes the path; the seam now takes the same
+  // fallback for every non-bare shape. (A path carrying & also rode
+  // unescaped into the sitemap's <loc>, the S25-4 failure mode.)
+  it("S28-1: a path-carrying origin falls back to the default (the S22-19 genus closed at the seam)", () => {
+    expect(siteUrl("https://example.com/base")).toBe("http://localhost:3000");
+    expect(siteUrl("http://127.0.0.1:3000/app")).toBe("http://localhost:3000");
+    // The bare-origin family still passes verbatim.
+    expect(siteUrl("https://example.com")).toBe("https://example.com");
+    expect(siteUrl("http://127.0.0.1:3000")).toBe("http://127.0.0.1:3000");
+  });
 });

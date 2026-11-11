@@ -64,7 +64,11 @@ export async function POST(req: Request) {
           message: "Too many generations. Try again later.",
         },
       },
-      { status: 429, headers: { "Retry-After": String(limited.retryAfterSec) } },
+      // Session-28 (S28-8): the Math.max(1, …) floor — the ERR.RATE_LIMITED
+      // family carries it; this hand-built twin used to trust the
+      // limiter's own ≥1 invariant (safe today, silent regression
+      // tomorrow if the limiter's floor ever moves).
+      { status: 429, headers: { "Retry-After": String(Math.max(1, limited.retryAfterSec)) } },
     );
   }
 
@@ -75,7 +79,14 @@ export async function POST(req: Request) {
   // vocabulary — the old branch answered the describe-first message for a
   // malformed body (misleading: the user's client sent no parseable idea
   // at all). The auth family's seam owns this message.
-  if (read.value === null) return fail("BAD_REQUEST", "Invalid request body");
+  // Session-28 (S28-3): widened to the whole malformed-SHAPE class
+  // (contact's S16-1 form) — a valid-JSON-non-object body ("hello",
+  // 42, []) used to fall through to safeParse and answer the
+  // describe-first message while every sibling route answered this
+  // vocabulary. The empty-idea and over-length arms below are unchanged.
+  if (read.value === null || typeof read.value !== "object" || Array.isArray(read.value)) {
+    return fail("BAD_REQUEST", "Invalid request body");
+  }
   const parsed = bodySchema.safeParse(read.value);
   if (!parsed.success) {
     // Session-11 (F11-7): the schema's max(1000) is a FAST PRE-FILTER in

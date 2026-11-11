@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-694%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-699%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,7 +52,7 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 38 files / 631 tests, node env, pure seams |
+| Unit tests | Vitest | 5.0 | 38 files / 636 tests, node env, pure seams |
 | E2E | Playwright | 1.64 | 9 specs / 63 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
@@ -141,7 +141,7 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (38 files / 631 tests)
+bun run test            # Vitest unit suite (38 files / 636 tests)
 bun run test:e2e        # Playwright e2e (9 specs / 63 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 15-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
@@ -244,6 +244,11 @@ smoke 15/15 · e2e 63/63.
 | Session 27 — the generator-submit focus rings + the launch `:memory:` pass-through + the pin-hardening batch | ✅ done | The audit round at 0 Critical / 0 High / 1 Medium / 5 Low / 10 Info (three parallel subagents + the lead's hand-verification; the scryptSync request-path posture, the first-signup admin TOCTOU, the start-script pipeline, the seed/prune disconnect skip, the forgot-password residual, the quota cross-tab sync, and the stripper single-quote footnote adjudicated to the accepted register with reasons); THE PARITY WALK found NO DRIFT — the first fully-clean walk since session 24 (the mobile-menu family, the five-route head census, the footer Product column, sitemap/robots, the desktop nav — all byte-identical; the scrolled bar's computed background differs only in color-space spelling, our oklab form numerically verified to convert to the reference's exact rgba(15, 23, 42, 0.95)); THE CURES: the core-submit focus rings (S27-1, MEDIUM — the Generate Post + Send Message buttons carried no focus-visible arm while every sibling control one element away carries the house family; the S21-20 teal-600 family appended, resting classes untouched), the launch-shape `:memory:` pass-through (S27-2 — the S26-9 genus on the standalone-launch recovery arm: a launch .env carrying `file::memory:` was re-anchored into a literal `<repo>/prisma/:memory:` file, live-reproduced in a /tmp sandbox pre-cure), the pin-hardening batch (S27-4 the S26-5 negative arms re-anchored to block-scoped forms that can actually reach the twitter images position — the shipped {0,200}-windows were geometrically unreachable; S27-5 the Appendix-B negative frozen at the historical literal; S27-7 the client-crypto census admits the single-quoted `'use client'` spelling), the noindex superset pinned (S27-6 — the 404 noindex claim rode Next's built-in meta with zero assertions in src/ or tests/; the e2e unknown-route test gains the meta-robots arm in place), and the login-card comment-truth fix (S27-3 — "ZERO toasts fire on the auth flows" scoped to outcomes, the Google button's info notice acknowledged); unit 631/38 (+2 pins) + e2e 63/9, badge 694; captures 61/62 |
 
 Gate at the session-27 ship: lint 0/0 · tsc 0 · unit 631/631 · build ·
+smoke 15/15 · e2e 63/63.
+
+| Session 28 — the siteUrl path-fallback + the .env-example knob census + the generate shape vocabulary + the dead-token retirement + the audit batch | ✅ done | The audit round at 0 Critical / 0 High / 3 Medium / 8 Low / 10 Info (three parallel subagents + the lead's hand-verification; the in-app delivery default — the documented S13-1 posture — the first-signup admin TOCTOU, the parseEnvFile unterminated-quote divergence, the 400-not-413 vocabulary, and the standing parity-doctrine adjudications moved to the accepted register with reasons); THE PARITY WALK found NO DRIFT — the second consecutive fully-clean walk (the mobile-menu family at 390×844, the five-route head census, the footer Product column, sitemap/robots modulo origin, the desktop nav — all byte-identical; the scrolled bar's oklab background re-derived in-session to EXACTLY rgb(15,23,42) — the reference's slate-900; the reference still rides the cdn.tailwindcss.com v3-era posture); THE CURES: the siteUrl path-fallback (S28-1, MEDIUM — the S25-4 genus completed: a path-carrying canonical origin parsed with all four guarded fields empty and passed verbatim while the boot gate warned on the shape; the pathname joins the fallback family, closing the sitemap `<loc>` XML-invalid genus for the last shape), the .env-example knob census (S28-2, MEDIUM — the six-knob arm claimed "both directions with .env.example" while reading only README; the mirror direction parses the file's assignment keys and demands exact set equality), the generate shape vocabulary (S28-3 — a valid-JSON-non-object body answered the describe-first message while every sibling answered "Invalid request body"; the widened object-shape arm mirrors contact's + the 429 Retry-After floor (S28-8)), the dead-token retirement (S28-4 — the subtle-ink token's only "consumer" was a toast.tsx comment the prose-blind census read as live; the census is comment-blind now and the token retired), the minLength family (S28-5 — the reset screen's password inputs gain the signup pair's `minLength={8}`), the smoke disk census (S28-6 — the last count site without one: the ladder's leg markers + PASS echo pinned to the constant), and the comment-truth batch (S28-7 + S28-9 — the stale dashboard bullet, the overstated constant-shape claim, the PAD's ADR-006 unit-pin overreach); unit 636/38 (+5 pins) + e2e 63/9, badge 699; captures 63/64 |
+
+Gate at the session-28 ship: lint 0/0 · tsc 0 · unit 636/636 · build ·
 smoke 15/15 · e2e 63/63.
 
 ## License

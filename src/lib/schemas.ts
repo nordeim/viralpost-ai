@@ -44,10 +44,16 @@ export const loginSchema = z
   .object({
     // Session-21 (S21-18): the TOLERANT-email posture, documented — the
     // login/verify/resend family deliberately skips the format regex
-    // (signup/forgot/contact enforce it): every downstream branch is
-    // constant-shape (login → 401 INVALID_CREDENTIALS; verify → the
-    // invalid-code 400; resend → the no-op 200), so a malformed email
-    // leaks nothing and matches the password's own unbounded posture.
+    // (signup/forgot/contact enforce it): the malformed-email and
+    // unknown-account faces share the 401 INVALID_CREDENTIALS shape
+    // (and the verify/resend families their own miss branches), so a
+    // malformed email leaks nothing and matches the password's own
+    // unbounded posture. (Session-28 S28-7: the old "every downstream
+    // branch is constant-shape" claim overstated — the
+    // valid-credentials-but-unverified login answers the 403
+    // VERIFICATION_REQUIRED; it fires only AFTER the password
+    // verifies, so it is never an account-existence oracle for
+    // credential-less probes.)
     email: emailField("Email and password are required"),
     password: z.string({ message: "Email and password are required" }),
   })
