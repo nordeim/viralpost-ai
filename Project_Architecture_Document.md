@@ -323,7 +323,7 @@ viralpost-ai/
 │   │   ├── layout/             ← login-card (5 views: signin/reset/sent/signup/verify) · reset-password-screen
 │   │   └── ui/toast.tsx        ← the subscribe/store toast
 │   └── lib/                    ← THE seams (see §12 Key Files)
-├── tests/                      ← 37 unit suites + e2e/ (9 specs)
+├── tests/                      ← 38 unit suites + e2e/ (9 specs)
 ├── scripts/                    ← smoke-test.sh · census.ts · prisma-env.ts
 ├── docs/                       ← plans/ · reference-investigation.md ·
 │                                  implementation-plan.md · session logs ·
@@ -556,7 +556,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 37 | 599 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 38 | 606 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 63 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 15 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -574,7 +574,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 599/63/15 and change together), and the
+(README/AGENTS/PAD/SKILL carry 606/63/15 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -674,7 +674,7 @@ Swept at session-2 ship — no open CRITICAL/HIGH items.
 
 ## 12. Key Files Reference
 
-(The Lines column is the live `wc -l` of each file at the session-22 ship
+(The Lines column is the live `wc -l` of each file at the session-23 ship
 — pinned by tests/docs-counts.test.ts's inventory census; edit the row in
 the same commit as the file.)
 
@@ -687,20 +687,20 @@ the same commit as the file.)
 | `src/lib/auth.ts` | 188 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
 | `src/lib/password.ts` | 68 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
-| `src/lib/db-path.ts` | 263 | THE database path resolver (ADR-008) |
+| `src/lib/db-path.ts` | 267 | THE database path resolver (ADR-008) |
 | `src/lib/site.ts` | 173 | The metadata factory + canonical origin seam |
 | `src/lib/api.ts` | 252 | The envelope + the bounded JSON reader (the non-object body guard, session-16, S16-1) |
 | `src/app/globals.css` | 222 | The Tailwind v4 theme (ADR-005) |
-| `src/components/marketing/navbar.tsx` | 206 | The nav + the mobile menu (parity-verified) |
+| `src/components/marketing/navbar.tsx` | 210 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 206 | The core surface: quota dots, generate, copy, paywall |
-| `src/components/effects/iridescence.tsx` | 241 | The WebGL hero background (aspect-aware shader) |
+| `src/components/effects/iridescence.tsx` | 243 | The WebGL hero background (aspect-aware shader) |
 | `src/components/effects/particle-text.tsx` | 330 | The canvas particle title |
 | `src/components/effects/floating-icons.tsx` | 122 | The monetization section's ten-icon float field (session-19, S19-2) |
 | `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |
 | `src/app/api/[...path]/route.ts` | 43 | The API subtree's envelope 404 (session-15, S15-7; OPTIONS joined session-18, S18-2) |
 | `src/app/api/route.ts` | 51 | The bare `/api` envelope 404 (session-16, S16-2; OPTIONS joined session-18, S18-2) |
 | `prisma/schema.prisma` | 64 | User + ContactMessage |
-| `scripts/smoke-test.sh` | 194 | The 15-leg artifact ladder |
+| `scripts/smoke-test.sh` | 212 | The 15-leg artifact ladder |
 
 ---
 

@@ -159,6 +159,19 @@ describe("session-22 (S22-11): the skip-to-content link (WCAG 2.4.1 bypass block
     const src = read("src/app/(site)/layout.tsx");
     expect(src).toContain('href="#main-content"');
     expect(src).toMatch(/className="[^"]*sr-only focus:not-sr-only/);
-    expect(src).toContain("<main id=\"main-content\">");
+    // Session-23 (S23-3): the anchor now carries tabIndex={-1} (the
+    // programmatic-focusability cure — the S23-3 pin below owns it).
+    expect(src).toContain('<main id="main-content" tabIndex={-1}>');
+  });
+
+  // Session-23 (S23-3): the anchor alone is not enough — WebKit does not
+  // move sequential focus to non-focusable fragment targets (the link
+  // scrolls, the next Tab resumes at the document top, the bypass
+  // defeats itself). tabIndex={-1} makes the target programmatically
+  // focusable in every engine (the login-card data-view-focus genus:
+  // every focus-target surface carries it).
+  it("session-23 (S23-3): the skip-link target is programmatically focusable (tabIndex={-1} on the main)", () => {
+    const src = read("src/app/(site)/layout.tsx");
+    expect(src).toContain('<main id="main-content" tabIndex={-1}>');
   });
 });

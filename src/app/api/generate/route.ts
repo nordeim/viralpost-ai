@@ -116,6 +116,9 @@ export async function POST(req: Request) {
     const result = generatePost(idea, seed);
     return ok({ text: result.text });
   } catch {
-    return fail("INTERNAL", "Generation failed. Please try again.");
+    // Session-23 (S23-8): the explicit 500 — the surface keeps its own
+    // message, but fail()'s 400 default made a generator failure answer
+    // as a client error (the INTERNAL code NEVER rides 400).
+    return fail("INTERNAL", "Generation failed. Please try again.", 500);
   }
 }

@@ -65,7 +65,14 @@ test("the nav navigates to every route", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("the /Home alias 308-redirects to the canonical /", async ({ page }) => {
+test("the /Home alias 308-redirects to the canonical /", async ({ page, request }) => {
+  // Session-23 (S23-20): the STATUS is owned here now — page.goto follows
+  // redirects, so the old shape (a < 400 assert on the final response)
+  // never actually pinned the 308 (smoke leg 05 owned it alone). The
+  // no-redirect request sees the raw status + Location.
+  const direct = await request.get("/Home", { maxRedirects: 0 });
+  expect(direct.status()).toBe(308);
+  expect(direct.headers().location).toBe("/");
   const response = await page.goto("/Home");
   expect(response?.status()).toBeLessThan(400);
   await page.waitForURL("/");

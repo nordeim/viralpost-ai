@@ -85,12 +85,15 @@ export function Hero() {
           </Reveal>
           <div className="relative flex justify-center lg:justify-end">
             <div className="absolute inset-0 bg-teal-400/20 rounded-full blur-3xl scale-75" aria-hidden="true" />
-            {/* Session-22 (S22-20): the plain <img> is the documented
-                standalone-parity choice — next/image rewrites to
-                /_next/image URLs the standalone artifact must serve
-                itself; the explicit width/height carry the CLS contract,
-                and the portrait rides the hero's lazy default (below the
-                LCP text/particle surface). */}
+            {/* Session-22 (S22-20) + session-23 (S23-2): the plain <img> is
+                the documented standalone-parity choice — next/image rewrites
+                to /_next/image URLs the standalone artifact must serve
+                itself; the explicit width/height carry the CLS contract.
+                The element loads EAGERLY (the HTML missing-value default
+                for a plain img — the "lazy default" phrasing retired as
+                false; only next/image defaults to lazy). The reference's
+                SPA behaves identically (parity holds), and the portrait is
+                non-LCP — the hero text/particle surface owns it. */}
             <img
               src="/hero-portrait.png"
               alt="ViralPost AI user"

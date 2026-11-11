@@ -19,7 +19,7 @@ interface ContactState {
 const EMPTY: ContactState = { name: "", email: "", message: "" };
 
 const FIELD =
-  "w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 transition-all";
+  "w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 focus-visible:ring-2 focus-visible:ring-teal-600 transition-all";
 
 export function ContactForm() {
   const [form, setForm] = React.useState<ContactState>(EMPTY);

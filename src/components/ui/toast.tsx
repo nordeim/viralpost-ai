@@ -23,13 +23,26 @@ export interface ToastItem {
 let toastSeq = 0;
 
 // Module-level store so any component (or plain function via `toast()`) can
-// publish without prop drilling.
-type Listener = (toasts: ToastItem[]) => void;
+// publish without prop drilling. Session-23 (S23-4): the listener is now
+// the bare store-change signal (React's onStoreChange re-reads the
+// snapshot itself — the payload-carrying form was the old
+// setState-listener shape).
+type Listener = () => void;
 const listeners = new Set<Listener>();
 let toasts: ToastItem[] = [];
 
 function emit() {
-  for (const l of listeners) l(toasts);
+  for (const l of listeners) l();
+}
+
+// Session-23 (S23-4): the stable subscription hand useSyncExternalStore
+// requires (the Set's add/delete API, wrapped in the subscribe/unsubscribe
+// pair React calls on every mount/unmount).
+function subscribeToasts(onStoreChange: Listener): () => void {
+  listeners.add(onStoreChange);
+  return () => {
+    listeners.delete(onStoreChange);
+  };
 }
 
 function dismiss(id: number) {
@@ -54,13 +67,16 @@ export const toast = {
 };
 
 function useToasts(): ToastItem[] {
-  const [state, setState] = React.useState<ToastItem[]>(toasts);
-  React.useEffect(() => {
-    const listener: Listener = (next) => setState(next);
-    listeners.add(listener);
-    return () => listeners.delete(listener) as unknown as void;
-  }, []);
-  return state;
+  // Session-23 (S23-4): useSyncExternalStore — the generator-card
+  // precedent for this exact store shape (a module-level mutable
+  // array + a listeners Set). The old useState+effect pair carried a
+  // missed-update window (a toast pushed during a sibling's mount
+  // effect emits before the Toaster's effect subscribes — silently
+  // dropped) and no tear protection under concurrent rendering. The
+  // snapshot `() => toasts` is reference-stable between pushes (the
+  // module reassigns on mutation); the server snapshot is the empty
+  // viewport.
+  return React.useSyncExternalStore(subscribeToasts, () => toasts, () => []);
 }
 
 const ICONS: Record<ToastVariant, React.ReactNode> = {

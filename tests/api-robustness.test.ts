@@ -250,4 +250,28 @@ describe("session-9 (F9-7): the reset funnel's DB-OUTAGE honesty (the read path 
       );
     }
   });
+
+  // Session-23 (S23-8): the status discipline — the INTERNAL envelope
+  // code NEVER rides the 400 default. fail()'s status argument defaults
+  // to 400, so `fail("INTERNAL", …)` without the third argument answers
+  // a SERVER-side failure as a CLIENT error (the contact + generate
+  // catch arms shipped exactly that shape). The discipline: INTERNAL →
+  // ERR.INTERNAL() (500) or the explicit fail(…, 500) when the surface
+  // carries its own message.
+  it("session-23 (S23-8): no route answers the INTERNAL envelope at the 400 default (the status discipline)", () => {
+    const routes = [
+      "src/app/api/contact/route.ts",
+      "src/app/api/generate/route.ts",
+      ...MUTATING_ROUTES,
+      "src/app/api/auth/me/route.ts",
+      "src/app/api/auth/logout/route.ts",
+    ];
+    for (const rel of routes) {
+      const src = stripComments(read(rel) ?? "");
+      expect(
+        src,
+        `${rel}: fail("INTERNAL", …) without an explicit status answers HTTP 400`,
+      ).not.toMatch(/fail\(\s*"INTERNAL"\s*,\s*"[^"]*"\s*\)/);
+    }
+  });
 });

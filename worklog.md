@@ -2254,3 +2254,151 @@ Stage Summary:
 - SHIPPED: the remediated codebase + the five rebuilt docs committed to
   main and pushed via docs/ssh_git_wrapper_v3.py (the remote verified;
   no new branches)
+
+---
+
+Task ID: 23
+Agent: main (Z.ai)
+Task: The session-23 round — the hamburger-aria superset re-anchor + the
+census depth + the AA focus superset + the audit batch — TDD cures, the
+gate, captures, push #23 to main via the SSH wrapper.
+
+Work Log:
+- The intake: the workspace pulled to f4ae48c (the owner's session_23.md
+  post — the session-22 transcript handoff, the established pattern); the
+  core docs read in full (AGENTS, CLAUDE, README, PAD, SKILL v1.18.0) +
+  the session-22 set (session_22.md, the session-22 plan, worklog Task
+  22). This round is session 23.
+- Baseline gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit
+  599/599, 37 files) — the merged tree matched the session-22 delivery
+  record exactly. The standing asks re-verified: .env DATABASE_URL
+  contract (file:../db/custom.db, db/ at root, census MATCH), vitest +
+  playwright suites current, sitemap/robots/manifest/OG byte-fresh,
+  skills/ excluded from every gate.
+- neo-crm re-checked at HEAD b3d0fbe — UNCHANGED since session 12; the
+  recorded adoption/deferral decisions stand.
+- The web-application skill + the skills catalog re-internalized; the TDD
+  skill's loop discipline consulted.
+- The audit: three parallel subagents (AUDIT-1 API/lib seams, AUDIT-2
+  components/pages/effects, AUDIT-3 SEO/configs/tests/docs) returned
+  0C/0H/0M/13L/14I combined; the lead's hand-verification then UPGRADED
+  one finding — the INTERNAL-envelope-answers-400 shape (fail()'s default
+  status) on BOTH the contact and generate catch arms, a correctness bug
+  the subagent had framed as a style note on one site — for a working
+  register of 0C/0H/1M/12L/14I.
+- THE PARITY WALK (live, both sides, logged into the reference): the
+  five-route head census NO DRIFT; the desktop nav family + desktop pill
+  byte-identical; the mobile-menu control census at 390×844 — the pill
+  text "Upgrade to Pro – $19" + the bare classes + the bare link family
+  all byte-identical to the session-22 re-anchors (the reference's
+  revert held); the panel transparent over the hero on both sides; the
+  three sRGB brand gradients, the footer CTA, the /Pricing CTA trio, the
+  landing heading tree, the monetization floaters (same color families,
+  live transforms), sitemap + robots (origin-difference only) — ALL
+  byte-identical; the clone's generator round-trip green; the clone's
+  menu supersets live-verified (Escape-close with focus return,
+  route-change close, the scrolled-panel darkening).
+- THE ONE LIVE DRIFT: the reference's hamburger REMOVED its aria family
+  (open AND closed states carry only the class attribute) — session-22's
+  S22-22 "parity" capture was another transient deploy state (the
+  flip-flop: absent 1–21, present 22, absent 23). DECISION: keep ours as
+  the documented superset (chasing the reference's deploy state would
+  strip a WCAG 4.1.2 state/label contract); the navbar comment + SKILL
+  §8 re-anchored (S23-1).
+- The session-23 plan written and validated against the codebase (the
+  pin landscape — a11y-controls' skip-link + aria pins, toast-anatomy's
+  source pins, the census's constants/loopShapes/forms-guard arms, the
+  PAD §12 rows), then executed with TDD throughout:
+- R23-3 (skip-link target): RED pin first (tabIndex={-1}), then the
+  attribute; the old pin co-updated in the same commit. LIVE-VERIFIED:
+  the link reveals on focus (fixed pill), the click lands focus ON the
+  main (activeElement === main).
+- R23-4 (toast store): RED pin first (useSyncExternalStore + the old
+  useState shape banned), then the conversion (subscribeToasts + the
+  reference-stable snapshot + the empty server snapshot; the vestigial
+  payload-carrying Listener simplified to the bare change signal).
+- R23-8 (status discipline): RED pin first (the no-INTERNAL-at-400
+  census arm over every mutating route), then contact → ERR.INTERNAL()
+  and generate → the explicit 500 (its surface message preserved).
+- R23-21 (focus-visible superset): RED pin first, then
+  focus-visible:ring-2 focus-visible:ring-teal-600 on the generator
+  textarea + the contact FIELD (the reference's base classes untouched;
+  teal-600 ≈3.05:1 on white — the 1.4.11 floor). LIVE-VERIFIED: the
+  ring renders on focus.
+- R23-10 (census depth): the planted-defect proof FIRST — a nested
+  fixture executed green in the runner while the flat census could not
+  see it (the blindness, on record); then the recursive scan (the
+  unitTestFiles helper, all three flat arms); the fixture removed after
+  the proof; the census REDs walked to GREEN through the count ladder.
+- R23-13 (anti-dodge): the loopShapes heads cross parens now
+  (same-line greedy) + while/for-await joined; the five-decoy battery
+  pinned IN the census (a guard for the guard — each decoy asserted to
+  match, the assertion-only loop asserted invisible).
+- R23-14/R23-15 (SEO body contracts): the new tests/seo-surfaces.test.ts
+  pins the manifest's nine fields + the exact key order + the
+  content-type, the sitemap's declaration + xmlns + four-route body +
+  LF-only format, and the ROUTES table's source shape (the /Home
+  never-listed negative) — the "field-for-field" parity claims now
+  carry their pins.
+- R23-5/R23-6/R23-7/R23-8/R23-9 (the hygiene/comment batch): the
+  chunk-recovery vestigial ?. retired (the guard owns the null face),
+  boot-env's DISABLE_KNOBS const (both loops consume it), db-path's
+  duplicated bun-signature early return consolidated into the tail
+  effectiveDatabaseUrl call (behavior-neutral, the 263-line suite
+  green), the iridescence "t=0" precision reword, the hero portrait's
+  "lazy default" false claim cured to the eager truth.
+- R23-11/R23-17/R23-18 (the smoke batch): --max-time 2 on both
+  health-wait loops, the db:push/db:seed output captured + cat-ed on
+  failure, server.log in both artifact-hygiene lists (next.config.ts +
+  the smoke leg). bash -n clean.
+- R23-12/R23-19 (the manifest batch): the bun.lock workspace name
+  re-anchored from the scaffold's "activity-map" (hand-edit + the
+  frozen-lockfile dry-run verification — bun install reported no
+  changes), packageManager: bun@1.3.14 pinned.
+- R23-20 (the /Home 308): the e2e test owns the status now (the
+  no-redirect request → 308 + Location /; the goto family kept below).
+- R23-22 (the e2e prune): scripts/e2e-prune.ts + the global-setup call
+  (scoped to e2e- prefixed emails; the demo user's id-stable upsert
+  untouched).
+- R23-16 (the register): the stats band's text-white recorded in the
+  SANCTIONED register (the reference's own design, now adjudicated on
+  paper).
+- Count re-anchor: UNIT 599 → 606 (+7: seo-surfaces +3, a11y-controls
+  +1, toast-anatomy +1, api-robustness +1, landing-page +1), SUITES 37
+  → 38 (the new file), E2E 63 unchanged (the /Home leg extended in
+  place), badge 662 → 669; the PAD §12 rows (db-path 267, navbar 210,
+  iridescence 243, smoke 212); the ladder comment's s23 entry. The
+  census walked RED-to-GREEN site by site.
+- THE FULL GATE on the exact commit tree: lint 0/0 · tsc 0 · unit
+  606/606 (38 files) · build · smoke 15/15 · e2e 63/63 (9 specs) ·
+  census MATCH.
+- Captures 53/54 (the landing 1280×800 + the OPEN mobile menu 390×844,
+  via localhost, hydration awaited, the menu DOM-confirmed open before
+  the shot), PIL-verified (53: 99.9% non-white, 75.1% dark hero; 54:
+  95.2% dark upper-third).
+- Docs lockstep: README (the session-23 row, the gate line, the badge
+  669, the tree diagram), AGENTS (counts, the plans map's twenty-third
+  round), CLAUDE (counts), PAD (§12 rows + the tree diagram), SKILL
+  v1.18.0 → v1.19.0 (frontmatter, §8's aria re-anchor, Appendix A's
+  session-23 row), worklog Task 23, docs/session_23.md (the pre-round
+  transcript replaced by the round log), the plan's post-execution
+  record.
+
+Stage Summary:
+- THE PARITY ROUND: the reference's mobile-menu family held (the
+  session-22 re-anchors byte-identical on both sides); the ONE drift —
+  the hamburger's aria family, removed again by the reference — kept as
+  the documented superset with the comments re-anchored to the truth
+- THE CORRECTNESS FIND: the INTERNAL envelope answered HTTP 400 on two
+  routes (fail()'s default status) — the status discipline pinned and
+  cured
+- THE INFRASTRUCTURE FINDS: the census's flat scan (a nested suite
+  invisible to every count arm — closed with the planted-defect proof),
+  the anti-dodge shapes (hardened + decoy-pinned), the manifest/sitemap
+  body contracts (pinned field-for-field)
+- THE VERIFICATION: lint 0/0 · tsc 0 · unit 606/606 (38 files) · build
+  · smoke 15/15 · e2e 63/63 (9 specs) · census MATCH · badge 669 ·
+  captures 53/54 PIL-verified · the cured surfaces live-verified
+- SHIPPED: the remediated codebase + the docs in lockstep, committed to
+  main and pushed via docs/ssh_git_wrapper_v3.py (the remote verified;
+  no new branches)

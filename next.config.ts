@@ -38,6 +38,9 @@ const nextConfig: NextConfig = {
       "Project_Architecture_Document.md",
       "worklog.md",
       "dev.log",
+      // Session-23 (S23-18): server.log joins dev.log — the start
+      // script's tee creates it; a stale one is nft baggage.
+      "server.log",
       "bun.lock",
       "package-lock.json",
       "eslint.config.mjs",

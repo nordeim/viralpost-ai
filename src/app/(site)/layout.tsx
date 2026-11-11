@@ -26,7 +26,12 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         Skip to content
       </a>
       <Navbar />
-      <main id="main-content">{children}</main>
+      {/* Session-23 (S23-3): tabIndex={-1} — WebKit does not move
+          sequential focus to non-focusable fragment targets (the link
+          scrolls, the next Tab resumes at the document top). The
+          login-card data-view-focus genus: every focus target carries
+          it. */}
+      <main id="main-content" tabIndex={-1}>{children}</main>
       <Footer />
     </>
   );

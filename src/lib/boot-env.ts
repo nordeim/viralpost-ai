@@ -35,6 +35,15 @@ export const KNOWN_VIRALPOST_VARS: ReadonlySet<string> = new Set([
 /** The values the VIRALPOST_DISABLE_* kill-switches actually read ("1" = disable). */
 const DISABLE_KNOB_VALUES = new Set(["", "1"]);
 
+// Session-23 (S23-6): the in-app-delivery knob family — one named const,
+// consumed by both the off-vocabulary arm and the production-unset arm
+// (the literal was written out twice; a third knob joining the family
+// had to be edited in four places, two unnamed).
+const DISABLE_KNOBS = [
+  "VIRALPOST_DISABLE_IN_APP_OTP",
+  "VIRALPOST_DISABLE_IN_APP_RESET",
+] as const;
+
 export interface BootEnvReport {
   fatal: string | null;
   warnings: string[];
@@ -132,7 +141,7 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
       );
     }
   }
-  for (const key of ["VIRALPOST_DISABLE_IN_APP_OTP", "VIRALPOST_DISABLE_IN_APP_RESET"]) {
+  for (const key of DISABLE_KNOBS) {
     const value = env[key];
     if (value !== undefined && !DISABLE_KNOB_VALUES.has(value)) {
       warnings.push(
@@ -151,7 +160,7 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
   // fatal (the mail-less demo posture is a legitimate self-hosted
   // deployment); the off-vocabulary values stay owned by the off-vocab
   // arm above (one face, one pin).
-  for (const key of ["VIRALPOST_DISABLE_IN_APP_OTP", "VIRALPOST_DISABLE_IN_APP_RESET"]) {
+  for (const key of DISABLE_KNOBS) {
     const value = env[key];
     if (isProduction && (value === undefined || value === "")) {
       const what =

@@ -76,6 +76,15 @@ import {
 // negative rides the same describe), +1 the toast focus-pause pin, +1
 // the generator bank-cap pin) and the e2e 57 unchanged (the api-
 // robustness key pin re-anchored in place — no count change).
+// s21: 586/37 (+13 the session-21 pins). s22: 599/37 (+13 the
+// session-22 pins) and the e2e 58 → 63 (the a11y matrix's logged-out
+// family + the icon leg). s23: 606/38 (+7 — the seo-surfaces suite's
+// manifest/sitemap pins, the skip-link tabIndex pin, the toast
+// useSyncExternalStore pin, the INTERNAL-status-discipline pin, the
+// focus-visible superset pin; +1 FILE — tests/seo-surfaces.test.ts) and
+// the e2e 63 unchanged (the /Home 308 assertion extends its test in
+// place — the S18-2 precedent; the a11y register's stats-band entry is
+// data, not a test).
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -83,9 +92,9 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 599;
+const UNIT = 606;
 /** Vitest suite files. */
-const SUITES = 37;
+const SUITES = 38;
 /** Playwright e2e checks (incl. the setup project's 1). */
 const E2E = 63;
 /** Playwright e2e spec files. */
@@ -97,6 +106,20 @@ const BADGE = UNIT + E2E;
 
 const root = join(import.meta.dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
+
+// Session-23 (S23-10): RECURSIVE — the runner's include is
+// tests/**/*.test.ts, and a flat scan left a nested suite EXECUTED but
+// INVISIBLE to every census arm (the planted-defect proof: the fixture
+// ran green in the runner while the census's on-disk count never saw
+// it — the badge-drift genus one directory level deeper). Mirrors the
+// src arm's own recursive scan; the returned paths carry their subpath
+// so every `tests/${f}` read stays valid.
+function unitTestFiles(): string[] {
+  return readdirSync(join(root, "tests"), { recursive: true })
+    .map(String)
+    .filter((f) => f.endsWith(".test.ts"))
+    .sort();
+}
 
 describe("docs-counts: the live-tense count sites (the badge-drift genus, retired)", () => {
   it("the README badge carries the live arithmetic (unit + e2e)", () => {
@@ -259,9 +282,7 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
 
 describe("docs-counts: session-12 — the reality census (constants vs DISK, F12-1)", () => {
   it("UNIT/SUITES match the live vitest surface (files + it/test blocks counted on disk)", () => {
-    const unitFiles = readdirSync(join(root, "tests"))
-      .filter((f) => f.endsWith(".test.ts"))
-      .sort();
+    const unitFiles = unitTestFiles();
     expect(unitFiles.length, `tests/*.test.ts on disk: ${unitFiles.length} files (SUITES says ${SUITES})`).toBe(SUITES);
     let unitTests = 0;
     for (const f of unitFiles) {
@@ -315,8 +336,29 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
     // with expects) are legitimate and stay invisible to this shape.
     // Comment-stripped so a prose mention is not a violation; a11y owns
     // the one sanctioned registration family.
+    // Session-23 (S23-13): the heads cross parens now — `[^)]*` could not
+    // see past a `)` inside the loop head (`for (const p of
+    // paths.filter(x)) { test(…) }` evaded), and `while`/`for await`
+    // were uncovered entirely. Same-line greedy heads + the while family;
+    // the decoy battery below pins the shapes (a guard for the guard —
+    // the S13-10 mutation doctrine).
     const loopShapes =
-      /for\s*\([^)]*\)\s*\{\s*(?:\/\/[^\n]*\n\s*)*test\(|\.forEach\s*\(\s*[^)]*=>\s*\{\s*(?:\/\/[^\n]*\n\s*)*test\(|\.map\s*\(\s*[^)]*=>\s*(?:\{\s*)?(?:\/\/[^\n]*\n\s*)*test\(/;
+      /(?:for(?:\s+await)?|while)\s*\([^\n]*\)\s*\{\s*(?:\/\/[^\n]*\n\s*)*test\(|\.forEach\s*\(\s*[^\n]*=>\s*\{\s*(?:\/\/[^\n]*\n\s*)*test\(|\.map\s*\(\s*[^\n]*=>\s*(?:\{\s*)?(?:\/\/[^\n]*\n\s*)*test\(/;
+    // The decoy battery (S23-13): every shape a dodge could take, each
+    // asserted to MATCH — the old `[^)]*` form missed the first two.
+    const loopDecoys = [
+      "for (const p of paths.filter((x) => x.on)) { test(\"dodge\", () => {}); }", // paren-laden head
+      "for (const w of [1280, 390].map((v) => v)) {\n  test(\"dodge\", () => {});\n}", // .map-fed head, multiline body
+      "while (queue.length) { test(\"dodge\", () => {}); }", // the while family
+      "for await (const chunk of stream) { test(\"dodge\", () => {}); }", // the await family
+      ".forEach((p) => {\n  test(\"dodge\", () => {});\n})", // the forEach family
+    ];
+    for (const decoy of loopDecoys) {
+      expect(decoy, `the anti-dodge shape must catch: ${decoy}`).toMatch(loopShapes);
+    }
+    // The legitimate assertion-only loop stays invisible (the seo.spec
+    // shape — an expect, never a registration).
+    expect('for (const path of ROUTES) {\n  expect(path).toContain("/");\n}').not.toMatch(loopShapes);
     for (const f of specFiles) {
       if (f === "a11y.spec.ts") continue;
       const bare = read(`tests/e2e/${f}`)
@@ -336,9 +378,7 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
   it("no uncountable registration form in any unit suite or e2e spec (the census's shape contract)", () => {
     const stripComments = (src: string) =>
       src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
-    const unitFiles = readdirSync(join(root, "tests"))
-      .filter((f) => f.endsWith(".test.ts"))
-      .sort();
+    const unitFiles = unitTestFiles();
     const e2eFiles = readdirSync(join(root, "tests", "e2e"))
       .filter((f) => f.endsWith(".spec.ts") || f === "auth.setup.ts")
       .sort();
@@ -362,9 +402,7 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
   it("no it(/test( registration inside a for-loop body in any unit suite (the census counts source blocks)", () => {
     const stripComments = (src: string) =>
       src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
-    const unitFiles = readdirSync(join(root, "tests"))
-      .filter((f) => f.endsWith(".test.ts"))
-      .sort();
+    const unitFiles = unitTestFiles();
     for (const f of unitFiles) {
       const lines = stripComments(read(`tests/${f}`)).split("\n");
       for (let i = 0; i < lines.length; i++) {

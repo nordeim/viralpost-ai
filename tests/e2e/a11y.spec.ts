@@ -43,6 +43,17 @@ const SANCTIONED: Record<string, Array<{ any: string[]; cite: string }>> = {
       cite: "the stats-bar captions on the teal gradient — the reference's own palette",
     },
     {
+      // Session-23 (S23-16): the stats band's bare text-white values +
+      // labels over the teal gradient (≈2.49:1 on the teal-500 half) —
+      // the reference's own design (its gradient + its white numerals,
+      // captured verbatim); recorded here so the adjudication register
+      // matches reality (the family was sanctioned in effect but never
+      // listed — a future axe that resolves gradient backgrounds would
+      // have RED'd on unsanctioned nodes).
+      any: ["text-white"],
+      cite: "the stats-band numerals/labels on the teal gradient — the reference's own design",
+    },
+    {
       // The pricing Free card's slate-400 heading + the muted list copy.
       any: ["text-slate-600"],
       cite: "the pricing-card muted copy — the reference's own palette",

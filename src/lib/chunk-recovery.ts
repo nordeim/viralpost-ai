@@ -89,7 +89,9 @@ export function reloadOnStaleChunk(error: Error, deps: ReloadDeps = {}): boolean
   // the first-reload path, never a crash).
   let lastReloadAt: number | null = null;
   try {
-    const raw = storage?.getItem(CHUNK_RELOAD_FLAG) ?? null;
+    // Session-23 (S23-5): the bare reads — the !storage guard above owns
+    // the null face; the vestigial ?. contradicted it two statements in.
+    const raw = storage.getItem(CHUNK_RELOAD_FLAG);
     if (raw !== null) {
       const parsed = Number(raw);
       lastReloadAt = Number.isFinite(parsed) ? parsed : null;
@@ -108,7 +110,7 @@ export function reloadOnStaleChunk(error: Error, deps: ReloadDeps = {}): boolean
 
   // Write the flag BEFORE the reload — the crash-mid-reload loop guard.
   try {
-    storage?.setItem(CHUNK_RELOAD_FLAG, String(current));
+    storage.setItem(CHUNK_RELOAD_FLAG, String(current));
   } catch {
     // proceed anyway: a missing record only means a possible extra reload
   }

@@ -144,4 +144,18 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
     expect(src).toMatch(/aria-label="Notifications"\s+\n?\s*role="region"/);
     expect(src).toContain('aria-live="polite"');
   });
+
+  // Session-23 (S23-4): the store's subscription rode useState + an
+  // effect — a missed-update window (a toast pushed during a sibling's
+  // mount effect emits to zero listeners: page-tree effects run before
+  // the Toaster's own effect subscribes) and no tear protection under
+  // concurrent rendering. The designated primitive is the one the quota
+  // counter already uses (generator-card's subscribeUsage — the
+  // codebase's own precedent for a module-level mutable store).
+  it("session-23 (S23-4): useToasts reads the store through useSyncExternalStore (the generator-card precedent)", () => {
+    expect(src).toContain("React.useSyncExternalStore(");
+    // The hook's old shape is gone: no seeded useState over the module
+    // array (the missed-update window's carrier).
+    expect(src).not.toMatch(/useState<ToastItem\[\]>\(toasts\)/);
+  });
 });

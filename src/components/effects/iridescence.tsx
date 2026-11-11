@@ -9,8 +9,10 @@
 //
 // Fallbacks: no WebGL context → nothing renders (the gradient overlays
 // alone carry the hero, which is already the majority of the visual).
-// prefers-reduced-motion → the shader renders its t=0 frame once and the
-// animation loop stops.
+// prefers-reduced-motion → the shader renders a single static frame
+// (seeded at mount-time — the rAF timestamp, not a literal t=0; the
+// observable contract is one frame and the loop stops) and the resize
+// handler repaints it synchronously.
 
 import * as React from "react";
 import { cn } from "@/lib/utils";

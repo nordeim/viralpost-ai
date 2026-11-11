@@ -216,9 +216,13 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
 export function runtimeDatabaseUrl(cwd: string = process.cwd()): string {
   const envUrl = process.env.DATABASE_URL;
   const envFileUrl = readDatabaseUrlFromEnvAt(cwd);
-  if (envUrl && isRelativeFileUrl(envFileUrl) && envUrl === bunAbsolutized(envFileUrl, cwd)) {
-    return resolveDatabaseUrl(envFileUrl);
-  }
+  // Session-23 (S23-7): the cwd-side bun-signature early return is
+  // RETIRED — the tail effectiveDatabaseUrl({envUrl, envFileUrl,
+  // envFileDir: cwd}) performs the same test at its top (verified
+  // behavior-neutral by the 263-line fixture suite: both paths converge
+  // on the same repo-anchored resolution). The inline duplicate was a
+  // divergence hazard: a future edit to one copy silently forked the
+  // seam's two faces.
   // Session-11 (F11-18 — the standalone-launch DB lock, the neo-crm
   // session-212 cure): the launch-dir recovery is HOISTED out of the
   // cwd-.env guard above. The build's hygiene step deletes

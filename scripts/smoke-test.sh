@@ -60,8 +60,21 @@ trap cleanup EXIT
 [ -f .next/standalone/server.js ] || { fail "00" "no standalone artifact — run bun run build first"; exit 1; }
 
 # --- 1. the smoke database: fresh schema + seed (the ambient override) ------
-DATABASE_URL="$SMOKE_DB_URL" bun run db:push >/dev/null 2>&1
-DATABASE_URL="$SMOKE_DB_URL" bun run db:seed >/dev/null 2>&1
+# Session-23 (S23-17): output captured, cat-ed on failure — under set -e a
+# failed push/seed used to abort the gate with ZERO diagnostics (a locked
+# SQLite file read as an unexplained failure at leg "00").
+SMOKE_PUSH_LOG="$(mktemp)"
+if ! DATABASE_URL="$SMOKE_DB_URL" bun run db:push >"$SMOKE_PUSH_LOG" 2>&1; then
+  cat "$SMOKE_PUSH_LOG" >&2
+  fail "00" "bun run db:push failed (above) — the smoke database could not be created"
+  exit 1
+fi
+if ! DATABASE_URL="$SMOKE_DB_URL" bun run db:seed >"$SMOKE_PUSH_LOG" 2>&1; then
+  cat "$SMOKE_PUSH_LOG" >&2
+  fail "00" "bun run db:seed failed (above) — the smoke database could not be seeded"
+  exit 1
+fi
+rm -f "$SMOKE_PUSH_LOG"
 
 # --- 2. kill squatters on the smoke port ------------------------------------
 # Session-22 (S22-12): portable across GNU/BSD — `xargs -r` is GNU-only
@@ -84,9 +97,11 @@ DATABASE_URL="$SMOKE_DB_URL" AUTH_SECRET="$SMOKE_SECRET" NODE_ENV=production POR
 SERVER_PID=$!
 
 # --- the health-wait loop (30 x 1s) -----------------------------------------
+# Session-23 (S23-11): --max-time 2 — a wedged server (TCP accept, no
+# response) used to hang curl indefinitely, making the seq bound fiction.
 up=1
 for _ in $(seq 1 30); do
-  if curl -sf "$BASE/api/health" >/dev/null 2>&1; then up=0; break; fi
+  if curl -sf --max-time 2 "$BASE/api/health" >/dev/null 2>&1; then up=0; break; fi
   sleep 1
 done
 [ "$up" = 0 ] || { fail "00" "the standalone server never became healthy"; cat "$SERVER_LOG" >&2; exit 1; }
@@ -173,7 +188,7 @@ DATABASE_URL="$SMOKE_DB_URL" AUTH_SECRET="" NODE_ENV=production PORT=3211 \
 GATE_PID=$!
 served=1
 for _ in $(seq 1 8); do
-  if curl -sf "http://localhost:3211/api/health" >/dev/null 2>&1; then served=0; break; fi
+  if curl -sf --max-time 2 "http://localhost:3211/api/health" >/dev/null 2>&1; then served=0; break; fi
   sleep 1
 done
 kill "$GATE_PID" 2>/dev/null || true
@@ -184,7 +199,10 @@ wait "$GATE_PID" 2>/dev/null || true
 
 # --- 15. THE ARTIFACT-HYGIENE assertions -------------------------------------
 hygiene_fail=""
-for entry in .env .git db skills docs uploads worklog.md test-results dev.log; do
+# Session-23 (S23-18): server.log joins dev.log — the start script's tee
+# creates it at the repo root; a stale one belongs to the F-170a nft-baggage
+# class and must fail the same hygiene leg.
+for entry in .env .git db skills docs uploads worklog.md test-results dev.log server.log; do
   [ -e ".next/standalone/$entry" ] && hygiene_fail="$hygiene_fail $entry"
 done
 [ -z "$hygiene_fail" ] \

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "ViralPost AI \u2014 Next.js 16 + React 19 + Prisma/SQLite AI social-post generator (clone of viralpostai.base44.app)",
   "private": true,
+  "packageManager": "bun@1.3.14",
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/ && rm -f .next/standalone/.env",

@@ -51,6 +51,9 @@ export async function POST(req: Request) {
     await db.contactMessage.create({ data: parsed.data });
     return ok({ sent: true });
   } catch {
-    return fail("INTERNAL", "Something went wrong. Please try again.");
+    // Session-23 (S23-8): ERR.INTERNAL() — the bare fail("INTERNAL", …)
+    // rode the 400 default (a server-side DB failure answered as a
+    // client error; the auth family's idiom is the house form).
+    return ERR.INTERNAL();
   }
 }

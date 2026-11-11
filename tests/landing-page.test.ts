@@ -188,6 +188,20 @@ describe("landing: the generator card (the reference's core contract)", () => {
     expect(card).toContain("toast.error");
     expect(card).toContain("setGenerating(false)");
   });
+
+  // Session-23 (S23-21): the two highest-traffic input surfaces' focus
+  // styles are the reference's own (focus:ring-teal-500/20 +
+  // focus:border-teal-400 — the border ≈1.86:1, the 20%-alpha ring
+  // ≈1.2:1, both under the WCAG 1.4.11 3:1 focus-indicator floor).
+  // The house genus (S14-6/S15-8/S22-10): a keyboard-only focus-visible
+  // superset layer, the reference's base classes untouched. teal-600
+  // (#0d9488) computes ≈3.05:1 on white — the floor cleared.
+  it("session-23 (S23-21): the input surfaces carry the keyboard-only focus-visible superset ring (WCAG 1.4.11)", () => {
+    const card = read("src/components/marketing/generator-card.tsx");
+    expect(card).toContain("focus-visible:ring-2 focus-visible:ring-teal-600");
+    const form = read("src/components/marketing/contact-form.tsx");
+    expect(form).toContain("focus-visible:ring-2 focus-visible:ring-teal-600");
+  });
 });
 
 describe("landing: the page shells", () => {

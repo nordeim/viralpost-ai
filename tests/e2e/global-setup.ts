@@ -19,4 +19,12 @@ export default function globalSetup() {
     stdio: "inherit",
     env: { ...process.env, DATABASE_URL: "file:../db/e2e.db" },
   });
+  // Session-23 (S23-22): the scratch-user prune — previous runs' probe
+  // signups (e2e-<ts>@example.com) never re-read; without this the
+  // e2e.db grows unboundedly across local gate runs. Scoped to the
+  // e2e- prefix (scripts/e2e-prune.ts owns the rationale).
+  execSync("bun scripts/e2e-prune.ts", {
+    stdio: "inherit",
+    env: { ...process.env, DATABASE_URL: "file:../db/e2e.db" },
+  });
 }

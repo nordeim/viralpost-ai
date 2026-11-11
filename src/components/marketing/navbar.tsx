@@ -6,12 +6,16 @@
 // hamburger → dropdown on mobile (the reference's own working mobile menu —
 // verified live at 390×844).
 //
-// Session-22 (S22-22): the reference's hamburger NOW SHIPS the aria
-// family itself (aria-label relabeling Open/Close menu, aria-expanded,
-// aria-controls — live-verified on both sides); ours is PARITY there.
-// The remaining supersets (documented in the Deviations Ledger): the
-// menu closes on route change and on Escape with focus return
-// (keyboard hardening the reference lacks). The reference's panel class
+// Session-23 (S23-1): the reference's hamburger aria family was a
+// TRANSIENT deploy state — present at session-22's capture (S22-22),
+// REMOVED again by session-23's live walk (the button ships only
+// `md:hidden p-2 text-slate-300`; the reference has now flip-flopped
+// twice: absent sessions 1–21, present 22, absent 23). Chasing its
+// deploy state would strip a WCAG 4.1.2 state/label contract — ours
+// STAYS, as a DOCUMENTED SUPERSET (the a11y doctrine's genus). The
+// supersets (Deviations Ledger): the aria family itself, the menu
+// closing on route change and on Escape with focus return (keyboard
+// hardening the reference lacks). The reference's panel class
 // `bg-slate-900/98` is a DEAD class in its Tailwind build (computed
 // backgroundColor: transparent — /98 is not a generated opacity step),
 // so over the hero its menu shows the WebGL glow through the panel. We

@@ -147,7 +147,7 @@ export function GeneratorCard() {
         onChange={(e) => setIdea(e.target.value)}
         placeholder="Example: motivational post for entrepreneurs about consistency"
         rows={3}
-        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 transition-all resize-none"
+        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 focus-visible:ring-2 focus-visible:ring-teal-600 transition-all resize-none"
       />
       <button
         type="button"
