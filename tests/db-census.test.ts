@@ -70,9 +70,12 @@ describe("session-53: the census seam (S53-P2, N-53b)", () => {
     // the pristine contract) + a non-zero exit on mismatch. (The
     // scaffold-family's CRM counts — 15 contacts / 24 leads / … — were
     // prose relics; the pinned expectations below were always ours.)
+    // Session-35 (S35-3): the drift path's non-zero exit re-anchored —
+    // the synchronous exit call became process.exitCode (the family
+    // teardown doctrine); the pin follows the code in the same commit.
     expect(src).toMatch(/users:\s*1/);
     expect(src).toMatch(/contactMessages:\s*0/);
-    expect(src).toMatch(/process\.exit\(1\)/);
+    expect(src).toMatch(/process\.exitCode = 1/);
   });
 
   it("the db:census package script is wired", () => {
@@ -103,5 +106,35 @@ describe("session-53: the census seam (S53-P2, N-53b)", () => {
       // The bare direct-env form is banned in the construction site.
       expect(src).not.toMatch(/datasources:\s*\{\s*db:\s*\{\s*url:\s*process\.env\.DATABASE_URL/);
     }
+  });
+
+  // Session-35 (S35-3): THE ONE-SHOT FAMILY'S TEARDOWN, PINNED. The
+  // documented S25-18b idiom ("the disconnect is AWAITED") was never
+  // implemented on the failure path: `process.exit(1)` inside `.catch`
+  // terminates synchronously, so the chained `.finally` never ran and
+  // $disconnect() was skipped exactly when a run failed — while census.ts
+  // had no catch at all (a thrown count = unhandled rejection). The fix
+  // sets `process.exitCode = 1` (the finally runs, the process still
+  // exits 1 after the chain settles) and gives census.ts the family
+  // form; readback's usage check moves BEFORE the client construction
+  // (a usage error builds nothing). Mutation batteries: plant
+  // process.exit back → RED; plant a bare void main() in census → RED;
+  // reorder readback's argv check after the client → RED.
+  it("session-35 (S35-3): the one-shot family's teardown idiom (the awaited disconnect now runs on the failure path, pinned)", () => {
+    for (const f of ["prisma/seed.ts", "scripts/e2e-prune.ts", "scripts/e2e-contact-readback.ts"]) {
+      const src = read(f) ?? "";
+      expect(src, `${f} must let the finally run — exitCode, not exit`).toContain("process.exitCode = 1");
+      expect(src, `${f} must not preempt the teardown chain`).not.toContain("process.exit(1)");
+      expect(src, `${f} must await the disconnect in a finally`).toMatch(/\.finally\(async \(\) => \{\s*await db\.\$disconnect\(\);\s*\}\)/);
+    }
+    const census = read("scripts/census.ts") ?? "";
+    expect(census, "census.ts must own its failures — the family form, not a bare void main()").toMatch(
+      /if \(invokedAsScript\)\s*main\(\)\s*\.catch\(/,
+    );
+    expect(census).not.toMatch(/if \(invokedAsScript\) void main\(\);/);
+    const readback = read("scripts/e2e-contact-readback.ts") ?? "";
+    expect(readback, "readback's usage check must precede the client construction").toMatch(
+      /process\.argv\[2\][\s\S]*?new PrismaClient\(/,
+    );
   });
 });

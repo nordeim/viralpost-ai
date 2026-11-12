@@ -27,7 +27,13 @@
 #       to serve — the fail-fast posture (the log carries the message)
 #   16  THE ARTIFACT-HYGIENE assertions: the built artifact contains NO
 #       .env / .git / db / skills / docs / uploads / worklog.md /
-#       test-results entries
+#       test-results entries — session-35 (S35-6): the full 29-entry
+#       mirror (all the root contract docs + SKILL/LICENSE + the
+#       lockfiles + the configs + tsbuildinfo + scripts/ + tests/);
+#       the in-loop enumeration below is the authority, this header a
+#       summary (the pre-S34-7 8-entry form stayed stale here for two
+#       rounds — the header must name the families, never enumerate
+#       exhaustively)
 #
 # Every assertion: ok "NN — description" || { fail "NN"; exit 1; }
 # The trap kills the server on ANY exit.

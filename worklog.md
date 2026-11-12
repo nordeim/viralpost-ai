@@ -3713,3 +3713,95 @@ Details:
 - SHIPPED: the remediated codebase + the docs in lockstep, committed
   to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
   verified; no new branches).
+
+## Task 35 — The Tailwind Source Scoping + The Script Teardown Idiom + The Donor-Marker Tail + The Comment-Truth Batch (2026-11-12)
+
+Task ID: 35
+Agent: main (Z.ai)
+- SCOPE: the standing instruction re-run against the merged tree
+  (`b508502`, the owner's session-34 narration held as
+  docs/session_35.md). Docs review (AGENTS/CLAUDE/README/PAD/SKILL
+  v1.30.0, session_34.md, the session-34 plan, worklog Task 34,
+  session_35.md) → the baseline gate verified in place (lint 0/0 · tsc 0
+  · unit 660/660, 38 files · build · smoke 16/16 · e2e 65/65, 9 specs ·
+  census MATCH) → the comprehensive audit (three parallel subagents,
+  the web-application skill as the rubric, every load-bearing finding
+  hand-verified in source by the lead) → the live parity walk → the
+  TDD cures → the full gate → the captures → the push. The standing
+  asks re-verified up front (the .env DATABASE_URL
+  "file:../db/custom.db" contract with db/ at the repo root; the
+  vitest + playwright suites; the sitemap/robots/manifest/OG family;
+  skills/ excluded from every gate; the committed .env.example).
+- THE AUDIT: combined 0 Critical / 0 High / 1 Medium / 7 Low / 15 Info
+  → all cured (S35-1..S35-7). The Medium: playwright.config's
+  webServer comment omitted the contact bucket (the suite's only
+  60-minute wall — 3 POSTs/run vs 5/hour with the limiter before the
+  Zod parse; the "self-heals in 15 min" remediation materially false
+  for it).
+- THE PARITY WALK (live, both sides, logged into the reference with
+  sepnetflix2023@outlook.com): NO DRIFT — the ninth consecutive
+  fully-clean walk, on an instrument-hardened walk script (eight runs
+  to green: the --viewport flag and a bare `viewport` command are not
+  real — `agent-browser set viewport` with an innerWidth confirm is;
+  a side-agnostic open-verify replaced our aria-expanded superset as
+  the reference's toggle signal; the oklab→sRGB conversion now
+  canonicalizes the two-spellings equivalence numerically —
+  oklab(0.207678…) lands exactly on rgb(15,23,42)@0.95). The mobile
+  battery at a CONFIRMED 390px: the open panel computed display block
+  both sides, the links + the Gumroad pill byte-identical, the desktop
+  nav 6|6, the login round-trip both landing /, the generator probe
+  symmetrically null (the known artifact). The focus-return face stays
+  e2e-owned (mobile-navigation.spec.ts :67/:80 — the daemon cannot
+  drive focus from eval; an instrument limitation, not app behavior).
+- THE CURES (TDD, every battery on record): S35-1 the Tailwind source
+  scoping (globals.css's import line → source("../") — the scanner
+  loses the repo-root anchor; the sheet 159,088 → 64,053 bytes, −59.7%
+  (the docs/tests/*.md prose compiled into ~60% never-matched rules —
+  .bg-[#bada55], [program:laravel-worker], .to-amber-400, the dead /98
+  family; none occur in src/); probe-proven through the installed
+  4.3.3 with the control form emitting the dead classes (non-vacuity)
+  and the real build verified — every live class still emits, the
+  theme survives, zero @media (hover: hover); +1 pin RED-first, the
+  planted-bare-import battery on record); S35-3 the script teardown
+  idiom (the synchronous exit call inside .catch preempted the chained
+  .finally disconnect on every failure path; process.exitCode lets the
+  finally run; census.ts gets the family form (a thrown count was an
+  unhandled rejection); readback's usage check precedes the client
+  construction; +1 pin, each of the three planted defects proven
+  independently; the N-53a guard re-anchored in the same commit); S35-4
+  the donor-marker tail (ten more sites marked — api.ts:24/:64,
+  auth.ts:143, verify:39/:92, login-reset:106/:133/:179,
+  rate-limit.ts:7; §0.5's 173 claim true at its only site); S35-2 the
+  playwright contact-bucket census (the comment extended: contact
+  3/run vs the 5/hour wall, the 60-minute self-heal; generate 6/run vs
+  20, reset 3/run vs 10, signup 2/run vs 10, forgot 2/run vs 10);
+  S35-5 the hygiene-pin completion (the two partial chunks replaced by
+  the full 29-entry loop line as ONE toContain; 13 of 29 entries were
+  unpinned; the planted-removal battery on record); S35-6 the
+  comment-truth batch (gate-script's stale "third run" — the S34-4
+  arithmetic; the SKILL Appendix B header "through session 33" vs its
+  own session-34 body; AGENTS' plans-map stray paren; the smoke
+  header's leg-16 summary re-anchored to name the families, the
+  in-loop enumeration the authority); S35-7 the census widening
+  (scripts/ + worklog.md + the root configs join SITE_ROOTS/
+  SITE_FILES — the provenance scan's documented blind spots closed;
+  today zero range sites exist in them, the worklog's only cite the
+  single-session docs/session_19.md, out by construction).
+- The count re-anchor: UNIT 660 → 662 (+1 S35-1, +1 S35-3), E2E 65
+  unchanged, SMOKE 16 unchanged, badge 725 → 727. Constants re-anchored
+  FIRST; the census walked the doc sites GREEN (the PAD §12 rows
+  re-anchored: auth 191, rate-limit 135, api 265, globals.css 238,
+  smoke 269; the eight provenance sites re-anchored to 1..35).
+- Docs lockstep: README (badge 727, the session-35 row, the gate line,
+  the Design-system note); AGENTS (counts, the plans map's
+  thirty-fifth round, the stray-paren cure); CLAUDE (counts, the
+  source-scoping line in the trap catalog); PAD (§8.1 662, §12 rows,
+  Last Updated); SKILL v1.30.0 → v1.31.0 (frontmatter, §0.5 1..35,
+  §4's trap-8 entry, Appendix A's session-35 row, Appendix B's header
+  "through session 35" + body, the pre-ship checklist counts);
+  worklog Task 35; docs/session_35.md (this round's formal log); the
+  plan's post-execution record.
+
+- SHIPPED: the remediated codebase + the docs in lockstep, committed
+  to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
+  verified; no new branches).

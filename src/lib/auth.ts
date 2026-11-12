@@ -140,7 +140,8 @@ export async function setSessionCookie(uid: string, tokenVersion = 0): Promise<v
 
 export async function clearSessionCookie(): Promise<void> {
   const store = await cookies();
-  // Session-67 (N-67j): the flag family mirrors the set-side twin —
+  // Session-67 (N-67j — a donor-ledger number, the NEO-CRM family's
+  // flag-arm session): the flag family mirrors the set-side twin —
   // deletion only ever needed name+path match, but a future cookie-policy
   // change now stays consistent across set/clear by construction.
   store.set(SESSION_COOKIE, "", {

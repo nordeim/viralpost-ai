@@ -21,29 +21,37 @@ import { runtimeDatabaseUrl } from "../src/lib/db-path";
 // writes, nothing to prune.
 //
 // Usage: bun scripts/e2e-contact-readback.ts <email>
+//
+// Session-35 (S35-3): the usage check moved BEFORE the client
+// construction (a usage error builds nothing — the old form constructed
+// a PrismaClient at module scope just to abandon it), and the failure
+// path's teardown: process.exitCode (not process.exit) so the chained
+// .finally disconnect runs on a failed run too.
+const targetEmail = process.argv[2];
+if (!targetEmail) {
+  console.error("[e2e-contact-readback] usage: bun scripts/e2e-contact-readback.ts <email>");
+  process.exit(2);
+}
+
 const db = new PrismaClient({
   datasources: { db: { url: runtimeDatabaseUrl() } },
 });
 
 async function main() {
-  const email = process.argv[2];
-  if (!email) {
-    console.error("[e2e-contact-readback] usage: bun scripts/e2e-contact-readback.ts <email>");
-    process.exit(2);
-  }
   const rows = await db.contactMessage.findMany({
-    where: { email },
+    where: { email: targetEmail },
     select: { name: true, email: true, message: true },
     orderBy: { createdAt: "asc" },
   });
   console.log(JSON.stringify(rows));
 }
 
-// The awaited disconnect (the S25-18b idiom — the seed's form).
+// The awaited disconnect (the S25-18b idiom — the seed's form; the
+// failure path now honored too, the S35-3 cure).
 main()
   .catch((e) => {
     console.error(e);
-    process.exit(1);
+    process.exitCode = 1;
   })
   .finally(async () => {
     await db.$disconnect();

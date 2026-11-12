@@ -27,7 +27,7 @@
 // RED at birth (the files do not exist yet); GREEN when WP-4/WP-5 land.
 // Lineage note (session-21, S21-12): the scandihaven/s169 citations
 // are donor-ledger numbers (the template family's repos); this repo's
-// own sessions are docs/session_1..34.
+// own sessions are docs/session_1..35.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -141,12 +141,15 @@ describe("session-170 (WP-5): the smoke leg (scripts/smoke-test.sh, the §13.4 s
   it("carries the artifact-hygiene assertions (the F-170a cure policed at every smoke run)", () => {
     expect(script).toContain(".next/standalone/$entry");
     // Session-34 (S34-7): the enumeration now mirrors next.config's
-    // outputFileTracingExcludes root files — the pin re-anchored with
-    // the widened loop.
+    // outputFileTracingExcludes root files. Session-35 (S35-5): the two
+    // partial chunks replaced by the FULL loop line as ONE toContain —
+    // the old form left the middle 4 + the tail 9 entries (13 of 29)
+    // unpinned; deleting any of them from the loop shipped this pin
+    // green. The full-line form owns every entry. Battery: remove any
+    // entry (e.g. `tests`) from the loop → exactly this pin REDs.
     expect(script).toContain(
-      "for entry in .env .env.example .git db skills docs uploads worklog.md test-results dev.log server.log",
+      "for entry in .env .env.example .git db skills docs uploads worklog.md test-results dev.log server.log AGENTS.md CLAUDE.md README.md Project_Architecture_Document.md viralpost-ai_SKILL.md neo-crm_SKILL.md next.config.ts LICENSE bun.lock package-lock.json eslint.config.mjs playwright.config.ts postcss.config.mjs tsconfig.json tsconfig.tsbuildinfo vitest.config.mts scripts tests; do",
     );
-    expect(script).toContain("viralpost-ai_SKILL.md neo-crm_SKILL.md next.config.ts LICENSE");
   });
 
   it("carries the boot-gate probe (a secretless production boot must refuse to serve)", () => {

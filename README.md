@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-725%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-727%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,7 +52,7 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 38 files / 660 tests, node env, pure seams |
+| Unit tests | Vitest | 5.0 | 38 files / 662 tests, node env, pure seams |
 | E2E | Playwright | 1.64 | 9 specs / 65 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
@@ -141,7 +141,7 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (38 files / 660 tests)
+bun run test            # Vitest unit suite (38 files / 662 tests)
 bun run test:e2e        # Playwright e2e (9 specs / 65 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 16-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
@@ -182,7 +182,10 @@ All bodies are JSON, validated with Zod, read through a bounded reader
 
 - **Tokens** (in `src/app/globals.css`, `@theme` with literal hex):
   teal primary (`#14b8a6` family), amber accent (`#f59e0b` family), slate
-  neutrals, white surfaces.
+  neutrals, white surfaces. The Tailwind source scan is scoped to `src/`
+  (`@import "tailwindcss" source("../")` — session-35, S35-1): v4's
+  auto source detection anchors at the repo ROOT and shipped ~60%
+  never-matched rules compiled out of docs/tests/*.md prose.
 - **Type**: the system font stack (the reference ships zero webfonts).
 - **Motion**: `Reveal` (IntersectionObserver + CSS transitions,
   `prefers-reduced-motion` aware), the hero's canvas particle cycle and
@@ -276,7 +279,9 @@ smoke 15/15 · e2e 65/65.
 
 | Session 34 — the contact-persistence pin + the swap-view h1s + the donor-marker completion + the hygiene batch | ✅ done | The audit round at 0 Critical / 0 High / 1 Medium / 5 Low / 5 Info (three parallel subagents + the lead's hand-verification; the one Medium was the contact-persistence coverage gap; every finding cured — S34-1..S34-7); THE PARITY WALK found NO DRIFT — the eighth consecutive fully-clean walk (the mobile-menu census at 390×844 — the hamburger base classes byte-identical, the open panel computed transparent both sides at scrollY=0, the links + the Gumroad pill byte-identical, the bar families byte-identical with the documented same-color spellings; the five-route head census byte-identical; sitemap + robots identical modulo origin by the all-occurrence normalized comparison; the login round-trip live on both sides; the generator walk-probe null on both sides symmetrically — the known probe artifact); THE CURES: the contact-persistence pin (S34-2, the Medium — the e2e test titled "the row landed" asserted only the envelope, so deleting the create shipped green through every gate while the advertised superset silently became false; the test now reads the row back from db/e2e.db through the one-shot seam-anchored probe script and asserts the payload, battery on record: the create removed → exactly the read-back REDs while the envelope still passes), the swap-view sr-only h1s (S34-6 — the S33-5 genus generalized: the reset/sent/verify views keep the document outline mid-funnel, zero visual change, the three-removal battery on record), the donor-marker completion (S34-1 — the missed Session-35 guard site, the ten 37–41 envelope/sweep cites, the 62/63/79/147 strata, and the SKILL enumeration extended to the comprehensive list), the retired hover-ink comment re-spell (S34-3 — the toast block's fifth banned spelling, probe-verified with positive controls + the non-vacuity proof), the provenance re-anchor + census (S34-5 — the eight sites to 1..34 and the lag-invariant census making the last hand-maintained count family mechanical), the playwright-config comment truth fix (S34-4 — the real first-trip is LOGIN on the second run: 7 logins/run vs the 10/15-min wall), and the artifact-hygiene mirror (S34-7 — leg 16 now mirrors the excludes list and both gain the four missing root files); unit 660/38 (+5 pins) + e2e 65/9, badge 725; captures 75/76 |
 
-Gate at the session-34 ship: lint 0/0 · tsc 0 · unit 660/660 · build ·
+| Session 35 — the Tailwind source scoping + the script teardown idiom + the donor-marker tail + the comment-truth batch | ✅ done | The audit round at 0 Critical / 0 High / 1 Medium / 7 Low / 15 Info (three parallel subagents + the lead's hand-verification; the one Medium was the playwright-config contact-bucket omission; every finding cured — S35-1..S35-7); THE PARITY WALK found NO DRIFT — the ninth consecutive fully-clean walk, on an instrument-hardened walk script (eight runs to green: the `--viewport` flag and a bare `viewport` command are not real — `agent-browser set viewport` with an innerWidth confirm is; a side-agnostic open-verify replaced our aria-expanded superset as the reference's toggle signal; the oklab→sRGB conversion now canonicalizes the two-spellings equivalence numerically — oklab(0.207678…) lands exactly on rgb(15,23,42)@0.95; the mobile battery at a CONFIRMED 390px: the open panel computed display block both sides, the links + the Gumroad pill byte-identical, the desktop nav 6|6 byte-identical, the login round-trip both landing /, the generator probe symmetrically null; the focus-return face stays e2e-owned — the daemon cannot drive focus from eval, an instrument limitation, not app behavior); THE CURES: the Tailwind source scoping (S35-1 — the sheet 159,088 → 64,053 bytes, −59.7%: v4's auto source detection anchors at the repo ROOT and the docs/tests/*.md prose compiled into ~60% never-matched rules (.bg-[#bada55], [program:laravel-worker], .to-amber-400, the dead /98 family — none occur in src/); `source("../")` scopes the scanner to src/, probe-proven through the installed 4.3.3, the real-build verified — every live class still emits, the theme survives, and the axe matrix is the regression net), the script teardown idiom (S35-3 — the synchronous exit call inside .catch preempted the chained .finally disconnect on every failure path; process.exitCode lets the finally run, census.ts gets the family form, readback's usage check precedes the client), the donor-marker tail (S35-4 — ten more sites marked; §0.5's 173 claim true at its only site), the playwright contact-bucket census (S35-2 — 3 POSTs/run vs the 5/HOUR wall, the 60-minute self-heal), the hygiene pin completion (S35-5 — the full 29-entry loop line as ONE toContain; the planted-removal battery on record), the comment-truth batch (S35-6 — gate-script's stale "third run", the SKILL Appendix B header, AGENTS' stray paren, the smoke header's leg-16 summary), and the census widening (S35-7 — scripts/ + the root configs + worklog.md join the provenance scan); unit 662/38 (+2 pins) + e2e 65/9, badge 727; captures 77/78 |
+
+Gate at the session-35 ship: lint 0/0 · tsc 0 · unit 662/662 · build ·
 smoke 16/16 · e2e 65/65.
 
 ## License

@@ -48,7 +48,10 @@ async function main(): Promise<void> {
     console.error(`pristine: MISMATCH — ${detail}`);
     console.error("Probe residue? Remove it, or reseed in place: bun run db:seed");
     await db.$disconnect();
-    process.exit(1);
+    // Session-35 (S35-3): exitCode over the synchronous exit call — the
+    // family teardown owns the process from here too.
+    process.exitCode = 1;
+    return;
   }
   const contract = `${EXPECTED.users} user + ${EXPECTED.contactMessages} contact messages`;
   console.log(`pristine: MATCH (${contract} — the seed contract)`);
@@ -58,4 +61,16 @@ async function main(): Promise<void> {
 // Only take over the process when executed directly (not when imported by
 // the Vitest suite).
 const invokedAsScript = process.argv[1]?.endsWith("census.ts");
-if (invokedAsScript) void main();
+// Session-35 (S35-3): the family form. The old `void main()` sent a
+// thrown count into an unhandled rejection (the drift-mismatch path
+// disconnected in-main above; a failing query skipped it). The catch
+// sets exitCode — the finally disconnects before the process exits.
+if (invokedAsScript)
+  main()
+    .catch((e) => {
+      console.error(e);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await db.$disconnect();
+    });

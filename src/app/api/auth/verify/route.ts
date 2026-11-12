@@ -36,7 +36,8 @@ export async function POST(req: Request) {
   // placement — see the signup note; S39-P7 moved it before the denied
   // return so denied requests sweep too).
   sweepRateLimits();
-  // Session-67 (N-67h): the denied 429 carries the Retry-After header
+  // Session-67 (N-67h — donor-ledger numbers, the NEO-CRM family's own
+  // limiter-envelope sessions): the denied 429 carries the Retry-After header
   // like the rest of the family.
   if (!limit.allowed) return ERR.RATE_LIMITED(limit.retryAfterSec);
 
@@ -89,7 +90,8 @@ export async function POST(req: Request) {
     }
 
     if (!verifyVerificationCode(code, user.verificationCodeHash)) {
-      // Session-67 (N-67c): the counter increments ATOMICALLY server-side
+      // Session-67 (N-67c — donor-ledger numbers, the NEO-CRM family's
+      // counter sessions): the counter increments ATOMICALLY server-side
       // (the DB's own increment) — the read-modify-write form could let
       // concurrent submissions overshoot the 5-wrong lockout against one
       // code. Prisma's update returns the post-increment record, which

@@ -31,6 +31,20 @@ describe("design tokens: the Tailwind v4 doctrine", () => {
     expect(existsSync(path.resolve(import.meta.dirname, "..", "tailwind.config.ts"))).toBe(false);
   });
 
+  it("the source scan is scoped to src/ (S35-1 — the repo-wide auto-detection shipped ~60% never-matched rules from docs/, tests/, and *.md prose)", () => {
+    // v4's auto source detection anchors at the repo ROOT: the 300+ docs/
+    // session/plan/worklog/*_SKILL.md files plus tests/ fed class-shaped
+    // prose into the scanner, and every candidate compiled into a rule no
+    // element carries (.bg-[#bada55], [program:laravel-worker],
+    // .to-amber-400, the dead /98 family — none occur anywhere in src/).
+    // `source("../")` from src/app/globals.css scopes the scanner to src/
+    // (probe-proven through the installed 4.3.3: the bare form emitted the
+    // dead classes at 192,442 B; the scoped form emits only src/'s classes).
+    // The S28-4 prose-safe doctrine stays as defense in depth.
+    expect(css).toContain('@import "tailwindcss" source("../");');
+    expect(css).not.toContain('@import "tailwindcss";');
+  });
+
   it("the @theme block carries literal hex tokens (no var() chains)", () => {
     const theme = /@theme\s*\{([\s\S]*?)\n\}/.exec(css)?.[1] ?? "";
     expect(theme).not.toMatch(/var\(--/);

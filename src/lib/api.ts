@@ -21,7 +21,8 @@ export function fail(code: string, message: string, status = 400): NextResponse 
 export const ERR = {
   UNAUTHORIZED: () => fail("UNAUTHORIZED", "Sign in required", 401),
   BAD_REQUEST: (msg: string) => fail("BAD_REQUEST", msg, 400),
-  // Session-67 (N-67h): the 429 family carries Retry-After consistently —
+  // Session-67 (N-67h — donor-ledger numbers, the NEO-CRM family's own
+  // limiter-envelope sessions): the 429 family carries Retry-After consistently —
   // login used to hand-build its own (bypassing fail()) while the
   // siblings shipped no header at all. The optional param keeps the
   // zero-arg calls valid; the envelope shape is identical either way.
@@ -61,7 +62,8 @@ export function isGuarded(x: { user: SessionUser } | { response: NextResponse })
 
 // ---- the auth-family body pre-gate (session-67, N-67d) ---------------------
 
-/** Session-67 (N-67d), session-165: the declared-size ceiling for JSON
+/** Session-67 (N-67d), session-165 (donor-ledger numbers — the NEO-CRM
+ *  family's body-gate sessions): the declared-size ceiling for JSON
  * bodies — the ONE bound every body-parsing route rides through
  * readBoundedJson/parseBody. In THIS tree that family is the six public
  * auth routes (signup/verify/resend/login/forgot-password/reset-password

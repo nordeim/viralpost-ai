@@ -38,11 +38,12 @@ async function main() {
 // Session-25 (S25-18b): the disconnect is AWAITED — the seed's idiom.
 // The fire-and-forget `void` form could exit the process before
 // teardown completes (harmless for SQLite, but the sibling scripts
-// should model one idiom).
+// should model one idiom). Session-35 (S35-3): the failure path —
+// process.exitCode (not process.exit) so the finally runs there too.
 main()
   .catch((e) => {
     console.error(e);
-    process.exit(1);
+    process.exitCode = 1;
   })
   .finally(async () => {
     await db.$disconnect();

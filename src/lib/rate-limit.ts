@@ -4,7 +4,8 @@
 // forgot 10 + reset 10 (the reset funnel's own buckets), contact 5/hour,
 // generate 20/15min (session-or-IP keyed).
 //
-// Session-173 (F-173a): rateLimit takes `now = Date.now()` — the
+// Session-173 (F-173a — a donor-ledger number, the scaffold family's
+// own clock-injection session): rateLimit takes `now = Date.now()` — the
 // session-164 sweepRateLimits form extended to the rateLimit path, the
 // module's own injectable precedent. PURELY ADDITIVE: the default is the
 // wall clock, every call site rides unchanged, and the fixed-window

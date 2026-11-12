@@ -1,109 +1,231 @@
-The workspace exists. Let me refresh it with git pull and check the current state.
-Workspace refreshed — `docs/session_34.md` is new. Let me set up the task plan and read all required documentation.
-Now let me read the session-33 plan, worklog Task 33, and the SKILL doc.
-Now let me read the worklog Task 33 tail and the SKILL doc's key sections.
-Now let me read the SKILL doc (the distilled engineering memory).
-Session 33 context fully absorbed. This round is **session 34**. Let me verify the standing contracts against the codebase.
-Standing contracts verified (.env, db/ at root, .env.example, skills/). Now let me verify the test configs and run the baseline gate.
-Configs verified. Now running the baseline gate (lint → typecheck → unit first).
-Unit 655/655 (38 files) — matches docs. Now the build.
-**FULL BASELINE GATE GREEN** — lint 0/0 · tsc 0 · unit 655/655 (38 files) · build · smoke 16/16 · e2e 65/65 · census MATCH. Exactly matches the documented session-33 ship state. Let me verify the SEO/sitemap faces quickly.
-Sitemap/robots verified — contract-complete. Now for the audit phase. Let me check the web-application skill rubric and the session-33 diff scope (the recent-changes focus).
-Now dispatching the three parallel audit subagents per the established session pattern (web-application skill as rubric, recent-changes focus, read-only).
-All three audits returned: combined **0C/0H/1M/5L/5I**. Now hand-verifying every load-bearing finding in source before adjudication.
-All findings hand-verified — the login census confirms 7 POSTs/run (setup 1 + auth.spec 5 + reset-funnel 1) against the 10/15-min wall, so A3-L1's arithmetic is correct. Now let me read the files needed to design the cures precisely.
-Now let me read the remaining cure-design targets: the login-card views, the S33-5 pin, the dead-token census, and next.config's exclude list.
-Let me check the db-census script pins and the import census before finalizing the plan design.
-Session ledger is contiguous 1..34. Let me pull the exact donor-site texts for the marker designs.
-All design details gathered. Per the session pattern, the parity walk comes before the plan is finalized. Let me run the live parity walk (dev server + reference in one invocation — the session-32 background-process lesson).
-All diffs are the documented deviation families. Let me close the sitemap face with the all-occurrence normalized comparison (the session-33 method).
-**PARITY WALK: NO DRIFT — the eighth consecutive fully-clean walk.** Now let me stop the dev server and write the session-34 remediation plan.
-Plan written. Now the **plan-validation pass** — probing the RED/GREEN predictions against the live code before executing.
-The two FAILs are my script's digit-stripping bug (bound "33" parsed as "133") — but it exposed a REAL design detail: the SKILL carries a historical `session_1..21` cite in its S30-4 prose. The census must target only present-tense range claims. Let me examine the exact site texts.
-The census design is now precise — the live-tense form is `docs/session_1..NN` (8 sites, one each); historical prose uses the bare range. Let me read the docs-counts constants block for the re-anchor edit sites.
-Plan validated. Now executing **Batch 1 — the RED pins**. First, the three S34-6 pins in login-views.test.ts.
-Now the S34-3 census extension in design-tokens.test.ts:
-Now the S34-5 provenance census arm in docs-counts.test.ts. Let me check the tail of the file for the insertion point:
-The census uses `sep` — need to extend the node:path import:
-Now the S34-2 cure pair: the readback script + the e2e spec extension.
-Now join the new script to the S26-7 pin's enumeration in db-census.test.ts:
-Now verify the Batch 1 RED states:
-**Batch 1 confirmed: exactly the designed REDs** (3 S34-6 pins + the widened census RED; the S34-5 census GREEN on arrival; the UNIT reality census RED as designed — the constants re-anchor comes in Batch 4). Note: the census landed as TWO its (contiguity + lag), so UNIT becomes 660, not 659 — the census is the truth.
+# Session 35 — The Tailwind Source Scoping + The Script Teardown Idiom + The Donor-Marker Tail + The Comment-Truth Batch (2026-11-12)
 
-Now **Batch 2 — the GREEN cures**. First the three login-card h1s:
-Now the S34-3 toast.tsx prose-safe re-spells:
-Both GREEN. Now the S34-1 donor markers — the thirteen comment edits:
-Now the Session-79 and session-147 markers, plus §0.5's enumeration extension:
-The audit's scope was narrower than the genus — there are more bare Session-79 cites. Let me do the comprehensive census (the S33-3 scope-check lesson):
-The scope check surfaced four more bare header cites. Marking them per the "high-traffic sites carry one" convention:
-Now the §0.5 enumeration extension in the SKILL:
-Now the remaining seven provenance re-anchors (S34-5):
-All eight sites re-anchored to 1..34. Now S34-4 (the playwright comment truth fix) and S34-7 (the smoke leg + excludes):
-Now S34-7 — the next.config excludes completion and the smoke leg 16 extension:
-让我检查一下 smoke-leg census pin 是否受该消息变更的影响：
-Smoke census is safe (counts `ok NN` markers — 16 unchanged). Now the mid-point unit run:
-这三个红色结果（RED）正是设计的瞬态——但第三个是门脚本对 `hygiene-leg` 文本的锁定。让我来读取它：
-The pin at error-boundaries.test.ts:143 holds the old enumeration prefix. Updating it in the same commit:
-Batch 2 complete. Now **Batch 3 — the mutation batteries**. Battery 1 (S34-6): the three-removal sweep:
-**S34-6 battery PROVEN** — each removal trips exactly its own pin. Battery 2 (S34-3): revert the re-spells → census RED → restore + compile probe:
-Now the compile probe (the S33-1 method) — per-file recompile of toast.tsx asserting no dead rule, plus the vacuity proof on the pre-cure spellings:
-The cured check passes but the synthetic (vacuity) check failed. Let me compare with the working s33 probe mechanics:
-Let me debug the synthetic probe directly:
-The s33 tokens fired but mine don't — let me test whether the s33 token fires under my exact mechanics (isolate the variable):
-The colon is the discriminator — the scanner splits colon-containing candidates in comments. Let me verify the exact behavior across placements:
-Even real className doesn't emit — my probe mechanics are broken somewhere. Let me find what actually matched in the s33 case:
-Found it — `text-foreground` is theme-dependent (defined in the repo's globals.css, not the default theme). The probe must import globals.css. Retesting:
-The mechanics are correct now — the audit's finding is empirically confirmed. Fixing the probe script and running the complete battery:
-**S34-3 battery PROVEN** (census RED on revert; compile probe CLEAN with positive controls and non-vacuity). Battery 3 (S34-5): the two defect shapes:
-**S34-5 battery PROVEN** — both defect shapes RED, restored GREEN. Battery 4 (S34-7): the planted-entry logic proof:
-**S34-7 battery 已验证** —— 所有已植入的条目均已被检测到，构件已恢复至原始状态。Battery 5 (S34-2)：e2e 电池（创建项已移除 → 重建 → 规范 RED）：
-**S34-2 battery PROVEN** — the RED is exactly the read-back ("Expected: 1, Received: 0") while the envelope passes: the silent-superset-death the pin exists to catch. Restoring the create:
-All batteries on record. Now **Batch 4 — the count re-anchor (constants FIRST)**. Reality check on disk:
-The census is walking the doc sites RED as designed. Let me get the live PAD §12 line counts and walk everything GREEN:
-Now walking the eight count sites GREEN. First the README:
-docs-counts census fully GREEN (29/29). Now the remaining docs: README session-34 row, AGENTS plans map, SKILL version + Appendix A:
-Now the SKILL: version bump, Appendix A session-34 row, and the worklog Task 34:
-Now the formal session log (replacing the owner's narration in docs/session_34.md):
-Now the plan's post-execution record, then the gate:
-All documents written. Verifying prose-safety and running the gate sequence (lint → typecheck → unit):
-All GREEN. Now the captures (75/76) on a fresh dev server — before the full gate:
-The click timed out on cold-compile HMR churn (the dev server was freshly booted). The server is warm now — retrying with a networkidle settle:
-networkidle never settles on a dev server (HMR). Using a DOM-level click with a settle loop instead:
-The dev server is healthy but something is hammering GET / — likely an orphaned chromium from the timed-out script still retrying. Let me clean up:
-Request stream stopped (orphan killed), server idle and warm. Retrying the capture:
-The loop only happens under Playwright. Let me isolate with a minimal probe:
-21 self-navigations in 5s even minimally. Let me check the dev server boot log for the root cause:
-**Root cause found: EADDRINUSE ghost** — the parity-walk server survived my kill; my new server died at boot; the stale server has been serving old chunks against new files (SKILL §9 #12 exactly). Killing it properly and booting fresh:
-Ghost exorcised — 2 navigations (stable). Retaking the captures:
-Menu functionally verified open (display block, 5 links + pill, aria-expanded true). PIL-verifying and copying to docs/screenshots/:
-Captures verified. Now stopping the dev server and running the **full gate** on the exact commit tree:
-2 e2e failures in the funnel specs. Investigating:
-The S34-6 h1s broke two e2e locators via strict-mode ambiguity (the h1 now duplicates the h2's accessible name — S33-5 didn't hit this because its h1 text differed from the h2). The fix: level-specific locators. Census of affected sites:
-Five query sites are ambiguous (Reset/Check/Verify headings). Let me read the affected tests and fix them with level-2 disambiguation:
-Wait — why did auth.spec:33/:53 pass while :149/:160 failed? Let me rerun auth.spec alone to see the exact state:
-All four failures are the heading-ambiguity sites (the earlier tail only showed 2 of the names). Fixing all five query sites with level-2 disambiguation (encoding the tests' actual intent — the visible view heading):
-**E2E 65/65 GREEN.** Let me record this mid-gate lesson in the plan and session log:
-**FULL GATE GREEN.** Final lint pass and commit preparation:
-39 files staged, hygiene verified. Committing:
-Committed `74bc770` on main. Now the SSH wrapper push — let me read the runbook:
-The shim exists. Materializing the operator key (outside the repo, never printed) and dry-running:
-Dry-run authenticated cleanly. Real push:
-## Session 34 — Round Complete and Shipped
+The round opened on the pulled tree (`b508502` — the owner's session
+log update holding the session-34 execution narration, the established
+pattern). The core docs read in full (AGENTS, CLAUDE, README, PAD,
+SKILL v1.30.0), then the session-34 set (session_34.md, the session-34
+plan, worklog Task 34, the owner's session_35.md narration). This round
+is session 35. Baseline gate GREEN at the documented counts (lint 0/0 ·
+tsc 0 · unit 660/660, 38 files · build · smoke 16/16 · e2e 65/65, 9
+specs · census MATCH); the standing asks re-verified up front (the
+`.env` `DATABASE_URL="file:../db/custom.db"` contract with `db/` at the
+repo root; the vitest + playwright suites in place and current; the
+sitemap/robots/manifest/OG family; `skills/` excluded from every gate;
+the committed `.env.example` matching the six-knob contract).
 
-**Shipped:** commit `74bc770` on **main** (no new branches), pushed via `docs/ssh_git_wrapper_v3.py` (dry-run first, remote verified `main @ 74bc770`, operator key shredded). The tree is clean and `origin/main` is in sync.
+The web-application skill + the skills catalog internalized; tdd,
+clone-app-pat-pro, and the agent-browser doctrine (computed styles as
+ground truth, never eyeballs) applied throughout.
 
-**The audit** (three parallel subagents — API/lib seams, components/pages/effects, SEO/configs/tests/docs — web-application skill as rubric, every finding hand-verified in source): **0 Critical / 0 High / 1 Medium / 5 Low / 5 Info** → all cured (S34-1..S34-7).
+## The audit
 
-**The parity walk** (live, both sides, logged into the reference): **NO DRIFT — the eighth consecutive fully-clean walk.** The mobile navigation menu matches byte-for-byte in every class family (hamburger, panel, links + Gumroad pill, scrolled bar) and works as expected; sitemap + robots identical modulo origin (all-occurrence normalized comparison). All Tailwind v4 traps verified mitigated in compiled output.
+Three parallel dispatched subagents (AUDIT-1 API/lib seams, AUDIT-2
+components/pages/effects, AUDIT-3 SEO/configs/tests/docs — every
+load-bearing finding hand-verified in source by the lead):
+**AUDIT-1: 0C/0H/0M/3L/6I · AUDIT-2: 0C/0H/0M/1L/5I · AUDIT-3:
+0C/0H/1M/3L/4I** — combined **0 Critical / 0 High / 1 Medium / 7 Low /
+15 Info**. AUDIT-1 live-probed the db-path seam clean again (40+
+probes) and caught the one-shot script family's teardown gap (the
+synchronous exit call inside `.catch` preempting the chained `.finally`
+disconnect) plus ten more bare donor cites; AUDIT-2 empirically
+compiled the stylesheet through the installed @tailwindcss/postcss
+4.3.3 with the methodology validated against the real build artifact
+(159,088 B), surfacing the aggregate never-matched-rule mass the
+accepted register's per-rule framing never captured; AUDIT-3 verified
+every count claim live and caught the playwright-config contact-bucket
+omission (the suite's only 60-minute wall) plus the partial
+hygiene-leg pin. The lead hand-verified all findings: the contact
+bucket confirmed at `RATE_LIMIT = 5` / 60-min with the limiter BEFORE
+the Zod parse (invalid POSTs count) and 3 POSTs/run in contact.spec;
+the docs-only classes confirmed riding the real build CSS (`bada55`
+×2, `laravel-worker` ×2, `to-amber-400` ×1 — none occur anywhere in
+src/); the `process.exit(1)`-inside-catch preempt confirmed in all
+three chained scripts; the ten bare donor cites confirmed by the
+§0.5-scoped grep. Every finding enters the working register (all
+cured — S35-1..S35-7); the accepted register carries the rest forward
+(the `.env.local` unmodeled face — the absolutization causal model's
+non-reproduction stands, a behavioral change to the most load-bearing
+module is not justified by an unreproduced shape; the signup
+admin-bootstrap TOCTOU, the scryptSync posture, the login-response
+photoUrl asymmetry, the in-app-delivery default — the owner-level
+deferral; the footer heading skip, the breakpoint-crossing open state,
+the ParticleText inline duplication, the Reveal SSR opacity, the
+worklog's structural inconsistencies).
 
-**The cures (all TDD, all mutation batteries on record):**
-- **S34-2 (the Medium)** — the contact-persistence pin: the e2e test titled "the row landed" only asserted the envelope; it now reads the row back from `db/e2e.db` through a new seam-anchored probe script and asserts the payload. Battery: the create removed → exactly the read-back REDs while the envelope still passes
-- **S34-6** — the swap-view sr-only h1s (reset/sent/verify keep the document outline mid-funnel; +3 pins; the mid-gate catch — heading locators disambiguated with `level: 2`)
-- **S34-1** — the donor-marker completion (14 sites marked, §0.5's enumeration made comprehensive)
-- **S34-3/4/5/7** — the retired hover-ink re-spell + census widening (compile-probe battery with positive controls), the playwright-config arithmetic truth fix, the provenance re-anchor + new lag-invariant census (1..34), and the artifact-hygiene mirror
+## The parity walk
 
-**Verified:** full gate green on the exact commit tree — lint 0/0 · tsc 0 · unit **660/660** (38 files) · build · smoke **16/16** · e2e **65/65** (9 specs) · census MATCH · badge **725**. Captures 75/76 PIL-verified. Standing asks re-verified: `.env` holds `DATABASE_URL="file:../db/custom.db"` with `db/` at the repo root; vitest + playwright suites current; sitemap/SEO contract-complete; `skills/` excluded from every gate; `.env.example` rides the commit (six-knob current, provenance re-anchored to 1..34).
+Live, both sides, logged into the reference with
+`sepnetflix2023@outlook.com` — **NO DRIFT, the ninth consecutive
+fully-clean walk**, on an instrument-hardened walk script (eight runs
+to green, the probe lessons on record):
 
-**Deferred (accepted register):** the Iridescence static-degradation posture, the footer heading skip (parity), the traced-src artifact face, plus the standing register carried forward unchanged.
+- The viewport: the `--viewport` flag on `open` and a bare `viewport`
+  command are NOT real — innerWidth silently stayed 1280 and the whole
+  mobile battery read desktop-width states (`md:hidden` computed
+  display none; the panel probe found the bar container instead of the
+  panel). `agent-browser set viewport <w> <h>` with an innerWidth
+  confirm is the reliable form.
+- The toggle verify must be side-agnostic: our aria-expanded superset
+  does not exist on the reference, so verifying the open against it
+  made the census "retry" on the reference and CLOSE the menu the
+  first click had opened. The visible-non-bar-div-with-links signal
+  works on both sides.
+- The oklab→sRGB equivalence is now NUMERICAL: the walk's color
+  canonicalizer implements Ottosson's transform and
+  oklab(0.207678 −0.00293915 −0.0397103 / 0.95) lands exactly on
+  rgb(15,23,42)@0.95 — the reference's `rgba(15, 23, 42, 0.95)` in its
+  other spelling.
+- The mobile battery at a CONFIRMED 390×844: the open panel computed
+  display **block** both sides at scrollY=0 (max-height none, the
+  links + the Gumroad pill byte-identical, the reference's dead-98
+  family its own render), the bar `bg-transparent` with the menu open,
+  the scrolled-bar family byte-identical, the hamburger base classes
+  byte-identical (our focus-visible family the documented S15-8
+  superset), the desktop nav family byte-identical at 6|6 links, the
+  five-route head census byte-identical (canonical + og:url by origin
+  only; og:image the documented self-hosted superset), sitemap.xml +
+  robots.txt identical modulo origin (the all-occurrence normalized
+  comparison), the login round-trip live on both sides (both land on
+  `/`), the generator walk-probe null on BOTH sides symmetrically (the
+  known probe selector artifact).
+- The focus-return face stays E2E-OWNED (mobile-navigation.spec.ts
+  :67/:80, `toBeFocused` with real keyboard events against the
+  production build, 65/65): the agent-browser daemon cannot drive
+  focus from eval — a direct `.focus()` leaves activeElement=BODY, an
+  instrument limitation probed this round, not app behavior. The
+  observable Escape-close transition verified live (expandedAfter
+  false, panelHidden true).
 
-Nothing is left broken. The owner's post-ship "update session log" commit will hold the next narration as `docs/session_35.md`; the following round can re-run the standing instruction as-is.
+**The mobile menu works as expected** — the user's standing concern,
+verified live and e2e-pinned.
+
+## The cures (TDD — every pin RED first or battery-planted, the mutation batteries per the house doctrine)
+
+- **S35-1 (LOW, the round's headline)** — the Tailwind source scoping:
+  v4's auto source detection anchors at the repo ROOT, and the 300+
+  docs/session/plan/worklog/`*_SKILL.md` files plus tests/ fed
+  class-shaped prose into the scanner — every candidate compiled into
+  a rule no element carries (~60% of the shipped sheet; the real build
+  verifiably carried `.bg-[#bada55]`, `[program:laravel-worker]`,
+  `.to-amber-400`, and the dead /98 family, none of which occur
+  anywhere in src/). The cure is one line in globals.css:
+  `@import "tailwindcss" source("../");` — the scanner loses the
+  repo-root anchor and scopes to src/. Probe-proven through the
+  installed 4.3.3 (the control form emitted the dead classes at
+  192,442 B; both scoped forms emitted only the scoped source's
+  classes at 4,812 B — non-vacuity by construction); real-build
+  verified: the sheet dropped 159,088 → 64,053 bytes (−59.7%), every
+  live class still emits, the @theme survives, zero `@media (hover:
+  hover)`. +1 pin RED-first; the planted-bare-import battery on
+  record (revert → exactly the pin REDs; restored → GREEN). The S28-4
+  prose-safe doctrine stays as defense in depth.
+- **S35-3 (LOW)** — the script teardown idiom: the documented S25-18b
+  idiom ("the disconnect is AWAITED") was never implemented on the
+  failure path — the synchronous exit call inside `.catch` terminated
+  the process before the promise chain continued, so the chained
+  `.finally` never ran and `$disconnect()` was skipped exactly when a
+  run failed; census.ts had no catch at all (a thrown count = an
+  unhandled rejection). The fix sets `process.exitCode = 1` (the
+  finally runs; the process still exits 1 after the chain settles),
+  gives census.ts the family form, and moves readback's usage check
+  BEFORE the client construction (a usage error builds nothing).
+  +1 pin; the N-53a guard's drift-exit assertion re-anchored in the
+  same commit (the pin follows the code); the three planted defects
+  each proven independently (exit back in seed → RED; bare void
+  main() in census → RED; argv-after-client in readback → RED);
+  restored → GREEN. The failure-path sanity verified live (readback's
+  usage error exits 2 with the message, nothing constructed; the
+  census still MATCHes).
+- **S35-2 (MEDIUM)** — the playwright-config contact-bucket census:
+  the webServer comment omitted the suite's only 60-minute wall —
+  contact is `5/HOUR` with the limiter BEFORE the Zod parse (invalid
+  POSTs count), and the suite spends 3 contact POSTs/run (the
+  spec's browser form + the two API POSTs), so a second run within
+  the hour fails "the row landed" at the 6th cumulative POST. The
+  comment's "wait out the window (self-heals in 15 min)" remediation
+  was materially false for this bucket. The census completed: contact
+  3/run vs 5/hour (the 60-min self-heal), generate 6/run vs 20,
+  reset 3/run vs 10, signup 2/run vs 10, forgot 2/run vs 10 — LOGIN
+  still trips on the SECOND run (the 11th cumulative POST).
+- **S35-4 (LOW)** — the donor-marker tail: the S34-1 sweep stopped at
+  the 35/37-41/62/63/79/147 strata. Ten more sites marked at their
+  block-header cites: api.ts:24 (Session-67) and :64 (session-67 +
+  session-165), auth.ts:143 (N-67j), verify/route.ts:39 (N-67h) and
+  :92 (N-67c), login-reset.ts:106 (the M-79c1 block covering :114),
+  :133 (Session-111), :179 (Session-96), rate-limit.ts:7 (Session-173
+  — §0.5's 173 claim now true at its only site).
+- **S35-5 (LOW)** — the hygiene-pin completion: the artifact-hygiene
+  pin's two partial toContain chunks (the first-11 prefix + the 4-entry
+  S34-7 chunk) left the middle 4 + the tail 9 entries — 13 of 29 —
+  unpinned; deleting any of them from the loop shipped the pin green.
+  The full 29-entry loop line as ONE `toContain` now owns every
+  entry. The planted-removal battery on record (`tests` removed →
+  exactly the pin REDs; restored → GREEN).
+- **S35-6 (LOW)** — the comment-truth batch: gate-script.test.ts's
+  stale "a third run inside 15 minutes" (the S34-4 arithmetic already
+  corrected everywhere else — the second run trips LOGIN at the 11th
+  cumulative POST); the SKILL Appendix B header ("re-certified through
+  session 33" while its own body carried the session-34 counts);
+  AGENTS' plans-map stray paren (the session-30 entry's paren plus the
+  final one); the smoke header's leg-16 summary re-anchored to name
+  the families (the in-loop enumeration is the authority — the header
+  must never enumerate exhaustively again).
+- **S35-7 (INFO→cure)** — the census widening: the provenance census's
+  documented blind spots closed — `scripts/`, `worklog.md`, and the
+  root config files join SITE_ROOTS/SITE_FILES. Today zero range
+  sites exist in them (the worklog's only cite is the single-session
+  `docs/session_19.md` reference, out by construction); the widening
+  owns the future.
+
+## The count re-anchor
+
+UNIT 660 → **662** (+1 the S35-1 pin in design-tokens, +1 the S35-3
+pin in db-census), E2E 65 unchanged, SMOKE 16 unchanged, SUITES 38
+unchanged, badge 725 → **727**. Constants re-anchored FIRST; the census
+walked the doc sites GREEN (the PAD §12 rows re-anchored to the live
+`wc -l`: auth 190→191, rate-limit 134→135, api 263→265, globals.css
+226→238, smoke 263→269; the eight provenance sites re-anchored to
+1..35 — lag 0 at ship).
+
+## Verified
+
+- The full gate on the exact commit tree (below)
+- The real-build sheet checks: 64,053 bytes; no `bada55`, no
+  `laravel-worker`, no `to-amber-400`, no dead /98 rule; `.bg-slate-900`
+  ×3, `.sr-only` ×1, `#0f172a` ×10 — every live class emitting
+- The parity walk re-run post-cure (the computed-style faces hold on
+  the scoped sheet)
+- Captures 77/78 on the dev server (the owner-instructed posture, the
+  session-29..34 precedent): the mobile-menu open clean-walk at
+  390×844 (functionally verified open — display block, the links + the
+  Gumroad pill) + the landing hero, PIL-verified
+- Docs lockstep: README (badge 727, the session-35 row, the gate line,
+  the Design-system note); AGENTS (counts, the plans map's
+  thirty-fifth round, the stray-paren cure); CLAUDE (counts, the
+  source-scoping line in the trap catalog); PAD (§8.1, §12 rows, Last
+  Updated); SKILL v1.30.0 → v1.31.0 (frontmatter, §0.5 1..35, §4's
+  trap-8 entry, Appendix A's session-35 row, Appendix B's header
+  "through session 35" + body, the pre-ship checklist counts); the
+  eight provenance sites re-anchored to 1..35; worklog Task 35; this
+  session log; the plan's post-execution record
+
+**Gate at the session-35 ship: lint 0/0 · tsc 0 · unit 662/662 (38
+files) · build · smoke 16/16 · e2e 65/65 (9 specs) · census MATCH.**
+
+**Deferred (accepted register, with reasons):** the `.env.local`
+unmodeled face in the db-path signature check (the absolutization
+causal model never reproduced on this sandbox's bun; a behavioral
+change to the repo's most load-bearing module is not justified by an
+unreproduced shape — the next round may pick it up with fresh
+fixtures); the signup admin-bootstrap TOCTOU (the standing session-27
+adjudication; no authorization gate reads `role` today); the scryptSync
+cost/synchronous posture (the documented demo posture, rate limits
+bounded); the login-response `photoUrl` asymmetry (no consumer reads it
+from login); the in-app OTP/reset delivery default (the owner-level
+deferral, boot-warned); the footer h2→h4 heading skip (parity-locked
+markup); the mobile-menu open state surviving a breakpoint crossing
+(the S26-3 posture); the ParticleText sr-only inline-style duplication
+(belt-and-braces); the Reveal SSR opacity posture (the documented
+tradeoff); the worklog's structural inconsistencies (sessions 28-31's
+header form, no session-1 entry — cosmetic in a historical record); the
+standing register carried forward unchanged.

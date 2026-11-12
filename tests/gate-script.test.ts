@@ -10,7 +10,12 @@ import { describe, expect, it } from "vitest";
 // The e2e arm's CI=1 prefix is load-bearing (playwright.config.ts's
 // reuseExistingServer: !process.env.CI — without it a reused server keeps
 // its IN-MEMORY rate buckets while global-setup reseeds the DB, and a
-// third run inside 15 minutes fails the ladder tests with spurious 429s).
+// second run inside the window trips LOGIN at the 11th cumulative POST
+// (7 logins/run vs the 10/15-min wall — the S34-4 census; re-anchored
+// session-35, S35-6: the old text said "a third run", the arithmetic
+// the S34-4 round already corrected everywhere else). The contact
+// bucket trips earlier still on the hour clock — playwright.config.ts's
+// comment is the full census).
 // Also pinned: the build script's hygiene tail (rm -f .next/standalone/.env
 // — the double-cure for Next's own .env copy into the deployable
 // artifact), and the start script's production shape.

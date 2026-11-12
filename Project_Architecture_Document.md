@@ -3,7 +3,7 @@
 **Classification:** Internal Engineering Reference
 **Status:** DEFINITIVE, PRODUCTION-LOCKED BLUEPRINT
 **Companion Document:** `README.md` (onboarding), `AGENTS.md` (operator quick-reference), `CLAUDE.md` (agent contract), `viralpost-ai_SKILL.md` (distilled memory)
-**Last Updated:** 2026-11-11
+**Last Updated:** 2026-11-12
 **Audience:** Senior Engineers, Tech Leads, DevOps, and Onboarding Engineers
 **Rule:** Every architectural decision in this document traces to a specific rationale.
 Nothing is here "because it's popular."
@@ -560,7 +560,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 38 | 660 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 38 | 662 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 65 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -578,7 +578,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 660/65/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 662/65/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -688,13 +688,13 @@ commit as the file.)
 | `src/lib/generation-counter.ts` | 110 | The 3/day quota: pure functions + the store adapter |
 | `src/lib/route-title.ts` | 56 | The unknown-route title derivation (ADR-006) |
 | `src/lib/from-url.ts` | 37 | The from_url open-redirect guard (session-13, S13-4; the leading-// arm, session-14, S14-1) |
-| `src/lib/auth.ts` | 190 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
+| `src/lib/auth.ts` | 191 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
 | `src/lib/password.ts` | 68 | scrypt hash/verify + the timing equalizer |
-| `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
+| `src/lib/rate-limit.ts` | 135 | Fixed-window limiter, proxy-hop-aware client key |
 | `src/lib/db-path.ts` | 335 | THE database path resolver (ADR-008) |
 | `src/lib/site.ts` | 219 | The metadata factory + canonical origin seam |
-| `src/lib/api.ts` | 263 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2) |
-| `src/app/globals.css` | 226 | The Tailwind v4 theme (ADR-005) |
+| `src/lib/api.ts` | 265 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2) |
+| `src/app/globals.css` | 238 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1) |
 | `src/components/marketing/navbar.tsx` | 260 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 271 | The core surface: quota dots, generate, copy, paywall |
 | `src/components/effects/iridescence.tsx` | 254 | The WebGL hero background (aspect-aware shader) |
@@ -704,7 +704,7 @@ commit as the file.)
 | `src/app/api/[...path]/route.ts` | 43 | The API subtree's envelope 404 (session-15, S15-7; OPTIONS joined session-18, S18-2) |
 | `src/app/api/route.ts` | 51 | The bare `/api` envelope 404 (session-16, S16-2; OPTIONS joined session-18, S18-2) |
 | `prisma/schema.prisma` | 64 | User + ContactMessage |
-| `scripts/smoke-test.sh` | 263 | The 16-leg artifact ladder (the live-429 leg, session-32 S32-3) |
+| `scripts/smoke-test.sh` | 269 | The 16-leg artifact ladder (the live-429 leg, session-32 S32-3; the header's leg-16 summary re-anchored, session-35 S35-6) |
 
 ---
 

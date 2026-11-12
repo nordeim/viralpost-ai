@@ -71,9 +71,18 @@ export default defineConfig({
     // reset-funnel 1) against the login wall of 10/15-min — a SECOND
     // run inside the window trips LOGIN at the 11th cumulative POST
     // (14 > 10), failing the from_url arms first; resend (1/run vs 5)
-    // and verify (2/run vs 20) trip on later runs. The gate is immune
-    // (its CI=1 prefix forces the fresh boot); for repeated local runs
-    // export CI=1 or wait out the window (self-heals in 15 min).
+    // and verify (2/run vs 20) trip on later runs.
+    // Session-35 (S35-2): the census completed — the contact bucket
+    // (the suite's only 60-MINUTE window): 3 contact POSTs/run (the
+    // spec's browser form + the two API POSTs) vs the 5/hour wall,
+    // with the limiter running BEFORE the Zod parse (invalid POSTs
+    // count) — a second run within the hour fails "the row landed" at
+    // the 6th cumulative POST. Also omitted before: generate 6/run vs
+    // 20/15-min, reset 3/run vs 10, signup 2/run vs 10, forgot 2/run
+    // vs 10 (all trip on later runs). The gate is immune (its CI=1
+    // prefix forces the fresh boot); for repeated local runs export
+    // CI=1, or wait out the window — 15 min heals the 15-min buckets;
+    // the contact bucket needs the full 60.
     env: {
       ...process.env,
       PORT: String(PORT),

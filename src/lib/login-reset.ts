@@ -103,7 +103,8 @@ export const LOGIN_RESET_LAYOUT = {
   /** Both views' description / email line. */
   description: "text-slate-600 text-sm sm:text-base",
   /** The reset view's submit — one size below Sign in (h-10 sm:h-11);
-   *  Session-79 (M-79c1/N-79c12): text-sm (14px at all widths, the
+   *  Session-79 (M-79c1/N-79c12 — donor-ledger numbers, the template's
+   *  layout sessions): text-sm (14px at all widths, the
    *  reference's stock Button) + the disabled/keyboard-ring chrome. */
   send:
     "w-full h-10 sm:h-11 bg-slate-900 hover:bg-slate-800 text-white font-medium shadow-sm rounded-xl transition-all duration-200 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-sm",
@@ -130,7 +131,8 @@ export const LOGIN_RESET_LAYOUT = {
   /** The email itself — medium-weight slate-900. */
   sentEmailSpan: "font-medium text-slate-900",
   /** The green callout box (no icon renders on the reference).
-   *  Session-111 [D5, inert]: the reference's callout carries the FULL
+   *  Session-111 [D5, inert — a donor-ledger number, the template's
+   *  design session]: the reference's callout carries the FULL
    *  [&>svg] arm family — the same form the error/info callouts ship
    *  (the s11 extraction's asymmetry); no svg ever renders on the
    *  auth surfaces, the arms are byte-parity only. */
@@ -176,7 +178,8 @@ export const LOGIN_SIGNUP_LAYOUT = {
   inputIcon: "absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400",
   /** The field wrapper + label — the signin family (the v4-correct
    *  mt-on-following spacing + the stock-label slate-700), DOM-verified
-   *  on the signup view. Session-96 (S96-P0): the v3 6px vertical-gap
+   *  on the signup view. Session-96 (S96-P0 — a donor-ledger number,
+   *  the template's parity session): the v3 6px vertical-gap
    *  space-y step (the margin-BOTTOM form) is v4-FALSIFIED
    *  (margin-bottom on the INLINE label is ignored — the 6px gap
    *  silently lost); `[&>*+*]:mt-1.5` expresses the reference's

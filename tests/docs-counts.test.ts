@@ -155,6 +155,12 @@ import {
 // and the S34-2 e2e read-back extends the existing contact test in
 // place — the S18-2 precedent) and the e2e 65 unchanged. SMOKE 16
 // unchanged (the S34-7 leg-16 extension is in-place).
+// s35: 662/38 (+2 the session-35 pins — the Tailwind source-scoping pin
+// (S35-1, design-tokens) and the one-shot teardown idiom pin (S35-3,
+// db-census); the N-53a guard's drift-exit assertion re-anchored in
+// place to the exitCode form; the S35-5 hygiene pin and the S35-7
+// census widening are in-place — +0 tests) and the e2e 65 unchanged.
+// SMOKE 16 unchanged (the S35-6 header re-anchor is comment-only).
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -162,7 +168,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 660;
+const UNIT = 662;
 /** Vitest suite files. */
 const SUITES = 38;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -650,6 +656,13 @@ describe("docs-counts: session-34 (S34-5) — the provenance-range census (the l
   const SITE_ROOTS = [
     join(root, "src"),
     join(root, "tests"),
+    // Session-35 (S35-7): the documented blind spots closed — scripts/,
+    // worklog.md, and the root config files join the scan (a future
+    // docs/session_1..N range claim there must trip the same lag
+    // invariant; today zero such sites exist in them — the worklog's
+    // only cite is the single-session reference docs/session_19.md,
+    // out by construction).
+    join(root, "scripts"),
   ];
   const SITE_FILES = [
     ".env.example",
@@ -658,6 +671,12 @@ describe("docs-counts: session-34 (S34-5) — the provenance-range census (the l
     "AGENTS.md",
     "CLAUDE.md",
     "Project_Architecture_Document.md",
+    "worklog.md",
+    "next.config.ts",
+    "playwright.config.ts",
+    "vitest.config.mts",
+    "eslint.config.mjs",
+    "postcss.config.mjs",
   ];
 
   function rangeSites(): Array<{ where: string; bounds: number[] }> {

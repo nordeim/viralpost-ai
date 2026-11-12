@@ -59,10 +59,17 @@ async function main() {
   await db.contactMessage.deleteMany();
 }
 
+// Session-35 (S35-3): the teardown idiom's failure path. The old form
+// made the synchronous exit call INSIDE .catch — it terminates the
+// process before the promise chain continues, so the chained .finally
+// never ran and $disconnect() was skipped exactly when a run failed,
+// while the comment claimed the disconnect is AWAITED.
+// process.exitCode lets the finally run; the process still exits 1
+// after the chain settles.
 main()
   .catch((e) => {
     console.error(e);
-    process.exit(1);
+    process.exitCode = 1;
   })
   .finally(async () => {
     await db.$disconnect();

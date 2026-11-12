@@ -1,4 +1,16 @@
-@import "tailwindcss";
+/* Session-35 (S35-1): the source scan is SCOPED to src/. The bare
+   import's auto source detection anchors at the repo ROOT — the 300+
+   docs/session/plan/worklog/*_SKILL.md files plus tests/ fed
+   class-shaped prose into the scanner, and every candidate compiled
+   into a rule no element carries (~60% of the shipped sheet; the real
+   build carried .bg-[#bada55], [program:laravel-worker],
+   .to-amber-400, the dead /98 family — none occur anywhere in src/).
+   `source("../")` from this file's directory scopes the scanner to
+   src/ (probe-proven through the installed @tailwindcss/postcss 4.3.3:
+   the bare form emitted the dead classes; the scoped form emits only
+   src/'s classes). The S28-4 prose-safe doctrine stays as defense in
+   depth. */
+@import "tailwindcss" source("../");
 
 /* THE HOYVER-VARIANT UN-WRAP (carried from the template's session-80
    doctrine — the operator's standing Tailwind v4 concern). Tailwind v4
