@@ -185,6 +185,29 @@ describe("effectiveDatabaseUrl (bun absolutization re-anchoring)", () => {
     // intentional override.
     expect(url).toContain("/db/custom.db");
   });
+
+  // Session-33 (S33-4): the dev-shape :memory: COMPOSITION — the process
+  // env carrying bun's absolutization of a cwd .env's `file::memory:`
+  // (the dev-server shape: bun run dev exports file:<repo>/:memory:
+  // for it). The signature arm must route through resolveDatabaseUrl so
+  // the S26-9 guard returns the RAW spelling. Both component behaviors
+  // are individually pinned (the S26-9 guard below, the S27-2 launch
+  // arm in the standalone describe); this pin owns the composition —
+  // traced correct under both bun models, now pinned. Co-pinned faces
+  // (the N12-2 doctrine's sanctioned form, documented here): removing
+  // the S26-9 guard trips this pin AND the S26-9 pin; breaking the
+  // signature arm's resolveDatabaseUrl routing trips this pin AND the
+  // re-anchor pin above. Battery: `return envUrl;` planted for the
+  // arm's `return resolveDatabaseUrl(envFileUrl);` → this pin REDs
+  // alone.
+  it("returns the RAW :memory: spelling when the env carries bun's absolutization of it (S33-4 — the dev-shape composition)", () => {
+    const url = effectiveDatabaseUrl({
+      envUrl: "file:/repo/:memory:", // bun's export for a /repo/.env file::memory:
+      envFileUrl: "file::memory:",
+      envFileDir: "/repo",
+    });
+    expect(url).toBe("file::memory:");
+  });
 });
 
 describe("runtimeDatabaseUrl (cwd .env discovery)", () => {
@@ -224,7 +247,15 @@ describe("runtimeDatabaseUrl (cwd .env discovery)", () => {
   });
 });
 
-describe("runtimeDatabaseUrl (standalone launch contexts — session-34)", () => {
+describe("runtimeDatabaseUrl (standalone launch contexts — session-34, a donor-ledger number)", () => {
+  // Lineage note (the boot-env/session-10 F10-4 pattern — session-33,
+  // S33-3): the session-34/35/36 numbers in this describe cite the
+  // NEO-CRM donor ledger (the template repo the db-path seam was ported
+  // from — its own standalone-launch-recovery sessions). THIS repo's
+  // own sessions are docs/session_1..33; the donor enumeration lives
+  // in viralpost-ai_SKILL.md §0.5. Unmarked, the numbers collide with
+  // this repo's imminent session 34/35/36 rounds — the exact genus
+  // §0.5 exists to prevent (the S31-4 auth.ts precedent).
   // The production layout: <repo>/{.env, prisma/schema.prisma} plus the
   // traced .next/standalone/{.env} copy the server chdirs into at boot.
   function buildStandaloneRepo(): { repo: string; standalone: string } {
@@ -334,7 +365,7 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34)", () =>
     });
   });
 
-  it("keeps an ABSOLUTE launch .env value as-is (session-35 guard — never re-anchored)", () => {
+  it("keeps an ABSOLUTE launch .env value as-is (session-35 guard, a donor-ledger number — never re-anchored)", () => {
     const { repo, standalone } = buildStandaloneRepo();
     // The documented production form (docs/DEPLOYMENT.md §4): an ABSOLUTE
     // path in the launch <repo>/.env while the traced .next/standalone/.env
@@ -410,6 +441,29 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34)", () =>
       expect(url).toBe("file::memory:");
     });
   });
+
+  // Session-33 (S33-2): the Windows-absolute face of the launch arm —
+  // the S33-2a genus through the standalone path. A Windows-bun launch
+  // exports an absolute drive-letter value unchanged (path.resolve of
+  // an absolute is the absolute), so the process env and the launch
+  // .env carry the SAME value; the POSIX-only isRelativeFileUrl misread
+  // it as a re-anchor candidate and the tail's resolveDatabaseUrl
+  // re-anchored it into <repo>/prisma/C:\… junk (live-traced pre-cure
+  // on this POSIX sandbox — the S30/S31/S32 wrong-DB genus on the one
+  // platform the seam didn't model). Absolute URLs are intentional
+  // overrides by the seam's own header contract. Mutation battery:
+  // revert both predicates to the POSIX-only forms → the three S33-2
+  // pins RED.
+  it("keeps a Windows drive-letter launch .env value as-is (S33-2 — never re-anchored)", () => {
+    const { repo, standalone } = buildStandaloneRepo();
+    writeFileSync(join(repo, ".env"), 'DATABASE_URL="file:C:\\data\\prod.db"\n');
+    // What Windows-bun exports at launch: the absolute value itself.
+    withEnv("file:C:\\data\\prod.db", () => {
+      const url = runtimeDatabaseUrl(standalone);
+      expect(url).toBe("file:C:\\data\\prod.db");
+      expect(url).not.toContain("prisma");
+    });
+  });
 });
 
 describe("resolveDatabaseUrl", () => {
@@ -421,6 +475,28 @@ describe("resolveDatabaseUrl", () => {
 
   it("passes through absolute file URLs untouched", () => {
     expect(resolveDatabaseUrl("file:/tmp/data.db")).toBe("file:/tmp/data.db");
+  });
+
+  // Session-33 (S33-2): the Windows-absolute family — drive-letter and
+  // UNC refs. The absoluteness test was POSIX-only (startsWith("/")),
+  // so both fell through to the anchors and re-anchored into
+  // <repo>/prisma/C:\… junk (live-probed pre-cure:
+  // resolveDatabaseUrl("file:C:\db\custom.db") answered
+  // "file:<repo>/prisma/C:\db\custom.db" — the S30/S31/S32 wrong-DB
+  // genus on the one platform the seam didn't model; no live caller on
+  // this Linux deployment, the documented production form on a Windows
+  // host). Absolute URLs are intentional overrides by the seam's own
+  // header contract.
+  it("passes through a Windows drive-letter absolute file URL untouched (S33-2)", () => {
+    expect(resolveDatabaseUrl("file:C:\\db\\custom.db")).toBe("file:C:\\db\\custom.db");
+    // The forward-slash drive spelling too (Windows accepts both).
+    expect(resolveDatabaseUrl("file:C:/db/custom.db")).toBe("file:C:/db/custom.db");
+  });
+
+  it("passes through a Windows UNC absolute file URL untouched (S33-2)", () => {
+    expect(resolveDatabaseUrl("file:\\\\server\\share\\custom.db")).toBe(
+      "file:\\\\server\\share\\custom.db",
+    );
   });
 
   it("passes through the in-memory URL untouched", () => {

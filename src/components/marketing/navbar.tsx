@@ -2,7 +2,7 @@
 
 // The shared top navigation — class-for-class the reference's (DOM-extracted
 // 2026-11-09): fixed transparent bar over the hero, slate-900/95 +
-// backdrop-blur once scrolled, teal active underline, amber Upgrade pill,
+// backdrop blur once scrolled, teal active underline, amber Upgrade pill,
 // hamburger → dropdown on mobile (the reference's own working mobile menu —
 // verified live at 390×844).
 //

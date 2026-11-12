@@ -205,6 +205,18 @@ describe("session-21: the signup view vocabulary (S21-P4)", () => {
     expect(L.title).toBe("text-xl sm:text-2xl font-bold text-slate-900");
   });
 
+  // Session-33 (S33-5): /signup is OUR superset route (the reference
+  // 404s it — no parity constraint on its document outline); the card's
+  // h1 belongs to the signin column, which unmounts in signup mode, so
+  // the route's only heading was the reference's own swap-view h2. The
+  // sr-only h1 echoes the page title ("Sign up | ViralPost AI") with
+  // zero visual change — the aria-superset family's invisible form. The
+  // /login in-place swap views keep the reference's own DOM (parity).
+  // Mutation battery: remove the h1 → this pin REDs.
+  it("the signup view carries an sr-only h1 (S33-5 — the superset route's document outline)", () => {
+    expect(loginCardSrc()).toContain('<h1 className="sr-only">Sign up</h1>');
+  });
+
   it("the form is the tighter space-y-3 sm:space-y-4 with a space-y-3 fields group", async () => {
     const L = await signupLayout();
     expect(L.form).toBe("space-y-3 sm:space-y-4");

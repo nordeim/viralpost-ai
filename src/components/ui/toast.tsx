@@ -121,7 +121,8 @@ function Toaster() {
       // pattern: the container announces, the cards ride inside.
       aria-live="polite"
       // Session-7 live pin: the reference viewport is top-of-screen on
-      // phones and bottom-right from sm (sonner-style), max-w-[420px] at md.
+      // phones and bottom-right from sm (sonner-style), the 420px
+      // max-width cap at md.
       className="pointer-events-none fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse gap-2 p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]"
     >
       {items.map((t) => (

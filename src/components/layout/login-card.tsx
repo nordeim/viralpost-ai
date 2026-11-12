@@ -502,6 +502,14 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                             [BUTTON, H2, FORM] — no titleStack wrapper);
                             the s21-era wrapper was an inert single-child
                             text-center space-y-2 div. */}
+                        {/* Session-33 (S33-5): the superset /signup route's
+                            document outline — the reference 404s the route,
+                            so the visible h2 (its own swap-view DOM, parity)
+                            rides under an sr-only h1 echoing the page title
+                            ("Sign up | ViralPost AI"). Zero visual change —
+                            the aria-superset family's invisible form; the
+                            /login in-place swap views are untouched. */}
+                        <h1 className="sr-only">Sign up</h1>
                         <h2 className={LOGIN_SIGNUP_LAYOUT.title} tabIndex={-1} data-view-focus>Create your account</h2>
                         <form className={LOGIN_SIGNUP_LAYOUT.form} onSubmit={onSignupSubmit} noValidate>
                           <div className={LOGIN_SIGNUP_LAYOUT.fields}>

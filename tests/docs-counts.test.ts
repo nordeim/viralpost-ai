@@ -142,6 +142,12 @@ import {
 // close focus arm and the S32-7 head-level icon arms fold into existing
 // tests in place — the S18-2 precedent). SMOKE 15 → 16 (the S32-3
 // live-429 leg; the S32-2 leg-08/leg-12 strengthening is in-place).
+// s33: 655/38 (+6 the session-33 pins — the Windows-absolute trio (S33-2:
+// the drive-letter resolve pair + the launch-arm leg), the composed
+// :memory: dev-shape pin (S33-4), the signup sr-only h1 source pin
+// (S33-5), and the dead-token comment census (S33-1)) and the e2e 65
+// unchanged (no e2e legs this round). SMOKE 16 unchanged (the S33-6
+// trap extension is in-place).
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -149,7 +155,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 649;
+const UNIT = 655;
 /** Vitest suite files. */
 const SUITES = 38;
 /** Playwright e2e checks (incl. the setup project's 1). */

@@ -15,7 +15,7 @@ import { describe, expect, it } from "vitest";
 //   8..200 password window, the P2024/P2028→503 family.
 // Lineage note (session-21, S21-12): the "session-163, digma S67-A/S76-A/
 // S124-A" citations are donor-ledger numbers (the template family);
-// this repo's own sessions are docs/session_1..32.
+// this repo's own sessions are docs/session_1..33.
 
 function read(rel: string): string | null {
   const p = path.resolve(import.meta.dirname, "..", rel);

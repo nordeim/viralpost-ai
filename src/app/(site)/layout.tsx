@@ -10,17 +10,18 @@ import { Footer } from "@/components/marketing/footer";
 // before <main>; the skip link is the first focusable element and jumps
 // straight to the content anchor. sr-only until focused (the visual
 // surface is untouched — the reference ships none, parity-neutral);
-// z-[60] sits above the navbar's z-50 so the revealed pill reads over
-// the fixed chrome; the dark pill matches the navbar's own surface
-// family.
+// the z-index-60 layer sits above the navbar's z-50 so the revealed
+// pill reads over the fixed chrome; the dark pill matches the
+// navbar's own surface family.
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <a
         href="#main-content"
         // fixed (not absolute) so the revealed pill sits in the VIEWPORT
-        // regardless of scroll depth; z-[60] sits above the navbar's
-        // z-50; the dark pill matches the navbar's own surface family.
+        // regardless of scroll depth; the z-index-60 layer sits above
+        // the navbar's z-50; the dark pill matches the navbar's own
+        // surface family.
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white focus:bg-slate-900 focus:rounded-lg focus:ring-2 focus:ring-teal-400"
       >
         Skip to content

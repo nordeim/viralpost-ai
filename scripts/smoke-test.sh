@@ -50,6 +50,15 @@ SERVER_PID=""
 # (any early-leg failure) aborts the cleanup mid-function and leaks
 # the temp files. Every trap-referenced variable is born empty here.
 GATE_PID=""
+# Session-33 (S33-6): the S20-3 doctrine, extended to the three
+# leg-local mktemp files — the push/seed log (leg 00's fail path cats
+# and exits BEFORE its rm -f) and the 429 leg's body/headers (leg 13's
+# fail path exits at the assertion). Born empty so the trap's rm -f is
+# safe on every exit path (rm -f "" exits 0 — verified); the mktemp
+# assignments later in the script simply overwrite these.
+SMOKE_PUSH_LOG=""
+rl_body=""
+rl_headers=""
 
 ok()   { echo "  ok $1 — $2"; }
 fail() { echo "  FAIL $1 — $2" >&2; }
@@ -58,7 +67,10 @@ cleanup() {
   # Session-19 (S19-17): the boot-gate probe's server rides the trap too —
   # a leg failing between the :3211 spawn and the inline kill leaked it.
   [ -n "$GATE_PID" ] && kill "$GATE_PID" 2>/dev/null || true
-  rm -f "$COOKIE_JAR" "$SERVER_LOG" "$GATE_LOG"
+  # Session-33 (S33-6): the three leg-local temp files join the trap —
+  # every failure-path exit now cleans them (rm -f on the born-empty
+  # spelling is a no-op; on the mktemp spelling it removes the file).
+  rm -f "$COOKIE_JAR" "$SERVER_LOG" "$GATE_LOG" "$SMOKE_PUSH_LOG" "$rl_body" "$rl_headers"
 }
 trap cleanup EXIT
 

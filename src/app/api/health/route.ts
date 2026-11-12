@@ -3,9 +3,11 @@ import { ok, fail } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
 
-// Session-36 (S36-P5): the db-down branch is an honest 503 — the
-// session-34 incident (production start serving db:"down" at 200 while
-// every DB route 500'd) is the existence proof that the 200 form lies to
+// Session-36 (S36-P5 — donor-ledger numbers; this repo's sessions are
+// docs/session_1..33, the SKILL §0.5 enumeration): the db-down branch
+// is an honest 503 — the session-34 incident (production start serving
+// db:"down" at 200 while every DB route 500'd) is the existence proof
+// that the 200 form lies to
 // monitoring. The playwright webServer probe still passes on a healthy
 // boot (SQLite auto-creates db/e2e.db on first connect and SELECT 1
 // succeeds on the empty file — verified by the fresh-boot e2e run); the

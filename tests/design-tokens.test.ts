@@ -455,3 +455,40 @@ describe("design tokens: session-31 (S31-6) — the source tree's dead-import ce
     expect(statementsChecked).toBeGreaterThan(150);
   });
 });
+
+// Session-33 (S33-1): the dead-token comment census — the S28-4/S31-5a/
+// S32-4 doctrine's genus arm. Tailwind v4's candidate scanner reads
+// comments; a retired utility token spelled verbatim there emits a
+// never-matched rule into the production CSS. Session-32 cured three
+// tokens (-mb-2, the slate-400 ring, the zero-opacity form); the
+// session-33 audit found four MORE (~1.5 KB of dead CSS across five
+// files). The banned spellings below are the RETIRED forms — the LIVE
+// siblings (the md:-prefixed 420px cap, the focus-gated z-60 layer, the
+// -xl blur family, the mt-1.5 spacing mechanism) pass the regexes by
+// construction. The tests/.md faces of the same tokens are the accepted
+// register's test-pin-literal residual (this census owns the src/ face —
+// the S31-5a precedent). Battery: any of the four spellings planted in
+// any src file → this census REDs.
+describe("design tokens: session-33 (S33-1) — the dead-token comment census (the S28-4/S32-4 genus, generalized)", () => {
+  const BANNED_TOKEN_SPELLINGS: Array<[RegExp, string]> = [
+    [/space-y-1\.5/, "the retired v3 space-y step (the mt-1.5 mechanism replaced it)"],
+    [/(?<![:\w-])max-w-\[420px\]/, "the bare 420px max-width cap (the live form is the md:-prefixed one)"],
+    [/(?<!:)z-\[60\]/, "the bare z-60 layer token (the live form is the focus-gated one)"],
+    [/backdrop-blur(?![a-z0-9-])/, "the bare backdrop-blur token (the live form is the -xl family)"],
+  ];
+
+  it("THE BAN: the four retired utility tokens never return to src/", () => {
+    const srcDir = path.resolve(import.meta.dirname, "..", "src");
+    const offenders: string[] = [];
+    for (const file of walkSourceFiles(srcDir)) {
+      const text = readFileSync(file, "utf8");
+      for (const [re, why] of BANNED_TOKEN_SPELLINGS) {
+        if (re.test(text)) offenders.push(`${path.relative(srcDir, file)}: ${why}`);
+      }
+    }
+    expect(
+      offenders,
+      "retired utility tokens spelled verbatim in src/ demand dead CSS rules (S33-1)",
+    ).toEqual([]);
+  });
+});

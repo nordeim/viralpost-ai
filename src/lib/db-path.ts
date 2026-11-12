@@ -83,6 +83,25 @@ export function urlForRoot(root: string, ref: string): string {
   return `file:${candidate}`;
 }
 
+// Session-33 (S33-2): the Windows-absolute ref family — a drive letter
+// (C:\ or C:/) or a UNC lead (\\server\share). The seam's absoluteness
+// tests were POSIX-only (startsWith("/")), so both fell through to the
+// anchors and re-anchored into <repo>/prisma/C:\… junk (live-probed:
+// resolveDatabaseUrl("file:C:\db\custom.db") answered
+// "file:<repo>/prisma/C:\db\custom.db") — the S30/S31/S32 wrong-DB genus
+// on the one platform the seam didn't model. No live caller on this
+// Linux deployment (DEPLOYMENT.md documents POSIX absolutes); on a
+// Windows bun host the documented production form would corrupt. A
+// literal regex, NOT path.isAbsolute — that helper is platform-dependent,
+// and this seam must recognize BOTH platform forms on ANY host (the
+// header contract: "absolute URLs are passed through by design").
+const WINDOWS_ABSOLUTE_REF = /^[A-Za-z]:[\\/]|^\\\\/;
+
+function isAbsoluteFileRef(ref: string): boolean {
+  return ref.startsWith("/") || WINDOWS_ABSOLUTE_REF.test(ref);
+}
+
+
 export function resolveDatabaseUrl(rawUrl: string): string {
   if (!rawUrl.startsWith("file:")) return rawUrl; // postgres etc. — pass through
   const ref = rawUrl.slice("file:".length);
@@ -90,8 +109,9 @@ export function resolveDatabaseUrl(rawUrl: string): string {
   // (Session-26, S26-9: the `:memory:` ref does NOT start with "/", so
   // it previously fell through to the anchors and re-anchored to a
   // literal <repo>/prisma/:memory: file — the guard comment claimed
-  // "in-memory" but the code misrouted it).
-  if (!ref || ref.startsWith("/") || ref.startsWith(":memory:")) return rawUrl;
+  // "in-memory" but the code misrouted it). Session-33 (S33-2): the
+  // absoluteness arm now covers the Windows-absolute family too.
+  if (!ref || isAbsoluteFileRef(ref) || ref.startsWith(":memory:")) return rawUrl;
 
   // Validated anchors: trust them even on first boot (db/ may not exist
   // yet) — urlForRoot creates the folder.
@@ -156,7 +176,10 @@ function isRelativeFileUrl(url: string | undefined): url is string {
   if (!url) return false;
   if (!url.startsWith("file:")) return false;
   const ref = url.slice("file:".length);
-  return ref.length > 0 && !ref.startsWith("/");
+  // Session-33 (S33-2): the Windows-absolute family is NOT relative —
+  // misreading a drive-letter/UNC value as a re-anchor candidate sent
+  // it through the anchors into <repo>/prisma/C:\… junk.
+  return ref.length > 0 && !isAbsoluteFileRef(ref);
 }
 
 /**
@@ -222,7 +245,9 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  * the CLI wrapper (scripts/prisma-env.ts) so every consumer applies the
  * same rules.
  *
- * STANDALONE LAUNCH RECOVERY (session-34): the standalone server.js runs
+ * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
+ * NEO-CRM seam's own recovery session; this repo's sessions are
+ * docs/session_1..33, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The
