@@ -89,10 +89,15 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
   // docs/session_N.md. Session-37 (S37-3) completes the enumeration:
   // the file's other bare cites are equally donor-ledger — the
   // Session-147/s142/s145 family (:74's auth-wall target — see the
-  // file-top docblock), S79-P2 (:501), M-79c3 (:598), L-79c6 (:887),
-  // and L-79c7/L-79c11 (:637), the last four covered by the mid-file
-  // Session-79 L-79c8 lineage note at :631): the resend's own
-  // in-flight flag — the link's budget is 5/15 min, so a double-click
+  // file-top docblock), the Session-163 family (the digma ADR-014/S46
+  // ports — each of its six cites below carries its inline "the digma"
+  // attribution), S79-P2 (the mb-2 back button), M-79c3 (the
+  // verify-email SHIELDCHECK tile + the six inputs), L-79c6 (the
+  // live-extracted five-view face), and L-79c7/L-79c11 (the codeWrap
+  // + the hint line's plain wrapper), the last four covered by the
+  // mid-file Session-79 L-79c8 lineage note (cited by ID, not line —
+  // the S38-2 lesson: line refs drift with every edit above them):
+  // the resend's own in-flight flag — the link's budget is 5/15 min, so a double-click
   // must not burn two sends.
   const [resending, setResending] = React.useState(false);
   // Session-163 (the digma ADR-014 port): the SELF-HOSTED in-app

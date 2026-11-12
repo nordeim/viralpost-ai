@@ -156,7 +156,7 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 39 files / 671 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 39 files / 672 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.
@@ -180,7 +180,8 @@ stable (upsert-by-email) so live sessions survive.
 - Status discipline: 400 bad input, 401 auth gap, 404 unknown id, 429
   rate limit (+ `Retry-After`), 503 transient db outage (S37-2's
   hoisted P2024/P2028 classifier — one home in `src/lib/api.ts`, every
-  DB-touching route answers the shared 503).
+  DB-touching route answers the shared 503, the requireSession seam
+  itself included since session-38, S38-1).
 
 ### Data Layer
 

@@ -310,6 +310,6 @@ build · smoke **16/16** · e2e **65/65** (9 specs) · census MATCH ·
 badge **736**. Captures 81/82 PIL-verified on the dev server
 (post-cure, the menu functionally verified open before the shot).
 Docs lockstep: README + AGENTS + CLAUDE + PAD + SKILL v1.32.0 →
-v1.33.0 + the nine provenance sites re-anchored to 1..37 + worklog
+v1.33.0 + the eight provenance sites re-anchored to 1..37 + worklog (the "nine" at :191/:251 was correct; :313's "nine" re-spelled session-38, S38-3)
 Task 37 + docs/session_37.md + this post-execution record. Pushed to
 main via the SSH wrapper (dry-run first, key shredded after).

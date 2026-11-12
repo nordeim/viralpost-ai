@@ -48,6 +48,12 @@ export const ERR = {
 // The codes live HERE and nowhere else (the behavioral spec in
 // tests/api-robustness.test.ts owns them); every DB-touching route
 // calls this ahead of its residual ERR.INTERNAL().
+// Session-38 (S38-1): "every DB-touching route" includes the shared
+// seam itself — requireSession's catch below carries the arm (its
+// findUnique is the one DB call every protected route makes, and
+// logout surfaces the seam's envelope directly). generate's documented
+// S17-3 discard of the gate response is unchanged: a transient
+// failure there still degrades the caller to the per-IP bucket.
 /** The transient-abort family's shared 503 copy (byte-identical to the reset funnel's form). */
 export const TRANSIENT_DB_MESSAGE =
   "The request took too long — the database timed out. Try again.";
@@ -70,7 +76,15 @@ export async function requireSession(): Promise<{ user: SessionUser } | { respon
   let user: SessionUser | null;
   try {
     user = await getSessionUser();
-  } catch {
+  } catch (error) {
+    // Session-38 (S38-1): the seam joins the S37-2 doctrine — a
+    // transient pool/transaction timeout answers the shared 503 (the
+    // same envelope /api/auth/me answers through its own arm), the
+    // residual stays INTERNAL. Every protected route that surfaces
+    // this envelope (logout among them) is coherent by construction.
+    if (isTransientDbFailure(error)) {
+      return { response: fail("UNAVAILABLE", TRANSIENT_DB_MESSAGE, 503) };
+    }
     return { response: ERR.INTERNAL() };
   }
   if (!user) return { response: ERR.UNAUTHORIZED() };

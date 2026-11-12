@@ -33,8 +33,10 @@ describe("design tokens: the Tailwind v4 doctrine", () => {
 
   it("the source scan is scoped to src/ (S35-1 — the repo-wide auto-detection shipped ~60% never-matched rules from docs/, tests/, and *.md prose)", () => {
     // v4's auto source detection anchors at the repo ROOT: the ~170
-    // docs/tests/root text files plus the ~3,150-file skills/ catalog
-    // (92% of the non-src tree — tracked, hence not gitignore-excluded)
+    // docs/tests/scripts/prisma/root text files plus the ~3,150-file
+    // skills/ catalog (92% of the non-src tree — tracked, hence not
+    // gitignore-excluded; S38-7d completed the label — scripts/ and
+    // prisma/ were always in the counted basis but unnamed)
     // fed class-shaped prose into the scanner, and every candidate
     // compiled into a rule no element carries (.bg-[#bada55],
     // [program:laravel-worker], .to-amber-400, the dead /98 family —

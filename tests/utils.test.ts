@@ -1,11 +1,15 @@
 import { describe, expect, it } from "vitest";
-// Session-36 (S36-6b): utils.ts was the only src/lib module with zero
-// test references — PAD §8.3's "every seam has a spec" held only via
-// the glossary's circular definition ("a pure module in src/lib/ WITH
-// a spec"). The module is vendored scaffold (the shadcn cn() = clsx
-// passthrough + tailwind-merge); this spec pins the two behaviors the
-// app's class composition actually leans on, closing the PAD claim
-// mechanically. A1-I2/A3-I2 lineage: found by the session-36 audit.
+// Session-36 (S36-6b): utils.ts was the only PURE src/lib module with
+// zero test references — PAD §8.3's "every seam has a spec" held only
+// via the glossary's circular definition ("a pure module in src/lib/
+// WITH a spec"). (Session-38, S38-6: the "only module" wording was
+// loose — db.ts, the impure Prisma client singleton, also has zero
+// test imports; the exemption is documented here. verification-server
+// joined the covered set session-37, S37-6e.) The module is vendored
+// scaffold (the shadcn cn() = clsx passthrough + tailwind-merge);
+// this spec pins the two behaviors the app's class composition
+// actually leans on, closing the PAD claim mechanically.
+// A1-I2/A3-I2 lineage: found by the session-36 audit.
 import { cn } from "@/lib/utils";
 
 describe("utils: the cn() class-composition seam (the vendored shadcn form)", () => {

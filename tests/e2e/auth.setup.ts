@@ -3,8 +3,10 @@ import { expect, test } from "@playwright/test";
 // Sign the demo user in ONCE through the real login UI and persist the
 // browser storage state for the whole chromium project (the auth
 // endpoints are rate-limited per IP/15 min — login 10 / signup 10 /
-// resend 5 / verify 20, the per-route budgets — so per-test logins
-// would trip the limiter mid-suite).
+// resend 5 / verify 20 / forgot 10 / reset 10, the six per-route
+// budgets — so per-test logins would trip the limiter mid-suite;
+// the summary completed session-38, S38-5, joining the playwright.config
+// + AGENTS summaries the S36-6c sweep had already completed).
 
 const STORAGE = "tests/e2e/.auth/user.json";
 

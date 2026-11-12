@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { ok, ERR, isTransientDbFailure, parseBody, TRANSIENT_DB_MESSAGE, fail } from "@/lib/api";
+import { ok, fail, ERR, isTransientDbFailure, parseBody, TRANSIENT_DB_MESSAGE } from "@/lib/api";
 import { hashPassword } from "@/lib/auth";
 import { signupSchema } from "@/lib/schemas";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";

@@ -58,7 +58,9 @@ self-hosted superset; the icon links the documented file-convention
 posture), sitemap.xml + robots.txt identical modulo origin (the
 all-occurrence normalized comparison — the walk script's
 first-occurrence-only `.replace` artifact pre-diagnosed and excluded),
-the login round-trip live on both sides (both land on `/`), the
+the login round-trip live on both sides (both land on the landing —
+the reference's URL `/Home`, its duplicate-of-`/` route; ours `/`,
+the documented 308 deviation; re-spelled session-38, S38-4), the
 generator walk-probe null on BOTH sides symmetrically (the known probe
 selector artifact — the clone's generator round-trip is proven green by
 the e2e generator spec and smoke leg 11). **NO DRIFT FOUND — the

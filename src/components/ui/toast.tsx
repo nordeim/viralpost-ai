@@ -159,7 +159,9 @@ function ToastCard({ item }: { item: ToastItem }) {
         // D-124a7, s128/s129/s130, and walk22 below — are DONOR-LEDGER
         // numbers (the NEO-CRM/digma template family's own sessions and
         // findings), never this repo's docs/session_N.md; this repo's
-        // sessions run 1..37.
+        // own ledger is docs/session_1..38.md (re-spelled session-38,
+        // S38-7c, to the census-legible range form — the docs-counts
+        // lag invariant now owns this claim).
         // Session-131 (D-131a1): the scaffold-era data-[state] animation
         // family RETIRED — the ToastCard never set data-state, so
         // data-[state=open]:animate-in / animate-out / fade-* /

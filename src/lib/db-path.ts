@@ -247,7 +247,7 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  *
  * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
  * NEO-CRM seam's own recovery session; this repo's sessions are
- * docs/session_1..37, the SKILL §0.5 enumeration): the standalone server.js runs
+ * docs/session_1..38, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The

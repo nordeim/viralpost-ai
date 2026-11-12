@@ -18,6 +18,17 @@ process.env.NEXT_PUBLIC_SITE_URL ??= "http://localhost:3000";
 
 import { siteUrl } from "@/lib/site";
 
+// Session-38 (S38-7f): the house idiom for textual pins — comments
+// stripped before the assertion, so a commented-out export plus a
+// deleted real one cannot satisfy a source pin (the S37-2b/S37-6d
+// pins in api-robustness/effects-motion already strip; the force-static
+// pin joins them).
+function stripComments(src: string): string {
+  return src
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/\/\/[^\n]*/g, "");
+}
+
 async function getRouteBody(rel: string): Promise<{ body: string; contentType: string }> {
   // Route handlers are pure ESM modules — import fresh so env tweaks in
   // this file apply (Next's module caching never runs here).
@@ -285,7 +296,7 @@ describe("session-37 (S37-4): the SEO route family's force-static posture (the b
       "src/app/robots.txt/route.ts",
       "src/app/manifest.json/route.ts",
     ]) {
-      const src = readFileSync(path.resolve(import.meta.dirname, "..", rel), "utf-8");
+      const src = stripComments(readFileSync(path.resolve(import.meta.dirname, "..", rel), "utf-8"));
       expect(src, `${rel}: the force-static export must be present`).toContain(
         'export const dynamic = "force-static";',
       );

@@ -150,9 +150,10 @@ re-spelled this round; no behavior change (pushing `/Home` instead of
   re-spell ("ten more sites marked" → the nine-blocks/ten-cites
   wording).
 - **S37-7 (WALK-SOURCED comment-truth)** — the login-lands face
-  re-spelled at all eleven carrying sites (the two session logs, the
-  two plans, worklog ×2, README ×2, the SKILL's Appendix-A rows ×3):
-  "both land on the landing — the reference's URL `/Home`, its
+  re-spelled at all eleven enumerated 35/36-era sites (the two session
+  logs, the two plans, worklog ×2, README ×2, the SKILL's Appendix-A
+  rows ×3; the six 32/33/34-era recordings the enumeration missed
+  re-spelled session-38, S38-4): "both land on the landing — the reference's URL `/Home`, its
   duplicate-of-`/` route; ours `/`, the documented 308 deviation". No
   behavior change (the Deviations Ledger row already governs).
 
@@ -182,7 +183,7 @@ effects-motion, +1 the S37-6e pass-through pin in password-seam),
 SUITES 39 unchanged, E2E 65 unchanged, SMOKE 16 unchanged, badge 730 →
 **736**. Constants re-anchored FIRST; the census walked the doc sites
 RED→GREEN (the PAD §12 rows re-anchored to the live `wc -l`: api.ts
-268→289, iridescence.tsx 254→269; the nine provenance sites
+268→289, iridescence.tsx 254→269; the eight provenance sites (the count re-spelled session-38, S38-3 — the live census finds eight, the lead had counted toast.tsx's then-non-census phrase)
 re-anchored to 1..37 — lag 0 at ship).
 
 ## Verified
@@ -204,7 +205,7 @@ re-anchored to 1..37 — lag 0 at ship).
   PAD (§8.1, §8.2, §10.3, §12 rows, the api.ts row's classifier
   mention); SKILL v1.32.0 → v1.33.0 (frontmatter, §0.5 1..37, the
   Appendix-A session-37 row, Appendix B's header + body, the pre-ship
-  checklist); the nine provenance sites re-anchored to 1..37; worklog
+  checklist); the eight provenance sites re-anchored to 1..37; worklog
   Task 37; this session log; the plan's post-execution record
 
 **Gate at the session-37 ship: lint 0/0 · tsc 0 · unit 671/671 (39

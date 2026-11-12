@@ -47,15 +47,17 @@ async function main(): Promise<void> {
     const detail = drift.map((k) => `${k}=${counts[k]} (expected ${EXPECTED[k]})`).join(", ");
     console.error(`pristine: MISMATCH — ${detail}`);
     console.error("Probe residue? Remove it, or reseed in place: bun run db:seed");
-    await db.$disconnect();
-    // Session-35 (S35-3): exitCode over the synchronous exit call — the
-    // family teardown owns the process from here too.
+    // Session-38 (S38-7a): the in-main disconnect retired — the
+    // S37-1 chain's inner-caught finally owns teardown exclusively
+    // ($disconnect is idempotent, so the second call was a harmless
+    // no-op, but the family's one-idiom doctrine owns the file now).
+    // Session-35 (S35-3): exitCode over the synchronous exit call —
+    // the family teardown owns the process from here too.
     process.exitCode = 1;
     return;
   }
   const contract = `${EXPECTED.users} user + ${EXPECTED.contactMessages} contact messages`;
   console.log(`pristine: MATCH (${contract} — the seed contract)`);
-  await db.$disconnect();
 }
 
 // Only take over the process when executed directly (not when imported by

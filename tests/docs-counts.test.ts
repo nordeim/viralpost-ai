@@ -175,6 +175,11 @@ import {
 // (S37-6e, password-seam); the S35-3 awaited-disconnect regex and the
 // F9-7 read-window assertion re-anchor in place — +0 tests) and the
 // e2e 65 unchanged. SMOKE 16 unchanged.
+// s38: 672/39 (+1 the session-38 pin — the requireSession seam
+// adoption arm (S38-1a, api-robustness); the S37-4 force-static pin
+// comment-strips in place (S38-7f) and the stripComments helper joins
+// seo-surfaces — +0 tests) and the e2e 65 unchanged. SMOKE 16
+// unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -182,7 +187,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 671;
+const UNIT = 672;
 /** Vitest suite files. */
 const SUITES = 39;
 /** Playwright e2e checks (incl. the setup project's 1). */

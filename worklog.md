@@ -3968,7 +3968,9 @@ Agent: main (Z.ai)
   recorded at its precise form for the first time (S37-7): the
   reference's post-login URL is /Home (its duplicate-of-/ route,
   canonical → /), ours / via the documented 308 deviation — the prior
-  recordings' "both land on /" re-spelled at all eleven sites.
+  recordings' "both land on /" re-spelled at all eleven enumerated
+  35/36-era sites (the six 32/33/34-era recordings re-spelled
+  session-38, S38-4).
 - CURES (TDD, every pin RED-first or battery-planted): the
   transient-db classifier hoist (S37-2 — isTransientDbFailure +
   TRANSIENT_DB_MESSAGE in src/lib/api.ts, the codes' one home; the six
@@ -4001,7 +4003,7 @@ Agent: main (Z.ai)
   effects-motion, +1 S37-6e in password-seam), SUITES 39, E2E 65,
   SMOKE 16, badge 730 → 736. Constants re-anchored FIRST; the census
   walked the doc sites RED→GREEN (PAD §12: api.ts 268→289,
-  iridescence.tsx 254→269; the nine provenance sites at 1..37 — lag 0
+  iridescence.tsx 254→269; the eight provenance sites at 1..37 — lag 0 (the "nine" miscount re-spelled session-38, S38-3)
   at ship).
 - Docs lockstep: README (badge 736, the session-37 row, the gate
   line); AGENTS (counts, the plans map's thirty-seventh round);
@@ -4010,6 +4012,85 @@ Agent: main (Z.ai)
   §0.5 1..37, Appendix A's session-37 row, Appendix B's header +
   body, the pre-ship checklist); worklog Task 37 (this entry);
   docs/session_37.md; the plan's post-execution record.
+- SHIPPED: the remediated codebase + the docs in lockstep, committed
+  to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
+  verified; no new branches).
+
+## Task 38 — The requireSession Transient Arm + The Lineage-Note Refs + The Provenance-Count Truth + The Comment-Truth Batch (2026-11-12)
+
+Task ID: 38
+Agent: main (Z.ai)
+- SCOPE: the standing instruction re-run against the shipped tree
+  (`30bdec6`, session-37's commit; the owner's narration commit
+  `8b39add` followed, carrying session_38.md as the round-37
+  narration). Docs review (AGENTS/CLAUDE/README/PAD/SKILL v1.33.0,
+  session_37.md, the session-37 plan, worklog Task 37, the owner
+  narration) → the baseline gate verified in place (lint 0/0 · tsc 0 ·
+  unit 671/671, 39 files · build with the button-cursor rule in the
+  emitted sheet · smoke 16/16 · e2e 65/65, 9 specs · census MATCH) →
+  the comprehensive audit (three parallel subagents, the
+  web-application skill as the rubric, every load-bearing finding
+  hand-verified in source by the lead; the session-37 diff itself
+  verified correct and complete on all three passes) → the live parity
+  walk → the TDD cures → the full gate → the captures → the push. The
+  standing asks re-verified up front (the .env DATABASE_URL
+  "file:../db/custom.db" contract with db/ at the repo root; the
+  vitest + playwright suites; the sitemap/robots/manifest/OG family;
+  skills/ excluded from every gate; the committed .env.example
+  matching the six-knob contract).
+- AUDIT: 0 Critical / 0 High / 0 Medium / 6 Low / 9 Info (AUDIT-1
+  0/0/0/1/3 — the requireSession seam's missing transient arm (the
+  round's one code coherence gap: logout answers 500 where me answers
+  503) + the census.ts dual teardown idiom + the signup import order;
+  AUDIT-2 0/0/0/1/4 — the login-card lineage note's line refs off by
+  +6 + four wording nits; AUDIT-3 0/0/4/2 — the "nine provenance
+  sites" miscount (eight), the six-site both-land tail, the
+  auth.setup four-bucket limiter summary, the utils.test claim site).
+  The lead hand-verified all fifteen findings in source.
+- WALK: NO DRIFT — the eleventh consecutive fully-clean walk. The
+  mobile menu verified again at a confirmed 390×844 (the panel block
+  + max-height none + overflow hidden, the links + the pill
+  byte-identical, both cursor faces pointer — S36-1 holding). One
+  instrument note: the reference's open panel carries a
+  bg-slate-900/98 class ours does not — probed DEAD in the reference's
+  own build (computed rgba(0,0,0,0) both sides; /98 isn't a generated
+  opacity step) — observably identical, the computed-style doctrine
+  governs. The login round-trip at the precise form (R /Home, its
+  duplicate route; L / — the documented 308 deviation).
+- CURES (TDD, every pin RED-first or battery-planted): the
+  requireSession transient arm (S38-1 — the arm inside the shared
+  seam's catch, every protected route coherent by construction,
+  generate's documented discard unchanged; +1 pin RED-first, the
+  arm-removal battery on record proving the ownership separation: the
+  six-route pin + the classifier spec GREEN through the strip); the
+  lineage-note refs (S38-2 — the five line refs re-pointed by ID, not
+  line: the cure's own edit growth re-drifted them +3 in-round, the
+  lesson baked into the note); the provenance-count truth (S38-3 —
+  "nine"→"eight" at four records + the eight sites re-anchored
+  1..37 → 1..38, lag 0 at ship); the both-land tail (S38-4 — six
+  32/33/34-era sites re-spelled + three narrations scoped); the
+  limiter summary completion (S38-5); the utils-claim re-spell
+  (S38-6); the hygiene batch (S38-7 — census.ts's in-main disconnect
+  retired, the signup import order, the toast.tsx range claim
+  census-legible, the corpus label completed at the five sites, the
+  reveal re-word, the force-static pin comment-stripped, the
+  Session-163 enumeration extension).
+- ACCEPTED: the exact-source-shape GL-release regexes (the source-pin
+  doctrine); the generate route's guard-envelope discard (the
+  documented S17-3 posture, now noted in the api.ts comment); the
+  standing register carried forward unchanged.
+- The count re-anchor: UNIT 671 → 672 (+1 S38-1a in api-robustness),
+  SUITES 39, E2E 65, SMOKE 16, badge 736 → 737. Constants re-anchored
+  FIRST; the census walked the doc sites RED→GREEN (PAD §12: api.ts
+  289→303, globals.css 251→253; the eight provenance sites + toast's
+  new ninth site at 1..38 — lag 0 at ship).
+- Docs lockstep: README (badge 737, the session-38 row, the gate
+  line); AGENTS (counts, the plans map's thirty-eighth round); CLAUDE
+  (counts, the 503 line's seam scoping); PAD (§8.1, §12 rows); SKILL
+  v1.33.0 → v1.34.0 (frontmatter, §0.5 1..38, Appendix A's session-38
+  row, Appendix B's header + body, the pre-ship checklist); worklog
+  Task 38 (this entry); docs/session_38.md; the plan's post-execution
+  record.
 - SHIPPED: the remediated codebase + the docs in lockstep, committed
   to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
   verified; no new branches).

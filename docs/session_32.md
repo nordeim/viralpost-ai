@@ -59,7 +59,10 @@ canonical + og:url differ by origin only; the icon links the documented
 file-convention posture — the reference ships a supabase-hosted
 logo.png, ours the `icon.png`/`apple-icon.png` conventions), sitemap.xml
 + robots.txt identical modulo origin (curl-diffed both directions), the
-login round-trip live on both sides (both land on `/`; the reference's
+login round-trip live on both sides (both land on
+the landing — the reference's URL `/Home`, its duplicate-of-`/`
+route; ours `/`, the documented 308 deviation; re-spelled
+session-38, S38-4; the reference's
 localStorage-token posture vs our httpOnly `viralpost_session` cookie
 the documented superset). **NO DRIFT FOUND — the sixth consecutive
 fully-clean walk.** The mobile menu works as expected; the standing

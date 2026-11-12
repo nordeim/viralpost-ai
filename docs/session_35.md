@@ -105,9 +105,10 @@ verified live and e2e-pinned.
 
 - **S35-1 (LOW, the round's headline)** — the Tailwind source scoping:
   v4's auto source detection anchors at the repo ROOT, and the ~170
-  docs/tests/root text files PLUS the ~3,150-file skills/ catalog
-  (92% of the non-src tree — the magnitude re-anchored session-36,
-  S36-5b, the register rounded to one form session-37, S37-6b; the
+  docs/tests/scripts/prisma/root text files PLUS the ~3,150-file skills/
+  catalog (92% of the non-src tree — the magnitude re-anchored session-36,
+  S36-5b, the register rounded to one form session-37, S37-6b, the label
+  completed session-38, S38-7d; the
   original narrative here said "300+" — a figure that
   matched no countable corpus) fed class-shaped prose into the
   scanner — every candidate compiled into

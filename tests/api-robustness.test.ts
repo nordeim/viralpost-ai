@@ -411,4 +411,30 @@ describe("session-37 (S37-2): the transient-abort classifier (P2024/P2028 → th
       expect(armIdx, `${rel}: the arm must sit ahead of the residual`).toBeLessThan(internalIdx);
     }
   });
+
+  // Session-38 (S38-1): the SEVENTH adoption site is the shared seam
+  // itself — requireSession's getSessionUser() findUnique is the one DB
+  // call EVERY protected route makes, and its blanket catch answered
+  // 500 INTERNAL on the transient family while /api/auth/me (which
+  // calls it!) answered 503 through its own arm — logout surfaces the
+  // seam's envelope, so the two-incoherent-envelopes genus S37-2 closed
+  // at the routes survived at the seam. The arm inside the seam's catch
+  // makes every protected route coherent by construction.
+  it("session-38 (S38-1): requireSession's catch carries the transient arm ahead of ERR.INTERNAL() (the seam every protected route shares)", () => {
+    const src = stripComments(read("src/lib/api.ts") ?? "");
+    // scope to the requireSession function body: the catch sits between
+    // the getSessionUser() call and the !user 401 return
+    const fnStart = src.indexOf("export async function requireSession");
+    expect(fnStart, "requireSession must exist in api.ts").toBeGreaterThan(-1);
+    const fnEnd = src.indexOf("export function", fnStart + 1);
+    const body = src.slice(fnStart, fnEnd > fnStart ? fnEnd : undefined);
+    expect(body, "the seam's catch must carry the transient arm").toMatch(
+      /isTransientDbFailure\(/,
+    );
+    const armIdx = body.indexOf("isTransientDbFailure(");
+    const internalIdx = body.indexOf("ERR.INTERNAL()");
+    expect(armIdx, "the arm must exist inside the seam").toBeGreaterThan(-1);
+    expect(internalIdx, "the residual must exist inside the seam").toBeGreaterThan(-1);
+    expect(armIdx, "the arm must sit ahead of the residual").toBeLessThan(internalIdx);
+  });
 });

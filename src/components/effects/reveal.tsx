@@ -34,7 +34,11 @@ function hiddenStyle(direction: RevealDirection): React.CSSProperties {
  * hidden inline style derives from the props — a call site that changes
  * either after mount would re-apply the hidden style to an element whose
  * observer has already disconnected (stuck invisible). Every live call
- * site passes literals; dynamic usage must remount via `key` instead.
+ * site passes mount-time constants — computed delays (`i * 100` and
+ * kin) ride keyed instances, the prescribed keyed-remount form;
+ * dynamic usage must remount using the `key` prop instead (the wording
+ * re-spelled session-38, S38-7e: "literals" overstated — five sites
+ * compute, none re-render past mount).
  */
 export function Reveal({
   children,

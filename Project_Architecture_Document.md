@@ -560,7 +560,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 39 | 671 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 39 | 672 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 65 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -578,7 +578,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 671/65/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 672/65/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -700,8 +700,8 @@ commit as the file.)
 | `src/lib/rate-limit.ts` | 135 | Fixed-window limiter, proxy-hop-aware client key |
 | `src/lib/db-path.ts` | 335 | THE database path resolver (ADR-008) |
 | `src/lib/site.ts` | 219 | The metadata factory + canonical origin seam |
-| `src/lib/api.ts` | 289 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2; the transient-abort classifier, session-37, S37-2) |
-| `src/app/globals.css` | 251 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1) |
+| `src/lib/api.ts` | 303 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2; the transient-abort classifier, session-37, S37-2; the seam's own transient arm, session-38, S38-1) |
+| `src/app/globals.css` | 253 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1) |
 | `src/components/marketing/navbar.tsx` | 260 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 271 | The core surface: quota dots, generate, copy, paywall |
 | `src/components/effects/iridescence.tsx` | 269 | The WebGL hero background (aspect-aware shader) |

@@ -45,7 +45,9 @@ differ by origin only; the icon links the documented file-convention
 posture), sitemap.xml + robots.txt identical modulo origin (the walk
 script's first-occurrence-only `.replace` artifact ruled out by the
 all-occurrence normalized comparison — MATCH), the login round-trip live on
-both sides (both land on `/`; the reference's localStorage-token posture vs
+both sides (both land on the landing — the reference's URL `/Home`,
+its duplicate-of-`/` route; ours `/`, the documented 308 deviation;
+re-spelled session-38, S38-4; the reference's localStorage-token posture vs
 our httpOnly `viralpost_session` cookie the documented superset).
 **NO DRIFT FOUND — the seventh consecutive fully-clean walk.** The mobile
 menu works as expected (the full functional battery — open, navigate+close,
