@@ -15,14 +15,19 @@
 // handler repaints it synchronously.
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
+
+// Session-40 (S40-5): the `className` prop is RETIRED — the only call
+// site (the hero) passes neither it nor any other prop beyond the
+// reference's bundle-extracted config; the cn() merge arm was its only
+// consumer in this file. The canvas keeps the static geometry classes
+// byte-for-byte (the S39-10 doctrine: the dead-API genus the repo
+// retires).
 
 export interface IridescenceProps {
   hue?: number;
   power?: number;
   focus?: number;
   distortion?: number;
-  className?: string;
 }
 
 const VERT = `
@@ -118,7 +123,6 @@ export function Iridescence({
   power = 1.5,
   focus = 28,
   distortion = 1.2,
-  className,
 }: IridescenceProps) {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
@@ -263,7 +267,7 @@ export function Iridescence({
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className={cn("h-full w-full", className)}
+      className="h-full w-full"
     />
   );
 }

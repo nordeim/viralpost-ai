@@ -113,8 +113,14 @@ export const LOGIN_RESET_LAYOUT = {
    *  icon + slate-50/50 surface. The placeholder is LIGHTER than the
    *  sign-in fields' (slate-400 vs slate-600 — the reference's own
    *  inconsistency, mirrored; DOM: rgb(148,163,184)). Session-79
-   *  (M-79c1/M-79c4): the stock text-base md:text-sm pair + the SOLID
-   *  slate-400 ring with the 2px offset (live-probed on the reference). */
+   *  (M-79c1/M-79c4): the stock text-base md:text-sm pair, live-probed
+   *  on the reference. Session-40 (S40-8, the comment-truth cure): the
+   *  focus ring is the S25-3 WCAG 1.4.11 superset — the reference's own
+   *  slate-400 ring computes ≈2.57:1 on the white card (under the 3:1
+   *  focus-indicator floor); ours rides slate-600 (≈7.5:1) — the border
+   *  goes slate-400, the ring slate-600 (the signup sibling's docblock
+   *  carried the accurate form; this comment had the reference's
+   *  pre-upgrade spelling). */
   resetInput:
     "h-10 w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-10 pr-3 placeholder:text-slate-400 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2 text-base md:text-sm sm:h-11",
   /** The sent view's heading stack (icon circle + title block). */
@@ -154,8 +160,11 @@ export const LOGIN_RESET_LAYOUT = {
  * view's own.
  */
 export const LOGIN_SIGNUP_LAYOUT = {
-  /** The w-full column that replaces the login column's content. */
-  viewColumn: "w-full",
+  // Session-40 (S40-6): the viewColumn member is RETIRED — the wrapper
+  // at login-card:464 (LOGIN_RESET_LAYOUT.viewColumn) covers ALL FOUR
+  // non-signin views including signup, so the member had zero wired
+  // consumers (dead since the session-21 introduction; only the pin at
+  // login-views.test.ts read it — re-pinned in the same commit).
   /** The space-y-4 stack (NO sm variant — unlike the reset view's sm:space-y-6). */
   viewStack: "space-y-4",
   /** The back button — the reference's computed +8px gap (its negative
@@ -213,12 +222,12 @@ export const LOGIN_SIGNUP_LAYOUT = {
  * reference's center/size overrides.
  */
 export const LOGIN_VERIFY_LAYOUT = {
-  /** The w-full column + stack — the verify view's own stack carries
-   *  the sm:space-y-6 arm (platform-family inheritance, scaffold walks'
-   *  extraction — the view never rendered on this reference; Reasoned,
-   *  re-attributed session 8, F8-6). */
-  viewColumn: "w-full",
-  viewStack: "space-y-4 sm:space-y-6",
+  // Session-40 (S40-6): the viewColumn/viewStack members are RETIRED —
+  // they never had a wired consumer in any commit (the verify view
+  // rides LOGIN_RESET_LAYOUT.viewColumn at login-card:464 and, via the
+  // :473 ternary's else-branch, LOGIN_RESET_LAYOUT.viewStack — whose
+  // value is the identical "space-y-4 sm:space-y-6"; the retired
+  // docblock described vocabulary that was never the one wired).
   /** The back button (left-aligned — the reset view's mb-2 sm:mb-4
    *  twin; the verify back→heading gap computes 16 at >=640 under
    *  sm:space-y-6 — the scaffold walks' measurement of the platform

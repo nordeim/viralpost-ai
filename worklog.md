@@ -4197,3 +4197,133 @@ Agent: main (Z.ai)
 - SHIPPED: the remediated codebase + the docs in lockstep, committed
   to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
   verified; no new branches).
+
+## Task 40 — The Boot-Gate Six-Knob Case Arm + The Reveal Count Truth + The Dead-Surface Retirement + The Comment-Truth Batch (2026-11-13)
+
+Task ID: 40
+Agent: main (Z.ai)
+- SCOPE: the standing instruction re-run against the shipped tree
+  (`220f29f`, session-39's commit; the owner's narration commit
+  `4270673` followed, carrying session_40.md as the round-39
+  narration — replaced by this round's formal log). Docs review
+  (AGENTS/CLAUDE/README/PAD/SKILL v1.35.0, session_39.md, the
+  session-39 plan, worklog Task 39, the owner narration); the
+  baseline gate GREEN at the documented counts (lint 0/0 · tsc 0 ·
+  unit 675/675, 40 files · build with the button-cursor rule in the
+  emitted sheet · smoke 16/16 · e2e 65/65, 9 specs · census MATCH);
+  the standing asks re-verified up front (the `.env`
+  `DATABASE_URL="file:../db/custom.db"` contract with `db/` at the
+  repo root; the vitest + playwright suites in place and current;
+  the sitemap/robots/manifest/OG family; `skills/` excluded from
+  every gate; the committed `.env.example` matching the six-knob
+  contract). The web-application skill + the skills catalog
+  internalized; tdd, clone-app-pat-pro, and the agent-browser
+  doctrine (computed styles as ground truth, never eyeballs)
+  applied throughout; the neo-crm reference repo re-checked for
+  pattern currency (its latest sessions 215-217 are the
+  semantic-prose census disciplines this repo already adopted at
+  session 12 — patterns current, nothing new to adopt).
+- AUDIT: three parallel dispatched subagents (AUDIT-1 API/lib
+  seams, AUDIT-2 components/pages/effects, AUDIT-3
+  SEO/configs/tests/docs — every load-bearing finding
+  hand-verified in source by the lead):
+  **AUDIT-1: 0C/0H/0M/3L/6I · AUDIT-2: 0C/0H/0M/5L/4I · AUDIT-3:
+  0C/0H/0M/2L/3I** — combined **0 Critical / 0 High / 0 Medium /
+  10 Low / 13 Info**. The session-39 diff itself verified correct
+  and complete on all three passes.
+- PARITY WALK: live, both sides, logged into the reference with
+  `sepnetflix2023@outlook.com`, on the session-35..39 instrument
+  lessons (`set viewport` + innerWidth confirms, nav-anchored
+  selectors, computed styles as ground truth). **NO DRIFT — the
+  thirteenth consecutive fully-clean walk.** The mobile menu works
+  as expected (the owner's standing concern): open at a confirmed
+  390×844, the panel anchors enumerated byte-identical both sides —
+  the four nav links (Home /Tool /Pricing /Contact; the active
+  link's teal face, the siblings' slate-300 hover:text-white) + the
+  Gumroad pill ("Upgrade to Pro – $19", the same templixco href);
+  panel mechanics display block + max-height none + overflow
+  hidden; the reference's bg-slate-900/98 still computing
+  rgba(0,0,0,0) (dead in its own build); the hamburger cursor
+  pointer both sides; Escape leaves the reference's panel open (our
+  F11-11 superset, re-confirmed); the desktop nav byte-identical
+  (brand + 4 links + the Upgrade pill); the five-route head census
+  byte-identical modulo origin; sitemap 4 URLs + robots identical
+  modulo origin; the generator probe symmetrically
+  disabled/not-allowed; the login round-trip both landing the
+  landing (R /Home, its duplicate-of-/ route; L / — the documented
+  308 deviation), the clone session verified live via /api/auth/me.
+- CURES (TDD, every pin RED-first or battery-planted): the
+  boot-gate SIX-KNOB CASE ARM (S40-1 — the S39-13 arm matched only
+  the viralpost_/neo_ prefixes, so a case-variant
+  auth_secret/database_url/next_public_site_url key was invisible
+  to every arm; the sharpest face was DATABASE_URL: zero signal in
+  any mode. The arm now covers the whole six-knob contract via
+  SIX_KNOB_NAMES; the `k !== key` guard is the exact-case exclusion
+  on the name-set face; +3 RED-first pins; the strip battery on
+  record — exactly the three pins RED, the exact-case family +
+  S39-13a GREEN through it); the NEO_ MIXED-TAIL UPPERCASE (S40-2 —
+  NEO_Proxy_Hops used to land in the dead-end "no knob maps"
+  branch; +1 RED-first pin + battery); the PAD §4.1 SCHEMA CENSUS
+  (S40-11 — the model face joins the disk family: the census
+  extracts each model's field names from prisma/schema.prisma and
+  demands each appears in PAD §4.1; +1 arm RED-first on the
+  photoUrl omission — the column lived wire-visible on
+  /api/auth/me for the entire repo's life green; the row-removal
+  battery on record with the in-round lesson: the planted defect
+  must remove the substring entirely — the first sed form kept
+  "photoUrl" inside the replacement and the census rightly stayed
+  GREEN); PAD §4.1 gained the photoUrl row; the GENERATOR DASH-RUN
+  GUARD (S40-13 — a `----` token survived keywordsOf as a "keyword"
+  and toHashtag rendered it as a BARE `#` the window helper would
+  not count; the letter-or-digit guard; +1 RED-first pin +
+  battery); the RESEND-SIDE ACCEPTED RACE DOCUMENTED (S40-3 — the
+  undocumented mirror of verify's S39-8; accepted for the S39-8
+  reason: a conditional WHERE would drop a legitimate re-arm); the
+  REVEAL COUNT TRUTH (S40-4 — "all 19" → 17: generator-card ×2,
+  hero ×1, sections ×14, one sections hit a prose mention; the
+  count-truth genus shipped inside the count-truth commit itself,
+  re-spelled at all three sites); the DEAD-SURFACE RETIREMENT
+  (S40-5 — Logo's className, Iridescence's className,
+  PricingSection's children: zero call-site consumers, the S39-10
+  doctrine, DOM byte-identical, the dead cn imports gone; S40-6 —
+  LOGIN_VERIFY_LAYOUT.viewColumn/viewStack (dead in every commit)
+  + LOGIN_SIGNUP_LAYOUT.viewColumn (unwired in src), the
+  login-views pin re-pinned in place, the docblock re-spelled to
+  the wired truth); the COMMENT-TRUTH BATCH (S40-7 route-title's
+  mechanism — NotFoundBody sets no title, the layout's
+  generateMetadata does; S40-8 the focus-ring comments — the
+  reference's slate-400 ring ≈2.57:1, ours rides the slate-600
+  ≈7.5:1 S25-3 superset; S40-14 the OTP logs derive the TTL phrase
+  from VERIFICATION_TTL_MS); the TREES + IMPORT HYGIENE (S40-10
+  README/PAD scripts/ trees name all five scripts; S40-12 signup's
+  Prisma import to the sibling position + node:crypto everywhere).
+- ACCEPTED: the dual 503 code strings (pinned deliberate); the
+  anchor CTAs' UA-default focus (parity — the reference ships the
+  same; WCAG passes via the UA rings); the negative quota text on
+  hand-tampered storage (unreachable through the UI, parity); the
+  footer h4 skip (standing register); the cross-breakpoint
+  history-nav focus edge (focus-on-body is the navigation default);
+  the rate-limit prose hand-maintained across four sites (all nine
+  values verified against the route code this round); the
+  provenance range's designed lag-1 window (cured by this round's
+  standard re-anchor — lag 0 at ship); the standing register
+  carried forward unchanged.
+- The count re-anchor: UNIT 675 → 681 (+3 S40-1a, +1 S40-2a in
+  boot-env; +1 S40-11a in docs-counts; +1 S40-13a in generator),
+  SUITES 40 unchanged, E2E 65 unchanged, SMOKE 16 unchanged, badge
+  740 → 746. Constants re-anchored FIRST; the census walked the doc
+  sites RED→GREEN (PAD §12: generator 457→467, route-title 56→62,
+  auth 193→196, iridescence 269→273; the ten provenance sites +
+  toast's owned tenth re-anchored to 1..40 — lag 0 at ship).
+- Docs lockstep: README (badge 746, the 40/681 rows, the
+  session-40 row, the gate line, the five-script tree line);
+  AGENTS (counts, the plans map's fortieth round); CLAUDE (counts);
+  PAD (§4.1 photoUrl, §3.2 scripts line, §8.1 40/681, §8.3
+  681/65/16, §12 rows); SKILL v1.35.0 → v1.36.0 (frontmatter,
+  §0.5 1..40, Appendix A's session-40 row, Appendix B's header +
+  counts, the pre-ship checklist); worklog Task 40 (this entry);
+  docs/session_40.md (the formal log); the plan's post-execution
+  record.
+- SHIPPED: the remediated codebase + the docs in lockstep, committed
+  to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
+  verified; no new branches).

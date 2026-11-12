@@ -6,9 +6,15 @@
 //
 // with a BARE "ViralPost AI" when the derivation is empty. The reference
 // is an SPA — its shell ships a generic <title> and client JS sets the
-// real one after the router resolves the unknown route; the client-side
-// set in NotFoundBody mirrors that mechanism (the true-404 HTTP status
-// superset is preserved server-side).
+// real one after the router resolves the unknown route. OUR mechanism is
+// server-side: the catch-all segment LAYOUT's generateMetadata derives
+// the title around the not-found boundary (ADR-006 — Next discards a
+// PAGE's metadata when the page calls notFound(), but layouts render
+// around it; the true-404 HTTP status superset rides the same response).
+// NotFoundBody's client-side usePathname mirrors only the MESSAGE
+// interpolation — it sets no title (the stale claim that it did was
+// corrected session-40, S40-7; both files now describe the one
+// mechanism the same way).
 //
 // The word rule is NOT lodash startCase — the reference's live behavior
 // keeps digits inside words (/page2 -> "Page2", /12ft -> "12ft",

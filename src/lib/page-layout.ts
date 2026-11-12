@@ -53,8 +53,12 @@ export const LOGIN_LAYOUT = {
   input:
     "h-11 w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-10 pr-3 placeholder:text-slate-600 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2 text-base md:text-sm sm:h-12",
   // The auth inputs carry the stock text-base md:text-sm pair (16px <768,
-  // 14px at desktop) and focus to a SOLID slate-400 2px ring + a 2px WHITE
-  // offset.
+  // 14px at desktop). Session-40 (S40-8, the comment-truth cure): the
+  // focus ring is the S25-3 WCAG 1.4.11 superset — the reference's own
+  // slate-400 ring computes ≈2.57:1 on the white card (under the 3:1
+  // focus-indicator floor); ours rides slate-600 (≈7.5:1) — the border
+  // goes slate-400, the ring slate-600 (the signup sibling's docblock
+  // carried the accurate form; this comment had the pre-S25-3 spelling).
   submit:
     "flex h-11 w-full items-center justify-center gap-1 rounded-xl bg-slate-900 font-medium text-white shadow-sm transition-all duration-200 hover:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-sm sm:h-12",
   footer: "flex flex-col items-center justify-between gap-2 sm:flex-row sm:gap-0",

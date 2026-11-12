@@ -187,6 +187,12 @@ import {
 // (S39-12) are in-place — +0 tests; the landing-page footer pin
 // re-pins in place (S39-9) — +0 tests) and the e2e 65 unchanged.
 // SMOKE 16 unchanged.
+// s40: 681/40 (+6 the session-40 pins — the three boot-gate six-knob
+// case-variant arms (S40-1a) and the NEO_ mixed-tail mapping arm
+// (S40-2a) in boot-env; the PAD §4.1 schema-field census (S40-11a)
+// in THIS suite; the generator dash-run guard pin (S40-13a) in
+// generator; the login-views signup pin re-pins in place (S40-6) —
+// +0 tests) and the e2e 65 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -194,7 +200,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 675;
+const UNIT = 681;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -612,6 +618,35 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
     const legs = smoke.match(/\bok \d{2} "/g) ?? [];
     expect(legs.length, `smoke legs on disk: ${legs.length} (SMOKE says ${SMOKE}) — re-anchor SMOKE + every doc site above`).toBe(SMOKE);
     expect(smoke, "the ladder's own summary line must carry the constant").toContain(`SMOKE: ${SMOKE}/${SMOKE} PASS`);
+  });
+
+  // Session-40 (S40-11): the PAD §4.1 schema-field census — the model
+  // face joins the disk family. The PAD's mermaid User block omits the
+  // live `photoUrl` column (schema.prisma:23; wire-visible on
+  // /api/auth/me since session 1) for the entire repo's life — the
+  // badge-drift genus on the one count family ("models") that lacked a
+  // census: every other face (tests, env, PAD §12 lines) owns a pin,
+  // so schema drift survived a green gate. The arm extracts each
+  // model's field names from prisma/schema.prisma and demands each
+  // appears in PAD §4.1's mermaid block — the S24-9 one-spanning-pin
+  // form. Planted-defect battery: remove the photoUrl row → this arm
+  // REDs naming the field.
+  it("the PAD §4.1 model blocks carry every live schema field (the schema-face census)", () => {
+    const schema = read("prisma/schema.prisma");
+    const pad = read("Project_Architecture_Document.md");
+    const pad41 = pad.slice(pad.indexOf("### 4.1 Database Schema"), pad.indexOf("### 4.2"));
+    expect(pad41.length, "PAD §4.1 must exist (the slice found it)").toBeGreaterThan(0);
+    for (const model of ["User", "ContactMessage"]) {
+      const block = schema.slice(schema.indexOf(`model ${model} {`), schema.indexOf("}", schema.indexOf(`model ${model} {`)));
+      expect(block.length, `schema.prisma must carry model ${model}`).toBeGreaterThan(0);
+      const fields = [...block.matchAll(/^\s{2}(\w+)\s+\w+/gm)].map((m) => m[1]);
+      // User carries 15 live fields, ContactMessage 5 (the floor guards
+      // the extraction itself — an empty match set can never pass).
+      expect(fields.length).toBeGreaterThanOrEqual(5);
+      for (const field of fields) {
+        expect(pad41, `PAD §4.1's ${model} block omits the live schema field '${field}' — add the row in the same commit as any schema change`).toContain(field);
+      }
+    }
   });
 });
 

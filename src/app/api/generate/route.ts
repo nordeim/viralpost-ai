@@ -1,4 +1,7 @@
-import { randomInt } from "crypto";
+// Session-40 (S40-12): the specifier normalized to the explicit
+// "node:crypto" form (password.ts already used it; the bare-"crypto"
+// spelling was the straggler here and in auth/generator).
+import { randomInt } from "node:crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 

@@ -457,7 +457,12 @@ export function PricingCards() {
   );
 }
 
-export function PricingSection({ children }: { children?: React.ReactNode }) {
+// Session-40 (S40-5): the `children` prop is RETIRED — both call sites
+// (the landing and /Pricing) render <PricingSection /> bare, so the
+// {children ?? <PricingCards />} fallback always won and the prop was
+// unwired extension surface (the dead-API genus the repo retires, the
+// S39-10 doctrine; DOM byte-identical).
+export function PricingSection() {
   return (
     <section id="pricing" className="py-24 px-6 bg-slate-50">
       <div className="max-w-5xl mx-auto">
@@ -470,7 +475,7 @@ export function PricingSection({ children }: { children?: React.ReactNode }) {
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">Simple Pricing</h2>
           <p className="mt-4 text-slate-500">No subscriptions. Pay once, create forever.</p>
         </div>
-        {children ?? <PricingCards />}
+        <PricingCards />
       </div>
     </section>
   );

@@ -7,7 +7,10 @@
 // password reset increments the row's tokenVersion and every previously
 // minted cookie dies at the getSessionUser comparison.
 
-import { createHmac, timingSafeEqual } from "crypto";
+// Session-40 (S40-12): the specifier normalized to the explicit
+// "node:crypto" form (password.ts and forgot-password already used it;
+// auth/generator/generate were the bare-"crypto" stragglers).
+import { createHmac, timingSafeEqual } from "node:crypto";
 // Session-163 (the digma S70-D port): the pure crypto trio lives in
 // src/lib/password.ts (the node:crypto-only seam the seed script can
 // import); this module re-exports it so the routes' existing import

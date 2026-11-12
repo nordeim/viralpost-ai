@@ -1,3 +1,8 @@
+// Session-40 (S40-12): the Prisma import moved to the sibling position
+// (verify/resend place it first behind a blank line; signup was the lone
+// straggler with it last).
+import { Prisma } from "@prisma/client";
+
 import { db } from "@/lib/db";
 import { ok, fail, ERR, isTransientDbFailure, parseBody, TRANSIENT_DB_MESSAGE } from "@/lib/api";
 import { hashPassword } from "@/lib/auth";
@@ -6,7 +11,6 @@ import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
 import { VERIFICATION_TTL_MS } from "@/lib/verification";
 import { hashVerificationCode } from "@/lib/verification-server";
 import { generateVerifyCode } from "@/lib/password";
-import { Prisma } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
@@ -104,7 +108,10 @@ export async function POST(req: Request) {
     // demo posture keeps its log AND its payload together).
     const inAppOtpEnabled = process.env.VIRALPOST_DISABLE_IN_APP_OTP !== "1";
     if (inAppOtpEnabled) {
-      console.info(`[verification] code for ${email}: ${code} (expires in 15 minutes)`);
+      // Session-40 (S40-14): the TTL phrase is DERIVED from the constant
+      // (src/lib/verification.ts) — the literal "15" was hand-coupled;
+      // a future TTL edit would have left the operator-facing log lying.
+      console.info(`[verification] code for ${email}: ${code} (expires in ${VERIFICATION_TTL_MS / 60000} minutes)`);
     }
     return ok({
       id: user.id,

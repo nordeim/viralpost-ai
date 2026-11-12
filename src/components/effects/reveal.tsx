@@ -42,10 +42,12 @@ function hiddenStyle(direction: RevealDirection): React.CSSProperties {
  * past mount).
  *
  * Session-39 (S39-10): the polymorphic `as` prop is RETIRED — zero
- * call sites ever passed it (all 19 render the default div), and the
- * setRef callback-narrowing machinery existed solely for it (the
- * dead-API genus the repo retires; props are census-blind, the
- * F9-10/S30-2 doctrine's softer form).
+ * call sites ever passed it (all 17 render the default div — the count
+ * corrected session-40, S40-4: generator-card ×2, hero ×1, sections
+ * ×14; the count-truth genus, shipped inside the count-truth commit
+ * itself), and the setRef callback-narrowing machinery existed solely
+ * for it (the dead-API genus the repo retires; props are census-blind,
+ * the F9-10/S30-2 doctrine's softer form).
  */
 export function Reveal({
   children,

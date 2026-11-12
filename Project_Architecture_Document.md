@@ -328,7 +328,7 @@ viralpost-ai/
 │   │   └── ui/toast.tsx        ← the subscribe/store toast
 │   └── lib/                    ← THE seams (see §12 Key Files)
 ├── tests/                      ← 40 unit suites + e2e/ (9 specs)
-├── scripts/                    ← smoke-test.sh · census.ts · prisma-env.ts
+├── scripts/                    ← smoke-test.sh · census.ts · prisma-env.ts · e2e-prune.ts · e2e-contact-readback.ts
 ├── docs/                       ← plans/ · reference-investigation.md ·
 │                                  implementation-plan.md · session logs ·
 │                                  screenshots/ · DEPLOYMENT.md · the SSH
@@ -427,6 +427,7 @@ erDiagram
         string name
         string passwordHash "scrypt:salt:hash"
         string avatarColor "#14b8a6"
+        string photoUrl "nullable — the profile photo (seeded; rides /api/auth/me)"
         string role "user | admin"
         string verificationCodeHash "nullable — hashed OTP"
         int verificationAttempts
@@ -563,7 +564,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 40 | 675 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 40 | 681 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 65 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -581,7 +582,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 675/65/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 681/65/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -694,11 +695,11 @@ commit as the file.)
 
 | File | Lines | Purpose |
 |------|-------|---------|
-| `src/lib/generator.ts` | 457 | The deterministic viral-formula engine + the reference's exact prompt |
+| `src/lib/generator.ts` | 467 | The deterministic viral-formula engine + the reference's exact prompt |
 | `src/lib/generation-counter.ts` | 110 | The 3/day quota: pure functions + the store adapter |
-| `src/lib/route-title.ts` | 56 | The unknown-route title derivation (ADR-006) |
+| `src/lib/route-title.ts` | 62 | The unknown-route title derivation (ADR-006) |
 | `src/lib/from-url.ts` | 37 | The from_url open-redirect guard (session-13, S13-4; the leading-// arm, session-14, S14-1) |
-| `src/lib/auth.ts` | 193 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
+| `src/lib/auth.ts` | 196 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
 | `src/lib/password.ts` | 69 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 135 | Fixed-window limiter, proxy-hop-aware client key |
 | `src/lib/db-path.ts` | 335 | THE database path resolver (ADR-008) |
@@ -707,7 +708,7 @@ commit as the file.)
 | `src/app/globals.css` | 253 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1) |
 | `src/components/marketing/navbar.tsx` | 260 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 271 | The core surface: quota dots, generate, copy, paywall |
-| `src/components/effects/iridescence.tsx` | 269 | The WebGL hero background (aspect-aware shader) |
+| `src/components/effects/iridescence.tsx` | 273 | The WebGL hero background (aspect-aware shader) |
 | `src/components/effects/particle-text.tsx` | 333 | The canvas particle title |
 | `src/components/effects/floating-icons.tsx` | 122 | The monetization section's ten-icon float field (session-19, S19-2) |
 | `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |

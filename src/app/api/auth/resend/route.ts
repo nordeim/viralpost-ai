@@ -76,6 +76,18 @@ export async function POST(req: Request) {
     }
 
     const code = generateVerifyCode();
+    // Session-40 (S40-3): the ACCEPTED RACE on this side — the
+    // undocumented mirror of verify's S39-8 (session-39): if a
+    // concurrent verify's success-clear commits between the
+    // findUnique above and this unconditional update, the resend
+    // re-writes a fresh verificationCodeHash onto a row that no longer
+    // owes verification (the account flips back to
+    // unverifiedAccount() once the surviving session's 7-day TTL
+    // lapses; self-recoverable through the standard funnel, and the
+    // response carried the fresh code in-app). Accepted for the same
+    // reason S39-8 accepted the verify side: a conditional WHERE here
+    // would drop a legitimate re-arm for an account whose code was
+    // valid at read time — the same user did everything right.
     await db.user.update({
       where: { id: user.id },
       data: {
@@ -92,7 +104,10 @@ export async function POST(req: Request) {
     // mail-transport deployment must not write OTPs to stdout.
     const inAppOtpEnabled = process.env.VIRALPOST_DISABLE_IN_APP_OTP !== "1";
     if (inAppOtpEnabled) {
-      console.info(`[verification] code for ${email}: ${code} (expires in 15 minutes)`);
+      // Session-40 (S40-14): the TTL phrase is DERIVED from the constant
+      // (src/lib/verification.ts) — the literal "15" was hand-coupled;
+      // a future TTL edit would have left the operator-facing log lying.
+      console.info(`[verification] code for ${email}: ${code} (expires in ${VERIFICATION_TTL_MS / 60000} minutes)`);
     }
     return ok({
       resent: true,

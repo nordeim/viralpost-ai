@@ -121,11 +121,14 @@ route; L `/` — the documented 308 deviation).
 - **S39-10 (INFO→cure, AUDIT-2 A3)** — the dead component-API
   retirement: Reveal's `as` prop (+ the setRef callback-narrowing
   machinery written solely for it) and ParticleText's
-  `waitDuration`/`tag` props had zero call-site consumers (all 19
-  Reveal sites render the default div; the hero passes neither
-  particle prop). Retired; ParticleText binds `waitDuration` from
-  `PHASE_SECONDS.wait` internally so the effects-motion reduced-
-  cadence pins read unchanged, and the h1 is hardcoded (the a11y
+  `waitDuration`/`tag` props had zero call-site consumers (all 17
+  Reveal sites render the default div — the count corrected
+  session-40, S40-4 (the session-39 records said 19: generator-card
+  ×2, hero ×1, sections ×14, one sections hit a prose mention); the
+  hero passes neither particle prop). Retired; ParticleText binds
+  `waitDuration` from `PHASE_SECONDS.wait` internally so the
+  effects-motion reduced-cadence pins read unchanged, and the h1 is
+  hardcoded (the a11y
   contract). Props are census-blind — the F9-10/S30-2 dead-surface
   genus's softer form, retired per the house doctrine.
 - **S39-11 (INFO→cure, AUDIT-3 A2)** — the S38-1a pin's wedge-proof

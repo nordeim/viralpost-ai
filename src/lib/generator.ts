@@ -22,7 +22,10 @@
 // bank (hooks / body templates / hashtag pools). Unknown niches fall back
 // to the evergreen bank; the idea's own keywords always join the hashtags.
 
-import { createHash } from "crypto";
+// Session-40 (S40-12): the specifier normalized to the explicit
+// "node:crypto" form (password.ts already used it; the bare-"crypto"
+// spelling was the straggler here and in auth/generate).
+import { createHash } from "node:crypto";
 
 // Session-25 (S25-14): FREE_LIMIT moved to src/lib/generation-counter.ts
 // (the client-safe quota module) — this module imports node crypto
@@ -334,7 +337,14 @@ function keywordsOf(idea: string): string[] {
         .toLowerCase()
         .replace(/[^a-z0-9\s-]/g, " ")
         .split(/\s+/)
-        .filter((w) => w.length >= 3 && !STOPWORDS.has(w)),
+        // Session-40 (S40-13): the letter-or-digit guard — a dash-run
+        // token (`----`) survived this filter as a "keyword" (the char
+        // class keeps `-`), and toHashtag's split/filter/join chain
+        // rendered it as a BARE `#` on the hashtag line (extractHashtags
+        // would not count it, so the window helper and hashtagCount
+        // disagreed on a pathological idea). A keyword must carry at
+        // least one alphanumeric character.
+        .filter((w) => w.length >= 3 && !STOPWORDS.has(w) && /[a-z0-9]/.test(w)),
     ),
   ).slice(0, 6);
 }

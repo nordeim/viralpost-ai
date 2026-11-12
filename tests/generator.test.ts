@@ -168,6 +168,23 @@ describe("generator: input hygiene", () => {
     expect(() => sanitizeIdea("   ")).toThrow(/describe/i);
     expect(() => sanitizeIdea("x".repeat(501))).toThrow(/shorter/i);
   });
+
+  // Session-40 (S40-13): a dash-run token (`love ---- today`) used to
+  // survive keywordsOf as a "keyword" (the char class keeps `-`) and
+  // render a bare `#` hashtag — toHashtag's split/filter/join chain
+  // yields "" for an all-dash token, so the final line carried a lone
+  // `#` that extractHashtags would not count (the window helper and
+  // hashtagCount disagreed on a pathological idea). The guard: a
+  // keyword token must contain a letter or digit.
+  it("S40-13: a dash-run idea token never renders a bare # hashtag", () => {
+    const post = generatePost("love ---- today", 42);
+    // no lone `#` anywhere in the text (line-start, space-adjacent, or line-end)
+    expect(post.text).not.toMatch(/(^|\s)#(\s|$)/m);
+    // and the hashtag window still satisfies the 5-8 contract
+    const tags = extractHashtags(post.text);
+    expect(tags.length).toBeGreaterThanOrEqual(5);
+    expect(tags.length).toBeLessThanOrEqual(8);
+  });
 });
 
 describe("generator: constants", () => {

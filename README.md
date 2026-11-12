@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-740%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-746%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,7 +52,7 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 40 files / 675 tests, node env, pure seams |
+| Unit tests | Vitest | 5.0 | 40 files / 681 tests, node env, pure seams |
 | E2E | Playwright | 1.64 | 9 specs / 65 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
@@ -97,7 +97,7 @@ flowchart TB
 │   └── 📂 lib/                the pure seams (generator, counter, auth,
 │                              rate-limit, db-path, site, route-title, …)
 ├── 📂 tests/                  40 unit suites + 📂 e2e/ (9 Playwright specs)
-├── 📂 scripts/                smoke-test.sh, census, prisma-env
+├── 📂 scripts/                smoke-test.sh, census, prisma-env, e2e-prune, e2e-contact-readback
 ├── 📂 docs/                   plans, reference investigation, screenshots
 ├── 📂 skills/                 the owner's skill catalog (not app code)
 └── 📄 AGENTS.md · CLAUDE.md · worklog.md · Project_Architecture_Document.md
@@ -141,7 +141,7 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (40 files / 675 tests)
+bun run test            # Vitest unit suite (40 files / 681 tests)
 bun run test:e2e        # Playwright e2e (9 specs / 65 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 16-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
@@ -292,7 +292,10 @@ smoke 15/15 · e2e 65/65.
 | Session 39 — the mobile-menu count truth + the typed-envelope alignment + the boot-gate case arm + the comment-truth batch | ✅ done | The audit round at 0 Critical / 0 High / 0 Medium / 5 Low / 9 Info (three parallel subagents — API/lib seams, components/pages/effects, SEO/configs/tests/docs — every load-bearing finding hand-verified in source by the lead; the session-38 diff itself verified correct and complete on all three passes; every finding cured — S39-1..S39-13); THE PARITY WALK found NO DRIFT — the twelfth consecutive fully-clean walk, which LIVE-SETTLED the round's headline count question: the reference's open mobile panel carries exactly five anchors — the four nav links (Home /Tool /Pricing /Contact) + the Gumroad pill — byte-identical to ours (classes, hrefs, texts, cursor pointer); the sessions-31..38 records' "five links + the Gumroad pill" double-counted the pill and is re-spelled at twenty sites (S39-1); the typed-envelope alignment (S39-5 — the six untyped client res.json() sites gain the generator-card cast idiom, +1 genus census pin in the new client-envelope suite, RED-first + the stripped-cast battery); the boot-gate case arm (S39-13 — a case-variant viralpost_*/neo_* key warns and maps the canonical spelling, +2 RED-first pins + the arm-removal battery; the arm's first draft warned on every healthy knob and the 33-failure RED caught it in-round); the footer's one-liner wired to BRAND.tagline (S39-9, the single-source cure + the re-pinned footer assertion + battery); the dead-prop retirement (S39-10 — Reveal's as/setRef + ParticleText's waitDuration/tag, zero consumers); the S38-1a wedge-proof slice bound (S39-11, the old bound false-greens on a planted decoy, battery on record); the one-shot-script enumeration completed (S39-3); the comment-truth batch (S39-2 logout, S39-4 reveal count, S39-8 the verify accepted race) + the idiom alignment (S39-6/7); unit 675/40 (+3) + e2e 65/9, badge 740; captures 85/86 |
 
 
-Gate at the session-39 ship: lint 0/0 · tsc 0 · unit 675/675 · build ·
+| Session 40 — the boot-gate six-knob case arm + the reveal count truth + the dead-surface retirement + the comment-truth batch | ✅ done | The audit round at 0 Critical / 0 High / 0 Medium / 10 Low / 13 Info (three parallel subagents — API/lib seams, components/pages/effects, SEO/configs/tests/docs — every load-bearing finding hand-verified in source by the lead; the session-39 diff itself verified correct and complete on all three passes; every finding cured — S40-1..S40-14); THE PARITY WALK found NO DRIFT — the thirteenth consecutive fully-clean walk: the mobile menu open at a confirmed 390×844 with the panel anchors enumerated byte-identical both sides (the four nav links + the Gumroad pill), the desktop nav, the five-route head census, sitemap 4/4 + robots identical modulo origin, the generator probe symmetrically disabled/not-allowed, the login round-trip both landing the landing; the boot-gate six-knob case arm (S40-1 — a case-variant auth_secret/database_url/next_public_site_url key now warns and maps the canonical, +3 RED-first pins + the strip battery; the sharpest face was DATABASE_URL: zero signal in any mode) + the NEO_ mixed-tail uppercase (S40-2, +1 RED-first pin + battery); the PAD §4.1 schema census (S40-11 — the model face joins the disk family, +1 arm RED-first on the photoUrl omission + the row-removal battery; PAD §4.1 gained photoUrl after the entire repo's life green); the generator dash-run guard (S40-13 — a `----` token used to render a bare `#`, +1 RED-first pin + battery); the resend-side accepted race documented (S40-3, the S39-8 mirror); the reveal count truth (S40-4 — "all 19" → 17, the count-truth genus shipped inside the count-truth commit itself); the dead-surface retirement (S40-5 Logo/Iridescence/PricingSection props, S40-6 the login-reset vocabulary members + the re-pinned login-views pin); the comment-truth batch (S40-7 route-title mechanism, S40-8 the focus-ring superset form, S40-14 the TTL-derived OTP logs); the trees + import hygiene (S40-10 the five-script lines, S40-12 the Prisma import position + node:crypto everywhere); unit 681/40 (+6) + e2e 65/9, badge 746; captures 87/88 |
+
+
+Gate at the session-40 ship: lint 0/0 · tsc 0 · unit 681/681 · build ·
 smoke 16/16 · e2e 65/65.
 
 ## License

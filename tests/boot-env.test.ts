@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..39.
+// are docs/session_1..40.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -249,6 +249,55 @@ describe("session-170 (WP-3) + session-3 (F3-1): the flag-typo guard (the scandi
     expect(report.warnings).toHaveLength(1);
     expect(report.warnings[0]).toContain("neo_proxy_hops");
     expect(report.warnings[0]).toContain("VIRALPOST_PROXY_HOPS");
+  });
+
+  // Session-40 (S40-1): the case-variant arm now covers the WHOLE
+  // six-knob contract — the S39-13 arm matched only the viralpost_/
+  // neo_ prefixes, so a case-variant spelling of AUTH_SECRET /
+  // NEXT_PUBLIC_SITE_URL / DATABASE_URL was invisible to every arm
+  // (the DATABASE_URL face was the sharpest: zero signal in any mode
+  // — runtimeDatabaseUrl() silently falls to the .env value while the
+  // operator believes they configured the environment's knob). The
+  // realistic shape is the lowercase spelling ADDED alongside the
+  // healthy canonical knobs (the builder's base), so exactly ONE
+  // warning fires per pin.
+  it("S40-1: a case-variant AUTH_SECRET warns and maps the canonical spelling", () => {
+    const report = bootEnvCheck(env({ auth_secret: "b".repeat(32) }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("auth_secret");
+    expect(report.warnings[0]).toContain("AUTH_SECRET");
+    expect(report.warnings[0]).toContain("case-sensitive");
+    expect(report.warnings[0]).toContain("Set AUTH_SECRET instead");
+  });
+
+  it("S40-1: a case-variant NEXT_PUBLIC_SITE_URL warns and maps the canonical spelling", () => {
+    const report = bootEnvCheck(env({ next_public_site_url: "https://viralpost.example.com" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("next_public_site_url");
+    expect(report.warnings[0]).toContain("NEXT_PUBLIC_SITE_URL");
+    expect(report.warnings[0]).toContain("Set NEXT_PUBLIC_SITE_URL instead");
+  });
+
+  it("S40-1: a case-variant DATABASE_URL warns and maps the canonical spelling", () => {
+    const report = bootEnvCheck(env({ database_url: "file:../db/other.db" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("database_url");
+    expect(report.warnings[0]).toContain("DATABASE_URL");
+    expect(report.warnings[0]).toContain("Set DATABASE_URL instead");
+  });
+
+  // Session-40 (S40-2): the NEO_ branch's canonical mapping now
+  // uppercases the tail — an exact-NEO_-prefix mixed-tail key
+  // (NEO_Proxy_Hops) previously failed KNOWN_VIRALPOST_VARS.has(mapped)
+  // and landed in the dead-end "no knob maps" branch instead of the
+  // actionable mapping (the S39-13 arm's uppercase, one spelling away).
+  it("S40-2: an exact-prefix mixed-tail NEO_ key maps the canonical spelling (not the dead-end branch)", () => {
+    const report = bootEnvCheck(env({ NEO_Proxy_Hops: "2" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("NEO_Proxy_Hops");
+    expect(report.warnings[0]).toContain("VIRALPOST_PROXY_HOPS");
+    expect(report.warnings[0]).toContain("Set VIRALPOST_PROXY_HOPS instead");
+    expect(report.warnings[0]).not.toContain("no knob maps");
   });
 });
 

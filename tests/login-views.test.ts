@@ -194,9 +194,13 @@ describe("session-21: the signup view vocabulary (S21-P4)", () => {
     expect(L.backIcon).toBe(LOGIN_RESET_LAYOUT.backIcon);
   });
 
-  it("the stack is space-y-4 (no sm variant) inside the w-full column", async () => {
+  // Session-40 (S40-6): the viewColumn assertion is RETIRED with the
+  // member — the wrapper at login-card:464 (LOGIN_RESET_LAYOUT.viewColumn)
+  // covers the signup view too, so the member was unwired extension
+  // surface; the pin now owns the stack alone (the column is the reset
+  // family's, pinned in its own suite).
+  it("the stack is space-y-4 (no sm variant)", async () => {
     const L = await signupLayout();
-    expect(L.viewColumn).toBe("w-full");
     expect(L.viewStack).toBe("space-y-4");
   });
 

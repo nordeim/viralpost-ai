@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-
 // The brand mark — the reference's 32px rounded-square teal gradient tile
 // with a white sparkles glyph + the teal→amber gradient wordmark. The
 // glyph is the lucide Sparkles icon (the reference's own choice), so the
@@ -11,10 +9,15 @@ import { cn } from "@/lib/utils";
 // Session-12 (F12-13): the mark is a next/link (soft navigation) — the
 // raw <a href="/Home"> shipped by the clone did a full document load
 // plus the 308 hop; every other internal CTA converted at session 10.
+// Session-40 (S40-5): the `className` prop is RETIRED — zero call sites
+// ever passed it (navbar and footer both render <Logo /> bare), the
+// dead-API genus the repo retires (the S39-10 doctrine). The class list
+// is the reference's byte-for-byte; the cn() merge arm went with the
+// prop (cn had no other consumer in this file).
 
-export function Logo({ className }: { className?: string }) {
+export function Logo() {
   return (
-    <Link className={cn("flex items-center gap-2 group", className)} href="/Home" aria-label="ViralPost AI — Home">
+    <Link className="flex items-center gap-2 group" href="/Home" aria-label="ViralPost AI — Home">
       <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center shadow-lg shadow-teal-500/30 group-hover:shadow-teal-400/50 transition-shadow">
         <Sparkles className="h-4 w-4 text-white" aria-hidden="true" />
       </div>

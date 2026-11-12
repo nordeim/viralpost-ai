@@ -32,6 +32,26 @@ export const KNOWN_VIRALPOST_VARS: ReadonlySet<string> = new Set([
   "VIRALPOST_DISABLE_IN_APP_RESET",
 ]);
 
+/**
+ * Session-40 (S40-1): the full six-knob contract's canonical names — the
+ * case-variant scan's name set. The S39-13 arm matched only the
+ * viralpost_/neo_ prefixes, so a case-variant spelling of the other
+ * three knobs (auth_secret / database_url / next_public_site_url) was
+ * invisible to every arm: the prefix scans never see them and the
+ * exact-case readers read only the canonical spelling. The DATABASE_URL
+ * face was the sharpest — zero signal in any mode: the seam silently
+ * falls to the .env value while the operator believes they configured
+ * the environment's knob. Consumed ONLY by the warn-only case-variant
+ * arm below; the readers stay exact-case (a case-variant key never
+ * reaches them — that is the gap the warning names).
+ */
+const SIX_KNOB_NAMES: readonly string[] = [
+  "AUTH_SECRET",
+  "DATABASE_URL",
+  "NEXT_PUBLIC_SITE_URL",
+  ...KNOWN_VIRALPOST_VARS,
+];
+
 /** The values the VIRALPOST_DISABLE_* kill-switches actually read ("1" = disable). */
 const DISABLE_KNOB_VALUES = new Set(["", "1"]);
 
@@ -151,6 +171,11 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
   // no [boot] warning (the S13-1 polarity genus, one spelling away).
   // Warn-only, after the exact-case branches, mapping the canonical
   // ALL-CAPS spelling.
+  // Session-40 (S40-1): the arm now covers the WHOLE six-knob contract,
+  // not just the two prefixes — a case-variant
+  // AUTH_SECRET/NEXT_PUBLIC_SITE_URL/DATABASE_URL was invisible to every
+  // arm before (see SIX_KNOB_NAMES above for the sharp faces); the
+  // NEO_ branch's mapped tail is uppercased the same way (S40-2).
   for (const key of Object.keys(env)) {
     if (key.startsWith("VIRALPOST_") && !KNOWN_VIRALPOST_VARS.has(key)) {
       warnings.push(
@@ -159,7 +184,13 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
         )}. A typo here silently no-ops (the closed set is read verbatim).`,
       );
     } else if (key.startsWith("NEO_")) {
-      const mapped = `VIRALPOST_${key.slice(4)}`;
+      // Session-40 (S40-2): the tail is UPPERCASED like the case arm's
+      // canonical — an exact-NEO_-prefix mixed-tail key (NEO_Proxy_Hops)
+      // used to fail KNOWN_VIRALPOST_VARS.has(mapped) and land in the
+      // dead-end "no knob maps" branch instead of the actionable
+      // mapping (the S39-13 arm solved the identical problem for the
+      // lowercase-lead shape; this closes the mixed-tail shape).
+      const mapped = `VIRALPOST_${key.slice(4).toUpperCase()}`;
       warnings.push(
         KNOWN_VIRALPOST_VARS.has(mapped)
           ? `[boot] Legacy NEO_* environment variable ${key} — the knob names were renamed NEO_* → VIRALPOST_* (session 2); the code reads the VIRALPOST_* spelling, so ${key} is inert here. Set ${mapped} instead.`
@@ -170,18 +201,31 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
     } else if (
       !key.startsWith("VIRALPOST_") &&
       !key.startsWith("NEO_") &&
-      (/^viralpost_/i.test(key) || /^neo_/i.test(key))
+      // Session-40 (S40-1): the six-knob family joins the case-variant
+      // scan (see SIX_KNOB_NAMES above) — the S39-13 arm matched only
+      // the viralpost_/neo_ prefixes, so a case-variant
+      // AUTH_SECRET/NEXT_PUBLIC_SITE_URL/DATABASE_URL spelling was
+      // invisible to every arm (the prefix tests never see them; the
+      // exact-case readers read only the canonical spelling).
+      (/^viralpost_/i.test(key) ||
+        /^neo_/i.test(key) ||
+        SIX_KNOB_NAMES.some((k) => k !== key && k.toLowerCase() === key.toLowerCase()))
     ) {
       // (The exact-prefix exclusions are load-bearing: a KNOWN
       // exact-case key reaches this else too — without them the
       // case-insensitive test would warn on every healthy knob. The
       // 33-failure RED the S39-13a pins produced on the arm's first
-      // draft is the in-round proof.)
+      // draft is the in-round proof. The `k !== key` guard in the
+      // six-knob matcher is the same exclusion on the name-set face:
+      // an exact-case DATABASE_URL/AUTH_SECRET never warns here.)
       const canonical = /^neo_/i.test(key)
         ? `VIRALPOST_${key.slice(4).toUpperCase()}`
-        : key.toUpperCase();
+        : /^viralpost_/i.test(key)
+          ? key.toUpperCase()
+          : (SIX_KNOB_NAMES.find((k) => k !== key && k.toLowerCase() === key.toLowerCase()) ??
+            key.toUpperCase());
       warnings.push(
-        KNOWN_VIRALPOST_VARS.has(canonical)
+        KNOWN_VIRALPOST_VARS.has(canonical) || SIX_KNOB_NAMES.includes(canonical)
           ? `[boot] Case-variant environment variable ${key} — env keys are case-sensitive, so this key is inert here. The code reads the exact spelling ${canonical}. Set ${canonical} instead.`
           : `[boot] Case-variant environment variable ${key} — env keys are case-sensitive, and no knob maps to ${canonical}. The known knobs are: ${[
               ...KNOWN_VIRALPOST_VARS,
