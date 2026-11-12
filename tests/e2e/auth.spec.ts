@@ -30,7 +30,7 @@ test("rejects wrong credentials with the visible banner", async ({ page }) => {
 test("forgot password swaps the card to the reset view and back", async ({ page }) => {
   await page.goto("/login");
   await page.getByRole("button", { name: "Forgot password?" }).click();
-  await expect(page.getByRole("heading", { name: "Reset your password" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Reset your password", level: 2 })).toBeVisible();
   await expect(
     page.getByText("Enter your email and we'll send you a link to reset your password"),
   ).toBeVisible();
@@ -50,7 +50,7 @@ test("send reset link swaps to the check-your-email view", async ({ page }) => {
   await page.getByRole("button", { name: "Forgot password?" }).click();
   await page.getByLabel("Email").fill("demo@example.com");
   await page.getByRole("button", { name: "Send reset link" }).click();
-  await expect(page.getByRole("heading", { name: "Check your email" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Check your email", level: 2 })).toBeVisible();
   await expect(page.getByText("demo@example.com")).toBeVisible();
 });
 
@@ -146,7 +146,7 @@ test("the return-visitor verification funnel closes end-to-end", async ({ page }
   await page.getByLabel("Password", { exact: true }).fill("Password123!");
   await page.getByLabel("Confirm Password").fill("Password123!");
   await page.getByRole("button", { name: "Create account" }).click();
-  await expect(page.getByRole("heading", { name: "Verify your email" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Verify your email", level: 2 })).toBeVisible();
 
   // 2. The return visitor: reload to a fresh signin card, attempt login.
   await page.goto("/login");
@@ -157,7 +157,7 @@ test("the return-visitor verification funnel closes end-to-end", async ({ page }
   // 3. The 403 re-enters the funnel — the verify view, not the banner
   //    dead-end (the pre-cure card stayed on signin with only the
   //    refusal banner and no path back).
-  await expect(page.getByRole("heading", { name: "Verify your email" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Verify your email", level: 2 })).toBeVisible();
   await expect(page.getByText(email).first()).toBeVisible();
 
   // 4. Resend — the fresh code rides the response (the demo-workflow

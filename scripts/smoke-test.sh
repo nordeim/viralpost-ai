@@ -248,11 +248,16 @@ hygiene_fail=""
 # Session-23 (S23-18): server.log joins dev.log — the start script's tee
 # creates it at the repo root; a stale one belongs to the F-170a nft-baggage
 # class and must fail the same hygiene leg.
-for entry in .env .git db skills docs uploads worklog.md test-results dev.log server.log; do
+# Session-34 (S34-7): the enumeration now MIRRORS next.config.ts's
+# outputFileTracingExcludes root files (plus uploads, the pre-existing
+# tripwire) — the excludes list and this leg are the same F-170a nft
+# repo-root-drag tripwire in two places; a hazard shape that ships any
+# of these fails the leg even when the tracer itself never dragged it.
+for entry in .env .env.example .git db skills docs uploads worklog.md test-results dev.log server.log AGENTS.md CLAUDE.md README.md Project_Architecture_Document.md viralpost-ai_SKILL.md neo-crm_SKILL.md next.config.ts LICENSE bun.lock package-lock.json eslint.config.mjs playwright.config.ts postcss.config.mjs tsconfig.json tsconfig.tsbuildinfo vitest.config.mts scripts tests; do
   [ -e ".next/standalone/$entry" ] && hygiene_fail="$hygiene_fail $entry"
 done
 [ -z "$hygiene_fail" ] \
-  && ok 16 "the artifact carries no .env/.git/db/skills/docs/uploads/logs" \
+  && ok 16 "the artifact carries no repo-root drag (the excludes mirror: .env/.git/db/skills/docs/uploads/logs/configs/docs)" \
   || { fail 16 "the artifact ships:$hygiene_fail"; exit 1; }
 
 echo "SMOKE: 16/16 PASS"

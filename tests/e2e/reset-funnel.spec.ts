@@ -31,7 +31,7 @@ test("the password-reset funnel closes end-to-end (signup → verify → forgot 
   await page.getByLabel("Password", { exact: true }).fill(oldPassword);
   await page.getByLabel("Confirm Password").fill(oldPassword);
   await page.getByRole("button", { name: "Create account" }).click();
-  await expect(page.getByRole("heading", { name: "Verify your email" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Verify your email", level: 2 })).toBeVisible();
 
   // 2. Verify through the in-app hint (the account must be verified or
   //    the post-reset login would hit the F11-4 gate).

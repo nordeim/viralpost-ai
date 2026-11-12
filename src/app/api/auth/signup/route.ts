@@ -28,11 +28,11 @@ function nameFromEmail(email: string): string {
 
 export async function POST(req: Request) {
   const limit = rateLimit(`signup:${clientKey(req)}`, 10, 15 * 60 * 1000);
-  // Session-38 (S38-P6): the opportunistic bucket sweep — the audit
+  // Session-38 (S38-P6 — donor-ledger numbers, the NEO-CRM family): the opportunistic bucket sweep — the audit
   // found it ran ONLY from login, so the signup/verify/resend buckets
   // were cleaned only when someone next logged in (bounded, but
   // dishonest).
-  // Session-39 (S39-P7): login's EXACT placement — before the denied
+  // Session-39 (S39-P7 — donor-ledger numbers, the NEO-CRM family): login's EXACT placement — before the denied
   // return, so denied requests sweep too (the s38 placement was after
   // the return, and the code finally matches its own "mirrored"
   // comment).
@@ -53,7 +53,7 @@ export async function POST(req: Request) {
   const name = (parsed.data.name ?? nameFromEmail(parsed.data.email)).slice(0, 80);
   const { email, password } = parsed.data;
 
-  // Session-37 (S37-P1): the auth family joins the envelope — the
+  // Session-37 (S37-P1 — donor-ledger numbers, the NEO-CRM family): the auth family joins the envelope — the
   // findUnique/count/create failures (SQLITE_BUSY-class) stay inside
   // { ok, error } instead of a raw non-JSON 500. The validation prefixes
   // above touch no DB and stay outside.

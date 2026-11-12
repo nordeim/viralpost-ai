@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   if (!parsed.ok) return parsed.response;
   const { email, password } = parsed.data;
 
-  // Session-40 (S40-P5): the read + verification + cookie-set tail
+  // Session-40 (S40-P5 — donor-ledger numbers, the NEO-CRM family): the read + verification + cookie-set tail
   // joins the envelope — this was the ONLY auth-route DB read left
   // unwrapped (a SQLITE_BUSY-class failure answered a raw non-JSON
   // 500; signup/verify/resend wrapped theirs in s37). The returns

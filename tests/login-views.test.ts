@@ -217,6 +217,27 @@ describe("session-21: the signup view vocabulary (S21-P4)", () => {
     expect(loginCardSrc()).toContain('<h1 className="sr-only">Sign up</h1>');
   });
 
+  // Session-34 (S34-6): the S33-5 genus generalized to the /login swap
+  // views — swapping to reset/sent/verify unmounts the signin column
+  // (its h1 with it), leaving the document with ZERO h1 mid-funnel.
+  // The sr-only h1 is the house's INVISIBLE superset form (zero visual
+  // change, zero rendered-DOM drift — the hamburger-aria and S25-16
+  // focus-return precedents), so the reference's own visible DOM is
+  // untouched; each h1 mirrors its visible h2 (the outline-continuity
+  // pattern). Mutation battery (per view): remove one h1 → exactly its
+  // pin REDs.
+  it("the reset view carries an sr-only h1 (S34-6 — the swap-view outline, the S33-5 genus generalized)", () => {
+    expect(loginCardSrc()).toContain('<h1 className="sr-only">Reset your password</h1>');
+  });
+
+  it("the sent view carries an sr-only h1 (S34-6 — the swap-view outline, the S33-5 genus generalized)", () => {
+    expect(loginCardSrc()).toContain('<h1 className="sr-only">Check your email</h1>');
+  });
+
+  it("the verify view carries an sr-only h1 (S34-6 — the swap-view outline, the S33-5 genus generalized)", () => {
+    expect(loginCardSrc()).toContain('<h1 className="sr-only">Verify your email</h1>');
+  });
+
   it("the form is the tighter space-y-3 sm:space-y-4 with a space-y-3 fields group", async () => {
     const L = await signupLayout();
     expect(L.form).toBe("space-y-3 sm:space-y-4");

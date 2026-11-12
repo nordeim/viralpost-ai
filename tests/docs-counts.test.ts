@@ -1,5 +1,5 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, sep } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -148,6 +148,13 @@ import {
 // (S33-5), and the dead-token comment census (S33-1)) and the e2e 65
 // unchanged (no e2e legs this round). SMOKE 16 unchanged (the S33-6
 // trap extension is in-place).
+// s34: 660/38 (+5 the session-34 pins — the swap-view sr-only h1 trio
+// (S34-6), the provenance-range census pair (S34-5: the ledger
+// contiguity + the lag invariant); the S34-3 census widening (the
+// fifth banned token) folds into the existing dead-token it in place,
+// and the S34-2 e2e read-back extends the existing contact test in
+// place — the S18-2 precedent) and the e2e 65 unchanged. SMOKE 16
+// unchanged (the S34-7 leg-16 extension is in-place).
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -155,7 +162,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 655;
+const UNIT = 660;
 /** Vitest suite files. */
 const SUITES = 38;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -613,5 +620,93 @@ describe("docs-counts: session-12 — the semantic-prose census starter (N12-1)"
   // the live-tense §7 may not name it as present architecture.
   it("the SKILL carries no live-tense PT-section reference (S20-13)", () => {
     expect(read("viralpost-ai_SKILL.md")).not.toContain("PT pay-what-you-want");
+  });
+});
+
+// Session-34 (S34-5): the provenance-range census — the badge-drift
+// genus's LAST hand-maintained count family made mechanical. The eight
+// live-tense sites describe this repo's own session ledger as
+// `docs/session_1..<bound>`; the on-disk ledger under docs/ is the
+// truth. The lag invariant: bound ∈ {diskMax, diskMax − 1} — lag 0 at
+// ship (every round re-anchors per the S30-4 convention), lag 1 inside
+// the owner's narration window (the owner's post-ship commit adds
+// session_<N+1>.md before the next round re-anchors — the designed
+// transient every baseline rides through GREEN). Lag ≥ 2 means a round
+// forgot to re-anchor (the real hazard — the S30-4 finding was a
+// SEVEN-session lag); a leading bound claims a session that doesn't
+// exist. The census keys on the `docs/`-prefixed file-glob form — the
+// live-tense shape every site uses; historical prose (Appendix A rows,
+// the S30-4 narrative's bare `session_1..21`) carries no docs/ prefix
+// and stays out by construction. The docs/ tree itself (plans + session
+// logs) is the immutable history-record layer — never censused.
+// Battery: one site planted at diskMax − 2 → RED; a site planted at
+// diskMax + 1 → RED; restored → GREEN.
+describe("docs-counts: session-34 (S34-5) — the provenance-range census (the lag invariant)", () => {
+  const RANGE_RE = /docs\/session_1\.\.(\d+)/g;
+  // The live-tense site files (src/ + tests/ + the root contract docs).
+  // A NINTH site in any of these roots is owned automatically; a site
+  // in a NEW root would need the root added here (the census's own
+  // comment is the contract).
+  const SITE_ROOTS = [
+    join(root, "src"),
+    join(root, "tests"),
+  ];
+  const SITE_FILES = [
+    ".env.example",
+    "viralpost-ai_SKILL.md",
+    "README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "Project_Architecture_Document.md",
+  ];
+
+  function rangeSites(): Array<{ where: string; bounds: number[] }> {
+    const sites: Array<{ where: string; bounds: number[] }> = [];
+    const push = (where: string, text: string) => {
+      const bounds = [...text.matchAll(RANGE_RE)].map((m) => Number(m[1]));
+      if (bounds.length > 0) sites.push({ where, bounds });
+    };
+    for (const f of SITE_FILES) push(f, read(f));
+    for (const dirRoot of SITE_ROOTS) {
+      for (const f of readdirSync(dirRoot, { recursive: true }).map(String).sort()) {
+        if (!f.endsWith(".ts") && !f.endsWith(".tsx") && !f.endsWith(".mts")) continue;
+        push(join(basenameOf(dirRoot), f), readFileSync(join(dirRoot, f), "utf8"));
+      }
+    }
+    return sites;
+  }
+
+  function basenameOf(p: string): string {
+    return p.split(sep).pop() ?? p;
+  }
+
+  it("the session ledger on disk is contiguous 1..N (no missing session log)", () => {
+    const nums = readdirSync(join(root, "docs"))
+      .map(String)
+      .filter((f) => /^session_\d+\.md$/.test(f))
+      .map((f) => Number(f.replace(/\D/g, "")))
+      .sort((a, b) => a - b);
+    expect(nums.length, "docs/ carries session_1..N").toBeGreaterThan(0);
+    nums.forEach((n, i) =>
+      expect(n, `the ledger must be contiguous (gap before ${n})`).toBe(i + 1),
+    );
+  });
+
+  it("every live-tense provenance site satisfies the lag invariant (bound ∈ {diskMax, diskMax − 1})", () => {
+    const nums = readdirSync(join(root, "docs"))
+      .map(String)
+      .filter((f) => /^session_\d+\.md$/.test(f))
+      .map((f) => Number(f.replace(/\D/g, "")));
+    const diskMax = Math.max(...nums);
+    const sites = rangeSites();
+    expect(sites.length, "the provenance range sites exist (the S34-5 re-anchor set)").toBeGreaterThanOrEqual(8);
+    for (const { where, bounds } of sites) {
+      for (const b of bounds) {
+        expect(
+          b === diskMax || b === diskMax - 1,
+          `${where} carries docs/session_1..${b} with the disk ledger at ${diskMax} — the lag must be 0 (ship) or 1 (the owner's narration window), never more`,
+        ).toBe(true);
+      }
+    }
   });
 });

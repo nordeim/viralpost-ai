@@ -4,7 +4,7 @@ import { getSessionUser } from "@/lib/auth";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  // Session-41 (S41-P4): the only route that reads the session directly
+  // Session-41 (S41-P4 — donor-ledger numbers, the NEO-CRM family): the only route that reads the session directly
   // (it is NOT requireSession-gated by design — a logged-out caller gets
   // data:null, not a 401). A DB failure here now answers the envelope
   // instead of a raw non-JSON 500.

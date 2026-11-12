@@ -560,7 +560,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 38 | 655 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 38 | 660 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 65 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -578,7 +578,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 655/65/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 660/65/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -687,11 +687,11 @@ commit as the file.)
 | `src/lib/generator.ts` | 457 | The deterministic viral-formula engine + the reference's exact prompt |
 | `src/lib/generation-counter.ts` | 110 | The 3/day quota: pure functions + the store adapter |
 | `src/lib/route-title.ts` | 56 | The unknown-route title derivation (ADR-006) |
-| `src/lib/from-url.ts` | 36 | The from_url open-redirect guard (session-13, S13-4; the leading-// arm, session-14, S14-1) |
-| `src/lib/auth.ts` | 189 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
+| `src/lib/from-url.ts` | 37 | The from_url open-redirect guard (session-13, S13-4; the leading-// arm, session-14, S14-1) |
+| `src/lib/auth.ts` | 190 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
 | `src/lib/password.ts` | 68 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 134 | Fixed-window limiter, proxy-hop-aware client key |
-| `src/lib/db-path.ts` | 333 | THE database path resolver (ADR-008) |
+| `src/lib/db-path.ts` | 335 | THE database path resolver (ADR-008) |
 | `src/lib/site.ts` | 219 | The metadata factory + canonical origin seam |
 | `src/lib/api.ts` | 263 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2) |
 | `src/app/globals.css` | 226 | The Tailwind v4 theme (ADR-005) |
@@ -704,7 +704,7 @@ commit as the file.)
 | `src/app/api/[...path]/route.ts` | 43 | The API subtree's envelope 404 (session-15, S15-7; OPTIONS joined session-18, S18-2) |
 | `src/app/api/route.ts` | 51 | The bare `/api` envelope 404 (session-16, S16-2; OPTIONS joined session-18, S18-2) |
 | `prisma/schema.prisma` | 64 | User + ContactMessage |
-| `scripts/smoke-test.sh` | 258 | The 16-leg artifact ladder (the live-429 leg, session-32 S32-3) |
+| `scripts/smoke-test.sh` | 263 | The 16-leg artifact ladder (the live-429 leg, session-32 S32-3) |
 
 ---
 

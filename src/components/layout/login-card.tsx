@@ -27,7 +27,8 @@ import { toast } from "@/components/ui/toast";
 
 type Mode = "signin" | "signup";
 
-/** Session-147 (F-147c2 — walk37; session-13/S13-4 extracted to the pure
+/** Session-147 (F-147c2 — walk37, donor-ledger numbers, the NEO-CRM
+ *  family; session-13/S13-4 extracted to the pure
  *  seam src/lib/from-url.ts): the reference's from_url round-trip. Its
  *  auth wall lands guests on /login?from_url=<absolute-url> and returns
  *  them to the target after a successful sign-in. THE OPEN-REDIRECT
@@ -448,6 +449,14 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                           Back to sign in
                         </button>
                         <div className="text-center space-y-2">
+                          {/* Session-34 (S34-6): the swap-view outline — the
+                              S33-5 genus generalized. Swapping away from
+                              signin unmounts the card's h1; this sr-only
+                              h1 keeps the document's top level through
+                              the funnel (the invisible-superset form —
+                              zero visual change, the reference's visible
+                              DOM untouched). */}
+                          <h1 className="sr-only">Reset your password</h1>
                           <h2 className={LOGIN_RESET_LAYOUT.title} tabIndex={-1} data-view-focus>Reset your password</h2>
                           <p className={LOGIN_RESET_LAYOUT.description}>
                             Enter your email and we'll send you a link to reset your password
@@ -603,6 +612,10 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                             <ShieldCheck className={LOGIN_VERIFY_LAYOUT.icon} />
                           </div>
                           <div className={LOGIN_VERIFY_LAYOUT.titleStack}>
+                            {/* Session-34 (S34-6): the verify view's swap-view
+                                outline h1 — the S33-5 genus generalized
+                                (see the reset view's note). */}
+                            <h1 className="sr-only">Verify your email</h1>
                             <h2 className={LOGIN_VERIFY_LAYOUT.title}>Verify your email</h2>
                             <p className={LOGIN_VERIFY_LAYOUT.emailLine}>
                               We've sent a 6-digit code to
@@ -611,7 +624,9 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                             </p>
                           </div>
                         </div>
-                        {/* Session-79 (L-79c8): the verify view's OWN form
+                        {/* Session-79 (L-79c8 — donor-ledger numbers,
+                            the NEO-CRM family; this file's lineage note
+                            for the 79 family): the verify view's OWN form
                             family (space-y-4 sm:space-y-6) — not the
                             signup's tighter pair. */}
                         <form className={LOGIN_VERIFY_LAYOUT.form} onSubmit={onVerifySubmit} noValidate>
@@ -691,6 +706,10 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                             <Mail className={LOGIN_RESET_LAYOUT.sentIcon} />
                           </div>
                           <div className={LOGIN_RESET_LAYOUT.sentTitleStack}>
+                            {/* Session-34 (S34-6): the sent view's swap-view
+                                outline h1 — the S33-5 genus generalized
+                                (see the reset view's note). */}
+                            <h1 className="sr-only">Check your email</h1>
                             <h2 className={LOGIN_RESET_LAYOUT.title} tabIndex={-1} data-view-focus>Check your email</h2>
                             <p className={LOGIN_RESET_LAYOUT.sentEmailLine}>
                               We've sent password reset instructions to

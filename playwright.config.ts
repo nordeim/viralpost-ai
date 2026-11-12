@@ -66,11 +66,14 @@ export default defineConfig({
     reuseExistingServer: !process.env.CI,
     // The CRM family's session-69 (N-69a — a donor-ledger number): the LOCAL-ONLY limiter hazard — a reused
     // server keeps its IN-MEMORY rate buckets alive across runs while
-    // global-setup reseeds the DB, so a third run inside 15 minutes can
-    // trip resend (6>5) or verify (21>20) and fail the ladder tests
-    // with spurious 429s. The gate is immune (its CI=1 prefix forces
-    // the fresh boot); for repeated local runs export CI=1 or wait out
-    // the window (self-heals in 15 min).
+    // global-setup reseeds the DB. THIS suite's arithmetic (re-anchored
+    // session-34, S34-4): 7 login POSTs per run (setup 1 + auth.spec 5 +
+    // reset-funnel 1) against the login wall of 10/15-min — a SECOND
+    // run inside the window trips LOGIN at the 11th cumulative POST
+    // (14 > 10), failing the from_url arms first; resend (1/run vs 5)
+    // and verify (2/run vs 20) trip on later runs. The gate is immune
+    // (its CI=1 prefix forces the fresh boot); for repeated local runs
+    // export CI=1 or wait out the window (self-heals in 15 min).
     env: {
       ...process.env,
       PORT: String(PORT),

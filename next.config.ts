@@ -51,6 +51,15 @@ const nextConfig: NextConfig = {
       "vitest.config.mts",
       "scripts/**",
       "tests/**",
+      // Session-34 (S34-7): the four tracked root files the excludes
+      // missed — none is runtime-traced (nft never imports them), so
+      // these are belt-and-suspenders symmetry with the smoke ladder's
+      // hygiene leg, which now mirrors this list (the F-170a nft
+      // repo-root-drag tripwire in both places).
+      "viralpost-ai_SKILL.md",
+      "neo-crm_SKILL.md",
+      "next.config.ts",
+      "LICENSE",
     ],
   },
   // Hide the Next.js dev-tools indicator (the floating "N" button) so dev

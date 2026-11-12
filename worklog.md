@@ -3605,3 +3605,111 @@ Details:
 - SHIPPED: the remediated codebase + the docs in lockstep, committed
   to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
   verified; no new branches).
+
+## Task 34 — The Contact-Persistence Pin + The Swap-View H1s + The Donor-Marker Completion + The Hygiene Batch (2026-11-12)
+
+Task ID: 34
+Agent: main (Z.ai)
+Task: the standing instruction — docs review → baseline gate → the
+comprehensive audit → the live reference parity walk → the TDD cures →
+the gate → captures → push.
+
+Details:
+- Round opened on the pulled tree (6e2e6b0 — the owner's session-log
+  update holding the session-33 execution narration as
+  docs/session_34.md, the established pattern). Core docs read in full
+  (AGENTS, CLAUDE, README, PAD, SKILL v1.29.0) + the session-33 set
+  (session_33.md, the session-33 plan, worklog Task 33,
+  docs/session_34.md). Baseline gate GREEN at the documented counts
+  (lint 0/0 · tsc 0 · unit 655/655 · build · smoke 16/16 · e2e 65/65 ·
+  census MATCH); the standing asks re-verified up front (the .env
+  DATABASE_URL="file:../db/custom.db" contract with db/ at the repo
+  root, census MATCH; the vitest + playwright suites in place; the
+  sitemap/robots/manifest/OG family; skills/ excluded from every gate;
+  the committed .env.example matching the six-knob contract).
+- The web-application skill + the skills catalog re-internalized (tdd,
+  clone-app-pat-pro, agent-browser doctrine — computed styles as the
+  ground truth, never eyeballs).
+- THE AUDIT (three parallel subagents — AUDIT-1 API/lib seams, AUDIT-2
+  components/pages/effects, AUDIT-3 SEO/configs/tests/docs; every
+  load-bearing finding hand-verified by the lead): 0 Critical / 0 High
+  / 1 Medium / 5 Low / 5 Info. AUDIT-1 live-probed the db-path seam's
+  every code path clean (40+ probes — the Windows families, :memory:,
+  whitespace, rate-limit keying, the envelope discipline, the reset
+  funnel) and caught the donor-marker strata the S33-3 sweep missed;
+  AUDIT-2 traced the mobile-menu state machine's four close arms +
+  empirically compiled the stylesheet (the hover unwrap covers
+  group-hover too) and caught the retired hover-ink comment spellings;
+  AUDIT-3 verified every count claim live and caught the
+  contact-persistence pin gap (the e2e test titled "the row landed"
+  asserted only the envelope). The lead hand-verified all eleven
+  findings (the login-POST census 7/run vs the 10/15-min wall
+  confirming the playwright-config arithmetic; the hover variant's
+  zero live consumers vs the base token's five sites). Every finding
+  cured (S34-1..S34-7); the accepted register carries the rest
+  forward (the Iridescence static-degradation posture, the footer
+  heading skip (parity), the traced-src artifact face).
+- THE PARITY WALK (live, both sides, logged into the reference): NO
+  DRIFT — the eighth consecutive fully-clean walk. The mobile-menu
+  census at 390×844 (the hamburger classes, the open panel, the links
+  + the pill, the bar families, the scrolled bar's two same-color
+  spellings), the desktop nav modulo the aria-label superset, the
+  five-route head census, sitemap + robots identical modulo origin
+  (the all-occurrence normalized comparison), the login round-trip on
+  both sides. The generator walk-probe returned null on BOTH sides
+  symmetrically (the known probe selector artifact — the clone's
+  generator is proven green by the e2e spec + smoke leg 11).
+- THE CURES (TDD): S34-2 the contact-persistence pin (the Medium — the
+  e2e read-back through scripts/e2e-contact-readback.ts, the third
+  one-shot DB script constructed through the sanctioned
+  runtimeDatabaseUrl seam and joined to the S26-7 pin's enumeration;
+  the test asserts exactly one row with the submitted payload; GREEN
+  on arrival (a coverage-gap pin); the battery on record: the create
+  commented out → rebuild → exactly the read-back REDs (expected 1,
+  received 0) while the envelope still passes — the exact
+  silent-superset-death the pin exists to catch); S34-6 the swap-view
+  sr-only h1s (the S33-5 genus generalized — the reset/sent/verify
+  views keep the document outline mid-funnel, each h1 mirroring its
+  visible h2, zero visual change; +3 pins RED-first, the three-removal
+  battery on record: each removal trips exactly its own it; the
+  mid-gate catch — the h1-mirrors-h2 design made role+name heading
+  queries ambiguous, strict mode failed four e2e tests until the five
+  affected sites encoded their intent with level: 2 (the visible
+  heading), restored → e2e 65/65); S34-1 the
+  donor-marker completion (the missed Session-35 guard site + the ten
+  37–41 cites + the 62/63/79/147 strata marked at their high-traffic
+  header cites; §0.5's enumeration extended to the comprehensive
+  list); S34-3 the retired hover-ink re-spell (the toast block's two
+  spellings re-spelled prose-safe; the census's BANNED list gains its
+  fifth member with the hover prefix as the discriminator; the
+  compile-probe battery on record with the theme-import correction —
+  the probe imports the repo's globals.css because the foreground
+  family is theme-dependent — plus positive controls and the synthetic
+  non-vacuity proof); S34-4 the playwright-config comment truth fix
+  (the N-69a parenthetical re-anchored: 7 logins/run, LOGIN trips on
+  the second run); S34-5 the provenance re-anchor + census (the eight
+  sites to 1..34; the new lag-invariant census — contiguity + bound ∈
+  {diskMax, diskMax − 1} — GREEN on arrival with both defect shapes'
+  batteries on record); S34-7 the artifact-hygiene mirror (leg 16
+  mirrors the excludes list; both gain the four missing root files;
+  the planted-entry logic proof on record; leg count unchanged).
+- The count re-anchor: UNIT 655 → 660 (+3 S34-6, +2 S34-5 census),
+  E2E 65 unchanged (the S34-2 read-back extends the existing contact
+  test in place — the S18-2 precedent; the S34-3 widening folds into
+  the existing dead-token it), SMOKE 16 unchanged, badge 720 → 725.
+  Constants re-anchored FIRST; the census walked the doc sites GREEN
+  (the PAD §12 rows re-anchored: db-path 333→335, smoke-test 258→263,
+  from-url 36→37, auth 189→190; the error-boundaries hygiene-leg pin
+  re-anchored with the widened loop).
+- Docs lockstep: README (the session-34 row, the gate line, badge 725,
+  the counts); AGENTS (counts, the plans map's thirty-fourth round);
+  CLAUDE (counts); PAD (§8.1 table, §12 rows, the counts); SKILL
+  v1.29.0 → v1.30.0 (frontmatter, §0.5's comprehensive donor
+  enumeration + the 1..34 range, Appendix A's session-34 row, the
+  pre-ship checklist counts); the eight provenance sites re-anchored
+  to 1..34; worklog Task 34; docs/session_34.md (this round's formal
+  log); the plan's post-execution record.
+
+- SHIPPED: the remediated codebase + the docs in lockstep, committed
+  to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
+  verified; no new branches).

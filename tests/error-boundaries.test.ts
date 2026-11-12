@@ -27,7 +27,7 @@
 // RED at birth (the files do not exist yet); GREEN when WP-4/WP-5 land.
 // Lineage note (session-21, S21-12): the scandihaven/s169 citations
 // are donor-ledger numbers (the template family's repos); this repo's
-// own sessions are docs/session_1..33.
+// own sessions are docs/session_1..34.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -140,7 +140,13 @@ describe("session-170 (WP-5): the smoke leg (scripts/smoke-test.sh, the §13.4 s
 
   it("carries the artifact-hygiene assertions (the F-170a cure policed at every smoke run)", () => {
     expect(script).toContain(".next/standalone/$entry");
-    expect(script).toContain('for entry in .env .git db skills docs uploads worklog.md test-results dev.log');
+    // Session-34 (S34-7): the enumeration now mirrors next.config's
+    // outputFileTracingExcludes root files — the pin re-anchored with
+    // the widened loop.
+    expect(script).toContain(
+      "for entry in .env .env.example .git db skills docs uploads worklog.md test-results dev.log server.log",
+    );
+    expect(script).toContain("viralpost-ai_SKILL.md neo-crm_SKILL.md next.config.ts LICENSE");
   });
 
   it("carries the boot-gate probe (a secretless production boot must refuse to serve)", () => {

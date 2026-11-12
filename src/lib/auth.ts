@@ -23,7 +23,8 @@ export const SESSION_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 const DEV_SECRET = "viralpost-ai-dev-only-insecure-secret";
 
-// Session-63 (N-63g): the short-secret case used to fall back as
+// Session-63 (N-63g — donor-ledger numbers, the NEO-CRM family): the
+// short-secret case used to fall back as
 // silently as the unset case — production would ship forgeable
 // sessions with no signal. Warn ONCE: secret() rides every session op.
 // Session-169 (F-169p — the web-app-foundation §6.2 posture): production

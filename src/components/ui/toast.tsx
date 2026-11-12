@@ -3,7 +3,8 @@
 // Toast system — a lightweight subscribe/store hook + viewport. Mirrors the
 // @radix-ui/react-toast API shape but with far less ceremony (and no portal
 // key pitfalls). Auto-dismiss with hover-pause.
-// Session-62 (N-62a): the @radix-ui/react-toast PACKAGE was retired — this
+// Session-62 (N-62a — donor-ledger numbers, the NEO-CRM family): the
+// @radix-ui/react-toast PACKAGE was retired — this
 // file never imported it (a from-scratch design since the scaffold); the
 // reference above documents the API contract it mirrors, not a dependency.
 
@@ -186,13 +187,14 @@ function ToastCard({ item }: { item: ToastItem }) {
         type="button"
         onClick={() => dismiss(item.id)}
         // Session-131 (D-131a0): the hover TEXT arm is the neutral-900
-        // literal (hover:text-foreground #0a0a0a → hover:text-neutral-900
-        // #171717) — the F-128c1 genus's FOURTH arm (s128 menu-item ink ·
-        // s129 outline hover text · s130 ghost hover text; the reference's
-        // stock interactive-hover ink #171717). The reference's toast
-        // surface is DOM-DEAD (F-131c1 — no live face to parity), so the
-        // fix rides OUR superset by the trio precedent + internal
-        // consistency: the LAST live hover:text-foreground ride in src/.
+        // literal (the retired foreground-token hover ink #0a0a0a → the
+        // neutral-900 form #171717) — the F-128c1 genus's FOURTH arm (s128
+        // menu-item ink · s129 outline hover text · s130 ghost hover text;
+        // the reference's stock interactive-hover ink #171717). The
+        // reference's toast surface is DOM-DEAD (F-131c1 — no live face to
+        // parity), so the fix rides OUR superset by the trio precedent +
+        // internal consistency: the last live ride of that retired
+        // hover-ink form in src/.
         // Session-14 (S14-6): the keyboard focus arm — the OTP inputs'
         // own focus-visible family, so the only per-toast control shows
         // its focus to keyboard users (hover-only was invisible focus).

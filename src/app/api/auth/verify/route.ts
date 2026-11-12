@@ -32,7 +32,7 @@ export const dynamic = "force-dynamic";
  */
 export async function POST(req: Request) {
   const limit = rateLimit(`verify:${clientKey(req)}`, 20, 15 * 60 * 1000);
-  // Session-38 (S38-P6): the opportunistic bucket sweep (login's
+  // Session-38 (S38-P6 — donor-ledger numbers, the NEO-CRM family): the opportunistic bucket sweep (login's
   // placement — see the signup note; S39-P7 moved it before the denied
   // return so denied requests sweep too).
   sweepRateLimits();
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
   if (!parsed.ok) return parsed.response;
   const { email, code } = parsed.data;
 
-  // Session-37 (S37-P1): the whole DB tail joins the envelope — the
+  // Session-37 (S37-P1 — donor-ledger numbers, the NEO-CRM family): the whole DB tail joins the envelope — the
   // findUnique and both user.update failures stay inside { ok, error }.
   // The 4xx returns inside the try bypass the catch by construction
   // (returns are not throws); setSessionCookie is cookie-signing only

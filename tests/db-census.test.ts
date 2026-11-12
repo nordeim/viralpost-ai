@@ -90,8 +90,11 @@ describe("session-53: the census seam (S53-P2, N-53b)", () => {
   // AGENTS wording; this pin holds the seam-mandatory form so a future
   // edit can never silently bypass the resolver. Mutation battery:
   // point a script's datasource at a bare env read → RED.
+  // Session-34 (S34-2): the enumeration gains the contact read-back
+  // probe (scripts/e2e-contact-readback.ts) — the third one-shot DB
+  // script, joining the seam-mandatory form this pin holds.
   it("session-26 (S26-7): the one-shot DB scripts construct through the sanctioned URL seam (runtimeDatabaseUrl — the db.ts-singleton exemption, pinned)", () => {
-    for (const f of ["prisma/seed.ts", "scripts/e2e-prune.ts"]) {
+    for (const f of ["prisma/seed.ts", "scripts/e2e-prune.ts", "scripts/e2e-contact-readback.ts"]) {
       const src = stripComments(read(f) ?? "");
       expect(src, `${f} must construct a client`).toMatch(/new PrismaClient\(/);
       expect(src, `${f} must route the datasource through the sanctioned resolver`).toMatch(

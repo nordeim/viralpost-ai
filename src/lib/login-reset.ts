@@ -32,7 +32,8 @@
  * "Create account". A successful signup swaps again to the verify-email
  * view (six single-digit inputs + the attempts ladder). The signup view's
  * error banner is the Callout vocabulary below (the red variant of the
- * s11 sent-callout). Session-79 (M-79c2) v4-FALSIFIED the s21 claim
+ * s11 sent-callout). Session-79 (M-79c2 — donor-ledger numbers, the
+ * NEO-CRM family) v4-FALSIFIED the s21 claim
  * that the back buttons mirrored the reference's negative mb-2 margin
  * form verbatim: under v4's
  * :where() margin-BOTTOM space-y, the negative own-class margin WINS

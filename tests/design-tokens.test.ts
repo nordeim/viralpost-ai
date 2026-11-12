@@ -469,15 +469,22 @@ describe("design tokens: session-31 (S31-6) — the source tree's dead-import ce
 // register's test-pin-literal residual (this census owns the src/ face —
 // the S31-5a precedent). Battery: any of the four spellings planted in
 // any src file → this census REDs.
+// Session-34 (S34-3): the list gains its FIFTH member — the retired
+// hover-prefixed foreground-ink form (the live form is the neutral-900
+// literal; the BASE text-foreground token stays live at five sites and
+// passes by construction — the hover: prefix is the discriminator).
+// The S33-1 sweep missed it: the toast comment block spells it twice,
+// each spelling emitting a never-matched rule into every build.
 describe("design tokens: session-33 (S33-1) — the dead-token comment census (the S28-4/S32-4 genus, generalized)", () => {
   const BANNED_TOKEN_SPELLINGS: Array<[RegExp, string]> = [
     [/space-y-1\.5/, "the retired v3 space-y step (the mt-1.5 mechanism replaced it)"],
     [/(?<![:\w-])max-w-\[420px\]/, "the bare 420px max-width cap (the live form is the md:-prefixed one)"],
     [/(?<!:)z-\[60\]/, "the bare z-60 layer token (the live form is the focus-gated one)"],
     [/backdrop-blur(?![a-z0-9-])/, "the bare backdrop-blur token (the live form is the -xl family)"],
+    [/hover:text-foreground/, "the retired toast hover-ink form (the live form is the neutral-900 literal; the base text-foreground token is live — the hover: prefix is the discriminator) (S34-3)"],
   ];
 
-  it("THE BAN: the four retired utility tokens never return to src/", () => {
+  it("THE BAN: the five retired utility tokens never return to src/", () => {
     const srcDir = path.resolve(import.meta.dirname, "..", "src");
     const offenders: string[] = [];
     for (const file of walkSourceFiles(srcDir)) {
@@ -488,7 +495,7 @@ describe("design tokens: session-33 (S33-1) — the dead-token comment census (t
     }
     expect(
       offenders,
-      "retired utility tokens spelled verbatim in src/ demand dead CSS rules (S33-1)",
+      "retired utility tokens spelled verbatim in src/ demand dead CSS rules (S33-1/S34-3)",
     ).toEqual([]);
   });
 });

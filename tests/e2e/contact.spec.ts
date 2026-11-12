@@ -1,3 +1,5 @@
+import { execSync } from "node:child_process";
+
 import { expect, test } from "@playwright/test";
 
 // The contact form — the advertised action must be REAL (the reference's
@@ -39,6 +41,19 @@ test("the API rejects an invalid email with the field message", async ({ request
   expect(body.error.message).toBe("Enter a valid email address");
 });
 
+// Session-34 (S34-2): the row ACTUALLY lands — the persistence
+// superset's first behavioral owner. Until this round the test asserted
+// only res.ok() + body.ok: deleting the create in contact/route.ts
+// (the route still answers ok({sent:true})) shipped green through
+// every gate while the advertised core superset silently became false.
+// The read-back runs the one-shot probe script (the global-setup
+// execSync idiom, DATABASE_URL pinned to db/e2e.db so the resolver
+// anchors the e2e database) and asserts the row EXISTS with the
+// submitted payload. The seed clears the inbox at setup, and this test
+// is the only writer of the api-probe email, so exactly ONE row is the
+// precise expectation. Mutation battery: the route's create removed →
+// the read-back returns [] → this test REDs (the envelope still
+// passes) — the exact silent-superset-death the pin exists to catch.
 test("the row landed (the persistence superset)", async ({ request }) => {
   // The API answers the envelope contract for a fresh valid submission.
   const res = await request.post("/api/contact", {
@@ -47,4 +62,14 @@ test("the row landed (the persistence superset)", async ({ request }) => {
   expect(res.ok()).toBeTruthy();
   const body = await res.json();
   expect(body.ok).toBe(true);
+
+  // …and the row is IN THE DATABASE, payload intact (S34-2).
+  const out = execSync("bun scripts/e2e-contact-readback.ts api-probe@example.com", {
+    env: { ...process.env, DATABASE_URL: "file:../db/e2e.db" },
+  }).toString();
+  const rows = JSON.parse(out) as Array<{ name: string; email: string; message: string }>;
+  expect(rows.length, "exactly one row for this run's probe email (the seed clears the inbox)").toBe(1);
+  expect(rows[0].name).toBe("API Probe");
+  expect(rows[0].email).toBe("api-probe@example.com");
+  expect(rows[0].message).toBe("Direct API check.");
 });

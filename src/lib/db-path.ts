@@ -247,7 +247,7 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  *
  * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
  * NEO-CRM seam's own recovery session; this repo's sessions are
- * docs/session_1..33, the SKILL §0.5 enumeration): the standalone server.js runs
+ * docs/session_1..34, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The
@@ -297,7 +297,9 @@ export function runtimeDatabaseUrl(cwd: string = process.cwd()): string {
       // Session-32 (S32-1): the launch .env's value joins the one-home
       // trim — see the runtimeDatabaseUrl header comment.
       const launchEnvUrl = readDatabaseUrlFromEnvAt(launchDir)?.trim() || undefined;
-      // Session-35 guard: only a RELATIVE launch value can be a bun
+      // Session-35 guard (a donor-ledger number — the NEO-CRM seam's
+      // absolute-launch-value guard, docs/plans/2026-11-10-session11…md):
+      // only a RELATIVE launch value can be a bun
       // absolutization candidate. An absolute launch .env value (the
       // documented production form, docs/DEPLOYMENT.md §4) passes through
       // path.resolve unchanged inside bunAbsolutized(), so its signature

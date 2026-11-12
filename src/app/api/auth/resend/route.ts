@@ -33,7 +33,7 @@ const RESEND_TIMING_EQUALIZER_INPUT = "viralpost-resend-timing-equalizer-constan
  */
 export async function POST(req: Request) {
   const limit = rateLimit(`resend:${clientKey(req)}`, 5, 15 * 60 * 1000);
-  // Session-38 (S38-P6): the opportunistic bucket sweep (login's
+  // Session-38 (S38-P6 — donor-ledger numbers, the NEO-CRM family): the opportunistic bucket sweep (login's
   // placement — see the signup note; S39-P7 moved it before the denied
   // return so denied requests sweep too).
   sweepRateLimits();
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
   if (!parsed.ok) return parsed.response;
   const { email } = parsed.data;
 
-  // Session-37 (S37-P1): the auth family joins the envelope — the
+  // Session-37 (S37-P1 — donor-ledger numbers, the NEO-CRM family): the auth family joins the envelope — the
   // findUnique/update failures stay inside { ok, error }.
   try {
     const user = await db.user.findUnique({ where: { email } });

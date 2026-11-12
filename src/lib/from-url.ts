@@ -1,6 +1,7 @@
 /**
  * The from_url resolver — session-13 (S13-4), extracted from
- * login-card.tsx (session-147 / F-147c2, walk37).
+ * login-card.tsx (session-147 / F-147c2 / walk37 — donor-ledger
+ * numbers, the NEO-CRM family).
  *
  * WHY THIS EXISTS: the reference's auth wall lands guests on
  * /login?from_url=<absolute-url> and returns them to the target after a
