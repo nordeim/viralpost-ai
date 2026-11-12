@@ -86,7 +86,9 @@ to green, the probe lessons on record):
   only; og:image the documented self-hosted superset), sitemap.xml +
   robots.txt identical modulo origin (the all-occurrence normalized
   comparison), the login round-trip live on both sides (both land on
-  `/`), the generator walk-probe null on BOTH sides symmetrically (the
+  the landing — the reference's URL `/Home`, its duplicate-of-`/`
+  route; ours `/`, the documented 308 deviation; re-spelled
+  session-37, S37-7), the generator walk-probe null on BOTH sides symmetrically (the
   known probe selector artifact).
 - The focus-return face stays E2E-OWNED (mobile-navigation.spec.ts
   :67/:80, `toBeFocused` with real keyboard events against the
@@ -102,10 +104,11 @@ verified live and e2e-pinned.
 ## The cures (TDD — every pin RED first or battery-planted, the mutation batteries per the house doctrine)
 
 - **S35-1 (LOW, the round's headline)** — the Tailwind source scoping:
-  v4's auto source detection anchors at the repo ROOT, and the ~160
-  docs/tests/root prose files PLUS the 3,100-file skills/ catalog
+  v4's auto source detection anchors at the repo ROOT, and the ~170
+  docs/tests/root text files PLUS the ~3,150-file skills/ catalog
   (92% of the non-src tree — the magnitude re-anchored session-36,
-  S36-5b; the original narrative here said "300+" — a figure that
+  S36-5b, the register rounded to one form session-37, S37-6b; the
+  original narrative here said "300+" — a figure that
   matched no countable corpus) fed class-shaped prose into the
   scanner — every candidate compiled into
   a rule no element carries (~60% of the shipped sheet; the real build

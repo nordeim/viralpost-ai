@@ -32,8 +32,8 @@ describe("design tokens: the Tailwind v4 doctrine", () => {
   });
 
   it("the source scan is scoped to src/ (S35-1 — the repo-wide auto-detection shipped ~60% never-matched rules from docs/, tests/, and *.md prose)", () => {
-    // v4's auto source detection anchors at the repo ROOT: the ~160
-    // docs/tests/root prose files plus the 3,100-file skills/ catalog
+    // v4's auto source detection anchors at the repo ROOT: the ~170
+    // docs/tests/root text files plus the ~3,150-file skills/ catalog
     // (92% of the non-src tree — tracked, hence not gitignore-excluded)
     // fed class-shaped prose into the scanner, and every candidate
     // compiled into a rule no element carries (.bg-[#bada55],

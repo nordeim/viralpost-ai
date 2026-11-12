@@ -267,3 +267,28 @@ describe("session-24 (S24-11): the og:image asset matches its declared dimension
     expect(manifest).toContain('"512x512"');
   });
 });
+
+// Session-37 (S37-4): the three SEO routes' force-static posture, pinned.
+// The build-time-inlining claim ("prerendered at build time;
+// NEXT_PUBLIC_SITE_URL is inlined — set it before `bun run build`") rode
+// on four doc sites with ZERO assertions: since Next 15+ GET handlers are
+// uncached by default, deleting the export flips the routes to per-request
+// rendering and every layer stays green (the body contracts above invoke
+// GET() directly; smoke leg 14 / the e2e seo spec check 200+body only).
+// A coverage-gap pin, GREEN on arrival (the S36-6a precedent) — the
+// planted-removal battery owns the defense (delete one export → exactly
+// this pin REDs).
+describe("session-37 (S37-4): the SEO route family's force-static posture (the build-time-inlining claim, pinned)", () => {
+  it("all three SEO routes export dynamic = force-static", () => {
+    for (const rel of [
+      "src/app/sitemap.xml/route.ts",
+      "src/app/robots.txt/route.ts",
+      "src/app/manifest.json/route.ts",
+    ]) {
+      const src = readFileSync(path.resolve(import.meta.dirname, "..", rel), "utf-8");
+      expect(src, `${rel}: the force-static export must be present`).toContain(
+        'export const dynamic = "force-static";',
+      );
+    }
+  });
+});

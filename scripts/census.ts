@@ -67,10 +67,15 @@ const invokedAsScript = process.argv[1]?.endsWith("census.ts");
 // sets exitCode — the finally disconnects before the process exits.
 // Session-36 (S36-3): the finally runs FIRST — the trailing catch
 // covers main's rejection AND the disconnect's own.
+// Session-37 (S37-1): the disconnect is inner-caught — in the both-fail
+// case the finally's rejection used to supersede main's; both print now.
 if (invokedAsScript)
   main()
     .finally(async () => {
-      await db.$disconnect();
+      await db.$disconnect().catch((e) => {
+        console.error(e);
+        process.exitCode = 1;
+      });
     })
     .catch((e) => {
       console.error(e);

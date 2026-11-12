@@ -49,10 +49,15 @@ async function main() {
 // The awaited disconnect (the S25-18b idiom — the seed's form; the
 // failure path now honored too, the S35-3 cure). Session-36 (S36-3):
 // the finally runs FIRST — the trailing catch covers main's rejection
-// AND the disconnect's own.
+// AND the disconnect's own. Session-37 (S37-1): the disconnect is
+// inner-caught — in the both-fail case the finally's rejection used to
+// supersede main's; both print now.
 main()
   .finally(async () => {
-    await db.$disconnect();
+    await db.$disconnect().catch((e) => {
+      console.error(e);
+      process.exitCode = 1;
+    });
   })
   .catch((e) => {
     console.error(e);

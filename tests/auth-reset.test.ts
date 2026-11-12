@@ -15,7 +15,7 @@ import { describe, expect, it } from "vitest";
 //   8..200 password window, the P2024/P2028→503 family.
 // Lineage note (session-21, S21-12): the "session-163, digma S67-A/S76-A/
 // S124-A" citations are donor-ledger numbers (the template family);
-// this repo's own sessions are docs/session_1..36.
+// this repo's own sessions are docs/session_1..37.
 
 function read(rel: string): string | null {
   const p = path.resolve(import.meta.dirname, "..", rel);
@@ -75,11 +75,15 @@ describe("forgot-password route contract (session-163, digma S46/S64/S66/S124)",
     expect(src).toContain("`/reset-password?token=${token}`");
   });
 
-  it("swallows P2025 to the no-enumeration 200 and surfaces P2024/P2028 as 503", () => {
+  it("swallows P2025 to the no-enumeration 200 and surfaces the transient family as 503", () => {
+    // Session-37 (S37-2): the P2024/P2028 literals moved to
+    // src/lib/api.ts's classifier (owned by the behavioral spec in
+    // api-robustness) — the routes call the shared helper; this pin
+    // follows the code.
     const src = forgotRoute();
     expect(src).toContain('"P2025"');
-    expect(src).toContain('"P2024"');
-    expect(src).toContain('"P2028"');
+    expect(src).toContain("isTransientDbFailure");
+    expect(src).toContain("TRANSIENT_DB_MESSAGE");
     expect(src).toContain("503");
   });
 });
@@ -157,10 +161,12 @@ describe("reset-password route contract (session-163, digma S67-A/S76-A/S124-A)"
     expect(src).toContain("resetTokenExpiresAt: null");
   });
 
-  it("surfaces P2024/P2028 as the 503 family", () => {
+  it("surfaces the transient family as the 503s (the hoisted classifier, S37-2)", () => {
+    // Session-37 (S37-2): pin-follows-the-code — the literal codes live
+    // in src/lib/api.ts now; the route carries the classifier call.
     const src = resetRoute();
-    expect(src).toContain('"P2024"');
-    expect(src).toContain('"P2028"');
+    expect(src).toContain("isTransientDbFailure");
+    expect(src).toContain("TRANSIENT_DB_MESSAGE");
     expect(src).toContain("503");
   });
 });

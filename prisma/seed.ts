@@ -70,10 +70,18 @@ async function main() {
 // catch then covers main's rejection AND the disconnect's own (the
 // .catch-then-.finally order left a rejecting disconnect as an
 // unhandled rejection; on the success path it flipped a green run
-// non-zero with no message).
+// non-zero with only the runtime's unhandled-rejection diagnostic — no
+// application-level message from the chain).
+// Session-37 (S37-1): the disconnect is inner-caught — in the both-fail
+// case the finally's rejection used to SUPERSEDE main's, so the trailing
+// catch printed only the disconnect failure and the root cause never
+// surfaced. Both failures print now.
 main()
   .finally(async () => {
-    await db.$disconnect();
+    await db.$disconnect().catch((e) => {
+      console.error(e);
+      process.exitCode = 1;
+    });
   })
   .catch((e) => {
     console.error(e);

@@ -1,4 +1,4 @@
-import { ok, ERR } from "@/lib/api";
+import { ok, ERR, fail, isTransientDbFailure, TRANSIENT_DB_MESSAGE } from "@/lib/api";
 import { getSessionUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
@@ -11,7 +11,13 @@ export async function GET() {
   try {
     const user = await getSessionUser();
     return ok(user); // data: user | null
-  } catch {
+  } catch (error) {
+    // Session-37 (S37-2): the transient-abort family answers the shared
+    // 503 (the reset funnel's F9-7 doctrine, hoisted) — a pool/transaction
+    // timeout is not this route's 500.
+    if (isTransientDbFailure(error)) {
+      return fail("UNAVAILABLE", TRANSIENT_DB_MESSAGE, 503);
+    }
     return ERR.INTERNAL();
   }
 }

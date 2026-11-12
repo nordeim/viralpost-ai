@@ -1,6 +1,7 @@
 // API envelope + guards for route handlers.
 // Every handler returns { ok, data } | { ok, error: { code, message } }.
 
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import type { z } from "zod";
 import { getSessionUser, type SessionUser } from "./auth";
@@ -39,6 +40,26 @@ export const ERR = {
         ),
   INTERNAL: () => fail("INTERNAL", "Something went wrong. Please try again.", 500),
 };
+
+// Session-37 (S37-2): the transient-abort classifier, hoisted from the
+// reset funnel. F9-7 scoped the P2024/P2028 → 503 doctrine there; the
+// other six DB-touching routes blanket-caught to 500 — the same
+// SQLITE_BUSY-class failure answered with two incoherent envelopes.
+// The codes live HERE and nowhere else (the behavioral spec in
+// tests/api-robustness.test.ts owns them); every DB-touching route
+// calls this ahead of its residual ERR.INTERNAL().
+/** The transient-abort family's shared 503 copy (byte-identical to the reset funnel's form). */
+export const TRANSIENT_DB_MESSAGE =
+  "The request took too long — the database timed out. Try again.";
+/** P2024 = pool-connection timeout, P2028 = transaction timeout — the
+ * DB-equivalent of "busy, retry": answer 503 UNAVAILABLE, never the
+ * route's generic 500. */
+export function isTransientDbFailure(error: unknown): boolean {
+  return (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
+    (error.code === "P2024" || error.code === "P2028")
+  );
+}
 
 /** Guard: returns the session user or a 401 response (callers must return it). */
 export async function requireSession(): Promise<{ user: SessionUser } | { response: NextResponse }> {

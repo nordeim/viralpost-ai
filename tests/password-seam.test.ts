@@ -123,3 +123,23 @@ describe("the seam's purity contract (session-163)", () => {
     expect(src).toContain('from "@/lib/password"');
   });
 });
+
+// Session-37 (S37-6e): the verification-server pass-throughs, pinned.
+// The S36-6b claim ("utils.ts was the only src/lib module with zero test
+// references") was loose — verification-server.ts also had zero test
+// imports/reads (only the prose comment above names it). Closed for real
+// here: the two wrappers are one-line routes to THIS seam, and the pin
+// proves the routing behaviorally (a scrypt-format digest + a round-trip
+// verify + the negative). GREEN on arrival (a coverage-gap pin, the
+// S36-6a precedent) — the battery owns the defense (plant a wrong
+// wrapper body → exactly this pin REDs).
+describe("session-37 (S37-6e): the verification-server wrappers route to the seam", () => {
+  it("hashVerificationCode/verifyVerificationCode pass through to the password seam's scrypt form", async () => {
+    const vsm = await import("@/lib/verification-server");
+    const stored = vsm.hashVerificationCode("123456");
+    expect(stored.startsWith("scrypt:")).toBe(true);
+    expect(stored.split(":")).toHaveLength(3);
+    expect(vsm.verifyVerificationCode("123456", stored)).toBe(true);
+    expect(vsm.verifyVerificationCode("000000", stored)).toBe(false);
+  });
+});

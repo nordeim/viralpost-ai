@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 
 import { db } from "@/lib/db";
-import { ok, ERR, parseBody } from "@/lib/api";
+import { ok, ERR, fail, isTransientDbFailure, parseBody, TRANSIENT_DB_MESSAGE } from "@/lib/api";
 import { resendSchema } from "@/lib/schemas";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
 import { VERIFICATION_TTL_MS, unverifiedAccount, verificationResentMessage } from "@/lib/verification";
@@ -100,6 +100,12 @@ export async function POST(req: Request) {
       verificationCode: inAppOtpEnabled ? code : null,
     });
   } catch (error) {
+    // Session-37 (S37-2): the transient-abort family answers the shared
+    // 503 (the reset funnel's F9-7 doctrine, hoisted) — a pool/transaction
+    // timeout is not this route's 500.
+    if (isTransientDbFailure(error)) {
+      return fail("UNAVAILABLE", TRANSIENT_DB_MESSAGE, 503);
+    }
     // Session-15 (S15-1): a row vanishing between the findUnique and the
     // re-mint (the unreachable-via-API class — no user-delete surface
     // exists) throws P2025; the sibling doctrine maps it to the SAME

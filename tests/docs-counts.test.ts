@@ -167,6 +167,14 @@ import {
 // the S36-3 ordering arm folds into the existing S35-3 it in place, and
 // the S36-4 smoke-test.sh scan joins SITE_FILES in place — +0 tests)
 // and the e2e 65 unchanged. SMOKE 16 unchanged.
+// s37: 671/39 (+6 the session-37 pins — the teardown inner-catch arm
+// (S37-1, db-census), the transient-classifier behavioral spec + the
+// six-route adoption pin (S37-2a/b, api-robustness), the force-static
+// SEO pin (S37-4, seo-surfaces), the GL-release arm (S37-6d,
+// effects-motion), and the verification-server pass-through pin
+// (S37-6e, password-seam); the S35-3 awaited-disconnect regex and the
+// F9-7 read-window assertion re-anchor in place — +0 tests) and the
+// e2e 65 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -174,7 +182,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 665;
+const UNIT = 671;
 /** Vitest suite files. */
 const SUITES = 39;
 /** Playwright e2e checks (incl. the setup project's 1). */

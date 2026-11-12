@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { ok, fail, ERR, parseBody } from "@/lib/api";
+import { ok, fail, ERR, isTransientDbFailure, parseBody, TRANSIENT_DB_MESSAGE } from "@/lib/api";
 import { verifyPassword, timingEqualizerHash, setSessionCookie } from "@/lib/auth";
 import { loginSchema } from "@/lib/schemas";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
@@ -74,7 +74,13 @@ export async function POST(req: Request) {
       avatarColor: user.avatarColor,
       role: user.role,
     });
-  } catch {
+  } catch (error) {
+    // Session-37 (S37-2): the transient-abort family answers the shared
+    // 503 (the reset funnel's F9-7 doctrine, hoisted) — a pool/transaction
+    // timeout is not this route's 500.
+    if (isTransientDbFailure(error)) {
+      return fail("UNAVAILABLE", TRANSIENT_DB_MESSAGE, 503);
+    }
     return ERR.INTERNAL();
   }
 }

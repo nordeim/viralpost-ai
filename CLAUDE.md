@@ -156,7 +156,7 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 39 files / 665 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 39 files / 671 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.
@@ -178,7 +178,9 @@ stable (upsert-by-email) so live sessions survive.
   parse → Prisma → envelope. Never throw across the boundary.
 - The envelope is absolute: `{ok, data} | {ok:false, error:{code, message}}`.
 - Status discipline: 400 bad input, 401 auth gap, 404 unknown id, 429
-  rate limit (+ `Retry-After`).
+  rate limit (+ `Retry-After`), 503 transient db outage (S37-2's
+  hoisted P2024/P2028 classifier — one home in `src/lib/api.ts`, every
+  DB-touching route answers the shared 503).
 
 ### Data Layer
 
@@ -226,5 +228,8 @@ stable (upsert-by-email) so live sessions survive.
 - Direct `process.env.DATABASE_URL` reads (use the seam).
 - Per-test e2e logins (trips the limiter).
 - Marketing claims of parity without a live capture.
-- Weakening lint/types/tests to make a gate pass.
+- Weakening lint/types/tests to make a gate pass (the deliberate
+  off-list in `eslint.config.mjs` — 27 correctness-tier rules, the
+  self-documented S25-18c posture — is the config's standing shape,
+  not a per-run weakening; the gates always run as configured).
 - Editing `skills/` (owner's catalog, not app code).

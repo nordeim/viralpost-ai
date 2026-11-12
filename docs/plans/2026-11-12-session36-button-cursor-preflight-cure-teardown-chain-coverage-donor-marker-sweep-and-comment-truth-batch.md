@@ -60,7 +60,9 @@ selectors calibrated against the reference's actual DOM before the run):
   390×844, the open panel display block + max-height none + the links +
   the Gumroad pill, the desktop nav 6|6, the five-route head census
   modulo origin, sitemap.xml + robots.txt modulo origin, the login
-  round-trip both landing `/`, the generator probe symmetrically null.
+  round-trip both landing the landing (the reference's URL `/Home`,
+  its duplicate-of-`/` route; ours `/`, the documented 308 deviation;
+  re-spelled session-37, S37-7), the generator probe symmetrically null.
 
 **The mobile menu works as expected** — the user's standing concern,
 verified live again (open at a confirmed 390px, links + pill
@@ -196,7 +198,7 @@ inconsistencies).
   cursor-preflight entry, Appendix A's session-36 row, Appendix B's
   body counts, the pre-ship checklist counts.
 - The eight provenance sites re-anchored `session_1..35` →
-  `session_1..36` (the S30-4 convention; lag 0 at ship).
+  `session_1..36` — now `1..37` (the S30-4 convention; re-anchored session-37).
 - worklog Task 36; `docs/session_36.md` replaced with this round's
   formal log; this plan's post-execution record.
 

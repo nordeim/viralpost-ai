@@ -1,6 +1,6 @@
 /* Session-35 (S35-1): the source scan is SCOPED to src/. The bare
-   import's auto source detection anchors at the repo ROOT — the ~160
-   docs/tests/root prose files PLUS the 3,100-file skills/ catalog
+   import's auto source detection anchors at the repo ROOT — the ~170
+   docs/tests/root text files PLUS the ~3,150-file skills/ catalog
    (92% of the non-src tree — tracked, hence not gitignore-excluded;
    S36-5b re-anchored the magnitude) fed class-shaped prose into the
    scanner, and every candidate compiled

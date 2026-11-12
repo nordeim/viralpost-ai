@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 
 import { db } from "@/lib/db";
-import { ok, fail, ERR, parseBody } from "@/lib/api";
+import { ok, fail, ERR, isTransientDbFailure, parseBody, TRANSIENT_DB_MESSAGE } from "@/lib/api";
 import { setSessionCookie } from "@/lib/auth";
 import { verifySchema } from "@/lib/schemas";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
@@ -123,6 +123,12 @@ export async function POST(req: Request) {
     await setSessionCookie(user.id, user.tokenVersion);
     return ok({ id: user.id, email: user.email, verified: true });
   } catch (error) {
+    // Session-37 (S37-2): the transient-abort family answers the shared
+    // 503 (the reset funnel's F9-7 doctrine, hoisted) — a pool/transaction
+    // timeout is not this route's 500.
+    if (isTransientDbFailure(error)) {
+      return fail("UNAVAILABLE", TRANSIENT_DB_MESSAGE, 503);
+    }
     // Session-13 (S13-5): a row vanishing between the findUnique and
     // either update (the unreachable-via-API class — no user-delete
     // surface exists) throws P2025; the forgot-password route's own

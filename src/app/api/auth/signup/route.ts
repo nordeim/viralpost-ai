@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { ok, ERR, parseBody } from "@/lib/api";
+import { ok, ERR, isTransientDbFailure, parseBody, TRANSIENT_DB_MESSAGE, fail } from "@/lib/api";
 import { hashPassword } from "@/lib/auth";
 import { signupSchema } from "@/lib/schemas";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
@@ -113,6 +113,12 @@ export async function POST(req: Request) {
       verificationCode: inAppOtpEnabled ? code : null,
     });
   } catch (error) {
+    // Session-37 (S37-2): the transient-abort family answers the shared
+    // 503 (the reset funnel's F9-7 doctrine, hoisted) — a pool/transaction
+    // timeout is not this route's 500.
+    if (isTransientDbFailure(error)) {
+      return fail("UNAVAILABLE", TRANSIENT_DB_MESSAGE, 503);
+    }
     // Session-11 (F11-13): the findUnique→create race — two concurrent
     // same-email signups both pass the existence check and the loser's
     // create throws the unique constraint (P2002). Map it to the SAME

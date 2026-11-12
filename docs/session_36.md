@@ -81,7 +81,9 @@ carrying `md:hidden` + `overflow-hidden`). Twenty faces:
   five-route head census byte-identical modulo origin (titles,
   og:title, og:description, meta description, twitter:card; canonical
   + og:url by origin only), sitemap.xml + robots.txt identical modulo
-  origin, the login round-trip live on both sides (both land on `/`),
+  origin, the login round-trip live on both sides (both land on the
+  landing — the reference's URL `/Home`, its duplicate-of-`/` route;
+  ours `/`, the documented 308 deviation; re-spelled session-37, S37-7),
   the generator walk-probe null on BOTH sides symmetrically (the
   known probe artifact).
 

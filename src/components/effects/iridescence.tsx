@@ -132,15 +132,30 @@ export function Iridescence({
     const fs = compile(gl, gl.FRAGMENT_SHADER, FRAG);
     if (!vs || !fs) {
       console.error("[iridescence] shader compile failed", { vs: !!vs, fs: !!fs });
+      // Session-37 (S37-6d): release what exists — a bare return left
+      // the surviving shader to GC of the context.
+      if (vs) gl.deleteShader(vs);
+      if (fs) gl.deleteShader(fs);
       return;
     }
     const prog = gl.createProgram();
-    if (!prog) return;
+    if (!prog) {
+      // Session-37 (S37-6d): both shaders are live — release them.
+      gl.deleteShader(vs);
+      gl.deleteShader(fs);
+      return;
+    }
     gl.attachShader(prog, vs);
     gl.attachShader(prog, fs);
     gl.linkProgram(prog);
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
       console.error("[iridescence] link failed", gl.getProgramInfoLog(prog));
+      // Session-37 (S37-6d): the failed link still owns its attached
+      // objects — delete all three (buf is created only after this
+      // check, so it is not live here).
+      gl.deleteProgram(prog);
+      gl.deleteShader(vs);
+      gl.deleteShader(fs);
       return;
     }
     gl.useProgram(prog);

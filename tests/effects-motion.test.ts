@@ -200,3 +200,36 @@ describe("session-20 (S20-12): the WebGL hero guards context loss", () => {
     expect(src).not.toContain("loseContext");
   });
 });
+
+// Session-37 (S37-6d): the WebGL hero's early-return paths release the
+// GL objects they created. The three bare returns (compile-fail, !prog,
+// link-fail) used to leave vs/fs/prog to GC of the context — the
+// happy-path cleanup is exemplary, the error paths were the residue (a
+// one-time leak per mount on a rare path; buf is created only AFTER the
+// link check, so it is not live at these returns). RED-first (the
+// releases are the Batch-2 cure); the battery owns the mutation
+// defense (remove the link-fail deleteProgram → exactly this arm REDs).
+describe("session-37 (S37-6d): the WebGL hero releases its GL objects on the early-return paths", () => {
+  const bare = () =>
+    read("src/components/effects/iridescence.tsx")
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/\/\/[^\n]*/g, "");
+
+  it("the compile-fail, no-program, and link-fail paths each delete what they created", () => {
+    const src = bare();
+    const branch = (re: RegExp) => src.match(re)?.[0] ?? "";
+    const compileFail = branch(/if \(!vs \|\| !fs\) \{[\s\S]*?\n {4}\}/);
+    expect(compileFail, "the compile-fail branch must exist").toBeTruthy();
+    expect(compileFail).toContain("gl.deleteShader(vs)");
+    expect(compileFail).toContain("gl.deleteShader(fs)");
+    const noProg = branch(/const prog = gl\.createProgram\(\);\s*if \(!prog\) \{[\s\S]*?\n {4}\}/);
+    expect(noProg, "the no-program branch must exist").toBeTruthy();
+    expect(noProg).toContain("gl.deleteShader(vs)");
+    expect(noProg).toContain("gl.deleteShader(fs)");
+    const linkFail = branch(/if \(!gl\.getProgramParameter\(prog, gl\.LINK_STATUS\)\) \{[\s\S]*?\n {4}\}/);
+    expect(linkFail, "the link-fail branch must exist").toBeTruthy();
+    expect(linkFail).toContain("gl.deleteProgram(prog)");
+    expect(linkFail).toContain("gl.deleteShader(vs)");
+    expect(linkFail).toContain("gl.deleteShader(fs)");
+  });
+});

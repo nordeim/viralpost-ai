@@ -306,13 +306,17 @@ describe("session-9 (F9-7): the reset funnel's DB-OUTAGE honesty (the read path 
     ]) {
       const src = stripComments(read(rel) ?? "");
       // the read path carries the same classification the write path has
+      // (Session-37, S37-2: the hoisted classifier call — the literal
+      // P2024/P2028 codes now live in src/lib/api.ts, owned by the
+      // behavioral spec in the session-37 describe below; this pin
+      // follows the code, the S36-3 precedent)
       const readIdx = src.search(/findUnique\(|findFirst\(/);
       expect(readIdx, `${rel}: no db read`).toBeGreaterThan(0);
       const readWindow = src.slice(readIdx, readIdx + 700);
       expect(
         readWindow,
-        `${rel}: the db read must classify P2024/P2028 as UNAVAILABLE`,
-      ).toMatch(/P2024[\s\S]{0,120}P2028|P2028[\s\S]{0,120}P2024/);
+        `${rel}: the db read must classify the transient family as UNAVAILABLE`,
+      ).toMatch(/isTransientDbFailure\(/);
       expect(readWindow).toMatch(/UNAVAILABLE|503/);
     }
   });
@@ -353,6 +357,58 @@ describe("session-9 (F9-7): the reset funnel's DB-OUTAGE honesty (the read path 
         src,
         `${rel}: fail("INTERNAL", …) without an explicit status answers HTTP 400`,
       ).not.toMatch(/fail\(\s*"INTERNAL"\s*,\s*"[^"]*"\s*\)/);
+    }
+  });
+});
+
+// Session-37 (S37-2): the transient-abort classifier, hoisted. F9-7
+// scoped the P2024/P2028 → 503 doctrine to the reset funnel; the other
+// six DB-touching routes blanket-caught to 500 INTERNAL — the same
+// SQLITE_BUSY-class failure answered with two incoherent envelopes
+// (forgot-password: "The request took too long…" 503; login: "Something
+// went wrong." 500). The classifier now lives in ONE place (src/lib/api.ts
+// — the codes owned by the behavioral spec below), the six routes carry
+// the arm ahead of ERR.INTERNAL(), and the reset funnel's four local
+// sites route through the shared helper (the wire byte-identical — the
+// F9-7 read-path pin above re-anchored to the helper call with the pin-
+// follows-the-code doctrine).
+describe("session-37 (S37-2): the transient-abort classifier (P2024/P2028 → the shared 503, hoisted from the reset funnel)", () => {
+  it("isTransientDbFailure classifies the family (the codes live here and nowhere else)", async () => {
+    const { Prisma } = await import("@prisma/client");
+    const { isTransientDbFailure } = await import("@/lib/api");
+    const transient = (code: string) =>
+      new Prisma.PrismaClientKnownRequestError("pool timed out", {
+        code,
+        clientVersion: "6.19.3",
+      });
+    // the family
+    expect(isTransientDbFailure(transient("P2024"))).toBe(true);
+    expect(isTransientDbFailure(transient("P2028"))).toBe(true);
+    // everything else — a known-request error OUTSIDE the family, a
+    // generic Error, and non-objects — stays the residual 500's
+    expect(isTransientDbFailure(transient("P2002"))).toBe(false);
+    expect(isTransientDbFailure(new Error("generic"))).toBe(false);
+    expect(isTransientDbFailure(null)).toBe(false);
+    expect(isTransientDbFailure(undefined)).toBe(false);
+    expect(isTransientDbFailure("P2024")).toBe(false);
+  });
+
+  it("every DB-touching route outside the reset funnel carries the transient arm ahead of ERR.INTERNAL()", () => {
+    for (const rel of [
+      "src/app/api/auth/login/route.ts",
+      "src/app/api/auth/signup/route.ts",
+      "src/app/api/auth/verify/route.ts",
+      "src/app/api/auth/resend/route.ts",
+      "src/app/api/auth/me/route.ts",
+      "src/app/api/contact/route.ts",
+    ]) {
+      const src = stripComments(read(rel) ?? "");
+      expect(src, `${rel}: the transient arm must be present`).toMatch(/isTransientDbFailure\(/);
+      const armIdx = src.indexOf("isTransientDbFailure(");
+      const internalIdx = src.indexOf("ERR.INTERNAL()");
+      expect(armIdx, `${rel}: the arm must exist`).toBeGreaterThan(-1);
+      expect(internalIdx, `${rel}: the residual must exist`).toBeGreaterThan(-1);
+      expect(armIdx, `${rel}: the arm must sit ahead of the residual`).toBeLessThan(internalIdx);
     }
   });
 });

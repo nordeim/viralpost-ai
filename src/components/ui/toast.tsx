@@ -153,6 +153,13 @@ function ToastCard({ item }: { item: ToastItem }) {
       role={item.variant === "error" ? "alert" : "status"}
       className={cn(
         "pointer-events-auto flex items-start gap-3 rounded-xl border p-3.5 shadow-lg outline-none",
+        // Session-37 (S37-3 file-level lineage note — the .env.example
+        // S21-12 / login-card:85 precedent): the bare donor cites in
+        // this file — Session-131 (D-131a0/D-131a1), F-128c1, F-131c1,
+        // D-124a7, s128/s129/s130, and walk22 below — are DONOR-LEDGER
+        // numbers (the NEO-CRM/digma template family's own sessions and
+        // findings), never this repo's docs/session_N.md; this repo's
+        // sessions run 1..37.
         // Session-131 (D-131a1): the scaffold-era data-[state] animation
         // family RETIRED — the ToastCard never set data-state, so
         // data-[state=open]:animate-in / animate-out / fade-* /

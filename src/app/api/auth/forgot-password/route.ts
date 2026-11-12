@@ -2,7 +2,7 @@ import { randomBytes } from "node:crypto";
 import { Prisma } from "@prisma/client";
 
 import { db } from "@/lib/db";
-import { ok, fail, ERR, parseBody } from "@/lib/api";
+import { ok, fail, ERR, isTransientDbFailure, parseBody, TRANSIENT_DB_MESSAGE } from "@/lib/api";
 import { forgotPasswordSchema } from "@/lib/schemas";
 import { hashResetToken } from "@/lib/password";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
@@ -82,11 +82,10 @@ export async function POST(req: Request) {
   try {
     user = await db.user.findUnique({ where: { email } });
   } catch (error) {
-    if (
-      error instanceof Prisma.PrismaClientKnownRequestError &&
-      (error.code === "P2024" || error.code === "P2028")
-    ) {
-      return fail("UNAVAILABLE", "The request took too long — the database timed out. Try again.", 503);
+    // Session-37 (S37-2): the classifier + the shared copy live in
+    // @/lib/api now (the codes' one home) — the wire byte-identical.
+    if (isTransientDbFailure(error)) {
+      return fail("UNAVAILABLE", TRANSIENT_DB_MESSAGE, 503);
     }
     // A row-level read failure is an unknown email by response time —
     // the guard keeps the no-enumeration 200 and resetUrl stays null
@@ -129,11 +128,10 @@ export async function POST(req: Request) {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
         stored = false;
-      } else if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        (error.code === "P2024" || error.code === "P2028")
-      ) {
-        return fail("UNAVAILABLE", "The request took too long — the database timed out. Try again.", 503);
+      } else if (isTransientDbFailure(error)) {
+        // Session-37 (S37-2): the hoisted classifier (same codes, same
+        // 503 — the wire byte-identical).
+        return fail("UNAVAILABLE", TRANSIENT_DB_MESSAGE, 503);
       } else {
         // Session-9 (F9-7): the residual class answers the envelope — a
         // bare re-throw would surface as a raw non-JSON 500 (the envelope

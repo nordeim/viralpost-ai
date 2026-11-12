@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { ERR, fail, isJsonObject, ok, readBoundedJson } from "@/lib/api";
+import { ERR, fail, isJsonObject, isTransientDbFailure, ok, readBoundedJson, TRANSIENT_DB_MESSAGE } from "@/lib/api";
 import { contactSchema } from "@/lib/schemas";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
 
@@ -53,7 +53,13 @@ export async function POST(req: Request) {
   try {
     await db.contactMessage.create({ data: parsed.data });
     return ok({ sent: true });
-  } catch {
+  } catch (error) {
+    // Session-37 (S37-2): the transient-abort family answers the shared
+    // 503 (the reset funnel's F9-7 doctrine, hoisted) — a pool/transaction
+    // timeout is not this route's 500.
+    if (isTransientDbFailure(error)) {
+      return fail("UNAVAILABLE", TRANSIENT_DB_MESSAGE, 503);
+    }
     // Session-23 (S23-8): ERR.INTERNAL() — the bare fail("INTERNAL", …)
     // rode the 400 default (a server-side DB failure answered as a
     // client error; the auth family's idiom is the house form).

@@ -19,7 +19,7 @@ export const dynamic = "force-dynamic";
 // pattern (the reference serves the login card to authed visitors too);
 // /signup is our documented superset (the reference 404s it), so the
 // same pure-render shape applies. The page makes no session read — no
-// DB round-trip per visit — and the the donor s43 deferred-ledger "signup-page
+// DB round-trip per visit — and the donor s43 deferred-ledger "signup-page
 // session read" entry closes with it.
 export default function SignupPage() {
   return (

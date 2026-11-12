@@ -560,7 +560,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 39 | 665 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 39 | 671 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 65 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -578,7 +578,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 665/65/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 671/65/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -645,9 +645,16 @@ the census, and the gate chain.
 ### 10.3 Code Style Rules
 
 ESLint (`next/core-web-vitals` + `next/typescript`, `--max-warnings 0`;
-`rules-of-hooks` an error via the preset, while `exhaustive-deps` and
-`purity` are deliberately off — the SKILL §3 form) + `tsc --noEmit`
-(strict) — both gates, never weakened. Conventional Commits; `main` only.
+`rules-of-hooks` an error via the preset) + `tsc --noEmit` (strict).
+The correctness tier below the presets is deliberately off-listed —
+27 rules (`exhaustive-deps`, `purity`, `no-unreachable`,
+`prefer-const`, `@typescript-eslint/no-explicit-any`, among them),
+the self-documented S25-18c posture in `eslint.config.mjs`'s header:
+the type gate + the census/source-pin batteries own correctness;
+lint owns the Next core-web-vitals family. "lint 0/0" means the Next
+rules pass, not a full correctness sweep. The gates always run AS
+CONFIGURED — never re-configured to make a run pass. Conventional
+Commits; `main` only.
 
 ### 10.4 Git Workflow
 
@@ -693,11 +700,11 @@ commit as the file.)
 | `src/lib/rate-limit.ts` | 135 | Fixed-window limiter, proxy-hop-aware client key |
 | `src/lib/db-path.ts` | 335 | THE database path resolver (ADR-008) |
 | `src/lib/site.ts` | 219 | The metadata factory + canonical origin seam |
-| `src/lib/api.ts` | 268 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2) |
+| `src/lib/api.ts` | 289 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2; the transient-abort classifier, session-37, S37-2) |
 | `src/app/globals.css` | 251 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1) |
 | `src/components/marketing/navbar.tsx` | 260 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 271 | The core surface: quota dots, generate, copy, paywall |
-| `src/components/effects/iridescence.tsx` | 254 | The WebGL hero background (aspect-aware shader) |
+| `src/components/effects/iridescence.tsx` | 269 | The WebGL hero background (aspect-aware shader) |
 | `src/components/effects/particle-text.tsx` | 330 | The canvas particle title |
 | `src/components/effects/floating-icons.tsx` | 122 | The monetization section's ten-icon float field (session-19, S19-2) |
 | `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |

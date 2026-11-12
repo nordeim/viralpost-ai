@@ -3749,7 +3749,9 @@ Agent: main (Z.ai)
   oklab(0.207678…) lands exactly on rgb(15,23,42)@0.95). The mobile
   battery at a CONFIRMED 390px: the open panel computed display block
   both sides, the links + the Gumroad pill byte-identical, the desktop
-  nav 6|6, the login round-trip both landing /, the generator probe
+  nav 6|6, the login round-trip both landing the landing (R `/Home`, its
+duplicate route; L `/`, the 308 deviation — re-spelled session-37,
+S37-7), the generator probe
   symmetrically null (the known artifact). The focus-return face stays
   e2e-owned (mobile-navigation.spec.ts :67/:80 — the daemon cannot
   drive focus from eval; an instrument limitation, not app behavior).
@@ -3850,7 +3852,9 @@ Agent: main (Z.ai)
   390×844, the open panel display block + max-height none + the links +
   the Gumroad pill, the desktop nav 6|6, the five-route head census
   modulo origin, sitemap + robots modulo origin, the login round-trip
-  both landing /, the generator probe symmetrically null). THE MOBILE
+  both landing the landing (R `/Home`, L `/` — the documented /Home
+  deviation; re-spelled session-37, S37-7), the generator probe
+  symmetrically null). THE MOBILE
   MENU WORKS AS EXPECTED — the user's standing concern, verified live
   again.
 - THE CURES (TDD, every battery on record): S36-1 the button-cursor
@@ -3924,6 +3928,88 @@ Agent: main (Z.ai)
   docs/session_36.md (this round's formal log); the plan's
   post-execution record.
 
+- SHIPPED: the remediated codebase + the docs in lockstep, committed
+  to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
+  verified; no new branches).
+
+## Task 37 — The Transient-DB Classifier Hoist + The Teardown Inner-Catch + The Donor-Marker Completion + The Comment-Truth Batch (2026-11-12)
+
+Task ID: 37
+Agent: main (Z.ai)
+- SCOPE: the standing instruction re-run against the shipped tree
+  (`2222697`, session-36's commit; no owner narration commit followed,
+  so this round runs directly on it). Docs review (AGENTS/CLAUDE/
+  README/PAD/SKILL v1.32.0, session_36.md, the session-36 plan,
+  worklog Task 36) → the baseline gate verified in place (lint 0/0 ·
+  tsc 0 · unit 665/665, 39 files · build with the button-cursor rule
+  in the emitted sheet · smoke 16/16 · e2e 65/65, 9 specs · census
+  MATCH) → the comprehensive audit (three parallel subagents, the
+  web-application skill as the rubric, every load-bearing finding
+  hand-verified in source by the lead; the session-36 diff itself
+  verified correct and complete on all three passes) → the live parity
+  walk → the TDD cures → the full gate → the captures → the push. The
+  standing asks re-verified up front (the .env DATABASE_URL
+  "file:../db/custom.db" contract with db/ at the repo root; the
+  vitest + playwright suites; the sitemap/robots/manifest/OG family;
+  skills/ excluded from every gate; the committed .env.example
+  matching the six-knob contract).
+- AUDIT: 0 Critical / 0 High / 0 Medium / 7 Low / 8 Info (AUDIT-1
+  0/0/0/2/1 — the teardown both-fail masking + the transient-db
+  classification's reset-funnel-only scoping; AUDIT-2 0/0/0/3/3 — the
+  donor-marker sweep's toast.tsx miss + the login-card note's
+  under-enumeration; AUDIT-3 0/0/2/4 — the force-static posture's
+  zero assertions + the lint-posture under-disclosure). The lead
+  hand-verified all fifteen findings in source (including the audit's
+  own over-reach: iridescence's buf is NOT live at the early returns).
+- WALK: 21/21 faces raw MATCH, NO DRIFT — the tenth consecutive
+  fully-clean walk. The mobile menu verified again at a confirmed
+  390×844 (the panel block, the links + the pill byte-identical, both
+  cursor faces pointer — S36-1 holding). The login-lands face
+  recorded at its precise form for the first time (S37-7): the
+  reference's post-login URL is /Home (its duplicate-of-/ route,
+  canonical → /), ours / via the documented 308 deviation — the prior
+  recordings' "both land on /" re-spelled at all eleven sites.
+- CURES (TDD, every pin RED-first or battery-planted): the
+  transient-db classifier hoist (S37-2 — isTransientDbFailure +
+  TRANSIENT_DB_MESSAGE in src/lib/api.ts, the codes' one home; the six
+  blanket-500 DB routes carry the arm ahead of ERR.INTERNAL(); the
+  reset funnel's four sites route through the shared helper, the wire
+  byte-identical; +2 pins RED-first, the F9-7/auth-reset pins
+  re-anchored to the helper form); the teardown inner-catch (S37-1 —
+  the both-fail case now prints BOTH messages; +1 pin RED-first, the
+  S35-3 arm's ownership separation proven in the battery); the
+  donor-marker completion (S37-3 — toast.tsx's file-level note +
+  login-card:85's enumeration extension); the force-static SEO pin
+  (S37-4 — the build-time-inlining claim now pinned; +1
+  coverage-gap pin, the planted-removal battery on record); the
+  lint-posture disclosure (S37-5 — PAD §10.3 + CLAUDE name the
+  27-rule off-list's breadth); the hygiene batch (S37-6 — the seed
+  reword, the corpus register rounded to one live-counted form
+  (~170 text files + the ~3,150-file skills/ catalog), the signup
+  typo, the GL releases (+1 RED-first pin), the verification-server
+  pass-through pin (GREEN-on-arrival, the wrong-wrapper battery on
+  record), README:286's S36-5d wording); the login-lands re-spell
+  (S37-7 — eleven sites, no behavior change).
+- ACCEPTED: the prefers-reduced-motion live-toggle gap (parity-
+  consistent superset — the reference handles it not at all; the
+  MediaQueryList subscription deferred as a behavioral change to four
+  effect loops); the JSON-LD/og:locale/twitter:site family (the
+  reference ships none; the head-census parity contract governs); the
+  standing register carried forward unchanged.
+- The count re-anchor: UNIT 665 → 671 (+1 S37-1 in db-census, +2
+  S37-2 in api-robustness, +1 S37-4 in seo-surfaces, +1 S37-6d in
+  effects-motion, +1 S37-6e in password-seam), SUITES 39, E2E 65,
+  SMOKE 16, badge 730 → 736. Constants re-anchored FIRST; the census
+  walked the doc sites RED→GREEN (PAD §12: api.ts 268→289,
+  iridescence.tsx 254→269; the nine provenance sites at 1..37 — lag 0
+  at ship).
+- Docs lockstep: README (badge 736, the session-37 row, the gate
+  line); AGENTS (counts, the plans map's thirty-seventh round);
+  CLAUDE (counts, the 503 status line, the lint-posture scoping); PAD
+  (§8.1, §8.2, §10.3, §12); SKILL v1.32.0 → v1.33.0 (frontmatter,
+  §0.5 1..37, Appendix A's session-37 row, Appendix B's header +
+  body, the pre-ship checklist); worklog Task 37 (this entry);
+  docs/session_37.md; the plan's post-execution record.
 - SHIPPED: the remediated codebase + the docs in lockstep, committed
   to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
   verified; no new branches).

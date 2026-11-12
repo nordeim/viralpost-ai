@@ -86,8 +86,14 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
   // resend sessions; this file's bare N-67k/N-67l, Session-111,
   // N-79c13, and Session-96 cites below are donor-ledger numbers too —
   // the template family's sessions, never this repo's
-  // docs/session_N.md): the resend's own in-flight flag — the link's
-  // budget is 5/15 min, so a double-click must not burn two sends.
+  // docs/session_N.md. Session-37 (S37-3) completes the enumeration:
+  // the file's other bare cites are equally donor-ledger — the
+  // Session-147/s142/s145 family (:74's auth-wall target — see the
+  // file-top docblock), S79-P2 (:501), M-79c3 (:598), L-79c6 (:887),
+  // and L-79c7/L-79c11 (:637), the last four covered by the mid-file
+  // Session-79 L-79c8 lineage note at :631): the resend's own
+  // in-flight flag — the link's budget is 5/15 min, so a double-click
+  // must not burn two sends.
   const [resending, setResending] = React.useState(false);
   // Session-163 (the digma ADR-014 port): the SELF-HOSTED in-app
   // deliveries — the reset link the forgot-password response carries
