@@ -277,8 +277,8 @@ the session-29..33 lesson):**
        doc-site walk RED→GREEN, PAD §12 rows, SKILL v1.36.0, the ten
        provenance sites 1..40, worklog Task 40, README/AGENTS/CLAUDE
        rows, session_40.md, the plan record
-- [ ] 13. Batch 5: the full gate + the walk re-run + captures 87/88
-- [ ] 14. Batch 6: commit + SSH-wrapper push (dry-run first, remote
+- [x] 13. Batch 5: the full gate + the walk re-run + captures 87/88
+- [x] 14. Batch 6: commit + SSH-wrapper push (dry-run first, remote
        verified, key shredded)
 
 ## Post-execution record
