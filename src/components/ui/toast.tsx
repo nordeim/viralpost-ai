@@ -73,7 +73,16 @@ function push(title: string, variant: ToastVariant = "info", description?: strin
   return item.id;
 }
 
-/** Imperative helper usable from anywhere client-side. */
+/** Imperative helper usable from anywhere client-side.
+ *
+ * Session-41 (S41-6): `success` and the public `dismiss` member carry
+ * NO in-src call sites today (only toast.error ×6 and toast.info ×1
+ * have live callers) — they stay BY DESIGN, not dead surface: the
+ * variant triad + the dismiss control are the reference's walk-censused
+ * toast ANATOMY (the parity face of the component kit; retirement would
+ * cascade emerald-200's pin and shrink the parity face — the BRAND.name
+ * precedent in nav-config.ts). tests/toast-anatomy.test.ts owns every
+ * member of this API. */
 export const toast = {
   success: (title: string, description?: string) => push(title, "success", description),
   error: (title: string, description?: string) => push(title, "error", description),
@@ -159,7 +168,7 @@ function ToastCard({ item }: { item: ToastItem }) {
         // D-124a7, s128/s129/s130, and walk22 below — are DONOR-LEDGER
         // numbers (the NEO-CRM/digma template family's own sessions and
         // findings), never this repo's docs/session_N.md; this repo's
-        // own ledger is docs/session_1..40.md (re-spelled session-38,
+        // own ledger is docs/session_1..41.md (re-spelled session-38,
         // S38-7c, to the census-legible range form — the docs-counts
         // lag invariant now owns this claim).
         // Session-131 (D-131a1): the scaffold-era data-[state] animation

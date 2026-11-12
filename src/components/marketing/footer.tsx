@@ -1,3 +1,4 @@
+import type { LucideIcon } from "lucide-react";
 import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import Link from "next/link";
 
@@ -9,13 +10,18 @@ import { BRAND, GUMROAD_URL, NAV_ROUTES, SOCIAL_LINKS } from "./nav-config";
 // chips, Product column, Get Started upgrade link. Deviation: the social
 // chips link the real platform homepages (the reference ships dead `#`).
 
+// Session-41 (S41-9): the satisfies form makes the label→icon mapping
+// COMPILE-TIME exhaustive — every SOCIAL_LINKS label must have an icon
+// here (and no extra icons can ride along); the old
+// `s.label as keyof typeof SOCIAL_ICONS` cast compiled even for a label
+// with no entry and would have rendered <undefined/> at runtime.
 const SOCIAL_ICONS = {
   Instagram,
   Twitter,
   LinkedIn: Linkedin,
   YouTube: Youtube,
   Facebook,
-} as const;
+} as const satisfies Record<(typeof SOCIAL_LINKS)[number]["label"], LucideIcon>;
 
 export function Footer() {
   return (
@@ -37,7 +43,7 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-3 mt-5">
               {SOCIAL_LINKS.map((s) => {
-                const Icon = SOCIAL_ICONS[s.label as keyof typeof SOCIAL_ICONS];
+                const Icon = SOCIAL_ICONS[s.label];
                 return (
                   <a
                     key={s.label}

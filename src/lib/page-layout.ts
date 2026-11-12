@@ -50,8 +50,6 @@ export const LOGIN_LAYOUT = {
   label: "text-sm font-medium text-slate-700",
   inputWrap: "relative",
   inputIcon: "absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500",
-  input:
-    "h-11 w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-10 pr-3 placeholder:text-slate-600 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2 text-base md:text-sm sm:h-12",
   // The auth inputs carry the stock text-base md:text-sm pair (16px <768,
   // 14px at desktop). Session-40 (S40-8, the comment-truth cure): the
   // focus ring is the S25-3 WCAG 1.4.11 superset — the reference's own
@@ -59,6 +57,11 @@ export const LOGIN_LAYOUT = {
   // focus-indicator floor); ours rides slate-600 (≈7.5:1) — the border
   // goes slate-400, the ring slate-600 (the signup sibling's docblock
   // carried the accurate form; this comment had the pre-S25-3 spelling).
+  // Session-41 (S41-8): the block moved to ITS anchor — the S40-8
+  // re-spell landed between `input:` and `submit:` and read as the
+  // submit button's docblock.
+  input:
+    "h-11 w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-10 pr-3 placeholder:text-slate-600 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2 text-base md:text-sm sm:h-12",
   submit:
     "flex h-11 w-full items-center justify-center gap-1 rounded-xl bg-slate-900 font-medium text-white shadow-sm transition-all duration-200 hover:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-sm sm:h-12",
   footer: "flex flex-col items-center justify-between gap-2 sm:flex-row sm:gap-0",

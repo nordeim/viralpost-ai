@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..40.
+// are docs/session_1..41.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -298,6 +298,23 @@ describe("session-170 (WP-3) + session-3 (F3-1): the flag-typo guard (the scandi
     expect(report.warnings[0]).toContain("VIRALPOST_PROXY_HOPS");
     expect(report.warnings[0]).toContain("Set VIRALPOST_PROXY_HOPS instead");
     expect(report.warnings[0]).not.toContain("no knob maps");
+  });
+
+  // Session-41 (S41-4): the exact-prefix mixed-tail shape on the
+  // VIRALPOST_ face — the S40-2 cure's sibling. An exact
+  // VIRALPOST_-prefix key with a mixed-case tail (VIRALPOST_proxy_hops)
+  // used to land in the "Unknown VIRALPOST_*" arm ("A typo here
+  // silently no-ops") instead of the case-variant vocabulary's
+  // actionable mapping — the operator configured a REAL knob with the
+  // wrong casing and got the generic typo guidance without the exact
+  // spelling the code reads.
+  it("S41-4: an exact-prefix mixed-tail VIRALPOST_ key maps the canonical spelling (not the Unknown arm)", () => {
+    const report = bootEnvCheck(env({ VIRALPOST_proxy_hops: "2" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("VIRALPOST_proxy_hops");
+    expect(report.warnings[0]).toContain("VIRALPOST_PROXY_HOPS");
+    expect(report.warnings[0]).toContain("Set VIRALPOST_PROXY_HOPS instead");
+    expect(report.warnings[0]).not.toContain("Unknown VIRALPOST_*");
   });
 });
 

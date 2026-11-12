@@ -193,6 +193,11 @@ import {
 // in THIS suite; the generator dash-run guard pin (S40-13a) in
 // generator; the login-views signup pin re-pins in place (S40-6) —
 // +0 tests) and the e2e 65 unchanged. SMOKE 16 unchanged.
+// s41: 683/40 (+2 the session-41 pins — the boot-gate exact-prefix
+// mixed-tail VIRALPOST_ arm (S41-4a, boot-env) and the stepped
+// dead-literal census (S41-5a, design-tokens); the S41-3 arm
+// restructure is in-place — +0 tests) and the e2e 65 unchanged.
+// SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -200,7 +205,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 681;
+const UNIT = 683;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */

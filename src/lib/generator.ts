@@ -396,6 +396,9 @@ function hashtagsFor(idea: string, niche: Niche | null, rng: () => number): stri
 
 // ---- word counting ----------------------------------------------------------
 
+// Session-41 (S41-13): the export is pin-owned (generator.test.ts and
+// property.test.ts assert the engine's wordCount against this helper —
+// the independent-oracle form; the extractHashtags precedent below).
 export function countWords(text: string): number {
   return text.split(/\s+/).filter(Boolean).length;
 }

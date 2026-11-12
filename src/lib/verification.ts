@@ -25,9 +25,14 @@
  * directly. The code generator and the scrypt hashing ride
  * `src/lib/verification-server.ts` (server-only: node:crypto + the auth
  * layer). Self-hosted delivery: the reference emails the code through its
- * platform; a self-hosted clone has no mail transport, so the code is
- * logged to the SERVER console at signup/resend time (never shipped to the
- * client, never committed).
+ * platform; a self-hosted clone has no mail transport by default, so
+ * the code is stored HASHED (scrypt) and delivered IN-APP — the
+ * signup/resend responses carry `verificationCode` (the digma ADR-014
+ * port, the demo posture), with a SERVER-console log at signup/resend
+ * time. `VIRALPOST_DISABLE_IN_APP_OTP=1` hands delivery to a real
+ * mail transport: the responses stop carrying the code, the console
+ * log goes quiet, and only then is the code never shipped to the
+ * client (it exists only as the stored hash).
  */
 
 /** The code length — six single-digit inputs on the reference's view. */

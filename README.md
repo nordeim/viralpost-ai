@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-746%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-748%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,7 +52,7 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 40 files / 681 tests, node env, pure seams |
+| Unit tests | Vitest | 5.0 | 40 files / 683 tests, node env, pure seams |
 | E2E | Playwright | 1.64 | 9 specs / 65 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
@@ -141,7 +141,7 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (40 files / 681 tests)
+bun run test            # Vitest unit suite (40 files / 683 tests)
 bun run test:e2e        # Playwright e2e (9 specs / 65 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 16-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
@@ -155,7 +155,10 @@ The e2e suite boots the **production standalone build** on its own port
 with its own scratch database (`db/e2e.db`) — the dev server lies about
 production hydration. One setup project signs the demo user in once and
 shares the session via `storageState` (per-test logins would trip the auth
-rate limiter).
+rate limiter). Re-running the suite within 15 minutes of a prior run?
+Use `CI=1 bun run test:e2e` — the fresh-server form (a reused server
+keeps its in-memory rate buckets, so the login/contact legs trip their
+cumulative 429 limits on the second pass).
 
 ## API reference
 
@@ -293,6 +296,7 @@ smoke 15/15 · e2e 65/65.
 
 
 | Session 40 — the boot-gate six-knob case arm + the reveal count truth + the dead-surface retirement + the comment-truth batch | ✅ done | The audit round at 0 Critical / 0 High / 0 Medium / 10 Low / 13 Info (three parallel subagents — API/lib seams, components/pages/effects, SEO/configs/tests/docs — every load-bearing finding hand-verified in source by the lead; the session-39 diff itself verified correct and complete on all three passes; every finding cured — S40-1..S40-14); THE PARITY WALK found NO DRIFT — the thirteenth consecutive fully-clean walk: the mobile menu open at a confirmed 390×844 with the panel anchors enumerated byte-identical both sides (the four nav links + the Gumroad pill), the desktop nav, the five-route head census, sitemap 4/4 + robots identical modulo origin, the generator probe symmetrically disabled/not-allowed, the login round-trip both landing the landing; the boot-gate six-knob case arm (S40-1 — a case-variant auth_secret/database_url/next_public_site_url key now warns and maps the canonical, +3 RED-first pins + the strip battery; the sharpest face was DATABASE_URL: zero signal in any mode) + the NEO_ mixed-tail uppercase (S40-2, +1 RED-first pin + battery); the PAD §4.1 schema census (S40-11 — the model face joins the disk family, +1 arm RED-first on the photoUrl omission + the row-removal battery; PAD §4.1 gained photoUrl after the entire repo's life green); the generator dash-run guard (S40-13 — a `----` token used to render a bare `#`, +1 RED-first pin + battery); the resend-side accepted race documented (S40-3, the S39-8 mirror); the reveal count truth (S40-4 — "all 19" → 17, the count-truth genus shipped inside the count-truth commit itself); the dead-surface retirement (S40-5 Logo/Iridescence/PricingSection props, S40-6 the login-reset vocabulary members + the re-pinned login-views pin); the comment-truth batch (S40-7 route-title mechanism, S40-8 the focus-ring superset form, S40-14 the TTL-derived OTP logs); the trees + import hygiene (S40-10 the five-script lines, S40-12 the Prisma import position + node:crypto everywhere); unit 681/40 (+6) + e2e 65/9, badge 746; captures 87/88 |
+| Session 41 — the boot-gate exact-prefix case arm + the dead stepped-stock retirement + the toast-kit by-design note + the comment-truth batch | ✅ done | The audit round at 0 Critical / 0 High / 0 Medium / 6 Low / 9 Info (three parallel subagents — API/lib seams, components/pages/effects, SEO/configs/tests/docs — every load-bearing finding hand-verified in source by the lead, incl. a dynamic boot-env arm probe + an independent dead-literal census; the session-40 diff verified correct on all three passes; every finding cured — S41-1..S41-14); THE PARITY WALK found NO DRIFT — the fourteenth consecutive fully-clean walk: the mobile menu open at a confirmed 390×844 with the panel anchors byte-identical both sides (the four nav links + the Gumroad pill, cursor pointer both sides — the Tailwind v4 concern holding), the reference's hamburger still aria-bare (our family the documented superset), Escape leaves the reference's panel open (our F11-11 superset), the desktop nav, the five-route head census, sitemap 4/4 + robots identical modulo origin, the generator probe symmetrically disabled/not-allowed, the login round-trip both landing the landing with the clone session live-verified via /api/auth/me; the boot-gate exact-prefix case arm (S41-4 — VIRALPOST_proxy_hops now maps "Set VIRALPOST_PROXY_HOPS instead" instead of the mislabeled "Unknown" arm, the S40-2 shape on the VIRALPOST_ face, +1 RED-first pin + the routing-strip battery) + the arm's own dead surface retired (S41-3 — the unreachable `??` fallback + the subsumed maps-ternary arm, every existing pin GREEN through the restructure); the dead stepped-stock retirement (S41-5 — 11 donor-carryover @theme literals gone: the gray family, neutral-100, red-400/500, emerald-400/500; the NEW stepped dead-literal census arm narrows the stepped exemption to the three whole-family pins (amber/slate/teal) and demands a live consumer for every other stepped literal, +1 arm RED-first naming the 11 + the re-add-gray-100 battery); the OTP-delivery comment truth (S41-1 — three stale "never shipped to the client" claims re-spelled to the shipped in-app delivery) + the resend qualifications (S41-2); the toast-kit by-design note (S41-6 — toast.success/dismiss stay as the reference's censured toast anatomy, the BRAND.name precedent); the micro-truth batch (S41-7 the teal-600 ratio ≈3.74:1, S41-8 the input docblock anchor, S41-9 the footer cast retired for the satisfies form, S41-13 the Kept annotations, S41-14 db-path's node: specifiers, S41-10 the provenance phrasing, S41-11 README's CI=1 remedy, S41-12 PAD §8.1's cell); unit 683/40 (+2) + e2e 65/9, badge 748; captures 89/90 |
 
 
 Gate at the session-40 ship: lint 0/0 · tsc 0 · unit 681/681 · build ·

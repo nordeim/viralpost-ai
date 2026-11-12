@@ -113,7 +113,15 @@
      login/reset callout text, whose v3 render is #15803d). The census is
      now MECHANICAL — tests/design-tokens.test.ts enumerates every color
      utility used in src/ and fails on any pair without a literal here,
-     so the "every literal" invariant is tested, not asserted. */
+     so the "every literal" invariant is tested, not asserted.
+     Session-41 (S41-5): the direction is now BIDIRECTIONAL — the
+     stepped dead-literal census (design-tokens.test.ts, the S41-5 arm)
+     retires any stepped literal without a live consumer outside the
+     three whole-family pins (amber/slate/teal below, 50..950 —
+     defensive: any future step of those families renders the v3
+     value). The 11 donor-carryover literals this retired: the gray
+     family (6 of 11 steps, zero consumers of any gray step),
+     neutral-100, red-400, red-500, emerald-400, emerald-500. */
   --color-amber-50: #fffbeb;
   --color-amber-100: #fef3c7;
   --color-amber-200: #fde68a;
@@ -149,8 +157,6 @@
   --color-teal-950: #042f2e;
   --color-red-50: #fef2f2;
   --color-red-200: #fecaca;
-  --color-red-400: #f87171;
-  --color-red-500: #ef4444;
   --color-red-600: #dc2626;
   --color-red-700: #b91c1c;
   --color-green-50: #f0fdf4;
@@ -158,8 +164,6 @@
   --color-green-700: #15803d;
   --color-emerald-50: #ecfdf5;
   --color-emerald-200: #a7f3d0;
-  --color-emerald-400: #34d399;
-  --color-emerald-500: #10b981;
   --color-emerald-600: #059669;
   --color-blue-600: #2563eb;
   --color-blue-700: #1d4ed8;
@@ -169,13 +173,6 @@
      reference 2026-11-10) — pinned to the v3 values with the family. */
   --color-pink-400: #f472b6;
   --color-sky-400: #38bdf8;
-  --color-gray-50: #f9fafb;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #6b7280;
-  --color-gray-900: #111827;
-  --color-neutral-100: #f5f5f5;
   --color-neutral-900: #171717;
 
   /* Animations — session-11 (F11-5): the motion vocabulary is EXACTLY the

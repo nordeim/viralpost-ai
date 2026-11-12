@@ -24,6 +24,10 @@ const emailFormat = emailField("Enter a valid email address").regex(
 );
 
 export const emailSchema = emailFormat;
+// Session-41 (S41-13): Kept — the export is pin-owned (the in-src
+// consumers read emailFormat's derived schemas; tests/schemas.test.ts
+// owns the email contract through this name — the extractHashtags
+// precedent in generator.ts).
 
 /** Passwords: the 8-char minimum every password-setting surface enforces,
  * plus the 200-char ceiling the reset family has always owned — session-14

@@ -37,9 +37,13 @@
 // env value (a caller override such as the e2e suite's file:../db/e2e.db,
 // a postgres URL, a production absolute path) is respected as-is.
 
-import { existsSync, mkdirSync, readFileSync } from "fs";
-import { basename, dirname, join, resolve } from "path";
-import { fileURLToPath } from "url";
+// Session-41 (S41-14): the node: prefixes join the S40-12 normalization
+// (crypto's scope) — this module was the last bare-specifier holdout
+// under src/ (fs/path/url; scripts/prisma-env.ts already rode
+// node:child_process). Line-in-place; PAD §12's row is unchanged.
+import { existsSync, mkdirSync, readFileSync } from "node:fs";
+import { basename, dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 export const DEFAULT_DATABASE_URL = "file:../db/custom.db";
 
@@ -247,7 +251,7 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  *
  * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
  * NEO-CRM seam's own recovery session; this repo's sessions are
- * docs/session_1..40, the SKILL §0.5 enumeration): the standalone server.js runs
+ * docs/session_1..41, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The

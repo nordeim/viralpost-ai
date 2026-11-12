@@ -178,10 +178,25 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
   // NEO_ branch's mapped tail is uppercased the same way (S40-2).
   for (const key of Object.keys(env)) {
     if (key.startsWith("VIRALPOST_") && !KNOWN_VIRALPOST_VARS.has(key)) {
+      // Session-41 (S41-4): an exact-VIRALPOST_-prefix MIXED-TAIL key
+      // (VIRALPOST_proxy_hops) is a case variant of a known knob, not
+      // an unknown name — route it to the case-variant vocabulary (the
+      // actionable "Set X instead"), the same cure S40-2 gave the NEO_
+      // face. The old form warned "Unknown VIRALPOST_* … A typo here
+      // silently no-ops" — true but mislabeled: the operator configured
+      // a REAL knob with the wrong casing and got the generic typo
+      // guidance without the exact spelling the code reads. (An
+      // exact-case known key never reaches this branch — the
+      // !KNOWN_VIRALPOST_VARS.has(key) gate above is the exclusion.)
+      const knownCaseVariant = [...KNOWN_VIRALPOST_VARS].find(
+        (k) => k.toLowerCase() === key.toLowerCase(),
+      );
       warnings.push(
-        `[boot] Unknown VIRALPOST_* environment variable ${key} — the known knobs are: ${[...KNOWN_VIRALPOST_VARS].join(
-          ", ",
-        )}. A typo here silently no-ops (the closed set is read verbatim).`,
+        knownCaseVariant
+          ? `[boot] Case-variant environment variable ${key} — env keys are case-sensitive, so this key is inert here. The code reads the exact spelling ${knownCaseVariant}. Set ${knownCaseVariant} instead.`
+          : `[boot] Unknown VIRALPOST_* environment variable ${key} — the known knobs are: ${[...KNOWN_VIRALPOST_VARS].join(
+              ", ",
+            )}. A typo here silently no-ops (the closed set is read verbatim).`,
       );
     } else if (key.startsWith("NEO_")) {
       // Session-40 (S40-2): the tail is UPPERCASED like the case arm's
@@ -218,14 +233,26 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
       // draft is the in-round proof. The `k !== key` guard in the
       // six-knob matcher is the same exclusion on the name-set face:
       // an exact-case DATABASE_URL/AUTH_SECRET never warns here.)
-      const canonical = /^neo_/i.test(key)
-        ? `VIRALPOST_${key.slice(4).toUpperCase()}`
-        : /^viralpost_/i.test(key)
-          ? key.toUpperCase()
-          : (SIX_KNOB_NAMES.find((k) => k !== key && k.toLowerCase() === key.toLowerCase()) ??
-            key.toUpperCase());
+      // Session-41 (S41-3): the six-knob match is computed ONCE and
+      // leads the canonical ternary — the S40-1 form carried an
+      // unreachable `?? key.toUpperCase()` fallback (the arm
+      // condition's some() already guarantees find() resolves whenever
+      // the prefix tests miss, under identical predicates) and a
+      // maps-ternary left arm subsumed by the containment
+      // (SIX_KNOB_NAMES ⊇ KNOWN_VIRALPOST_VARS — the set is built from
+      // it). No fallback arm exists by construction; the input
+      // equivalence holds for every key class (the six-knob face, the
+      // neo_/viralpost_ prefix faces, and the unknown-tail miss).
+      const sixKnobCanonical = SIX_KNOB_NAMES.find(
+        (k) => k !== key && k.toLowerCase() === key.toLowerCase(),
+      );
+      const canonical =
+        sixKnobCanonical ??
+        (/^neo_/i.test(key)
+          ? `VIRALPOST_${key.slice(4).toUpperCase()}`
+          : key.toUpperCase());
       warnings.push(
-        KNOWN_VIRALPOST_VARS.has(canonical) || SIX_KNOB_NAMES.includes(canonical)
+        SIX_KNOB_NAMES.includes(canonical)
           ? `[boot] Case-variant environment variable ${key} — env keys are case-sensitive, so this key is inert here. The code reads the exact spelling ${canonical}. Set ${canonical} instead.`
           : `[boot] Case-variant environment variable ${key} — env keys are case-sensitive, and no knob maps to ${canonical}. The known knobs are: ${[
               ...KNOWN_VIRALPOST_VARS,

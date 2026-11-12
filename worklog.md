@@ -4313,8 +4313,8 @@ Agent: main (Z.ai)
   SUITES 40 unchanged, E2E 65 unchanged, SMOKE 16 unchanged, badge
   740 → 746. Constants re-anchored FIRST; the census walked the doc
   sites RED→GREEN (PAD §12: generator 457→467, route-title 56→62,
-  auth 193→196, iridescence 269→273; the ten provenance sites +
-  toast's owned tenth re-anchored to 1..40 — lag 0 at ship).
+  auth 193→196, iridescence 269→273; the ten provenance sites
+  (toast.tsx the owned tenth) re-anchored to 1..40 — lag 0 at ship).
 - Docs lockstep: README (badge 746, the 40/681 rows, the
   session-40 row, the gate line, the five-script tree line);
   AGENTS (counts, the plans map's fortieth round); CLAUDE (counts);
@@ -4323,6 +4323,138 @@ Agent: main (Z.ai)
   §0.5 1..40, Appendix A's session-40 row, Appendix B's header +
   counts, the pre-ship checklist); worklog Task 40 (this entry);
   docs/session_40.md (the formal log); the plan's post-execution
+  record.
+- SHIPPED: the remediated codebase + the docs in lockstep, committed
+  to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
+  verified; no new branches).
+
+## Task 41 — The Boot-Gate Exact-Prefix Case Arm + The Dead Stepped-Stock Retirement + The Toast-Kit BY-DESIGN Note + The Comment-Truth Batch (2026-11-13)
+
+Task ID: 41
+Agent: main (Z.ai)
+- SCOPE: the standing instruction re-run against the shipped tree
+  (`2d7cced`, session-40's commit; the owner's narration commits
+  `74b340c`/`29e47a2` followed, the latter carrying session_41.md as
+  the round-40 narration — replaced by this round's formal log). Docs
+  review (AGENTS/CLAUDE/README/PAD/SKILL v1.36.0, session_40.md, the
+  session-40 plan, worklog Task 40, the owner narration); the baseline
+  gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit
+  681/681, 40 files · build · smoke 16/16 · e2e 65/65, 9 specs ·
+  census MATCH); the standing asks re-verified up front (the `.env`
+  `DATABASE_URL="file:../db/custom.db"` contract with `db/` at the
+  repo root; the vitest + playwright suites in place and current; the
+  sitemap/robots/manifest/OG family verified live against the
+  reference in this round's walk; `skills/` excluded from every gate;
+  the committed `.env.example` matching the six-knob contract).
+- AUDIT: three parallel dispatched subagents (AUDIT-1 API/lib seams,
+  AUDIT-2 components/pages/effects, AUDIT-3 SEO/configs/tests/docs —
+  every load-bearing finding hand-verified in source by the lead,
+  including a dynamic probe of the boot-env arm matrix
+  (VIRALPOST_proxy_hops → the mislabeled "Unknown" arm, live-settled)
+  and an independent comment-blind dead-literal census (which
+  confirmed the audit's 11 within the doctrine boundary — the
+  amber/slate/teal whole-family pins stay)): **AUDIT-1 0C/0H/0M/4L/2I
+  · AUDIT-2 0C/0H/0M/2L/3I · AUDIT-3 0C/0H/0M/0L/4I — combined
+  0/0/0/6L/9I.** The session-40 diff itself verified correct and
+  complete on all three passes; the residuals are pre-existing debt
+  the round's own doctrine would eventually claim, plus two dead
+  surfaces the S40-1 cure itself shipped (the S41-3 irony).
+- PARITY WALK: NO DRIFT — the fourteenth consecutive fully-clean walk
+  (the mobile battery at a confirmed 390×844: the panel mechanics
+  display block + max-height none + overflow hidden identical, the
+  four nav links + the Gumroad pill byte-identical (classes, hrefs,
+  texts), cursor pointer on every link + both hamburgers (the
+  Tailwind v4 standing concern holding), the reference's
+  bg-slate-900/98 still computing rgba(0,0,0,0), the reference's
+  hamburger still aria-bare, Escape leaving the reference's panel
+  open (our F11-11 superset); the desktop nav byte-identical; the
+  five-route head census byte-identical modulo origin; sitemap 4/4 +
+  robots identical modulo origin; the generator probe symmetrically
+  disabled/not-allowed (R 405, L works — the documented superset);
+  the login round-trip both landing the landing (R `/Home`, L `/` —
+  the documented 308 deviation), the clone session verified live via
+  /api/auth/me). The neo-crm reference repo re-checked per the
+  standing instruction: its sessions 213–217 deepen the
+  semantic-prose census genus on its own docs — this repo adopted the
+  genus at session-12; patterns current, nothing new to adopt.
+- CURED (TDD — every pin RED first or battery-planted, the mutation
+  batteries per the house doctrine): the BOOT-GATE EXACT-PREFIX CASE
+  ARM (S41-4 — the S40-2 shape on the VIRALPOST_ face:
+  VIRALPOST_proxy_hops lands in the "Unknown VIRALPOST_*" arm
+  ("A typo here silently no-ops") instead of the case-variant
+  vocabulary; the first branch now routes case-insensitive
+  KNOWN_VIRALPOST_VARS matches to "Set X instead"; +1 RED-first pin,
+  the routing-strip battery on record — exactly the one pin RED, the
+  S40-1a/S40-2a families GREEN through it); THE ARM'S OWN DEAD
+  SURFACE (S41-3 — the S40-1 cure's `?? key.toUpperCase()` fallback
+  was unreachable (the arm condition's some() guarantees find(),
+  identical predicates) and the maps-ternary left arm was subsumed
+  (SIX_KNOB_NAMES ⊇ KNOWN_VIRALPOST_VARS); the find() hoisted and
+  computed once, leading the canonical ternary — no fallback arm by
+  construction, input-equivalence proven for every key class; every
+  existing boot-env pin GREEN through the restructure); THE DEAD
+  STEPPED-STOCK RETIREMENT (S41-5 — 11 donor-carryover literals gone
+  from @theme: the gray family (gray-50/100/200/400/500/900 — 6 of 11
+  steps, zero consumers of any gray step), neutral-100, red-400,
+  red-500, emerald-400, emerald-500; the NEW stepped dead-literal
+  census arm in design-tokens.test.ts narrows the dead-token census's
+  blanket stepped exemption to the three documented whole-family pins
+  (amber/slate/teal 50..950) and demands a live comment-stripped
+  consumer for every other stepped literal — +1 arm RED-first naming
+  exactly the 11, the re-add-gray-100 battery on record; the
+  dead-token census comment re-spelled to the accurate doctrine; the
+  globals.css palette docblock records the bidirectional doctrine);
+  THE OTP-DELIVERY COMMENT TRUTH (S41-1 — three stale "never shipped
+  to the client" claims (verification.ts, signup, resend)
+  contradicted the shipped in-app delivery (the responses carry
+  verificationCode by default, the digma ADR-014 port); all three
+  re-spelled to the truthful form — the knob hands delivery to a mail
+  transport, and only then is it console-only); THE RESEND
+  QUALIFICATIONS (S41-2 — the S14-2 equalizer claim scoped to the
+  knob posture (under the default the code value itself is the
+  S13-1-accepted oracle); the S40-3 race re-worded: the hash is live
+  immediately at the write, the surviving session masks the lockout
+  until its TTL lapses); THE TOAST-KIT BY-DESIGN NOTE (S41-6 —
+  toast.success + the public dismiss carry no in-src call sites today
+  (only toast.error ×6 + toast.info ×1 are live); they stay BY DESIGN
+  as the reference's walk-censused toast anatomy — the parity face of
+  the component kit (the BRAND.name precedent); retirement would
+  cascade emerald-200's pin and shrink the parity face;
+  toast-anatomy.test.ts owns the API); THE MICRO-TRUTH BATCH (S41-7
+  the teal-600 ratio cite ≈3.05:1 → ≈3.74:1 (computed on the card's
+  bg-white; 3.58:1 on slate-50); S41-8 the page-layout input docblock
+  re-anchored above `input:` (the S40-8 re-spell had landed between
+  input and submit); S41-9 the footer icon-lookup cast retired for
+  the `satisfies Record<Label, LucideIcon>` compile-time-exhaustive
+  form; S41-13 the emailSchema/countWords "Kept: pin-owned"
+  annotations (the extractHashtags precedent); S41-14 db-path's
+  fs/path/url → node:fs/node:path/node:url (the S40-12 genus
+  completion, the last bare-specifier holdout under src/); S41-10 the
+  session-40 provenance phrasing "the ten provenance sites + toast's
+  owned tenth" (an 11-enumeration where the census finds 10)
+  re-spelled to the plan's parenthetical form at session_40.md +
+  worklog Task 40; S41-11 README's CI=1 e2e re-run remedy (a reused
+  server keeps its in-memory rate buckets — the second run trips
+  429s); S41-12 PAD §8.1's E2E row location cell + auth.setup.ts).
+- ACCEPTED/OBSERVED: the vitest e2e separation is include-glob-based
+  (the config's own comment documents the mechanism accurately —
+  observation, no drift); the amber/slate/teal whole-family pins stay
+  (the documented defensive doctrine); the standing register carried
+  forward unchanged.
+- The count re-anchor: UNIT 681 → 683 (+1 S41-4a in boot-env, +1
+  S41-5a in design-tokens), SUITES 40 unchanged, E2E 65 unchanged,
+  SMOKE 16 unchanged, badge 746 → 748. Constants re-anchored FIRST;
+  the census walked the doc sites RED→GREEN (PAD §12: generator
+  467→470, db-path 335→339, globals.css 253→250, generator-card
+  271→273; the ten provenance sites (toast.tsx the owned tenth)
+  re-anchored to 1..41 — lag 0 at ship).
+- Docs lockstep: README (badge 748, the 40/683 rows, the session-41
+  row, the CI=1 remedy); AGENTS (counts, the plans map's forty-first
+  round); CLAUDE (counts); PAD (§8.1 40/683 + the E2E location cell,
+  §8.3 683/65/16, §12 rows); SKILL v1.36.0 → v1.37.0 (frontmatter,
+  §0.5 1..41, Appendix A's session-41 row, Appendix B's header +
+  counts, the pre-ship checklist); worklog Task 41 (this entry);
+  docs/session_41.md (the formal log); the plan's post-execution
   record.
 - SHIPPED: the remediated codebase + the docs in lockstep, committed
   to main and pushed via docs/ssh_git_wrapper_v3.py (the remote

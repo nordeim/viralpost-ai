@@ -81,9 +81,12 @@ export async function POST(req: Request) {
     // signup probe was platform-rejected, so the view was never rendered
     // here. Reasoned; re-attributed session 8, F8-6). The code
     // is stored HASHED (scrypt, the auth layer's format) with a 15-minute
-    // expiry; a self-hosted deployment has no mail transport, so the code
-    // is logged to the SERVER console for the demo workflow (never shipped
-    // to the client, never committed).
+    // expiry; a self-hosted deployment has no mail transport by default,
+    // so the code is delivered IN-APP (the response's `verificationCode`
+    // field, the digma ADR-014 port) and logged to the SERVER console
+    // for the demo workflow. VIRALPOST_DISABLE_IN_APP_OTP=1 hands
+    // delivery to a real mail transport — only then is the code never
+    // shipped to the client (it exists only as the stored hash).
     const code = generateVerifyCode();
     const user = await db.user.create({
       data: {

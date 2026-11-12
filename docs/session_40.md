@@ -180,8 +180,8 @@ docs-counts; +1 the S40-13a dash-run pin in generator), SUITES 40
 unchanged, E2E 65 unchanged, SMOKE 16 unchanged, badge 740 → **746**.
 Constants re-anchored FIRST; the census walked the doc sites
 RED→GREEN (PAD §12: generator 457→467, route-title 56→62, auth
-193→196, iridescence 269→273; the ten provenance sites + toast's
-owned tenth re-anchored to 1..40 — lag 0 at ship).
+193→196, iridescence 269→273; the ten provenance sites (toast.tsx the
+owned tenth) re-anchored to 1..40 — lag 0 at ship).
 
 ## Verified
 

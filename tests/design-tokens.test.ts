@@ -267,12 +267,16 @@ describe("design tokens: session-11 — the census completion + the dead-CSS ret
   });
 
   it("THE DEAD-TOKEN CENSUS PIN: every semantic --color-* token in @theme has a live consumer (the F11-5 genus, made mechanical)", () => {
-    // The stepped stock re-pins are EXEMPT by doctrine (whole families
-    // pinned defensively so any future step renders the v3 value); the
-    // SEMANTIC tokens (no numeric step) must each be consumed — by a
-    // utility class in src/ or by a var() reference in globals.css
-    // outside @theme (the base layer). A token with neither is dead
-    // weight shipping in every build.
+    // Session-41 (S41-5) re-spell: the stepped stock re-pins are exempt
+    // ONLY as the three documented WHOLE-family pins (amber/slate/teal,
+    // 50..950 — defensive: any future step of those families renders
+    // the v3 value); every OTHER stepped literal is consumer-owned by
+    // the S41-5 census below (the 11 donor-carryover literals — the
+    // gray family, neutral-100, red-400/500, emerald-400/500 — retired
+    // this session). The SEMANTIC tokens (no numeric step) must each be
+    // consumed — by a utility class in src/ or by a var() reference in
+    // globals.css outside @theme (the base layer). A token with neither
+    // is dead weight shipping in every build.
     // Session-28 (S28-4): the census is now COMMENT-BLIND — each
     // scanned file is comment-stripped BEFORE the consumer regex (the
     // api-robustness stripComments idiom). The F11-5 form could be
@@ -356,6 +360,47 @@ describe("design tokens: session-12 — the stepped-semantic census arm (F12-7)"
     expect(
       [...offenders],
       `semantic families never take numeric steps (no @theme literal can ever resolve these — fix the class or pin the stock family): ${[...offenders].join(", ")}`,
+    ).toEqual([]);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-41 (S41-5): the stepped dead-literal census — the donor-
+// carryover genus, made mechanical. The dead-token census above exempts
+// "stepped stock re-pins" wholesale; this arm narrows the exemption to
+// the three documented WHOLE-family pins (amber/slate/teal, 50..950 —
+// defensive: any future step of those families renders the v3 value)
+// and demands every OTHER stepped literal carry a live consumer in
+// comment-stripped src/ (the S28-4 comment-blind form). The 11
+// donor-carryover literals this arm was born RED to catch: the gray
+// family (6 of 11 steps, zero consumers of any gray step), neutral-100,
+// red-400, red-500, emerald-400, emerald-500 — incomplete-subset pins
+// beside their used siblings, shipping as dead :root custom properties
+// in every build.
+// ---------------------------------------------------------------------------
+
+describe("design tokens: session-41 — the stepped dead-literal census arm (S41-5)", () => {
+  it("THE STEPPED DEAD-LITERAL CENSUS PIN: every stepped literal outside the three whole-family pins has a live consumer", () => {
+    const srcDir = path.resolve(import.meta.dirname, "..", "src");
+    const WHOLE_FAMILY = /^(?:amber|slate|teal)-\d+$/;
+    const stepped = [...css.matchAll(/--color-([a-z]+-\d+):/g)].map((m) => m[1]);
+    expect(stepped.length).toBeGreaterThan(20); // the census actually censused
+    const srcText = walkSourceFiles(srcDir)
+      .filter((f) => !f.endsWith("globals.css"))
+      .map((f) => readFileSync(f, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, ""))
+      .join("\n");
+    const baseLayer = (css.match(/@layer base\s*\{[\s\S]*\n\}/) ?? [""])[0];
+    const dead = stepped.filter(
+      (name) =>
+        !WHOLE_FAMILY.test(name) &&
+        !new RegExp(
+          `(?:bg|text|border|ring|fill|stroke|from|to|via|shadow|divide|outline|accent|caret|decoration|placeholder)-${name}(?![\\w-])`,
+        ).test(srcText) &&
+        !baseLayer.includes(`var(--color-${name})`),
+    );
+    expect(
+      dead,
+      `stepped @theme literals with ZERO consumers outside the whole-family pins (retire them): ${dead.join(", ")}`,
     ).toEqual([]);
   });
 });

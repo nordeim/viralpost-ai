@@ -28,8 +28,11 @@ const RESEND_TIMING_EQUALIZER_INPUT = "viralpost-resend-timing-equalizer-constan
  * scaffold family's reference walks; this reference's signup probe was
  * platform-rejected, so the flow was never exercised here — Reasoned;
  * re-attributed session 8, F8-6). Like the signup route, the fresh code
- * is stored hashed and logged to the SERVER console — never shipped to
- * the client.
+ * is stored hashed, delivered IN-APP by default (the response's
+ * `verificationCode` field — the digma ADR-014 port), and logged to
+ * the SERVER console; VIRALPOST_DISABLE_IN_APP_OTP=1 hands delivery
+ * to a real mail transport (only then is the code never shipped to
+ * the client).
  */
 export async function POST(req: Request) {
   const limit = rateLimit(`resend:${clientKey(req)}`, 5, 15 * 60 * 1000);
@@ -62,9 +65,14 @@ export async function POST(req: Request) {
       // Unknown account or nothing to resend: answer with the same info
       // banner (the reference's non-leaking posture) — a rate-limited no-op.
       // Session-14 (S14-2): the branch burns one scrypt (the equalizer)
-      // and ships the SAME response shape as the known branch — the
-      // key's presence no longer leaks the verification state, and the
-      // timing no longer distinguishes it either.
+      // and ships the SAME response shape as the known branch — with
+      // VIRALPOST_DISABLE_IN_APP_OTP=1 the key's presence no longer
+      // leaks the verification state, and the timing no longer
+      // distinguishes it either. (Session-41, S41-2: under the DEFAULT
+      // knob the known branch carries the live code while this branch
+      // carries null — the value itself is the account/verification
+      // oracle, subsumed by the accepted S13-1 demo posture the knob
+      // exists to declare.)
       // Session-19 (S19-18, the honest residual): the KNOWN branch below
       // additionally pays one SQLite write (fsync-scale, ~5-10ms) — the
       // exact class forgot-password documents as accepted (a scrypt burn
@@ -81,10 +89,11 @@ export async function POST(req: Request) {
     // concurrent verify's success-clear commits between the
     // findUnique above and this unconditional update, the resend
     // re-writes a fresh verificationCodeHash onto a row that no longer
-    // owes verification (the account flips back to
-    // unverifiedAccount() once the surviving session's 7-day TTL
-    // lapses; self-recoverable through the standard funnel, and the
-    // response carried the fresh code in-app). Accepted for the same
+    // owes verification (the account again owes verification — the
+    // hash is live immediately at the write; the surviving session
+    // masks the lockout until its 7-day TTL lapses; self-recoverable
+    // through the standard funnel, and the response carried the fresh
+    // code in-app). Accepted for the same
     // reason S39-8 accepted the verify side: a conditional WHERE here
     // would drop a legitimate re-arm for an account whose code was
     // valid at read time — the same user did everything right.
