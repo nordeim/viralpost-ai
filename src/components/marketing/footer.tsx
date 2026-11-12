@@ -2,7 +2,7 @@ import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import Link from "next/link";
 
 import { Logo } from "./logo";
-import { GUMROAD_URL, NAV_ROUTES, SOCIAL_LINKS } from "./nav-config";
+import { BRAND, GUMROAD_URL, NAV_ROUTES, SOCIAL_LINKS } from "./nav-config";
 
 // The shared footer — class-for-class the reference's (DOM-extracted):
 // slate-900, white/10 top border, 4-col grid (brand spans 2), social icon
@@ -27,8 +27,13 @@ export function Footer() {
               <Logo />
             </div>
             <p className="text-slate-400 text-sm max-w-xs leading-relaxed">
-              Smart AI tools for creators, influencers, and businesses. Generate
-              viral-ready social media posts in seconds.
+              {/* Session-39 (S39-9): the one-liner reads BRAND.tagline — the
+                  single-source cure (the literal was an unpinned-against
+                  BRAND duplicate; a tagline edit on one side drifted green).
+                  DOM byte-identical: nav-config.test.ts:51 pins the string
+                  on the BRAND side, landing-page.test.ts pins the wiring
+                  here. */}
+              {BRAND.tagline}
             </p>
             <div className="flex items-center gap-3 mt-5">
               {SOCIAL_LINKS.map((s) => {

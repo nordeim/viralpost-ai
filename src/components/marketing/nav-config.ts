@@ -1,7 +1,12 @@
 // The site's shared vocabulary: brand strings, routes, the Gumroad product
-// link — the single source every nav/footer/CTA reads (route-path parity
-// with the reference: /Home, /Tool, /Pricing, /Contact — the capital forms
-// are the reference's own).
+// link. Runtime consumers: the navbar + this footer read NAV_ROUTES /
+// GUMROAD_URL / SOCIAL_LINKS, and the footer's one-liner reads BRAND.tagline
+// (the S39-9 single-source wiring). BRAND.name/description carry no runtime
+// consumer BY DESIGN — site.ts owns the metadata copies (the layer model
+// bars src/lib from importing a components module), so the tests pin them
+// as the mirror of site.ts's strings here (route-path parity with the
+// reference: /Home, /Tool, /Pricing, /Contact — the capital forms are the
+// reference's own).
 
 export const BRAND = {
   name: "ViralPost AI",

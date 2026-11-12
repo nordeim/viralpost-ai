@@ -25,13 +25,15 @@ export interface ParticleTextProps {
   fontSize?: number;
   fontWeight?: number;
   color?: string;
-  /** Seconds each phrase holds before vaporizing. */
-  waitDuration?: number;
   srText?: string;
-  /** The real heading element wrapping the sr-only text (default h1 —
-   *  the reference's own tag config). */
-  tag?: "h1" | "h2";
 }
+
+// Session-39 (S39-10): the `waitDuration` and `tag` props are RETIRED —
+// zero call sites ever passed them (the hero passes neither; the wait
+// rides PHASE_SECONDS.wait, the reference's own config, and the heading
+// is ALWAYS the h1 — the a11y contract — never the h2 variant). The
+// internal `waitDuration` name stays, bound from the constant, so the
+// effects-motion reduced-cadence pins read unchanged.
 
 interface Particle {
   x: number;
@@ -56,9 +58,7 @@ export function ParticleText({
   fontSize = 54,
   fontWeight = 800,
   color = "rgb(255, 255, 255)",
-  waitDuration = PHASE_SECONDS.wait,
   srText,
-  tag: Tag = "h1",
 }: ParticleTextProps) {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const wrapRef = React.useRef<HTMLDivElement | null>(null);
@@ -76,6 +76,9 @@ export function ParticleText({
     if (!ctx) return;
 
     let raf = 0;
+    // Session-39 (S39-10): bound from the constant (the retired prop's
+    // default — the reference's own wait config — is now the only form).
+    const waitDuration = PHASE_SECONDS.wait;
     // Session-12 (F12-8): the reduced-motion cadence handle — the phrase
     // swap schedules by TIMEOUT, not by a 60 fps rAF loop redrawing
     // identical text (the reduced intent is LESS motion, including less
@@ -307,7 +310,7 @@ export function ParticleText({
       clearTimeout(phraseTimer);
       window.removeEventListener("resize", onResize);
     };
-  }, [texts.join("|"), fontSize, fontWeight, color, waitDuration]);
+  }, [texts.join("|"), fontSize, fontWeight, color]);
 
   return (
     <div ref={wrapRef} className={cn("relative w-full", className)} style={{ height: fontSize * 1.35 }}>
@@ -319,12 +322,12 @@ export function ParticleText({
       {/* The real heading for crawlers + screen readers (the reference's
           own sr-only pattern — a REAL h1 whose visually-hidden text
           carries the full phrase list). */}
-      <Tag
+      <h1
         className="sr-only"
         style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}
       >
         {srText ?? texts.join(" ")}
-      </Tag>
+      </h1>
     </div>
   );
 }

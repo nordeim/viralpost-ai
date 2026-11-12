@@ -3317,7 +3317,7 @@ S31-5a).
 The parity walk (live, both sides, logged into the reference): the
 mobile-menu census at 390×844 (the hamburger base classes
 byte-identical + the documented superset arms; the reference still
-ships the bare button; the five links + the Gumroad pill
+ships the bare button; the four links + the Gumroad pill
 byte-identical; the bar-open and scrolled families byte-identical with
 the two documented same-color spellings; the open panel computed
 transparent both sides), the five-route head census (NO DRIFT —
@@ -3467,7 +3467,7 @@ Details:
   accepted register with reasons.
 - THE PARITY WALK (live, both sides, logged into the reference):
   NO DRIFT — the sixth consecutive fully-clean walk. The mobile-menu
-  census at 390×844 (the hamburger classes, the open panel, the five
+  census at 390×844 (the hamburger classes, the open panel, the four
   links + the pill, the bar families, the scrolled bar's two
   same-color spellings), the five-route head census, sitemap/robots
   curl-diffed identical modulo origin, the login round-trip on both
@@ -3552,7 +3552,7 @@ Details:
   accepted register carried forward unchanged.
 - THE PARITY WALK (live, both sides, logged into the reference):
   NO DRIFT — the seventh consecutive fully-clean walk. The mobile-menu
-  census at 390×844 (the hamburger classes, the open panel, the five
+  census at 390×844 (the hamburger classes, the open panel, the four
   links + the pill, the bar families, the scrolled bar's two
   same-color spellings), the desktop nav modulo the aria-label
   superset, the five-route head census, sitemap/robots identical
@@ -4091,6 +4091,109 @@ Agent: main (Z.ai)
   row, Appendix B's header + body, the pre-ship checklist); worklog
   Task 38 (this entry); docs/session_38.md; the plan's post-execution
   record.
+- SHIPPED: the remediated codebase + the docs in lockstep, committed
+  to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
+  verified; no new branches).
+
+## Task 39 — The Mobile-Menu Count Truth + The Typed-Envelope Alignment + The Boot-Gate Case Arm + The Comment-Truth Batch (2026-11-13)
+
+Task ID: 39
+Agent: main (Z.ai)
+- SCOPE: the standing instruction re-run against the shipped tree
+  (`e79caba`, session-38's commit; the owner's narration commit
+  `7bf6aad` followed, carrying session_39.md as the round-38
+  narration — replaced by this round's formal log). Docs review
+  (AGENTS/CLAUDE/README/PAD/SKILL v1.34.0, session_38.md, the
+  session-38 plan, worklog Task 38, the owner narration) → the
+  baseline gate verified in place (lint 0/0 · tsc 0 · unit 672/672,
+  39 files · build with the button-cursor rule in the emitted sheet ·
+  smoke 16/16 · e2e 65/65, 9 specs · census MATCH) → the comprehensive
+  audit (three parallel subagents, the web-application skill as the
+  rubric, every load-bearing finding hand-verified in source by the
+  lead; the session-38 diff itself verified correct and complete on
+  all three passes) → the live parity walk → the TDD cures → the full
+  gate → the captures → the push. The standing asks re-verified up
+  front (the .env DATABASE_URL "file:../db/custom.db" contract with
+  db/ at the repo root; the vitest + playwright suites; the
+  sitemap/robots/manifest/OG family verified live against the
+  reference this round's walk; skills/ excluded from every gate; the
+  committed .env.example matching the six-knob contract).
+- AUDIT: 0 Critical / 0 High / 0 Medium / 4 Low / 9 Info across the
+  three subagents (AUDIT-1 0/0/0/2/4 — the logout S18-3 comment's
+  stale INTERNAL claim + the one-shot-script enumeration miss;
+  AUDIT-2 0/0/0/2/2 — the reveal "five sites compute" miscount + the
+  six untyped res.json() sites; AUDIT-3 0/0/0/0/3 — the designed
+  provenance lag 1, the S38-1a slice-bound shape, the dead fallback)
+  PLUS the lead's own live-verified finding (the fifth Low): the
+  sessions-31..38 records' "five links + the Gumroad pill"
+  double-counts the pill — the reference's open panel carries exactly
+  five anchors (the four nav links + the pill), live-verified in this
+  round's walk, agreed by the e2e spec, the dossier, and the code.
+  The lead hand-verified every finding in source.
+- WALK: NO DRIFT — the twelfth consecutive fully-clean walk, and it
+  LIVE-SETTLED the round's headline count question (the anchor
+  enumeration on the reference's open panel: Home/Tool/Pricing/
+  Contact + the Gumroad pill, byte-identical to ours — classes,
+  hrefs, texts, cursor pointer; the panel display block + max-height
+  none + overflow hidden both sides; the reference's dead
+  bg-slate-900/98 still computing transparent). The desktop nav
+  byte-identical; the five-route head census byte-identical modulo
+  origin; sitemap 4 URLs + robots identical modulo origin; the
+  generator probe symmetrically disabled/not-allowed; the login
+  round-trip at the precise form (R /Home, its duplicate route; L /
+  — the documented 308 deviation); the escape-close superset
+  re-confirmed (the reference's panel stays open).
+- CURES (TDD, every pin RED-first or battery-planted): the mobile-menu
+  count truth (S39-1 — twenty record sites re-spelled to "the four
+  links + the Gumroad pill"; the correct "5 destinations" phrasing
+  untouched); the typed-envelope alignment (S39-5 — the six untyped
+  client fetch sites gain the generator-card cast idiom via local
+  AuthResponse/ResetResponse interfaces; +1 genus census pin in the
+  NEW tests/client-envelope.test.ts — the 40th suite — RED-first, the
+  stripped-cast battery on record); the boot-gate case arm (S39-13 —
+  a case-variant viralpost_*/neo_* key warns and maps the canonical
+  ALL-CAPS spelling, closing the silent-inert-posture class the boot
+  gate exists to catch; +2 RED-first pins; the arm-removal battery on
+  record — the arm's first draft tripped the exact-prefix trap and
+  warned on every healthy knob, the 33-failure RED catching the lead's
+  own cure in-round); the footer single-source wiring (S39-9 — the
+  one-liner reads BRAND.tagline, DOM byte-identical; the landing-page
+  footer pin re-pinned to the wiring; the nav-config docblock scoped
+  to the truth — BRAND.name/description are the pinned mirror of
+  site.ts's metadata copies, the layer model bars lib←components);
+  the dead-prop retirement (S39-10 — Reveal's as prop + setRef
+  narrowing + ParticleText's waitDuration/tag props: zero call-site
+  consumers, retired with the internal waitDuration name preserved so
+  the effects-motion pins read unchanged); the S38-1a wedge-proof
+  slice bound (S39-11 — the bound accepts any next export form + the
+  getSessionUser anchor; the battery on record: on the planted decoy
+  async export + stripped seam arm, the OLD bound false-greens while
+  the NEW bound REDs); the one-shot-script enumeration completed
+  (S39-3 — AGENTS/CLAUDE/PAD name all three: prisma/seed,
+  scripts/e2e-prune, scripts/e2e-contact-readback); the idiom
+  alignment (S39-6 forgot's catch arms transient-first, S39-7
+  resend/me import order); the comment-truth batch (S39-2 logout's
+  post-S38-1 status vocabulary, S39-4 reveal's "four sites compute",
+  S39-8 verify's accepted-race documentation); the dead fallback
+  retired (S39-12).
+- ACCEPTED: the provenance range's designed lag-1 window (cured by
+  this round's standard re-anchor — the S30-4 convention, lag 0 at
+  ship); the standing register carried forward unchanged.
+- The count re-anchor: UNIT 672 → 675 (+1 S39-5a in the NEW
+  client-envelope suite, +2 S39-13a in boot-env), SUITES 39 → 40,
+  E2E 65, SMOKE 16, badge 737 → 740. Constants re-anchored FIRST;
+  the census walked the doc sites RED→GREEN (PAD §12:
+  particle-text 330→333; the nine provenance sites + toast's owned
+  tenth at 1..39 — lag 0 at ship).
+- Docs lockstep: README (badge 740, the 40/675 rows, the session-39
+  row, the gate line); AGENTS (counts, the plans map's thirty-ninth
+  round, the three-script enumeration); CLAUDE (counts, the Data
+  Layer exemption clause); PAD (§4.3 exemption, §8.1 40/675, §12
+  rows, Last Updated 2026-11-13); SKILL v1.34.0 → v1.35.0
+  (frontmatter, §0.5 1..39, Appendix A's session-39 row, Appendix
+  B's header + counts, the pre-ship checklist); worklog Task 39
+  (this entry); docs/session_39.md (the formal log); the plan's
+  post-execution record.
 - SHIPPED: the remediated codebase + the docs in lockstep, committed
   to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
   verified; no new branches).

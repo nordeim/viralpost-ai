@@ -426,8 +426,23 @@ describe("session-37 (S37-2): the transient-abort classifier (P2024/P2028 → th
     // the getSessionUser() call and the !user 401 return
     const fnStart = src.indexOf("export async function requireSession");
     expect(fnStart, "requireSession must exist in api.ts").toBeGreaterThan(-1);
-    const fnEnd = src.indexOf("export function", fnStart + 1);
+    // Session-39 (S39-11): the slice bound accepts ANY next export —
+    // the session-38 form (indexOf("export function")) would skip past
+    // an `export async function`/`export const` wedged between the seam
+    // and the next sync export, widening the slice past the wedge (a
+    // decoy carrying the arm shape could satisfy the pin with the seam's
+    // own arm stripped — the battery's planted shape). NB the
+    // slice-then-search form: String.search takes NO start index (the
+    // two-arg call silently ignores it).
+    const rest = src.slice(fnStart + 1);
+    const relEnd = rest.search(/export (async )?function|export const/);
+    const fnEnd = relEnd === -1 ? -1 : fnStart + 1 + relEnd;
     const body = src.slice(fnStart, fnEnd > fnStart ? fnEnd : undefined);
+    // The body must contain the seam's own DB call — the wedge-proof
+    // anchor: the arm belongs to the function that calls getSessionUser().
+    expect(body, "the seam body must contain its getSessionUser() call").toContain(
+      "getSessionUser()",
+    );
     expect(body, "the seam's catch must carry the transient arm").toMatch(
       /isTransientDbFailure\(/,
     );

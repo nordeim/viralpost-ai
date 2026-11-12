@@ -34,7 +34,7 @@ unchanged.
 `sepnetflix2023@outlook.com`): the mobile-menu census at 390×844 — the
 hamburger base classes byte-identical (our aria family the documented
 superset), the open panel computed transparent both sides at scrollY=0
-(`max-height: none`, display block, the five links + the Gumroad pill
+(`max-height: none`, display block, the four links + the Gumroad pill
 byte-identical), the scrolled-bar class family byte-identical with the
 computed background the same color in its two spellings (our oklab form =
 the reference's `rgba(15, 23, 42, 0.95)`), the desktop nav family

@@ -69,6 +69,26 @@ const INFO_BANNER_MS = 3000;
  * 404s it) stays as our documented working superset — it renders this
  * card starting at the signup view.
  */
+
+// Session-39 (S39-5): the client envelope read, TYPED at the parse
+// site (the generator-card/contact-form idiom) — the union of this
+// card's five fetch sites' reads. `error.code` drives the
+// verify-view swap (the F11-3 re-entry); the `data` fields are the
+// demo-mode in-response deliveries (verificationCode since the
+// Session-163 port, resetUrl's typeof-guarded graceful form). The
+// cast is compile-time only — every read below keeps its `?.`
+// optional-chain shape (a null body on a non-JSON degradation stays
+// handled, S29-3).
+interface AuthResponse {
+  ok?: boolean;
+  error?: { code?: string; message?: string };
+  data?: {
+    verificationCode?: string | number;
+    message?: string;
+    resetUrl?: string | null;
+  };
+}
+
 export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
   const router = useRouter();
   // Session-147: the auth wall's return target (null on a plain /login —
@@ -174,7 +194,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      const body = await res.json().catch(() => null);
+      const body = (await res.json().catch(() => null)) as AuthResponse | null;
       if (!res.ok || !body?.ok) {
         // Session-11 (F11-3): an unverified account re-enters the verify
         // funnel instead of dead-ending on the refusal banner.
@@ -220,7 +240,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      const body = await res.json().catch(() => null);
+      const body = (await res.json().catch(() => null)) as AuthResponse | null;
       if (!res.ok || !body?.ok) {
         setError(body?.error?.message ?? "Could not create account. Try again.");
         return;
@@ -258,7 +278,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, code }),
       });
-      const body = await res.json().catch(() => null);
+      const body = (await res.json().catch(() => null)) as AuthResponse | null;
       if (!res.ok || !body?.ok) {
         setError(body?.error?.message ?? "Invalid verification code.");
         return;
@@ -287,7 +307,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      const body = await res.json().catch(() => null);
+      const body = (await res.json().catch(() => null)) as AuthResponse | null;
       if (!res.ok || !body?.ok) {
         setError(body?.error?.message ?? "Could not resend the code. Try again.");
         return;
@@ -326,7 +346,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
-      const body = await res.json().catch(() => null);
+      const body = (await res.json().catch(() => null)) as AuthResponse | null;
       if (!res.ok || !body?.ok) {
         setError(body?.error?.message ?? "Could not send the reset link. Try again.");
         return;

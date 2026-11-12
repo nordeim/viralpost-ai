@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..38.
+// are docs/session_1..39.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -224,6 +224,31 @@ describe("session-170 (WP-3) + session-3 (F3-1): the flag-typo guard (the scandi
   it("VIRALPOST_PROXY_HOPS negative warns the same way", () => {
     const report = bootEnvCheck(env({ VIRALPOST_PROXY_HOPS: "-1" }));
     expect(report.warnings).toHaveLength(1);
+  });
+
+  // Session-39 (S39-13): the case-variant arm — env keys are
+  // case-sensitive, so a lower/mixed-case spelling is invisible to BOTH
+  // the exact-case reader and the two prefix scans above: an operator
+  // can believe delivery is disabled while the OTP keeps riding the
+  // responses, with no [boot] warning (the S13-1 polarity genus, one
+  // spelling away).
+  it("a case-variant viralpost knob warns with the canonical ALL-CAPS spelling (the silent-inert class)", () => {
+    // The base env keeps the canonical knobs at "1" — the operator ADDED
+    // the lowercase spelling alongside (the realistic copy-paste shape),
+    // so exactly ONE warning fires (the case-variant; the canonical key
+    // stays known and valid).
+    const report = bootEnvCheck(env({ viralpost_disable_in_app_otp: "1" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("viralpost_disable_in_app_otp");
+    expect(report.warnings[0]).toContain("VIRALPOST_DISABLE_IN_APP_OTP");
+    expect(report.warnings[0]).toContain("case-sensitive");
+  });
+
+  it("a case-variant legacy neo knob warns and maps the live VIRALPOST spelling", () => {
+    const report = bootEnvCheck(env({ neo_proxy_hops: "2" }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("neo_proxy_hops");
+    expect(report.warnings[0]).toContain("VIRALPOST_PROXY_HOPS");
   });
 });
 

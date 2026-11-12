@@ -42,7 +42,7 @@ Live, both sides, logged into the reference with
 `sepnetflix2023@outlook.com`: the mobile-menu census at 390×844 — the
 hamburger base classes byte-identical (our aria family the documented
 superset), the open panel computed transparent both sides at scrollY=0
-(`max-height: none`, display block, the five links + the Gumroad pill
+(`max-height: none`, display block, the four links + the Gumroad pill
 "Upgrade to Pro – $19" byte-identical), the bar `bg-transparent` with
 the menu open, the scrolled-bar class family byte-identical with the
 computed background the same color in its two spellings (our oklab form
@@ -164,7 +164,7 @@ smoke-test.sh 246 → 258.
 - The full gate on the exact commit tree (below)
 - Captures 73/74 on the dev server (the owner-instructed posture, the
   session-29/30/31/32 precedent): the mobile-menu open clean-walk at
-  390×844 (functionally verified open — display block, the five links
+  390×844 (functionally verified open — display block, the four links
   + the Gumroad pill, aria-expanded true) + the landing hero,
   PIL-verified
 - Docs lockstep: README (the session-33 row, the gate line, badge 720,

@@ -76,7 +76,7 @@ carrying `md:hidden` + `overflow-hidden`). Twenty faces:
 - **Sixteen faces byte-identical**: the bar closed/open class
   families at scrollY=0 (bg-transparent both sides), the open panel
   computed display **block** both sides with max-height none, the
-  five links + the Gumroad pill byte-identical, the desktop nav 6|6
+  four links + the Gumroad pill byte-identical, the desktop nav 6|6
   ("ViralPost AI, Home, Tool, Pricing, Contact, Upgrade to Pro"), the
   five-route head census byte-identical modulo origin (titles,
   og:title, og:description, meta description, twitter:card; canonical

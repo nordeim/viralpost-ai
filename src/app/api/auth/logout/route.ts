@@ -16,10 +16,12 @@ export async function POST() {
   // already-signed-out caller gets 401, not a meaningless 200 plus a
   // cookie clear that changed nothing).
   // Session-18 (S18-3) bareness note, updated: requireSession owns its
-  // own try/catch (a DB failure answers the envelope's INTERNAL), and
-  // clearSessionCookie still performs no crypto (never calls secret())
-  // and no DB work, and cookies() cannot throw inside a route handler —
-  // no realistic throw path remains across the boundary.
+  // own try/catch — since session-38 (S38-1) a DB failure through the
+  // seam answers the envelope (503 UNAVAILABLE on the transient family,
+  // INTERNAL on the residual) — and clearSessionCookie still performs
+  // no crypto (never calls secret()) and no DB work, and cookies()
+  // cannot throw inside a route handler — no realistic throw path
+  // remains across the boundary.
   const gate = await requireSession();
   if (isGuarded(gate)) return gate.response;
   await clearSessionCookie();

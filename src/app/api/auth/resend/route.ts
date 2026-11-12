@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 
 import { db } from "@/lib/db";
-import { ok, ERR, fail, isTransientDbFailure, parseBody, TRANSIENT_DB_MESSAGE } from "@/lib/api";
+import { ok, fail, ERR, isTransientDbFailure, parseBody, TRANSIENT_DB_MESSAGE } from "@/lib/api";
 import { resendSchema } from "@/lib/schemas";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
 import { VERIFICATION_TTL_MS, unverifiedAccount, verificationResentMessage } from "@/lib/verification";

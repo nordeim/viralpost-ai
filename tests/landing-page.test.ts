@@ -303,8 +303,13 @@ describe("landing: the page shells", () => {
 
   it("the footer ships the reference's one-liner + product column", () => {
     const footer = read("src/components/marketing/footer.tsx");
-    expect(footer).toContain("Smart AI tools for creators, influencers, and businesses.");
-    expect(footer).toContain("viral-ready social media posts in seconds");
+    // Session-39 (S39-9): the one-liner is WIRED to BRAND.tagline (the
+    // single-source cure) — the footer source pins the wiring, the string
+    // itself lives once in nav-config (pinned on the BRAND side by
+    // nav-config.test.ts:51). A literal here would be the resurrected
+    // unpinned duplicate.
+    expect(footer).toContain("{BRAND.tagline}");
+    expect(footer).toContain('import { BRAND, GUMROAD_URL, NAV_ROUTES, SOCIAL_LINKS } from "./nav-config"');
     expect(footer).toContain("Upgrade – $19");
   });
 

@@ -156,7 +156,7 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 39 files / 672 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 40 files / 675 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.
@@ -189,7 +189,10 @@ stable (upsert-by-email) so live sessions survive.
   `ContactMessage` (the contact inbox). The generator is stateless by
   design — no Generation row.
 - `PrismaClient` is constructed in exactly one place (`src/lib/db.ts`),
-  with the URL from `src/lib/db-path.ts` — never a direct env read.
+  with the URL from `src/lib/db-path.ts` — never a direct env read. (The
+  three one-shot scripts — prisma/seed, scripts/e2e-prune,
+  scripts/e2e-contact-readback — hold the documented exemption: their own
+  client, always routed through `runtimeDatabaseUrl()`.)
 
 ### Environment Variables
 

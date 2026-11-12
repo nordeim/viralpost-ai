@@ -3,7 +3,7 @@
 **Classification:** Internal Engineering Reference
 **Status:** DEFINITIVE, PRODUCTION-LOCKED BLUEPRINT
 **Companion Document:** `README.md` (onboarding), `AGENTS.md` (operator quick-reference), `CLAUDE.md` (agent contract), `viralpost-ai_SKILL.md` (distilled memory)
-**Last Updated:** 2026-11-12
+**Last Updated:** 2026-11-13
 **Audience:** Senior Engineers, Tech Leads, DevOps, and Onboarding Engineers
 **Rule:** Every architectural decision in this document traces to a specific rationale.
 Nothing is here "because it's popular."
@@ -327,7 +327,7 @@ viralpost-ai/
 │   │   ├── layout/             ← login-card (5 views: signin/reset/sent/signup/verify) · reset-password-screen
 │   │   └── ui/toast.tsx        ← the subscribe/store toast
 │   └── lib/                    ← THE seams (see §12 Key Files)
-├── tests/                      ← 39 unit suites + e2e/ (9 specs)
+├── tests/                      ← 40 unit suites + e2e/ (9 specs)
 ├── scripts/                    ← smoke-test.sh · census.ts · prisma-env.ts
 ├── docs/                       ← plans/ · reference-investigation.md ·
 │                                  implementation-plan.md · session logs ·
@@ -455,7 +455,10 @@ row would add nothing either side reads.
 ### 4.3 Persistence Strategy
 
 - `PrismaClient` is constructed in exactly one place (`src/lib/db.ts`)
-  with the URL from `db-path.ts` (ADR-008).
+  with the URL from `db-path.ts` (ADR-008). The three one-shot scripts
+  (prisma/seed, scripts/e2e-prune, scripts/e2e-contact-readback) hold the
+  documented exemption — their own client, always routed through
+  `runtimeDatabaseUrl()` (session-39, S39-3).
 - The seed routes through the same seam and upserts by email (row ids
   survive reseeds, so live session cookies keep resolving).
 - Dev uses `db push`; production uses `prisma migrate` (documented swap
@@ -560,7 +563,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 39 | 672 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 40 | 675 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 65 | `tests/e2e/*.spec.ts` | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -578,7 +581,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 672/65/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 675/65/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -705,7 +708,7 @@ commit as the file.)
 | `src/components/marketing/navbar.tsx` | 260 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 271 | The core surface: quota dots, generate, copy, paywall |
 | `src/components/effects/iridescence.tsx` | 269 | The WebGL hero background (aspect-aware shader) |
-| `src/components/effects/particle-text.tsx` | 330 | The canvas particle title |
+| `src/components/effects/particle-text.tsx` | 333 | The canvas particle title |
 | `src/components/effects/floating-icons.tsx` | 122 | The monetization section's ten-icon float field (session-19, S19-2) |
 | `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |
 | `src/app/api/[...path]/route.ts` | 43 | The API subtree's envelope 404 (session-15, S15-7; OPTIONS joined session-18, S18-2) |

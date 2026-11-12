@@ -37,23 +37,28 @@ function hiddenStyle(direction: RevealDirection): React.CSSProperties {
  * site passes mount-time constants — computed delays (`i * 100` and
  * kin) ride keyed instances, the prescribed keyed-remount form;
  * dynamic usage must remount using the `key` prop instead (the wording
- * re-spelled session-38, S38-7e: "literals" overstated — five sites
- * compute, none re-render past mount).
+ * re-spelled session-38, S38-7e: "literals" overstated — the count
+ * corrected session-39, S39-4: FOUR sites compute, none re-render
+ * past mount).
+ *
+ * Session-39 (S39-10): the polymorphic `as` prop is RETIRED — zero
+ * call sites ever passed it (all 19 render the default div), and the
+ * setRef callback-narrowing machinery existed solely for it (the
+ * dead-API genus the repo retires; props are census-blind, the
+ * F9-10/S30-2 doctrine's softer form).
  */
 export function Reveal({
   children,
   className,
   direction = "up",
   delay = 0,
-  as: Tag = "div",
 }: {
   children: React.ReactNode;
   className?: string;
   direction?: RevealDirection;
   delay?: number;
-  as?: "div" | "section" | "span" | "li";
 }) {
-  const ref = React.useRef<HTMLElement | null>(null);
+  const ref = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     const el = ref.current;
@@ -85,16 +90,9 @@ export function Reveal({
     return () => io.disconnect();
   }, []);
 
-  // The polymorphic Tag's ref narrows through a callback so the union of
-  // allowed element types stays sound (a plain cast fights the JSX
-  // intersection type React builds for union tags).
-  const setRef = (node: HTMLElement | null) => {
-    ref.current = node;
-  };
-
   return (
-    <Tag
-      ref={setRef}
+    <div
+      ref={ref}
       className={cn("transition-all duration-500 ease-out", className)}
       style={{
         ...hiddenStyle(direction),
@@ -102,6 +100,6 @@ export function Reveal({
       }}
     >
       {children}
-    </Tag>
+    </div>
   );
 }

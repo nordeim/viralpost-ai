@@ -48,7 +48,7 @@ Live, both sides, logged into the reference with
 hamburger base classes byte-identical (the reference still ships the
 bare button; our aria family the documented superset), the open panel
 computed transparent both sides at scrollY=0 (`max-height: none`,
-display block, the five links + the Gumroad pill "Upgrade to Pro – $19"
+display block, the four links + the Gumroad pill "Upgrade to Pro – $19"
 byte-identical), the bar `bg-transparent` with the menu open, the
 scrolled-bar class family byte-identical with the computed background
 the same color in its two spellings (our oklab form = the reference's

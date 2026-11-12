@@ -1,85 +1,209 @@
-I'll start by internalizing the operating instructions and setting up the workspace. Let me create a task plan first, then get the repo.
-Repo cloned. Now let me review the core documentation. These are large files, so I'll read them in parallel batches:
-Now let me check the docs folder structure and read the session documents:
-Now let me read the session documents:
-The current `session_38.md` is the owner's narration log — the previous round (session 37) is delivered at commit `30bdec6`. This round is **session 38**. Let me read the session-37 plan and worklog tail, then the remaining core docs:
-Session 37 is fully delivered. This round is **session 38** following the established pattern. Let me review the remaining core docs — README, PAD, and SKILL:
-Now let me read the web-application skill (the audit rubric) and tdd skill:
-I now have a complete picture. This round is **session 38** following the established pattern. Let me update my tracking and set up the environment:
-DB setup complete with census MATCH. Now the baseline gate — lint, typecheck, unit first:
-Lint 0/0, tsc 0, unit 671/671 (39 files) — matches the documented session-37 state. Now the build:
-**FULL BASELINE GATE GREEN** — lint 0/0 · tsc 0 · unit 671/671 (39 files) · build · smoke 16/16 · e2e 65/65 (9 specs). Let me verify the standing asks (SEO family, cursor rule in the built sheet, skills exclusion):
-The cursor rule is in the built sheet (minified form). All standing asks verified. Now the audit phase — first, the session-37 diff scope:
-Baseline verified. Now dispatching the three parallel audit subagents per the established session pattern, focused on the session-37 diff:
-All three audits returned: **combined 0C / 0H / 0M / 6L / 9I**. The session-37 diff verified correct on all three passes. Now the lead's hand-verification of every load-bearing finding before adjudication:
-A1 confirmed in source. Let me verify the logout route and the remaining findings:
-A2-1 verified — refs off by exactly +6. Now A3-1, A3-2, A3-3, A3-4:
-A3-1 and A3-2 verified — 8 live range sites (not "nine"), and six stale both-land recordings in sessions 32/33/34 docs. Now A3-3, A3-4, and A1's comment overclaim in CLAUDE.md:
-All findings hand-verified in source. The cure set is taking shape. Now the parity walk phase — first let me check the agent-browser tooling and prior walk methodology:
-agent-browser v0.42.0 is ready. Let me start the dev server and run the parity walk — first the server, then the reference login:
-Logged in — reference lands on `/Home` (the documented duplicate-of-`/` route). Now the mobile viewport and the nav calibration:
-Reference escape-close confirmed: panel stays open (our escape-close is the documented F11-11 superset). Now desktop nav at 1280×800:
-Reference faces captured. Now the generator probe on the reference:
-Reference generator: disabled + not-allowed (the documented 402-dead face). Now the same battery on our side:
-Head census matches modulo origin. Now the mobile battery on our side:
-Panel anchors byte-identical, but I notice the reference panel carries `bg-slate-900/98` while ours doesn't. Let me probe the computed backgrounds on both sides:
-Our panel bg is transparent while the reference carries `bg-slate-900/98`. Let me check the reference's computed background and our navbar source:
-Both panels compute to `rgba(0,0,0,0)` — the reference's `bg-slate-900/98` class is dead in its own build (non-standard opacity modifier), so both render transparent: observably identical. Now our desktop nav + generator probe:
-Generator probe symmetric. Now our login round-trip — checking seed credentials first:
-Seed password is `$Abcd1234` (same as reference). Retrying:
-**Walk verdict: NO DRIFT — all faces match** (mobile menu at confirmed 390×844 works as expected: panel block, 5 links + Gumroad pill byte-identical, cursors pointer both sides; head census, sitemap 4/4, robots, generator probe, login round-trip at the documented precise form). Now let me check the corpus-register sites for the A2-4 wording before writing the plan:
-The register form is confirmed at five sites. Now let me check the S38-4 "eleven sites" wording sites and the miscount records:
-All cure sites located. Let me examine the test structures for pin placement before writing the plan:
-I have everything needed. Now writing the session-38 remediation plan:
-Plan written. Now the pre-execution validation pass — reading the remaining target regions:
-All targets validated. Executing **Batch 1 — the RED pin** (S38-1a, the seam adoption pin):
-**Batch 1 verified — the S38-1 pin is exactly RED as designed.** Now Batch 2 — the GREEN cures. First S38-1, the requireSession arm:
-S38-1 GREEN. Now S38-2 — the login-card line refs re-pointed:
-My edit lengthened the note block, shifting the cites below. Let me verify the actual positions now:
-The refs drifted +3 from my own edit growth — line numbers are inherently fragile. The robust cure is the audit's alternative: cite IDs (unique, search-stable) instead of line numbers:
-Let me verify my cite descriptions are accurate:
-S38-2 done — cites now referenced by ID with accurate descriptions. Verifying the `:74` ref held, then S38-4:
-Let me check the S37-7 re-spell pattern used in the 35/36-era records:
-Applying the S38-4 re-spells to all six sites with the established pattern:
-Six sites re-spelled. Now the three "all eleven" scoping re-spells:
-S38-4 complete. Now S38-5 (auth.setup limiter) and S38-6 (utils.test claim):
-Now the S38-7 hygiene batch — (a) census.ts in-main disconnect retirement, (b) signup import order, (c) toast.tsx census-legible range:
-Let me verify the census actually scans toast.tsx (src/ must be in SITE_ROOTS) and the regex form matches:
-Census confirms: `>= 8` sites, toast.tsx becomes the ninth, owned automatically. Now S38-7(d) — the corpus register label at five sites:
-The fifth site (s35-plan:77) carries its own enumeration — completing its label too, then (e) reveal re-word and (f) the force-static pin comment-strip:
-Verifying `stripComments` exists in seo-surfaces.test.ts:
-`stripComments` isn't defined in this file. Let me check the sibling's helper and add it:
-Three failures: two are the designed census REDs (constants + PAD §12 rows — Batch 4 re-anchors). The design-tokens one needs diagnosis:
-Found it — my own "remount-via-key" comment scans as a `via-key` utility (the S28-4 prose-safe lesson applies to my own edit). Fixing:
-Only the two designed census REDs remain (672 on disk vs 671 constants; PAD §12 rows). **Batch 2 complete.** Now **Batch 3 — the S38-1 mutation battery**:
-**Battery verified** — exactly the S38-1 pin REDs, the sibling pins stay GREEN (ownership separation proven). Restoring:
-**Batch 3 complete.** Now **Batch 4 — constants FIRST**. Getting the live counts:
-Now let me find the PAD §12 rows and the docs-counts constants to re-anchor:
-Updating PAD §12 rows (api.ts 303, globals.css 253) and the constants:
-The census is walking the doc sites RED as designed. Updating all count sites — README first:
-Appendix B updated. Now the SKILL frontmatter, §0.5 range, and the session-38 Appendix A row:
-Now the eight provenance sites and the four "nine" re-spells:
-**Census 29/29 GREEN.** Now the remaining docs lockstep — AGENTS plans map, PAD Last Updated, README session-38 row:
-Now the README session-38 status row:
-Now the worklog Task 38 and the formal session_38.md:
-Now the formal session_38.md, replacing the owner narration:
-Now the plan's post-execution record:
-Marking the plan's ToDo list complete, then **Batch 5 — the full gate**:
-**FULL GATE GREEN** — lint 0/0 · tsc 0 · unit 672/672 (39 files) · build · smoke 16/16 · e2e 65/65. Now the post-cure walk re-run and captures 83/84. First check the dev server survived the build:
-Mobile menu verified open post-cure. Capturing 83 (mobile menu open) and 84 (landing hero):
-Captures PIL-verified. Quick visual check of the mobile menu capture:
-Capture 83 verified: menu open with the amber pill + teal link rendered. **Batch 5 complete.** Now **Batch 6 — commit + push**. First the tree status and the SSH runbook:
-Runbook understood. Committing the session-38 tree:
-Committed `e79caba`. No ssh binary/paramiko (same as prior session) — installing paramiko and reading the Appendix-A shim:
-Deploying the shim outside the repo and materializing the operator key (0600, never printed):
-Dry-run authenticated, fast-forward confirmed. Executing the real push:
-**Session 38 — complete and delivered.** Remote verified: `refs/heads/main @ e79caba == local HEAD`, key shredded, branch up to date.
-**Session 38 — delivered** (commit `e79caba`, pushed to main via the SSH wrapper, remote verified, key shredded):
+# Session 39 — The Mobile-Menu Count Truth + The Typed-Envelope Alignment + The Boot-Gate Case Arm + The Comment-Truth Batch (2026-11-13)
 
-- **Baseline gate GREEN** at `8b39add` — lint 0/0 · tsc 0 · unit 671/671 · build · smoke 16/16 · e2e 65/65 · census MATCH; all standing asks re-verified (`.env` db-path contract, vitest+playwright suites, SEO family, `skills/` exclusion, `.env.example`).
-- **Audit** (3 parallel subagents, hand-verified): 0 Critical / 0 High / 0 Medium / 6 Low / 9 Info — the session-37 diff verified correct on all three passes. Headline: `requireSession`'s catch missed the transient classifier (logout answered 500 where `/api/auth/me` answered 503).
-- **Parity walk: NO DRIFT** — 11th consecutive clean walk; mobile menu verified at confirmed 390×844 (links + pill byte-identical, cursors pointer). Found the reference's `bg-slate-900/98` panel class is dead in its own build — computed transparent both sides.
-- **TDD cures**: the requireSession transient arm (+1 RED-first pin, arm-removal battery on record), lineage-note refs re-pointed by ID (line refs had drifted +6 — and re-drifted +3 mid-cure, proving the lesson), "nine→eight" provenance-count truth + eight sites re-anchored 1..38, six stale both-land recordings re-spelled, limiter summary + utils-claim completions, seven-genera hygiene batch.
-- **Final state**: lint 0/0 · tsc 0 · **unit 672/672** (39 files) · build · smoke 16/16 · e2e 65/65 · census MATCH · badge 737; captures 83/84 PIL-verified; docs lockstep (SKILL v1.34.0, session_38.md, worklog Task 38, plan record).
+The round opened on the shipped tree (`e79caba` — session-38's commit;
+the owner's narration commit `7bf6aad` followed, carrying this file as
+the round-38 narration — replaced now by this round's formal log). The
+core docs read in full (AGENTS, CLAUDE, README, PAD, SKILL v1.34.0),
+then the session-38 set (session_38.md, the session-38 plan, worklog
+Task 38, the owner narration). This round is session 39. Baseline gate
+GREEN at the documented counts (lint 0/0 · tsc 0 · unit 672/672, 39
+files · build with the button-cursor rule in the emitted sheet · smoke
+16/16 · e2e 65/65, 9 specs · census MATCH); the standing asks
+re-verified up front (the `.env` `DATABASE_URL="file:../db/custom.db"`
+contract with `db/` at the repo root; the vitest + playwright suites
+in place and current; the sitemap/robots/manifest/OG family; `skills/`
+excluded from every gate; the committed `.env.example` matching the
+six-knob contract).
 
-Everything is on `main`; no new branches. Next natural step: the next round (session 39) against `e79caba` whenever you're ready.
+The web-application skill + the skills catalog internalized; tdd,
+clone-app-pat-pro, and the agent-browser doctrine (computed styles as
+ground truth, never eyeballs) applied throughout.
+
+## The audit
+
+Three parallel dispatched subagents (AUDIT-1 API/lib seams, AUDIT-2
+components/pages/effects, AUDIT-3 SEO/configs/tests/docs — every
+load-bearing finding hand-verified in source by the lead):
+**AUDIT-1: 0C/0H/0M/2L/4I · AUDIT-2: 0C/0H/0M/2L/2I · AUDIT-3:
+0C/0H/0M/0L/3I** — combined **0 Critical / 0 High / 0 Medium / 4 Low /
+9 Info** plus the lead's own live-verified finding (the fifth Low).
+The session-38 diff itself verified correct and complete on all three
+passes (the S38-1 arm + pin + battery, the ID-form lineage refs, the
+provenance re-anchors, the hygiene genera — all re-confirmed; the
+S38-7e "five sites compute" miscount and the logout comment's stale
+INTERNAL claim were the diff's own residual comment-truth gaps, cured
+below). AUDIT-1 caught the one-shot-script enumeration miss and the
+boot gate's case-sensitivity blindness; AUDIT-2 caught the untyped
+res.json() residue and the dead component API; AUDIT-3 verified every
+count claim live and found only designed transients.
+
+## The parity walk
+
+Live, both sides, logged into the reference with
+`sepnetflix2023@outlook.com`, on the session-35..38 instrument lessons
+applied from the start (`set viewport` + innerWidth confirms,
+nav-anchored selectors calibrated against the reference's actual DOM —
+no `<header>`, the bar is `<nav>`, the panel a nav div carrying
+`md:hidden` + `overflow-hidden`). **ALL FACES MATCH, NO DRIFT — the
+twelfth consecutive fully-clean walk.** And the walk LIVE-SETTLED the
+round's headline count question: the reference's open mobile panel
+carries exactly FIVE anchors — **the four nav links
+(Home /Tool /Pricing /Contact) + the Gumroad pill** — byte-identical
+to ours (classes, hrefs, texts, cursor pointer; the active link's
+teal face; the pill's priced text). The sessions-31..38 records'
+"the five links + the Gumroad pill" double-counted the pill — the
+exact count-truth genus S38-3 cured for the provenance sites, and the
+e2e spec ("the 4 links + the Upgrade pill"), the reference dossier
+(§3.1), and the code (NAV_ROUTES + the pill anchor) all agreed with
+the live face. The panel mechanics identical both sides (display
+block + max-height none + overflow hidden; the reference's
+`bg-slate-900/98` still computing `rgba(0,0,0,0)` — dead in its own
+build); the hamburger + login submit pointer both sides; Escape
+leaves the reference's panel open (our F11-11 superset, re-confirmed).
+The desktop nav byte-identical (4 links + the Upgrade pill); the
+five-route head census byte-identical modulo origin (titles,
+og:title, og:description, descriptions, canonicals); sitemap 4 URLs
+both (identical modulo origin); robots identical modulo origin; the
+generator probe symmetrically disabled/not-allowed; the login
+round-trip both landing the landing (R `/Home`, its duplicate-of-`/`
+route; L `/` — the documented 308 deviation).
+
+## The cures (TDD — every pin RED first or battery-planted, the mutation batteries per the house doctrine)
+
+- **S39-1 (LOW, the lead's own, live-verified)** — the mobile-menu
+  count truth: twenty record sites re-spelled from "the five links +
+  the Gumroad pill" to "the four links + the Gumroad pill" (the
+  session logs 32/33/36/37/38, the session-32/33/37/38 plans, three
+  worklog rows, the README session-31/32/33/38 rows, the SKILL
+  Appendix A session-31/32/33/38 rows — single-line and line-split
+  forms both; the correct "5 destinations" phrasing counts the five
+  anchors and stays untouched). The executable truth (the e2e
+  spec's per-link assertions) already owned the face — no new pin;
+  this is the records catching up to the code, the S38-3 precedent.
+- **S39-5 (LOW, AUDIT-2 A2)** — the typed-envelope alignment: the six
+  untyped client fetch sites (login-card ×5, reset-password-screen
+  ×1) gain the typed cast — the generator-card/contact-form idiom —
+  via local `AuthResponse`/`ResetResponse` interfaces (the union of
+  each file's reads; compile-time only, every `?.` optional-chain
+  read unchanged). +1 genus census pin in the NEW
+  `tests/client-envelope.test.ts` (the 40th suite): every
+  `res.json()` line in src/components/ carries a cast, both cast
+  shapes (single-line and the trailing-`as` multi-line form).
+  RED-first; the stripped-cast battery on record (one cast reverted →
+  the census REDs naming the file and line).
+- **S39-13 (AUDIT-1 A5 → cure)** — the boot-gate case arm: env keys
+  are case-sensitive, so a lower/mixed-case knob
+  (`viralpost_disable_in_app_otp=1`) was invisible to BOTH the
+  exact-case reader and the two exact-case scans — the operator
+  believes delivery is disabled while the OTP keeps riding the
+  responses, with no `[boot]` warning (the S13-1 polarity genus, one
+  spelling away). The scan gains the case-variant arm (warn-only,
+  after the exact-case branches, mapping the canonical ALL-CAPS
+  spelling — `neo_` variants map through the rename). +2 RED-first
+  pins (the viralpost case-variant; the neo case-variant); the
+  arm-removal battery on record (exactly the two pins RED, the forty
+  exact-case tests GREEN through the strip). The in-round lesson on
+  the record: the arm's first draft tripped the exact-prefix trap —
+  the case-insensitive test matched every healthy exact-case knob —
+  and the 33-failure RED caught the lead's own cure before it
+  shipped; the load-bearing exclusions are named in the code.
+- **S39-9 (INFO→cure, AUDIT-2 A4)** — the footer single-source
+  wiring: the one-liner reads `{BRAND.tagline}` (component→component,
+  the legal direction; DOM byte-identical — the same string). The
+  landing-page footer pin re-pinned to the wiring (the literal would
+  be the resurrected unpinned duplicate); the battery on record (the
+  wiring reverted → the pin REDs). The nav-config docblock scoped to
+  the truth: routes + Gumroad + the tagline are the runtime
+  vocabulary; BRAND.name/description are the pinned mirror of
+  site.ts's metadata copies (the layer model bars src/lib from
+  importing a components module — the documented reason the strings
+  are two-sided).
+- **S39-10 (INFO→cure, AUDIT-2 A3)** — the dead component-API
+  retirement: Reveal's `as` prop (+ the setRef callback-narrowing
+  machinery written solely for it) and ParticleText's
+  `waitDuration`/`tag` props had zero call-site consumers (all 19
+  Reveal sites render the default div; the hero passes neither
+  particle prop). Retired; ParticleText binds `waitDuration` from
+  `PHASE_SECONDS.wait` internally so the effects-motion reduced-
+  cadence pins read unchanged, and the h1 is hardcoded (the a11y
+  contract). Props are census-blind — the F9-10/S30-2 dead-surface
+  genus's softer form, retired per the house doctrine.
+- **S39-11 (INFO→cure, AUDIT-3 A2)** — the S38-1a pin's wedge-proof
+  slice bound: the bound now accepts ANY next export form
+  (`export (async )?function|export const`, via the slice-then-search
+  form — `String.search` takes no start index) and anchors on the
+  seam's own `getSessionUser()` call. The battery on record: with a
+  decoy `export async function` wedged between the seam and the next
+  sync export (carrying the arm shape) and the seam's own arm
+  stripped, the OLD bound FALSE-GREENS while the NEW bound REDs —
+  the hardening proven load-bearing, not cosmetic.
+- **S39-2/S39-3/S39-4 (LOW, the comment/enumeration truths)** —
+  logout's S18-3 comment re-spelled to the post-S38-1 status
+  vocabulary (503 on the transient family, INTERNAL on the residual);
+  the one-shot-script enumeration completed at the three contract
+  sites (AGENTS/CLAUDE/PAD now name all three: prisma/seed,
+  scripts/e2e-prune, scripts/e2e-contact-readback — the session-34
+  docs-lockstep miss); reveal's "five sites compute" corrected to
+  four (sections.tsx:107/:217/:271/:359 — the miscount originated in
+  the session-38 plan and shipped into the comment).
+- **S39-6/S39-7/S39-8 (INFO→cure, the idiom batch)** — forgot's catch
+  arms normalized transient-first (the sibling idiom; disjoint code
+  sets, zero behavior change); resend/me's import member order
+  aligned to the five-member majority; verify's accepted race
+  documented (the unconditional clear is deliberate — a conditional
+  WHERE would reject a user holding a valid-at-read code).
+- **S39-12 (INFO→cure)** — the dead `?? ""` retired from the S28-2
+  knob census (read() is readFileSync; the fallback could never
+  engage).
+
+**Accepted register (this round's tail, with reasons):** the
+provenance range's designed lag-1 window at the baseline (the owner's
+narration commit; cured by this round's standard re-anchor — the
+S30-4 convention, lag 0 at ship); the exact-source-shape GL-release
+regexes (the accepted source-pin doctrine); the generate route's
+guard-envelope discard (the documented S17-3 posture); the standing
+register carried forward unchanged (the prefers-reduced-motion
+live-toggle gap, the JSON-LD/og:locale/twitter:site family, the
+`.env.local` unmodeled face, the signup admin-bootstrap TOCTOU, the
+scryptSync posture, the login photoUrl asymmetry, the in-app delivery
+default, the footer heading skip, the S26-3 breakpoint-crossing
+posture, the ParticleText sr-only duplication, the Reveal SSR
+opacity, the worklog's structural inconsistencies).
+
+## The count re-anchor
+
+UNIT 672 → **675** (+1 the S39-5a census in the NEW client-envelope
+suite, +2 the S39-13a case-variant pins in boot-env), SUITES 39 →
+**40**, E2E 65 unchanged, SMOKE 16 unchanged, badge 737 → **740**.
+Constants re-anchored FIRST; the census walked the doc sites RED→GREEN
+(PAD §12: particle-text 330→333 — the two retired props' net; the
+nine provenance sites + toast's owned tenth re-anchored to 1..39 —
+lag 0 at ship).
+
+## Verified
+
+- The full gate on the exact commit tree (below)
+- The mutation batteries on record: S39-5 (the stripped cast → the
+  census REDs naming the site), S39-13 (the arm removed → exactly the
+  two case-variant pins RED, the exact-case family GREEN), S39-9 (the
+  wiring reverted → the footer pin REDs), S39-11 (the planted wedge:
+  the OLD bound false-greens, the NEW bound REDs)
+- The in-round TDD catch: the S39-13 arm's first draft warned on
+  every healthy exact-case knob — the 33-failure RED forced the
+  load-bearing exclusions before the cure shipped
+- The parity walk post-cure: all faces hold, the superset faces
+  adjudicated as documented — no drift
+- Captures 85/86 on the dev server (the owner-instructed posture, the
+  session-29..38 precedent): the mobile-menu open clean-walk at
+  390×844 + the landing hero at 1280×800, PIL-verified
+- Docs lockstep: README (badge 740, the 40/675 rows, the session-39
+  row, the gate line); AGENTS (counts, the plans map's thirty-ninth
+  round, the three-script enumeration); CLAUDE (counts, the Data
+  Layer exemption clause); PAD (§4.3, §8.1, §12 rows, Last Updated
+  2026-11-13); SKILL v1.34.0 → v1.35.0 (frontmatter, §0.5 1..39,
+  Appendix A's session-39 row, Appendix B's header + counts, the
+  pre-ship checklist); worklog Task 39; this session log; the plan's
+  post-execution record
+
+**Gate at the session-39 ship: lint 0/0 · tsc 0 · unit 675/675 (40
+files) · build · smoke 16/16 · e2e 65/65 (9 specs) · census MATCH.**

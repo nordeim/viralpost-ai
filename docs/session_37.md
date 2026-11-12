@@ -47,7 +47,7 @@ no `<header>`, the bar is `<nav>`, the panel a nav div carrying
 reference). **21/21 faces raw MATCH, NO DRIFT — the tenth consecutive
 fully-clean walk.** The mobile menu works as expected (the user's
 standing concern): open at a confirmed 390×844, the panel display
-block + max-height none, the five links + the Gumroad pill
+block + max-height none, the four links + the Gumroad pill
 byte-identical, both cursor faces pointer (the S36-1 cure holding),
 the escape-close and focus-visible faces the documented supersets
 (F11-11, S15-8 — the reference's panel stays open on Escape,

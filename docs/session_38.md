@@ -47,7 +47,7 @@ no `<header>`, the bar is `<nav>`, the panel a nav div carrying
 `md:hidden` + `overflow-hidden`). **ALL FACES MATCH, NO DRIFT — the
 eleventh consecutive fully-clean walk.** The mobile menu works as
 expected (the user's standing concern): open at a confirmed 390×844,
-the panel display block + max-height none + overflow hidden, the five
+the panel display block + max-height none + overflow hidden, the four
 links + the Gumroad pill byte-identical (classes, hrefs, cursor
 pointer — the S36-1 cure holding), the hamburger + the login submit
 pointer both sides. The escape-close and focus-visible faces remain

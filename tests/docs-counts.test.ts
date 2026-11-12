@@ -180,6 +180,13 @@ import {
 // comment-strips in place (S38-7f) and the stripComments helper joins
 // seo-surfaces — +0 tests) and the e2e 65 unchanged. SMOKE 16
 // unchanged.
+// s39: 675/40 (+3 the session-39 pins — the typed-envelope census
+// (S39-5a, the NEW client-envelope.test.ts — the 40th suite) and the
+// two boot-gate case-variant arms (S39-13a, boot-env); the S38-1a
+// slice-bound hardening (S39-11) and the dead-fallback retirement
+// (S39-12) are in-place — +0 tests; the landing-page footer pin
+// re-pins in place (S39-9) — +0 tests) and the e2e 65 unchanged.
+// SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -187,9 +194,9 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 672;
+const UNIT = 675;
 /** Vitest suite files. */
-const SUITES = 39;
+const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
 const E2E = 65;
 /** Playwright e2e spec files. */
@@ -348,7 +355,10 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
   // both a missing knob and a stranger var RED. Commented examples
   // (the PostgreSQL line) never match — they start with '#'.
   it("S28-2: the .env.example carries the six-knob contract exactly (no missing knob, no stranger var)", () => {
-    const envExample = read(".env.example") ?? "";
+    // (Session-39, S39-12: the dead `?? ""` retired — read() is
+    // readFileSync and throws on a missing file, so the fallback could
+    // never engage; a deleted .env.example still REDs, via the throw.)
+    const envExample = read(".env.example");
     const keys = new Set(
       [...(envExample.match(/^[A-Z_]+=/gm) ?? [])].map((k) => k.slice(0, -1)),
     );

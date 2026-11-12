@@ -39,7 +39,7 @@ verified mitigated in the COMPILED output.
 **The parity walk** (live, both sides, logged into the reference with
 `sepnetflix2023@outlook.com`): the mobile-menu census at 390×844 — the
 hamburger base classes byte-identical, the open panel computed transparent
-both sides at scrollY=0 (`max-height: none`, display block, the five links
+both sides at scrollY=0 (`max-height: none`, display block, the four links
 + the Gumroad pill byte-identical), the bar `bg-transparent` with the menu
 open, the scrolled-bar class family byte-identical with the computed
 background the same color in its two spellings (our

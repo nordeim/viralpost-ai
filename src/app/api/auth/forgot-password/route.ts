@@ -126,12 +126,16 @@ export async function POST(req: Request) {
       });
       stored = true;
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
-        stored = false;
-      } else if (isTransientDbFailure(error)) {
+      // Session-39 (S39-6): transient arm FIRST — the sibling idiom
+      // (verify/resend/signup all order it ahead of the known-error
+      // arm; the two families are disjoint code sets, so the order is
+      // behaviorally identical — this is the one-idiom doctrine).
+      if (isTransientDbFailure(error)) {
         // Session-37 (S37-2): the hoisted classifier (same codes, same
         // 503 — the wire byte-identical).
         return fail("UNAVAILABLE", TRANSIENT_DB_MESSAGE, 503);
+      } else if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+        stored = false;
       } else {
         // Session-9 (F9-7): the residual class answers the envelope — a
         // bare re-throw would surface as a raw non-JSON 500 (the envelope

@@ -110,6 +110,12 @@ export async function POST(req: Request) {
 
     // Success: clear the code, sign the account in (the reference's
     // post-verification funnel completes into the session).
+    // Session-39 (S39-8): the clear is UNCONDITIONAL by id, by design —
+    // a conditional WHERE (re-checking the code hash) would REJECT a
+    // user holding a code that was valid at read time but superseded by
+    // a concurrent resend in the read→update window. The user proved
+    // possession of a valid code; verifying is the intended outcome
+    // either way (the accepted race; no privilege boundary crossed).
     await db.user.update({
       where: { id: user.id },
       data: {

@@ -42,7 +42,7 @@ walk.** The three non-raw faces are the documented supersets (the
 hamburger focus-visible arm ×2, S15-8; the escape-close, F11-11 — the
 reference's panel stays open on Escape, re-confirmed). The mobile menu
 works as expected (the user's standing concern): open at a confirmed
-390×844, the panel display block + max-height none, the five links +
+390×844, the panel display block + max-height none, the four links +
 the Gumroad pill byte-identical, both cursor faces pointer (the S36-1
 cure holding). One instrument note for the record: the desktop-nav
 probe's raw output included OUR side's mounted-but-hidden panel anchors

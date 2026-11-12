@@ -143,6 +143,14 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
   //    live VIRALPOST_* name where one exists.
   // (NODE_ENV, DATABASE_URL and the NEXT_* family start with neither
   //  prefix — they can never trip these scans.)
+  // Session-39 (S39-13): the CASE-VARIANT arm — env keys are
+  // case-sensitive, so a lower/mixed-case spelling
+  // (viralpost_disable_in_app_otp=1) is invisible to BOTH the exact-case
+  // reader and the two exact-case branches above: the operator believes
+  // delivery is disabled while the OTP keeps riding the responses, with
+  // no [boot] warning (the S13-1 polarity genus, one spelling away).
+  // Warn-only, after the exact-case branches, mapping the canonical
+  // ALL-CAPS spelling.
   for (const key of Object.keys(env)) {
     if (key.startsWith("VIRALPOST_") && !KNOWN_VIRALPOST_VARS.has(key)) {
       warnings.push(
@@ -156,6 +164,26 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
         KNOWN_VIRALPOST_VARS.has(mapped)
           ? `[boot] Legacy NEO_* environment variable ${key} — the knob names were renamed NEO_* → VIRALPOST_* (session 2); the code reads the VIRALPOST_* spelling, so ${key} is inert here. Set ${mapped} instead.`
           : `[boot] Legacy NEO_* environment variable ${key} — the knob family was renamed NEO_* → VIRALPOST_* (session 2); no knob maps to this name. The known knobs are: ${[
+              ...KNOWN_VIRALPOST_VARS,
+            ].join(", ")}.`,
+      );
+    } else if (
+      !key.startsWith("VIRALPOST_") &&
+      !key.startsWith("NEO_") &&
+      (/^viralpost_/i.test(key) || /^neo_/i.test(key))
+    ) {
+      // (The exact-prefix exclusions are load-bearing: a KNOWN
+      // exact-case key reaches this else too — without them the
+      // case-insensitive test would warn on every healthy knob. The
+      // 33-failure RED the S39-13a pins produced on the arm's first
+      // draft is the in-round proof.)
+      const canonical = /^neo_/i.test(key)
+        ? `VIRALPOST_${key.slice(4).toUpperCase()}`
+        : key.toUpperCase();
+      warnings.push(
+        KNOWN_VIRALPOST_VARS.has(canonical)
+          ? `[boot] Case-variant environment variable ${key} — env keys are case-sensitive, so this key is inert here. The code reads the exact spelling ${canonical}. Set ${canonical} instead.`
+          : `[boot] Case-variant environment variable ${key} — env keys are case-sensitive, and no knob maps to ${canonical}. The known knobs are: ${[
               ...KNOWN_VIRALPOST_VARS,
             ].join(", ")}.`,
       );

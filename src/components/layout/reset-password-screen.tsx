@@ -23,6 +23,16 @@ import { LOGIN_LAYOUT } from "@/lib/page-layout";
  * slate-900 submit — so the reset surface reads as one design system
  * with the login/signup cards.
  */
+
+// Session-39 (S39-5): the client envelope read, TYPED at the parse
+// site (the generator-card idiom — the login-card family's shared
+// cure). The cast is compile-time only; the `?.` reads below keep
+// their optional-chain shape.
+interface ResetResponse {
+  ok?: boolean;
+  error?: { message?: string };
+}
+
 export function ResetPasswordScreen() {
   const router = useRouter();
   const token = useSearchParams().get("token");
@@ -61,7 +71,7 @@ export function ResetPasswordScreen() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ reset_token: token, new_password: password }),
       });
-      const body = await res.json().catch(() => null);
+      const body = (await res.json().catch(() => null)) as ResetResponse | null;
       if (!res.ok || !body?.ok) {
         setError(body?.error?.message ?? "Invalid or expired reset token");
         return;
