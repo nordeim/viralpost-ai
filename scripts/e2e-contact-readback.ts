@@ -47,12 +47,14 @@ async function main() {
 }
 
 // The awaited disconnect (the S25-18b idiom — the seed's form; the
-// failure path now honored too, the S35-3 cure).
+// failure path now honored too, the S35-3 cure). Session-36 (S36-3):
+// the finally runs FIRST — the trailing catch covers main's rejection
+// AND the disconnect's own.
 main()
+  .finally(async () => {
+    await db.$disconnect();
+  })
   .catch((e) => {
     console.error(e);
     process.exitCode = 1;
-  })
-  .finally(async () => {
-    await db.$disconnect();
   });

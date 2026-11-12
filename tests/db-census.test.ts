@@ -126,10 +126,16 @@ describe("session-53: the census seam (S53-P2, N-53b)", () => {
       expect(src, `${f} must let the finally run — exitCode, not exit`).toContain("process.exitCode = 1");
       expect(src, `${f} must not preempt the teardown chain`).not.toContain("process.exit(1)");
       expect(src, `${f} must await the disconnect in a finally`).toMatch(/\.finally\(async \(\) => \{\s*await db\.\$disconnect\(\);\s*\}\)/);
+      // Session-36 (S36-3): the chain STARTS with the finally — the
+      // trailing catch then covers main's rejection AND the
+      // disconnect's own (the old .catch-then-.finally order left a
+      // rejecting disconnect as an unhandled rejection; on the success
+      // path it flipped a green run non-zero with no message).
+      expect(src, `${f} must run the finally FIRST (S36-3)`).toMatch(/main\(\)\s*\.finally\(/);
     }
     const census = read("scripts/census.ts") ?? "";
     expect(census, "census.ts must own its failures — the family form, not a bare void main()").toMatch(
-      /if \(invokedAsScript\)\s*main\(\)\s*\.catch\(/,
+      /if \(invokedAsScript\)\s*main\(\)\s*\.finally\(/,
     );
     expect(census).not.toMatch(/if \(invokedAsScript\) void main\(\);/);
     const readback = read("scripts/e2e-contact-readback.ts") ?? "";

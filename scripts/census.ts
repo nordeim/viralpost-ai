@@ -65,12 +65,14 @@ const invokedAsScript = process.argv[1]?.endsWith("census.ts");
 // thrown count into an unhandled rejection (the drift-mismatch path
 // disconnected in-main above; a failing query skipped it). The catch
 // sets exitCode — the finally disconnects before the process exits.
+// Session-36 (S36-3): the finally runs FIRST — the trailing catch
+// covers main's rejection AND the disconnect's own.
 if (invokedAsScript)
   main()
+    .finally(async () => {
+      await db.$disconnect();
+    })
     .catch((e) => {
       console.error(e);
       process.exitCode = 1;
-    })
-    .finally(async () => {
-      await db.$disconnect();
     });

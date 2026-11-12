@@ -41,7 +41,8 @@ export async function POST(req: Request) {
   // like the rest of the family.
   if (!limit.allowed) return ERR.RATE_LIMITED(limit.retryAfterSec);
 
-  // Session-163: the Zod parse seam (pre-gate + email/code schema in one
+  // Session-163 (a donor-ledger number — the digma family's Zod-parse
+  // port): the Zod parse seam (pre-gate + email/code schema in one
   // call — the digit-stripping and the 6-length check ride the schema).
   const parsed = await parseBody(req, verifySchema);
   if (!parsed.ok) return parsed.response;

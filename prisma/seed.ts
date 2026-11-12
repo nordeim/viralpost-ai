@@ -66,11 +66,16 @@ async function main() {
 // while the comment claimed the disconnect is AWAITED.
 // process.exitCode lets the finally run; the process still exits 1
 // after the chain settles.
+// Session-36 (S36-3): the chain STARTS with the finally — the trailing
+// catch then covers main's rejection AND the disconnect's own (the
+// .catch-then-.finally order left a rejecting disconnect as an
+// unhandled rejection; on the success path it flipped a green run
+// non-zero with no message).
 main()
+  .finally(async () => {
+    await db.$disconnect();
+  })
   .catch((e) => {
     console.error(e);
     process.exitCode = 1;
-  })
-  .finally(async () => {
-    await db.$disconnect();
   });

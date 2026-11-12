@@ -45,11 +45,13 @@ const RESET_TOKEN_TTL_MS = 60 * 60 * 1000;
 
 export async function POST(req: Request) {
   const limit = rateLimit(`forgot:${clientKey(req)}`, 10, 15 * 60 * 1000);
-  // Session-163: the family's sweep placement (denied requests sweep too).
+  // Session-163 (a donor-ledger number — the digma family's Zod-parse
+  // port): the family's sweep placement (denied requests sweep too).
   sweepRateLimits();
   if (!limit.allowed) return ERR.RATE_LIMITED(limit.retryAfterSec);
 
-  // Session-163: the Zod parse seam (pre-gate + schema in one call).
+  // Session-163 (as above — the donor-ledger number): the Zod parse seam
+  // (pre-gate + schema in one call).
   const parsed = await parseBody(req, forgotPasswordSchema);
   if (!parsed.ok) return parsed.response;
   const email = parsed.data.email;

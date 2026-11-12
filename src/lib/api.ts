@@ -60,7 +60,8 @@ export function isGuarded(x: { user: SessionUser } | { response: NextResponse })
   return "response" in x;
 }
 
-// ---- the auth-family body pre-gate (session-67, N-67d) ---------------------
+// ---- the auth-family body pre-gate (session-67, N-67d — donor-ledger
+// numbers, the NEO-CRM family's body-gate sessions) ---------------------
 
 /** Session-67 (N-67d), session-165 (donor-ledger numbers — the NEO-CRM
  *  family's body-gate sessions): the declared-size ceiling for JSON
@@ -207,9 +208,11 @@ export async function readBoundedJson(req: Request): Promise<BoundedJson> {
   }
 }
 
-// ---- the Zod parse seam (session-163 — the auth family's validation) ----
+// ---- the Zod parse seam (session-163 — a donor-ledger number, the digma
+// family's validation port; the auth family's validation) ----
 
-/** Session-163: parse + validate a JSON body against a Zod schema.
+/** Session-163 (a donor-ledger number — see the divider above): parse +
+ *  validate a JSON body against a Zod schema.
  *  Session-165: composes the bounded reader (readBoundedJson — the
  *  content-type CSRF gate + the declared fast path + the stream
  *  counter) ahead of safeParse, and maps the first schema issue onto

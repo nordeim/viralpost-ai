@@ -15,7 +15,7 @@ import { describe, expect, it } from "vitest";
 //   8..200 password window, the P2024/P2028→503 family.
 // Lineage note (session-21, S21-12): the "session-163, digma S67-A/S76-A/
 // S124-A" citations are donor-ledger numbers (the template family);
-// this repo's own sessions are docs/session_1..35.
+// this repo's own sessions are docs/session_1..36.
 
 function read(rel: string): string | null {
   const p = path.resolve(import.meta.dirname, "..", rel);
@@ -131,6 +131,19 @@ describe("reset-password route contract (session-163, digma S67-A/S76-A/S124-A)"
     const src = resetRoute();
     expect(src).toContain("result.count === 0");
     expect(src).toContain('"Invalid or expired reset token"');
+  });
+
+  // Session-36 (S36-6a): the bespoke envelope CODE pinned — digma's
+  // measured contract (S46/S124's own wire), not this repo's ERR family
+  // default. No consumer keys on the code today (the message carries the
+  // UX), but the wire is part of the ported contract; a future
+  // normalization to BAD_REQUEST must be a deliberate, documented change.
+  it('pins the invalid-token envelope code "VALIDATION" (the digma-measured wire — not the ERR.BAD_REQUEST family default)', () => {
+    const src = resetRoute();
+    expect(src).toContain('fail("VALIDATION", INVALID_TOKEN_MESSAGE, 400)');
+    // Both faces of the dead-token 400 (the pre-write lookup miss and
+    // the conditional-write count 0) ride the same code + message.
+    expect(src.match(/fail\("VALIDATION"/g)?.length ?? 0).toBeGreaterThanOrEqual(2);
   });
 
   it("increments tokenVersion on reset (the eviction — every pre-reset cookie dies)", () => {

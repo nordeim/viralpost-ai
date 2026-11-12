@@ -55,7 +55,8 @@ function secret(): string {
 }
 
 // ---- password hashing ------------------------------------------------------
-// (Session-163: the implementation moved to the pure seam —
+// (Session-163 — a donor-ledger number, the digma family's session; the
+// implementation moved to the pure seam —
 // src/lib/password.ts — re-exported above.)
 
 // ---- session token ---------------------------------------------------------
@@ -108,7 +109,8 @@ export function verifySessionToken(token: string | undefined | null, now = Date.
     const payload = JSON.parse(unb64url(body)) as Partial<SessionPayload>;
     if (typeof payload.uid !== "string" || typeof payload.exp !== "number") return null;
     if (payload.exp < now) return null;
-    // Session-163: the version's own shape guard — a non-integer,
+    // Session-163 (a donor-ledger number — the digma family's session):
+    // the version's own shape guard — a non-integer,
     // fractional, or negative v is rejected even under a valid signature
     // (unforgeable in practice — the v rides the HMAC payload — but the
     // parse must never widen what the mint sites can write). A MISSING v

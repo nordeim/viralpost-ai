@@ -27,7 +27,7 @@
 // RED at birth (the files do not exist yet); GREEN when WP-4/WP-5 land.
 // Lineage note (session-21, S21-12): the scandihaven/s169 citations
 // are donor-ledger numbers (the template family's repos); this repo's
-// own sessions are docs/session_1..35.
+// own sessions are docs/session_1..36.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -141,10 +141,13 @@ describe("session-170 (WP-5): the smoke leg (scripts/smoke-test.sh, the §13.4 s
   it("carries the artifact-hygiene assertions (the F-170a cure policed at every smoke run)", () => {
     expect(script).toContain(".next/standalone/$entry");
     // Session-34 (S34-7): the enumeration now mirrors next.config's
-    // outputFileTracingExcludes root files. Session-35 (S35-5): the two
+    // outputFileTracingExcludes root files (plus uploads, the
+    // pre-existing tripwire — 29 entries vs the config's 28;
+    // S36-5c restored the qualifier). Session-35 (S35-5): the two
     // partial chunks replaced by the FULL loop line as ONE toContain —
-    // the old form left the middle 4 + the tail 9 entries (13 of 29)
-    // unpinned; deleting any of them from the loop shipped this pin
+    // the old form left the middle 4 + the tail 10 entries (14 of 29,
+    // S36-5a re-anchored the arithmetic) unpinned; deleting any of them
+    // from the loop shipped this pin
     // green. The full-line form owns every entry. Battery: remove any
     // entry (e.g. `tests`) from the loop → exactly this pin REDs.
     expect(script).toContain(

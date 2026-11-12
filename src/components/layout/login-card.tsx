@@ -82,7 +82,11 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
   // S21-P5: the resend confirmation rides its own green Callout — the
   // reference auto-dismisses it (~3s) while the error banners persist.
   const [info, setInfo] = React.useState<string | null>(null);
-  // Session-67 (N-67k): the resend's own in-flight flag — the link's
+  // Session-67 (N-67k — donor-ledger numbers, the NEO-CRM family's own
+  // resend sessions; this file's bare N-67k/N-67l, Session-111,
+  // N-79c13, and Session-96 cites below are donor-ledger numbers too —
+  // the template family's sessions, never this repo's
+  // docs/session_N.md): the resend's own in-flight flag — the link's
   // budget is 5/15 min, so a double-click must not burn two sends.
   const [resending, setResending] = React.useState(false);
   // Session-163 (the digma ADR-014 port): the SELF-HOSTED in-app

@@ -35,12 +35,14 @@ const INVALID_TOKEN_MESSAGE = "Invalid or expired reset token";
  */
 export async function POST(req: Request) {
   const limit = rateLimit(`reset:${clientKey(req)}`, 10, 15 * 60 * 1000);
-  // Session-163: the family's sweep placement (denied requests sweep too).
+  // Session-163 (a donor-ledger number — the digma family's Zod-parse
+  // port): the family's sweep placement (denied requests sweep too).
   sweepRateLimits();
   if (!limit.allowed) return ERR.RATE_LIMITED(limit.retryAfterSec);
 
-  // Session-163: the Zod parse seam — the schema's field order encodes the
-  // measured contract (token presence/size FIRST, then the password
+  // Session-163 (as above — the donor-ledger number): the Zod parse seam —
+  // the schema's field order encodes the measured contract (token
+  // presence/size FIRST, then the password
   // window), and the first issue answers.
   const parsed = await parseBody(req, resetPasswordSchema);
   if (!parsed.ok) return parsed.response;

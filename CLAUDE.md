@@ -94,6 +94,12 @@ remediated by AI agents under the Meticulous Approach.
   source("../")` — session-35, S35-1): v4's auto source detection
   anchors at the repo ROOT, and the docs/tests/*.md prose compiled into
   ~60% never-matched rules. Scope it or the sheet bloats.
+- The base layer carries the button cursor rule
+  (`button, [role="button"] { cursor: pointer }` — session-36, S36-1):
+  v4's preflight ships NO cursor rule for buttons, and the reference's
+  v3-era preflight renders pointer on every enabled button — without
+  the rule, every button renders the UA default arrow (walk-verified
+  live both sides).
 - The `@custom-variant hover` unwrap restores v3 bare-`:hover` semantics —
   hover styles apply on touch devices, exactly like the reference's
   v3-era stylesheet (v4's default `(hover: hover)` media wrap would keep
@@ -150,7 +156,7 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 38 files / 662 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 39 files / 665 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.

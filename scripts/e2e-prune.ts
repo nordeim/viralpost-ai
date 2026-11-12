@@ -40,11 +40,13 @@ async function main() {
 // teardown completes (harmless for SQLite, but the sibling scripts
 // should model one idiom). Session-35 (S35-3): the failure path —
 // process.exitCode (not process.exit) so the finally runs there too.
+// Session-36 (S36-3): the finally runs FIRST — the trailing catch
+// covers main's rejection AND the disconnect's own.
 main()
+  .finally(async () => {
+    await db.$disconnect();
+  })
   .catch((e) => {
     console.error(e);
     process.exitCode = 1;
-  })
-  .finally(async () => {
-    await db.$disconnect();
   });

@@ -37,11 +37,13 @@ export async function POST(req: Request) {
   // placement — see the signup note; S39-P7 moved it before the denied
   // return so denied requests sweep too).
   sweepRateLimits();
-  // Session-67 (N-67h): the denied 429 carries the Retry-After header
+  // Session-67 (N-67h — donor-ledger numbers, the NEO-CRM family's own
+  // limiter-envelope sessions): the denied 429 carries the Retry-After header
   // like the rest of the family.
   if (!limit.allowed) return ERR.RATE_LIMITED(limit.retryAfterSec);
 
-  // Session-163: the Zod parse seam (pre-gate + the email contract).
+  // Session-163 (a donor-ledger number — the digma family's Zod-parse
+  // port): the Zod parse seam (pre-gate + the email contract).
   const parsed = await parseBody(req, resendSchema);
   if (!parsed.ok) return parsed.response;
   const { email } = parsed.data;

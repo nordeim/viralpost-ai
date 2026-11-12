@@ -37,11 +37,13 @@ export async function POST(req: Request) {
   // the return, and the code finally matches its own "mirrored"
   // comment).
   sweepRateLimits();
-  // Session-67 (N-67h): the denied 429 carries the Retry-After header
+  // Session-67 (N-67h — donor-ledger numbers, the NEO-CRM family's own
+  // limiter-envelope sessions): the denied 429 carries the Retry-After header
   // like the rest of the family.
   if (!limit.allowed) return ERR.RATE_LIMITED(limit.retryAfterSec);
 
-  // Session-163: the Zod parse seam — the pre-gate + the name/email/
+  // Session-163 (a donor-ledger number — the digma family's Zod-parse
+  // port): the Zod parse seam — the pre-gate + the name/email/
   // password contract (the s38/s39/s21 semantics: optional trimmed name
   // <= 80 with the empty-string -> undefined normalization, the derived
   // fallback, the email format, the 8-char password floor) ride the

@@ -3769,14 +3769,16 @@ Agent: main (Z.ai)
   unhandled rejection); readback's usage check precedes the client
   construction; +1 pin, each of the three planted defects proven
   independently; the N-53a guard re-anchored in the same commit); S35-4
-  the donor-marker tail (ten more sites marked — api.ts:24/:64,
-  auth.ts:143, verify:39/:92, login-reset:106/:133/:179,
+  the donor-marker tail (nine marker blocks covering the ten bare
+  cites — api.ts:24/:64,
+  auth.ts:143, verify:39/:92, login-reset:106/:133/:179 (the :106
+  block covering :114 — the S36-5d wording precision),
   rate-limit.ts:7; §0.5's 173 claim true at its only site); S35-2 the
   playwright contact-bucket census (the comment extended: contact
   3/run vs the 5/hour wall, the 60-minute self-heal; generate 6/run vs
   20, reset 3/run vs 10, signup 2/run vs 10, forgot 2/run vs 10);
   S35-5 the hygiene-pin completion (the two partial chunks replaced by
-  the full 29-entry loop line as ONE toContain; 13 of 29 entries were
+  the full 29-entry loop line as ONE toContain; 14 of 29 entries were
   unpinned; the planted-removal battery on record); S35-6 the
   comment-truth batch (gate-script's stale "third run" — the S34-4
   arithmetic; the SKILL Appendix B header "through session 33" vs its
@@ -3801,6 +3803,126 @@ Agent: main (Z.ai)
   "through session 35" + body, the pre-ship checklist counts);
   worklog Task 35; docs/session_35.md (this round's formal log); the
   plan's post-execution record.
+
+- SHIPPED: the remediated codebase + the docs in lockstep, committed
+  to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
+  verified; no new branches).
+
+## Task 36 — The Button-Cursor Preflight Cure + The Teardown-Chain Coverage + The Donor-Marker Sweep + The Comment-Truth Batch (2026-11-12)
+
+Task ID: 36
+Agent: main (Z.ai)
+- SCOPE: the standing instruction re-run against the merged tree
+  (`467db9b`, the owner's session-35 narration held as
+  docs/session_36.md). Docs review (AGENTS/CLAUDE/README/PAD/SKILL
+  v1.31.0, session_35.md, the session-35 plan, worklog Task 35,
+  session_36.md) → the baseline gate verified in place (lint 0/0 · tsc 0
+  · unit 662/662, 38 files · build · smoke 16/16 · e2e 65/65, 9 specs ·
+  census MATCH) → the comprehensive audit (three parallel subagents,
+  the web-application skill as the rubric, every load-bearing finding
+  hand-verified in source by the lead; the session-35 diff itself
+  verified clean on all three passes) → the live parity walk → the TDD
+  cures → the full gate → the captures → the push. The standing asks
+  re-verified up front (the .env DATABASE_URL
+  "file:../db/custom.db" contract with db/ at the repo root; the
+  vitest + playwright suites; the sitemap/robots/manifest/OG family;
+  skills/ excluded from every gate; the committed .env.example).
+- THE AUDIT: combined 0 Critical / 0 High / 1 Medium / 7 Low / 9 Info
+  → all cured (S36-1..S36-6). The Medium: the v4 button-cursor
+  preflight gap (AUDIT-2 A2-M1, cross-flagged by AUDIT-1 A1-I2) —
+  confirmed LIVE both sides by the walk.
+- THE PARITY WALK (live, both sides, logged into the reference with
+  sepnetflix2023@outlook.com; the session-35 instrument lessons applied
+  from the start — set viewport + innerWidth confirms, nav-anchored
+  selectors calibrated against the reference's actual DOM before the
+  run: it has NO <header> element, the bar is <nav>, the panel the nav
+  div carrying md:hidden + overflow-hidden): 20 faces, ONE real drift —
+  the button cursor (the reference's v3-era preflight renders pointer
+  on the hamburger and the login submit; ours the UA default arrow; the
+  disabled Generate button matched only via the shared
+  disabled:cursor-not-allowed utility) — plus two adjudicated
+  non-drifts (our hamburger focus-visible arm, the S15-8 superset; our
+  Escape-close, the F11-11 superset — the reference's panel STAYS OPEN
+  on Escape, probed in isolation this round: display block before and
+  after with the button focused, no keyboard close at all; session-35's
+  walk had probed the escape transition on OUR side only). The other
+  sixteen faces byte-identical (the bar families at a confirmed
+  390×844, the open panel display block + max-height none + the links +
+  the Gumroad pill, the desktop nav 6|6, the five-route head census
+  modulo origin, sitemap + robots modulo origin, the login round-trip
+  both landing /, the generator probe symmetrically null). THE MOBILE
+  MENU WORKS AS EXPECTED — the user's standing concern, verified live
+  again.
+- THE CURES (TDD, every battery on record): S36-1 the button-cursor
+  base rule (globals.css's @layer base gains
+  `button, [role="button"] { cursor: pointer }` — the family skill
+  §12's exact prescription; +1 pin RED-first (1 failed / 28 passed
+  planted), the rule-removal battery on record (removed → exactly the
+  pin RED; restored → 29/29); the real-build sheet check + the walk
+  re-run flip to MATCH); S36-3 the teardown-chain coverage (the four
+  one-shot scripts' chains reordered to `.finally(...).catch(...)` —
+  the old .catch-then-.finally order left a rejecting $disconnect as
+  an unhandled rejection, and on the success path flipped a green run
+  non-zero with no message; the ordering arm joins the S35-3 pin (the
+  planted-revert battery on record: seed reverted → RED on the
+  ordering arm; restored → 7/7); the failure paths verified live —
+  readback's usage error exits 2 with nothing constructed, the seed
+  exits 0 through the finally-first chain, the census still MATCHes);
+  S36-2 the donor-marker sweep (the N-67h twins at login/resend/signup
+  (verify's twin got its S35-4 marker; these three didn't), the
+  Session-163 Zod-parse shorthands across six auth routes + api.ts:63
+  divider + :212 + auth.ts:58/:111 + password.ts:61, and login-card's
+  N-67k/N-67l/Session-111/N-79c13/Session-96 family — all carry their
+  lineage notes at the first bare cite per file, the .env.example
+  S21-12 file-level precedent; §0.5's "163 sites carry their inline
+  attributions" claim true at its route sites); S36-4 the census .sh
+  blind spot (scripts/smoke-test.sh joins SITE_FILES — the S35-7
+  widening's extension filter admitted only .ts/.tsx/.mts under
+  SITE_ROOTS and excluded the one scripts/ file most likely to carry
+  provenance prose; the planted-range battery on record: a
+  docs/session_1 dot-dot (beyond-disk) claim planted in the .sh trips the lag-invariant
+  census — proving both the trip AND that the file is scanned);
+  S36-5 the comment-truth batch (four genera: the S35-5 arithmetic
+  13→14 of 29 — the old pin covered the first-11 prefix + the 4-entry
+  chunk = 15 of 29, so 14 were unpinned, and the narrative contradicted
+  its own 11+4 — re-anchored at the five sites; the "300+" corpus
+  magnitude re-anchored to the real numbers (~160 docs/tests/root
+  files PLUS the 3,100-file skills/ catalog, 92% of the non-src tree —
+  the original figure matched no countable corpus) at the four sites;
+  the "plus uploads" qualifier restored in the error-boundaries
+  comment (29 loop entries vs next.config's 28); the ten-sites wording
+  re-spelled to nine marker blocks covering the ten bare cites
+  (login-reset:106 covering :114) at the three sites); S36-6 the
+  hygiene batch (the VALIDATION envelope-code pin — reset-password's
+  bespoke fail("VALIDATION", …) code (the digma-measured wire) had no
+  pin; +1 it, GREEN-on-arrival (a coverage-gap pin — the
+  planted-BAD_REQUEST battery owns the defense: planted → exactly the
+  pin RED, restored → 27/27); the cn() seam spec — utils.ts was the
+  only src/lib module with zero test references (PAD §8.3's "every
+  seam has a spec" held only via the glossary's circular definition);
+  +1 file (tests/utils.test.ts) pinning the clsx conditional
+  passthrough + the tailwind-merge precedence (the same-group
+  text-color conflict resolves last-win; the different-group font-size
+  coexists); the two limiter summaries (playwright.config.ts + AGENTS)
+  completed to all six fifteen-minute buckets — forgot 10 / reset 10
+  joined, an operator could have concluded they were unthrottled).
+- The count re-anchor: UNIT 662 → 665 (+1 S36-1 in design-tokens, +1
+  S36-6a in auth-reset, +1 S36-6b in the new utils.test.ts), SUITES
+  38 → 39, E2E 65 unchanged, SMOKE 16 unchanged, badge 727 → 730.
+  Constants re-anchored FIRST; the census walked the doc sites RED→GREEN
+  (the PAD §12 rows re-anchored: auth 193, password 69, api 268,
+  globals.css 251; the eight provenance sites re-anchored to 1..36 —
+  lag 0 at ship).
+- Docs lockstep: README (badge 730, the session-36 row, the gate line,
+  the Design-system note gains the cursor rule); AGENTS (counts, the
+  plans map's thirty-sixth round, the Tailwind-traps line gains the
+  cursor rule, the limiter summary); CLAUDE (counts, the trap
+  catalog's cursor entry); PAD (§8.1 665/39, §12 rows, §8.3's line);
+  SKILL v1.31.0 → v1.32.0 (frontmatter, §0.5 1..36, §4's trap-9
+  entry, Appendix A's session-36 row, Appendix B's header "through
+  session 36" + body, the pre-ship checklist counts); worklog Task 36;
+  docs/session_36.md (this round's formal log); the plan's
+  post-execution record.
 
 - SHIPPED: the remediated codebase + the docs in lockstep, committed
   to main and pushed via docs/ssh_git_wrapper_v3.py (the remote

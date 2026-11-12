@@ -102,9 +102,12 @@ verified live and e2e-pinned.
 ## The cures (TDD — every pin RED first or battery-planted, the mutation batteries per the house doctrine)
 
 - **S35-1 (LOW, the round's headline)** — the Tailwind source scoping:
-  v4's auto source detection anchors at the repo ROOT, and the 300+
-  docs/session/plan/worklog/`*_SKILL.md` files plus tests/ fed
-  class-shaped prose into the scanner — every candidate compiled into
+  v4's auto source detection anchors at the repo ROOT, and the ~160
+  docs/tests/root prose files PLUS the 3,100-file skills/ catalog
+  (92% of the non-src tree — the magnitude re-anchored session-36,
+  S36-5b; the original narrative here said "300+" — a figure that
+  matched no countable corpus) fed class-shaped prose into the
+  scanner — every candidate compiled into
   a rule no element carries (~60% of the shipped sheet; the real build
   verifiably carried `.bg-[#bada55]`, `[program:laravel-worker]`,
   `.to-amber-400`, and the dead /98 family, none of which occur
@@ -148,15 +151,17 @@ verified live and e2e-pinned.
   reset 3/run vs 10, signup 2/run vs 10, forgot 2/run vs 10 — LOGIN
   still trips on the SECOND run (the 11th cumulative POST).
 - **S35-4 (LOW)** — the donor-marker tail: the S34-1 sweep stopped at
-  the 35/37-41/62/63/79/147 strata. Ten more sites marked at their
-  block-header cites: api.ts:24 (Session-67) and :64 (session-67 +
+  the 35/37-41/62/63/79/147 strata. Nine marker blocks covering the
+  ten bare sites marked at their
+  block-header cites (login-reset:106 covering :114 — the S36-5d
+  wording precision): api.ts:24 (Session-67) and :64 (session-67 +
   session-165), auth.ts:143 (N-67j), verify/route.ts:39 (N-67h) and
   :92 (N-67c), login-reset.ts:106 (the M-79c1 block covering :114),
   :133 (Session-111), :179 (Session-96), rate-limit.ts:7 (Session-173
   — §0.5's 173 claim now true at its only site).
 - **S35-5 (LOW)** — the hygiene-pin completion: the artifact-hygiene
   pin's two partial toContain chunks (the first-11 prefix + the 4-entry
-  S34-7 chunk) left the middle 4 + the tail 9 entries — 13 of 29 —
+  S34-7 chunk) left the middle 4 + the tail 10 entries — 14 of 29 —
   unpinned; deleting any of them from the loop shipped the pin green.
   The full 29-entry loop line as ONE `toContain` now owns every
   entry. The planted-removal battery on record (`tests` removed →

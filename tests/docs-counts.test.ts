@@ -161,6 +161,12 @@ import {
 // place to the exitCode form; the S35-5 hygiene pin and the S35-7
 // census widening are in-place — +0 tests) and the e2e 65 unchanged.
 // SMOKE 16 unchanged (the S35-6 header re-anchor is comment-only).
+// s36: 665/39 (+3 the session-36 pins — the base-layer button-cursor
+// pin (S36-1, design-tokens), the VALIDATION envelope-code pin (S36-6a,
+// auth-reset), and the cn() seam spec (S36-6b, the NEW utils.test.ts);
+// the S36-3 ordering arm folds into the existing S35-3 it in place, and
+// the S36-4 smoke-test.sh scan joins SITE_FILES in place — +0 tests)
+// and the e2e 65 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -168,9 +174,9 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 662;
+const UNIT = 665;
 /** Vitest suite files. */
-const SUITES = 38;
+const SUITES = 39;
 /** Playwright e2e checks (incl. the setup project's 1). */
 const E2E = 65;
 /** Playwright e2e spec files. */
@@ -677,6 +683,13 @@ describe("docs-counts: session-34 (S34-5) — the provenance-range census (the l
     "vitest.config.mts",
     "eslint.config.mjs",
     "postcss.config.mjs",
+    // Session-36 (S36-4): the S35-7 widening's own blind spot — the
+    // SITE_ROOTS extension filter admits only .ts/.tsx/.mts, so
+    // scripts/smoke-test.sh (the scripts/ file most likely to carry
+    // provenance prose) was excluded despite the widening comment's
+    // "must trip" claim. SITE_FILES reads regardless of extension —
+    // the .sh joins the scan here.
+    "scripts/smoke-test.sh",
   ];
 
   function rangeSites(): Array<{ where: string; bounds: number[] }> {

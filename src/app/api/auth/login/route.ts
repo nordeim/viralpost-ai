@@ -10,12 +10,14 @@ export const dynamic = "force-dynamic";
 export async function POST(req: Request) {
   const limit = rateLimit(`login:${clientKey(req)}`, 10, 15 * 60 * 1000);
   sweepRateLimits();
-  // Session-67 (N-67h): the 429 joins the ERR family — the hand-built
+  // Session-67 (N-67h — donor-ledger numbers, the NEO-CRM family's own
+  // limiter-envelope sessions): the 429 joins the ERR family — the hand-built
   // NextResponse block is retired; the Retry-After header it carried
   // moves into ERR.RATE_LIMITED so every auth route ships it.
   if (!limit.allowed) return ERR.RATE_LIMITED(limit.retryAfterSec);
 
-  // Session-163: the Zod parse seam (the declared-size pre-gate + the
+  // Session-163 (a donor-ledger number — the digma family's Zod-parse
+  // port): the Zod parse seam (the declared-size pre-gate + the
   // schema + the composite required message, one call — the N-67d pre-gate
   // and the N-63i email cap ride inside parseBody).
   const parsed = await parseBody(req, loginSchema);

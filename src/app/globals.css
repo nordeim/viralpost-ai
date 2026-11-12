@@ -1,7 +1,9 @@
 /* Session-35 (S35-1): the source scan is SCOPED to src/. The bare
-   import's auto source detection anchors at the repo ROOT — the 300+
-   docs/session/plan/worklog/*_SKILL.md files plus tests/ fed
-   class-shaped prose into the scanner, and every candidate compiled
+   import's auto source detection anchors at the repo ROOT — the ~160
+   docs/tests/root prose files PLUS the 3,100-file skills/ catalog
+   (92% of the non-src tree — tracked, hence not gitignore-excluded;
+   S36-5b re-anchored the magnitude) fed class-shaped prose into the
+   scanner, and every candidate compiled
    into a rule no element carries (~60% of the shipped sheet; the real
    build carried .bg-[#bada55], [program:laravel-worker],
    .to-amber-400, the dead /98 family — none occur anywhere in src/).
@@ -211,6 +213,17 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
   }
+
+  /* Session-36 (S36-1): v4's preflight ships no cursor rule for
+     buttons — every enabled button rendered the UA default arrow
+     where the reference's v3-era preflight renders pointer
+     (walk-verified live both sides this round: the hamburger and the
+     login submit R=pointer L=default; the disabled Generate button
+     matched only via the disabled:cursor-not-allowed utility both
+     sides carry). The family's own skill §12 prescribes this exact
+     base-layer rule; the disabled utilities still compose (the
+     utility layer beats the base layer). */
+  button, [role="button"] { cursor: pointer; }
 
   /* Reduced motion: the marketing motion vocabulary (reveals, floats,
      particle canvases) collapses to settled states — the entrance end

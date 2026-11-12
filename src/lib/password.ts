@@ -58,7 +58,8 @@ export function hashResetToken(token: string): string {
   return createHash("sha256").update(token, "utf8").digest("hex");
 }
 
-// Session-163: moved verbatim from src/lib/verification-server.ts (the
+// Session-163 (a donor-ledger number — the digma family's session):
+// moved verbatim from src/lib/verification-server.ts (the
 // seam's sixth-digit family — uniformly random, leading zeros allowed, the
 // reference's inputs are digit strings, not numbers).
 export function generateVerifyCode(): string {

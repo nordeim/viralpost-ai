@@ -32,17 +32,30 @@ describe("design tokens: the Tailwind v4 doctrine", () => {
   });
 
   it("the source scan is scoped to src/ (S35-1 — the repo-wide auto-detection shipped ~60% never-matched rules from docs/, tests/, and *.md prose)", () => {
-    // v4's auto source detection anchors at the repo ROOT: the 300+ docs/
-    // session/plan/worklog/*_SKILL.md files plus tests/ fed class-shaped
-    // prose into the scanner, and every candidate compiled into a rule no
-    // element carries (.bg-[#bada55], [program:laravel-worker],
-    // .to-amber-400, the dead /98 family — none occur anywhere in src/).
+    // v4's auto source detection anchors at the repo ROOT: the ~160
+    // docs/tests/root prose files plus the 3,100-file skills/ catalog
+    // (92% of the non-src tree — tracked, hence not gitignore-excluded)
+    // fed class-shaped prose into the scanner, and every candidate
+    // compiled into a rule no element carries (.bg-[#bada55],
+    // [program:laravel-worker], .to-amber-400, the dead /98 family —
+    // none occur anywhere in src/).
     // `source("../")` from src/app/globals.css scopes the scanner to src/
     // (probe-proven through the installed 4.3.3: the bare form emitted the
     // dead classes at 192,442 B; the scoped form emits only src/'s classes).
     // The S28-4 prose-safe doctrine stays as defense in depth.
     expect(css).toContain('@import "tailwindcss" source("../");');
     expect(css).not.toContain('@import "tailwindcss";');
+  });
+
+  it("the base-layer button cursor rule (S36-1 — v4's preflight ships no cursor: pointer; the reference's v3-era preflight renders pointer on every enabled button, walk-verified both sides)", () => {
+    // Session-36 (S36-1): the live walk confirmed the drift — the
+    // reference renders pointer on the hamburger and the login submit
+    // (R=pointer, L=default); the disabled Generate button matched only
+    // via the disabled:cursor-not-allowed utility both sides carry. The
+    // family's own skill (§12) prescribes this exact base-layer rule;
+    // the disabled utilities still compose (the utility layer beats the
+    // base layer).
+    expect(css).toContain("button, [role=\"button\"] { cursor: pointer; }");
   });
 
   it("the @theme block carries literal hex tokens (no var() chains)", () => {
