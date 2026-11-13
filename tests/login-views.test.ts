@@ -428,8 +428,8 @@ describe("session-96: the form-family walk remediation (the v4 space-y genus on 
 describe("session-145: the auth-transition targets (walk35)", () => {
   it("the post-login redirect lands on the PUBLIC landing — BOTH submit sites (the s142 re-anchor; s147 re-anchored: the sign-in site routes through the from_url resolver whose DEFAULT is the plain \"/\")", () => {
     const src = loginCardSrc()
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     // the two sites: the signin success (S21-P2 — s147: the resolver's
     // "/" default when no from_url rides the query) + the verify success
     // — BOTH route through the resolver since session-12 (F12-4: the
@@ -458,8 +458,8 @@ describe("session-145: the auth-transition targets (walk35)", () => {
       // comments that name redirect() — the pin reads the code, not the
       // documentation (the s21/s22 own-doc-comment hazard)
       const src = raw
-        .replace(/\/\*[\s\S]*?\*\//g, "")
-        .replace(/\/\/[^\n]*/g, "");
+        .replace(/\/\/[^\n]*/g, "")
+        .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
       expect(src, `${label}: no session resolution`).not.toMatch(/getSessionUser/);
       expect(src, `${label}: no redirect call`).not.toMatch(/redirect\(/);
       expect(src, `${label}: no layout guard import`).not.toMatch(/from "next\/navigation"/);
@@ -473,8 +473,8 @@ describe("session-145: the auth-transition targets (walk35)", () => {
 describe("session-147: the from_url round-trip (walk37 — the reference's auth-wall return)", () => {
   it("the sign-in submit reads from_url and navigates to the VALIDATED target (the open-redirect guard)", () => {
     const src = loginCardSrc()
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     // the param is read client-side (the login page is force-dynamic —
     // no Suspense boundary needed)
     expect(src).toMatch(/useSearchParams\(\)/);
@@ -493,8 +493,8 @@ describe("session-147: the from_url round-trip (walk37 — the reference's auth-
 
   it("the post-login redirect target pin re-anchored: the plain default STAYS / (the s145 pin) + the from_url override", () => {
     const src = loginCardSrc()
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     // the sign-in site: push(target) where target = resolveFromUrl(...) —
     // the "/" default inside the resolver; the reset-completion site
     // keeps its bare "/"
@@ -581,8 +581,8 @@ describe("session-11: the verification-funnel closure (F11-3 + F11-4)", () => {
 
   it("the login card swaps to the verify view on VERIFICATION_REQUIRED (the return-visitor re-entry)", () => {
     const src = loginCardSrc()
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     // The signin submit recognizes the 403's error code and re-enters the
     // funnel: digits reset, the refusal rides the info banner, the view
     // swaps — the Resend affordance is one click away.
@@ -592,8 +592,8 @@ describe("session-11: the verification-funnel closure (F11-3 + F11-4)", () => {
 
   it("all four submit handlers carry the in-flight double-submit guard (F11-12)", () => {
     const src = loginCardSrc()
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     // onSigninSubmit / onSignupSubmit / onVerifySubmit: `if (pending) return;`
     // (onSendResetLink already had it; onResend rides its own `resending`).
     const guards = src.match(/if \(pending\) return;/g) ?? [];
@@ -604,8 +604,8 @@ describe("session-11: the verification-funnel closure (F11-3 + F11-4)", () => {
 describe("session-12: the UX-boundary batch (F12-3 + F12-4)", () => {
   it("the 403 re-entry clears the stale verify hint (a hint minted for a previous email/code never leaks into the new session's verify view)", () => {
     const src = loginCardSrc()
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     // The F11-3 branch resets digits/error/info/view — F12-3 adds the
     // hint: the login route deliberately returns NO code on the 403, so
     // any surviving hint (a previous signup's or resend's demo code,
@@ -620,8 +620,8 @@ describe("session-12: the UX-boundary batch (F12-3 + F12-4)", () => {
 
   it("BOTH authed submit sites honor the from_url round-trip (the verify success lands where the auth wall intercepted the guest — F12-4)", () => {
     const src = loginCardSrc()
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     // onSigninSubmit has resolved from_url since session-147; the verify
     // submit used to hard-code "/" — a guest sent to
     // /login?from_url=/Tool who completed signup→verification landed on
@@ -679,8 +679,8 @@ describe("session-21 (S21-7): the OTP keystroke/paste split", () => {
 describe("session-22: the forgot-password submit joins the pending-face family (S22-6)", () => {
   it("the reset submit disables + relabels in flight, matching the three sibling submits", () => {
     const src = loginCardSrc()
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     // S22-6: the forgot submit had the logic guard (`if (pending) return;`)
     // but no disabled/label face — the `disabled:pointer-events-none
     // disabled:opacity-50` utilities in LOGIN_RESET_LAYOUT.send could

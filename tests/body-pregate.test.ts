@@ -19,10 +19,13 @@ function read(rel: string): string | null {
   return existsSync(p) ? readFileSync(p, "utf-8") : null;
 }
 
+// Session-48 (S48-1): the hardened form — line pass first, block
+// opener anchored (the S47-10 idiom; the one-idiom doctrine, the
+// family's only shape).
 function stripComments(src: string): string {
   return src
-    .replace(/\/\*[\s\S]*?\*\//g, "")
-    .replace(/\/\/[^\n]*/g, "");
+    .replace(/\/\/[^\n]*/g, "")
+    .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 }
 
 // The parseBody-family routes (auth: login/signup/verify/resend/

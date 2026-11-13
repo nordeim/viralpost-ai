@@ -32,8 +32,8 @@ describe("session-12 (F12-8): the particle title's reduced-motion shape schedule
   // the retired API, which is documentation, not a live reference).
   const bare = () =>
     read("src/components/effects/particle-text.tsx")
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 
   it("the reduced branch contains NO requestAnimationFrame registration (draw once, schedule the phrase change)", () => {
     const src = bare();
@@ -141,8 +141,8 @@ describe("session-12 (F12-9): the WebGL hero re-reads devicePixelRatio inside re
     // Comment-stripped (the needle-in-own-doc lesson — the cure's own
     // comment names the API; documentation is not a live reference).
     const src = read("src/components/effects/iridescence.tsx")
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     const resize = src.match(/const resize = \(\) => \{[\s\S]*?\n {4}\};/);
     expect(resize, "the resize closure must exist").toBeTruthy();
     expect(resize![0]).toContain("devicePixelRatio");
@@ -158,8 +158,8 @@ describe("session-20 (S20-12): the WebGL hero guards context loss", () => {
   // comment names the event; documentation is not a live reference).
   const bare = () =>
     read("src/components/effects/iridescence.tsx")
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 
   // Session-24 (S24-6): in reduced mode the single static frame is
   // seeded by the mount rAF timestamp (the S23-2 comment truth), but
@@ -212,8 +212,8 @@ describe("session-20 (S20-12): the WebGL hero guards context loss", () => {
 describe("session-37 (S37-6d): the WebGL hero releases its GL objects on the early-return paths", () => {
   const bare = () =>
     read("src/components/effects/iridescence.tsx")
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 
   it("the compile-fail, no-program, and link-fail paths each delete what they created", () => {
     const src = bare();
@@ -252,7 +252,14 @@ describe("session-37 (S37-6d): the WebGL hero releases its GL objects on the ear
 // ---------------------------------------------------------------------------
 describe("session-47 (S47-4): the scroll-reveal settle contract (source-pinned)", () => {
   it("ships both hidden forms, settles to opacity 1/transform none, and settles immediately when reduced or observer-less", () => {
-    const src = read("src/components/effects/reveal.tsx");
+    // Session-48 (S48-7, AUDIT-2 I1): joined the suite's bare() strip
+    // idiom (the raw read retired — a future comment quoting a retired
+    // needle could satisfy a pin whose code was deleted; convention
+    // consistency inside one file, the s64/s65/s66 lesson).
+    const src =
+      read("src/components/effects/reveal.tsx")
+        .replace(/\/\/[^\n]*/g, "")
+        .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     // Both hidden inline forms (SSR ships these; a broken form =
     // visible flash or a stuck translate).
     expect(src).toContain('? { opacity: 0, transform: "translateX(-16px)" }');

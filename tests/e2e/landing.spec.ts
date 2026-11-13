@@ -143,6 +143,12 @@ test("the scroll-reveal settles visible after scroll (the wrapper's computed opa
   // transition needs its window before the assertion reads the rest
   // state. waitFor settles the poll on the RESTING computed value.
   const wrapper = heading.locator("..");
+  // Session-48 (S48-6, AUDIT-2 L3): the structural anchor — the leg's
+  // tooth hung on an UNENFORCED assumption ("the wrapper is the Reveal
+  // div"). A future intermediate wrapper div (a plain div) would leave
+  // the opacity assertion vacuously green. The Reveal base class
+  // (reveal.tsx: transition-all) is the runtime identity check.
+  await expect(wrapper).toHaveClass(/transition-all/, { timeout: 5_000 });
   await expect(wrapper).toHaveCSS("opacity", "1", { timeout: 5_000 });
 });
 

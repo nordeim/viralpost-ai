@@ -1,5 +1,12 @@
 # Worklog
 
+> **Donor artifact (provenance note, session-48 S48-10):** this file is
+> the NEO-CRM scaffold family's worklog (Task IDs 1–182 of the donor
+> repo), carried in this repo's immutable `docs/` history layer — it
+> describes a different application. THIS repo's live worklog is the
+> root `worklog.md` (Task IDs 1..48). Never read this file as
+> current-state; it is archaeology, like `neo-crm_SKILL.md`.
+
 ---
 Task ID: 1
 Agent: main (Super Z)

@@ -381,28 +381,47 @@ export function applyBootEnvReport(
 // the bootEnvCheck family. WHY: the db-path seam's bun-absolutization
 // recovery signature reads ONLY .env (readDatabaseUrlFromEnvAt — the
 // S46-9 .env-only face), but the env loaders honor the standard
-// cascade (.env.local and .env.<NODE_ENV> beat .env). A DATABASE_URL
-// carried in a shadowing file lands in process.env outside the seam's
-// loader rules — it matches neither signature arm and is honored as
-// an "intentional override," potentially pointing the process at a
-// database outside the repo (the founding wrong-DB shape) with zero
-// operator signal. The warn-only posture (never fatal) follows the
+// cascade (see S48-2 below). A DATABASE_URL carried in a shadowing
+// file lands in process.env outside the seam's loader rules — it
+// matches neither signature arm and is honored as an intentional
+// override (the S48-3 truth): a RELATIVE value still re-anchors
+// inside the repo (a different file — the validated module anchor
+// owns relative refs), an ABSOLUTE one is honored verbatim (the
+// seam's by-design absolute-override contract, db-path.ts's "absolute
+// URLs are intentional overrides"). The real hazard: the operator's
+// belief that .env is the source of truth is silently wrong, with
+// zero signal. The warn-only posture (never fatal) follows the
 // S13-1 doctrine: a shadowing file may be a legitimate override the
 // operator chose; the warning declares the posture. The
 // injectable-exists pattern (cwdFallbackUrl's, session-45): the seam
 // stays pure over (dir, env, exists) so the unit pins never touch the
 // disk. The .env file ITSELF is never a candidate — it is the file
 // the seam's signature arms read.
+//
+// Session-48 (S48-2, AUDIT-1 M2): the candidates mirror Next's ACTUAL
+// cascade (verified in the installed @next/env loadEnvConfig):
+// [.env.${d}.local, d!=="test"&&.env.local, .env.${d}, ".env"] — the
+// S47-2 seam checked two of the four, so the standard-convention
+// operator (a DATABASE_URL in .env.production.local, the FIRST file
+// loaded) got zero warning. minus ".env" itself; the test-mode skip
+// of .env.local mirrors Next exactly (a test run never loads it — a
+// stray .env.local cannot shadow anything there, warning for it
+// would be noise).
 export function shadowingEnvFileWarnings(
   dir: string,
   env: { NODE_ENV?: string | undefined },
   exists: (path: string) => boolean = existsSync,
 ): string[] {
-  const candidates = new Set([".env.local", `.env.${env.NODE_ENV ?? "development"}`]);
-  const found = [...candidates].filter((name) => exists(join(dir, name)));
+  const mode = env.NODE_ENV ?? "development";
+  const candidates = [
+    `.env.${mode}.local`,
+    mode !== "test" && ".env.local",
+    `.env.${mode}`,
+  ].filter((name): name is string => name !== false);
+  const found = candidates.filter((name) => exists(join(dir, name)));
   return found.map(
     (name) =>
-      `[boot] a shadowing ${name} exists at ${dir} — the db-path seam's recovery signature reads only .env, so a DATABASE_URL defined in ${name} is honored as an unvalidated override (move the value into .env, or declare the override deliberately — see docs/DEPLOYMENT.md §4)`,
+      `[boot] a shadowing ${name} exists at ${dir} — the db-path seam's recovery signature reads only .env, so a DATABASE_URL defined in ${name} is honored as an intentional override (a relative value re-anchors inside the repo, an absolute one is honored verbatim) — move the value into .env, or declare the override deliberately (see docs/DEPLOYMENT.md §4)`,
   );
 }
 

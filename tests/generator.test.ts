@@ -105,8 +105,8 @@ describe("generator: the reference prompt contract", () => {
   // shrink the module-level banks from outside).
   it("session-20 (S20-11): the paragraph count is capped by the body bank (no latent infinite loop)", () => {
     const src = readFileSync(join(import.meta.dirname, "../src/lib/generator.ts"), "utf8")
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     expect(src).toContain("Math.min(2 + (rng() > 0.55 ? 1 : 0), bodyBank.length)");
   });
 

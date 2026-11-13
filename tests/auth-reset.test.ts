@@ -15,17 +15,20 @@ import { describe, expect, it } from "vitest";
 //   8..200 password window, the P2024/P2028→503 family.
 // Lineage note (session-21, S21-12): the "session-163, digma S67-A/S76-A/
 // S124-A" citations are donor-ledger numbers (the template family);
-// this repo's own sessions are docs/session_1..47.
+// this repo's own sessions are docs/session_1..48.
 
 function read(rel: string): string | null {
   const p = path.resolve(import.meta.dirname, "..", rel);
   return existsSync(p) ? readFileSync(p, "utf-8") : null;
 }
 
+// Session-48 (S48-1): the hardened form — line pass first, block
+// opener anchored (the S47-10 idiom; the one-idiom doctrine, the
+// family's only shape).
 function stripComments(src: string) {
   return src
-    .replace(/\/\*[\s\S]*?\*\//g, "")
-    .replace(/\/\/[^\n]*/g, "");
+    .replace(/\/\/[^\n]*/g, "")
+    .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 }
 
 const forgotRoute = () => stripComments(read("src/app/api/auth/forgot-password/route.ts") ?? "");

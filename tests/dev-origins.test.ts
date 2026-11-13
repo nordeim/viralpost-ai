@@ -30,10 +30,13 @@ const read = (p: string) => readFileSync(join(root, p), "utf8");
 
 // The comment-stripped view (the type-gate s46 idiom — a config comment
 // can never masquerade as a live directive).
+// Session-48 (S48-1): the hardened form — line pass first, block
+// opener anchored (the S47-10 idiom; the one-idiom doctrine, the
+// family's only shape).
 const stripComments = (s: string) =>
   s
-    .replace(/\/\*[\s\S]*?\*\//g, "")
-    .replace(/(^|\s)\/\/[^\n]*$/gm, "$1");
+    .replace(/\/\/[^\n]*/g, "")
+    .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 
 const nextConfig = () => stripComments(read("next.config.ts"));
 

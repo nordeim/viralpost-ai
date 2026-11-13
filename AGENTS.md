@@ -90,7 +90,7 @@ smoke → e2e. There is no hosted CI — the local gate is the only gate.
 
 ## Testing conventions
 
-- Unit tests live in `tests/*.test.ts` (40 files, 711 tests) — Vitest,
+- Unit tests live in `tests/*.test.ts` (40 files, 718 tests) — Vitest,
   node env, `@` alias; TDD at the pure seams.
 - Several suites are **source-pinned** (they read source files textually
   to pin contracts: page-titles, design-tokens, typography) — when you

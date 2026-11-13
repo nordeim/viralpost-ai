@@ -95,7 +95,8 @@ test.describe("generator (desktop)", () => {
   // the DISMISSAL, not the render (the anatomy suite owns the render
   // face). ~4s timer + the settle margin; hover-pause stays
   // source-pinned (a hover-hold e2e is timing-flaky by nature — the
-  // pause arm's dep-array shape is the cheap owner).
+  // dep-array face is owned by toast-anatomy's S48-4 pin, added the
+  // round after this comment's "cheap owner" claim proved hollow).
   test("the error toast auto-dismisses (the 4s timer, S47-7)", async ({ page }) => {
     await TEXTBOX(page).fill("y".repeat(600));
     await page.getByRole("button", { name: "Generate Post" }).click();

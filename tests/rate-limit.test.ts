@@ -205,8 +205,8 @@ describe("the amortized sweep (session-164, digma S76-G)", () => {
   it("the gate is the FIRST statement of sweepRateLimits (the O(1)-until-crossing construction)", () => {
     const src = readFileSync(path.resolve(import.meta.dirname, "..", "src/lib/rate-limit.ts"), "utf8");
     const stripped = src
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     // [\s\S]*? spans the nested parens of the default param (Date.now())
     const body = stripped.match(/export function sweepRateLimits\([\s\S]*?\):\s*number\s*\{([\s\S]*?)\n\}/)?.[1] ?? "";
     expect(body.trimStart().startsWith("if (now < sweepWatermark) return 0;")).toBe(true);
@@ -263,8 +263,8 @@ describe("the injectable clock seam (session-173, F-173a)", () => {
     // and the source carries the additive signature (the s164 form)
     const src = readFileSync(path.resolve(import.meta.dirname, "..", "src/lib/rate-limit.ts"), "utf8");
     const stripped = src
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     expect(stripped).toContain("export function rateLimit(key: string, limit: number, windowMs: number, now = Date.now())");
   });
 });

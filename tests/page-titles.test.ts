@@ -77,8 +77,8 @@ describe("pageMetadata: the per-route family", () => {
     // WITH the reference's truncation. The helper is pageDescription()
     // (a new name — the retired pageOgDescription name stays retired).
     const siteSrc = read("src/lib/site.ts")
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     expect(siteSrc).toContain("export function pageDescription(");
     expect(siteSrc).not.toContain("pageOgDescription");
   });

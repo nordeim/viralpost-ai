@@ -23,10 +23,13 @@ import { siteUrl } from "@/lib/site";
 // deleted real one cannot satisfy a source pin (the S37-2b/S37-6d
 // pins in api-robustness/effects-motion already strip; the force-static
 // pin joins them).
+// Session-48 (S48-1): the hardened form — line pass first, block
+// opener anchored (the S47-10 idiom; the one-idiom doctrine, the
+// family's only shape).
 function stripComments(src: string): string {
   return src
-    .replace(/\/\*[\s\S]*?\*\//g, "")
-    .replace(/\/\/[^\n]*/g, "");
+    .replace(/\/\/[^\n]*/g, "")
+    .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 }
 
 async function getRouteBody(rel: string): Promise<{ body: string; contentType: string }> {

@@ -47,10 +47,10 @@ function themeToken(name: string): string | undefined {
 // Source pins read RULES, not documentation: strip comments first (the
 // s21 "own-doc-comment" hazard — the retirement notes themselves name
 // the retired properties).
-const cssRules = css.replace(/\/\*[\s\S]*?\*\//g, "");
+const cssRules = css.replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 const layoutRules = layout
-  .replace(/\/\*[\s\S]*?\*\//g, "")
-  .replace(/\/\/[^\n]*/g, "");
+  .replace(/\/\/[^\n]*/g, "")
+  .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 
 describe("typography: the Inter webfont retirement (S22-P1)", () => {
   it("the root layout imports NO webfont (the reference ships zero @font-face)", () => {
@@ -125,7 +125,7 @@ describe("typography: the s13 base-font regression guards (re-held)", () => {
     // "the input-base utility's 0.875rem" as a control surface — the
     // retired @utility never set a font-size at all; the real 0.875rem
     // surfaces are the stock text-sm utilities.)
-    const noComments = css.replace(/\/\*[\s\S]*?\*\//g, "");
+    const noComments = css.replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     const bodyRule = noComments.match(/body\s*\{[^}]*\}/)?.[0] ?? "";
     expect(bodyRule).not.toMatch(/font-size/);
   });

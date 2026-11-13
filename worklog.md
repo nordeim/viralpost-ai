@@ -5271,3 +5271,93 @@ Agent: main (Z.ai)
 
 **Gate at the session-47 ship: lint 0/0 · tsc 0 · unit 711/711 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+---
+
+## Task ID: 48
+Agent: main (Z.ai)
+Session: 48 (2026-11-14)
+
+Task: The standing instruction round on the session-47 tree (`2a48ce8` +
+the owner's narration `6912da2`): docs review → baseline gate → the
+comprehensive audit → the live reference parity walk → the TDD cures →
+the gate → captures → push.
+
+- BASELINE: lint 0/0 · tsc 0 · unit 711/711 (40 files) · build · smoke
+  16/16 · e2e 70/70 (9 specs) · census MATCH; the `.env`
+  `DATABASE_URL="file:../db/custom.db"` contract recreated on the fresh
+  clone with `db/` at the repo root (db:push + db:seed → census MATCH);
+  the chromium-1248 preflight cured; `skills/` excluded from every gate;
+  `.env.example` committed, six-knob contract.
+- THE AUDIT: three parallel subagents (AUDIT-1 API/lib seams, AUDIT-2
+  components/pages/effects, AUDIT-3 SEO/configs/tests/docs) + the
+  neo-crm currency check (unchanged since session-47's check — still
+  its session-217; the three lessons were already adopted that round).
+  Combined 0C/0H/2M/6L/9I. The decisive hand-verifications: the
+  byte-level naive-vs-hardened strip comparison (live phantom-eating
+  proven: 719/271/2295 chars on three scanned files), and the
+  installed @next/env cascade read (the S47-2 seam checked two of
+  Next's four files — .env.production.local, the FIRST-loaded member,
+  warned nothing).
+- THE PARITY WALK: live, both sides, logged into the reference,
+  viewport confirmed 390×844 before every mobile probe, computed
+  styles as ground truth. ALL CLONE FACES MATCH — the twenty-first
+  consecutive clean walk. The D-1 failure-toast posture re-verified at
+  THREE layers (the 402 network face, the inline error-div DOM face
+  with the exact text, the settle face). The mobile menu works exactly
+  as expected (the owner's standing concern): the panel byte-identical
+  (Home teal rgb(45,212,191) 14px/500 block, siblings
+  rgb(203,213,225), the Gumroad pill at the templixco href 14px/600,
+  container block/max-height none/transparent), the hamburger cursor
+  pointer both sides (the Tailwind v4 concern holding), no aria family
+  on the reference (our superset), Escape OPEN ref / CLOSED+focus
+  return ours, the same-route Logo + outside-tap faces OPEN both
+  sides, route-change CLOSED both, the desktop nav byte-identical, the
+  head census identical modulo origin, sitemap 4 URLs both + robots
+  identical modulo origin, the generator probe symmetrically
+  dead/live, the login round-trip R /Home L / (the documented 308
+  deviation), the clone session verified via /api/auth/me.
+- CURES (TDD — six batteries on record, each exactly its designed pin
+  RED, restores verified): S48-1 the stripComments one-idiom cure
+  family-wide (10 named helpers + 4 design-tokens inline + 9 further
+  inline-pair files + typography's CSS sites — the BAN surfaced 13
+  more sites than the audit enumerated; the battery caught the
+  vacuous-needle birth defect — the missing closing paren made the ban
+  unable to ever trip; the RAW-read redesign after the needle's own //
+  tail proved a stripped read can never trip); S48-2 the shadow-env
+  cascade mirror (.env.${mode}.local + the test-mode skip; co-pinned
+  on the shared candidate, documented); S48-3 the warning prose truth
+  (the traced override chain: relative re-anchors inside, absolute
+  honored verbatim); S48-4 the toast [paused, item.id] dep-array pin +
+  the generator.spec comment re-word; S48-5 the hero PNG IHDR
+  square-ratio pin (born-green, the non-square-header battery); S48-6
+  the reveal e2e wrapper anchor (toHaveClass transition-all); S48-7
+  the reveal pin joined the bare() idiom; S48-8 the Appendix-B header
+  bound tied to the §0.5 bound (the stale-header genus mechanically
+  retired; the header re-stale battery); S48-9 the README
+  contact-bucket re-spell (60 minutes); S48-10 the worklog donor
+  banner; S48-11 the footer-census count interpolation (GATE_FOOTER_RE
+  from the constants — the exec/match /g calibration); S48-12 the
+  smoke regime note.
+- COUNTS: UNIT 711 → 718 (+7 — the census's disk-walk corrected the
+  plan's draft +6/717: the toast pin shipped as its own it; the
+  badge-drift guard caught the slip, the sessions-46/47 genus a third
+  consecutive round), SUITES 40, E2E 70 held, SPECS 9, SMOKE 16,
+  BADGE 781 → 788. The footer census regexes now interpolate — the
+  last manual e2e-literal re-pin was session-47's. The ten provenance
+  sites re-anchored to 1..48 — lag 0 at ship; SKILL v1.43.0 →
+  v1.44.0; PAD §12's smoke row re-anchored 269 → 275 (the S48-12
+  note's six lines).
+- VERIFIED: the full gate on the exact commit tree (below); the six
+  mutation batteries single-tooth on record (the naive-plant → exactly
+  the ban; the order-swap → exactly the presence; the candidate-drop →
+  exactly the co-pinned pair, documented; the dep regression → exactly
+  the dep-array pin; the header re-stale → exactly the header arm; the
+  non-square IHDR → exactly the square pin); the parity walk
+  post-cure; captures 103/104 on the dev server; docs lockstep
+  (README + AGENTS + CLAUDE + PAD + SKILL v1.44.0 + the ten provenance
+  sites + worklog Task 48 + docs/session_48.md + the plan's
+  post-execution record).
+
+**Gate at the session-48 ship: lint 0/0 · tsc 0 · unit 718/718 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

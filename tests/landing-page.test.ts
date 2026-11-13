@@ -452,8 +452,8 @@ describe("landing: the fire-and-forget reset timers are unmount-safe (session-17
   // source (the s64 needle-in-own-doc lesson).
   const bare = (p: string) =>
     read(p)
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 
   it("generator-card + contact-form track their reset timers in a ref, reset before re-arm, and clear on unmount", () => {
     for (const [p, setter, ms] of [
@@ -489,5 +489,26 @@ describe("landing: the hero portrait's CLS contract (S47-5)", () => {
     expect(hero).toContain('src="/hero-portrait.png"');
     expect(hero).toContain("width={512}");
     expect(hero).toContain("height={512}");
+  });
+
+  // Session-48 (S48-5, AUDIT-2 L2): the asset's OWN geometry joins the
+  // pin — the S47-5 face froze the attributes, never the PNG: a future
+  // non-square replacement reserves a wrong-ratio box and reintroduces
+  // CLS while every attribute pin stays green. The reserved box rides
+  // the attribute RATIO; the intrinsic ratio must match it. (The
+  // current asset is 1024×1024 — square; the ~0.93MB weight and the
+  // optional 512px resize live in the accepted register: the dossier
+  // records the portrait as an independently created equivalent, our
+  // own asset — the pin owns the ratio.)
+  it("the shipped PNG is square (the IHDR ratio must match the 1:1 reserved box)", () => {
+    const png = readFileSync(join(import.meta.dirname, "..", "public", "hero-portrait.png"));
+    // PNG: 8-byte signature, then IHDR; width at bytes 16-19, height 20-23.
+    expect(png.subarray(0, 8).toString("latin1")).toBe("\u0089PNG\r\n\u001a\n");
+    const word = (off: number) => png.readUInt32BE(off);
+    const width = word(16);
+    const height = word(20);
+    expect(width).toBeGreaterThan(0);
+    expect(height).toBeGreaterThan(0);
+    expect(width / height, `the intrinsic ratio ${width}x${height} must be square — a non-square asset reflows the reserved box`).toBe(1);
   });
 });

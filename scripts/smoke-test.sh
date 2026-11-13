@@ -116,6 +116,12 @@ kill_port_squatters "$PORT"
 sleep 1
 
 # --- 3. boot the standalone artifact ----------------------------------------
+# Session-48 (S48-12, AUDIT-1 I3): booted with `node` by design — every
+# env is explicit in this run, so the leg is deterministic regardless of
+# the launcher. The production `start` script's bun launch (the regime
+# the standalone server's own runtime owns) is not exercised here; a
+# regime-parity leg would trade determinism for coverage the e2e layer
+# already owns.
 DATABASE_URL="$SMOKE_DB_URL" AUTH_SECRET="$SMOKE_SECRET" NODE_ENV=production PORT="$PORT" \
   node .next/standalone/server.js >"$SERVER_LOG" 2>&1 &
 SERVER_PID=$!

@@ -91,8 +91,8 @@ describe("hashResetToken (session-164 — the skill §12 hashed-at-rest complian
       "utf8",
     );
     const stripped = src
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     expect(stripped).toContain('createHash("sha256")');
     // the scrypt family stays untouched by the addition
     expect(stripped).toContain("scryptSync");
@@ -106,8 +106,8 @@ describe("the seam's purity contract (session-163)", () => {
       "utf8",
     );
     const stripped = src
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .replace(/\/\/[^\n]*/g, "");
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     const imports = [...stripped.matchAll(/from\s+"([^"]+)"/g)].map((m) => m[1]);
     expect(imports.length).toBeGreaterThan(0);
     for (const specifier of imports) {

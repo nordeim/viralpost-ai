@@ -249,6 +249,18 @@ import {
 // 780 — an arithmetic slip the census's own BADGE = UNIT + E2E guard
 // caught at the constants walk: the S47-9 census is a PAIR. 711+70 =
 // 781.)
+// s48: 718/40 (+7 — the census's own disk-walk corrected the plan's
+// draft +6/717: the toast dep-array pin shipped as its OWN it, the
+// plan had counted it in-place; the badge-drift guard caught the
+// slip, the sessions-46/47 genus a third consecutive round): +2
+// docs-counts — the stripComments one-idiom census pair, S48-1; +1
+// docs-counts — the Appendix-B header bound census, S48-8; +2
+// boot-env — the shadow-env cascade mirror pair, S48-2 (co-pinned on
+// the shared candidate, documented in the describe); +1
+// landing-page — the hero-portrait IHDR pin, S48-5; +1
+// toast-anatomy — the pause re-arm dep-array pin, S48-4) and the e2e
+// 70 unchanged (the S48-6 wrapper anchor is in-place on the existing
+// leg). SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -256,7 +268,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 711;
+const UNIT = 718;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -275,10 +287,13 @@ const read = (p: string) => readFileSync(join(root, p), "utf8");
 // form, the seo-surfaces spelling) — comments stripped before the
 // assertion so a commented-out entry cannot satisfy (or inflate) a
 // disk-derived count.
+// Session-48 (S48-1): the hardened form — line pass first, block
+// opener anchored (the S47-10 idiom; the one-idiom doctrine, the
+// family's only shape).
 function stripComments(src: string): string {
   return src
-    .replace(/\/\*[\s\S]*?\*\//g, "")
-    .replace(/\/\/[^\n]*/g, "");
+    .replace(/\/\/[^\n]*/g, "")
+    .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 }
 
 // Session-23 (S23-10): RECURSIVE — the runner's include is
@@ -341,11 +356,23 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
   // 683 and the gate ran 683) because no pin owned it; the badge-drift
   // genus, one document region deeper. The footer's unit count is now
   // mechanically tied to the census UNIT constant.
+// Session-48 (S48-11, AUDIT-3 I4): the footer census's count literals
+// now interpolate from the constants (the constant-interpolation pin
+// form, the neo-crm lesson adopted at session 47) — a count change no
+// longer needs a manual e2e-literal re-pin in these regexes (the
+// session-47 67/67→70/70 manual re-pin was the last).
+const GATE_FOOTER_RE = new RegExp(
+  `Gate at the session-(\\d+) ship: lint 0\\/0 · tsc 0 · unit (\\d+)\\/\\d+ · build ·\\nsmoke ${SMOKE}\\/${SMOKE} · e2e ${E2E}\\/${E2E}\\.`,
+  "g",
+);
+
   it("session-42 (S42-9): the README closing footer carries the live unit count (the one unpinned gate-state site, retired)", () => {
     const readme = read("README.md");
-    const m = readme.match(
-      /Gate at the session-(\d+) ship: lint 0\/0 · tsc 0 · unit (\d+)\/\d+ · build ·\nsmoke 16\/16 · e2e 70\/70\./,
-    );
+    // exec, not match: a /g regex through String.match returns bare
+    // strings (no groups); exec returns the captures. lastIndex reset —
+    // the shared /g source is stateful.
+    GATE_FOOTER_RE.lastIndex = 0;
+    const m = GATE_FOOTER_RE.exec(readme);
     expect(m, "the README closing gate footer exists (the 'Gate at the session-N ship' line)").not.toBeNull();
     expect(Number(m![2]), "the footer's unit count matches the census UNIT constant").toBe(UNIT);
   });
@@ -359,11 +386,8 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
   it("session-43 (S43-5): the footer's session label matches the SKILL §0.5 range bound (the stale-label genus)", () => {
     const readme = read("README.md");
     const skill = read("viralpost-ai_SKILL.md");
-    const footers = [
-      ...readme.matchAll(
-        /Gate at the session-(\d+) ship: lint 0\/0 · tsc 0 · unit (\d+)\/\d+ · build ·\nsmoke 16\/16 · e2e 70\/70\./g,
-      ),
-    ];
+    GATE_FOOTER_RE.lastIndex = 0; // a fresh consumption of the shared /g source
+    const footers = [...readme.matchAll(GATE_FOOTER_RE)];
     expect(footers.length, "exactly one full-shape gate footer (the S43-3a shape owns the general form)").toBe(1);
     const m = footers[footers.length - 1]!;
     const bound = skill.match(/session_1\.\.(\d+)/);
@@ -814,8 +838,8 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
     for (const f of specFiles) {
       if (f === "a11y.spec.ts") continue;
       const bare = read(`tests/e2e/${f}`)
-        .replace(/\/\*[\s\S]*?\*\//g, "")
-        .replace(/\/\/[^\n]*/g, "");
+        .replace(/\/\/[^\n]*/g, "")
+        .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
       expect(bare, `${f} registers tests inside a loop — extend the reality census's expansion formula`).not.toMatch(loopShapes);
     }
   });
@@ -1117,5 +1141,118 @@ describe("docs-counts: session-47 (S47-9) — the generator-hang stale-prose cen
       const flat = flatten(read(file));
       expect(flat, `${file} must carry the corrected posture (the failure-toast form)`).toMatch(/failure toast/i);
     }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-48 (S48-1, AUDIT-1 M1+L2): the stripComments one-idiom census.
+// The S47-10 cure hardened ONE helper (db-path's) while the family's other
+// nine carriers kept the naive block-first form — a byte-level comparison
+// proved live phantom-eating on the scanned files (719 chars on
+// design-tokens, 271 on password-seam, 2295 here: whole describes and
+// it-bodies eaten between a glob's `/*` and a distant `*/`). The census
+// arms read these files through the helpers, so a violating form planted
+// inside an eaten span ships GREEN — the exact comment-blind genus.
+// The cure: the hardened form (line pass first; block opener anchored
+// (^|\s) — db-path.test.ts's S47-10 idiom) becomes the family's ONLY
+// shape (the one-idiom doctrine the S46-10 comments already declared).
+// type-gate's string-aware state machine coexists (different genus —
+// string-literal-aware; the canonical idiom for the block-first family
+// is the hardened form).
+// The needles are RUNTIME-CONSTRUCTED (the s216 ban-safe-paraphrase
+// doctrine's code form): the contiguous signatures never appear in THIS
+// file's own source, so the self-read stays honest — the pin can never
+// satisfy itself vacuously.
+// ---------------------------------------------------------------------------
+describe("docs-counts: session-48 (S48-1) — the stripComments one-idiom census (the phantom-open genus retired family-wide)", () => {
+  // The ten carriers: the nine naive sites + db-path (already hardened,
+  // S47-10). Every carrier renders the SAME two-pass shape after the
+  // cure — the formatting is uniform by construction (the swap is
+  // verbatim), which the order-check needle below relies on.
+  const CARRIERS = [
+    "api-robustness.test.ts",
+    "auth-contract.test.ts",
+    "auth-reset.test.ts",
+    "body-pregate.test.ts",
+    "db-census.test.ts",
+    "db-path.test.ts",
+    "dev-origins.test.ts",
+    "docs-counts.test.ts",
+    "seo-surfaces.test.ts",
+    "toast-anatomy.test.ts",
+  ];
+
+  // The naive signature, assembled at runtime — never spelled
+  // contiguously in this file (the s216 ban-safe-paraphrase doctrine's
+  // code form: a RAW read of THIS file must not satisfy its own ban).
+  const NAIVE = [
+    "replace(/",
+    "\\/",
+    "\\*",
+    "[\\s\\S]*?",
+    "\\*",
+    "\\/",
+    "/g, \"\")",
+  ].join("");
+  // The hardened first pass, assembled the same way (runtime pieces,
+  // never contiguous in this file).
+  const LINE_PASS = ["replace(/", "\\/", "\\/", "[^\\n]*", "/g, \"\")"].join("");
+  // The hardened second pass, assembled the same way.
+  const BLOCK_PASS = [
+    "replace(/",
+    "(^|\\s)",
+    "\\/",
+    "\\*",
+    "[\\s\\S]*?",
+    "\\*",
+    "\\/",
+    "/g, \"$1\")",
+  ].join("");
+
+  const flatten = (text: string) => text.replace(/\s+/g, " ");
+
+  it("no unit test file carries the naive block-first signature (the phantom-open genus, banned family-wide)", () => {
+    for (const f of unitTestFiles()) {
+      // RAW read (flattened): the needle itself contains // — a
+      // comment-stripped read would line-eat the needle's own tail and
+      // the ban could NEVER trip (the vacuous-pin genus the battery
+      // caught at birth). A commented-out helper tripping the raw ban
+      // is the desired stance: dead code gets retired, not commented
+      // out (the repo's standing doctrine).
+      const flat = flatten(read(`tests/${f}`));
+      expect(flat, `tests/${f} must not carry the naive block-first strip form (line comments are eaten only after the block pass has already phantom-opened on their prose)`).not.toContain(NAIVE);
+    }
+  });
+
+  it("every carrier renders the hardened two-pass sequence, line pass first (the order is the cure)", () => {
+    for (const f of CARRIERS) {
+      const flat = flatten(read(`tests/${f}`));
+      const lineAt = flat.indexOf(LINE_PASS);
+      const blockAt = flat.indexOf(BLOCK_PASS);
+      expect(lineAt, `tests/${f} must carry the hardened line pass (comments stripped before the block pass ever sees their prose)`).toBeGreaterThanOrEqual(0);
+      expect(blockAt, `tests/${f} must carry the anchored block pass (a db/**-style glob after a word char is never an opener)`).toBeGreaterThanOrEqual(0);
+      expect(blockAt, `tests/${f} must order the line pass BEFORE the block pass (the naive order re-opens the phantom-eating genus)`).toBeGreaterThan(lineAt);
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-48 (S48-8, AUDIT-3 L1): the SKILL Appendix-B header bound joins
+// the lockstep census. The header shipped one round stale at session 47
+// ("re-certified through session 46" while the frontmatter and Appendix-A
+// row said 47) and the session-47 ship record claimed the re-anchor — the
+// one live-tense site no census arm owned, the exact badge-drift genus the
+// docs-counts census exists to catch. The S43-5 form: the header's bound
+// is mechanically tied to the SKILL §0.5 range bound; both update in the
+// same commit at ship, and a stale header is impossible.
+// ---------------------------------------------------------------------------
+describe("docs-counts: session-48 (S48-8) — the Appendix-B header bound census (the stale-header genus, mechanically retired)", () => {
+  it("the SKILL Appendix-B header's re-certification bound matches the §0.5 range bound (the S43-5 form)", () => {
+    const skill = read("viralpost-ai_SKILL.md");
+    const header = skill.match(/re-certified through session (\d+)/);
+    expect(header, "the Appendix-B header carries the re-certified-through bound").not.toBeNull();
+    const bound = skill.match(/session_1\.\.(\d+)/);
+    expect(bound, "the SKILL §0.5 range claim exists (docs/session_1..N)").not.toBeNull();
+    expect(Number(header![1]), "the Appendix-B header updates in lockstep with the SKILL §0.5 bound — a stale header is mechanically impossible").toBe(Number(bound![1]));
   });
 });

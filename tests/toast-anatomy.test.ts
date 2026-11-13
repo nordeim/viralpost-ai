@@ -31,10 +31,13 @@ const srcRaw = readFileSync(path.join(root, "src/components/ui/toast.tsx"), "utf
 // comment-stripped source for the NEGATIVE pins — the fix comments
 // themselves name the retired strings (the D-131a0/D-131a1 records), so
 // negatives must read code-only (the mutation-feedback stripComments idiom)
+// Session-48 (S48-1): the hardened form — line pass first, block
+// opener anchored (the S47-10 idiom; the one-idiom doctrine, the
+// family's only shape).
 function stripComments(s: string): string {
   return s
-    .replace(/\/\*[\s\S]*?\*\//g, "")
-    .replace(/\/\/[^\n]*/g, "");
+    .replace(/\/\/[^\n]*/g, "")
+    .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 }
 const src = stripComments(srcRaw);
 
@@ -110,6 +113,17 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
   it("the hover-pause seam (the onMouseEnter/Leave pair — live-proven: holds at 6.5s, dismisses ~4.1s after the unpause)", () => {
     expect(src).toContain("onMouseEnter={() => setPaused(true)}");
     expect(src).toContain("onMouseLeave={() => setPaused(false)}");
+  });
+
+  // Session-48 (S48-4, AUDIT-2 L1): the re-arm's dep array joins the
+  // seam pin — the round-47 generator.spec comment claimed "the pause
+  // arm's dep-array shape is the cheap owner" while NO pin owned it
+  // (the comment-truth genus). A "simplified" [item.id] or [] dep
+  // deletes the pause entirely (the toast dismisses mid-read) while
+  // every existing pin stays green: the seam pair still exists in
+  // source, the 4s literal still exists, the e2e leg never hovers.
+  it("the pause re-arm's dep array carries BOTH paused and item.id (a dep regression deletes the pause silently)", () => {
+    expect(src).toContain("}, [paused, item.id]);");
   });
 
   // Session-20 (S20-6): the auto-dismiss paused for the MOUSE only — a

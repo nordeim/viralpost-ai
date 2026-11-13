@@ -291,7 +291,7 @@ describe("design tokens: session-11 — the census completion + the dead-CSS ret
     expect(semantic.length).toBeGreaterThan(5); // the census actually censused
     const srcText = walkSourceFiles(srcDir)
       .filter((f) => !f.endsWith("globals.css"))
-      .map((f) => readFileSync(f, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, ""))
+      .map((f) => readFileSync(f, "utf8").replace(/\/\/[^\n]*/g, "").replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1"))
       .join("\n");
     const baseLayer = (css.match(/@layer base\s*\{[\s\S]*\n\}/) ?? [""])[0];
     const dead = semantic.filter(
@@ -316,7 +316,7 @@ describe("design tokens: session-11 — the census completion + the dead-CSS ret
     // Surgical form (the s64/s65/s66 needle-in-own-doc lesson): the pin
     // must not fail on the retirement NOTE below the block, so it reads
     // the CSS with comments stripped before asserting the absence.
-    const rules = css.replace(/\/\*[\s\S]*?\*\//g, "");
+    const rules = css.replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     expect(rules).not.toContain("@utility ");
   });
 
@@ -328,7 +328,7 @@ describe("design tokens: session-11 — the census completion + the dead-CSS ret
     // block of @property declarations with zero consumers. The import
     // assertion reads comment-stripped CSS (the retirement note names
     // the file — documentation, not a live reference).
-    const rules = css.replace(/\/\*[\s\S]*?\*\//g, "");
+    const rules = css.replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
     expect(rules).not.toContain("@import \"./vendor/");
     expect(existsSync(path.resolve(srcDir, "app", "vendor"))).toBe(false);
   });
@@ -392,7 +392,7 @@ describe("design tokens: session-41 — the stepped dead-literal census arm (S41
     expect(stepped.length).toBeGreaterThan(20); // the census actually censused
     const srcText = walkSourceFiles(srcDir)
       .filter((f) => !f.endsWith("globals.css"))
-      .map((f) => readFileSync(f, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, ""))
+      .map((f) => readFileSync(f, "utf8").replace(/\/\/[^\n]*/g, "").replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1"))
       .join("\n");
     const baseLayer = (css.match(/@layer base\s*\{[\s\S]*\n\}/) ?? [""])[0];
     const dead = stepped.filter(

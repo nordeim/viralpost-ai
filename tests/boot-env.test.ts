@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..47.
+// are docs/session_1..48.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -560,5 +560,45 @@ describe("session-47 (S47-2): the shadowing-env-file warning seam", () => {
     // calibration prose (which names the API) cannot trip it.
     const stripped = src.replace(/\/\/[^\n]*/g, "");
     expect(stripped).not.toContain("process.cwd()");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-48 (S48-2, AUDIT-1 M2): the shadow-env cascade mirror. Next's
+// CO-PIN MAP (the N12-2 doctrine): both pins below consume the SAME
+// `.env.${mode}.local` candidate — a defect in that candidate trips
+// BOTH (the battery proved exactly 2 RED on the candidate-drop plant);
+// the shared candidate IS the cascade mirror, so the co-pin is by
+// design, documented here.
+// actual env-file order (verified in the installed @next/env loadEnvConfig)
+// is [.env.${d}.local, d!=="test"&&.env.local, .env.${d}, ".env"] — the
+// S47-2 seam checked two of the four files, so an operator following the
+// standard convention (a DATABASE_URL in .env.production.local, the FIRST
+// file loaded, beating .env.local and .env) got ZERO warning — the exact
+// case the seam exists to name. The candidates now mirror the cascade
+// minus .env itself; the test-mode skip mirrors Next exactly.
+// ---------------------------------------------------------------------------
+describe("session-48 (S48-2): the shadow-env cascade mirror", () => {
+  it("the highest-priority member warns: .env.production.local (the file the S47-2 seam missed)", () => {
+    // Only .env.production.local exists — the first file in Next's real
+    // cascade. Under the S47-2 candidates this warned NOTHING (the seam's
+    // primary documented case, live-missed).
+    const onlyProdModeLocal = (p: string) => p === "/repo/.env.production.local";
+    const warnings = shadowingEnvFileWarnings("/repo", { NODE_ENV: "production" }, onlyProdModeLocal);
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0]).toContain(".env.production.local");
+    expect(warnings[0]).toContain("reads only .env");
+  });
+
+  it("the test-mode skip mirrors Next: .env.local is not a candidate under NODE_ENV=test (and .env.test still is)", () => {
+    // Next skips .env.local when d==="test" (loadEnvConfig's
+    // d!=="test"&&".env.local" arm) — a test run never loads it, so a
+    // stray .env.local cannot shadow anything there; warning for it
+    // would be noise. .env.test.local and .env.test stay candidates.
+    const found = new Set(["/repo/.env.local", "/repo/.env.test", "/repo/.env.test.local", "/repo/.env"]);
+    const warnings = shadowingEnvFileWarnings("/repo", { NODE_ENV: "test" }, (p) => found.has(p));
+    expect(warnings.some((w) => w.includes(".env.local ") || w.includes(" .env.local"))).toBe(false);
+    expect(warnings.some((w) => w.includes(".env.test.local"))).toBe(true);
+    expect(warnings.some((w) => w.includes(".env.test"))).toBe(true);
   });
 });
