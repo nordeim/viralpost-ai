@@ -268,7 +268,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 718;
+const UNIT = 720;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -1165,22 +1165,17 @@ describe("docs-counts: session-47 (S47-9) — the generator-hang stale-prose cen
 // satisfy itself vacuously.
 // ---------------------------------------------------------------------------
 describe("docs-counts: session-48 (S48-1) — the stripComments one-idiom census (the phantom-open genus retired family-wide)", () => {
-  // The ten carriers: the nine naive sites + db-path (already hardened,
-  // S47-10). Every carrier renders the SAME two-pass shape after the
-  // cure — the formatting is uniform by construction (the swap is
-  // verbatim), which the order-check needle below relies on.
-  const CARRIERS = [
-    "api-robustness.test.ts",
-    "auth-contract.test.ts",
-    "auth-reset.test.ts",
-    "body-pregate.test.ts",
-    "db-census.test.ts",
-    "db-path.test.ts",
-    "dev-origins.test.ts",
-    "docs-counts.test.ts",
-    "seo-surfaces.test.ts",
-    "toast-anatomy.test.ts",
-  ];
+  // Session-49 (S49-3, AUDIT-3 M1): the CARRIERS enumeration RETIRED —
+  // the presence arm asserted the hardened two-pass shape only for the
+  // ten named-helper files while ~25 further INLINE two-pass sites (the
+  // S48-1 cure went 13 sites deeper than the audit enumerated) carried
+  // no presence owner: a future edit dropping only the line pass from
+  // an inline carrier re-opened the phantom-eating genus with the ban
+  // still green. The arm is now a family-wide chain SWEEP (below) —
+  // every anchored block-pass site in EVERY unit file must be
+  // immediately chain-preceded by the line pass; future files cannot
+  // escape (the enumeration gap closed the way the ban closed the
+  // naive form).
 
   // The naive signature, assembled at runtime — never spelled
   // contiguously in this file (the s216 ban-safe-paraphrase doctrine's
@@ -1224,14 +1219,47 @@ describe("docs-counts: session-48 (S48-1) — the stripComments one-idiom census
     }
   });
 
-  it("every carrier renders the hardened two-pass sequence, line pass first (the order is the cure)", () => {
-    for (const f of CARRIERS) {
+  it("every anchored block-pass site sits in a line-first chain (the one-idiom doctrine, enforced family-wide — S49-3)", () => {
+    // The four documented CSS-only sites: design-tokens ×2, typography
+    // ×2 — these strips read CSS text, where a // line pass would eat
+    // https:// URLs; block-only is the CORRECT form there. The map is
+    // an exact per-file orphan count, so the exemption can never go
+    // vacuous (remove an entry → the live orphans trip the sweep; add
+    // a phantom entry → nothing changes, the count is exact).
+    const CSS_ONLY_ORPHANS: Record<string, number> = {
+      "design-tokens.test.ts": 2,
+      "typography.test.ts": 2,
+    };
+    for (const f of unitTestFiles()) {
       const flat = flatten(read(`tests/${f}`));
-      const lineAt = flat.indexOf(LINE_PASS);
-      const blockAt = flat.indexOf(BLOCK_PASS);
-      expect(lineAt, `tests/${f} must carry the hardened line pass (comments stripped before the block pass ever sees their prose)`).toBeGreaterThanOrEqual(0);
-      expect(blockAt, `tests/${f} must carry the anchored block pass (a db/**-style glob after a word char is never an opener)`).toBeGreaterThanOrEqual(0);
-      expect(blockAt, `tests/${f} must order the line pass BEFORE the block pass (the naive order re-opens the phantom-eating genus)`).toBeGreaterThan(lineAt);
+      let start = 0;
+      let orphans = 0;
+      let sites = 0;
+      for (;;) {
+        const blockAt = flat.indexOf(BLOCK_PASS, start);
+        if (blockAt < 0) break;
+        sites++;
+        // A chain: the line pass's LAST occurrence before this block
+        // pass must sit exactly one method-dot away — "." (the
+        // single-line member-chain form) or " ." (the multi-line form,
+        // flattened). The needles carry no leading dot (they predate
+        // this arm — the S48-1 order check never needed one), so the
+        // dot is asserted as the gap. Anything else — a lone block
+        // pass, a block-first order, code or comments between the
+        // passes — is an orphan.
+        const lineAt = flat.lastIndexOf(LINE_PASS, blockAt);
+        const gap =
+          lineAt < 0 ? "" : flat.slice(lineAt + LINE_PASS.length, blockAt);
+        if (gap !== "." && gap !== " .") {
+          orphans++;
+        }
+        start = blockAt + 1;
+      }
+      const exempt = CSS_ONLY_ORPHANS[f] ?? 0;
+      expect(
+        orphans,
+        `tests/${f}: ${orphans} of ${sites} anchored block-pass site(s) lack the line-first chain (${exempt} CSS-only exempted) — the one-idiom doctrine (S48-1/S49-3) requires the line pass in every chain`,
+      ).toBe(exempt);
     }
   });
 });
@@ -1254,5 +1282,32 @@ describe("docs-counts: session-48 (S48-8) — the Appendix-B header bound census
     const bound = skill.match(/session_1\.\.(\d+)/);
     expect(bound, "the SKILL §0.5 range claim exists (docs/session_1..N)").not.toBeNull();
     expect(Number(header![1]), "the Appendix-B header updates in lockstep with the SKILL §0.5 bound — a stale header is mechanically impossible").toBe(Number(bound![1]));
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-49 (S49-4, AUDIT-3 L1): the AGENTS plans-map tail-currency census.
+// The session-48 ship appended session_48.md, the plan file, the worklog row,
+// and every count — but NOT the AGENTS `docs/plans/` map entry (the
+// enumeration ended at session-47) while session_48.md's lockstep list
+// claimed "the plans map's forty-eighth round": the docs-lie genus on the
+// one enumeration no census arm owned. The arm ties the map's round
+// sequence to the plan files on disk — the map enumerates every round 1:1
+// (one plan file per session since session 1), so a lagging tail or a
+// skipped middle entry REDs with the fix named.
+// ---------------------------------------------------------------------------
+describe("docs-counts: session-49 (S49-4) — the AGENTS plans-map tail-currency census (the missing-round genus, mechanically retired)", () => {
+  it("the plans map enumerates every plan round: the last session-N equals the plan-file count, no skipped middles", () => {
+    const agents = read("AGENTS.md");
+    const mapLine = agents.match(/`docs\/plans\/`[^\n]*/)?.[0] ?? "";
+    expect(mapLine.length, "AGENTS's docs/plans/ enumeration line must exist (the Key docs section's plans map)").toBeGreaterThan(0);
+    const rounds = [...mapLine.matchAll(/session-(\d+)/g)].map((m) => Number(m[1]));
+    expect(rounds.length, "the map must enumerate at least through the session-9 starter (the semantic-prose arm pins it)").toBeGreaterThanOrEqual(9);
+    const last = Math.max(...rounds);
+    const planFiles = readdirSync(join(root, "docs/plans")).filter((f) => f.endsWith(".md")).length;
+    expect(last, `the plans map's last entry (session-${last}) does not match the ${planFiles} plan files on disk — append the round's entry to the map in the same commit as its plan file`).toBe(planFiles);
+    for (let i = 1; i <= last; i++) {
+      expect(rounds, `the plans map skips session-${i} — every round carries its entry (one plan file per session, 1:1)`).toContain(i);
+    }
   });
 });

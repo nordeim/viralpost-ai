@@ -4,7 +4,7 @@
 > the NEO-CRM scaffold family's worklog (Task IDs 1–182 of the donor
 > repo), carried in this repo's immutable `docs/` history layer — it
 > describes a different application. THIS repo's live worklog is the
-> root `worklog.md` (Task IDs 1..48). Never read this file as
+> root `worklog.md` (Task IDs 1..49). Never read this file as
 > current-state; it is archaeology, like `neo-crm_SKILL.md`.
 
 ---

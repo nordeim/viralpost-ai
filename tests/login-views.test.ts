@@ -693,5 +693,10 @@ describe("session-22: the forgot-password submit joins the pending-face family (
     // verify, forgot) — the reset screen's own submit is a separate file.
     const faces = src.match(/<button type="submit" disabled=\{pending\}/g) ?? [];
     expect(faces.length).toBe(4);
+    // Session-49 (S49-8, AUDIT-2 I1): the fifth async affordance — the
+    // verify view's Resend — joins the family (the verify view is
+    // platform-inherited: the reference never renders it, so no parity
+    // face constrains the label; the family's consistency owns it).
+    expect(src).toContain('{resending ? "Please wait…" : "Resend"}');
   });
 })

@@ -407,6 +407,27 @@ export function applyBootEnvReport(
 // of .env.local mirrors Next exactly (a test run never loads it — a
 // stray .env.local cannot shadow anything there, warning for it
 // would be noise).
+//
+// Session-49 (S49-6, AUDIT-1 L1): the mode-derivation hedge — the
+// FILE LIST mirrors Next exactly, but the MODE mechanism differs at
+// the edges: Next derives d from the dev flag (NODE_ENV only gates
+// the "test" case), while this mirror (and bun's own env loader,
+// live-verified) key off NODE_ENV. The three canonical postures
+// (next dev, next start/standalone, test) agree exactly on both
+// engines; a mismatched NODE_ENV/phase posture (e.g. NODE_ENV=
+// production next dev) can diverge — an unsupported shape, documented
+// here rather than probed (the union-probe alternative doubles the
+// candidate set for a posture nobody runs).
+//
+// Session-49 (S49-11, AUDIT-1 I1): the rewrite-regime hedge on the
+// warning's relative-value claim — in the pinned-bun 1.3.14 regime
+// (live-verified at session 49) a relative shadow-file value reaches
+// process.env RAW (no absolutization in any probed shape) and
+// re-anchors inside the repo. A future absolutizing runtime would
+// hand the seam an ABSOLUTE value (honored verbatim, potentially
+// OUTSIDE the repo) — db-path.ts's header documents the rewrite as
+// invocation/version-conditional; that note is the deep contract
+// this warning's operator-facing prose simplifies.
 export function shadowingEnvFileWarnings(
   dir: string,
   env: { NODE_ENV?: string | undefined },

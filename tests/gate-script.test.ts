@@ -17,8 +17,9 @@ import { describe, expect, it } from "vitest";
 // bucket trips earlier still on the hour clock — playwright.config.ts's
 // comment is the full census).
 // Also pinned: the build script's hygiene tail (rm -f .next/standalone/.env
-// — the double-cure for Next's own .env copy into the deployable
-// artifact), and the start script's production shape.
+// .next/standalone/.env.production — the double-cure for Next's own copy of
+// BOTH env files into the deployable artifact, extended at session-49/S49-1),
+// and the start script's production shape.
 
 const pkg = JSON.parse(
   readFileSync(path.resolve(import.meta.dirname, "..", "package.json"), "utf8"),
@@ -49,11 +50,38 @@ describe("session-11: the gate-script pins (the neo-crm adoption)", () => {
     expect(build).toBeDefined();
     expect(build).toContain("cp -r .next/static .next/standalone/.next/");
     expect(build).toContain("cp -r public .next/standalone/");
-    // Next's writeStandaloneDirectory copies .env into the deployable
-    // artifact EXPLICITLY (immune to outputFileTracingExcludes) — the
+    // Next's writeStandaloneDirectory copies BOTH .env AND .env.production
+    // into the deployable artifact EXPLICITLY (build/index.js's
+    // loadedEnvFiles reduce — immune to outputFileTracingExcludes) — the
     // trailing rm is the double-cure (the smoke hygiene leg asserts the
-    // artifact carries none).
-    expect(build).toContain("rm -f .next/standalone/.env");
+    // artifact carries none). Session-49 (S49-1): the .env.production
+    // target joined the rm — the standard-convention operator's secrets
+    // file shipped inside the artifact before it.
+    expect(build).toContain("rm -f .next/standalone/.env .next/standalone/.env.production");
+    // The closure's other two sites (co-pinned on this one face — the
+    // artifact can never ship an env file; the N12-2 doctrine): the
+    // excludes list and the smoke leg-16 mirror must carry the
+    // production-family names in the same commit.
+    const nextConfig = readFileSync(
+      path.resolve(import.meta.dirname, "..", "next.config.ts"),
+      "utf8",
+    );
+    expect(
+      nextConfig,
+      "next.config's outputFileTracingExcludes must list .env.production (the nft belt-and-braces side of the S49-1 closure)",
+    ).toContain('".env.production"');
+    const smoke = readFileSync(
+      path.resolve(import.meta.dirname, "..", "scripts", "smoke-test.sh"),
+      "utf8",
+    );
+    expect(
+      smoke,
+      "smoke leg 16's hygiene mirror must check .env.production (the artifact-level assertion of the S49-1 closure)",
+    ).toContain(".next/standalone/$entry");
+    expect(
+      smoke,
+      "smoke leg 16's entry list must include .env.production (the S34-7 mirror doctrine)",
+    ).toMatch(/for entry in [^']*\.env\.production /);
   });
 
   it("the start script boots the standalone server in production", () => {

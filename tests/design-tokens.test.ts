@@ -243,6 +243,11 @@ describe("design tokens: session-11 — the census completion + the dead-CSS ret
       // import line `from "@/lib/from-url"` scans as a from-<word>
       // "utility"; a path segment, never a class.
       "url",
+      // Session-49 (S49-11): boot-env's shadow-warning docblock says
+      // "shadow-file" (the cascade-file English compound) — the raw
+      // scan reads it as a shadow-<word> utility. English prose,
+      // never a class.
+      "file",
     ]);
     const used = new Set<string>();
     for (const file of walkSourceFiles(srcDir)) {

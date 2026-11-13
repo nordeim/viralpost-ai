@@ -5274,7 +5274,7 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 ---
 
-## Task ID: 48
+## Task 48 — The stripComments One-Idiom Cure + The Shadow-Env Cascade Mirror + The Toast Dep-Array Pin + The CLS IHDR Face + The Appendix-B Header Census + The Count Interpolation (2026-11-14)
 Agent: main (Z.ai)
 Session: 48 (2026-11-14)
 
@@ -5360,4 +5360,110 @@ the gate → captures → push.
   post-execution record).
 
 **Gate at the session-48 ship: lint 0/0 · tsc 0 · unit 718/718 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+---
+
+## Task 49 — The envprod Artifact Closure + The Copied-Flag Reset + The Strip-Chain Sweep + The Plans-Map Truth + The Prose Batch (2026-11-14)
+Agent: main (Z.ai)
+Session: 49 (2026-11-14)
+
+Task: The standing instruction round on the session-48 tree (`5b3b87d` +
+the owner's narration `0046fc4`): docs review → baseline gate → the
+comprehensive audit → the live reference parity walk → the TDD cures →
+the gate → captures → push.
+
+- BASELINE: lint 0/0 · tsc 0 · unit 718/718 (40 files) · build · smoke
+  16/16 · e2e 70/70 (9 specs) · census MATCH; the `.env`
+  `DATABASE_URL="file:../db/custom.db"` contract intact with `db/` at
+  the repo root; chromium-1248 present; `skills/` excluded from every
+  gate; `.env.example` committed, six-knob contract.
+- THE AUDIT: three parallel subagents (AUDIT-1 API/lib seams, AUDIT-2
+  components/pages/effects, AUDIT-3 SEO/configs/tests/docs) + the
+  neo-crm currency check (unchanged since session-48's check — still
+  its session-217 / session_459.md, HEAD b3d0fbe; no new lessons).
+  Combined 0C/0H/3M/4L/9I. The decisive hand-verifications: the
+  installed Next build/index.js standalone copy-pair read
+  (writeStandaloneDirectory copies BOTH .env AND .env.production — the
+  build rm covered one; the excludes and the smoke mirror covered
+  neither), the generator-card copied-flag state trace (generate()
+  never clears the copied state — a regeneration inside the 2s window
+  mounts "Copied!" on content never copied), and the strip-site chain
+  probe (20 files carry the line-pass signature, 36 sites; the S48-1
+  presence arm owned only the 10 named-helper carriers).
+- THE PARITY WALK: live, both sides, logged into the reference,
+  viewport confirmed 390×844 before every mobile probe, computed
+  styles as ground truth. ALL CLONE FACES MATCH — the twenty-second
+  consecutive clean walk. The mobile menu works exactly as expected
+  (the owner's standing concern): the panel byte-identical (5 links;
+  Home teal rgb(45,212,191) 14px/500 block, siblings rgb(203,213,225),
+  the Gumroad pill "Upgrade to Pro – $19" 14px/600 at the templixco
+  href; container block/max-height none/transparent/16px 24px), the
+  hamburger cursor pointer both sides (the Tailwind v4 concern
+  holding), no aria family on the reference (our superset), Escape
+  OPEN ref / CLOSED ours, the same-route Logo + outside-tap faces OPEN
+  both sides, route-change CLOSED both, the desktop nav byte-identical
+  (6 links, the active face following the route), the five-route head
+  census identical, sitemap 4 URLs both + robots identical modulo
+  origin, the generator probe symmetrically dead/live (R: the failure
+  text, no copy button; L: 5 hashtags + the copy button — the D-1
+  documented superset, re-probed targeted after the walk's hashtag
+  selector proved element-blind), the login round-trip R /Home L /
+  (the documented 308 deviation), the clone session verified via
+  /api/auth/me.
+- CURES (TDD — four batteries on record, each exactly its designed pin
+  RED, restores verified): S49-1 the .env.production artifact closure
+  (the build rm extended to the copy pair + the nft excludes + the
+  smoke leg-16 mirror + the gate-script hygiene it extended in place —
+  one face, three co-pinned sites; the three-site battery planted each
+  defect separately); S49-2 the stale-Copied! reset (generate() clears
+  the copied flag + its armed timer before the fetch; +1 RED-first pin
+  in landing-page; the revert battery); S49-3 the strip-chain sweep
+  (the S48-1 presence arm's CARRIERS enumeration redesigned into a
+  family-wide chain invariant — every anchored block-pass site must be
+  exactly one method-dot from a preceding line-pass, the four CSS-only
+  sites exactly exempted; THREE batteries: the line-drop in an inline
+  carrier, the block-only plant in a fresh file, the exemption-entry
+  removal; the battery caught the dot-gap birth defect at birth — the
+  S48-1 needles carry no leading dot, the first sweep form asserted a
+  gap the needles could never see, the FOURTH consecutive round the
+  battery genus has fired); S49-4 the AGENTS plans-map truth (the
+  session-48 entry the session-48 ship record falsely claimed +
+  this round's entry + the tail-currency census arm — the map's last
+  session-N must equal the plan-file count, no skipped middles; the
+  tail-removal battery); S49-5 the logs-prose truth (the .gitignore
+  F9-11 comment + the SKILL §11 checklist line re-spelled to the
+  file-level dev.log/server.log rules — no phantom logs/ rule, the
+  F9-11 never-existing-paths doctrine held); S49-6 the cascade
+  mode-derivation hedge (the file list mirrors Next exactly, the mode
+  mechanism differs at the edges — documented, not probed); S49-7 the
+  classifier P2024/P2028 scope note (P1001/P1002 are outage shapes,
+  not transient — health's 503 owns the signal); S49-8 the Resend
+  "Please wait…" pending face (the fifth async affordance joins the
+  S22-6 family, the it extended in place; the relabel battery);
+  S49-9 the smoke ok-16 message re-spell (no duplicate "docs"); S49-10
+  the worklog Task-48 heading normalized to the family form; S49-11
+  the shadow-warning rewrite-regime clause (the docblock hedge; the
+  operator message stays — true in the pinned-bun regime, pinned).
+- COUNTS: UNIT 718 → 720 (+2: the S49-2 copied-reset pin, the S49-4
+  plans-map arm; the S49-1 closure, the S49-3 sweep, and the S49-8
+  face extend existing its in place), SUITES 40, E2E 70 held, SPECS 9,
+  SMOKE 16, BADGE 788 → 790. PAD §12's api row re-anchored 315 → 323
+  + generator-card row 273 → 279 (the S49-7/S49-2 comment cures); the
+  ten provenance sites re-anchored to 1..49 — lag 0 at ship; SKILL
+  v1.44.0 → v1.45.0. The mid-round census trips (the design-tokens
+  step-less census caught the new "shadow-file" English compound —
+  the S17-5 allowlist genus, "file" joined NON_COLOR; the
+  error-boundaries full-line smoke pin re-anchored to the 31-entry
+  list) cured in the same commit.
+- VERIFIED: the full gate on the exact commit tree (below); the four
+  mutation batteries single-tooth on record; the redundant-arm check
+  (every new arm verified single-tooth — the S49-3 sweep REPLACED the
+  CARRIERS arm, never co-pinned it; the S49-1 closure's three sites
+  co-pinned in ONE it, documented); the parity walk post-cure; the
+  captures 105/106 on the dev server; docs lockstep (README + AGENTS +
+  CLAUDE + PAD + SKILL v1.45.0 + the ten provenance sites + worklog
+  Task 49 + docs/session_49.md + the plan's post-execution record).
+
+**Gate at the session-49 ship: lint 0/0 · tsc 0 · unit 720/720 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

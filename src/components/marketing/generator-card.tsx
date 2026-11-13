@@ -80,6 +80,12 @@ export function GeneratorCard() {
   const generate = async () => {
     if (!idea.trim() || generating || limitReached) return;
     setGenerating(true);
+    // Session-49 (S49-2): clear the stale Copied! face + its armed timer
+    // BEFORE the new post lands — a regeneration inside the 2s window
+    // otherwise mounted the new post's button already reading "Copied!"
+    // (the S17-6 unmount-hygiene idiom applied to the regeneration edge).
+    if (resetTimer.current) clearTimeout(resetTimer.current);
+    setCopied(false);
     setPost("");
     try {
       const res = await fetch("/api/generate", {

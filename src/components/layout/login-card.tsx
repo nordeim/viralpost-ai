@@ -727,7 +727,13 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                                   onClick={onResend}
                                   disabled={resending}
                                 >
-                                  Resend
+                                  {/* Session-49 (S49-8): the pending-face
+                                      family join — the fifth async
+                                      affordance relabels like its four
+                                      sibling submits (the verify view is
+                                      platform-inherited; no reference
+                                      face constrains the label). */}
+                                  {resending ? "Please wait…" : "Resend"}
                                 </button>
                               </p>
                             </div>

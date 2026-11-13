@@ -27,7 +27,7 @@
 // RED at birth (the files do not exist yet); GREEN when WP-4/WP-5 land.
 // Lineage note (session-21, S21-12): the scandihaven/s169 citations
 // are donor-ledger numbers (the template family's repos); this repo's
-// own sessions are docs/session_1..48.
+// own sessions are docs/session_1..49.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -150,8 +150,11 @@ describe("session-170 (WP-5): the smoke leg (scripts/smoke-test.sh, the §13.4 s
     // from the loop shipped this pin
     // green. The full-line form owns every entry. Battery: remove any
     // entry (e.g. `tests`) from the loop → exactly this pin REDs.
+    // Session-49 (S49-1): .env.production + .env.local join the list
+    // (31 entries — the .env.production closure's mirror side; the
+    // census comment above re-anchored in the same commit).
     expect(script).toContain(
-      "for entry in .env .env.example .git db skills docs uploads worklog.md test-results dev.log server.log AGENTS.md CLAUDE.md README.md Project_Architecture_Document.md viralpost-ai_SKILL.md neo-crm_SKILL.md next.config.ts LICENSE bun.lock package-lock.json eslint.config.mjs playwright.config.ts postcss.config.mjs tsconfig.json tsconfig.tsbuildinfo vitest.config.mts scripts tests; do",
+      "for entry in .env .env.example .env.production .env.local .git db skills docs uploads worklog.md test-results dev.log server.log AGENTS.md CLAUDE.md README.md Project_Architecture_Document.md viralpost-ai_SKILL.md neo-crm_SKILL.md next.config.ts LICENSE bun.lock package-lock.json eslint.config.mjs playwright.config.ts postcss.config.mjs tsconfig.json tsconfig.tsbuildinfo vitest.config.mts scripts tests; do",
     );
   });
 

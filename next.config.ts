@@ -20,13 +20,23 @@ const nextConfig: NextConfig = {
   // runtime needs (smoke leg 16 asserts the built artifact carries none
   // of them; prisma/schema.prisma stays traced and the db-path anchors
   // still validate). Next's own writeStandaloneDirectory ALSO copies
-  // .env explicitly (build/index.js — immune to excludes): the build
-  // script's trailing `rm -f .next/standalone/.env` removes that copy
-  // (the double-cure).
+  // BOTH .env AND .env.production explicitly (build/index.js's
+  // loadedEnvFiles reduce — immune to excludes): the build script's
+  // trailing rm removes BOTH copies (the double-cure, extended to the
+  // production file at session-49/S49-1 — the standard-convention
+  // operator's secrets file shipped inside the artifact before it). The
+  // .env.local exclude is nft belt-and-braces (Next's copy loop never
+  // touches it, the tracer could).
   outputFileTracingExcludes: {
     "*": [
       ".env",
       ".env.example",
+      // Session-49 (S49-1): the production-family names join the env
+      // excludes — .env.production is the file Next's standalone writer
+      // copies (the rm side of the double-cure); .env.local the
+      // convention sibling the tracer could drag.
+      ".env.production",
+      ".env.local",
       ".git/**",
       "db/**",
       "skills/**",

@@ -71,7 +71,15 @@ export const TRANSIENT_DB_MESSAGE =
  * route's own SERVICE_UNAVAILABLE (pinned separately in
  * tests/api-robustness.test.ts); health's code predates the shared
  * classifier and is wire-contract. Both mean the same status class;
- * clients switching on error.code must handle both.) */
+ * clients switching on error.code must handle both.)
+ * (Session-49, S49-7 — the scoping note): the classifier deliberately
+ * covers ONLY the P2024/P2028 retryable-timeout family (the S37-2
+ * choice). Adjacent families answer 500 by design: P1001/P1002 (the
+ * db file missing/unreachable under a running server) are OUTAGE
+ * shapes, not transient ones — a deleted file does not heal on retry —
+ * and /api/health's own 503 owns the outage signal for monitoring; a
+ * P2034 write conflict needs interactive transactions this tree has
+ * none of, so it is unreachable here. */
 export function isTransientDbFailure(error: unknown): boolean {
   return (
     error instanceof Prisma.PrismaClientKnownRequestError &&

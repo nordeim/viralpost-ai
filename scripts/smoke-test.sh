@@ -265,11 +265,11 @@ hygiene_fail=""
 # tripwire) — the excludes list and this leg are the same F-170a nft
 # repo-root-drag tripwire in two places; a hazard shape that ships any
 # of these fails the leg even when the tracer itself never dragged it.
-for entry in .env .env.example .git db skills docs uploads worklog.md test-results dev.log server.log AGENTS.md CLAUDE.md README.md Project_Architecture_Document.md viralpost-ai_SKILL.md neo-crm_SKILL.md next.config.ts LICENSE bun.lock package-lock.json eslint.config.mjs playwright.config.ts postcss.config.mjs tsconfig.json tsconfig.tsbuildinfo vitest.config.mts scripts tests; do
+for entry in .env .env.example .env.production .env.local .git db skills docs uploads worklog.md test-results dev.log server.log AGENTS.md CLAUDE.md README.md Project_Architecture_Document.md viralpost-ai_SKILL.md neo-crm_SKILL.md next.config.ts LICENSE bun.lock package-lock.json eslint.config.mjs playwright.config.ts postcss.config.mjs tsconfig.json tsconfig.tsbuildinfo vitest.config.mts scripts tests; do
   [ -e ".next/standalone/$entry" ] && hygiene_fail="$hygiene_fail $entry"
 done
 [ -z "$hygiene_fail" ] \
-  && ok 16 "the artifact carries no repo-root drag (the excludes mirror: .env/.git/db/skills/docs/uploads/logs/configs/docs)" \
+  && ok 16 "the artifact carries no repo-root drag (the excludes mirror: env files/.git/db/skills/docs/uploads/logs/configs/markdown/scripts/tests)" \
   || { fail 16 "the artifact ships:$hygiene_fail"; exit 1; }
 
 echo "SMOKE: 16/16 PASS"

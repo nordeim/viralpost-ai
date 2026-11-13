@@ -222,6 +222,19 @@ describe("landing: the generator card (the reference's core contract)", () => {
     expect(card).toContain("setTimeout(() => setCopied(false), 2000)");
   });
 
+  // Session-49 (S49-2, AUDIT-2 M1): the stale-copied reset — generate()
+  // cleared the post but never the copied flag or its 2s timer, so a
+  // regeneration inside the window mounted the NEW post's button already
+  // reading "Copied!" (a state for content never copied; pasting within
+  // the window yielded the OLD post's text).
+  it("regeneration clears the stale Copied! state (the copied flag + its timer reset before the fetch)", () => {
+    const card = read("src/components/marketing/generator-card.tsx");
+    // The reset sequence rides the generate body, before the fetch —
+    // the timer clear first (an armed 2s timeout must not re-flip the
+    // flag on the new post), then the flag, then the post clear.
+    expect(card).toMatch(/setGenerating\(true\);[^]*?clearTimeout\(resetTimer\.current\);[^]*?setCopied\(false\);[^]*?setPost\(""\);/);
+  });
+
   it("the limit wall ships the reference's paywall copy", () => {
     const card = read("src/components/marketing/generator-card.tsx");
     expect(card).toContain("You reached the free limit");

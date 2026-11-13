@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.3-06B6D4?logo=tailwindcss)](https://tailwindcss.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748?logo=prisma)](https://www.prisma.io/)
-[![Tests](https://img.shields.io/badge/tests-788%20checks-brightgreen)](#testing)
+[![Tests](https://img.shields.io/badge/tests-790%20checks-brightgreen)](#testing)
 [![License](https://img.shields.io/badge/license-MIT-blue)](#license)
 
 A complete, self-hostable clone of
@@ -52,7 +52,7 @@ One deployable unit: a Next.js App Router application + a SQLite file.
 | ORM / DB | Prisma + SQLite | 6.19 | `db/custom.db` at the repo root; PostgreSQL swap documented |
 | Validation | Zod | 4.6 | Every API boundary |
 | Icons | lucide-react | 0.525 | The reference's own icon family |
-| Unit tests | Vitest | 5.0 | 40 files / 718 tests, node env, pure seams |
+| Unit tests | Vitest | 5.0 | 40 files / 720 tests, node env, pure seams |
 | E2E | Playwright | 1.64 | 9 specs / 70 tests against the production build |
 | A11y | axe-core | 4.x | A11y assertions inside the e2e suite |
 | Runtime | Bun | 1.3 | Scripts run from the repo root |
@@ -141,7 +141,7 @@ Demo login (mirrors the reference app):
 ## Testing
 
 ```bash
-bun run test            # Vitest unit suite (40 files / 718 tests)
+bun run test            # Vitest unit suite (40 files / 720 tests)
 bun run test:e2e        # Playwright e2e (9 specs / 70 tests) — needs bun run build first
 ./scripts/smoke-test.sh # 16-leg curl ladder against the standalone build
 bun run gate            # lint + typecheck + unit + build + smoke + e2e, in order
@@ -273,8 +273,9 @@ the PostgreSQL swap.
 | Session 46 — the force-dynamic route census + the mobile-menu censused-parity e2e pins + the cwdFallbackUrl wiring pin + the comment-truth batch | ✅ done | The audit round at 0 Critical / 0 High / 1 Medium / 7 Low / 9 Info (three parallel subagents + the lead's hand-verification — the join-math trace of the S45-1 artifact-only sentence, the PAD §11 citation drift, the prisma-env un-hedged header); the parity walk — the nineteenth consecutive clean walk (the mobile menu re-censused parity on the same-route Logo + outside-tap faces both sides; the reference's dead generator now surfaces a failure toast — recorded on D-1, the 402-dead core stands); the cures: the force-dynamic route census (the API family's dynamic posture pinned — a disk-derived recursive walk, the export-removal battery), the two censused-parity e2e pins (the Logo same-route + outside-tap faces, previously comment-guarded only), the cwdFallbackUrl wiring pin (the source-census idiom, the inline-back battery), and the comment-truth batch (the artifact-only join math, the three bun-header hedge sites, the PAD §11 stable-name citation, the 503 two-code note, the auth re-export note, the .env-only-face note, the stripComments retirement); unit 703/40 (+2 pins) + e2e 67/9 (+2 legs), badge 770; captures 99/100 |
 | Session 47 — the artifact-anchor truth + the reveal-settle pins + the shadow-env boot warning + the stale-prose batch | ✅ done | The audit round at 0 Critical / 0 High / 2 Medium / 6 Low / 7 Info (three parallel subagents + the lead's hand-verification — the decisive artifact boot probe live-falsified the cwdFallbackUrl docblock's artifact-deploy claim); the parity walk — the twentieth consecutive clean walk (all mobile-menu faces byte-identical, the D-1 failure-toast posture re-verified); the cures: the artifact-anchor truth re-spell + the DEPLOYMENT §7 fresh-artifact row, the shadowing-env-file boot warning (a warn-only seam + the instrumentation wiring), the anchor-order pin, the reveal-settle source pin + the computed-opacity e2e leg (the toBeVisible opacity-0 blind spot closed), the hero CLS pin, the skip-link keyboard leg, the toast auto-dismiss leg, the five-site generator-hang re-spell + the wrap-blind stale-prose census (the neo-crm idiom adopted); unit 711/40 (+8 pins) + e2e 70/9 (+3 legs), badge 781; captures 101/102 |
 | Session 48 — the stripComments one-idiom cure + the shadow-env cascade mirror + the toast dep-array pin + the CLS IHDR face + the Appendix-B header census + the count interpolation | ✅ done | The audit round at 0 Critical / 0 High / 2 Medium / 6 Low / 9 Info (the decisive probes: the byte-level strip comparison + the @next/env cascade read); the parity walk — the twenty-first consecutive clean walk (the D-1 failure-toast posture re-verified at three layers); the cures: the hardened stripComments family-wide (the ban surfaced 13 more sites than the audit enumerated — the census's teeth), the shadow-env cascade mirror (.env.production.local + the test-mode skip), the warning prose truth, the toast dep-array pin, the hero IHDR square-ratio pin, the reveal e2e wrapper anchor, the Appendix-B header census (the stale-header genus mechanically retired), the footer-census count interpolation; unit 718/40 (+7 pins) + e2e 70/9 (held), badge 788; captures 103/104 |
+| Session 49 — the envprod artifact closure + the copied-flag reset + the strip-chain sweep + the plans-map truth + the prose batch | ✅ done | The audit round at 0 Critical / 0 High / 3 Medium / 4 Low / 9 Info (three parallel subagents + the lead's hand-verification — the decisive probes: the installed Next build/index.js copy-pair read, the generator-card state trace, the strip-site chain probe); the parity walk — the twenty-second consecutive clean walk (the mobile-menu panel byte-identical, the hamburger cursor pointer both sides, the generator superset re-probed targeted — 5 hashtags + the copy button); the cures: the .env.production artifact closure (the build rm + the excludes + the smoke mirror + the gate-script pin — Next's standalone writer copies BOTH env files), the stale-Copied! reset on regeneration (+1 RED-first pin + the battery), the strip-chain sweep (the S48-1 presence arm's CARRIERS enumeration redesigned into a family-wide chain invariant — future files cannot escape; the battery caught the dot-gap birth defect, the fourth consecutive round), the AGENTS plans-map truth (the missed session-48 entry appended + the tail-currency census arm — the docs-lie genus mechanically retired), the logs-prose truth, the cascade mode-derivation hedge, the classifier scope note, the Resend pending face, the smoke ok-16 re-spell, the worklog heading normalization, the shadow-warning regime clause; unit 720/40 (+2 pins: the copied-reset + the plans-map arm; three cures extend existing its in place) + e2e 70/9 (held), badge 790; captures 105/106 |
 
-Gate at the session-48 ship: lint 0/0 · tsc 0 · unit 718/718 · build ·
+Gate at the session-49 ship: lint 0/0 · tsc 0 · unit 720/720 · build ·
 smoke 16/16 · e2e 70/70.
 
 ## License

@@ -55,5 +55,7 @@ tests/e2e/.auth/
 
 # (Session 9, F9-11: the scaffold family's uploads/sweep/walk5x ignore
 # entries retired — this repo has no upload route and no sweep tooling;
-# the paths never existed here. db/, skills/, logs keep their own rules
-# above and below.)
+# the paths never existed here. db/ keeps its binary rules above; skills/
+# is the owner's TRACKED catalog, never ignored; log files are the
+# file-level dev.log/server.log rules above — no logs/ directory rule
+# exists or is wanted, session-49/S49-5's prose-truth re-spell.)
