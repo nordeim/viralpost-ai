@@ -88,6 +88,17 @@ export async function POST(req: Request) {
     // delivery to a real mail transport — only then is the code never
     // shipped to the client (it exists only as the stored hash).
     const code = generateVerifyCode();
+    // Session-44 (S44-7): the count→create pair above is NOT atomic —
+    // two concurrent different-email signups on a never-seeded table
+    // can both read count 0 and both mint role "admin"
+    // (live-reproduced on a scratch SQLite db). Accepted + registered
+    // (PAD §11): `role` is inert in this tree (echoed by login/me,
+    // consumed by no authorization gate), and any seeded deployment
+    // (the census contract: 1 user pristine) already carries the
+    // admin demo user — the empty-table window is the fresh-clone-only
+    // shape. The $transaction lift is documented in the register row,
+    // not taken (a write-lock transaction for an inert field is not
+    // worth the contention on the hot signup path).
     const user = await db.user.create({
       data: {
         name,

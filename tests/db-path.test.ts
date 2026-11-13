@@ -252,7 +252,7 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34, a donor
   // S33-3): the session-34/35/36 numbers in this describe cite the
   // NEO-CRM donor ledger (the template repo the db-path seam was ported
   // from — its own standalone-launch-recovery sessions). THIS repo's
-  // own sessions are docs/session_1..43; the donor enumeration lives
+  // own sessions are docs/session_1..44; the donor enumeration lives
   // in viralpost-ai_SKILL.md §0.5. Unmarked, the numbers collide with
   // this repo's imminent session 34/35/36 rounds — the exact genus
   // §0.5 exists to prevent (the S31-4 auth.ts precedent).
@@ -362,6 +362,38 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34, a donor
 
     withEnv("file:/var/lib/viralpost/custom.db", () => {
       expect(runtimeDatabaseUrl(standalone)).toBe("file:/var/lib/viralpost/custom.db");
+    });
+  });
+
+  it("session-44 (S44-1b): the launch arm preserves the ?query and strips the #fragment (the S43-6 coverage gap)", () => {
+    // The S43-6 tail handling covered ONLY resolveDatabaseUrl's two
+    // consumption sites — this third site (the launch-recovery
+    // urlForRoot call) received NO decomposition at all: a
+    // fragment-carrying launch .env still baked the tail into the
+    // resolved filename (file:<repo>/db/custom.db#frag — the junk
+    // filename the engine would create on disk). The corrected
+    // contract matches resolveDatabaseUrl exactly: the query rides
+    // the re-anchored URL (the engine parses it as connector
+    // config), the fragment strips.
+    const repo = mkdtempSync(join(tmpdir(), "viralpost-hygiene-tail-"));
+    tempDirs.push(repo);
+    mkdirSync(join(repo, "prisma"), { recursive: true });
+    writeFileSync(join(repo, "prisma", "schema.prisma"), "// schema stub\n");
+    const standalone = join(repo, ".next", "standalone");
+    mkdirSync(standalone, { recursive: true });
+
+    writeFileSync(join(repo, ".env"), 'DATABASE_URL="file:../db/custom.db?connection_limit=1"\n');
+    const launchQuery = `file:${join(repo, "..", "db", "custom.db?connection_limit=1")}`;
+    withEnv(launchQuery, () => {
+      expect(runtimeDatabaseUrl(standalone)).toBe(
+        `file:${join(repo, "db", "custom.db")}?connection_limit=1`,
+      );
+    });
+
+    writeFileSync(join(repo, ".env"), 'DATABASE_URL="file:../db/custom.db#frag"\n');
+    const launchFrag = `file:${join(repo, "..", "db", "custom.db#frag")}`;
+    withEnv(launchFrag, () => {
+      expect(runtimeDatabaseUrl(standalone)).toBe(`file:${join(repo, "db", "custom.db")}`);
     });
   });
 
@@ -525,23 +557,41 @@ describe("resolveDatabaseUrl", () => {
     expect(resolved).toContain("/db/custom.db");
   });
 
-  it("session-43 (S43-6): a ?query/#fragment tail never bakes into the resolved filename", () => {
-    // Prisma's `?params` grammar is the PostgreSQL connector's, never
-    // the SQLite file: connector's — an operator carrying the habit
-    // over (file:../db/custom.db?connection_limit=1) got the tail
-    // JOINED into the resolved filename (live-probed pre-cure:
-    // file:<repo>/db/custom.db?connection_limit=1 — a junk-suffixed
-    // filename the engine cannot open; the S30/S31/S33 wrong-DB
-    // normalization genus, one input family deeper). The strip
-    // normalizes the mistake into the intended file at the one-home
-    // boundary; the absolute/:memory: pass-through arms keep their
-    // documented pass-through-by-design contract.
+  it("session-44 (S44-1): the ?query tail survives resolution — only the #fragment strips (the S43-6 premise corrected)", () => {
+    // Session-43 (S43-6) stripped BOTH tail halves on the premise
+    // "the `?params` grammar is Prisma's PostgreSQL connector's,
+    // never the SQLite file: connector's" — a premise the session-44
+    // live engine probe (this repo's own @prisma/client 6.19.3)
+    // falsifies: file:<path>/q.db?connection_limit=1 opens the CLEAN
+    // q.db (params are connector config, never filename characters —
+    // socket_timeout compounds, unknown params are ignored), while a
+    // #fragment DOES bake into the filename (the literal "x.db#frag"
+    // file). The strip therefore silently dropped params the engine
+    // honors on relative refs while the absolute pass-through arm
+    // kept them — the inconsistent matrix the one-home seam exists to
+    // prevent. The corrected contract: resolve the clean path,
+    // re-append the query, drop only the fragment.
     const q = resolveDatabaseUrl("file:../db/custom.db?connection_limit=1");
-    expect(q).toContain("/db/custom.db");
-    expect(q).not.toContain("?");
+    expect(q).toContain("/db/custom.db?");
+    expect(q.endsWith("?connection_limit=1")).toBe(true);
+    const both = resolveDatabaseUrl("file:../db/custom.db?socket_timeout=600#frag");
+    expect(both).toContain("/db/custom.db?socket_timeout=600");
+    expect(both).not.toContain("#");
     const frag = resolveDatabaseUrl("file:../db/custom.db#frag");
     expect(frag).toContain("/db/custom.db");
     expect(frag).not.toContain("#");
+  });
+
+  it("session-44 (S44-2): a ref whose path empties passes through raw — never the prisma directory", () => {
+    // The S43-6 strip (now the S44-1 decomposition) can leave a
+    // zero-length path: urlForRoot(root, "") joins to <root>/prisma
+    // itself, and the resolver answered file:<repo>/prisma — pointing
+    // the engine (and the operator's Error-14 debugging) at a
+    // DIRECTORY. The !ref arm's own posture (raw pass-through —
+    // resolveDatabaseUrl("file:") returns "file:", pinned above) is
+    // the consistent answer for a ref that carries no path at all.
+    expect(resolveDatabaseUrl("file:?x")).toBe("file:?x");
+    expect(resolveDatabaseUrl("file:#")).toBe("file:#");
   });
 
   it("never returns the raw relative URL when the repo root is discoverable", () => {

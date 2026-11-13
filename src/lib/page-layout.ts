@@ -39,10 +39,12 @@ export const LOGIN_LAYOUT = {
   form: "w-full space-y-4 sm:space-y-5",
   fields: "space-y-3 sm:space-y-4",
   // Tailwind v4 note (the template's session-96 doctrine): v3's 6px
-  // vertical-gap space-y step (the margin-BOTTOM form) is v4-FALSIFIED
-  // on the auth fields — v4's space-y puts margin-BOTTOM on the
-  // PRECEDING child (the label), a non-replaced INLINE element where
-  // vertical margins are IGNORED, silently losing the 6px gap.
+  // vertical-gap space-y step — margin-TOP on the following child;
+  // session-44 (S44-8) re-spelled: the old "(the margin-BOTTOM form)"
+  // parenthetical mislabeled v3 with v4's compilation — is
+  // v4-FALSIFIED on the auth fields: v4's space-y puts margin-BOTTOM
+  // on the PRECEDING child (the label), a non-replaced INLINE element
+  // where vertical margins are IGNORED, silently losing the 6px gap.
   // `[&>*+*]:mt-1.5` expresses the reference's computed mechanism in
   // v4. The label STAYS INLINE like the reference's own 16px inline
   // box.

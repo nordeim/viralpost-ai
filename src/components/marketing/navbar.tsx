@@ -89,10 +89,13 @@ export function Navbar() {
   // Fires on mount and per navigation; menuWasOpen is false on every
   // path but the history-closed-open-menu one. The [pathname]-only
   // dep array is DELIBERATE (the registered third exhaustive-deps
-  // flag, PAD §11 / session-43 S43-2): menuWasOpen is read at commit
-  // time and only ever flips true alongside the pathname change that
-  // precedes this effect — widening the array would re-run the focus
-  // arm on menu toggles it must not touch.
+  // flag, PAD §11 / session-43 S43-2): menuWasOpen only ever changes
+  // inside the pathname-change adjust block above — its transitions
+  // are a strict subset of pathname's, so the array never serves a
+  // stale closure; adding the flag would be behaviorally inert
+  // (session-44 S44-3: the old "menu toggles" consequence clause was
+  // false — toggles mutate `open`, which this effect neither reads
+  // nor lists).
   React.useLayoutEffect(() => {
     if (menuWasOpen) {
       menuButtonRef.current?.focus();

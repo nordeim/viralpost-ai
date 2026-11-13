@@ -189,10 +189,14 @@ export const LOGIN_SIGNUP_LAYOUT = {
    *  mt-on-following spacing + the stock-label slate-700), DOM-verified
    *  on the signup view. Session-96 (S96-P0 — a donor-ledger number,
    *  the template's parity session): the v3 6px vertical-gap
-   *  space-y step (the margin-BOTTOM form) is v4-FALSIFIED
-   *  (margin-bottom on the INLINE label is ignored — the 6px gap
-   *  silently lost); `[&>*+*]:mt-1.5` expresses the reference's
-   *  computed mechanism (the M-79c2 doctrine). */
+   *  space-y step — margin-TOP on the following child; session-44
+   *  (S44-8) re-spelled: the old "(the margin-BOTTOM form)"
+   *  parenthetical mislabeled v3 with v4's compilation — is
+   *  v4-FALSIFIED (v4 compiles space-y to margin-BOTTOM on the
+   *  PRECEDING child, and vertical margins on the INLINE label are
+   *  ignored — the 6px gap silently lost);
+   *  `[&>*+*]:mt-1.5` expresses the reference's computed mechanism
+   *  (the M-79c2 doctrine). */
   field: "[&>*+*]:mt-1.5",
   label: "text-sm font-medium text-slate-700",
   /** The input — the s11 resetInput family (h-10 sm:h-11, ONE size down

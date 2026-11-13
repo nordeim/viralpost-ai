@@ -108,6 +108,25 @@ function isAbsoluteFileRef(ref: string): boolean {
   return ref.startsWith("/") || WINDOWS_ABSOLUTE_REF.test(ref);
 }
 
+// Session-44 (S44-1): the one-home tail decomposition — split a
+// relative file: ref into its clean path and its `?query`, DROPPING
+// any `#fragment` (the engine bakes a fragment into the filename —
+// the literal "x.db#frag" file — while it parses a query as
+// connector config; see the resolveDatabaseUrl comment for the
+// probe evidence and the S43-6 premise correction). Consumed by
+// resolveDatabaseUrl AND the standalone-launch recovery arm below —
+// the S43-6 strip covered only the former, leaving the launch arm
+// baking fragment junk (the coverage gap S44-1b pins).
+function decomposeFileRef(ref: string): { pathRef: string; query: string } {
+  const hashAt = ref.indexOf("#");
+  const hashless = hashAt === -1 ? ref : ref.slice(0, hashAt);
+  const queryAt = hashless.indexOf("?");
+  return {
+    pathRef: queryAt === -1 ? hashless : hashless.slice(0, queryAt),
+    query: queryAt === -1 ? "" : hashless.slice(queryAt),
+  };
+}
+
 
 export function resolveDatabaseUrl(rawUrl: string): string {
   if (!rawUrl.startsWith("file:")) return rawUrl; // postgres etc. — pass through
@@ -120,18 +139,30 @@ export function resolveDatabaseUrl(rawUrl: string): string {
   // absoluteness arm now covers the Windows-absolute family too.
   if (!ref || isAbsoluteFileRef(ref) || ref.startsWith(":memory:")) return rawUrl;
 
-  // Session-43 (S43-6): strip a `?query`/`#fragment` tail before the
-  // joins — the `?params` grammar is Prisma's PostgreSQL connector's,
-  // never the SQLite file: connector's, and a param-carrying relative
-  // ref baked the tail into the resolved FILENAME at both consumption
-  // sites below (live-probed: file:../db/custom.db?connection_limit=1
-  // answered <repo>/db/custom.db?connection_limit=1 — a junk-suffixed
-  // filename the engine cannot open; the S30/S31/S33 wrong-DB
-  // normalization genus, one input family deeper). The absolute and
+  // Session-44 (S44-1): decompose the tail before the joins. The
+  // engine PARSES a `?query` on file: URLs (live-probed on this
+  // repo's own @prisma/client 6.19.3: file:<path>/q.db?connection_
+  // limit=1 opens the CLEAN q.db — params are connector config,
+  // never filename characters; socket_timeout compounds, unknown
+  // params are ignored), while a `#fragment` BAKES into the filename
+  // (the engine creates the literal "x.db#frag" file). Session-43
+  // (S43-6) stripped BOTH halves on the false premise "the ?params
+  // grammar is Prisma's PostgreSQL connector's, never the SQLite
+  // file: connector's" — silently dropping params the engine honors
+  // on relative refs while the absolute pass-through arm above kept
+  // them, the inconsistent matrix this one-home seam exists to
+  // prevent. The corrected contract: resolve the clean path,
+  // re-append the query, drop only the fragment. (The absolute and
   // :memory: pass-through arms above keep their documented
-  // pass-through-by-design contract (file::memory:?cache=shared is a
-  // legitimate SQLite URI spelling).
-  const cleanRef = ref.replace(/[?#].*$/, "");
+  // pass-through-by-design contract — file::memory:?cache=shared is
+  // a legitimate SQLite URI spelling.)
+  // Session-44 (S44-2): a ref whose path part is EMPTY after the
+  // decomposition ("file:?x", "file:#") passes through raw —
+  // urlForRoot(root, "") would resolve to the prisma FOLDER itself
+  // (live-probed), pointing the operator's Error-14 debugging at a
+  // directory. The !ref arm's own posture, applied one family deeper.
+  const { pathRef, query } = decomposeFileRef(ref);
+  if (!pathRef) return rawUrl;
 
   // Validated anchors: trust them even on first boot (db/ may not exist
   // yet) — urlForRoot creates the folder.
@@ -141,7 +172,7 @@ export function resolveDatabaseUrl(rawUrl: string): string {
   ];
   for (const anchor of validated) {
     const root = anchor();
-    if (root) return urlForRoot(root, cleanRef);
+    if (root) return urlForRoot(root, pathRef) + query;
   }
 
   // Unvalidated last resort: accept only when the target (or at least its
@@ -150,9 +181,9 @@ export function resolveDatabaseUrl(rawUrl: string): string {
   // root (a stray CWD must not grow a db/ beyond what already exists).
   // (Session-22, S22-17: the comment now states the dirname arm's real
   // behavior — the original "the target already exists" oversold it.)
-  const candidate = join(process.cwd(), "prisma", cleanRef);
+  const candidate = join(process.cwd(), "prisma", pathRef);
   if (existsSync(candidate) || existsSync(dirname(candidate))) {
-    return `file:${candidate}`;
+    return `file:${candidate}${query}`;
   }
   return rawUrl;
 }
@@ -267,7 +298,7 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  *
  * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
  * NEO-CRM seam's own recovery session; this repo's sessions are
- * docs/session_1..43, the SKILL §0.5 enumeration): the standalone server.js runs
+ * docs/session_1..44, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The
@@ -350,7 +381,14 @@ export function runtimeDatabaseUrl(cwd: string = process.cwd()): string {
         // is replacing bun's corrupted value with the .env's original.
         const ref = launchEnvUrl.slice("file:".length);
         if (ref.startsWith(":memory:")) return launchEnvUrl;
-        return urlForRoot(launchDir, ref);
+        // Session-44 (S44-1): the launch arm joins the one-home tail
+        // decomposition — the query rides the re-anchored URL (the
+        // engine parses it as connector config), the fragment strips,
+        // and a path-emptied ref passes through raw (the S44-2 guard;
+        // urlForRoot(launchDir, "") would answer the prisma FOLDER).
+        const { pathRef, query } = decomposeFileRef(ref);
+        if (!pathRef) return launchEnvUrl;
+        return urlForRoot(launchDir, pathRef) + query;
       }
     }
   }

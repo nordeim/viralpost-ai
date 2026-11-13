@@ -110,6 +110,11 @@ const nextConfig: NextConfig = {
   // RFC 6797 §7.1 a UA MUST NOT process HSTS over non-secure transport,
   // so it is inert on plain-HTTP localhost and correct whenever a
   // deployment runs behind HTTPS.
+  // Session-44 (S44-6): X-Frame-Options and CSP ship NOWHERE by the
+  // same census — the reference's edge serves neither, so their
+  // absence is the deliberate parity posture, not an oversight. A
+  // self-hoster behind a framing- or injection-sensitive proxy adds
+  // them at that layer (the addition point this note exists to name).
   async headers() {
     return [
       {

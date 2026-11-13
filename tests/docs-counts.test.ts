@@ -212,6 +212,13 @@ import {
 // the unit count and the session label are two contracts, two owners,
 // the N12-2 one-owner doctrine)) and the e2e 65 unchanged. SMOKE 16
 // unchanged.
+// s44: 696/40 (+4 the session-44 pins — the db-path launch-arm tail
+// pin (S44-1b) and the emptied-path guard pin (S44-2a); the S44-1a
+// re-spell of S43-6a is IN PLACE (+0 — its query arms reversed on the
+// engine-probe evidence, its fragment arms keep their teeth); the two
+// docs-counts arms: the three-site smoke-leg prose census (S44-4a)
+// and the eslint off-list count census (S44-5a)) and the e2e 65
+// unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -219,7 +226,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 692;
+const UNIT = 696;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -397,6 +404,35 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
     expect(pins.length, "route-title.test.ts it() arms on disk").toBeGreaterThanOrEqual(13);
     const skill = read("viralpost-ai_SKILL.md");
     expect(skill).toContain(`The title derivation: ${pins.length} unit pins`);
+  });
+
+  // Session-44 (S44-4): the three hand-maintained smoke-leg PROSE sites
+  // (README's quickstart line, CLAUDE's command table + testing
+  // section) join the disk family — the S28-6 census pins the ladder's
+  // own ok-NN markers, but these three prose spellings could drift
+  // through a green gate on a 17th leg (the S42-9/S43-4 genus, three
+  // sites deeper).
+  it("session-44 (S44-4): the three prose smoke-leg sites derive from the constant (which the S28-6 disk census pins)", () => {
+    const readme = read("README.md");
+    expect(readme).toContain(`./scripts/smoke-test.sh # ${SMOKE}-leg curl ladder`);
+    const claude = read("CLAUDE.md");
+    expect(claude).toContain(`| \`./scripts/smoke-test.sh\` | ${SMOKE}-leg curl ladder |`);
+    expect(claude).toContain(`**Smoke (bash)**: ${SMOKE} legs`);
+  });
+
+  // Session-44 (S44-5): the eslint off-list rule count — live-true
+  // (exactly N `: "off"` entries) and carried by CLAUDE's anti-patterns
+  // note + PAD §10.3, but owned by no arm (the same drift genus on the
+  // config axis: a planted 28th off-switch ships green while both docs
+  // say 27).
+  it("session-44 (S44-5): the off-list rule count derives from eslint.config.mjs on disk", () => {
+    const config = read("eslint.config.mjs");
+    const offs = config.match(/:\s*"off"/g) ?? [];
+    expect(offs.length, "off-list entries on disk (the floor guards the extraction itself)").toBeGreaterThanOrEqual(20);
+    const claude = read("CLAUDE.md");
+    expect(claude).toContain(`${offs.length} correctness-tier rules`);
+    const pad = read("Project_Architecture_Document.md");
+    expect(pad).toContain(`${offs.length} rules (`);
   });
 
   it("AGENTS carries the live unit + e2e + smoke counts", () => {

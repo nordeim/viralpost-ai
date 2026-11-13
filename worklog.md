@@ -4716,3 +4716,135 @@ Agent: main (Z.ai)
   exactly the designed pin RED); the parity walk post-cure re-run: no
   drift; captures 93/94 on the dev server (the mobile-menu open at
   390×844 + the landing hero at 1280×800, PIL-verified).
+
+## Task 44 — The db-path Query-Tail Truth Cure + The Navbar Annotation Truth + The Smoke-Site & Off-List Census Batch + The Comment-Truth Tail (2026-11-13)
+
+Task ID: 44
+Agent: main (Z.ai)
+- SCOPE: the standing instruction re-run against the shipped tree
+  (`622e0e8`, session-43's commit; the owner's narration commit
+  `d2ac93a` followed, carrying session_44.md as the round-43
+  narration — replaced by this round's formal log). Docs review
+  (AGENTS/CLAUDE/README/PAD/SKILL v1.39.0, session_43.md, the
+  session-43 plan, worklog Task 43, the owner narration
+  session_44.md); the baseline gate GREEN at the documented counts
+  (lint 0/0 · tsc 0 · unit 692/692, 40 files · build · smoke 16/16 ·
+  e2e 65/65, 9 specs · census MATCH); the standing asks re-verified
+  up front (the `.env` DATABASE_URL="file:../db/custom.db" contract
+  with `db/` at the repo root; the vitest + playwright suites in
+  place and current; the sitemap/robots/manifest/OG family verified
+  live against the reference in this round's walk; `skills/`
+  excluded from every gate; the committed `.env.example` matching
+  the six-knob contract).
+- AUDIT: three parallel dispatched subagents (AUDIT-1 API/lib seams,
+  AUDIT-2 components/pages/effects, AUDIT-3 SEO/configs/tests/docs)
+  + the lead's hand-verification of every load-bearing finding —
+  the decisive probe a FRESH live engine run on the repo's own
+  @prisma/client 6.19.3 that falsified session-43's own S43-6
+  premise (file:<path>/q.db?connection_limit=1 opens the CLEAN q.db
+  — params are connector config, never filename characters; only
+  #fragments bake junk filenames), a full state-graph trace of the
+  navbar's menuWasOpen writes (the S43-2 annotation's consequence
+  clause false — the transitions are a strict subset of pathname's),
+  and mechanical re-counts of the three smoke-leg prose sites + the
+  27-entry eslint off-list:
+  **AUDIT-1 0C/0H/1M/2L/3I · AUDIT-2 0C/0H/0M/1L/1I · AUDIT-3
+  0C/0H/0M/2L/2I — combined 0 Critical / 0 High / 1 Medium / 5 Low /
+  6 Info.** The session-43 diff verified correct and complete on all
+  three passes except the S43-6 query half — this round's claim; the
+  residuals are pre-existing debt this round claims.
+- PARITY WALK: NO DRIFT — the seventeenth consecutive fully-clean
+  walk (the mobile battery at a confirmed 390×844: the panel
+  enumerated live on the reference and byte-verified against ours —
+  the four nav links + the Gumroad pill, colors/hrefs/texts/cursor
+  all matching; panel mechanics identical (display block +
+  max-height none; the transparent-over-hero bg chain); the
+  hamburger cursor pointer both sides (the Tailwind v4 standing
+  concern holding); the reference's hamburger still ships NO aria
+  family (our expanded family the documented superset); Escape
+  leaves the reference's panel open (our F11-11 superset — ours
+  verified closing with focus returned to the toggle); the desktop
+  nav byte-identical (brand + 4 links + the Upgrade pill); the
+  five-route head census identical modulo origin; sitemap 4/4 +
+  robots identical modulo origin; the generator probe symmetrically
+  dead/live (R no generation lands — zero hashtags; L works — 5
+  hashtags + the copy button); the login round-trip both landing
+  the landing (R /Home, L / — the documented 308 deviation), the
+  clone session verified live via /api/auth/me (sepnetflix2023@
+  outlook.com, role admin). The neo-crm reference repo re-checked
+  per the standing instruction: its latest sessions (its own
+  213–217) continue the semantic-prose census genus on its own docs
+  — this repo's standing comment-truth batch discipline; patterns
+  current, nothing new to adopt.
+- CURED (TDD — every pin RED first or battery-planted, the mutation
+  batteries per the house doctrine): THE DB-PATH QUERY-TAIL TRUTH
+  CURE (S44-1, the Medium — the S43-6 "?params is the PostgreSQL
+  connector's grammar" premise is FALSE per the live engine probe;
+  the strip silently dropped params the engine honors on relative
+  refs while the absolute pass-through arm kept them, AND the
+  launch-recovery arm never received any tail handling (its
+  fragment still baked junk filenames); the corrected contract:
+  preserve the ?query at all three consumption sites through one
+  shared decomposeFileRef helper, strip only the #fragment; the
+  S43-6a pin re-spelled in place (query arms reversed, fragment
+  arms keep their teeth) + the NEW launch-arm pin (S44-1b); the
+  batteries: the resolveDatabaseUrl query revert (exactly 1 RED),
+  the launch query revert (exactly 1 RED), the launch raw-ref
+  revert (exactly 1 RED on the fragment face), and the shared-
+  helper fragment revert (all three consumer pins RED — the
+  one-home helper's defect trips every consumer, the documented
+  shape)); THE EMPTIED-PATH GUARD (S44-2 — file:?x / file:# resolved
+  to the prisma FOLDER itself (urlForRoot(root, "") joins to the
+  directory); now raw pass-through, the !ref arm's own posture; +1
+  RED-first pin, the guard-removal battery exactly 1 RED / 41
+  GREEN); THE NAVBAR ANNOTATION TRUTH (S44-3 — the S43-2 note's
+  "menu toggles" consequence clause false: setMenuWasOpen is written
+  only inside the pathname-change adjust block, so menuWasOpen
+  transitions are a strict subset of pathname's and widening the
+  array is behaviorally inert; re-spelled to the true invariant, the
+  PAD §11 register line re-anchored :95 → :103, the navbar row
+  265 → 268); THE SMOKE-SITE & OFF-LIST CENSUS BATCH (S44-4 — the
+  three prose smoke-leg sites (README's quickstart + CLAUDE's
+  command table + testing section) derive from the SMOKE constant
+  through a new census arm, the planted-drift battery exactly 1
+  RED; S44-5 — the "27 correctness-tier rules" off-list count
+  (CLAUDE + PAD §10.3) derives from eslint.config.mjs's `:
+  "off"` entries on disk through a new census arm, the planted-28th
+  battery exactly 1 RED); THE COMMENT-TRUTH TAIL (S44-6 —
+  next.config.ts names the XFO/CSP deliberate absence (the
+  reference's edge ships neither) + the proxy-layer addition point;
+  S44-7 — the signup first-user-admin race accepted + registered
+  (the PAD §11 row) with the inert-role containment spelled
+  in-route (role is echoed by login/me, consumed by no gate; the
+  seeded deployment already carries the admin demo user — the
+  empty-table window is fresh-clone-only); S44-8 — both v3/v4
+  margin-direction mirrors re-spelled (page-layout.ts +
+  login-reset.ts: v3 is margin-TOP on the following child, the
+  margin-BOTTOM form is exclusively v4's compilation)); the
+  accepted register: the multi-dot loopback spellings joining the
+  IPv6/127.0.0.2+ family (the S43-1 cure verified correct and
+  complete), the duplicated 6-method 404 bodies (the S16-2
+  documented deliberation), the unthrottled /api/health (the
+  monitoring-probe standard), the residual prose-only numeric sites
+  (the const-module hoist is the documented future round), the
+  standing register carried forward.
+- COUNTS: UNIT 692 → 696 (+2 db-path: the launch-arm tail pin
+  S44-1b, the emptied-path guard S44-2a; +2 docs-counts: the
+  smoke-site census S44-4a, the off-list census S44-5a — the
+  S44-1a re-spell of S43-6a is in place, +0), SUITES 40, E2E 65,
+  SMOKE 16, badge 757 → 761. Constants re-anchored FIRST; the
+  census walked the doc sites RED→GREEN (PAD §12: db-path 362→400,
+  navbar 265→268; PAD §11: the exhaustive-deps register line :95 →
+  :103, the new S44-7 row); the ten provenance sites re-anchored
+  to 1..44 — lag 0 at ship; SKILL v1.39.0 → v1.40.0.
+- VERIFIED: the full gate on the exact commit tree (lint 0/0 · tsc
+  0 · unit 696/696, 40 files · build · smoke 16/16 · e2e 65/65, 9
+  specs · census MATCH); the seven mutation batteries single-tooth
+  on record (the resolveDatabaseUrl query revert 1/41, the launch
+  query revert 1/41, the launch raw-ref fragment revert 1/41, the
+  shared-helper fragment revert 3/39 — every consumer pin, the
+  emptied-path guard removal 1/41, the README smoke-site drift 1
+  RED, the planted 28th off-switch 1 RED); the parity walk
+  post-cure re-run: no drift; captures 95/96 on the dev server
+  (the mobile-menu open at 390×844 + the landing hero at 1280×800,
+  PIL-verified).
