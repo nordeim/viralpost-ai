@@ -149,14 +149,20 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
   // PUBLIC origin whose string merely contains the word
   // (mylocalhost.example.com, or a query carrying it — double-warned
   // after the shape arms above already fired). A false alarm erodes the
-  // warning's authority (the S22-18 doctrine). Input-equivalent for
-  // every true positive: "localhost" and "127.0.0.1" hostnames still
-  // warn; a parse MISS (malformed origin) stays silent here — the
-  // F10-11 shape arms own that class.
+  // warning's authority (the S22-18 doctrine). Session-43 (S43-1):
+  // the trailing dot is STRIPPED before the comparison —
+  // new URL("http://localhost.:3000").hostname keeps the dot
+  // ("localhost."), so the plain equality went SILENT on the FQDN
+  // spelling the old substring form caught (the one true-positive
+  // family the S42-6 cure lost; the revert battery on record). The
+  // cure also GAINED a true positive the old case-sensitive regex
+  // missed: URL parsing lowercases the host, so http://LOCALHOST:3000
+  // now warns. A parse MISS (malformed origin) stays silent here —
+  // the F10-11 shape arms own that class.
   const siteUrlIsLoopback = (() => {
     if (!siteUrl) return false;
     try {
-      const host = new URL(siteUrl).hostname;
+      const host = new URL(siteUrl).hostname.replace(/\.$/, "");
       return host === "localhost" || host === "127.0.0.1";
     } catch {
       return false;

@@ -564,7 +564,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 40 | 686 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 40 | 692 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 65 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -582,7 +582,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 686/65/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 692/65/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -680,7 +680,7 @@ delivery.
 | LOW | Signup verification codes are delivered in-response (demo mode) until a mail transport is configured | Demo posture in dev | Mitigated in prod by `VIRALPOST_DISABLE_IN_APP_OTP` |
 | LOW | `skills/` (the owner's catalog) rides in the repo but is excluded from every gate | Repo weight only | By the owner's design; artifact hygiene asserts it never ships |
 | LOW | The logout route's CSRF-logout class — CURED at session-29 (S29-1) and retired from this register at session-30 (S30-3): the route now gates through `requireSession()` ahead of `clearSessionCookie()` (a cross-site `<form method="POST">` carries no Lax cookie, so the gate answers the envelope's 401 and never clears the victim's session); pinned by `tests/api-robustness.test.ts` (the "sessioned me/logout family" describe) | Closed (the S29-1 cure; the S15-5 acceptance is superseded) |
-| LOW | `eslint.config.mjs` ships the family template's off-switches — TREE-WIDE, not just `react-hooks/exhaustive-deps` (session-15, S15-6; blast radius re-recorded session-16, S16-3) | No automated tripwire for hook-dependency regressions, stray `console.log`s, dead writes (`no-unused-vars`/`no-undef`/`no-unreachable`/`no-console` also off) | Accepted with evidence: a dry run surfaces exactly 2 exhaustive-deps flags, both `particle-text.tsx`'s deliberate `texts.join("\|")` stability idiom — INDEPENDENTLY RE-VERIFIED live at session-17 (S17-8: the warn-level dry-run re-counted, config restored clean; both flags at particle-text.tsx:293); scoping the off-switches per-file requires restructuring that idiom first — the tsc-strict gate + the census tests compensate meanwhile |
+| LOW | `eslint.config.mjs` ships the family template's off-switches — TREE-WIDE, not just `react-hooks/exhaustive-deps` (session-15, S15-6; blast radius re-recorded session-16, S16-3) | No automated tripwire for hook-dependency regressions, stray `console.log`s, dead writes (`no-unused-vars`/`no-undef`/`no-unreachable`/`no-console` also off) | Accepted with evidence: a dry run surfaces exactly 3 exhaustive-deps flags (session-43, S43-2, re-counted live) — particle-text.tsx ×2 (the deliberate `texts.join("\|")` stability idiom, both flags at particle-text.tsx:313) + navbar.tsx:95 (the S31-2 pathname-keyed focus-return arm's deliberate `menuWasOpen` omission — added after the session-17 S17-8 re-verification the register previously cited, which is why the stale "exactly 2" claim survived 26 sessions); scoping the off-switches per-file requires restructuring BOTH idioms first — the tsc-strict gate + the census tests compensate meanwhile |
 | LOW | The footer's © year evaluates at `next build` on the statically-prerendered `(site)` pages (session-16, S16-5) | The displayed year rolls only on the next deploy (the reference's SPA computes it client-side every load — divergence opens only after a calendar-year boundary crosses the last deploy) | Accepted + documented in-code: a client-side island would trade hydration risk for zero current-day value |
 
 Swept at session-2 ship — no open CRITICAL/HIGH items.
@@ -702,11 +702,11 @@ commit as the file.)
 | `src/lib/auth.ts` | 196 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
 | `src/lib/password.ts` | 69 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 141 | Fixed-window limiter, proxy-hop-aware client key |
-| `src/lib/db-path.ts` | 349 | THE database path resolver (ADR-008) |
+| `src/lib/db-path.ts` | 362 | THE database path resolver (ADR-008) |
 | `src/lib/site.ts` | 219 | The metadata factory + canonical origin seam |
 | `src/lib/api.ts` | 310 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2; the transient-abort classifier, session-37, S37-2; the seam's own transient arm, session-38, S38-1) |
 | `src/app/globals.css` | 250 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1) |
-| `src/components/marketing/navbar.tsx` | 260 | The nav + the mobile menu (parity-verified) |
+| `src/components/marketing/navbar.tsx` | 265 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 273 | The core surface: quota dots, generate, copy, paywall |
 | `src/components/effects/iridescence.tsx` | 273 | The WebGL hero background (aspect-aware shader) |
 | `src/components/effects/particle-text.tsx` | 333 | The canvas particle title |

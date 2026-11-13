@@ -120,6 +120,19 @@ export function resolveDatabaseUrl(rawUrl: string): string {
   // absoluteness arm now covers the Windows-absolute family too.
   if (!ref || isAbsoluteFileRef(ref) || ref.startsWith(":memory:")) return rawUrl;
 
+  // Session-43 (S43-6): strip a `?query`/`#fragment` tail before the
+  // joins — the `?params` grammar is Prisma's PostgreSQL connector's,
+  // never the SQLite file: connector's, and a param-carrying relative
+  // ref baked the tail into the resolved FILENAME at both consumption
+  // sites below (live-probed: file:../db/custom.db?connection_limit=1
+  // answered <repo>/db/custom.db?connection_limit=1 — a junk-suffixed
+  // filename the engine cannot open; the S30/S31/S33 wrong-DB
+  // normalization genus, one input family deeper). The absolute and
+  // :memory: pass-through arms above keep their documented
+  // pass-through-by-design contract (file::memory:?cache=shared is a
+  // legitimate SQLite URI spelling).
+  const cleanRef = ref.replace(/[?#].*$/, "");
+
   // Validated anchors: trust them even on first boot (db/ may not exist
   // yet) — urlForRoot creates the folder.
   const validated: Array<() => string | null> = [
@@ -128,7 +141,7 @@ export function resolveDatabaseUrl(rawUrl: string): string {
   ];
   for (const anchor of validated) {
     const root = anchor();
-    if (root) return urlForRoot(root, ref);
+    if (root) return urlForRoot(root, cleanRef);
   }
 
   // Unvalidated last resort: accept only when the target (or at least its
@@ -137,7 +150,7 @@ export function resolveDatabaseUrl(rawUrl: string): string {
   // root (a stray CWD must not grow a db/ beyond what already exists).
   // (Session-22, S22-17: the comment now states the dirname arm's real
   // behavior — the original "the target already exists" oversold it.)
-  const candidate = join(process.cwd(), "prisma", ref);
+  const candidate = join(process.cwd(), "prisma", cleanRef);
   if (existsSync(candidate) || existsSync(dirname(candidate))) {
     return `file:${candidate}`;
   }
@@ -254,7 +267,7 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  *
  * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
  * NEO-CRM seam's own recovery session; this repo's sessions are
- * docs/session_1..42, the SKILL §0.5 enumeration): the standalone server.js runs
+ * docs/session_1..43, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The

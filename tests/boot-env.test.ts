@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..42.
+// are docs/session_1..43.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -133,6 +133,19 @@ describe("session-170 (WP-3): the NEXT_PUBLIC_SITE_URL misconfig warning", () =>
     const report = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "https://mylocalhost.example.com" }));
     expect(report.fatal).toBeNull();
     expect(report.warnings).toHaveLength(0);
+  });
+
+  it("session-43 (S43-1): production + the trailing-dot loopback spelling WARNS (the FQDN family the S42-6 predicate lost)", () => {
+    // new URL("http://localhost.:3000").hostname keeps the trailing
+    // dot ("localhost."), so the S42-6 hostname-equality predicate went
+    // SILENT on the FQDN spelling the old substring form caught — a
+    // true-positive family lost to the false-alarm cure (live-probed:
+    // old true / new false). The dot-strip restores it. The bare
+    // no-port spelling rides the same arm.
+    const report = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "http://localhost.:3000" }));
+    expect(report.fatal).toBeNull();
+    expect(report.warnings.length).toBeGreaterThan(0);
+    expect(report.warnings.some((w) => w.includes("localhost"))).toBe(true);
   });
 
   it("development + localhost site url: NO warning (localhost IS the dev origin)", () => {

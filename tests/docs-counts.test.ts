@@ -202,6 +202,16 @@ import {
 // false-alarm cure pin (S42-6a, boot-env), the toast call-site census
 // (S42-7a, toast-anatomy), and the README closing-footer lockstep pin
 // (S42-9a, docs-counts)) and the e2e 65 unchanged. SMOKE 16 unchanged.
+// s43: 692/40 (+6 the session-43 pins — the boot-gate trailing-dot
+// loopback pin (S43-1a, boot-env), the db-path query/fragment-tail pin
+// (S43-6a, db-path), and the four docs-counts arms: the README
+// table-integrity arm (S43-3a), the DEPLOYMENT API-route count census
+// (S43-4a), the SKILL Appendix-B route-title-pin count census
+// (S43-4b), and the footer session-label lockstep pin (S43-5a — the
+// label tie shipped as its OWN pin, not an in-place edit of S42-9a:
+// the unit count and the session label are two contracts, two owners,
+// the N12-2 one-owner doctrine)) and the e2e 65 unchanged. SMOKE 16
+// unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -209,7 +219,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 686;
+const UNIT = 692;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -291,6 +301,102 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
     );
     expect(m, "the README closing gate footer exists (the 'Gate at the session-N ship' line)").not.toBeNull();
     expect(Number(m![2]), "the footer's unit count matches the census UNIT constant").toBe(UNIT);
+  });
+
+  // Session-43 (S43-5): the footer's session LABEL is now tied to the
+  // SKILL §0.5 range bound — both sites update in the same commit at
+  // ship, and a stale label ("session-42" after the session-43 ship)
+  // is mechanically impossible. The S42-9a arm above keeps owning the
+  // unit count; this arm owns the label (and the last-match anchor
+  // closes the multi-footer shadow the first-match form carried).
+  it("session-43 (S43-5): the footer's session label matches the SKILL §0.5 range bound (the stale-label genus)", () => {
+    const readme = read("README.md");
+    const skill = read("viralpost-ai_SKILL.md");
+    const footers = [
+      ...readme.matchAll(
+        /Gate at the session-(\d+) ship: lint 0\/0 · tsc 0 · unit (\d+)\/\d+ · build ·\nsmoke 16\/16 · e2e 65\/65\./g,
+      ),
+    ];
+    expect(footers.length, "exactly one full-shape gate footer (the S43-3a shape owns the general form)").toBe(1);
+    const m = footers[footers.length - 1]!;
+    const bound = skill.match(/session_1\.\.(\d+)/);
+    expect(bound, "the SKILL §0.5 range claim exists (docs/session_1..N)").not.toBeNull();
+    expect(
+      Number(m[1]),
+      "the footer's session label updates in lockstep with the SKILL §0.5 bound",
+    ).toBe(Number(bound![1]));
+  });
+
+  // Session-43 (S43-3): the Project status table must render as ONE
+  // table — the S17-2 defect class (interior blank lines breaking GFM
+  // rendering, sessions 13-16 as prose) re-accumulated over sessions
+  // 23-42 (25 interior blanks + six interleaved legacy gate footers;
+  // sessions 23-42 rendered as header-less prose on GitHub). The
+  // reflow retired the fragmentation; this arm keeps it retired: every
+  // line from the | Phase header row through the LAST | Session row
+  // must be a table row, and the whole file carries exactly ONE gate
+  // footer line.
+  it("session-43 (S43-3): the README Project status table is ONE continuous table (the S17-2 genus, re-cured + pinned)", () => {
+    const readme = read("README.md");
+    const start = readme.indexOf("## Project status");
+    const end = readme.indexOf("## License");
+    expect(start, "the Project status section exists").toBeGreaterThan(0);
+    expect(end, "the License section follows").toBeGreaterThan(start);
+    const lines = readme.slice(start, end).split("\n");
+    const headerRow = lines.findIndex((l) => l.startsWith("| Phase"));
+    let lastSessionRow = -1;
+    lines.forEach((l, i) => {
+      if (l.startsWith("| Session")) lastSessionRow = i;
+    });
+    expect(headerRow, "the table header row exists").toBeGreaterThan(0);
+    expect(lastSessionRow, "at least one session row exists").toBeGreaterThan(headerRow);
+    for (let i = headerRow; i <= lastSessionRow; i++) {
+      expect(
+        lines[i]!.startsWith("|"),
+        `every line inside the table region must be a table row — line ${i} reads "${lines[i]!.slice(0, 60)}"`,
+      ).toBe(true);
+    }
+    const footers = readme.match(/^Gate at the session-/gm) ?? [];
+    expect(footers.length, "exactly one gate footer line (the closing footer)").toBe(1);
+  });
+
+  // Session-43 (S43-4a): DEPLOYMENT.md's API-route count is a
+  // live-tense claim with drift precedent (session-18 re-anchored it
+  // from a stale 11) that no census arm owned — the S42-9 genus, one
+  // document deeper. The arm derives the count from the disk
+  // (recursive route.ts walk under src/app/api) and asserts the
+  // phrase derives from it; a 14th route file drifts the doc claim
+  // through a green gate no longer.
+  it("session-43 (S43-4a): DEPLOYMENT.md's API-route-file count derives from the disk", () => {
+    const apiDir = join(root, "src", "app", "api");
+    const routeFiles: string[] = [];
+    const walk = (dir: string) => {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const p = join(dir, entry.name);
+        if (entry.isDirectory()) walk(p);
+        else if (entry.isFile() && entry.name === "route.ts") routeFiles.push(p);
+      }
+    };
+    walk(apiDir);
+    expect(routeFiles.length, "src/app/api route.ts files on disk").toBeGreaterThanOrEqual(11);
+    const deployment = read(join("docs", "DEPLOYMENT.md"));
+    expect(deployment).toContain(`the ${routeFiles.length} API route files`);
+    // The verb/catch-all arithmetic rides the same disk truth: the two
+    // JSON-envelope catch-alls ([...path] + the bare /api) are the only
+    // multi-method files, so verb handlers = total − 2.
+    expect(deployment).toContain(`(${routeFiles.length - 2} verb`);
+  });
+
+  // Session-43 (S43-4b): SKILL Appendix B's "The title derivation: N
+  // unit pins" — the other unpinned live-tense count site. The arm
+  // counts route-title.test.ts's it( arms and asserts the Appendix-B
+  // phrase derives from the live suite.
+  it("session-43 (S43-4b): SKILL Appendix B's route-title pin count derives from the live suite", () => {
+    const routeTitle = read(join("tests", "route-title.test.ts"));
+    const pins = routeTitle.match(/^[ \t]*it\(/gm) ?? [];
+    expect(pins.length, "route-title.test.ts it() arms on disk").toBeGreaterThanOrEqual(13);
+    const skill = read("viralpost-ai_SKILL.md");
+    expect(skill).toContain(`The title derivation: ${pins.length} unit pins`);
   });
 
   it("AGENTS carries the live unit + e2e + smoke counts", () => {

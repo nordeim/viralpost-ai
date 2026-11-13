@@ -4591,3 +4591,128 @@ Agent: main (Z.ai)
 - SHIPPED: the remediated codebase + the docs in lockstep, committed
   to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
   verified; no new branches).
+
+## Task 43 — The Boot-Gate Trailing-Dot Loopback Cure + The Exhaustive-Depths Register Truth + The README Table Reflow + The Count-Site Census Batch (2026-11-13)
+
+Task ID: 43
+Agent: main (Z.ai)
+- SCOPE: the standing instruction re-run against the shipped tree
+  (`6e25166`, session-42's commit; the owner's narration commit
+  `ad3ec75` followed, carrying session_43.md as the round-42
+  narration — replaced by this round's formal log). Docs review
+  (AGENTS/CLAUDE/README/PAD/SKILL v1.38.0, session_42.md, the
+  session-42 plan, worklog Task 42, the owner narration); the baseline
+  gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit
+  686/686, 40 files · build · smoke 16/16 · e2e 65/65, 9 specs ·
+  census MATCH); the standing asks re-verified up front (the `.env`
+  `DATABASE_URL="file:../db/custom.db"` contract with `db/` at the
+  repo root; the vitest + playwright suites in place and current; the
+  sitemap/robots/manifest/OG family verified live against the
+  reference in this round's walk; `skills/` excluded from every gate;
+  the committed `.env.example` matching the six-knob contract).
+- AUDIT: three parallel dispatched subagents (AUDIT-1 API/lib seams,
+  AUDIT-2 components/pages/effects, AUDIT-3 SEO/configs/tests/docs —
+  every load-bearing finding hand-verified in source by the lead:
+  a live URL-parse probe confirmed the trailing-dot loopback family
+  lost to the S42-6 predicate, a live eslint dry-run re-counted the
+  exhaustive-deps flags at exactly 3 (the PAD register said 2 at a
+  drifted line), and a structural map of the README status-table
+  region found the S17-2 fragmentation genus re-accumulated (25
+  interior blanks + six interleaved legacy gate footers)):
+  **AUDIT-1 0C/0H/0M/1L/2I · AUDIT-2 0C/0H/0M/1L/2I · AUDIT-3
+  0C/0H/0M/2L/3I — combined 0 Critical / 0 High / 0 Medium / 4 Low /
+  7 Info.** The session-42 diff itself verified correct and complete
+  on all three passes (the S42-5 13-ok-sites / 7-RATE_LIMITED-sites
+  claims, the S42-3 subsumption annotations, the S42-7 toast census —
+  all re-derived mechanically true).
+- PARITY WALK: NO DRIFT — the sixteenth consecutive fully-clean walk
+  (the mobile battery at a confirmed 390×844: the panel enumerated
+  live on the reference and byte-verified against ours — the four nav
+  links + the Gumroad pill, classes/hrefs/texts/cursor all matching;
+  panel mechanics identical (display block + max-height none; the
+  reference's bg-slate-900/98 still computing rgba(0,0,0,0)); the
+  hamburger cursor pointer both sides (the Tailwind v4 standing
+  concern holding); the reference's hamburger still ships NO aria
+  family (our expanded family the documented superset); Escape leaves
+  the reference's panel open (our F11-11 superset — ours verified
+  closing, display none); the desktop nav byte-identical; the
+  five-route head census byte-identical modulo origin (the reference's
+  OG family client-injected SPA metadata, left stale on client-side
+  nav — ours SSR-correct, the documented superset); sitemap 4/4 +
+  robots identical modulo origin; the generator probe symmetrically
+  dead/live (R no generation lands, L works); the login round-trip
+  both landing the landing (R /Home, L / — the documented 308
+  deviation), the clone session verified live via /api/auth/me
+  (sepnetflix2023@outlook.com, role admin). The neo-crm reference repo
+  re-checked per the standing instruction: its latest sessions (its
+  own 216–217) continue the semantic-prose census genus on its own
+  docs — this repo's standing comment-truth batch discipline; patterns
+  current, nothing new to adopt.
+- CURED (TDD — every pin RED first or battery-planted, the mutation
+  batteries per the house doctrine): THE BOOT-GATE TRAILING-DOT
+  LOOPBACK CURE (S43-1 — new URL("http://localhost.:3000").hostname
+  keeps the trailing dot, so the S42-6 hostname-equality predicate
+  went SILENT on the FQDN spelling the old substring form caught; the
+  dot-strip restores the family while keeping the false-alarm cure;
+  the annotation re-spelled to name the restored family AND the cure's
+  LOCALHOST-case gain — URL parsing lowercases the host, the old
+  case-sensitive regex missed it; +1 RED-first pin, the revert battery
+  exactly 1 RED / 48 GREEN); THE DB-PATH QUERY-TAIL CURE (S43-6 — a
+  ?query/#fragment tail on a relative file: ref baked into the
+  resolved filename at both consumption sites (Prisma's PostgreSQL
+  grammar, never the SQLite connector's); stripped at the one-home
+  boundary, the absolute/:memory: pass-throughs untouched; +1 RED-first
+  pin, the revert battery exactly 1 RED / 39 GREEN); THE README TABLE
+  REFLOW (S43-3 — the Project status GFM table fragmented AGAIN (the
+  S17-2 genus: interior blank lines breaking GFM rendering), 25
+  interior blanks + six interleaved legacy gate footers, sessions
+  23–42 rendering as prose on GitHub; the reflow: one continuous
+  43-row table + the single closing footer, the six legacy footers
+  retired (their gate state lives in the session rows and logs); +1
+  RED-first table-integrity census arm, BOTH re-fragmentation
+  batteries on record (the re-inserted blank line REDs, the planted
+  second footer REDs)); THE EXHAUSTIVE-DEPS REGISTER TRUTH (S43-2 —
+  the PAD §11 accepted-register row claimed "exactly 2 exhaustive-deps
+  flags, both particle-text.tsx:293" for 26 sessions while the live
+  dry-run counts 3 (particle-text ×2 at :313 + navbar.tsx:95, the
+  S31-2 pathname-keyed focus-return arm added after the session-17
+  re-verification); the register re-spelled to the 3-flag truth + the
+  navbar effect carries its deliberate-omission note (the reveal.tsx
+  S31-5b precedent)); THE COUNT-SITE CENSUS BATCH (S43-4 — the two
+  unpinned live-tense count sites join the disk-derived family:
+  DEPLOYMENT.md's "the 13 API route files (11 verb handlers…)" (drift
+  precedent: session-18's stale 11) and SKILL Appendix B's "The title
+  derivation: 13 unit pins" — two NEW census arms derive both from
+  the disk, the planted-defect batteries on record (a 14th route file
+  REDs the first, the SKILL re-spelled to 12 REDs the second); S43-5 —
+  the README closing footer's session LABEL now tied to the SKILL
+  §0.5 range bound through its own pin (the unit count and the session
+  label are two contracts, two owners, the N12-2 doctrine; born GREEN
+  at 42===42, the label-bump battery on record)); the accepted
+  register: the IPv6/127.0.0.2 loopback spellings (never warned in
+  any prior form — parity, the extension documented), the four
+  zero-external-importer exported types (the conventional React API
+  face, the S41-6 ToastVariant precedent), the three cosmetic
+  formatting nits (no formatter rides the gate; touching pinned source
+  for cosmetics risks pin churn), the robots allow-all posture (the
+  audit brief's clause was the mis-statement — the repo is byte-parity
+  with the reference at three pin layers), the vitest isolate perf
+  note (the file-isolated runner is the conservative posture), the
+  session-42 plan's compressed sitemap phrasing (the route docbook +
+  the byte-pin own the format contract).
+- COUNTS: UNIT 686 → 692 (+1 S43-1a boot-env, +1 S43-6a db-path, +4
+  docs-counts: S43-3a/S43-4a/S43-4b/S43-5a), SUITES 40, E2E 65, SMOKE
+  16, badge 751 → 757. Constants re-anchored FIRST (the plan projected
+  691/756 — the reality census corrected it to 692: the S43-5 label
+  tie shipped as its OWN pin per the one-owner doctrine, not an
+  in-place edit); the census walked the doc sites RED→GREEN (PAD §12:
+  db-path 349→362, navbar 260→265); the ten provenance sites
+  re-anchored to 1..43 — lag 0 at ship; SKILL v1.38.0 → v1.39.0.
+- VERIFIED: the full gate on the exact commit tree (lint 0/0 · tsc 0 ·
+  unit 692/692, 40 files · build · smoke 16/16 · e2e 65/65, 9 specs ·
+  census MATCH); the six mutation batteries single-tooth on record
+  (S43-1 1/48, S43-6 1/39, S43-3 blank-line + second-footer, S43-4a
+  planted-route, S43-4b SKILL-re-spell, S43-5 label-bump — each
+  exactly the designed pin RED); the parity walk post-cure re-run: no
+  drift; captures 93/94 on the dev server (the mobile-menu open at
+  390×844 + the landing hero at 1280×800, PIL-verified).

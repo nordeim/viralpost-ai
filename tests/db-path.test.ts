@@ -252,7 +252,7 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34, a donor
   // S33-3): the session-34/35/36 numbers in this describe cite the
   // NEO-CRM donor ledger (the template repo the db-path seam was ported
   // from — its own standalone-launch-recovery sessions). THIS repo's
-  // own sessions are docs/session_1..42; the donor enumeration lives
+  // own sessions are docs/session_1..43; the donor enumeration lives
   // in viralpost-ai_SKILL.md §0.5. Unmarked, the numbers collide with
   // this repo's imminent session 34/35/36 rounds — the exact genus
   // §0.5 exists to prevent (the S31-4 auth.ts precedent).
@@ -523,6 +523,25 @@ describe("resolveDatabaseUrl", () => {
     // inside <repo>/db — never inside prisma/ or src/.
     expect(resolved).not.toContain("/prisma/../");
     expect(resolved).toContain("/db/custom.db");
+  });
+
+  it("session-43 (S43-6): a ?query/#fragment tail never bakes into the resolved filename", () => {
+    // Prisma's `?params` grammar is the PostgreSQL connector's, never
+    // the SQLite file: connector's — an operator carrying the habit
+    // over (file:../db/custom.db?connection_limit=1) got the tail
+    // JOINED into the resolved filename (live-probed pre-cure:
+    // file:<repo>/db/custom.db?connection_limit=1 — a junk-suffixed
+    // filename the engine cannot open; the S30/S31/S33 wrong-DB
+    // normalization genus, one input family deeper). The strip
+    // normalizes the mistake into the intended file at the one-home
+    // boundary; the absolute/:memory: pass-through arms keep their
+    // documented pass-through-by-design contract.
+    const q = resolveDatabaseUrl("file:../db/custom.db?connection_limit=1");
+    expect(q).toContain("/db/custom.db");
+    expect(q).not.toContain("?");
+    const frag = resolveDatabaseUrl("file:../db/custom.db#frag");
+    expect(frag).toContain("/db/custom.db");
+    expect(frag).not.toContain("#");
   });
 
   it("never returns the raw relative URL when the repo root is discoverable", () => {
