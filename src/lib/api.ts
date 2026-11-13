@@ -66,7 +66,12 @@ export const TRANSIENT_DB_MESSAGE =
   "The request took too long — the database timed out. Try again.";
 /** P2024 = pool-connection timeout, P2028 = transaction timeout — the
  * DB-equivalent of "busy, retry": answer 503 UNAVAILABLE, never the
- * route's generic 500. */
+ * route's generic 500. (Session-46, S46-7: the 503 family deliberately
+ * carries TWO error codes — this seam's UNAVAILABLE and the health
+ * route's own SERVICE_UNAVAILABLE (pinned separately in
+ * tests/api-robustness.test.ts); health's code predates the shared
+ * classifier and is wire-contract. Both mean the same status class;
+ * clients switching on error.code must handle both.) */
 export function isTransientDbFailure(error: unknown): boolean {
   return (
     error instanceof Prisma.PrismaClientKnownRequestError &&

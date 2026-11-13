@@ -1,4 +1,4 @@
-import { mkdtempSync, rmSync, existsSync, writeFileSync, mkdirSync } from "fs";
+import { mkdtempSync, rmSync, existsSync, writeFileSync, mkdirSync, readFileSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -253,7 +253,7 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34, a donor
   // S33-3): the session-34/35/36 numbers in this describe cite the
   // NEO-CRM donor ledger (the template repo the db-path seam was ported
   // from — its own standalone-launch-recovery sessions). THIS repo's
-  // own sessions are docs/session_1..45; the donor enumeration lives
+  // own sessions are docs/session_1..46; the donor enumeration lives
   // in viralpost-ai_SKILL.md §0.5. Unmarked, the numbers collide with
   // this repo's imminent session 34/35/36 rounds — the exact genus
   // §0.5 exists to prevent (the S31-4 auth.ts precedent).
@@ -665,5 +665,44 @@ describe("session-22 (S22-17): the standalone anchor gates on the .next/standalo
     } finally {
       process.chdir(prevCwd);
     }
+  });
+});
+
+// Session-46 (S46-6, AUDIT-1 I1): the cwdFallbackUrl WIRING pin — the
+// consumption face the session-45 seam pins cannot reach. The seam's
+// LOGIC is pinned directly (the dirname-join/query/null arms above),
+// but in the unit environment the module anchor ALWAYS wins, so no
+// behavioral resolveDatabaseUrl test ever executes the CWD arm — a
+// refactor that stops consuming the seam (or drops the query argument)
+// would ship green. The S29-2 source-census idiom owns it cheaply:
+// the call shape and the null→raw fall-through, asserted textually.
+// Single-tooth per N12-2: the seam pins above own the logic faces;
+// this arm owns the wiring face (a logic defect does not trip it, a
+// wiring defect does — the inline-back battery proves the split).
+describe("session-46 (S46-6): resolveDatabaseUrl consumes the cwdFallbackUrl seam (the wiring face, source-pinned)", () => {
+  it("the CWD arm routes through cwdFallbackUrl(cwd, pathRef, query) with the null → rawUrl fall-through", () => {
+    const src = readFileSync(new URL("../src/lib/db-path.ts", import.meta.url), "utf-8");
+    // scope to resolveDatabaseUrl's body (the S39-11 any-next-export bound)
+    const fnStart = src.indexOf("export function resolveDatabaseUrl");
+    expect(fnStart, "resolveDatabaseUrl must exist in db-path.ts").toBeGreaterThan(-1);
+    const rest = src.slice(fnStart + 1);
+    const relEnd = rest.search(/export (async )?function|export const/);
+    const fnEnd = relEnd === -1 ? -1 : fnStart + 1 + relEnd;
+    const body = src.slice(fnStart, fnEnd > fnStart ? fnEnd : undefined);
+    // the seam call — the exact argument triple (cwd, pathRef, query)
+    expect(body, "the CWD arm must call the seam with (cwd, pathRef, query)").toContain(
+      "cwdFallbackUrl(process.cwd(), pathRef, query)",
+    );
+    // the null fall-through: the arm's answer is honored, and null
+    // returns the caller's rawUrl (never an inline re-implementation)
+    expect(body, "the arm's answer must be honored").toContain(
+      "if (fallback) return fallback;",
+    );
+    expect(body, "a null answer must fall back to the raw URL").toContain("return rawUrl;");
+    // and NO inline re-implementation of the arm survives beside the
+    // seam call (the existsSync/join decision lives in the seam alone)
+    expect(body, "the arm's decision must not be re-inlined in the caller").not.toMatch(
+      /existsSync\(/,
+    );
   });
 });

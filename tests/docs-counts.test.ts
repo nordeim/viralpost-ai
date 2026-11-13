@@ -227,6 +227,16 @@ import {
 // e2e 65 unchanged (the S45-8 HSTS fold is IN PLACE inside the
 // existing headers test, +0; the S45-5a PAD §12 smoke-leg site joins
 // the S44-4a arm IN PLACE, +0). SMOKE 16 unchanged.
+// s46: 703/40 (+1 the api-robustness force-dynamic route census — S46-1:
+// the API route family's dynamic posture, previously unpinned (the
+// S37-4 arm owns the SEO family's force-static over a disjoint file
+// set); +1 the db-path wiring pin — S46-6: resolveDatabaseUrl's
+// consumption of the cwdFallbackUrl seam, source-pinned (the S29-2
+// idiom — the seam's logic pins cannot reach the wiring face in the
+// unit environment)) and the e2e 65 → 67 (+2 the mobile-navigation
+// censused-parity pins — S46-5: the same-route Logo face and the
+// outside-tap face, both walk-verified live on both sides). SMOKE 16
+// unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -234,11 +244,11 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 701;
+const UNIT = 703;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
-const E2E = 65;
+const E2E = 67;
 /** Playwright e2e spec files. */
 const E2E_SPECS = 9;
 /** Smoke ladder legs. */
@@ -322,7 +332,7 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
   it("session-42 (S42-9): the README closing footer carries the live unit count (the one unpinned gate-state site, retired)", () => {
     const readme = read("README.md");
     const m = readme.match(
-      /Gate at the session-(\d+) ship: lint 0\/0 · tsc 0 · unit (\d+)\/\d+ · build ·\nsmoke 16\/16 · e2e 65\/65\./,
+      /Gate at the session-(\d+) ship: lint 0\/0 · tsc 0 · unit (\d+)\/\d+ · build ·\nsmoke 16\/16 · e2e 67\/67\./,
     );
     expect(m, "the README closing gate footer exists (the 'Gate at the session-N ship' line)").not.toBeNull();
     expect(Number(m![2]), "the footer's unit count matches the census UNIT constant").toBe(UNIT);
@@ -339,7 +349,7 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
     const skill = read("viralpost-ai_SKILL.md");
     const footers = [
       ...readme.matchAll(
-        /Gate at the session-(\d+) ship: lint 0\/0 · tsc 0 · unit (\d+)\/\d+ · build ·\nsmoke 16\/16 · e2e 65\/65\./g,
+        /Gate at the session-(\d+) ship: lint 0\/0 · tsc 0 · unit (\d+)\/\d+ · build ·\nsmoke 16\/16 · e2e 67\/67\./g,
       ),
     ];
     expect(footers.length, "exactly one full-shape gate footer (the S43-3a shape owns the general form)").toBe(1);
@@ -806,8 +816,8 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
   // runs). Zero live instances at birth (verified before the pin
   // landed); comment-stripped so a prose mention is not a violation.
   it("no uncountable registration form in any unit suite or e2e spec (the census's shape contract)", () => {
-    const stripComments = (src: string) =>
-      src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
+    // Session-46 (S46-10): the module-level stripComments (the S45-9
+    // helper above) — the local copies retired (the one-idiom doctrine).
     const unitFiles = unitTestFiles();
     // Session-24 (S24-2): recursive — a nested spec dodges a flat scan
     // (the forms-guard's own blind spot until now).
@@ -830,8 +840,8 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
   // `for` itself). Loops INSIDE a test body stay legal (they assert,
   // they don't register).
   it("no it(/test( registration inside a for-loop body in any unit suite (the census counts source blocks)", () => {
-    const stripComments = (src: string) =>
-      src.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/[^\n]*/g, "");
+    // Session-46 (S46-10): the module-level stripComments (the S45-9
+    // helper above) — the local copy retired (the one-idiom doctrine).
     const unitFiles = unitTestFiles();
     for (const f of unitFiles) {
       const lines = stripComments(read(`tests/${f}`)).split("\n");

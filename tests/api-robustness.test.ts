@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -451,5 +451,46 @@ describe("session-37 (S37-2): the transient-abort classifier (P2024/P2028 → th
     expect(armIdx, "the arm must exist inside the seam").toBeGreaterThan(-1);
     expect(internalIdx, "the residual must exist inside the seam").toBeGreaterThan(-1);
     expect(armIdx, "the arm must sit ahead of the residual").toBeLessThan(internalIdx);
+  });
+});
+
+// Session-46 (S46-1): the API route family's force-dynamic posture,
+// pinned. All 13 route files carry the export today (read-verified),
+// but NOTHING caught a dropped export or a new route without one — the
+// SEO family's force-static IS pinned (tests/seo-surfaces.test.ts,
+// S37-4) while the API family's force-dynamic rode on convention.
+// Sharpest exposure: /api/health's GET takes no request input, so a
+// dropped export lets `next build` freeze it as a static 200 — the
+// db-down-at-200-while-every-DB-route-500s incident class its own
+// comment cites as the existence proof. The route LIST derives from
+// disk (a recursive walk — never a hardcoded list, so a NEW route
+// missing the export trips the arm on its first gate run); the
+// assertion reads the comment-stripped source (the S38-7f idiom — a
+// commented-out export cannot satisfy it). The S37-4 arm owns the SEO
+// family's force-static face over a disjoint file set (documented
+// co-coverage split, the N12-2 one-owner doctrine).
+describe("session-46 (S46-1): the API route family's force-dynamic posture (every data route renders per-request)", () => {
+  it("every route file under src/app/api/ exports dynamic = force-dynamic", () => {
+    const apiRoot = path.resolve(import.meta.dirname, "..", "src", "app", "api");
+    const routeFiles: string[] = [];
+    const walk = (dir: string): void => {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, entry.name);
+        if (entry.isDirectory()) walk(full);
+        else if (entry.name === "route.ts") routeFiles.push(full);
+      }
+    };
+    walk(apiRoot);
+    // The family census: 13 route files today. A count change here is a
+    // route add/remove — re-anchor the doc set (README API table, PAD
+    // §8.1's route rows) in the same commit.
+    expect(routeFiles.length, "the API route census (13 files today)").toBeGreaterThanOrEqual(13);
+    for (const full of routeFiles) {
+      const rel = path.relative(path.resolve(import.meta.dirname, ".."), full);
+      const src = stripComments(readFileSync(full, "utf-8"));
+      expect(src, `${rel}: the force-dynamic export must be present`).toContain(
+        'export const dynamic = "force-dynamic";',
+      );
+    }
   });
 });

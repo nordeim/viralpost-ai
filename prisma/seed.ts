@@ -12,9 +12,11 @@ import { runtimeDatabaseUrl } from "../src/lib/db-path";
 // without next/headers transitives (see src/lib/password.ts).
 import { hashPassword } from "../src/lib/password";
 
-// Explicit datasource URL: never let the Prisma engine (or bun's .env
-// absolutization) pick the database location — the shared resolver pins
-// every consumer to <repo>/db/<name> (see src/lib/db-path.ts).
+// Explicit datasource URL: never let the Prisma engine (or a bun-regime
+// .env absolutization — the invocation/version-conditional shape, the
+// S45-2 hedge in src/lib/db-path.ts) pick the database location — the
+// shared resolver pins every consumer to <repo>/db/<name> (see
+// src/lib/db-path.ts).
 const db = new PrismaClient({
   datasources: { db: { url: runtimeDatabaseUrl() } },
 });

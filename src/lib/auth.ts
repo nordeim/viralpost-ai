@@ -15,7 +15,13 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 // src/lib/password.ts (the node:crypto-only seam the seed script can
 // import); this module re-exports it so the routes' existing import
 // surface (import { hashPassword } from "@/lib/auth") survives
-// byte-identically.
+// byte-identically. (Session-46, S46-8: the family has since drifted
+// to the direct seam import — only signup and login ride the re-export
+// today; verify/resend/forgot-password/reset-password import
+// "@/lib/password" directly. Both idioms are contract (the re-export
+// is pinned as existing in tests/password-seam.test.ts); prefer the
+// direct seam import in new code — this re-export stays for its two
+// live consumers, never for new ones.)
 import { hashPassword, timingEqualizerHash, verifyPassword } from "@/lib/password";
 export { hashPassword, timingEqualizerHash, verifyPassword };
 import { cookies } from "next/headers";

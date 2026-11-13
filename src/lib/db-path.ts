@@ -146,9 +146,17 @@ function decomposeFileRef(ref: string): { pathRef: string; query: string } {
 // gap: the S44-1 query re-append on this arm shipped with zero pins —
 // revertable through a green gate). urlForRoot's own testing precedent:
 // the seam is exported and pinned directly. The arm is
-// production-reachable in the artifact-only deploy shape (no repo root;
-// the traced prisma/ dir satisfies the dirname check →
-// <standalone>/db/custom.db).
+// production-reachable in the artifact-only deploy shape (no repo root)
+// but fires ONLY when the CWD already carries the target's parent
+// directory: for the mandated ref the dirname check tests <cwd>/db
+// (candidate = join(cwd, "prisma", "../db/custom.db") normalizes to
+// <cwd>/db/custom.db) — and the artifact trace ships prisma/ while
+// EXCLUDING db/** (next.config.ts's outputFileTracingExcludes), so a
+// fresh artifact passes the raw URL through and the operator must
+// supply the db folder (or set an absolute DATABASE_URL — the
+// DEPLOYMENT.md §4 recommendation). The traced-prisma shape satisfies
+// the check only for a `file:custom.db`-style ref (dirname =
+// <cwd>/prisma, which the trace DOES ship).
 export function cwdFallbackUrl(
   cwd: string,
   pathRef: string,
@@ -317,7 +325,15 @@ export function effectiveDatabaseUrl(input: {
   return resolveDatabaseUrl(envUrl ?? envFileUrl ?? DEFAULT_DATABASE_URL);
 }
 
-/** The DATABASE_URL value of the .env file at `dir`, if one exists. */
+/**
+ * The DATABASE_URL value of the .env file at `dir`, if one exists.
+ * (Session-46, S46-9: deliberately `.env`-ONLY — the launch-recovery
+ * signature arms below compare against this value, so a knob carried in
+ * `.env.local`/`.env.<NODE_ENV>` matches neither signature and is
+ * honored as an intentional override. The repo contract mandates a
+ * single `.env` (.env.example, DEPLOYMENT.md §4); bun's own load order
+ * prefers .env.local, but no sanctioned shape ships one.)
+ */
 function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
   const envPath = join(dir, ".env");
   if (existsSync(envPath)) {
@@ -335,7 +351,7 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  *
  * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
  * NEO-CRM seam's own recovery session; this repo's sessions are
- * docs/session_1..45, the SKILL §0.5 enumeration): the standalone server.js runs
+ * docs/session_1..46, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The

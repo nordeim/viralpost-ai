@@ -101,3 +101,45 @@ test("the scrolled navbar gains the slate glass background", async ({ page }) =>
   await expect(panel).toHaveClass(/bg-slate-900\/95/);
   await expect(panel).toHaveClass(/backdrop-blur-xl/);
 });
+
+// Session-46 (S46-5, AUDIT-2 L1): the session-45 censused-parity faces,
+// pinned behaviorally. The navbar's comment block records that the
+// open panel STAYS OPEN on a same-route Logo click and on a tap on
+// page content below it — both probed live against the reference at
+// 390×844 (session-45) and re-censused in the session-46 walk — and
+// carries the do-not-"fix" warning. These pins make the warning
+// enforceable: a future "helpful" close arm on either face flips the
+// toggle/panel state these assertions hold, and the gate goes RED.
+test("the same-route Logo click leaves the open menu open (session-45, S45-3 censused parity)", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Open menu" }).click();
+  await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
+  // The Logo navigates /Home → 308 → /: the redirect resolves before
+  // the pathname commits, so the adjust-during-render close arm never
+  // fires (pathname-inert) — the reference's own same-route Logo face
+  // (its /Home logo on /Home, censused live). Do NOT "fix" this into a
+  // close arm — that would diverge from the reference's censused
+  // behavior.
+  // The Logo renders in BOTH the navbar and the footer (the same
+  // aria-label twice) — scope to the navigation or the locator trips
+  // strict mode (the multi-subtree DOM trap).
+  await page.getByRole("navigation").getByRole("link", { name: "ViralPost AI — Home" }).click();
+  await page.waitForURL((url) => url.pathname === "/");
+  // If the pathname ever transiently committed "/Home" (a future Next
+  // redirect-handling change), the menu would close and BOTH assertions
+  // below fail — that is the drift this pin exists to catch.
+  await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
+  await expect(page.locator("#mobile-menu")).toBeVisible();
+});
+
+test("a tap on page content below the open panel leaves it open (session-45, S45-4 censused parity)", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Open menu" }).click();
+  await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
+  // The reference's own panel ignores outside taps (a real click on the
+  // hero copy left its panel open — censused live, session-45); ours
+  // ships no click-outside close arm. Do NOT "fix" this into one.
+  await page.locator("p.text-slate-300.text-lg").first().click();
+  await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
+  await expect(page.locator("#mobile-menu")).toBeVisible();
+});

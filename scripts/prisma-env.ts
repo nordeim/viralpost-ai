@@ -2,11 +2,15 @@
 // spawning the CLI.
 //
 // Why this exists (R-1 remediation, pinned by tests/db-path.test.ts):
-//   • bun loads the repo .env for every `bun run`/`bun x` process AND
-//     rewrites a relative `file:` DATABASE_URL into an absolute path
-//     resolved against the .env file's own directory — with the mandated
-//     contract DATABASE_URL="file:../db/custom.db" that lands one
-//     directory OUTSIDE the repo.
+//   • a bun regime that absolutizes (INVOCATION- and VERSION-CONDITIONAL
+//     — see the S45-2 truth hedge in src/lib/db-path.ts: F11-18
+//     live-reproduced the rewrite on `bun run start`, but session-45's
+//     fresh probe on the pinned bun 1.3.14 saw the RAW relative value
+//     through every probed shape) would load the repo .env and rewrite a
+//     relative `file:` DATABASE_URL into an absolute path resolved
+//     against the .env file's own directory — with the mandated contract
+//     DATABASE_URL="file:../db/custom.db" that lands one directory
+//     OUTSIDE the repo.
 //   • a raw relative URL handed to the Prisma engine is resolved against
 //     the process CWD — same wrong place.
 // The shared resolver (src/lib/db-path.ts, runtimeDatabaseUrl) re-anchors

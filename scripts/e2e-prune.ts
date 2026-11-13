@@ -15,9 +15,11 @@ import { runtimeDatabaseUrl } from "../src/lib/db-path";
 // the seed's own idiom (runtimeDatabaseUrl()). The bare PrismaClient
 // resolved correctly in the wired gate path (the global setup pins
 // DATABASE_URL=file:../db/e2e.db), but a MANUAL run from the repo root
-// followed bun's .env absolutization to the parent-of-repo path — the
-// exact wrong-DB shape db-path.ts documents as its founding bug. The
-// seam anchors on the repo regardless of the caller's env.
+// once followed a bun-regime .env absolutization to the parent-of-repo
+// path (a rewrite-carrying invocation — the conditional shape, the S45-2
+// hedge in src/lib/db-path.ts) — the exact wrong-DB shape db-path.ts
+// documents as its founding bug. The seam anchors on the repo regardless
+// of the caller's env.
 // Session-25 (S25-18a): WHICH db a manual run targets — with no
 // DATABASE_URL override the seam resolves .env's
 // file:../db/custom.db, i.e. the DEV database (the wired gate path

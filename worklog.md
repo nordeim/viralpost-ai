@@ -4989,3 +4989,155 @@ Agent: main (Z.ai)
   clone faces hold, the reference drift adjudicated as documented;
   captures 97/98 on the dev server (the mobile-menu open at
   390×844 + the landing hero at 1280×800, PIL-verified).
+
+## Task 46 — The force-dynamic Route Census + The Mobile-Menu Censused-Parity e2e Pins + The cwdFallbackUrl Wiring Pin + The Comment-Truth Batch (2026-11-13)
+
+Task ID: 46
+Agent: main (Z.ai)
+- SCOPE: the standing instruction re-run against the shipped tree
+  (`e3d071a`, session-45's commit; the owner's narration commit
+  `1cb15e2` followed, carrying session_46.md as the round-45
+  narration — replaced by this round's formal log). Docs review
+  (AGENTS/CLAUDE/README/PAD/SKILL v1.41.0, session_45.md,
+  session_46.md, the session-45 plan, worklog Task 45); the
+  codebase-understanding validation (structure, configs, seams); the
+  standing asks re-verified up front (the `.env`
+  `DATABASE_URL="file:../db/custom.db"` contract recreated on the
+  fresh clone with `db/` at the repo root; db:push + db:seed → census
+  MATCH; the vitest + playwright suites in place and current — the
+  chromium-1248 gap cured with the documented one-time `bunx
+  playwright install chromium`; the sitemap/robots/manifest/OG family
+  verified live against the reference in this round's walk;
+  `skills/` excluded from every gate; the committed `.env.example`
+  matching the six-knob contract). BASELINE GATE GREEN at the
+  documented counts (lint 0/0 · tsc 0 · unit 701/701, 40 files ·
+  build · smoke 16/16 · e2e 65/65, 9 specs · census MATCH).
+- AUDIT: three parallel dispatched subagents (AUDIT-1 API/lib seams,
+  AUDIT-2 components/pages/effects, AUDIT-3 SEO/configs/tests/docs)
+  + the lead's hand-verification of every load-bearing finding — the
+  decisive probes: the force-dynamic grep across tests/ (only a
+  login-views comment names it — the 13 API route files all carry
+  the export, unpinned), the join-math trace of the S45-1
+  artifact-only sentence (candidate = join(cwd, "prisma",
+  "../db/custom.db") → dirname <cwd>/db — the trace EXCLUDES db/**
+  and ships prisma/; the on-disk artifact confirmed: prisma/
+  present, db/ absent — the sentence's mechanism is wrong for the
+  mandated ref), the PAD §11 citation drift (the useLayoutEffect at
+  navbar.tsx:111, cited at :103), the prisma-env.ts un-hedged
+  bun-absolutization header (the S45-2 conditional truth one file
+  over), and the mobile-navigation spec's full read (6 tests; no
+  Logo/outside-tap pins — the censused postures comment-guarded
+  only):
+  **AUDIT-1 0C/0H/1M/4L/5I · AUDIT-2 0C/0H/0M/1L/2I · AUDIT-3
+  0C/0H/0M/2L/2I — combined 0 Critical / 0 High / 1 Medium / 7 Low
+  / 9 Info.** The session-45 diff verified correct and complete on
+  all three passes.
+- PARITY WALK: ALL CLONE FACES MATCH — the nineteenth consecutive
+  clean walk, no clone-side drift, no NEW reference-side drift (the
+  session-45 404-title bare posture persists — /NoSuchRoute,
+  /Dashboard, /page2 all re-probed: bare "ViralPost AI" + HTTP 200;
+  ours keeps the derived title as the documented superset). The
+  mobile menu works exactly as expected (the owner's standing
+  concern): the panel byte-identical both sides (the four nav links
+  — Home's teal rgb(45,212,191) active face, the siblings'
+  rgb(203,213,225) — plus the Gumroad pill "Upgrade to Pro – $19"
+  at the templixco href, 14px/500-600, display block + max-height
+  none, transparent-over-hero bg); the hamburger cursor pointer
+  both sides (the Tailwind v4 standing concern holding; the
+  reference's hamburger still ships NO aria family — our superset);
+  Escape leaves the reference's panel open (our F11-11 superset
+  closes with the focus returned, live-verified to the toggle); the
+  same-route Logo click leaves the panel open on BOTH sides (ours
+  pathname-inert through /Home→308→/ — re-censused live both
+  sides); the outside-tap face leaves it open on BOTH sides (a
+  real click on the hero paragraph — re-censused live); route-
+  change close + auto-close verified; the desktop nav byte-identical
+  (the active face following the route); the five-route head census
+  identical modulo origin (the reference's og/canonical render
+  client-side — its SPA posture; ours ship SSR); sitemap 4 URLs
+  both + robots identical modulo origin; the generator probe
+  symmetrically dead/live (R: the failure toast "Generation failed,
+  so this attempt didn't use one of your free tries. Please try
+  again." — a NEW observed detail, zero hashtags, no Copy; L works
+  — 7 hashtags + the copy button, the documented superset); the
+  login round-trip both landing the landing (R /Home, L / — the
+  documented 308 deviation), the clone session verified live via
+  /api/auth/me (sepnetflix2023@outlook.com, role admin). The
+  neo-crm reference repo re-checked per the standing instruction:
+  its latest round (its session-217 / file session_459.md)
+  continues the semantic-prose census genus with its
+  mutation-battery discipline catching a third consecutive pin
+  BIRTH-DEFECT — the REDUNDANT ARM; patterns current (stack pins
+  identical), the lesson APPLIED this round (every new arm checked
+  for single-tooth ownership, the batteries prove it).
+- CURED (TDD — every census arm battery-planted, the mutation
+  batteries per the house doctrine): THE FORCE-DYNAMIC ROUTE CENSUS
+  (S46-1, Medium — the API route family's dynamic posture was
+  pinned NOWHERE while the SEO family's force-static was (S37-4):
+  a disk-derived recursive walk over src/app/api/**/route.ts in
+  tests/api-robustness.test.ts, comment-stripped assertion of
+  `export const dynamic = "force-dynamic";` — a NEW route missing
+  the export trips the arm on its first gate run; the
+  export-removal battery on record (health's export dropped →
+  exactly the arm RED / 24 GREEN, restored byte-identical)); THE
+  MOBILE-MENU CENSUSED-PARITY E2E PINS (S46-5 — the same-route
+  Logo face + the outside-tap face, previously comment-guarded
+  only (the S45-3/S45-4 do-not-"fix" warning): +2 e2e pins in
+  mobile-navigation.spec.ts, both faces walk-verified live on both
+  sides this round; the first shape tripped strict mode (the Logo
+  renders in both navbar and footer — scoped to the navigation,
+  the multi-subtree DOM trap)); THE CWDFALLBACKURL WIRING PIN
+  (S46-6 — the S29-2 source-census idiom owns the consumption face
+  the session-45 seam-logic pins cannot reach (the module anchor
+  always wins in the unit env): the call shape + the null→rawUrl
+  fall-through + the no-re-inline negative, asserted textually; the
+  inline-back battery on record (the seam consumption removed →
+  exactly the wiring pin RED / 45 GREEN — the 3 seam-logic pins
+  stay GREEN, the single-tooth split proven)); THE COMMENT-TRUTH
+  BATCH (S46-2 — the S45-1 artifact-only sentence re-spelled with
+  the correct join math: the dirname check tests <cwd>/db (excluded
+  from the trace), the arm fires only when the operator supplies
+  the db folder, the traced-prisma shape satisfies it only for a
+  file:custom.db-style ref; S46-3 — the prisma-env.ts header hedge
+  + the seed.ts/e2e-prune.ts softer sites (the S45-2 conditional
+  form applied to the three un-hedged sites); S46-4 — the PAD §11
+  line-citation retired for the stable effect-name form (the
+  95→103→111 drift genus noted in the row); S46-7 — the api.ts
+  two-code 503 taxonomy note (UNAVAILABLE vs the health route's
+  pinned SERVICE_UNAVAILABLE — both wire-contract); S46-8 — the
+  auth.ts re-export consumer note (signup/login ride it; the four
+  siblings import the seam directly); S46-9 — the db-path.ts
+  .env-only-face note on readDatabaseUrlFromEnvAt; S46-10 — the
+  docs-counts local stripComments copies retired (delegate to the
+  module-level S45-9 helper, the one-idiom doctrine)); the D-1
+  EVIDENCE-LEDGER NOTE (S46-11 — the reference's dead generator now
+  surfaces a failure toast; the "hangs forever / no error UI"
+  posture stale on the toast detail, the 402-dead core stands; the
+  clone's superset rationale re-anchored); the accepted register:
+  the detectNiche bidirectional substring shape (I3 — content
+  quality only), the proxyHopDepth parseInt semantics (I4 — the
+  boot-gate mirror is the contract), the setSessionCookie
+  unit-pin gap (I2 — behavior covered end-to-end by e2e), the
+  standing residuals (I5), the 404 main-landmark posture (censused
+  parity), the smoke-leg retired-form negatives (theoretical), the
+  PAD §11 line-citation genus (noted in the row).
+- COUNTS: UNIT 701 → 703 (+1 api-robustness: the force-dynamic
+  route census; +1 db-path: the wiring pin), SUITES 40, E2E 65 → 67
+  (+2 mobile-navigation: the censused-parity pins), E2E_SPECS 9,
+  SMOKE 16, badge 766 → 770. Constants re-anchored FIRST; the
+  census walked the doc sites RED→GREEN (one arithmetic slip
+  caught by the census itself: the badge set to 769 first, the
+  badge-drift pin demanded 770 = 703+67 — the census's own
+  arithmetic guard working as designed); PAD §12 rows re-anchored
+  (db-path 437→453, api 310→315, auth 196→202); the ten provenance
+  sites re-anchored to 1..46 — lag 0 at ship; SKILL v1.41.0 →
+  v1.42.0.
+- VERIFIED: the full gate on the exact commit tree (lint 0/0 · tsc
+  0 · unit 703/703, 40 files · build · smoke 16/16 · e2e 67/67, 9
+  specs · census MATCH); the two mutation batteries single-tooth
+  on record (the force-dynamic export-removal 1/25, the
+  cwdFallbackUrl inline-back 1/46 with the 3 seam-logic pins
+  GREEN — the single-tooth split); the parity walk post-cure
+  re-run: the standing faces hold; captures 99/100 on the dev
+  server (the mobile-menu open at 390×844 + the landing hero at
+  1280×800, PIL-verified).
