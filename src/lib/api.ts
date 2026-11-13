@@ -9,6 +9,9 @@ import { getSessionUser, type SessionUser } from "./auth";
 export type ApiError = { code: string; message: string };
 export type ApiResult<T> = { ok: true; data: T } | { ok: false; error: ApiError };
 
+// Kept: affordance (noted session-42, S42-5) — no caller passes `init`
+// today (all 13 sites default 200); the param documents the envelope's
+// status freedom for future non-200 success arms.
 export function ok<T>(data: T, init?: number): NextResponse {
   return NextResponse.json({ ok: true, data } satisfies ApiResult<T>, { status: init ?? 200 });
 }
@@ -25,8 +28,12 @@ export const ERR = {
   // Session-67 (N-67h — donor-ledger numbers, the NEO-CRM family's own
   // limiter-envelope sessions): the 429 family carries Retry-After consistently —
   // login used to hand-build its own (bypassing fail()) while the
-  // siblings shipped no header at all. The optional param keeps the
-  // zero-arg calls valid; the envelope shape is identical either way.
+  // siblings shipped no header at all. The optional param is a
+  // donor-family affordance (the NEO-CRM donor's call sites included
+  // zero-arg forms; noted session-42, S42-5 — THIS tree's seven call
+  // sites all pass the value, so the headerless arm has no caller
+  // here); kept for API-face stability, the envelope shape identical
+  // either way.
   // THE ONE DELIBERATE EXCEPTION (noted session 10, F10-7): the verify
   // route's VERIFICATION_LOCKED 429 sends NO Retry-After — that lockout
   // lifts on RESEND (which resets the attempt counter), not on time, so

@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -204,5 +204,40 @@ describe("session-25 (S25-9): the dismiss glyph rests over the 3:1 floor (text-m
     // re-render alive after S24-5 (two distinct objects; Object.is
     // fails; numbers compare by value, arrays by reference).
     expect(src).not.toMatch(/let toasts: ToastItem\[\] = \[\];/);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-42 (S42-7): the toast call-site census — the S41-6 note's count,
+// made mechanical. The note shipped reading "only toast.error ×6 and
+// toast.info ×1 have live callers" — the actual call sites are error ×5
+// (generator-card ×3, contact-form ×2) + info ×1 (login-card) = 6 TOTAL;
+// the ×6 counted the total and mis-attributed it to error (the count-truth
+// genus, the same session's own S41-10). This census re-derives the live
+// multiset from comment-stripped src/ every run, so the note can never
+// drift from the code again. `toast.success` is pinned at ZERO call sites
+// BY DESIGN (the S41-6 adjudication: the variant triad is the reference's
+// censused toast anatomy — the kit face; it stays). The internal `dismiss(`
+// calls in toast.tsx are bare (not `toast.dismiss(`), so the member-anchored
+// regex counts only external call sites.
+// ---------------------------------------------------------------------------
+describe("session-42 — the toast call-site census (S42-7)", () => {
+  it("THE CALL-SITE CENSUS: comment-stripped src/ carries exactly toast.error ×5 + toast.info ×1 (success ×0 BY DESIGN)", () => {
+    const srcDir = path.join(root, "src");
+    const files = readdirSync(srcDir, { recursive: true })
+      .map(String)
+      .filter((f) => f.endsWith(".ts") || f.endsWith(".tsx"));
+    expect(files.length).toBeGreaterThan(20); // the census actually censused
+    const code = files
+      .map((f) => stripComments(readFileSync(path.join(srcDir, f), "utf8")))
+      .join("\n");
+    const count = (member: string) =>
+      [...code.matchAll(new RegExp(`\\btoast\\.${member}\\(`, "g"))].length;
+    expect(count("error"), "toast.error call sites (generator-card ×3 + contact-form ×2)").toBe(5);
+    expect(count("info"), "toast.info call sites (login-card ×1)").toBe(1);
+    expect(
+      count("success"),
+      "toast.success call sites — zero BY DESIGN (S41-6: the kit face, never retired)",
+    ).toBe(0);
   });
 });

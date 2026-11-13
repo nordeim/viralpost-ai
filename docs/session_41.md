@@ -89,8 +89,11 @@ the clone session verified live via /api/auth/me
   11 donor-carryover literals gone from @theme (the gray family — 6
   of 11 steps, zero consumers of any gray step; neutral-100;
   red-400; red-500; emerald-400; emerald-500) — incomplete-subset
-  pins beside their used siblings, shipping as dead `:root` custom
-  properties in every build. The NEW stepped dead-literal census arm
+  pins beside their used siblings, dead SOURCE pins (the impact
+  narrative corrected session-42, S42-8: the installed
+  @tailwindcss/postcss tree-shakes unused @theme variables, so they
+  never shipped as :root custom properties — the retirement is
+  source hygiene owned by the census). The NEW stepped dead-literal census arm
   (design-tokens.test.ts) narrows the dead-token census's blanket
   stepped exemption to the three documented whole-family pins
   (amber/slate/teal 50..950 — defensive) and demands a live
@@ -123,7 +126,9 @@ the clone session verified live via /api/auth/me
   surviving session masks the lockout until its TTL lapses).
 - **S41-6 (LOW, AUDIT-2 L2)** — the toast-kit BY-DESIGN note:
   `toast.success` and the public `dismiss` carry no in-src call
-  sites today (only toast.error ×6 + toast.info ×1 are live). They
+  sites today (only toast.error ×5 + toast.info ×1 — 6 live call sites
+  total — are live; the count corrected session-42, S42-7, now owned
+  by the toast-anatomy call-site census). They
   stay BY DESIGN — the variant triad + the dismiss control are the
   reference's walk-censused toast anatomy (the parity face of the
   component kit; retirement would cascade emerald-200's pin and

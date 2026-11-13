@@ -40,7 +40,10 @@
 // Session-41 (S41-14): the node: prefixes join the S40-12 normalization
 // (crypto's scope) — this module was the last bare-specifier holdout
 // under src/ (fs/path/url; scripts/prisma-env.ts already rode
-// node:child_process). Line-in-place; PAD §12's row is unchanged.
+// node:child_process). This note block itself grew the file 335→339;
+// PAD §12's row re-anchored in the same commit. (Session-42, S42-1:
+// the tail originally read "Line-in-place; PAD §12's row is unchanged"
+// — the plan's prediction, not the shipped state.)
 import { existsSync, mkdirSync, readFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -251,7 +254,7 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  *
  * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
  * NEO-CRM seam's own recovery session; this repo's sessions are
- * docs/session_1..41, the SKILL §0.5 enumeration): the standalone server.js runs
+ * docs/session_1..42, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The
@@ -297,6 +300,13 @@ export function runtimeDatabaseUrl(cwd: string = process.cwd()): string {
   // below now runs whenever an env URL is present.
   if (envUrl) {
     const launchDir = repoRootFromStandaloneCwd(cwd);
+    // Session-42 (S42-3, the S28-8 annotation doctrine): the
+    // `&& launchDir !== cwd` conjunct is SUBSUMED — the helper returns
+    // non-null only for a <root>/.next/standalone cwd and always a
+    // strict two-level ancestor of it, so launchDir !== cwd holds
+    // whenever launchDir is non-null — kept as belt-and-braces in the
+    // most-bitten contract of the family: if the helper's contract ever
+    // widens, the conjunct still skips the degenerate same-dir read.
     if (launchDir && launchDir !== cwd) {
       // Session-32 (S32-1): the launch .env's value joins the one-home
       // trim — see the runtimeDatabaseUrl header comment.

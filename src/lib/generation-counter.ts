@@ -52,7 +52,10 @@ export function incremented(record: QuotaRecord | null, today: string): QuotaRec
   return { date: today, count: usedToday(record, today) + 1 };
 }
 
-/** True when the free limit is reached (the card swaps to the paywall). */
+/** True when the free limit is reached. Kept: pin-owned — the card
+ * inlines the comparison (used >= FREE_LIMIT) at its call site; this
+ * export exists for its pins (the emailSchema/countWords precedent,
+ * S41-13; the missed sibling noted session-42, S42-4). */
 export function limitReached(record: QuotaRecord | null, today: string, limit: number): boolean {
   return usedToday(record, today) >= limit;
 }

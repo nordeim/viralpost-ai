@@ -375,8 +375,13 @@ describe("design tokens: session-12 — the stepped-semantic census arm (F12-7)"
 // donor-carryover literals this arm was born RED to catch: the gray
 // family (6 of 11 steps, zero consumers of any gray step), neutral-100,
 // red-400, red-500, emerald-400, emerald-500 — incomplete-subset pins
-// beside their used siblings, shipping as dead :root custom properties
-// in every build.
+// beside their used siblings. (Session-42, S42-8 — the impact
+// narrative corrected: these were dead SOURCE pins, never dead shipped
+// bytes — the installed @tailwindcss/postcss tree-shakes unused @theme
+// variables, emitting :root custom properties only for tokens with a
+// live consumer; lead-verified against the built sheet, where the
+// zero-consumer whole-family pins like --color-teal-800 are absent.
+// The retirement is source hygiene owned by this census.)
 // ---------------------------------------------------------------------------
 
 describe("design tokens: session-41 — the stepped dead-literal census arm (S41-5)", () => {

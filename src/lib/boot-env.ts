@@ -144,7 +144,25 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
       );
     }
   }
-  if (isProduction && (!siteUrl || /localhost|127\.0\.0\.1/.test(siteUrl))) {
+  // Session-42 (S42-6): the parsed HOSTNAME, not the raw substring —
+  // the old /localhost|127\.0\.0\.1/.test(siteUrl) form tripped on any
+  // PUBLIC origin whose string merely contains the word
+  // (mylocalhost.example.com, or a query carrying it — double-warned
+  // after the shape arms above already fired). A false alarm erodes the
+  // warning's authority (the S22-18 doctrine). Input-equivalent for
+  // every true positive: "localhost" and "127.0.0.1" hostnames still
+  // warn; a parse MISS (malformed origin) stays silent here — the
+  // F10-11 shape arms own that class.
+  const siteUrlIsLoopback = (() => {
+    if (!siteUrl) return false;
+    try {
+      const host = new URL(siteUrl).hostname;
+      return host === "localhost" || host === "127.0.0.1";
+    } catch {
+      return false;
+    }
+  })();
+  if (isProduction && (!siteUrl || siteUrlIsLoopback)) {
     warnings.push(
       `[boot] NEXT_PUBLIC_SITE_URL is ${
         siteUrl ? `"${siteUrl}"` : "unset"

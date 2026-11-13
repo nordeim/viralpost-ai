@@ -84,6 +84,12 @@ export function clientKey(req: Request): string {
   if (fwd) {
     const hops = fwd.split(",").map((hop) => hop.trim()).filter(Boolean);
     if (hops.length < depth) return "unknown";
+    // Session-42 (S42-3, the S28-8 annotation doctrine): the `??
+    // "unknown"` tail is SUBSUMED — depth >= 1 (the depth-0 early
+    // return above) and hops.length >= depth (the short-list guard)
+    // guarantee an in-bounds index — kept as belt-and-braces in the
+    // rate-limit IP-key seam: if either guard ever moves, the tail
+    // still fails closed onto "unknown" rather than keying undefined.
     return hops[hops.length - depth] ?? "unknown";
   }
   return req.headers.get("x-real-ip")?.trim() || "unknown";

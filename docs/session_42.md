@@ -1,72 +1,207 @@
-Both repos cloned. The repo already contains `db/`, `.env.example`, `vitest.config.mts`, `playwright.config.ts`, and session docs up to session_41. Now let me meticulously review the core docs.
-Now let me read the most recent session logs and plan doc to understand current status.
-session_41.md is a narration log of the session-40 delivery. Let me check the git history to understand the session log convention and what the latest commits contain.
-The picture is clear: session 40 was delivered (commits `2d7cced`+`74b340c`), `session_41.md` holds the previous conversation's raw narration, and my round is **session 41**. Let me read the full session-40 log and plan.
-Full session-40 context absorbed. Now let me review the repo skills catalog and the key skills.
-All docs and skills internalized. Setting up the session plan, then bootstrapping the environment.
-数据库已就绪 —— 环境变量已配置 `DATABASE_URL="file:../db/custom.db"` 且 `db/` 位于仓库根目录，数据统计与 MATCH 匹配。现在进入基准门禁。
-Unit 681/681 (40 files) — matches docs. Now the build.
-Same browser-version gap as the previous session (needs 1248, cache has 1200). Installing the headless shell.
-**BASELINE GATE GREEN** — lint 0/0 · tsc 0 · unit 681/681 (40 files) · build · smoke 16/16 · e2e 65/65 · census MATCH. Now validating session-40 cures against the codebase.
-所有 session-40 的修复已在树中验证。让我获取用于审计指令的 src 结构。
-Structure mapped. Dispatching the three parallel audit subagents per the established session pattern.
-三项审计已全部完成：综合 **0C/0H/0M/6L/9I** —— session-40 的 diff 已在所有分支上验证无误。现在，在做出裁决之前，负责人将对每个核心发现进行人工复核。
-A4 dynamically verified. Now checking A3's containment claim and the remaining findings.
-All 15 findings hand-verified in source. Now the parity walk against the live reference. Let me check the agent-browser tooling.
-Reference login landed on /Home as documented. Now the mobile battery at 390×844.
-Reference mobile menu fully enumerated — matches the documented parity face. Now the head census on the reference's five routes + SEO endpoints.
-SEO endpoints identical modulo origin. Now the clone-side walk — mobile menu first.
-Panel links byte-identical to the reference. But `aria-expanded` read "false" after the click — need to check the open state carefully.
-Menu open state confirmed (`aria-expanded=true`, "Close menu"). Now the Escape superset check + desktop nav on the clone.
-Session live-verified — login round-trip complete. Final walk items: generator probe posture + /Home redirect.
-**Parity walk complete: NO DRIFT — fourteenth consecutive clean walk.** Now checking neo-crm for newer patterns per the standing instruction.
-neo-crm patterns current (semantic-prose censuses already adopted at session-12). Now examining the cure sites in detail before writing the plan.
-Discrepancy with the audit — my census finds more dead literals. Debugging carefully.
-The whole-family doctrine (amber/slate/teal) vs the 11 incomplete-subset dead literals is now clear. Checking the remaining cure sites: toast.tsx and footer.tsx.
-All cure sites confirmed. Let me check the vitest config comment (AUDIT-3 I4) and then write the plan.
-All cure sites mapped. Writing the session-41 remediation plan now.
-Plan written. Now validating it against the codebase before executing — checking the pin placement sites.
-Plan validated. Executing **Batch 1 — the RED pins**. First checking the design-tokens file tail for placement.
-Placing the Batch-1 RED pins now.
-**Batch 1 RED verified** — the census names exactly the 11. Now **Batch 2 — GREEN cures**, starting with S41-4 + S41-3 in boot-env.
-Now S41-3 — the dead-surface restructure in the six-knob arm.
-boot-env 47/47 GREEN. Now S41-5 — retiring the 11 dead literals from globals.css.
-Now the doctrine comment updates — globals.css palette note + the census comment re-spell.
-design-tokens 30/30 GREEN. Now the comment-truth batch — S41-1 (the three OTP-delivery comments).
-S41-1 done. Now S41-2 — the S14-2 qualification and S40-3 rewording.
-Now S41-6 (toast BY-DESIGN note) and S41-7 (ratio cite).
-Now S41-8 (page-layout anchor move) and S41-9 (footer satisfies).
-Now S41-13 (Kept annotations) and S41-14 (node: specifiers).
-Now the docs micro-truths — S41-10, S41-11, S41-12.
-All Batch-2 cures in. Intermediate gate check — expecting only the designed Batch-4 census REDs.
-Lint 0/0, tsc 0, and exactly the 2 designed Batch-4 census REDs. Now **Batch 3 — the mutation batteries**. Battery S41-4 first: strip the routing.
-Battery S41-4 proven — exactly 1 RED, the S40 pins GREEN through it. Restoring, then Battery S41-5.
-Battery S41-5 proven — the census REDs naming gray-100. Restoring the cure.
-Both batteries on record. Now **Batch 4 — docs + count re-anchor, constants FIRST**. Measuring and reading the constants region.
-The census REDs enumerate every doc site. Re-anchoring now — first the PAD §12 rows (measured: globals 250, generator 470, db-path 339).
-Shell backtick substitution issue. Let me kill the dev server and use single quotes.
-Now the SKILL file re-anchor (v1.36.0 → v1.37.0).
-Now the ten provenance sites 1..40 → 1..41.
-docs-counts GREEN. Now the AGENTS plans map + README session-41 row.
-Now worklog Task 41 — checking the Task 40 entry structure first.
-Now the formal session_41.md log, replacing the owner-carried narration.
-Now **Batch 5 — the full gate**.
-**FULL GATE GREEN.** Now the post-cure parity walk re-run + captures 89/90.
-Captures PIL-verified. Quick visual confirmation of both.
-Both captures signature-verified (menu faces + hero render). Now the plan's post-execution record + checkbox flips.
-All changes staged-ready. Now reading the SSH push runbook before committing.
-Runbook internalized. Checking ssh/paramiko availability, then committing.
-Now materializing the operator key (0600, outside the repo, never printed) and committing the tree.
-Commit `b8072f3` on main. Now the wrapper dry-run, then the real push.
-Push verified — remote `main` at `b8072f3`, key shredded, no new branches. Final wrap-up of the task list.
-**Session 41 — delivered** (commit `b8072f3`, pushed to main via the SSH wrapper, remote ref verified, key shredded, no new branches).
+# Session 42 — The Boot-Gate Localhost False-Alarm Cure + The Subsumed-Arm Annotations + The Toast Call-Site Census + The Comment-Truth Batch (2026-11-13)
 
-**What this round did:**
+The round opened on the shipped tree (`b8072f3` — session-41's commit;
+the owner's narration commit `3cb1aa0` followed, carrying session_42.md
+as the round-41 narration — replaced now by this round's formal log).
+The core docs read in full (AGENTS, CLAUDE, README, PAD, SKILL
+v1.37.0), then the session-41 set (session_41.md, the session-41 plan,
+worklog Task 41, the owner narration). This round is session 42.
+Baseline gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit
+683/683, 40 files · build · smoke 16/16 · e2e 65/65, 9 specs · census
+MATCH); the standing asks re-verified up front (the `.env`
+`DATABASE_URL="file:../db/custom.db"` contract with `db/` at the repo
+root; the vitest + playwright suites in place and current; the
+sitemap/robots/manifest/OG family verified live against the reference
+in this round's walk; `skills/` excluded from every gate; the
+committed `.env.example` matching the six-knob contract).
 
-- **Docs & understanding**: Cloned the fresh workspace, read the five core docs + session_40.md, the session-40 plan, worklog Task 40, and session_41.md (the round-40 narration), then validated every session-40 cure in source. Baseline gate GREEN at the documented counts (681/681, 16/16, 65/65, census MATCH); all standing asks re-verified (`.env` `DATABASE_URL="file:../db/custom.db"` with `db/` at root, vitest + playwright suites, SEO family, `skills/` excluded, committed `.env.example`).
-- **Audit**: Three parallel subagents + the lead's hand-verification (incl. a dynamic boot-env probe and an independent dead-literal census) — **0C/0H/0M/6L/9I**; the session-40 diff verified correct on all three passes.
-- **Parity walk vs the live reference (logged in)**: **NO DRIFT — 14th consecutive clean walk**. Mobile menu byte-identical at confirmed 390×844 (4 links + Gumroad pill, cursor pointer both sides — the Tailwind v4 concern holding; reference hamburger still aria-bare, Escape-close remains our documented superset), desktop nav, head census, sitemap 4/4, robots, login round-trip + live session. neo-crm re-checked — patterns current.
-- **TDD cures** (14 findings, 2 RED-first pins, 2 mutation batteries): boot-gate exact-prefix case arm (S41-4), dead-surface cleanup inside the S40-1 arm (S41-3), 11 dead stepped @theme literals retired + a new stepped dead-literal census (S41-5), OTP-delivery comment truths (S41-1/2), toast-kit BY-DESIGN note (S41-6), and the micro-truth batch (S41-7..14).
-- **Final state**: lint 0/0 · tsc 0 · unit **683/683** (40 files) · build · smoke 16/16 · e2e 65/65 · census MATCH · badge 748; captures 89/90 PIL-verified; docs in lockstep (SKILL v1.37.0, session_41.md formal log, worklog Task 41, provenance 1..41 at lag 0).
+The web-application skill + the skills catalog internalized; tdd,
+clone-app-pat-pro, and the agent-browser doctrine (computed styles as
+ground truth, never eyeballs) applied throughout. The neo-crm
+reference repo re-checked for pattern currency per the standing
+instruction (its sessions 212–217: the s212 standalone bun-launch DB
+re-anchor — already adopted here at session-11/F11-18 with the
+in-code citation — and the semantic-prose census genus deepening on
+its own docs; this repo adopted the genus at session-12; patterns
+current, nothing new to adopt).
 
-Next natural step: session 42 against `b8072f3` whenever you're ready.
+## The audit
+
+Three parallel dispatched subagents (AUDIT-1 API/lib seams, AUDIT-2
+components/pages/effects, AUDIT-3 SEO/configs/tests/docs — every
+load-bearing finding hand-verified in source by the lead, including a
+built-sheet probe that settled AUDIT-2's tree-shaking claim (the
+artifact carries `--color-*` custom properties only for used tokens;
+the zero-consumer whole-family pins `--color-teal-800`/`--color-amber-200`
+are absent — the installed compiler tree-shakes unused @theme
+variables) and a byte-level re-read of the three subsumed arms):
+**AUDIT-1: 0C/0H/0M/3L/4I · AUDIT-2: 0C/0H/0M/2L/0I · AUDIT-3:
+0C/0H/0M/1L/3I** — combined **0 Critical / 0 High / 0 Medium / 6 Low
+/ 7 Info**. The session-41 diff itself verified correct and complete
+on all three passes (the exact-prefix case arm, the six-knob
+restructure, the 11-literal retirement, the Kept annotations, the
+docs batch — all re-confirmed; the residuals are pre-existing debt
+this round claims, and three of the six Lows are comment-truth misses
+INSIDE the session-41 comment-truth batch itself — the recurring
+irony the genus always ships).
+
+## The parity walk
+
+Live, both sides, logged into the reference with
+`sepnetflix2023@outlook.com`, viewport confirmed 390×844 before every
+mobile probe, computed styles as ground truth. **ALL FACES MATCH, NO
+DRIFT — the fifteenth consecutive fully-clean walk.** The mobile menu
+works as expected (the owner's standing concern): the reference panel
+enumerated live and byte-verified against ours — the four nav links
+(Home /Tool /Pricing /Contact; the active link's teal `text-teal-400`
+rgb(45,212,191) face, the siblings' `text-slate-300
+hover:text-white`) + the Gumroad pill ("Upgrade to Pro – $19", the
+same templixco href), classes, hrefs, texts, cursor pointer all
+matching; panel mechanics identical both sides (display block +
+max-height none; the reference's `bg-slate-900/98` still computing
+`rgba(0,0,0,0)` — dead in its own build, the transparent-over-hero
+posture replicated); the hamburger cursor pointer both sides (the
+Tailwind v4 standing concern holding); the reference's hamburger
+still ships NO aria family (our expanded aria-expanded/controls/label
+is the documented superset); Escape leaves the reference's panel open
+(our F11-11 superset — ours verified closing: the `hidden` attribute
+set, computed display none, links invisible). The desktop nav
+byte-identical (brand + 4 links + the Upgrade pill); the five-route
+head census byte-identical modulo origin (titles, og:title,
+canonicals; the unprefixed family on / and /login); sitemap 4 URLs
+both (identical modulo origin); robots identical modulo origin; the
+generator probe symmetrically disabled/not-allowed (R 405
+platform-side, L works — the documented superset); the login
+round-trip both landing the landing (R `/Home`, its duplicate-of-`/`
+route; L `/` — the documented 308 deviation), the clone session
+verified live via /api/auth/me (`sepnetflix2023@outlook.com`, role
+admin).
+
+## The cures (TDD — every pin RED first or battery-planted, the mutation batteries per the house doctrine)
+
+- **S42-6 (LOW, AUDIT-1 A6)** — the boot-gate localhost false-alarm
+  cure: the production localhost check was a substring test over the
+  raw origin (`/localhost|127\.0\.0\.1/.test(siteUrl)`) — a
+  legitimately PUBLIC origin whose string merely contains "localhost"
+  (`mylocalhost.example.com`, or a query carrying the word —
+  double-warned after the shape arms already fired) tripped the
+  "would advertise a localhost origin" warning falsely. The S22-18
+  doctrine: a false alarm erodes the warning's authority. The
+  parsed-hostname predicate cures it (`hostname === "localhost" ||
+  hostname === "127.0.0.1"` — input-equivalent for every true
+  positive; the parse miss stays with the F10-11 shape arms). +1
+  RED-first pin; the revert battery on record (exactly the one pin
+  RED, the 47 standing pins GREEN through it).
+- **S42-7 (LOW, AUDIT-2 L1)** — the toast call-site census: the
+  S41-6 BY-DESIGN note's "only toast.error ×6 and toast.info ×1 are
+  live" was a mis-attribution — the actual call sites are error ×5
+  (generator-card ×3, contact-form ×2) + info ×1 (login-card) = 6
+  TOTAL; the ×6 counted the total and mis-attributed it to error (the
+  count-truth genus, the same session's own S41-10). The note
+  re-spelled + the session_41.md mirror; the NEW comment-stripped
+  call-site census arm in toast-anatomy.test.ts re-derives the live
+  multiset every run (error 5 / info 1 / success 0 — success pinned
+  at zero BY DESIGN per the S41-6 adjudication; the internal bare
+  `dismiss(` calls never match the member-anchored regex). The
+  plant-a-7th-call battery on record ("expected 6 to be 5").
+- **S42-9 (LOW, AUDIT-3 I1)** — the README footer lockstep pin: the
+  closing gate footer shipped one round stale ("Gate at the
+  session-40 ship … unit 681/681" while the session-41 row four lines
+  above read 683 and the gate ran 683) because it was the one
+  live-tense gate-state site the docs-counts census never pinned —
+  the badge-drift genus one document region deeper. The footer
+  re-anchored + the census now mechanically ties its unit count to
+  the UNIT constant. +1 RED-first pin; the revert battery on record
+  (the stale form REDs exactly the footer pin, the badge/table pins
+  untouched).
+- **S42-3 (LOW, AUDIT-1 A2)** — the subsumed-arm annotations: three
+  pre-existing provably-subsumed fallback arms — from-url's `|| "/"`
+  (the leading-"/" guard guarantees a non-empty template; probed: 0
+  empty returns across a 24-input adversarial battery), rate-limit's
+  `?? "unknown"` (depth ≥ 1 + hops.length ≥ depth guarantee an
+  in-bounds index), db-path's `!== cwd` conjunct (the helper returns
+  only strict two-level ancestors) — all three KEPT with the
+  subsumption named, the S28-8 belt-and-braces doctrine: these sit in
+  security/correctness seams (the open-redirect guard, the rate-limit
+  IP key, the family's most-bitten contract) where defensive arms
+  stay annotated, not retired (the S41-3 retirement precedent applied
+  to a round's OWN dead surface; these are long-standing seam
+  defenses).
+- **S42-1 (LOW, AUDIT-1 A1)** — the db-path note-tail truth: the
+  S41-14 note shipped "Line-in-place; PAD §12's row is unchanged"
+  while the same commit's PAD diff walked the row 335→339 and the
+  file measures 339 (the note block itself added four lines) — the
+  note asserted the plan's prediction, not the shipped state.
+  Re-spelled to the truth with the correction noted.
+- **S42-2 (LOW, AUDIT-1 A3)** — the verify-route docbook truth: "A
+  correct code signs the account in and redirects to the dashboard" —
+  no dashboard route exists (the S28-7 phantom-route genus); the
+  handler returns the 200 envelope and the CLIENT navigates (the
+  login card's router.push to the landing or the from_url target).
+  Re-spelled to the truthful flow.
+- **S42-4 (INFO→cure, AUDIT-1 A4)** — the limitReached "Kept:
+  pin-owned" annotation + docblock re-spell (the S41-13 batch's
+  missed sibling; the card inlines the comparison at its call site).
+- **S42-5 (INFO→cure, AUDIT-1 A5)** — the api.ts donor-vestige
+  disclosures: the N-67h comment's "The optional param keeps the
+  zero-arg calls valid" names zero-arg calls that exist only in the
+  NEO-CRM donor (this tree's seven call sites all pass the value);
+  ok()'s `init` param carries no caller (all 13 sites default 200).
+  Both annotated with the donor context — the affordable form over
+  pin churn and API-face shrinkage.
+- **S42-8 (LOW, AUDIT-2 L2)** — the design-tokens S41-5 rationale
+  corrected at both sites: the 11 retired literals were dead SOURCE
+  pins, never dead shipped bytes — the installed
+  `@tailwindcss/postcss` 4.3.3 tree-shakes unused @theme variables
+  (lead-verified against the built sheet, where the zero-consumer
+  whole-family pins are absent). The retirement remains correct
+  (source hygiene owned by the census); only the impact narrative was
+  wrong. The session_41.md mirror re-spelled with the correction
+  noted.
+
+**Accepted/observed register (this round's tail, with reasons):** the
+dependency-contract belt-and-braces (AUDIT-1 A7 — signup's
+`split("@")[0] ?? ""` and the Zod `first?.message ??` fallbacks guard
+a DEPENDENCY's contract rather than an own-code guard two lines up;
+real defensive value, no action); the sitemap's
+no-lastmod/changefreq posture (byte-parity with the reference's live
+format — Google ignores the hints, a stale lastmod is worse than
+none); the manifest's same-src icon pair (the reference platform's
+own posture, documented S29-7); the e2e SEO arms' presence-level
+shape (the unit layer owns the byte-exact contracts — the EXACTLY
+ONE pin doctrine); the standing register carried forward unchanged.
+
+## The count re-anchor
+
+UNIT 683 → **686** (+1 the S42-6a localhost false-alarm pin in
+boot-env; +1 the S42-7a toast call-site census in toast-anatomy; +1
+the S42-9a footer lockstep pin in docs-counts), SUITES 40 unchanged,
+E2E 65 unchanged, SMOKE 16 unchanged, badge 748 → **751**. Constants
+re-anchored FIRST; the census walked the doc sites RED→GREEN (PAD
+§12: from-url 37→43, rate-limit 135→141, db-path 339→349,
+generation-counter 110→113, api 303→310; the ten provenance sites
+(toast.tsx the owned tenth) re-anchored to 1..42 — lag 0 at ship).
+
+## Verified
+
+- The full gate on the exact commit tree (below)
+- The mutation batteries on record: S42-6 (the predicate reverted to
+  the substring form → exactly the one pin RED, the true-positive
+  pins GREEN), S42-7 (a planted 7th toast.error call → exactly the
+  census RED), S42-9 (the footer re-anchored back to 681 → exactly
+  the footer pin RED)
+- The parity walk post-cure: all faces hold, the superset faces
+  adjudicated as documented — no drift
+- Captures 91/92 on the dev server (the owner-instructed posture, the
+  session-29..41 precedent): the mobile-menu open clean-walk at
+  390×844 + the landing hero at 1280×800, PIL-verified
+- Docs lockstep: README (badge 751, the 40/686 rows, the session-42
+  row, the closing footer + its lockstep pin); AGENTS (counts, the
+  plans map's forty-second round); CLAUDE (counts); PAD (§8.1 40/686,
+  §8.3 686/65/16, §12 rows); SKILL v1.37.0 → v1.38.0 (frontmatter,
+  §0.5 1..42, Appendix A's session-42 row, Appendix B's header +
+  counts, the pre-ship checklist); worklog Task 42; this session log;
+  the plan's post-execution record
+
+**Gate at the session-42 ship: lint 0/0 · tsc 0 · unit 686/686 (40
+files) · build · smoke 16/16 · e2e 65/65 (9 specs) · census MATCH.**

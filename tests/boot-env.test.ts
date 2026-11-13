@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..41.
+// are docs/session_1..42.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -123,6 +123,16 @@ describe("session-170 (WP-3): the NEXT_PUBLIC_SITE_URL misconfig warning", () =>
   it("production + 127.0.0.1: the same warning", () => {
     const report = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "http://127.0.0.1:3000" }));
     expect(report.warnings).toHaveLength(1);
+  });
+
+  it("session-42 (S42-6): production + a PUBLIC origin whose string merely contains \"localhost\": NO warning (the false-alarm cure)", () => {
+    // The substring form /localhost|127\.0\.0\.1/ tripped this — a
+    // real deploy on mylocalhost.example.com (or a query carrying the
+    // word) warned "would advertise a localhost origin" falsely. The
+    // S22-18 doctrine: a false alarm erodes the warning's authority.
+    const report = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "https://mylocalhost.example.com" }));
+    expect(report.fatal).toBeNull();
+    expect(report.warnings).toHaveLength(0);
   });
 
   it("development + localhost site url: NO warning (localhost IS the dev origin)", () => {

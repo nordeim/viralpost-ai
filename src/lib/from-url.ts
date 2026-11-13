@@ -30,6 +30,12 @@ export function resolveFromUrl(raw: string, origin: string): string {
     // same-origin path. The leading-"/" belt-and-braces arm covers any
     // parser shape a future spec change could introduce.
     if (!u.pathname.startsWith("/") || u.pathname.startsWith("//")) return "/";
+    // Session-42 (S42-3, the S28-8 annotation doctrine): the `|| "/"`
+    // tail below is SUBSUMED — the leading-"/" guard above guarantees
+    // the template never evaluates empty (probed: 0 empty returns
+    // across a 24-input adversarial battery) — kept as belt-and-braces
+    // in the open-redirect seam: if the guard ever moves, the tail
+    // still fails closed onto "/" rather than returning "".
     return `${u.pathname}${u.search}` || "/";
   } catch {
     return "/";

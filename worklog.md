@@ -4459,3 +4459,135 @@ Agent: main (Z.ai)
 - SHIPPED: the remediated codebase + the docs in lockstep, committed
   to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
   verified; no new branches).
+## Task 42 — The Boot-Gate Localhost False-Alarm Cure + The Subsumed-Arm Annotations + The Toast Call-Site Census + The Comment-Truth Batch (2026-11-13)
+
+Task ID: 42
+Agent: main (Z.ai)
+- SCOPE: the standing instruction re-run against the shipped tree
+  (`b8072f3`, session-41's commit; the owner's narration commit
+  `3cb1aa0` followed, carrying session_42.md as the round-41
+  narration — replaced by this round's formal log). Docs review
+  (AGENTS/CLAUDE/README/PAD/SKILL v1.37.0, session_41.md, the
+  session-41 plan, worklog Task 41, the owner narration); the baseline
+  gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit
+  683/683, 40 files · build · smoke 16/16 · e2e 65/65, 9 specs ·
+  census MATCH); the standing asks re-verified up front (the `.env`
+  `DATABASE_URL="file:../db/custom.db"` contract with `db/` at the
+  repo root; the vitest + playwright suites in place and current; the
+  sitemap/robots/manifest/OG family verified live against the
+  reference in this round's walk; `skills/` excluded from every gate;
+  the committed `.env.example` matching the six-knob contract).
+- AUDIT: three parallel dispatched subagents (AUDIT-1 API/lib seams,
+  AUDIT-2 components/pages/effects, AUDIT-3 SEO/configs/tests/docs —
+  every load-bearing finding hand-verified in source by the lead,
+  including a built-sheet probe that settled AUDIT-2's tree-shaking
+  claim (the artifact carries `--color-*` only for used tokens; the
+  zero-consumer whole-family pins are absent — the compiler
+  tree-shakes unused @theme variables) and a byte-level re-read of the
+  three subsumed arms): **AUDIT-1 0C/0H/0M/3L/4I · AUDIT-2
+  0C/0H/0M/2L/0I · AUDIT-3 0C/0H/0M/1L/3I — combined 0/0/0/6L/7I.**
+  The session-41 diff itself verified correct and complete on all
+  three passes; the residuals are pre-existing debt this round claims
+  (three of the six Lows are comment-truth misses inside the
+  session-41 comment-truth batch itself — the recurring irony).
+- PARITY WALK: NO DRIFT — the fifteenth consecutive fully-clean walk
+  (the mobile battery at a confirmed 390×844: the panel enumerated
+  live on the reference and byte-verified against ours — the four nav
+  links + the Gumroad pill, classes/hrefs/texts/cursor all matching;
+  panel mechanics identical (display block + max-height none; the
+  reference's bg-slate-900/98 still computing rgba(0,0,0,0)); the
+  hamburger cursor pointer both sides (the Tailwind v4 standing
+  concern holding); the reference's hamburger still ships NO aria
+  family (our expanded family the documented superset); Escape leaves
+  the reference's panel open (our F11-11 superset — ours verified
+  closing, the hidden attr + invisible links confirmed); the desktop
+  nav byte-identical; the five-route head census byte-identical
+  modulo origin; sitemap 4/4 + robots identical modulo origin; the
+  generator probe symmetrically disabled/not-allowed (R 405, L works
+  — the documented superset); the login round-trip both landing the
+  landing (R /Home, L / — the documented 308 deviation), the clone
+  session verified live via /api/auth/me (sepnetflix2023@outlook.com,
+  role admin). The neo-crm reference repo re-checked per the standing
+  instruction: its sessions 212–217 (the s212 standalone bun-launch
+  DB re-anchor — ALREADY ADOPTED here at session-11/F11-18 with the
+  in-code citation — and the semantic-prose census genus deepening on
+  its own docs) — patterns current, nothing new to adopt.
+- CURED (TDD — every pin RED first or battery-planted, the mutation
+  batteries per the house doctrine): THE BOOT-GATE LOCALHOST
+  FALSE-ALARM CURE (S42-6 — the production localhost check was a
+  substring test over the raw origin: a PUBLIC origin whose string
+  merely contains "localhost" (mylocalhost.example.com, or a query
+  carrying it — double-warned after the shape arms) tripped the
+  "would advertise a localhost origin" warning falsely; the
+  parsed-hostname predicate cures it — input-equivalent for every
+  true positive (localhost and 127.0.0.1 hostnames still warn), the
+  parse miss staying with the F10-11 shape arms; +1 RED-first pin,
+  the revert battery on record — exactly the one pin RED, the 47
+  standing pins GREEN through it); THE TOAST CALL-SITE CENSUS (S42-7
+  — the S41-6 note's "only toast.error ×6 and toast.info ×1 are
+  live" was a mis-attribution: the truth is error ×5 (generator-card
+  ×3, contact-form ×2) + info ×1 (login-card) = 6 total; the note
+  re-spelled + the session_41.md mirror; the NEW comment-stripped
+  call-site census arm in toast-anatomy.test.ts re-derives the live
+  multiset every run (success pinned at zero BY DESIGN — the S41-6
+  adjudication); the plant-a-7th-call battery on record ("expected 6
+  to be 5")); THE README FOOTER LOCKSTEP PIN (S42-9 — the closing
+  gate footer shipped one round stale ("session-40 ship … 681/681"
+  while the row four lines above read 683) because no pin owned it —
+  the badge-drift genus one document region deeper; the footer
+  re-anchored + the census now mechanically ties its unit count to
+  the UNIT constant; +1 RED-first pin, the revert battery on record);
+  THE SUBSUMED-ARM ANNOTATIONS (S42-3 — from-url's `|| "/"` (the
+  leading-"/" guard guarantees a non-empty template; probed: 0 empty
+  returns across a 24-input battery), rate-limit's `??
+  "unknown"` (depth >= 1 + hops.length >= depth guarantee an
+  in-bounds index), db-path's `!== cwd` conjunct (the helper returns
+  only strict two-level ancestors): all three provably subsumed, all
+  three kept WITH the subsumption named — the S28-8 belt-and-braces
+  doctrine for security seams (the open-redirect guard, the
+  rate-limit IP key, the family's most-bitten contract)); THE
+  COMMENT-TRUTH BATCH (S42-1 the db-path S41-14 note's false
+  "Line-in-place; PAD §12's row is unchanged" tail (the same commit
+  walked the row 335→339) re-spelled to the shipped truth; S42-2 the
+  verify route's phantom "redirects to the dashboard" docbook
+  re-spelled to the truthful envelope-returns-client-navigates flow
+  (the S28-7 phantom-route genus); S42-4 the limitReached "Kept:
+  pin-owned" annotation + docblock re-spell (the S41-13 missed
+  sibling — the card inlines the comparison); S42-5 the api.ts
+  donor-vestige disclosures (the N-67h "zero-arg calls" claim names
+  donor-only call sites — this tree's seven sites all pass the
+  value; ok()'s init param carries no caller — both annotated, the
+  affordable form over pin churn); S42-8 the design-tokens S41-5
+  rationale corrected at both sites (the 11 retired literals were
+  dead SOURCE pins, never dead shipped bytes — the installed
+  @tailwindcss/postcss tree-shakes unused @theme variables,
+  lead-verified against the built sheet where the zero-consumer
+  whole-family pins are absent; the retirement remains source
+  hygiene owned by the census)).
+- ACCEPTED/OBSERVED: the dependency-contract belt-and-braces
+  (signup's `split("@")[0] ?? ""`, the Zod `first?.message ??`
+  fallbacks — they guard a DEPENDENCY's contract, real defensive
+  value, no action); the sitemap's no-lastmod/changefreq posture
+  (byte-parity with the reference's live format); the manifest's
+  same-src icon pair (the reference platform's own posture);
+  the e2e SEO arms' presence-level shape (the unit layer owns the
+  byte-exact contracts — the EXACTLY ONE pin doctrine); the standing
+  register carried forward unchanged.
+- The count re-anchor: UNIT 683 → 686 (+1 S42-6a in boot-env, +1
+  S42-7a in toast-anatomy, +1 S42-9a in docs-counts), SUITES 40
+  unchanged, E2E 65 unchanged, SMOKE 16 unchanged, badge 748 → 751.
+  Constants re-anchored FIRST; the census walked the doc sites
+  RED→GREEN (PAD §12: from-url 37→43, rate-limit 135→141, db-path
+  339→349, generation-counter 110→113, api 303→310; the ten
+  provenance sites re-anchored to 1..42 — lag 0 at ship).
+- Docs lockstep: README (badge 751, the 40/686 rows, the session-42
+  row, the closing footer + its lockstep pin); AGENTS (counts, the
+  plans map's forty-second round); CLAUDE (counts); PAD (§8.1
+  40/686, §8.3 686/65/16, §12 rows); SKILL v1.37.0 → v1.38.0
+  (frontmatter, §0.5 1..42, Appendix A's session-42 row, Appendix
+  B's header + counts, the pre-ship checklist); worklog Task 42 (this
+  entry); docs/session_42.md (the formal log); the plan's
+  post-execution record.
+- SHIPPED: the remediated codebase + the docs in lockstep, committed
+  to main and pushed via docs/ssh_git_wrapper_v3.py (the remote
+  verified; no new branches).

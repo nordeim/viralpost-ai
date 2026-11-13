@@ -28,7 +28,11 @@ export const dynamic = "force-dynamic";
  * scaffold family's reference walks, not census-verified against THIS
  * reference (the dossier's signup probe was platform-rejected — session 8,
  * F8-3; Confidence: Reasoned, platform-family). A correct code signs the
- * account in and redirects to the dashboard.
+ * account in: this handler returns the 200 envelope (setSessionCookie +
+ * ok({id, email, verified:true})) and the CLIENT navigates — the login
+ * card's router.push(resolveFromUrl(...)) to the landing or the from_url
+ * target. No redirect response and no dashboard route exist here (the
+ * S28-7 phantom-route genus; re-spelled session-42, S42-2).
  */
 export async function POST(req: Request) {
   const limit = rateLimit(`verify:${clientKey(req)}`, 20, 15 * 60 * 1000);

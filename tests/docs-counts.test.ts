@@ -198,6 +198,10 @@ import {
 // dead-literal census (S41-5a, design-tokens); the S41-3 arm
 // restructure is in-place — +0 tests) and the e2e 65 unchanged.
 // SMOKE 16 unchanged.
+// s42: 686/40 (+3 the session-42 pins — the boot-gate localhost
+// false-alarm cure pin (S42-6a, boot-env), the toast call-site census
+// (S42-7a, toast-anatomy), and the README closing-footer lockstep pin
+// (S42-9a, docs-counts)) and the e2e 65 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -205,7 +209,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 683;
+const UNIT = 686;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -272,6 +276,21 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
     expect(readme).not.toContain("tests-450%20checks");
     expect(readme).not.toContain("tests-455%20checks");
     expect(readme).not.toContain("tests-457%20checks");
+  });
+
+  // Session-42 (S42-9): the closing gate footer — the ONE live-tense
+  // gate-state site the census never pinned. It shipped one round stale
+  // at session-41 ("unit 681/681" while the row four lines above read
+  // 683 and the gate ran 683) because no pin owned it; the badge-drift
+  // genus, one document region deeper. The footer's unit count is now
+  // mechanically tied to the census UNIT constant.
+  it("session-42 (S42-9): the README closing footer carries the live unit count (the one unpinned gate-state site, retired)", () => {
+    const readme = read("README.md");
+    const m = readme.match(
+      /Gate at the session-(\d+) ship: lint 0\/0 · tsc 0 · unit (\d+)\/\d+ · build ·\nsmoke 16\/16 · e2e 65\/65\./,
+    );
+    expect(m, "the README closing gate footer exists (the 'Gate at the session-N ship' line)").not.toBeNull();
+    expect(Number(m![2]), "the footer's unit count matches the census UNIT constant").toBe(UNIT);
   });
 
   it("AGENTS carries the live unit + e2e + smoke counts", () => {
