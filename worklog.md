@@ -5141,3 +5141,133 @@ Agent: main (Z.ai)
   re-run: the standing faces hold; captures 99/100 on the dev
   server (the mobile-menu open at 390×844 + the landing hero at
   1280×800, PIL-verified).
+
+## Task 47 — The Artifact-Anchor Truth + The Reveal-Settle Pins + The Shadow-Env Boot Warning + The Stale-Prose Batch (2026-11-14)
+
+Task ID: 47
+Agent: main (Z.ai)
+- SCOPE: the standing instruction re-run against the shipped tree
+  (`151eb6f`, session-46's commit; the owner's narration commit
+  `77ca641` followed, carrying session_47.md as the round-46
+  narration — replaced by this round's formal log). Docs review
+  (AGENTS/CLAUDE/README/PAD/SKILL v1.42.0, session_46.md,
+  session_47.md, the session-46 plan, worklog Task 46); the
+  codebase-understanding validation (structure, configs, seams); the
+  standing asks re-verified up front (the `.env`
+  `DATABASE_URL="file:../db/custom.db"` contract recreated on the
+  fresh clone with `db/` at the repo root; db:push + db:seed → census
+  MATCH; the vitest + playwright suites in place and current — the
+  chromium-1248 gap cured with the documented one-time `bunx
+  playwright install chromium`, the neo-crm preflight lesson applied
+  proactively; the sitemap/robots/manifest/OG family verified live
+  against the reference in this round's walk; `skills/` excluded from
+  every gate; the committed `.env.example` matching the six-knob
+  contract). BASELINE GATE GREEN at the documented counts (lint 0/0 ·
+  tsc 0 · unit 703/703, 40 files · build · smoke 16/16 · e2e 67/67,
+  9 specs · census MATCH).
+- AUDIT: three parallel dispatched subagents (AUDIT-1 API/lib seams,
+  AUDIT-2 components/pages/effects, AUDIT-3 SEO/configs/tests/docs)
+  + the neo-crm currency check + the lead's hand-verification of
+  every load-bearing finding — the DECISIVE probe: the built
+  `.next/standalone` copied to /tmp/vp-artifact and booted with a
+  clean env answered `{"ok":true,"data":{"status":"healthy","db":"up"}}`
+  while creating `<artifact>/db/custom.db` as a 0-BYTE file — the
+  cwdFallbackUrl docblock's artifact-deploy claim LIVE-FALSIFIED (in
+  the artifact-only shape the MODULE anchor owns resolution: the
+  Turbopack runtime getter `e.F("src/lib/db-path.ts")` resolves to the
+  real file path, the traced prisma/schema.prisma validates the
+  artifact root, urlForRoot mkdirs on demand — a fresh artifact
+  serves healthy-200 against a table-less empty DB, NOT the
+  documented raw pass-through + Error-14 posture):
+  **AUDIT-1 0C/0H/1M/2L/1I · AUDIT-2 0C/0H/1M/3L/3I · AUDIT-3
+  0C/0H/0M/1L/3I — combined 0 Critical / 0 High / 2 Medium / 6 Low
+  / 7 Info.** The session-46 diff verified correct and complete on
+  all three passes (the tail findings: the S46-11 cure's four missed
+  derivation sites — S47-9; the wiring pin's raw read — S47-10).
+- PARITY WALK: ALL CLONE FACES MATCH — the twentieth consecutive
+  clean walk, no clone-side drift, no NEW reference-side drift (the
+  session-45 404-title bare posture persists — /NoSuchRoute,
+  /Dashboard, /page2 re-probed: HTTP 200 + the bare title; ours keeps
+  the derived title as the documented superset; the D-1
+  failure-toast posture re-verified — the same toast text, zero
+  hashtags, the button settled back). The mobile menu works exactly
+  as expected (the owner's standing concern): the panel byte-identical
+  both sides (Home's teal rgb(45,212,191) active face, the siblings'
+  rgb(203,213,225), the Gumroad pill at the templixco href, 14px/500-
+  600, display block + max-height none, transparent-over-hero bg);
+  the hamburger cursor pointer both sides (the Tailwind v4 standing
+  concern holding; the reference's hamburger still ships NO aria
+  family — our superset); Escape leaves the reference's panel open
+  (our F11-11 superset closes with the focus returned to the toggle);
+  the same-route Logo click leaves the panel open on BOTH sides; the
+  outside-tap face leaves it open on BOTH sides (the hero paragraph);
+  route-change close + auto-close verified; the desktop nav
+  byte-identical (the active face following the route); the
+  five-route head census identical modulo origin (the reference's
+  og/canonical render client-side; ours ship SSR); sitemap 4 URLs
+  both + robots identical modulo origin; the generator probe
+  symmetrically dead/live (R: the failure toast; L works — 5
+  hashtags + the copy button); the login round-trip both landing the
+  landing (R /Home, L / — the documented 308 deviation), the clone
+  session verified live via /api/auth/me (Demo Creator, role admin).
+  The neo-crm reference repo re-checked per the standing instruction:
+  its latest round (its session-217 / file session_459.md — the PAD
+  narrative-block semantic-prose census) continues the
+  semantic-prose genus with its mutation-battery discipline catching
+  a THIRD consecutive pin birth-defect (the REDUNDANT ARM); stack
+  pins identical (all 8); THREE lessons ADOPTED this round (the
+  semantic-prose doc-claim census idiom — S47-9b at birth; the
+  constant-interpolation pin form; the Playwright browser-binary
+  preflight — applied at baseline).
+- CURES (TDD — four mutation batteries on record, each exactly its
+  designed pin RED, restores verified): S47-1 the db-path.ts
+  artifact-anchor truth re-spell (the header + the cwdFallbackUrl
+  docblock) + the DEPLOYMENT.md §7 fresh-artifact row (the live probe
+  recorded; the health-route schema probe DEFERRED — the e2e
+  webServer's fresh-boot probe deliberately passes on the empty file,
+  a schema-aware SELECT would 503 that leg; the accepted register
+  carries the reason); S47-2 the shadowingEnvFileWarnings pure seam
+  (the injectable-exists pattern) + the instrumentation.ts wiring +
+  3 pins (the wiring-removal battery; the EDGE-COMPILE CALIBRATION:
+  a direct process.cwd() in instrumentation.ts's body trips
+  Turbopack's edge compile — the cwd read lives in the
+  dynamically-imported shadowingEnvFileWarningsForServer wrapper,
+  born in the same round); S47-3 the anchor-order source pin (the
+  anchor-swap battery); S47-4 the reveal settle source pin + the
+  computed-opacity e2e leg (the settle-break battery — the
+  toBeVisible opacity-0 blind spot closed); S47-5 the hero CLS pin;
+  S47-6 the skip-link keyboard e2e leg; S47-7 the toast auto-dismiss
+  e2e leg; S47-8 the globals.css HOVER comment fix; S47-9 the
+  five-site generator-hang re-spell + the wrap-blind stale-prose
+  census pair (the phrase-re-plant battery; the neo-crm idiom at
+  birth); S47-10 the stripComments birth-defect cure (the naive block
+  regex phantom-opens on the `db/**` glob prose inside db-path.ts's
+  line comments — live-caught at birth when the S46-6 wrap
+  false-REDDed; the line-first + whitespace-anchored guard, proven on
+  the exact file). (The round survived a mid-execution sandbox reset
+  — the tree was rebuilt from the validated plan and every battery
+  re-proven on the rebuilt tree.)
+- COUNTS: UNIT 703 → 711 (+3 boot-env, +1 db-path, +1 effects-motion,
+  +1 landing-page, +2 docs-counts), SUITES 40, E2E 67 → 70 (+2
+  landing, +1 generator), SPECS 9, SMOKE 16, BADGE 770 → 781. The
+  plan's draft arithmetic (+7/710/780) corrected by the census's own
+  BADGE = UNIT + E2E guard at the constants walk (the S47-9 census is
+  a PAIR — 711 + 70 = 781; the session-46 769→770 genus, caught again
+  by the same guard). PAD §12's db-path row re-anchored 453 → 477;
+  the two footer census regexes re-pinned 67/67 → 70/70 (the
+  pinned-shape-updates-with-the-count doctrine); the ten provenance
+  sites re-anchored to 1..47 — lag 0 at ship; SKILL v1.42.0 →
+  v1.43.0.
+- VERIFIED: the full gate on the exact commit tree (below); the four
+  mutation batteries single-tooth on record; the redundant-arm check
+  (every new arm verified single-tooth — enumerated against the
+  existing pins at birth); the artifact boot probe (the decisive
+  audit evidence, live); the parity walk post-cure re-run; captures
+  101/102 on the dev server (the mobile-menu open clean-walk at
+  390×844 + the landing hero at 1280×800, PIL-verified); docs
+  lockstep (README + AGENTS + CLAUDE + PAD + SKILL v1.43.0 + the ten
+  provenance sites + worklog Task 47 + docs/session_47.md + the
+  plan's post-execution record).
+
+**Gate at the session-47 ship: lint 0/0 · tsc 0 · unit 711/711 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

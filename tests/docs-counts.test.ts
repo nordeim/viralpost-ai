@@ -237,6 +237,18 @@ import {
 // censused-parity pins — S46-5: the same-route Logo face and the
 // outside-tap face, both walk-verified live on both sides). SMOKE 16
 // unchanged.
+// s47: 711/40 (+3 boot-env — the shadowing-env-file seam's behavior
+// pair + the instrumentation wiring source pin, S47-2; +1 db-path —
+// the anchor-order source pin, S47-3; +1 effects-motion — the
+// reveal settle source pin, S47-4; +1 landing-page — the hero
+// portrait CLS pin, S47-5; +2 docs-counts — the generator-hang
+// stale-prose census pair, S47-9) and the e2e 67 → 70 (+2 landing —
+// the reveal-settle computed-opacity leg + the skip-link keyboard
+// leg, S47-4b/S47-6; +1 generator — the toast auto-dismiss leg,
+// S47-7). SMOKE 16 unchanged. (The plan's draft said +7 unit / 710 /
+// 780 — an arithmetic slip the census's own BADGE = UNIT + E2E guard
+// caught at the constants walk: the S47-9 census is a PAIR. 711+70 =
+// 781.)
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -244,11 +256,11 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 703;
+const UNIT = 711;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
-const E2E = 67;
+const E2E = 70;
 /** Playwright e2e spec files. */
 const E2E_SPECS = 9;
 /** Smoke ladder legs. */
@@ -332,7 +344,7 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
   it("session-42 (S42-9): the README closing footer carries the live unit count (the one unpinned gate-state site, retired)", () => {
     const readme = read("README.md");
     const m = readme.match(
-      /Gate at the session-(\d+) ship: lint 0\/0 · tsc 0 · unit (\d+)\/\d+ · build ·\nsmoke 16\/16 · e2e 67\/67\./,
+      /Gate at the session-(\d+) ship: lint 0\/0 · tsc 0 · unit (\d+)\/\d+ · build ·\nsmoke 16\/16 · e2e 70\/70\./,
     );
     expect(m, "the README closing gate footer exists (the 'Gate at the session-N ship' line)").not.toBeNull();
     expect(Number(m![2]), "the footer's unit count matches the census UNIT constant").toBe(UNIT);
@@ -349,7 +361,7 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
     const skill = read("viralpost-ai_SKILL.md");
     const footers = [
       ...readme.matchAll(
-        /Gate at the session-(\d+) ship: lint 0\/0 · tsc 0 · unit (\d+)\/\d+ · build ·\nsmoke 16\/16 · e2e 67\/67\./g,
+        /Gate at the session-(\d+) ship: lint 0\/0 · tsc 0 · unit (\d+)\/\d+ · build ·\nsmoke 16\/16 · e2e 70\/70\./g,
       ),
     ];
     expect(footers.length, "exactly one full-shape gate footer (the S43-3a shape owns the general form)").toBe(1);
@@ -1058,6 +1070,52 @@ describe("docs-counts: session-34 (S34-5) — the provenance-range census (the l
           `${where} carries docs/session_1..${b} with the disk ledger at ${diskMax} — the lag must be 0 (ship) or 1 (the owner's narration window), never more`,
         ).toBe(true);
       }
+    }
+  });
+});
+
+// Session-47 (S47-9, AUDIT-3 L1 + the neo-crm s213–s217 idiom adopted
+// at birth): the generator-hang stale-prose arm. The S46-11 cure
+// re-anchored only the D-1 evidence row; FIVE live-tense derivation
+// sites still described the reference's failure posture as an infinite
+// hang two full sessions of doctrine after the walk's own record (the
+// reference settles with a failure toast — the 402-dead core stands).
+// The 404-title drift of session-45 WAS re-anchored at its derivation
+// sites — the contrast case proving the house convention this arm now
+// enforces mechanically: the wrap-blind FLATTENED read (the s208/s213
+// lesson — prose wraps across lines, a plain toContain misses the
+// wrapped spelling) bans the stale spellings in the five live-tense
+// files and asserts the corrected form present. The immutable history
+// layer (docs/session_*, docs/plans, the worklog's shipped rows) is
+// never censused — by construction, this arm reads the five files by
+// name. Ban-safe paraphrase doctrine (s216): this arm's own prose and
+// the session-47 log PARAPHRASE the stale form — never quote it.
+describe("docs-counts: session-47 (S47-9) — the generator-hang stale-prose census (the neo-crm idiom at birth)", () => {
+  const STALE_FORMS = ["hangs forever", 'hangs at "Generating'];
+  const FILES = [
+    "docs/implementation-plan.md",
+    "README.md",
+    "CLAUDE.md",
+    "viralpost-ai_SKILL.md",
+    "tests/e2e/generator.spec.ts",
+  ];
+  // The wrap-blind read: flatten ALL whitespace so a phrase wrapped
+  // across a line break matches its single-line spelling.
+  const flatten = (text: string) => text.replace(/\s+/g, " ");
+
+  it("no live-tense site claims the reference's infinite-hang posture (the D-1 drift, mechanically retired)", () => {
+    for (const file of FILES) {
+      const flat = flatten(read(file));
+      for (const stale of STALE_FORMS) {
+        expect(flat, `${file} must not carry the stale "${stale}" claim (the D-1 posture: the reference now settles with a failure toast)`).not.toContain(stale);
+      }
+    }
+  });
+
+  it("each site carries the corrected settled posture (the failure-toast record, present-form)", () => {
+    for (const file of FILES) {
+      const flat = flatten(read(file));
+      expect(flat, `${file} must carry the corrected posture (the failure-toast form)`).toMatch(/failure toast/i);
     }
   });
 });

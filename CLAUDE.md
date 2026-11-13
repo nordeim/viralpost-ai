@@ -156,11 +156,11 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 40 files / 703 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 40 files / 711 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.
-- **E2E (Playwright)**: 9 specs / 67 tests against the production build,
+- **E2E (Playwright)**: 9 specs / 70 tests against the production build,
   own port + own `db/e2e.db`, one shared login via `storageState`,
   axe-core a11y assertions on every route at two widths.
 - **Smoke (bash)**: 16 legs against the standalone artifact with a
@@ -206,8 +206,9 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Error Handling & Debugging
 
-- Toasts for user-facing failures; the generator ALWAYS settles (the
-  reference hangs forever — our documented superset).
+- Toasts for user-facing failures; the generator ALWAYS settles — and
+  actually generates (the reference's 402-dead generator settles with a
+  failure toast, no generation ever lands — our documented superset).
 - Symptom table lives in `viralpost-ai_SKILL.md` §10 (the Debugging
   Guide) and `docs/DEPLOYMENT.md` §7 (the production subset); the
   load-bearing rows: db `Error code 14` (wrong anchor), login loops

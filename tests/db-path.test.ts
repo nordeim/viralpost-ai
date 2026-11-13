@@ -2,6 +2,32 @@ import { mkdtempSync, rmSync, existsSync, writeFileSync, mkdirSync, readFileSync
 import { tmpdir } from "os";
 import { join } from "path";
 import { afterEach, describe, expect, it } from "vitest";
+
+// Session-47 (S47-10, AUDIT-3 I2): the house idiom for textual pins
+// (the S38-7f form — api-robustness/seo-surfaces/docs-counts carry it):
+// comments stripped before the assertion so a commented-out arm (or a
+// future docblock mention) cannot satisfy — or false-trip — a
+// source-pinned negative. The S46-6 wiring pin's raw read moves onto
+// it in the same stroke (the one-idiom doctrine).
+//
+// BIRTH-DEFECT CAUGHT (the neo-crm s215/s216 comment-blind genus,
+// live at this repo's own db-path.ts): the naive block regex
+// /\/\*[\s\S]*?\*\// phantom-OPENS on the glob prose inside
+// db-path.ts's line comments (the S45-1 docblock names the trace's
+// `db/**` exclude — that `/**` pairs with a distant real `*/` closer
+// and eats ~5KB of LIVE CODE including the export these pins assert).
+// Two guards, proven on this exact file: LINE comments strip FIRST
+// (the glob prose lives in line comments — gone before the block pass
+// ever sees it), and the block opener requires a line-start/whitespace
+// anchor ((^|\s) — a `db/**`-style glob after a word char is never an
+// opener). Docblocks in this repo open at a line start and close on a
+// bare `*/` line — both guards hold.
+function stripComments(text: string): string {
+  return text
+    .replace(/\/\/[^\n]*/g, "")
+    .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
+}
+
 import {
   cwdFallbackUrl,
   effectiveDatabaseUrl,
@@ -253,7 +279,7 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34, a donor
   // S33-3): the session-34/35/36 numbers in this describe cite the
   // NEO-CRM donor ledger (the template repo the db-path seam was ported
   // from — its own standalone-launch-recovery sessions). THIS repo's
-  // own sessions are docs/session_1..46; the donor enumeration lives
+  // own sessions are docs/session_1..47; the donor enumeration lives
   // in viralpost-ai_SKILL.md §0.5. Unmarked, the numbers collide with
   // this repo's imminent session 34/35/36 rounds — the exact genus
   // §0.5 exists to prevent (the S31-4 auth.ts precedent).
@@ -681,7 +707,12 @@ describe("session-22 (S22-17): the standalone anchor gates on the .next/standalo
 // wiring defect does — the inline-back battery proves the split).
 describe("session-46 (S46-6): resolveDatabaseUrl consumes the cwdFallbackUrl seam (the wiring face, source-pinned)", () => {
   it("the CWD arm routes through cwdFallbackUrl(cwd, pathRef, query) with the null → rawUrl fall-through", () => {
-    const src = readFileSync(new URL("../src/lib/db-path.ts", import.meta.url), "utf-8");
+    // Session-47 (S47-10): the read is comment-stripped — the negative
+    // arm below scans into the NEXT function's docblock, where a future
+    // prose mention of existsSync( must not false-trip it.
+    const src = stripComments(
+      readFileSync(new URL("../src/lib/db-path.ts", import.meta.url), "utf-8"),
+    );
     // scope to resolveDatabaseUrl's body (the S39-11 any-next-export bound)
     const fnStart = src.indexOf("export function resolveDatabaseUrl");
     expect(fnStart, "resolveDatabaseUrl must exist in db-path.ts").toBeGreaterThan(-1);
@@ -704,5 +735,39 @@ describe("session-46 (S46-6): resolveDatabaseUrl consumes the cwdFallbackUrl sea
     expect(body, "the arm's decision must not be re-inlined in the caller").not.toMatch(
       /existsSync\(/,
     );
+  });
+});
+
+// Session-47 (S47-3, AUDIT-1 L3): the anchor-ORDER pin — the
+// reachability contract the S47-1 probe exposed as unpinned. Which arm
+// owns which shape is the ORDER of the validated array (standalone-CWD
+// first, module second) plus the CWD arm's post-loop position; a
+// reorder silently changes ownership (e.g. module-first would claim the
+// .next/standalone launch's URL before the two-level-up rule could).
+// The S45-1 pins own the cwdFallbackUrl logic, the S46-6 pin owns the
+// call-shape wiring — this arm owns the ORDER face alone (single-tooth
+// per N12-2; the swap battery proves it). The S38-7f comment-stripped
+// idiom: a commented-out array cannot satisfy the order assertion.
+describe("session-47 (S47-3): the validated anchor order (the reachability contract, source-pinned)", () => {
+  it("standalone-CWD precedes the module anchor, and the CWD arm follows the loop", () => {
+    const raw = readFileSync(new URL("../src/lib/db-path.ts", import.meta.url), "utf-8");
+    const src = stripComments(raw);
+    const orderStart = src.indexOf("const validated: Array<() => string | null> = [");
+    expect(orderStart, "the validated anchor array must exist").toBeGreaterThan(-1);
+    const arrEnd = src.indexOf("];", orderStart);
+    const arr = src.slice(orderStart, arrEnd);
+    const standaloneAt = arr.indexOf("repoRootFromStandaloneCwd");
+    const moduleAt = arr.indexOf("repoRootFromModule");
+    expect(standaloneAt, "the standalone-CWD anchor must be in the array").toBeGreaterThan(-1);
+    expect(moduleAt, "the module anchor must be in the array").toBeGreaterThan(-1);
+    expect(
+      standaloneAt,
+      "standalone-CWD must precede the module anchor (the .next/standalone launch shape)",
+    ).toBeLessThan(moduleAt);
+    // and the unvalidated CWD arm runs only AFTER the validated loop —
+    // never inside it (the loop body returns on the first hit; the
+    // fallback line must sit past the array's closing bracket).
+    const fallbackAt = src.indexOf("cwdFallbackUrl(process.cwd(), pathRef, query)");
+    expect(fallbackAt, "the CWD fallback consumption must exist").toBeGreaterThan(arrEnd);
   });
 });

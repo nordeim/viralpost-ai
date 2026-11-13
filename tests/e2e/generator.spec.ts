@@ -82,9 +82,28 @@ test.describe("generator (desktop)", () => {
     await TEXTBOX(page).fill("x".repeat(600));
     await page.getByRole("button", { name: "Generate Post" }).click();
     await expect(page.getByText(/shorter/i)).toBeVisible({ timeout: 10_000 });
-    // The button settles (the reference hangs forever on errors — ours
-    // recovers; the superset contract).
+    // The button settles (the reference's dead generator now settles
+    // too, with its own failure toast — the D-1 record; ours recovers
+    // with a retry affordance, the superset contract).
     await expect(page.getByRole("button", { name: "Generate Post" })).toBeEnabled();
+  });
+
+  // Session-47 (S47-7, AUDIT-2 L3): the toast auto-dismiss leg — the
+  // 4s timer + the [paused, item.id] re-arm were source-pinned only;
+  // no e2e ever waited out the timer. The over-length error toast is
+  // the trigger (the same leg above renders it); the assertion reads
+  // the DISMISSAL, not the render (the anatomy suite owns the render
+  // face). ~4s timer + the settle margin; hover-pause stays
+  // source-pinned (a hover-hold e2e is timing-flaky by nature — the
+  // pause arm's dep-array shape is the cheap owner).
+  test("the error toast auto-dismisses (the 4s timer, S47-7)", async ({ page }) => {
+    await TEXTBOX(page).fill("y".repeat(600));
+    await page.getByRole("button", { name: "Generate Post" }).click();
+    const toast = page.getByText(/shorter/i);
+    await expect(toast).toBeVisible({ timeout: 10_000 });
+    // 4s timer + the dismissal margin (never hovered — the pointer
+    // rests away from the viewport's toast region by default).
+    await expect(toast).toBeHidden({ timeout: 7_000 });
   });
 });
 

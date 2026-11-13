@@ -108,7 +108,7 @@ Routes and their parity sources live in §3 of the investigation dossier.
 | Auth | localStorage token, platform OAuth | httpOnly cookie session; Google button → "not configured" toast when unset | Security hardening | Reasoned |
 | AI backend | Base44 `InvokeLLM` (observed 402-dead) | Local deterministic engine (a documented provider wire-in point — no provider env is read today) | Must actually work offline | Reasoned |
 | Contact form | Client-side stub, no persistence | POST → SQLite ContactMessage | Advertised action must be real | Reasoned |
-| Generation errors | Infinite "Generating…" hang | Error toast + retry affordance | Reliability | Reasoned |
+| Generation errors | 402-dead generator; now settles with a failure toast, no generation ever lands (the session-46 D-1 re-verification — the infinite-hang posture is stale) | Error toast + retry affordance — and a WORKING generation | Reliability | Reasoned |
 | Footer socials | `href="#"` dead stubs | Real platform homepages | Dead controls are a defect | Reasoned |
 | Free-quota source | localStorage only (client-trustworthy) | Same UX, plus server-side IP rate limit on `/api/generate` | Abuse resistance | Reasoned |
 | Unknown-route titles | SPA derived `<StartCase(last segment)> \| ViralPost AI` at session-2's capture (17 live path shapes); **stopped deriving by session-45's walk** — bare "ViralPost AI" on every probed unknown route (SSR + settled SPA title alike), the first reference-side drift since session-23's hamburger-aria flip | Keeps the derived title (13 unit pins + e2e + smoke leg 06, ADR-006) — the documented superset | SEO-meaningful titles; the S23-1 flip-flop doctrine (never chase a reference deploy that removes a superset) | Verified |

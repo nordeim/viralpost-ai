@@ -132,6 +132,7 @@ bun run test:e2e                              # Playwright suite (local)
 | Symptom | Cause | Fix |
 |---------|-------|-----|
 | `Error code 14: Unable to open the database file` | Server started from a directory that has no `prisma/schema.prisma` and no absolute `DATABASE_URL` | Start via `bun run start`, or set an absolute `file:` URL (§4) |
+| Fresh artifact boot: `/api/health` says healthy but every user query fails (P2021) | Session-47 (S47-1), live-probed: in an artifact-only deploy the MODULE anchor owns the db path — the artifact ships `src/lib/` + `prisma/`, so `urlForRoot` mkdirs `<artifact>/db` on demand and the engine opens a 0-byte table-less DB (`SELECT 1` succeeds → healthy 200; the first `User` query P2021s) | Run `bun run db:push` against the artifact's db (or restore a db file) at `<artifact>/db/custom.db`, or set an absolute `DATABASE_URL` (§4) |
 | The server refuses to boot, the log names `AUTH_SECRET` | The production boot gate (session-170): missing/short secret | Generate one with `openssl rand -hex 32`, set `AUTH_SECRET`, restart |
 | Logins loop back to `/login` | `AUTH_SECRET` changed between restarts | Keep the secret stable across restarts |
 | Rate-limited logins (429) | 10 attempts/IP/15 min fixed window | Wait for `Retry-After`, or restart to clear the in-memory buckets (single-node). Behind a reverse proxy, verify `VIRALPOST_PROXY_HOPS` matches the chain (§3) — a wrong depth merges every client into one bucket |

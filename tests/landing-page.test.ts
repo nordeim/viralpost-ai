@@ -476,3 +476,18 @@ describe("landing: the fire-and-forget reset timers are unmount-safe (session-17
     }
   });
 });
+
+// Session-47 (S47-5, AUDIT-2 L1): the hero portrait's CLS contract —
+// the S22-20/S23-2 comment stakes "the explicit width/height carry the
+// CLS contract" but NO pin owned the geometry (only alt was pinned, in
+// a11y-controls:319): deleting the dims — the exact regression the
+// comment warns about — shipped green. One source pin owns the
+// geometry face.
+describe("landing: the hero portrait's CLS contract (S47-5)", () => {
+  it("the plain <img> carries the explicit 512×512 geometry (the pre-load box reservation)", () => {
+    const hero = read("src/components/marketing/hero.tsx");
+    expect(hero).toContain('src="/hero-portrait.png"');
+    expect(hero).toContain("width={512}");
+    expect(hero).toContain("height={512}");
+  });
+});

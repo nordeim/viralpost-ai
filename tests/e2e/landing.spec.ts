@@ -123,3 +123,39 @@ test("unknown routes carry the reference's derived title", async ({ page }) => {
   const res = await page.goto("/some-missing-page");
   expect(res?.status()).toBe(404);
 });
+
+// Session-47 (S47-4, AUDIT-2 M1): the reveal-settle leg — the RUNTIME
+// face of the scroll-reveal contract. toBeVisible() is BLIND to the
+// stuck-hidden regression (it passes on opacity: 0 elements), so this
+// leg asserts the WRAPPER div's computed opacity — the element that
+// carries the hidden inline style — settles to 1 after scroll. The
+// heading's own computed opacity is useless here: a child reports its
+// own 1 under a 0-opacity parent. The "How It Works" head is the
+// below-fold target (the S19-11 pricing head is deliberately
+// UNFADED on the reference — never a Reveal target; its CARDS are).
+// Construction-direct teeth (the house e2e precedent): any close of
+// the settle path (the hiddenStyle, the IO flow, the reduced early
+// return) leaves the wrapper at 0 and flips this leg.
+test("the scroll-reveal settles visible after scroll (the wrapper's computed opacity)", async ({ page }) => {
+  const heading = page.getByRole("heading", { name: "How It Works" });
+  await heading.scrollIntoViewIfNeeded();
+  // The wrapper (the Reveal div) is the heading's parent; the 500ms
+  // transition needs its window before the assertion reads the rest
+  // state. waitFor settles the poll on the RESTING computed value.
+  const wrapper = heading.locator("..");
+  await expect(wrapper).toHaveCSS("opacity", "1", { timeout: 5_000 });
+});
+
+// Session-47 (S47-6, AUDIT-2 L2): the skip-link leg — the S22-11 skip
+// link + its S23-3 tabIndex={-1} target were source-pinned only; the
+// WebKit-specific sequential-focus behavior the cure exists for is a
+// RUNTIME face (the S32-6 doctrine). Tab at load → the revealed skip
+// pill holds focus → activate → #main-content holds focus.
+test("the skip link reaches #main-content by keyboard", async ({ page }) => {
+  // The skip link is the layout's FIRST focusable element.
+  await page.keyboard.press("Tab");
+  const skip = page.getByRole("link", { name: "Skip to content" });
+  await expect(skip).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("#main-content")).toBeFocused();
+});

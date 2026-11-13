@@ -37,12 +37,12 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..46.
+// are docs/session_1..47.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { applyBootEnvReport, bootEnvCheck, KNOWN_VIRALPOST_VARS } from "../src/lib/boot-env";
+import { applyBootEnvReport, bootEnvCheck, KNOWN_VIRALPOST_VARS, shadowingEnvFileWarnings } from "../src/lib/boot-env";
 
 const root = join(import.meta.dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
@@ -503,5 +503,62 @@ describe("session-22: the boot-warning precision batch", () => {
     const report = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "https://viralpost.example.com?utm=1&x=2" }));
     expect(report.warnings).toHaveLength(1);
     expect(report.warnings[0]).toContain("query");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-47 (S47-2): the shadowing-env-file warning seam — AUDIT-1's L2:
+// the db-path seam's recovery signature reads only .env, so a DATABASE_URL
+// in a shadowing .env.local/.env.<NODE_ENV> is honored as an unvalidated
+// override with zero operator signal. The seam is pure over (dir, env,
+// exists) — the injectable-exists pattern (cwdFallbackUrl's, session-45).
+// ---------------------------------------------------------------------------
+describe("session-47 (S47-2): the shadowing-env-file warning seam", () => {
+  it("warns for each shadowing file found, never for .env itself, and de-dups the NODE_ENV candidate", () => {
+    const found = new Set(["/repo/.env.local", "/repo/.env.development", "/repo/.env"]);
+    const warnings = shadowingEnvFileWarnings(
+      "/repo",
+      { NODE_ENV: undefined },
+      (p) => found.has(p),
+    );
+    // NODE_ENV unset → the candidate is .env.development; .env.local +
+    // .env.development warn; the .env file itself NEVER warns.
+    expect(warnings).toHaveLength(2);
+    expect(warnings.some((w) => w.includes(".env.local"))).toBe(true);
+    expect(warnings.some((w) => w.includes(".env.development"))).toBe(true);
+    expect(warnings.some((w) => w.includes(".env "))).toBe(false);
+  });
+
+  it("derives the NODE_ENV candidate and warns empty when only .env exists", () => {
+    const onlyDotEnv = (p: string) => p === "/repo/.env";
+    expect(shadowingEnvFileWarnings("/repo", { NODE_ENV: "production" }, onlyDotEnv)).toEqual([]);
+    const withProdLocal = (p: string) => p === "/repo/.env.production";
+    const warnings = shadowingEnvFileWarnings("/repo", { NODE_ENV: "production" }, withProdLocal);
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0]).toContain(".env.production");
+    // The doctrine sentence: the warning names the .env-only recovery
+    // signature face (the operator's actionable bit).
+    expect(warnings[0]).toContain("reads only .env");
+  });
+
+  // The S29-2 source-census idiom: the wiring — that register() actually
+  // consumes the seam — is pinned textually (the unit environment cannot
+  // boot instrumentation.ts; the edge-compile calibration moved the cwd
+  // read into the server wrapper, so the wiring face is the wrapper call).
+  it("the instrumentation wiring consumes the seam (the S29-2 source-census idiom)", () => {
+    const src = readFileSync(
+      join(import.meta.dirname, "..", "src", "instrumentation.ts"),
+      "utf-8",
+    );
+    expect(src).toContain("shadowingEnvFileWarningsForServer(process.env)");
+    // Warn-only: the wiring must print, never throw on the shadow face.
+    expect(src).toContain("for (const warning of shadowingEnvFileWarningsForServer(process.env)) {");
+    expect(src).toContain("console.warn(warning);");
+    // And the cwd read lives behind the dynamic import boundary, never
+    // in this file's own body (the edge-compile calibration) — asserted
+    // against the comment-stripped source so this very pin's own
+    // calibration prose (which names the API) cannot trip it.
+    const stripped = src.replace(/\/\/[^\n]*/g, "");
+    expect(stripped).not.toContain("process.cwd()");
   });
 });

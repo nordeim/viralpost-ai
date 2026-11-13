@@ -19,6 +19,17 @@
 export async function register(): Promise<void> {
   if (process.env.NEXT_RUNTIME === "edge") return;
   if (process.env.NEXT_PHASE === "phase-production-build") return;
-  const { applyBootEnvReport, bootEnvCheck } = await import("./lib/boot-env");
+  const { applyBootEnvReport, bootEnvCheck, shadowingEnvFileWarningsForServer } = await import("./lib/boot-env");
   applyBootEnvReport(bootEnvCheck(process.env));
+  for (const warning of shadowingEnvFileWarningsForServer(process.env)) {
+    console.warn(warning);
+  }
+  // Session-47 (S47-2): the shadowing-env-file warning — warn-only, the
+  // [boot] family. Printed AFTER the report so a fatal (which throws)
+  // still precedes it. The cwd read lives in the dynamically imported
+  // wrapper (boot-env.ts's shadowingEnvFileWarningsForServer) — this
+  // file is compiled for BOTH runtimes and a direct process.cwd() in
+  // its body trips the edge compile (the birth calibration above);
+  // one dir probe: the cwd is the repo root in every documented
+  // launch posture (AGENTS: "run everything from the repo root").
 }

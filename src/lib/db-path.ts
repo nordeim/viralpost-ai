@@ -11,9 +11,27 @@
 //     otherwise capture the CWD rule. Recognize that folder and return the
 //     real repo two levels up.
 //  2. This module's own repo root (validated by the source file existing
-//     on disk — the standalone bundle rewrites import.meta.url into a
-//     virtual path that must be ignored).
+//     on disk — the module's import.meta.url resolves to the REAL file
+//     path at runtime in the Turbopack build: the compiled chunk calls
+//     the runtime getter e.F("src/lib/db-path.ts"), which anchors on the
+//     chunk's actual location — a VIRTUAL path only in the webpack-era
+//     builds the original comment described).
 //  3. process.cwd() as a last resort.
+//
+// Session-47 (S47-1, AUDIT-1 M1 — the artifact-deploy truth, live-probed
+// on the built artifact): in the artifact-only deploy shape (the
+// standalone tree copied elsewhere, no repo root) the MODULE anchor
+// wins, NOT the CWD arm — the artifact ships both src/lib/db-path.ts
+// (runtime-resolvable) and prisma/schema.prisma, so anchor 2 validates
+// the artifact root and urlForRoot mkdirs <artifact>/db on demand. The
+// probed boot: /api/health answered healthy while <artifact>/db/
+// custom.db was created as a 0-byte file — a fresh artifact serves a
+// HEALTHY 200 against a table-less empty DB (SELECT 1 succeeds; the
+// first User query P2021s). The operator's fresh-artifact playbook:
+// run db:push (or restore a db file) at <artifact>/db/custom.db, or
+// set an absolute DATABASE_URL per DEPLOYMENT.md §4/§7. The CWD arm
+// fires only when BOTH validated anchors miss (a stripped artifact /
+// an import.meta.url failure).
 //
 // Anchors 1–2 are VALIDATED (a prisma/schema.prisma really exists at the
 // root they report), so their candidate is accepted unconditionally and the
@@ -146,17 +164,23 @@ function decomposeFileRef(ref: string): { pathRef: string; query: string } {
 // gap: the S44-1 query re-append on this arm shipped with zero pins —
 // revertable through a green gate). urlForRoot's own testing precedent:
 // the seam is exported and pinned directly. The arm is
-// production-reachable in the artifact-only deploy shape (no repo root)
-// but fires ONLY when the CWD already carries the target's parent
+// production-reachable ONLY when BOTH validated anchors miss (a
+// stripped artifact without src/lib + prisma/schema.prisma, or an
+// import.meta.url failure — see the S47-1 header note above) and
+// fires only when the CWD already carries the target's parent
 // directory: for the mandated ref the dirname check tests <cwd>/db
 // (candidate = join(cwd, "prisma", "../db/custom.db") normalizes to
-// <cwd>/db/custom.db) — and the artifact trace ships prisma/ while
-// EXCLUDING db/** (next.config.ts's outputFileTracingExcludes), so a
-// fresh artifact passes the raw URL through and the operator must
-// supply the db folder (or set an absolute DATABASE_URL — the
-// DEPLOYMENT.md §4 recommendation). The traced-prisma shape satisfies
-// the check only for a `file:custom.db`-style ref (dirname =
-// <cwd>/prisma, which the trace DOES ship).
+// <cwd>/db/custom.db). The traced prisma/ folder satisfies the check
+// only for a `file:custom.db`-style ref (dirname = <cwd>/prisma,
+// which the trace DOES ship) — for the mandated `file:../db/...` ref
+// the arm needs an operator-supplied <cwd>/db folder, else null →
+// the raw URL pass-through (an absolute DATABASE_URL is the
+// DEPLOYMENT.md §4 recommendation either way).
+// (Session-47, S47-1 — the artifact-deploy TRUTH, live-probed on the
+// built artifact: in the artifact-only shape the MODULE anchor owns
+// resolution and the CWD arm NEVER fires — the S46-2 sentence that
+// placed the raw pass-through posture on the fresh artifact was
+// wrong. See the anchor-order header at the top of this file.)
 export function cwdFallbackUrl(
   cwd: string,
   pathRef: string,
@@ -351,7 +375,7 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  *
  * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
  * NEO-CRM seam's own recovery session; this repo's sessions are
- * docs/session_1..46, the SKILL §0.5 enumeration): the standalone server.js runs
+ * docs/session_1..47, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The

@@ -25,6 +25,12 @@
 // SOFT (the DX posture unchanged: the DEV fallback stays documented in
 // auth.ts; NODE_ENV !== "production" never fatals).
 
+// Session-47 (S47-2): the shadow seam below is the only fs-touching
+// default in this module (the injectable-exists pattern — bootEnvCheck
+// itself stays pure over the env record).
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
 /** The closed VIRALPOST_* knob set (the six-knob contract's 3 server knobs). */
 export const KNOWN_VIRALPOST_VARS: ReadonlySet<string> = new Set([
   "VIRALPOST_PROXY_HOPS",
@@ -369,4 +375,51 @@ export function applyBootEnvReport(
   const logger = deps.logger ?? console;
   for (const warning of report.warnings) logger.warn(warning);
   if (report.fatal !== null) throw new Error(report.fatal);
+}
+
+// Session-47 (S47-2): the shadowing-env-file warning — a pure seam in
+// the bootEnvCheck family. WHY: the db-path seam's bun-absolutization
+// recovery signature reads ONLY .env (readDatabaseUrlFromEnvAt — the
+// S46-9 .env-only face), but the env loaders honor the standard
+// cascade (.env.local and .env.<NODE_ENV> beat .env). A DATABASE_URL
+// carried in a shadowing file lands in process.env outside the seam's
+// loader rules — it matches neither signature arm and is honored as
+// an "intentional override," potentially pointing the process at a
+// database outside the repo (the founding wrong-DB shape) with zero
+// operator signal. The warn-only posture (never fatal) follows the
+// S13-1 doctrine: a shadowing file may be a legitimate override the
+// operator chose; the warning declares the posture. The
+// injectable-exists pattern (cwdFallbackUrl's, session-45): the seam
+// stays pure over (dir, env, exists) so the unit pins never touch the
+// disk. The .env file ITSELF is never a candidate — it is the file
+// the seam's signature arms read.
+export function shadowingEnvFileWarnings(
+  dir: string,
+  env: { NODE_ENV?: string | undefined },
+  exists: (path: string) => boolean = existsSync,
+): string[] {
+  const candidates = new Set([".env.local", `.env.${env.NODE_ENV ?? "development"}`]);
+  const found = [...candidates].filter((name) => exists(join(dir, name)));
+  return found.map(
+    (name) =>
+      `[boot] a shadowing ${name} exists at ${dir} — the db-path seam's recovery signature reads only .env, so a DATABASE_URL defined in ${name} is honored as an unvalidated override (move the value into .env, or declare the override deliberately — see docs/DEPLOYMENT.md §4)`,
+  );
+}
+
+// Session-47 (S47-2, the build calibration): the SERVER wiring face —
+// instrumentation.ts is compiled for BOTH runtimes (Next compiles the
+// hook for node and edge alike), and a DIRECT process.cwd() call in
+// its module body trips Turbopack's edge compile ("a Node.js API is
+// used … not supported in the Edge Runtime" — the warning shipped
+// once at birth and was cured in the same round). The cwd read lives
+// HERE instead: this module is reached only through the dynamic
+// import inside register()'s POST-EDGE-GUARD branch, so the edge
+// compile of instrumentation.ts never statically sees it (the
+// next-runtime guard returns before the import executes on edge).
+// The pure seam above stays pure — this wrapper is the Node-only
+// adapter, the applyBootEnvReport pattern's shadow sibling.
+export function shadowingEnvFileWarningsForServer(
+  env: { NODE_ENV?: string | undefined },
+): string[] {
+  return shadowingEnvFileWarnings(process.cwd(), env);
 }

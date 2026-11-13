@@ -233,3 +233,44 @@ describe("session-37 (S37-6d): the WebGL hero releases its GL objects on the ear
     expect(linkFail).toContain("gl.deleteShader(fs)");
   });
 });
+
+// ---------------------------------------------------------------------------
+// Session-47 (S47-4, AUDIT-2 M1): the scroll-reveal's settle contract —
+// the zone's highest-blast-radius component (17 live call sites: the
+// whole landing page's content visibility) carried ZERO pins, and BOTH
+// existing oracles are blind to the stuck-hidden regression:
+// Playwright's toBeVisible() passes on opacity: 0 elements (visibility
+// = a non-empty box + not display:none/visibility:hidden) and axe-core
+// does not fail headings at opacity 0 — a broken hiddenStyle, IO settle
+// flow, reduced/no-IO early return, or []-deps arm ships green through
+// the entire gate. The e2e settle leg (landing.spec) owns the RUNTIME
+// face (the wrapper's computed opacity reaches 1 after scroll); this
+// source pin owns the STRUCTURAL face: both hidden forms, both settle
+// arms, the early-return pair, and the disconnect pair. Single-tooth
+// per N12-2: this suite's existing arms cover particle-text +
+// iridescence only — no arm reads reveal.tsx (enumerated at birth).
+// ---------------------------------------------------------------------------
+describe("session-47 (S47-4): the scroll-reveal settle contract (source-pinned)", () => {
+  it("ships both hidden forms, settles to opacity 1/transform none, and settles immediately when reduced or observer-less", () => {
+    const src = read("src/components/effects/reveal.tsx");
+    // Both hidden inline forms (SSR ships these; a broken form =
+    // visible flash or a stuck translate).
+    expect(src).toContain('? { opacity: 0, transform: "translateX(-16px)" }');
+    expect(src).toContain(': { opacity: 0, transform: "translateY(20px)" }');
+    // The settle arms — the ONLY path from hidden to visible (the IO
+    // callback AND the immediate pair; a dropped line here is the
+    // stuck-hidden regression the toBeVisible oracles cannot see).
+    expect(src).toContain('el.style.opacity = "1";');
+    expect(src).toContain('el.style.transform = "none";');
+    // Reduced motion or no IntersectionObserver support settles
+    // immediately (never stuck hidden — the a11y floor).
+    expect(src).toMatch(/if \(reduced \|\| typeof IntersectionObserver === "undefined"\) \{\s*settle\(\);\s*return;/);
+    // The observer disconnects on settle AND on unmount (the effects
+    // lifecycle law).
+    expect(src).toMatch(/entry\.isIntersecting\) \{\s*settle\(\);\s*io\.disconnect\(\);/);
+    expect(src).toContain("return () => io.disconnect();");
+    // The effect arms ONCE with [] deps (the S31-5b mount-time
+    // contract — the hidden style derives from mount-time props).
+    expect(src).toMatch(/\}, \[\]\);/);
+  });
+});
