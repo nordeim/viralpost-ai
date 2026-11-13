@@ -193,6 +193,17 @@ account", Email/Password/Confirm, "Create account"). **Verified.**
 ### 3.7 404
 
 H1 "404", H2 "Page Not Found", button "Go Home". **Verified.**
+**[Session-45 re-verification (2026-11-13): the unknown-route TITLE
+family drifted — the reference now ships the BARE "ViralPost AI" title
+on every probed unknown route (/NoSuchRoute, /Dashboard, /Whatever,
+/page2; SSR HTML title and settled SPA document.title alike), while
+session-2's capture pinned the `<StartCase(last segment)> | ViralPost
+AI` derivation across 17 live path shapes. The 404 BODY still matches
+byte-for-byte (H1/H2/message/Go Home), and the known-route title family
+still holds. The clone keeps its derived title as the documented
+superset — the Deviations Ledger row (implementation-plan §6); the
+S23-1 flip-flop doctrine: never chase a reference deploy that removes
+a superset.]**
 
 ## 4. Generator behavior (the core workflow)
 

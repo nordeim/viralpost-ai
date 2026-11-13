@@ -219,6 +219,14 @@ import {
 // docs-counts arms: the three-site smoke-leg prose census (S44-4a)
 // and the eslint off-list count census (S44-5a)) and the e2e 65
 // unchanged. SMOKE 16 unchanged.
+// s45: 701/40 (+3 the db-path cwdFallbackUrl seam pins — S45-1: the
+// CWD last-resort arm's dirname-join/query/neither-exists faces, the
+// arm previously unpinnable through resolveDatabaseUrl (the module
+// anchor always wins); +2 the docs-counts arms: the runtime-dependency
+// surface census (S45-6a) and the model-LIST census (S45-7a)) and the
+// e2e 65 unchanged (the S45-8 HSTS fold is IN PLACE inside the
+// existing headers test, +0; the S45-5a PAD §12 smoke-leg site joins
+// the S44-4a arm IN PLACE, +0). SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -226,7 +234,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 696;
+const UNIT = 701;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -240,6 +248,16 @@ const BADGE = UNIT + E2E;
 
 const root = join(import.meta.dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
+
+// Session-45 (S45-9): the house idiom for textual pins (the S38-7f
+// form, the seo-surfaces spelling) — comments stripped before the
+// assertion so a commented-out entry cannot satisfy (or inflate) a
+// disk-derived count.
+function stripComments(src: string): string {
+  return src
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/\/\/[^\n]*/g, "");
+}
 
 // Session-23 (S23-10): RECURSIVE — the runner's include is
 // tests/**/*.test.ts, and a flat scan left a nested suite EXECUTED but
@@ -406,18 +424,23 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
     expect(skill).toContain(`The title derivation: ${pins.length} unit pins`);
   });
 
-  // Session-44 (S44-4): the three hand-maintained smoke-leg PROSE sites
+  // Session-44 (S44-4): the hand-maintained smoke-leg PROSE sites
   // (README's quickstart line, CLAUDE's command table + testing
   // section) join the disk family — the S28-6 census pins the ladder's
-  // own ok-NN markers, but these three prose spellings could drift
+  // own ok-NN markers, but these prose spellings could drift
   // through a green gate on a 17th leg (the S42-9/S43-4 genus, three
-  // sites deeper).
-  it("session-44 (S44-4): the three prose smoke-leg sites derive from the constant (which the S28-6 disk census pins)", () => {
+  // sites deeper). Session-45 (S45-5): the FOURTH prose site — PAD
+  // §12's smoke-test.sh row ("The 16-leg artifact ladder") — joins the
+  // arm (the D1 find: pinned only for its line count, never for the
+  // leg-count spelling).
+  it("session-44 (S44-4) + session-45 (S45-5): the four prose smoke-leg sites derive from the constant (which the S28-6 disk census pins)", () => {
     const readme = read("README.md");
     expect(readme).toContain(`./scripts/smoke-test.sh # ${SMOKE}-leg curl ladder`);
     const claude = read("CLAUDE.md");
     expect(claude).toContain(`| \`./scripts/smoke-test.sh\` | ${SMOKE}-leg curl ladder |`);
     expect(claude).toContain(`**Smoke (bash)**: ${SMOKE} legs`);
+    const pad = read("Project_Architecture_Document.md");
+    expect(pad).toContain(`The ${SMOKE}-leg artifact ladder`);
   });
 
   // Session-44 (S44-5): the eslint off-list rule count — live-true
@@ -426,13 +449,72 @@ describe("docs-counts: the live-tense count sites (the badge-drift genus, retire
   // config axis: a planted 28th off-switch ships green while both docs
   // say 27).
   it("session-44 (S44-5): the off-list rule count derives from eslint.config.mjs on disk", () => {
-    const config = read("eslint.config.mjs");
+    // Session-45 (S45-9): comments stripped before the match (the
+    // S38-7f idiom, the seo-surfaces form) — a future explanatory
+    // comment carrying the `: "off"` literal would otherwise inflate
+    // the count and false-RED the arm.
+    const config = stripComments(read("eslint.config.mjs"));
     const offs = config.match(/:\s*"off"/g) ?? [];
     expect(offs.length, "off-list entries on disk (the floor guards the extraction itself)").toBeGreaterThanOrEqual(20);
     const claude = read("CLAUDE.md");
     expect(claude).toContain(`${offs.length} correctness-tier rules`);
     const pad = read("Project_Architecture_Document.md");
     expect(pad).toContain(`${offs.length} rules (`);
+  });
+
+  // Session-45 (S45-6): the runtime-dependency count — live-true (the
+  // dependency-diet sentence's EIGHT) and carried by PAD §1.2 + SKILL
+  // §2, but owned by no arm (the S44-5 genus on the dependency axis: a
+  // 9th dependency ships green while both docs say EIGHT). The
+  // backticked names in the PAD sentence must set-equal
+  // package.json's dependencies — both directions (the S28-2 exact-set
+  // form) — and the word form derives through the one-home map.
+  it("session-45 (S45-6): the runtime-dependency surface derives from package.json on disk", () => {
+    const pkg = JSON.parse(read("package.json")) as { dependencies?: Record<string, string> };
+    const deps = Object.keys(pkg.dependencies ?? {}).sort();
+    expect(deps.length, "runtime deps on disk (the floor guards the extraction itself)").toBeGreaterThanOrEqual(8);
+    const pad = read("Project_Architecture_Document.md");
+    const start = pad.indexOf("runtime dependency surface");
+    expect(start, "PAD's dependency-diet sentence must exist").toBeGreaterThanOrEqual(0);
+    // The slice ends before the devDependency clause (its backticked
+    // `prisma` is not a runtime dep).
+    const sentence = pad.slice(start, pad.indexOf("plus the", start));
+    const listed = [...sentence.matchAll(/`([^`]+)`/g)].map((m) => m[1]);
+    expect(listed.sort(), "the PAD sentence's backticked names set-equal package.json's runtime deps (both directions)").toEqual(deps);
+    const DEP_WORDS: Record<number, string> = { 8: "EIGHT" };
+    const word = DEP_WORDS[deps.length];
+    expect(word, `a ${deps.length}-dependency surface is new — map the count to its word form in this arm and re-anchor both doc sites`).toBeDefined();
+    // The sentence wraps across PAD's line width — normalize before
+    // the phrase assertion (the neo-crm s167 whitespace lesson).
+    expect(sentence.replace(/\s+/g, " ")).toContain(`exactly ${word} packages`);
+    const skill = read("viralpost-ai_SKILL.md");
+    expect(skill).toContain(`— ${word} packages`);
+  });
+
+  // Session-45 (S45-7): the model LIST — the S40-11 schema census
+  // iterates a hardcoded ["User", "ContactMessage"], so a third model,
+  // a rename, or a missing PAD §4.1 block was invisible to it, and the
+  // "Two models" prose (CLAUDE + PAD §4.2) had no owner. This arm
+  // derives the list from schema.prisma on disk; the S40-11 arm keeps
+  // the FIELDS face (the documented co-pin, the N12-2 form: a removed
+  // PAD §4.1 block trips both).
+  it("session-45 (S45-7): the model LIST derives from prisma/schema.prisma on disk (the S40-11 arm owns the fields)", () => {
+    const schema = read("prisma/schema.prisma");
+    const models = [...schema.matchAll(/^model (\w+) \{/gm)].map((m) => m[1]);
+    expect(models.length, "models on disk (the floor guards the extraction itself)").toBeGreaterThanOrEqual(2);
+    const pad = read("Project_Architecture_Document.md");
+    const pad41 = pad.slice(pad.indexOf("### 4.1 Database Schema"), pad.indexOf("### 4.2"));
+    expect(pad41.length, "PAD §4.1 must exist (the slice found it)").toBeGreaterThan(0);
+    const claude = read("CLAUDE.md");
+    for (const model of models) {
+      expect(pad41, `PAD §4.1 must carry the ${model} entity block — add it in the same commit as any schema change`).toContain(`${model} {`);
+      expect(claude, `CLAUDE's models sentence must carry \`${model}\``).toContain(`\`${model}\``);
+    }
+    const MODEL_WORDS: Record<number, string> = { 2: "Two" };
+    const word = MODEL_WORDS[models.length];
+    expect(word, `a ${models.length}-model schema is new — map the count to its word form in this arm and re-anchor both doc sites`).toBeDefined();
+    expect(claude).toContain(`${word} models:`);
+    expect(pad).toContain(`${word} models by design`);
   });
 
   it("AGENTS carries the live unit + e2e + smoke counts", () => {
@@ -780,7 +862,10 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
   // leg markers on disk and demands equality with the constant, plus
   // the echo literal shape.
   it("SMOKE matches the live ladder on disk (the ok NN leg markers + the PASS echo literal)", () => {
-    const smoke = read("scripts/smoke-test.sh") ?? "";
+    // Session-45 (S45-10): the dead `?? ""` retired — read() is
+    // readFileSync (throws on a missing file, non-nullable), the
+    // S39-12 genus at its last site.
+    const smoke = read("scripts/smoke-test.sh");
     const legs = smoke.match(/\bok \d{2} "/g) ?? [];
     expect(legs.length, `smoke legs on disk: ${legs.length} (SMOKE says ${SMOKE}) — re-anchor SMOKE + every doc site above`).toBe(SMOKE);
     expect(smoke, "the ladder's own summary line must carry the constant").toContain(`SMOKE: ${SMOKE}/${SMOKE} PASS`);

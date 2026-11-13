@@ -26,6 +26,18 @@
 // (Session-31, S31-5a: the token is spelled prose-safe here — Tailwind
 // v4's candidate scanner reads comments, and the verbatim spelling
 // emitted a never-matched rule into every build; the S28-4 doctrine.)
+//
+// Session-45 (S45-3/S45-4, live-censused): the Logo and outside-tap
+// faces are CENSUSED PARITY, not close-arm gaps — the reference's own
+// panel stays open on a same-route Logo click (its /Home logo on
+// /Home, probed live at 390×844) and on a real click/tap on page
+// content below the open panel; ours matches BOTH (the /Home→308→/
+// navigation resolves before the pathname commits, so the adjust block
+// below never fires — pathname-inert, like the reference's same-route
+// face). The cross-page Logo click closes on both sides (route
+// change); ours adds the focus-return superset there. Do NOT "fix" the
+// same-route face into a close arm — that would diverge from the
+// reference's censused behavior.
 
 import * as React from "react";
 import Link from "next/link";

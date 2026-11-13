@@ -16,6 +16,19 @@
 // corrected session-40, S40-7; both files now describe the one
 // mechanism the same way).
 //
+// (Session-45, S45-11 — the drift record: the reference's derivation
+// NO LONGER REPRODUCES. Four probed unknown routes (/NoSuchRoute,
+// /Dashboard, /Whatever, /page2) all shipped the BARE "ViralPost AI"
+// title at session-45's walk — SSR HTML title and settled SPA title
+// alike — while the known-route family still holds (/Tool →
+// "Tool | ViralPost AI" both sides). The first reference-side drift
+// since session-23's hamburger-aria flip; the S23-1 flip-flop doctrine
+// governs: ours KEEPS the derived form — test-pinned (13 unit arms),
+// ADR-006, SEO-meaningful — as the DOCUMENTED SUPERSET, and the drift
+// is recorded (the Deviations Ledger row; docs/reference-
+// investigation.md §3.7). Never chase a reference deploy that removes
+// a superset.)
+//
 // The word rule is NOT lodash startCase — the reference's live behavior
 // keeps digits inside words (/page2 -> "Page2", /12ft -> "12ft",
 // /a1b2 -> "A1b2"):

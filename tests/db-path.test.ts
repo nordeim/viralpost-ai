@@ -3,6 +3,7 @@ import { tmpdir } from "os";
 import { join } from "path";
 import { afterEach, describe, expect, it } from "vitest";
 import {
+  cwdFallbackUrl,
   effectiveDatabaseUrl,
   parseEnvFile,
   resolveDatabaseUrl,
@@ -252,7 +253,7 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34, a donor
   // S33-3): the session-34/35/36 numbers in this describe cite the
   // NEO-CRM donor ledger (the template repo the db-path seam was ported
   // from — its own standalone-launch-recovery sessions). THIS repo's
-  // own sessions are docs/session_1..44; the donor enumeration lives
+  // own sessions are docs/session_1..45; the donor enumeration lives
   // in viralpost-ai_SKILL.md §0.5. Unmarked, the numbers collide with
   // this repo's imminent session 34/35/36 rounds — the exact genus
   // §0.5 exists to prevent (the S31-4 auth.ts precedent).
@@ -597,6 +598,40 @@ describe("resolveDatabaseUrl", () => {
   it("never returns the raw relative URL when the repo root is discoverable", () => {
     const resolved = resolveDatabaseUrl("file:../db/custom.db");
     expect(resolved).not.toBe("file:../db/custom.db");
+  });
+});
+
+describe("session-45 (S45-1): cwdFallbackUrl — the CWD last-resort arm's pure seam", () => {
+  // resolveDatabaseUrl reaches the CWD arm only when BOTH validated
+  // anchors miss — a shape the unit environment can never produce (the
+  // module anchor always wins from this file's own import.meta.url), so
+  // the arm — the third of S44-1's "three consumption sites" — shipped
+  // with ZERO pins: its query re-append and its exists/dirname guard
+  // were revertable through a green gate (the A1 coverage gap). The
+  // seam is exported and pinned directly (the urlForRoot precedent);
+  // the wiring in resolveDatabaseUrl is visually adjacent.
+  it("resolves through <cwd>/prisma/<ref> when the parent directory exists (the S22-17 dirname arm)", () => {
+    const cwd = "/scratch/repo";
+    // The fake answers true only for the candidate's PARENT (the
+    // dirname arm — the Prisma/SQLite engine then creates the file
+    // there); the candidate itself misses.
+    const exists = (p: string) => p === join(cwd, "db");
+    expect(cwdFallbackUrl(cwd, "../db/custom.db", "", exists)).toBe(
+      `file:${join(cwd, "db", "custom.db")}`,
+    );
+  });
+
+  it("preserves the ?query through the CWD fallback (the S44-1 contract's third site)", () => {
+    const cwd = "/scratch/repo";
+    const exists = () => true;
+    expect(cwdFallbackUrl(cwd, "../db/custom.db", "?connection_limit=1", exists)).toBe(
+      `file:${join(cwd, "db", "custom.db")}?connection_limit=1`,
+    );
+  });
+
+  it("returns null when neither the target nor its parent exists (the caller's rawUrl fallthrough)", () => {
+    const exists = () => false;
+    expect(cwdFallbackUrl("/scratch/repo", "../db/custom.db", "", exists)).toBeNull();
   });
 });
 

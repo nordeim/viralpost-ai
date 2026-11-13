@@ -4848,3 +4848,144 @@ Agent: main (Z.ai)
   post-cure re-run: no drift; captures 95/96 on the dev server
   (the mobile-menu open at 390×844 + the landing hero at 1280×800,
   PIL-verified).
+
+## Task 45 — The cwd-Fallback Seam Pins + The Bun-Header Truth Hedge + The Dep-Count & Model-List Census + The Reference 404-Title Drift Record + The Censused-Parity Batch (2026-11-13)
+
+Task ID: 45
+Agent: main (Z.ai)
+- SCOPE: the standing instruction re-run against the shipped tree
+  (`3331945`, session-44's commit; the owner's narration commit
+  `89e8930` followed, carrying session_45.md as the round-44
+  narration — replaced by this round's formal log). Docs review
+  (AGENTS/CLAUDE/README/PAD/SKILL v1.40.0, session_44.md,
+  session_45.md, the session-44 plan, worklog Task 44); the
+  codebase-understanding validation (structure, configs, seams);
+  the standing asks re-verified up front (the `.env`
+  `DATABASE_URL="file:../db/custom.db"` contract with `db/` at the
+  repo root; the vitest + playwright suites in place and current —
+  the chromium-1248 gap cured with the documented one-time
+  `bunx playwright install chromium`; the sitemap/robots/manifest/OG
+  family verified live against the reference in this round's walk;
+  `skills/` excluded from every gate; the committed `.env.example`
+  matching the six-knob contract). BASELINE GATE GREEN at the
+  documented counts (lint 0/0 · tsc 0 · unit 696/696, 40 files ·
+  build · smoke 16/16 · e2e 65/65, 9 specs · census MATCH).
+- AUDIT: three parallel dispatched subagents (AUDIT-1 API/lib seams,
+  AUDIT-2 components/pages/effects, AUDIT-3 SEO/configs/tests/docs)
+  + the lead's hand-verification of every load-bearing finding —
+  the decisive probes a fresh bun-absolutization run on the pinned
+  bun 1.3.14 (bun <file>, bun run <script>, bun -e, bun x prisma
+  all see the RAW relative file: value — no rewrite in any probed
+  shape, reproducing AUDIT-1's probe), a full trace of the Logo
+  close-arm family in navbar.tsx/logo.tsx (three call sites + the
+  adjust block), and mechanical verification of every unpinned
+  count site against disk (the PAD §12 smoke-leg row, the
+  EIGHT-packages sentence, the hardcoded model list):
+  **AUDIT-1 0C/0H/0M/2L/2I · AUDIT-2 0C/0H/0M/1L/3I · AUDIT-3
+  0C/0H/0M/3L/4I — combined 0 Critical / 0 High / 0 Medium / 6 Low
+  / 9 Info.** The session-44 diff verified correct and complete on
+  all three passes.
+- PARITY WALK: ALL CLONE FACES MATCH — the eighteenth consecutive
+  clean walk — with ONE REFERENCE-SIDE DRIFT FOUND (the first since
+  session-23's hamburger-aria flip): the reference's unknown-route
+  derived title NO LONGER REPRODUCES (bare "ViralPost AI" on
+  /NoSuchRoute, /Dashboard, /Whatever, /page2 — SSR HTML title and
+  settled SPA title alike; session-2's capture had pinned 17 live
+  path shapes; the known-route title family and the 404 body still
+  hold byte-for-byte). The S23-1 flip-flop doctrine governs: ours
+  KEEPS the derived title as the documented superset; the drift is
+  RECORDED (the Deviations Ledger row, reference-investigation
+  §3.7's bracketed note, the README deviations-table re-anchor, the
+  route-title.ts header note, the ADR-006 context bracket). THREE
+  NEW CENSUSES closed the audit's uncensused surfaces (the mobile
+  battery at a confirmed 390×844, computed styles as ground
+  truth): the Logo same-route face — the reference's own /Home
+  logo on /Home leaves its panel open; ours matches (the
+  /Home→308→/ navigation resolves before the pathname commits, the
+  adjust block never fires); the cross-page Logo click closes on
+  both sides (ours adds the focus-return superset); the outside-tap
+  face — a real click on page content below the open panel leaves
+  it open on BOTH sides; the 404 main-landmark face — the
+  reference's own 404 carries no <main> either (parity). The
+  standard battery re-verified: the panel byte-identical both
+  sides (the four nav links + the Gumroad pill, colors/hrefs/
+  typography, display block + max-height none, the
+  transparent-over-hero chain); the hamburger cursor pointer both
+  sides (the Tailwind v4 standing concern holding); the reference's
+  hamburger still ships NO aria family (our superset); Escape
+  leaves the reference's panel open (ours closes + returns focus);
+  the desktop nav byte-identical; the five-route head census
+  identical modulo origin; sitemap 4/4 + robots identical modulo
+  origin; the generator probe symmetrically dead/live; the login
+  round-trip both landing the landing (R /Home, L / — the
+  documented 308 deviation), the clone session verified live via
+  /api/auth/me (sepnetflix2023@outlook.com, role admin). The
+  neo-crm reference repo re-checked per the standing instruction:
+  its latest round (its session-217 / file session_459.md)
+  continues the semantic-prose census genus with its
+  mutation-battery discipline catching a third consecutive pin
+  BIRTH-DEFECT — the REDUNDANT ARM; patterns current, the lesson
+  APPLIED this round (every new arm checked for single-tooth
+  ownership, the batteries prove it).
+- CURED (TDD — every pin RED first or battery-planted): THE
+  CWD-FALLBACK SEAM PINS (S45-1, Low — the CWD last-resort arm,
+  the third of S44-1's "three consumption sites," shipped with
+  ZERO pin coverage: in the unit environment the module anchor
+  always wins so resolveDatabaseUrl tests never reach the arm;
+  extracted as the exported pure cwdFallbackUrl(cwd, pathRef,
+  query, exists) seam — the urlForRoot testing precedent — + 3
+  RED-first pins (the dirname-join face, the query-preserved face,
+  the neither-exists→null face) + 3 batteries (the exists-check
+  revert → exactly 1 RED, the query revert → exactly 1 RED, the
+  prisma-join revert → the 2 path-base pins RED — the documented
+  co-trip: both pins assert the resolved base)); THE BUN-HEADER
+  TRUTH HEDGE (S45-2, Low — the BUN ABSOLUTIZATION header stated
+  the rewrite as an unconditional fact; re-spelled to the
+  invocation/version-conditional truth with the regime-agnostic
+  resolution spelled: no-rewrite → the anchors resolve it;
+  rewrite → the signature arms catch it; both land on
+  <repo>/db/custom.db); THE CENSUSED-PARITY COMMENT BATCH (S45-3/
+  S45-4 — the navbar comment records the censused Logo
+  same-route/outside-tap/cross-page postures with the do-not-"fix"
+  warning); THE S45-5a EXTENSION (PAD §12's smoke-leg row joins
+  the S44-4a arm in place, the 15-leg planted-drift battery on
+  record); THE DEP-COUNT CENSUS (S45-6 — the EIGHT-packages
+  surface derives from package.json on disk: the PAD sentence's
+  backticked names set-equal the deps both directions (the S28-2
+  exact-set form) + the word form through a one-home count→word
+  map; the planted-9th battery on record); THE MODEL-LIST CENSUS
+  (S45-7 — the model LIST derives from schema.prisma (the S40-11
+  fields arm keeps the fields face, the documented co-pin): each
+  derived name must appear in PAD §4.1 + CLAUDE's models sentence,
+  both "Two models" word sites derive through the map; the
+  PAD-block-removal + third-model batteries on record); THE S45-8
+  HSTS FOLD (the third security header live-asserted in the
+  existing e2e test, the S25-17 in-place form, +0 count); THE
+  S45-9 COMMENT-STRIP (the S44-5a arm reads comment-stripped
+  eslint.config.mjs — the S38-7f idiom, the seo-surfaces form);
+  THE S45-10 DEAD-`?? ""` RETIREMENT (the S39-12 genus at its last
+  site); the accepted register: the #-containing-POSIX-filename
+  edge (A3), the Windows-form relative ref (A4), the 404/error
+  main-landmark posture (I1 — censused parity), the noValidate
+  password-length posture (I3 — the server guard owns the rule),
+  the AGENTS plans-map tail (D7), the standing register carried
+  forward.
+- COUNTS: UNIT 696 → 701 (+3 db-path: the cwdFallbackUrl seam
+  pins; +2 docs-counts: the S45-6a deps arm, the S45-7a model-list
+  arm — the S45-5a extension + the S45-8 HSTS fold are IN PLACE,
+  +0), SUITES 40, E2E 65, SMOKE 16, badge 761 → 766. Constants
+  re-anchored FIRST; the census walked the doc sites RED→GREEN
+  (PAD §12: db-path 400→437, navbar 268→280, route-title 62→75);
+  the ten provenance sites re-anchored to 1..45 — lag 0 at ship;
+  SKILL v1.40.0 → v1.41.0.
+- VERIFIED: the full gate on the exact commit tree (lint 0/0 · tsc
+  0 · unit 701/701, 40 files · build · smoke 16/16 · e2e 65/65, 9
+  specs · census MATCH); the eight mutation batteries single-tooth
+  on record (the cwdFallbackUrl exists-check revert 1/45, the
+  query revert 1/45, the prisma-join revert 2/45 — the documented
+  path-base co-trip, the PAD 15-leg drift, the planted 9th dep,
+  the PAD User-block removal (the arm + the S40-11 co-pin), the
+  planted third model); the parity walk post-cure re-run: all
+  clone faces hold, the reference drift adjudicated as documented;
+  captures 97/98 on the dev server (the mobile-menu open at
+  390×844 + the landing hero at 1280×800, PIL-verified).

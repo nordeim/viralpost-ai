@@ -159,6 +159,10 @@ test("the security headers ride every response", async ({ request }) => {
   const res = await request.get("/");
   expect(res.headers()["referrer-policy"]).toBe("strict-origin-when-cross-origin");
   expect(res.headers()["x-content-type-options"]).toBe("nosniff");
+  // Session-45 (S45-8): the third header joins its two live-asserted
+  // siblings (it rode only the http-headers source pin before — two of
+  // three asserted live). The S25-17 in-place fold: no count change.
+  expect(res.headers()["strict-transport-security"]).toBe("max-age=31536000");
 });
 
 test("the health endpoint answers the envelope", async ({ request }) => {

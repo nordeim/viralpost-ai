@@ -36,6 +36,17 @@
 // re-derives the URL from the RAW .env value via the schema rule. Any other
 // env value (a caller override such as the e2e suite's file:../db/e2e.db,
 // a postgres URL, a production absolute path) is respected as-is.
+// (Session-45, S45-2 — the truth hedge: the rewrite is INVOCATION- and
+// VERSION-CONDITIONAL, not an invariant. F11-18 live-reproduced it end
+// to end on `bun run start`, and the parent-of-repo signature is real in
+// deployed shapes; but session-45's fresh probe on the pinned bun 1.3.14
+// saw the RAW relative value through `bun <file>`, `bun run <script>`,
+// `bun -e`, and `bun x prisma` alike — no rewrite in any probed shape.
+// The seam is regime-agnostic either way: without the rewrite the raw
+// relative value misses both signature arms and resolves correctly
+// through the anchor tail; with it, the signature arms catch it. Both
+// postures land on <repo>/db/custom.db — the guard below exists for the
+// shapes that DO rewrite, whenever and wherever they occur.)
 
 // Session-41 (S41-14): the node: prefixes join the S40-12 normalization
 // (crypto's scope) — this module was the last bare-specifier holdout
@@ -128,6 +139,35 @@ function decomposeFileRef(ref: string): { pathRef: string; query: string } {
 }
 
 
+// Session-45 (S45-1): the CWD last-resort arm's decision, extracted as a
+// pure seam — in the unit environment the module anchor ALWAYS wins
+// (repoRootFromModule resolves from this file's own import.meta.url), so
+// resolveDatabaseUrl's tests can never reach the arm (the A1 coverage
+// gap: the S44-1 query re-append on this arm shipped with zero pins —
+// revertable through a green gate). urlForRoot's own testing precedent:
+// the seam is exported and pinned directly. The arm is
+// production-reachable in the artifact-only deploy shape (no repo root;
+// the traced prisma/ dir satisfies the dirname check →
+// <standalone>/db/custom.db).
+export function cwdFallbackUrl(
+  cwd: string,
+  pathRef: string,
+  query: string,
+  exists: (path: string) => boolean = existsSync,
+): string | null {
+  // Accept only when the target (or at least its parent directory — the
+  // Prisma/SQLite engine then creates the file there) already exists
+  // under the CWD — never mkdir from an unproven root (a stray CWD must
+  // not grow a db/ beyond what already exists). (Session-22, S22-17:
+  // the dirname arm is the real behavior — a present file implies its
+  // parent, so the candidate check is the belt-and-braces read.)
+  const candidate = join(cwd, "prisma", pathRef); // mirror the CLI rule
+  if (exists(candidate) || exists(dirname(candidate))) {
+    return `file:${candidate}${query}`;
+  }
+  return null;
+}
+
 export function resolveDatabaseUrl(rawUrl: string): string {
   if (!rawUrl.startsWith("file:")) return rawUrl; // postgres etc. — pass through
   const ref = rawUrl.slice("file:".length);
@@ -175,16 +215,13 @@ export function resolveDatabaseUrl(rawUrl: string): string {
     if (root) return urlForRoot(root, pathRef) + query;
   }
 
-  // Unvalidated last resort: accept only when the target (or at least its
-  // parent directory — the Prisma/SQLite engine then creates the file
-  // there) already exists under the CWD — never mkdir from an unproven
-  // root (a stray CWD must not grow a db/ beyond what already exists).
-  // (Session-22, S22-17: the comment now states the dirname arm's real
-  // behavior — the original "the target already exists" oversold it.)
-  const candidate = join(process.cwd(), "prisma", pathRef);
-  if (existsSync(candidate) || existsSync(dirname(candidate))) {
-    return `file:${candidate}${query}`;
-  }
+  // Unvalidated last resort (S45-1: the decision lives in the exported
+  // cwdFallbackUrl seam — pinned directly; see its header): accept only
+  // when the target (or at least its parent directory) already exists
+  // under the CWD — never mkdir from an unproven root. A null answer
+  // falls back to the raw URL (the caller's own pass-through posture).
+  const fallback = cwdFallbackUrl(process.cwd(), pathRef, query);
+  if (fallback) return fallback;
   return rawUrl;
 }
 
@@ -298,7 +335,7 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  *
  * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
  * NEO-CRM seam's own recovery session; this repo's sessions are
- * docs/session_1..44, the SKILL §0.5 enumeration): the standalone server.js runs
+ * docs/session_1..45, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The
