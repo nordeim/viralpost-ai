@@ -78,8 +78,11 @@ export function ContactForm() {
       // fetch resolved after the unmount cleanup ran; nothing that
       // matters after this line may run (Session-53, S53-4, AUDIT-2
       // I3: the old opening said "nothing" — the finally block's
-      // no-op setSending still runs; the state arms and the tracked
-      // timer arm are what must not). Session-52 (S52-2,
+      // no-op setSending still runs. Session-54, S54-3, AUDIT-2 I1:
+      // the load-bearing face is the tracked TIMER arm — a 2.6s timer
+      // on the dead ref nothing would ever clear; the state arms the
+      // gate also blocks are harmless no-ops (the S17-6 note's own
+      // split) — defense in depth, not necessity). Session-52 (S52-2,
       // AUDIT-2 L1): this block was pasted twice at the S51-2 ship — the
       // duplicate retired.
       if (!mounted.current) return;

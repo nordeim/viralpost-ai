@@ -139,11 +139,22 @@ describe("named-control source pins (the open surfaces)", () => {
     // comment-needle face stays REGISTERED, not cured: this round's
     // battery planted a JSX-comment needle and the one-idiom
     // stripComments family MISSED it (the `(^|\s)` block opener never
-    // matches the `{` of a `{/*` JSX comment — the gap is FAMILY-WIDE,
-    // ~40 sites in 20 files + the S48-1 census needle itself; closing
-    // it is the one-idiom shape's own dedicated round, registered
-    // S53-7, never a rider on this arm).
-    expect(src).toMatch(/\{sending \? \(\s*<Send[^]*?\) : sent \? \(\s*<Check[^]*?\) : \(\s*<Send/);
+    // matches the `{` of a `{/*` JSX comment — the gap is 39 anchored
+    // block-pass sites in 19 unit files + the S48-1 census's own
+    // runtime-constructed needle — Session-54, S54-5: the exact
+    // block enumeration; the earlier "~40 sites in 20 files" mixed
+    // the line-pass family's file count in); closing it is the
+    // one-idiom shape's own dedicated round, registered S53-7, never
+    // a rider on this arm.
+    // Session-54 (S54-1, AUDIT-2 L1): the spans CLOSED — every span
+    // now terminates at its own tag close (`[^>]*\/>`), no unbounded
+    // `[^]*?` anywhere. The old lazy spans were bounded only by the
+    // next `) : (`-shaped literal: a two-face regression (idle
+    // removed) plus an unrelated later Send-bearing ternary re-anchored
+    // the span across the ternary's `)}` and FALSE-GREENED the pin
+    // (the over-span genus, probe-verified live); the tag-close
+    // bounds also keep every attribute-layout reformat GREEN.
+    expect(src).toMatch(/\{sending \? \(\s*<Send[^>]*\/>\s*\) : sent \? \(\s*<Check[^>]*\/>\s*\) : \(\s*<Send[^>]*\/>\s*\)\}/);
   });
 
   // Session-25 (S25-2): the S24-3 genus, one file over — the generator

@@ -5834,3 +5834,89 @@ the gate → captures → push.
 
 **Gate at the session-53 ship: lint 0/0 · tsc 0 · unit 724/724 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 54 — The Icon-Pin Span Closure + The Deps-Pin Spacing Tolerance + The Comment-Truth Trio + The Precondition Pin + The Quote Re-Anchor (2026-11-14)
+Agent: main (Z.ai)
+Session: 54 (2026-11-14)
+
+Task: The standing instruction round on the session-53 tree (`5efce0b` +
+the owner's narration `9c53eef`): docs review → baseline gate → the
+comprehensive audit → the live reference parity walk → the TDD cures →
+the gate → captures → push.
+
+- CONTEXT: the workspace re-cloned (the sandbox reset between rounds);
+  `.env` restored from `.env.example` + the schema pushed + the seed
+  re-run (census MATCH); the one-time `bunx playwright install
+  chromium` re-run (the fresh cache held only 1200; the repo's
+  Playwright wants 1248). The core docs re-read and re-verified (AGENTS,
+  CLAUDE, README, PAD, SKILL v1.49.0); session_53.md (the formal log) +
+  the session-53 plan's post-execution record + worklog Task 53 +
+  session_54.md (the owner's round-53 narration) internalized; every
+  lockstep site confirmed at the session-53 ship counts.
+- BASELINE GATE GREEN at the exact documented counts: lint 0/0 · tsc 0 ·
+  unit 724/724 (40 files) · build · smoke 16/16 · e2e 70/70 (9 specs) ·
+  census MATCH — zero drift. neo-crm re-checked: unchanged (HEAD
+  b3d0fbe, still its session-217) — the seventh consecutive round.
+- AUDIT: three parallel subagents (API/lib seams, components/effects,
+  SEO/configs/tests/docs) — **AUDIT-1 0C/0H/0M/0L/2I · AUDIT-2
+  0C/0H/0M/2L/4I · AUDIT-3 0C/0H/0M/0L/0I** — combined 0C/0H/0M/2L/6I.
+  AUDIT-1 reproduced every S53-1 claim empirically (the GREEN face,
+  both plant RED paths, the S52-form gap, the co-pinned family, the
+  belt-and-braces — all verified against the real module); AUDIT-2
+  reproduced every S53-2/S53-3 battery claim; AUDIT-3 declared the
+  count ladder's e2e chain FULLY CONTIGUOUS 48→70 (every delta doubly
+  sourced) and swept the full lockstep layer clean. The lead's
+  hand-verifications: the over-span genus (the icon pin's lazy spans
+  re-anchor across the ternary's close on a compound plant — verified
+  live in the JS dialect; the lead's own Python probe first
+  false-negatived, the dialect lesson recorded: JS regexes probe in
+  JS); the deps pin's spacing fragility (three variants break the
+  byte-exact tail); the lead's first hardened icon form (AUDIT-2's
+  literal recommendation) STILL false-greens — only the fully-bounded
+  form passes all six probes.
+- PARITY WALK #27 — the twenty-seventh consecutive clean walk (every
+  face at the documented posture: the panel byte-identical, Escape via
+  a real key press, the outside-tap genuine both sides, the
+  route-change close R-unmount/L-hidden, the generator live with quota
+  0→1, head/sitemap/robots/login all matching). The session-53 walk
+  protocol baked in from the start — the walk ran clean on the FIRST
+  attempt both legs.
+- CURES (TDD): S54-1 the icon-pin span closure (every span terminates
+  at its own tag close `[^>]*\/>` — no unbounded `[^]*?`; the battery:
+  the over-span compound plant REDs the new form where it GREENed the
+  old, the idle-swap and branch-swap plants still RED, the
+  attribute-split reformat stays GREEN); S54-2 the deps-pin spacing
+  tolerance (`},\s*\[\s*\]\s*\);` — the battery: the three spacing
+  variants stay GREEN, the dep-plant REDs exactly the planted file's
+  expect); S54-3 the state-arms comment truth (the tracked TIMER arm
+  load-bearing, the state arms harmless no-ops — the S17-6 note's own
+  split); S54-4 the expect-message truth (the changing-dep clause + the
+  synchronous cleanup→body window — the two loose clauses retired);
+  S54-5 the registered note's exact enumeration (39 anchored block-pass
+  sites in 19 unit files + the S48-1 census needle — the mixed
+  line-pass figure retired); S54-6 the dotdot precondition pin (the
+  missing-intermediate invariant made mechanical — the battery: the
+  sibling-arm plant REDs at the precondition before silently re-masking
+  the resolve-only tooth); S54-7 the post-unmount error/catch-toast
+  register (global-notification UX, the reason recorded);
+  S54-8 the session_53.md vitest-quote re-anchor (the runner's actual
+  message form, the paraphrase's quotation marks retired).
+- COUNTS: UNIT 724 HELD, SUITES 40, E2E 70, SPECS 9, SMOKE 16, BADGE
+  794 — all held (every S54 cure extends an existing it in place; no
+  s54 ladder entry — no growth, the convention). No §12 row touched;
+  the ten provenance sites re-anchored to 1..54 — lag 0 at ship; SKILL
+  v1.49.0 → v1.50.0.
+- VERIFIED: the full gate on the exact commit tree (below); the
+  mutation batteries on record (the over-span compound plant, the three
+  spacing variants, the dep-plant, the idle-swap, the branch-swap, the
+  sibling-arm precondition plant); the parity walk post-cure (the
+  standing faces hold, no drift); the captures 115/116 on the dev
+  server (the owner-instructed posture, the session-29..53 precedent):
+  the mobile-menu open clean-walk at 390×844 + the landing hero at
+  1280×800, PIL-verified (99.9% / 100.0% non-white); docs lockstep
+  (README + AGENTS + SKILL v1.50.0 + the ten provenance sites + worklog
+  Task 54 + docs/session_54.md + the plan's post-execution record + the
+  session_53.md quote re-anchor).
+
+**Gate at the session-54 ship: lint 0/0 · tsc 0 · unit 724/724 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

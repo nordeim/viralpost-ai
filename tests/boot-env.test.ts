@@ -37,9 +37,9 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..53.
+// are docs/session_1..54.
 
-import { mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -676,6 +676,15 @@ describe("session-50 (S50-1): the launch-dir shadow union", () => {
       // arm (the alias face) — the co-pinned family unchanged; the
       // S52-5 statSync identity dedupe folds every alias spelling
       // too — belt-and-braces.
+      // Session-54 (S54-6, AUDIT-1 F2): the precondition pin — the
+      // arm's exclusive ownership of the resolve()-fold RED tooth
+      // depends on the intermediate NOT existing; the invariant was
+      // guaranteed only by the arm's own spelling. A future sibling
+      // arm that creates a `missing` dir (or a rename colliding with
+      // one) would silently re-mask the resolve-only plant — the
+      // exact S52→S53 genus. The expect makes the invariant
+      // mechanical: the plant REDs HERE first, at the precondition.
+      expect(existsSync(join(artifactDir, "missing")), "the dotdot arm's missing intermediate must not exist — the resolve()-fold tooth depends on it (S54-6)").toBe(false);
       process.env.PWD = `${artifactDir}/missing/..`;
       const dotted = shadowingEnvFileWarningsForServer({ NODE_ENV: "production" });
       expect(dotted.filter((w) => w.includes(".env.local")), "a ..-segment PWD folds onto the cwd — one warning").toHaveLength(1);

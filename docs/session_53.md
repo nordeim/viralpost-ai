@@ -170,7 +170,9 @@ sub-visual face, unchanged posture.
   true S50-1 form) still trips the it at the FIRST dedupe arm (the
   alias face — the co-pinned family unchanged); the NEW tooth — the
   resolve-removed plant (statSync dedupe kept) REDs at the dotdot arm
-  exactly ("expected 2 to have length 1"), proved both ways: the same
+  exactly (vitest: expected [ …(2) ] to have a length of 1 but got 2 —
+  Session-54, S54-8: the quote re-anchored to the runner's actual
+  message form), proved both ways: the same
   plant against the old sub form stays GREEN (the gap, demonstrated
   live).
 - **S53-2 (LOW, AUDIT-2 L1)** — the deps-array pin: the S17-6
