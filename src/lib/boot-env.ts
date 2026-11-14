@@ -182,6 +182,39 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
     );
   }
 
+  // ---- DATABASE_URL: the unclosed-quote residue (session-58, S58-1) ----
+  // A quoted DATABASE_URL line left unclosed in .env is the S57-1 span
+  // genus — and the two sanctioned loaders spell the SAME typo's residue
+  // DIFFERENTLY (live-probed both this round, ambient env unset, both
+  // quote chars): bun 1.3.14 SPANS the S3 shape (the value embeds a
+  // NEWLINE — `file:../db/custom.db\nOTHER="quoted value`) and keeps
+  // the leading quote on the single-line-unclosed shape; @next/env
+  // (next dev via node / the standalone server.js) NEVER spans — the S3
+  // shape keeps the LEADING QUOTE (`"file:../db/custom.db`), the
+  // single-line shape drops to undefined. Both residues ride the
+  // db-path seam's tail arm into a junk-named file under db/ that the
+  // engine ACCEPTS (a 0-byte file; SELECT 1 answers; the first User
+  // query P2021s — the S47-1 artifact genus; db-path.ts's S57-1b
+  // docblock owns the full truth). The runtime cure stays REGISTERED
+  // (the S53-6 posture: fix the .env) — this warning converts the genus
+  // from SILENT to loud, in EVERY mode (the F10-11 doctrine: a
+  // malformed value is always wrong, dev included — the operator edits
+  // .env in dev). A healthy URL never carries a control character or a
+  // leading quote, so every documented shape stays silent (the .env
+  // contract value, the e2e override, the :memory: pass-through, the
+  // absolute override). The value prints JSON.stringify'd — the
+  // residue is malformed by definition, and the escaped one-line form
+  // (the newline visible as \n) is the diagnostic itself.
+  const dbUrl = env.DATABASE_URL;
+  if (
+    dbUrl !== undefined && dbUrl !== "" &&
+    (/\p{Cc}/u.test(dbUrl) || dbUrl.startsWith('"') || dbUrl.startsWith("'"))
+  ) {
+    warnings.push(
+      `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries an unclosed quote residue from .env (the session-57 S57-1 genus) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`,
+    );
+  }
+
   // ---- The flag-typo guard (warn form) ---------------------------------
   // Two prefixes, two hazards (session-3, F3-1 — the session-2 rename
   // left this scan speaking the old NEO_ dialect while the knobs became

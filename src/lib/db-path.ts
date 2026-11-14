@@ -294,9 +294,12 @@ export function resolveDatabaseUrl(rawUrl: string): string {
  * junk file is created under <repo>/db/, `SELECT 1` answers, the
  * first `User` query P2021s — the S47-1 artifact genus: a healthy
  * 200 against a table-less empty DB). REGISTERED, not cured — the
- * S53-6 posture stands: fix the .env. Pinned session-57, S57-1a:
- * the parse fixtures + the resolve junk-tail face in
- * tests/db-path.test.ts.)
+ * S53-6 posture stands: fix the .env. Boot-warned session-58 (S58-1):
+ * the boot gate now names the residue BOTH sanctioned loaders leave
+ * (bun's span embeds a newline; @next/env keeps the leading quote or
+ * drops the line — live-probed both, both quote chars), so the genus
+ * is no longer silent. Pinned session-57, S57-1a: the parse fixtures
+ * + the resolve junk-tail face in tests/db-path.test.ts.)
  */
 export function parseEnvFile(contents: string): Record<string, string> {
   const out: Record<string, string> = {};
@@ -407,7 +410,7 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  *
  * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
  * NEO-CRM seam's own recovery session; this repo's sessions are
- * docs/session_1..57, the SKILL §0.5 enumeration): the standalone server.js runs
+ * docs/session_1..58, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The

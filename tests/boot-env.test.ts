@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..57.
+// are docs/session_1..58.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -431,6 +431,60 @@ describe("session-13 (S13-1): the unset in-app-delivery warning (the live-token-
     const report = bootEnvCheck(env({ VIRALPOST_DISABLE_IN_APP_OTP: "true" }));
     expect(report.warnings).toHaveLength(1);
     expect(report.warnings[0]).toContain("silently behaves as unset");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-58 (S58-1): the DATABASE_URL unclosed-quote residue warning.
+// The S57-1 span genus was SILENT at boot — the one standing genus with
+// zero boot-level signal while every lesser hazard warns. The loader
+// census (this round's own probes, ambient env unset, both quote
+// chars): bun 1.3.14 SPANS the S3 shape (an embedded NEWLINE rides the
+// value) and keeps the leading quote on the single-line-unclosed shape;
+// @next/env NEVER spans (the S3 shape keeps the LEADING QUOTE, the
+// single-line shape drops to undefined). Both residues are loader
+// spellings of the ONE operator typo; the pins split by residue face
+// (and by mode) so each plant REDs exactly its own pin.
+// ---------------------------------------------------------------------------
+describe("session-58 (S58-1): the DATABASE_URL unclosed-quote residue warning (the S57-1 span genus made loud)", () => {
+  it("the SPAN residue (bun's census: an embedded newline in the value, both quote-char spellings) warns", () => {
+    // bun's S3-span values — the double- and single-quote spellings.
+    const doubleQuoted = bootEnvCheck(env({ DATABASE_URL: 'file:../db/custom.db\nOTHER="quoted value' }));
+    expect(doubleQuoted.warnings).toHaveLength(1);
+    expect(doubleQuoted.warnings[0]).toContain("[boot] DATABASE_URL=");
+    expect(doubleQuoted.warnings[0]).toContain("unclosed quote");
+    expect(doubleQuoted.warnings[0]).toContain("P2021");
+
+    const singleQuoted = bootEnvCheck(env({ DATABASE_URL: "file:../db/custom.db\nOTHER='quoted value" }));
+    expect(singleQuoted.warnings).toHaveLength(1);
+    expect(singleQuoted.warnings[0]).toContain("unclosed quote");
+  });
+
+  it("the LEADING-QUOTE residue (@next/env's census: the quote kept on the value, both chars) warns; every documented clean shape stays silent", () => {
+    // @next/env's kept-residue — the double- and single-quote spellings.
+    expect(bootEnvCheck(env({ DATABASE_URL: '"file:../db/custom.db' })).warnings).toHaveLength(1);
+    const singleQuote = bootEnvCheck(env({ DATABASE_URL: "'file:../db/custom.db" }));
+    expect(singleQuote.warnings).toHaveLength(1);
+    expect(singleQuote.warnings[0]).toContain("unclosed quote");
+    // The clean shapes never warn: the .env contract value, the e2e
+    // override, the :memory: pass-through, an absolute override.
+    expect(bootEnvCheck(env()).warnings).toHaveLength(0);
+    expect(bootEnvCheck(env({ DATABASE_URL: "file:../db/e2e.db" })).warnings).toHaveLength(0);
+    expect(bootEnvCheck(env({ DATABASE_URL: "file::memory:" })).warnings).toHaveLength(0);
+    expect(bootEnvCheck(env({ DATABASE_URL: "file:/var/lib/viralpost/custom.db" })).warnings).toHaveLength(0);
+  });
+
+  it("development mode warns TOO (the F10-11 doctrine: a malformed value is always wrong — the operator edits .env in dev)", () => {
+    // Co-pin note (the N12-2 doctrine): this pin rides the LEADING-QUOTE
+    // residue's fixture by choice — its OWN face is the MODE (a
+    // prod-only gate is the plausible "cure" that would regress it; the
+    // mode-gate plant REDs exactly this pin, the production-defaulted
+    // span/leading pins staying green under it). The quote-disjunct
+    // plant trips this pin alongside the leading-quote pin (the
+    // documented co-pinning, battery on record session-58).
+    const report = bootEnvCheck(env({ NODE_ENV: "development", DATABASE_URL: '"file:../db/custom.db' }));
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("unclosed quote");
   });
 });
 

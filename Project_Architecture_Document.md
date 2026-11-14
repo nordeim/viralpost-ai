@@ -568,7 +568,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 40 | 727 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 40 | 730 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 70 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -586,7 +586,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 727/70/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 730/70/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -708,7 +708,7 @@ commit as the file.)
 | `src/lib/auth.ts` | 202 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
 | `src/lib/password.ts` | 69 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 141 | Fixed-window limiter, proxy-hop-aware client key |
-| `src/lib/db-path.ts` | 509 | THE database path resolver (ADR-008; the S44-1 tail decomposition — the query preserved, the fragment stripped, one helper for all three consumption sites; the cwdFallbackUrl seam, session-45 S45-1; the artifact-only truth + the .env-only-face notes, session-46 S46-2/S46-9; the artifact-deploy truth re-spell + the anchor-order note, session-47 S47-1; the collision-class doc truth + the unclosed-quote cross-line note, session-56 S56-1/S56-3; the spanned-value junk-DB truth re-spell + the refined span model, session-57 S57-1) |
+| `src/lib/db-path.ts` | 512 | THE database path resolver (ADR-008; the S44-1 tail decomposition — the query preserved, the fragment stripped, one helper for all three consumption sites; the cwdFallbackUrl seam, session-45 S45-1; the artifact-only truth + the .env-only-face notes, session-46 S46-2/S46-9; the artifact-deploy truth re-spell + the anchor-order note, session-47 S47-1; the collision-class doc truth + the unclosed-quote cross-line note, session-56 S56-1/S56-3; the spanned-value junk-DB truth re-spell + the refined span model, session-57 S57-1; the boot-warned clause — the residue BOTH loaders leave, session-58 S58-1) |
 | `src/lib/site.ts` | 219 | The metadata factory + canonical origin seam |
 | `src/lib/api.ts` | 323 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2; the transient-abort classifier, session-37, S37-2; the seam's own transient arm, session-38, S38-1; the two-code 503 taxonomy note, session-46 S46-7) |
 | `src/app/globals.css` | 250 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1) |

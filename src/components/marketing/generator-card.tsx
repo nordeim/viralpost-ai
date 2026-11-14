@@ -230,88 +230,88 @@ export function GeneratorCard() {
         </Reveal>
       ) : (
         <Reveal delay={100} className="bg-white rounded-3xl border border-slate-200 shadow-xl shadow-teal-100/50 p-6 sm:p-8">
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-xs font-medium text-slate-400">
-          {FREE_LIMIT - used} free generation{FREE_LIMIT - used !== 1 ? "s" : ""} remaining
-        </span>
-        <div className="flex gap-1" aria-hidden="true">
-          {Array.from({ length: FREE_LIMIT }).map((_, i) => (
-            <div
-              key={i}
-              className={`h-2 w-8 rounded-full transition-colors ${i < used ? "bg-teal-500" : "bg-slate-100"}`}
-            />
-          ))}
-        </div>
-      </div>
-      <label htmlFor="post-idea" className="sr-only">
-        Describe your post idea
-      </label>
-      <textarea
-        id="post-idea"
-        value={idea}
-        onChange={(e) => setIdea(e.target.value)}
-        placeholder="Example: motivational post for entrepreneurs about consistency"
-        rows={3}
-        className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 focus-visible:ring-2 focus-visible:ring-teal-600 transition-all resize-none"
-      />
-      <button
-        type="button"
-        onClick={generate}
-        disabled={generating || !idea.trim()}
-        className="mt-4 w-full py-3.5 bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-teal-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
-      >
-        {generating ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-            Generating...
-          </>
-        ) : (
-          <>
-            <WandSparkles className="h-4 w-4" aria-hidden="true" />
-            Generate Post
-          </>
-        )}
-      </button>
-      {post && (
-        <div className="mt-6">
-          <div className="bg-gradient-to-br from-teal-50/50 to-slate-50 border border-teal-100 rounded-2xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-semibold text-teal-600 uppercase tracking-wider">
-                Generated Post
-              </span>
-              <button
-                type="button"
-                onClick={copy}
-                // Session-21 (S21-20): the house focus-visible family (the
-                // S14-6 toast-dismiss / S15-8 hamburger arm) — keyboard-only
-                // visibility, the reference's base classes untouched.
-                // Session-24 (S24-4): the ring joins the S23-3 AA family —
-                // teal-500 computed ≈2.49:1 on the near-white card, under
-                // the 1.4.11 3:1 floor; teal-600 (≈3.74:1 on the card's
-                // bg-white — session-41, S41-7: the S24-4 cite said
-                // ≈3.05:1, a mismeasurement; 3.58:1 on slate-50) clears
-                // it and matches the textarea one block above.
-                className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-teal-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-teal-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
-              >
-                {copied ? (
-                  <>
-                    <Check className="h-3.5 w-3.5" aria-hidden="true" />
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-3.5 w-3.5" aria-hidden="true" />
-                    Copy
-                  </>
-                )}
-              </button>
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-xs font-medium text-slate-400">
+              {FREE_LIMIT - used} free generation{FREE_LIMIT - used !== 1 ? "s" : ""} remaining
+            </span>
+            <div className="flex gap-1" aria-hidden="true">
+              {Array.from({ length: FREE_LIMIT }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-2 w-8 rounded-full transition-colors ${i < used ? "bg-teal-500" : "bg-slate-100"}`}
+                />
+              ))}
             </div>
-            <p className="text-slate-700 leading-relaxed whitespace-pre-line text-sm">
-              {post}
-            </p>
           </div>
-        </div>
-      )}
+          <label htmlFor="post-idea" className="sr-only">
+            Describe your post idea
+          </label>
+          <textarea
+            id="post-idea"
+            value={idea}
+            onChange={(e) => setIdea(e.target.value)}
+            placeholder="Example: motivational post for entrepreneurs about consistency"
+            rows={3}
+            className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 focus-visible:ring-2 focus-visible:ring-teal-600 transition-all resize-none"
+          />
+          <button
+            type="button"
+            onClick={generate}
+            disabled={generating || !idea.trim()}
+            className="mt-4 w-full py-3.5 bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-teal-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+          >
+            {generating ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                Generating...
+              </>
+            ) : (
+              <>
+                <WandSparkles className="h-4 w-4" aria-hidden="true" />
+                Generate Post
+              </>
+            )}
+          </button>
+          {post && (
+            <div className="mt-6">
+              <div className="bg-gradient-to-br from-teal-50/50 to-slate-50 border border-teal-100 rounded-2xl p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-semibold text-teal-600 uppercase tracking-wider">
+                    Generated Post
+                  </span>
+                  <button
+                    type="button"
+                    onClick={copy}
+                    // Session-21 (S21-20): the house focus-visible family (the
+                    // S14-6 toast-dismiss / S15-8 hamburger arm) — keyboard-only
+                    // visibility, the reference's base classes untouched.
+                    // Session-24 (S24-4): the ring joins the S23-3 AA family —
+                    // teal-500 computed ≈2.49:1 on the near-white card, under
+                    // the 1.4.11 3:1 floor; teal-600 (≈3.74:1 on the card's
+                    // bg-white — session-41, S41-7: the S24-4 cite said
+                    // ≈3.05:1, a mismeasurement; 3.58:1 on slate-50) clears
+                    // it and matches the textarea one block above.
+                    className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-teal-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-teal-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                        Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3.5 w-3.5" aria-hidden="true" />
+                        Copy
+                      </>
+                    )}
+                  </button>
+                </div>
+                <p className="text-slate-700 leading-relaxed whitespace-pre-line text-sm">
+                  {post}
+                </p>
+              </div>
+            </div>
+          )}
         </Reveal>
       )}
     </>

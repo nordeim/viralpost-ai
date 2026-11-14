@@ -1,91 +1,248 @@
-工作区已存在。我先刷新一下并检查当前状态。
-Workspace refreshed with session_57.md now available. Let me check document sizes and read the core files.
-Repo 处于 session-56 交付后的状态；当前轮次是 **session 57**。我来制定任务计划并阅读剩余的核心文档。
-现在正在阅读最近几次的会话日志和工作日志尾部。
-Now let me read the worklog tail and verify the current codebase state.
-All standing asks verified in place. Now checking tooling state and the neo-crm reference repo.
-Tooling verified; neo-crm unchanged (tenth consecutive check). Now the repo skills catalog and web-application skill.
-Now the PAD and SKILL current-state sections.
-正在源码中验证 session-56 的修复情况。
-All session-56 cures verified in source. Core docs internalized. Now running the baseline gate.
-725/725 in 40 files — matches the ship record. Now the build.
-**基准门禁绿色通过** — lint 0/0 · tsc 0 · unit 725/725 (40 个文件) · build · smoke 16/16 · e2e 70/70 · census 匹配。与 session-56 发布记录无偏差。现在我来检查 session-56 的 `diff` 范围，然后执行三向并行审计。
-Session-56 diff scope is comment-truth only, as documented. Now dispatching the three-way parallel audit (the session-56 precedent pattern).
-Three-way audit complete: **AUDIT-1 0C/0H/0M/2L/0I · AUDIT-2 0C/0H/0M/1L/5I · AUDIT-3 0C/0H/0M/0L/3I** — combined **0C/0H/0M/3L/8I**. Now hand-verifying the load-bearing findings in source before adjudication.
-Both findings read in source. Now reproducing the AUDIT-1-F1 probe myself (the lead's own verification — reproduce before trusting).
-Module resolution needs the repo's node_modules. Let me place the probe inside the repo temporarily and remove it right after.
-我的探测触发了环境 shell `var`（`bun` 不会覆盖预设的 `process env`）。让我为子进程取消设置它——这是子代理所使用的形式。
-我探测到的结果与子代理的断言不一致—— bun 在我的形状测试中并没有跨行。让我通过一个仔细的多形状探测来解决这个问题。
-S3 shape settles it: bun DOES span lines (to the last quote) when the later line has a CLOSED quoted value — S2 doesn't span. The divergence is real. Now the load-bearing question: which parse does the running server actually consume? Reading db-path.ts in full.
+# Session 58 — The Boot-Gate Unclosed-Quote-Residue Warning + The Whitespace Re-Indent + The Register Batch (2026-11-14)
 
-继续我之前的工作——我正处于三向审计的裁定阶段。让我检查一下待办事项列表的状态，并从我上次停下的地方继续：完整阅读 `db-path.ts` 以裁定 AUDIT-1-F1。
-`db-path.ts` 已完全读取 — 仲裁路径清晰。在 `S3` 分歧形态（`DATABASE_URL` 行上的引号未闭合 + 后续行存在带引号的值）中：`bun` 的跨行值以 `file:` 开头，因此是一个 *相对文件 URL* — `envFileUrl`（`seam` 的行解析，带有前导引号）未能通过 `isRelativeFileUrl` 检测，跳过了签名分支，且 `spanned` 值通过 `resolveDatabaseUrl` 进行了重锚定。现在进行决定性的探测：引擎是否接受生成的垃圾文件名 URL？
-AUDIT-1-F1 **已验证**：引擎接受了无用的 URL，在 `<repo>/db/` 下创建了 0 字节的文件 `custom.db\nOTHER="quoted value"`，并且 `SELECT 1` 已执行（我的探测器的 `BigInt` 序列化器错误证明了这一点——查询已经运行）。让我通过一次干净的运行来确认 `P2021` 的影响，然后检查现有的测试固定装置（test fixtures）。
-P2021 已确认 — AUDIT-1-F1 已完成端到端验证。两项严重性较低的问题均已裁定：S57-1（S56-3 “正确重新锚定”条款为 FALSE — 引擎提供了 0 字节的垃圾文件，health-200/P2021 分类）和 S57-2（reveal “either”一词的精度差异）。现在正在读取用于一致性测试（parity walk）的 agent-browser 技能。
-agent-browser 0.43.0 ready. Starting the REF leg of parity walk #30 — opening the reference login page.
-Reference login settled at `/Home` (documented posture). Now the mobile-menu faces at 390×844.
-Reference hamburger base confirmed: `md:hidden p-2 text-slate-300`, cursor pointer, NO aria family (documented posture). Now opening the panel and probing it.
-The mobile link faces match the record (teal Home, slate siblings, the amber-dark pill). My panel-container heuristic missed — refining to find the `space-y-3` inner container directly.
-Panel inner `px-6 py-4 space-y-3` byte-identical (16px/24px, block, transparent, maxHeight none). Now the Escape face (real key press), outside-tap, and route-change faces.
-All three reference faces hold: Escape leaves it open (real key press), outside-tap leaves it open, route-change UNMOUNTS (panelCount 0) — all documented postures. Now the desktop census.
-Desktop census: 6 visible links, brand gradient byte-identical. Now the five-route head census + sitemap/robots + generator probe.
-五路由头部统计与记录一致（按路由的前缀系列，规范 URL，单一 ogImage）。现在进行网站地图/机器人协议检查以及生成器探测。
-**REF leg complete** — generator dead (no copy button, no output, no quota keys), all documented postures confirmed. Now the CLONE leg: starting the dev server.
-端口 3000 已被占用 —— 某些服务已经在运行且健康检查返回 200。正在验证它是我们的克隆。
-Port 3000 serves our clone. Identifying the process to know whether it's the dev server.
-开发服务器（pid 17048，从 08:06 开始运行）—— 克隆端在实时开发服务器上运行。正在设置移动端视口并执行登录往返操作。
-克隆登录跳转至 `/`（已记录 308 偏差 — R 安置于 `/Home`，L 安置于 `/`）。现在进行移动端界面测试。
-克隆移动端界面的字节完全一致（`inner px-6 py-4 space-y-3`、`link family`、`pill`）+ 我们的 `aria` 超集处于激活状态。现在开始 Escape / outside-tap / route-change 界面的测试。
-Escape face: closed + focus returned to toggle (our documented superset). Now outside-tap and route-change faces.
-Route-change face: clone hides in-DOM (panelCount 1, display none, aria false) where reference unmounts — documented L-hide/R-unmount. Now desktop census.
-Desktop census: 6 visible identical, total 11, brand gradient byte-identical. Now the five-route head census + sitemap/robots.
-所有 head/sitemap/robots 界面均完全一致，除了 origin 不同。现在是 generator live probe（记录在案的 D-1 superset）。
-**PARITY WALK #30 COMPLETE** — thirtieth consecutive clean walk. Generator live with quota 0→1, copy button, 7 hashtags. All faces match documented postures. Now the periodic `bun audit` triage duty.
-`bun audit`：与第 55/56 次会话记录相同的 9 个建议 —— 均为开发工具链（`eslint`/`prisma-cli`/`vitest`/`postcss` 链），运行时请求路径上没有。现在我来编写第 57 次会话的整改计划。首先，收集准确的锁定目标（`census constants`、`PAD §12`、`test insertion point`）。
-PAD §12 目标已明确 (db-path.ts = 492)。现在我来寻找测试插入点及代码库风格。
-所有目标均已收集。现在开始编写 session-57 的整改计划。
-计划已制定。在执行前，现在正对照代码库验证该计划 —— 进行批量验证。
-10个出处站点已确认；db-path.ts = 492 与 PAD §12 一致。正在验证剩余的 lockstep 站点。
-All lockstep sites validated — the plan aligns with the codebase. Executing the cures now, TDD order: the two behavioral pins first.
-现在 `resolveDatabaseUrl` describe 中的第二个 pin：
-两个 Pin 已就位。我正在单独运行它们（天生 GREEN — 表征）：
-已通过 49 个（新增 2 个 pins，初始化状态为 GREEN）。现在进入变异测试流程 —— 植入缺陷 1（针对 parse face 的 parseEnvFile 引号剥离）：
-植入缺陷 1 → 完全 pin 1 变红。正在恢复并植入缺陷 2（换行截断）：
-Plant 2 → 确切地 pin 2 变为红色（pin 1 保持绿色 —— 每个 pin 各占一个页面）。正在恢复该 plant：
-Battery complete (plant→RED→restore→GREEN ×2). Now S57-1b — the docblock re-spell:
-Docblock 已重新指定。现在进行 S57-2 — 显示 either-scope 重新指定：
-正在调整交接行以保持注释规范：
-两个源修复均已落地。现在开始统计 anchor —— 行数和 census 常量：
-UNIT disk count = 727 ✓ (the two pins). Now the census constants + ladder entry:
-现在正在运行完整单元测试套件，以观察设计的 lockstep RED 测试面：
-所有 11 个 RED 均属于文档中的 lockstep 部分统计（该设计驱动程序）。正在执行文档更新。首先处理 README 部分：
-README 已锁定。现在进行 AGENTS + CLAUDE：
-Now the PAD — §8.1 table, the carry line, and §12's db-path row:
-PAD 已锁定。现在处理 SKILL —— 定位所有计数的站点：
-现在追加 `Appendix A` 的 session-57 行：
-SKILL 已锁定。现在代码文件中的十个出处站点已重新锚定：
-所有 10 个站点已重新锚定。正在运行单元测试套件以确认 lockstep 状态为 GREEN：
-**727/727 GREEN in 40 files** — lockstep complete. Now the formal session_57.md log:
-现在进行 worklog Task 57 — 检查 Task 56 的开头格式：
-现在开始执行计划的记录后续工作：
-文档已同步。现在开始捕获 121/122 —— 在运行已修复代码库的开发服务器上进行截图：
-Captures 121/122 PIL-verified (99.9%/100.0% non-white, panel-open teal pixels confirmed). Now the tree check and the full gate on the final tree.
-目录结构与设计变更集完全匹配（18 个修改 + 3 个新增）。正在最终目录结构上运行 FULL GATE：
-**FULL GATE GREEN** — lint 0/0 · tsc 0 · unit 727/727 · build · smoke 16/16 · e2e 70/70 · census MATCH。现在我先阅读 push runbook，然后再进行 commit。
-已内化 Runbook。正在检查 ssh shim 的可用性，然后进行 commit：
-已提交 `fc76b49`。现在开始通过 wrapper 实现 operator key 和 dry-run 的具体操作：
-试运行成功。现在执行正式推送：
-推送已验证 (remote `refs/heads/main @ fc76b49 == local HEAD`)，密钥已销毁，代码树状态干净。正在进行最后清理：
-**第 57 次会话 — 已交付。** 提交 `fc76b49` 已通过 SSH 包装器推送到 `git@github.com:nordeim/viralpost-ai.git` 的 `main` 分支（已远程验证，操作密钥已销毁，工作区干净，未创建新分支）。
+The round opened on the shipped tree (`a214ebf` = session-57's
+`fc76b49` + the owner's narration commit carrying `docs/session_58.md`
+as the round-58 working narration; this formal log replaces its
+content at ship). The core docs re-read and re-verified at the
+session-57 ship counts (AGENTS, CLAUDE, README, PAD, SKILL v1.53.0 —
+every lockstep site confirmed on disk), then the session-57 set (the
+formal session_57.md log, the session-57 plan's post-execution record,
+worklog Task 57, the owner's narration). This round is session 58, the
+standing instruction on the shipped tree.
 
-**状态：** 基准检查（Baseline gate）测试全部通过，与第 56 次会话发布记录零偏差；所有固定要求已重新验证（`.env` `file:../db/custom.db`（其中 `db/` 位于根目录）✓，Vitest+Playwright ✓，sitemap/robots/manifest/OG ✓，`.env.example` 已提交 ✓，`skills/` 在每个检查点均已排除 ✓）；neo-crm 未变更（已连续 10 次检查无变化）。
+Baseline gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit
+727/727, 40 files · build · smoke 16/16 · e2e 70/70, 9 specs · census
+MATCH) — exactly the session-57 ship record, no drift; the standing
+asks re-verified up front (the `.env`
+`DATABASE_URL="file:../db/custom.db"` contract intact with `db/` at
+the repo root, census MATCH; `.env.example` committed at provenance
+1..57; the vitest + playwright suites in place and current; the
+sitemap/robots/manifest/OG family verified live against the reference
+in this round's walk; `skills/` excluded from every gate — the
+tsconfig/eslint/vitest configs + the smoke leg-16 hygiene mirror). The
+neo-crm reference repo re-checked per the standing instruction:
+unchanged (HEAD `b3d0fbe` — the eleventh consecutive no-change check).
+The web-application skill + the skills catalog internalized; the tdd
+and agent-browser doctrine (computed styles as ground truth, never
+eyeballs) applied throughout — the walk probes as JS files consumed
+via `agent-browser eval --stdin`, the session-56/57 lesson.
 
-**审计**（三个并行子代理；在采纳每个行为发现前，负责人已完整复现了该发现）：**0C/0H/0M/3L/8I**。决定性发现：第 56 次会话的 S56-3 条款“通过模块锚点正确重新锚定”是**错误**的 — 我的端到端探测显示 bun 的跨行跨度值将一个名称异常的 `custom.db\nOTHER="quoted value` 文件重新锚定，引擎接受了该文件（SELECT 1 正常，首次用户查询 P2021 — 即 health-200/无表数据库类别）。
+## The audit (three parallel subagents + the lead's hand-verification)
 
-**一致性巡检 #30**（连续第三十次干净巡检）：移动端菜单面板在所有计算出的面上字节级一致，Escape 键具有焦点返回的超集，外侧点击保持一致，路由切换时 R-unmount/L-hide，桌面端统计 6/6 + 总计 11，品牌渐变字节级一致，五路由头部/sitemap/robots 一致（源除外），生成器在配额 0→1 时死/活，登录往返正常。**移动端导航按预期工作；所有七个 Tailwind v4 缓解措施已验证存在并进行了测试锁定。**
+AUDIT-1 (API/lib seams): 0C/0H/0M/0L/2I · AUDIT-2
+(components/pages/effects): 0C/0H/0M/0L/2I · AUDIT-3
+(SEO/configs/tests/docs): 0C/0H/0M/0L/2I — combined **0 Critical / 0
+High / 0 Medium / 0 Low / 6 Info**. The session-57 diff itself verified
+correct on all three lanes at its shipped boundaries (AUDIT-1
+re-verified the db-path seam's every code path and reproduced the
+S57-1 comment-truth end-to-end with its own probes — the bun span, the
+seam's line parse, `effectiveDatabaseUrl` end-to-end, the engine
+accepting the junk-named URL, SELECT 1 / P2021 / the 0-byte file; the
+envelope discipline on all 13 handlers; the shadow-env family; AUDIT-2
+verified all seven Tailwind v4 mitigations present, exact, and
+test-pinned — including the shipped-build-CSS check that zero
+`@media (hover: hover)` blocks survive — and the complete mobile-menu
+mechanic set; AUDIT-3 re-derived every count from disk (727/40/70/9/
+16/797, the 57 plan files, the ten provenance sites at 1..57, PAD §12
+21/21 rows — all MATCH) and probed the vitest `--reporter=basic`
+retirement).
 
-**修复（TDD）：** 两个带有变异测试的 S57-1a 锁定（引号剥离植入 → 修复锁定变红；换行截断植入 → 解析锁定变红，均恢复为绿色），S57-1b docblock 的真实重新拼写，S57-2 reveal either-word 重新作用域，外加七个登记项和 `bun audit` 甄别（与之前 9 次相同，均为开发工具链）。
+**The decisive hand-verification — reproduced by the lead before
+acceptance (the reproduce-before-trusting doctrine):**
 
-**已验证** — 完整检查通过：lint 0/0 · tsc 0 · 单元测试 **727/727**（40 个文件，+2 个锁定）· 构建 · smoke 16/16 · e2e 70/70（9 个规格）· 统计匹配；文档同步完成（SKILL v1.53.0，来源 1..57 滞后 0，PAD §12 `db-path` 492→509，README 徽章 797，AGENTS 计划图第 57 轮，工作日志 Task 57，正式的 `session_57.md`，计划执行后记录）；捕获 121/122 已通过 PIL 验证（99.9%/100.0% 非空白，面板打开的青色像素已确认）。**推测** — 登记的延迟保持记录。**不可验证** — 本轮无。
+- **AUDIT-1 I-1, verified in source and probed to its mechanism** —
+  boot-env.ts (527 lines at the round's open) carried NO
+  unclosed-quote arm: the S57-1 genus (the junk-named DB serving
+  healthy-200/P2021) was the one standing genus with ZERO boot-level
+  signal while every lesser hazard (hops unset, delivery knobs unset,
+  typo'd names, shadowing files) warns. The loader-divergence census —
+  the round's own probes, ambient env unset, BOTH quote chars, BOTH
+  loaders — settled the cure's predicate: the SAME one-keystroke typo
+  leaves DIFFERENT residues in the two sanctioned loaders. bun 1.3.14
+  SPANS the S3 shape (the value embeds a NEWLINE —
+  `file:../db/custom.db\nOTHER="quoted value`, OTHER unset) and keeps
+  the leading quote on the single-line-unclosed shape; @next/env
+  (next dev via node / the standalone server.js) NEVER spans (the S3
+  shape keeps the LEADING QUOTE — `"file:../db/custom.db` — with OTHER
+  parsed clean; the single-line shape drops to undefined). Both
+  residues are detectable in the AMBIENT env record — the pure
+  `bootEnvCheck` seam's own input — with zero false positives on every
+  documented shape (the clean file URL, the e2e override,
+  `file::memory:`, the absolute override, the postgres URL).
+- **AUDIT-2 I-2, verified in source** — generator-card.tsx:233-314's
+  else-branch children sat at the OUTER indent (6 spaces) inside the
+  8-space `<Reveal>` wrapper while the limit-branch twin nests
+  correctly. Whitespace-only.
+- **AUDIT-3 I-1/I-2 and AUDIT-2 I-1 adjudicated as registers** — the
+  vitest `--reporter=basic` incantation is retired upstream (no repo
+  file references it); the react-dom peer is the documented
+  framework-required posture; the toast double-announce face is
+  already REGISTERED as S57-3 (two audit lanes finding it twice
+  confirms the register's accuracy).
 
-仓库的下一步：固定的每轮审计周期继续进行 — 第 58 次会话将重新获取、重新检查并再次巡检。
+## The parity walk (walk #31 — the thirty-first consecutive clean walk)
+
+REF leg (live, logged in with the demo credentials): login settled at
+`/Home`. The hamburger `md:hidden p-2 text-slate-300` base with cursor
+pointer, block display, 8px padding, transparent background — and NO
+aria family (the reference still ships none; ours the documented
+superset). The panel inner `px-6 py-4 space-y-3` byte-identical
+(16px/24px padding, block, maxHeight none, transparent background);
+linkTexts identical (Home, Tool, Pricing, Contact, Upgrade to Pro –
+$19); Home teal rgb(45,212,191) 14px/500 block; the siblings
+rgb(203,213,225) 14px/500 block; the pill rgb(15,23,42) 14px/600
+block (9999px radius — the v3-era spelling). Escape via a REAL key
+press leaves the reference's panel open. The outside-tap face (a
+genuine non-nav H1 tap) leaves it open. Route-change close at
+/Pricing — the reference UNMOUNTS the panel (panelDivCount 0).
+Desktop census: 6 VISIBLE links IDENTICAL; the brand wordmark
+gradient byte-identical (linear-gradient(to right, rgb(45,212,191),
+rgb(251,191,36)), 18px/700, background-clip text). The five-route
+head census identical (titles + descriptions + canonicals, the
+per-route prefix family, the single shared ogImage). Sitemap 4 URLs
+(weekly, 1.0/0.8/0.8/0.8) + robots Allow-all + Sitemap line —
+identical modulo origin. The generator probe: the reference's
+generator DEAD (no generation lands, no copy button, no quota keys,
+the generate button re-enabled with nothing rendered — the documented
+402 face).
+
+CLONE leg (the dev server on :3000, quota cleared per the walk
+protocol): the login landed at `/` (the documented 308 deviation).
+The panel byte-identical on every computed face (inner 16px/24px,
+block, maxHeight none, transparent bg; linkTexts + every link style
+identical; the pill 33554432px radius — v4's infinity calc rendering
+the identical capsule the reference's 9999px renders, the documented
+v3/v4 computed-value equivalence). The hamburger base identical
+(`md:hidden p-2 text-slate-300` + our focus-ring/aria superset:
+expanded Open-menu→true, controls mobile-menu). Escape closes OUR
+menu with focus returned to the toggle (panel display none, hidden
+attr present, aria false — the documented superset). The outside-tap
+face leaves it open (parity). Route-change close at /Pricing: ours
+hides in-DOM (panelCount 1, display none, hidden attr, aria false —
+the S26-1 design; the documented R-unmount/L-hide divergence).
+Desktop census: 6 VISIBLE links IDENTICAL, CLONE total 11 = 6 visible
++ 5 hidden panel anchors; the brand gradient byte-identical. The
+five-route head census identical modulo origin. Sitemap 4 URLs +
+robots identical modulo origin. The generator LIVE: a 6-hashtag post
+(in the 5-8 family) + the Copy button, quota 0→1 (the
+`viralpost_generations` counter key — the D-1 documented superset).
+**ALL CLONE FACES MATCH — no clone-side drift, no NEW reference-side
+drift.** Mobile nav verified working as expected on both sides; all
+seven Tailwind v4 mitigations verified present and test-pinned this
+round (the audit's own lane).
+
+## The cures (TDD — the pins first, born RED, each with its planted-defect battery)
+
+- **S58-1a — the three behavioral pins** (tests/boot-env.test.ts): the
+  SPAN face (bun's census'd spanned DATABASE_URL — an embedded
+  newline — both quote-char spellings warn); the LEADING-QUOTE face
+  (@next/env's census'd kept-quote residue, both chars, warns while
+  every documented clean shape stays silent — the .env contract
+  value, the e2e override, `file::memory:`, the absolute override);
+  the dev-mode face (the F10-11 doctrine — the operator edits .env in
+  dev; the pin rides the leading-quote residue with the co-pinning
+  documented in its comment, per the N12-2 doctrine). The batteries:
+  the control-char plant (the predicate's `\p{Cc}` disjunct dropped)
+  REDs exactly the span pin; the quote-disjunct plant REDs the
+  leading-quote pin + the documented dev co-pin; the mode-gate plant
+  (the plausible "cure" of gating the warning to production only)
+  REDs exactly the dev pin. All restored GREEN, one pin per face.
+- **S58-1b — the boot arm + the docblock clause**
+  (src/lib/boot-env.ts + src/lib/db-path.ts): the arm sits after the
+  NEXT_PUBLIC_SITE_URL family — `DATABASE_URL` set, non-empty, and (a
+  C0/DEL control character OR a leading `"`/`'`) warns in the `[boot]`
+  vocabulary, in EVERY mode. The message names the genus (the
+  session-57 S57-1 lineage), the junk-file consequence (a healthy
+  boot against a table-less DB; the first User query fails P2021),
+  and the fix (close the quote on the DATABASE_URL line); the value
+  prints JSON.stringify'd — the residue is malformed by definition,
+  and the escaped one-line form (the newline visible as `\n`) is the
+  diagnostic itself. The db-path.ts S57-1b docblock's REGISTERED
+  clause extends: the genus is no longer SILENT — the boot gate names
+  the residue BOTH sanctioned loaders leave. The S53-6
+  REGISTERED-not-cured posture itself STANDS (the server still boots
+  and serves; the operator fixes the .env).
+- **S58-2 — the whitespace re-indent**
+  (src/components/marketing/generator-card.tsx:233-314): the
+  else-branch's children re-indented one level to nest correctly
+  inside the `<Reveal>` wrapper, matching the limit-branch twin.
+  Whitespace-only — the line count stays 319 (PAD §12 unchanged),
+  the substring pins are indentation-independent (verified 68/68),
+  zero behavior change.
+- **S58-3..S58-6 — the registers** (carried in the session-57
+  precedent's form): the vitest `--reporter=basic` retirement (the
+  incantation fails on vitest 5 — no repo file references it; future
+  audits use `bunx vitest run`), the react-dom peer note (the one
+  runtime dep with no direct import — Next's own hard peer
+  requirement; the dependency diet unaffected), the toast
+  double-announce cross-ref (already REGISTERED as S57-3), and the
+  loader-divergence census itself (the S3-span residue differs by
+  loader — bun embeds the newline, @next/env keeps the leading quote
+  or drops the line; both quote chars mirror; now pinned at the boot
+  seam).
+- **S58-7 — the bun-audit triage** (the AGENTS.md periodic duty): the
+  SAME 9 advisories as the session-55/56/57 records (minimatch
+  moderate/eslint chain, deepmerge-ts high/prisma CLI, the vite
+  8.3.0–8.3.2 family incl. three launch-editor advisories/vitest
+  chain, source-map-js high/the postcss chain via next and
+  @tailwindcss/postcss) — ALL dev-toolchain/build-time, NONE on the
+  runtime request path (the runtime dependency diet — EIGHT packages —
+  unaffected). No action.
+
+## The count re-anchor and the docs lockstep
+
+UNIT 727 → 730 (+3 — the three S58-1a pins), SUITES 40 held, E2E 70
+held, E2E_SPECS 9 held, SMOKE 16 held, BADGE 797 → 800. The designed
+count-lag faces fired and were cured at the lockstep exactly as the
+doctrine describes (3 census RED arms — the PAD §12 inventory row on
+the db-path drift 509 → 512, the UNIT-constant reality census, the
+plans-map tail-currency on the 58th plan file — all GREEN at the
+lockstep; the census driving the docs, its own doctrine). The ten
+provenance sites re-anchored to 1..58 — lag 0 at ship (session_58.md
+existed on disk as the owner's narration; this formal log replaces
+its content). SKILL v1.53.0 → v1.54.0. PAD §12: db-path.ts's row
+re-anchored 509 → 512 (the docblock clause adds three lines) with the
+session-58 clause appended; boot-env.ts is NOT a §12 file (verified
+this round); generator-card.tsx stays 319 (whitespace-only). README:
+the badge 800, the session-58 row on the continuous table, the gate
+footer re-spell, the testing-table 730 sites. AGENTS: the plans map's
+fifty-eighth round, the 730 in the testing conventions. CLAUDE: the
+730 line. The formal session log, the plan's post-execution record,
+and worklog Task 58 (this round's own set).
+
+## The post-execution record (session-58 ship)
+
+Executed as planned, with the deviations the record owes the truth:
+
+- **S58-1a/S58-1b/S58-2/S58-3..S58-7 all landed** as specified — the
+  three pins born RED (the arm did not exist — the designed
+  red→green flow, unlike session-57's characterization pins), both
+  batteries on record (three plants: the control-char plant, the
+  quote-disjunct plant, the mode-gate plant); the arm + the docblock
+  clause; the whitespace re-indent; the registers; the triage.
+- **The pins count is THREE, not the plan's drafted TWO**: the
+  dev-mode face earned its own pin during execution — the mode-gate
+  plant (the plausible "cure" of gating the warning to production
+  only) would RED nothing without it (the other two pins ride the
+  production-defaulted env builder). The count re-anchor follows the
+  pins (730/800), the census driving the docs, its own doctrine; the
+  plan's drafted 729/799 superseded by the executed 730/800.
+- **The loader-divergence census is the round's decisive probe**: the
+  audit's suggested predicate ("warn when the parsed .env
+  DATABASE_URL line has an unclosed opening quote") was refined by
+  the lead's own probes into the ambient-record form (control char
+  OR leading quote) — the @next/env face keeps the leading quote
+  where bun's span carries none, and the single-line shape drops to
+  undefined in @next/env entirely (invisible to any file-parse-only
+  warning family). The pure `bootEnvCheck(env)` arm catches both
+  loaders' residues without touching the filesystem — the
+  injectable-exists pattern was not needed.
+- Counts at ship: UNIT 730 / SUITES 40 / E2E 70 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 800 — the ten provenance sites at 1..58 (lag 0);
+  SKILL v1.54.0; captures 123/124 on the dev server PIL-verified
+  (99.9%/99.7% non-white, the panel-open teal pixels confirmed); the
+  full gate re-run green on the final tree; push to main via the SSH
+  wrapper runbook.
+
+**Gate at the session-58 ship: lint 0/0 · tsc 0 · unit 730/730 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

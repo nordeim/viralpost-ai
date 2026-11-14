@@ -6197,3 +6197,148 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-57 ship: lint 0/0 · tsc 0 · unit 727/727 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 58 — The Boot-Gate Unclosed-Quote-Residue Warning + The Whitespace Re-Indent + The Register Batch (2026-11-14)
+
+- CONTEXT: a `git pull` fast-forwarded fc76b49 → a214ebf, adding
+  docs/session_58.md (the owner's round-57 recap narration — the
+  round-58 working narration this formal log replaces at ship). The
+  core docs re-read and re-verified at the session-57 ship counts
+  (AGENTS, CLAUDE, README, PAD, SKILL v1.53.0 — every lockstep site
+  confirmed on disk); the session-57 set re-read (the formal log, the
+  plan's post-execution record, worklog Task 57, the narration); the
+  S57 cures verified in source (the two S57-1a pins at
+  tests/db-path.test.ts:127/667, the S57-1b docblock re-spell at
+  db-path.ts:274-300, the S57-2 either-word at reveal.tsx:35).
+- BASELINE GATE GREEN with zero drift from the session-57 ship record:
+  lint 0/0 · tsc 0 · unit 727/727 (40 files) · build · smoke 16/16 ·
+  e2e 70/70 (9 specs) · census MATCH. The standing asks re-verified
+  (the .env `DATABASE_URL="file:../db/custom.db"` contract with db/ at
+  the repo root; .env.example committed at provenance 1..57; the
+  vitest + playwright suites current; the sitemap/robots/manifest/OG
+  family verified live in this round's walk; skills/ excluded from
+  tsconfig/eslint/vitest). neo-crm re-checked per the standing
+  instruction: unchanged (HEAD b3d0fbe — the eleventh consecutive
+  no-change check).
+- AUDIT (three parallel subagents; every load-bearing finding
+  hand-verified in source by the lead before adjudication):
+  **0 Critical / 0 High / 0 Medium / 0 Low / 6 Info** (AUDIT-1
+  0/0/0/0/2I · AUDIT-2 0/0/0/0/2I · AUDIT-3 0/0/0/0/2I). AUDIT-1
+  re-verified the session-57 comment-truth re-spell end-to-end with
+  its own probes (the bun span, the seam parse, effectiveDatabaseUrl
+  end-to-end, the engine accepting the junk-named URL — SELECT 1 /
+  P2021 / the 0-byte file) plus the full standing-contract set (the db
+  seam monopoly, the envelope discipline on all 13 handlers, the
+  status discipline, the env-name family, the generator contract,
+  force-dynamic 13/13); AUDIT-2 re-verified all seven Tailwind v4
+  mitigations against the shipped build CSS (zero `@media (hover:
+  hover)` blocks survive — the touch-hover restoration complete, the
+  group-hover face compiles bare too) and the complete mobile-menu
+  mechanic set; AUDIT-3 re-derived every count from disk (727/40/70/9/
+  16/797, 57 plan files, the ten provenance sites at 1..57, PAD §12
+  21/21 rows — all MATCH).
+- THE DECISIVE HAND-VERIFICATION: boot-env.ts carried NO unclosed-quote
+  arm — the S57-1 genus (the junk-named DB serving healthy-200/P2021)
+  was the one standing genus with zero boot-level signal while every
+  lesser hazard warns (AUDIT-1 I-1, verified in source). The
+  loader-divergence census — the round's own probes, ambient env
+  unset, BOTH quote chars, BOTH loaders: the SAME one-keystroke typo
+  leaves DIFFERENT residues — bun 1.3.14 SPANS the S3 shape (an
+  embedded NEWLINE rides the value) and keeps the leading quote on
+  the single-line-unclosed shape; @next/env (next dev via node / the
+  standalone server.js) NEVER spans (the S3 shape keeps the LEADING
+  QUOTE, the single-line shape drops to undefined). Both residues are
+  detectable in the AMBIENT env record — the pure bootEnvCheck seam's
+  own input — with zero false positives on every documented shape
+  (the clean file URL, the e2e override, file::memory:, the absolute
+  override, the postgres URL).
+- PARITY WALK #31 — the thirty-first consecutive clean walk. REF leg
+  (live, logged in): login settled at /Home; the hamburger base
+  md:hidden p-2 text-slate-300 with NO aria family; the panel inner
+  px-6 py-4 space-y-3 byte-identical (16px/24px, block, maxHeight
+  none, transparent); linkTexts identical; Home teal
+  rgb(45,212,191) 14px/500, the siblings rgb(203,213,225) 14px/500,
+  the pill rgb(15,23,42) 14px/600 9999px; Escape via a REAL key press
+  leaves the reference's panel open; the outside-tap genuine non-nav
+  tap leaves it open; route-change at /Pricing the reference UNMOUNTS
+  (panelDivCount 0); the desktop census 6 visible identical; the
+  brand gradient byte-identical (linear-gradient(to right,
+  rgb(45,212,191), rgb(251,191,36)), 18px/700, clip text); the
+  five-route head census identical (the per-route prefix family, the
+  canonicals, the single shared ogImage); sitemap exactly 4 URLs +
+  robots Allow-all + Sitemap line; the generator DEAD (no generation
+  lands, no copy button, no quota keys — the documented 402 face).
+  CLONE leg (the dev server on :3000, quota cleared): login landed at
+  / (the documented 308 deviation); the panel byte-identical on every
+  computed face (the pill 33554432px — v4's infinity calc rendering
+  the identical capsule); the hamburger base identical + our aria
+  superset active; Escape closes OUR menu with focus returned to the
+  toggle (the documented superset); the outside-tap leaves it open
+  (parity); route-change at /Pricing ours hides in-DOM (panelCount 1,
+  display none, hidden attr — the documented R-unmount/L-hide
+  divergence); the desktop census 6 visible identical + CLONE total
+  11; the brand gradient byte-identical; the five-route head census
+  identical modulo origin; sitemap 4 URLs + robots identical modulo
+  origin; the generator LIVE (a 6-hashtag post in the 5-8 family +
+  the Copy button, quota 0→1 — the viralpost_generations counter
+  key). NO clone-side drift, no NEW reference-side drift. Mobile nav
+  verified working as expected on both sides; all seven Tailwind v4
+  mitigations verified present and test-pinned (the audit's own lane).
+- CURES (TDD — the pins first, born RED, each with its planted-defect
+  battery): the three S58-1 pins (tests/boot-env.test.ts — the SPAN
+  face: bun's census'd spanned DATABASE_URL (both quote-char
+  spellings) warns; the LEADING-QUOTE face: @next/env's census'd
+  kept-quote residue (both chars) warns with every documented clean
+  shape silent; the dev-mode face: the F10-11 doctrine, its own plant
+  the mode-gate, the leading-quote co-pin documented in the pin's
+  comment — the batteries: the control-char plant (the predicate's
+  \p{Cc} disjunct dropped) REDs exactly the span pin; the
+  quote-disjunct plant REDs the leading-quote pin + the documented
+  dev co-pin; the mode-gate plant (isProduction && prefixed) REDs
+  exactly the dev pin — all restored GREEN, one pin per face, no
+  accidental co-pinning), the boot-env.ts arm (the [boot] family
+  vocabulary, every mode, the value JSON.stringify'd — the residue is
+  malformed by definition and the escaped one-line form is the
+  diagnostic itself; the predicate: a C0/DEL control character OR a
+  leading quote, both quote chars) + the db-path.ts docblock clause
+  (the S57-1b REGISTERED posture upgraded from SILENT to boot-warned
+  — the S53-6 register stands: fix the .env); the S58-2 whitespace
+  re-indent (generator-card.tsx:233-314's else-branch children nested
+  correctly inside the Reveal wrapper, matching the limit-branch
+  twin — line-count-neutral at 319, the substring pins
+  indentation-independent, verified 68/68).
+- REGISTERS: the vitest --reporter=basic retirement (the stale
+  incantation fails on vitest 5 — no repo file references it; future
+  audits use `bunx vitest run`), the react-dom peer note (the one
+  runtime dep with no direct import — Next's own hard peer
+  requirement; the dependency diet unaffected), the toast
+  double-announce cross-ref (already REGISTERED as S57-3 — two audit
+  lanes finding it twice confirms the register's accuracy), and the
+  loader-divergence census itself (the S3-span residue differs by
+  loader — now pinned at the boot seam). The bun-audit triage
+  re-verified: the SAME 9 advisories as the session-55/56/57 records
+  — ALL dev-toolchain/build-time, NONE on the runtime request path.
+- COUNTS: UNIT 727 → 730 (+3 — the three S58-1 pins) / SUITES 40 /
+  E2E 70 / E2E_SPECS 9 / SMOKE 16 / BADGE 797 → 800. The designed
+  count-lag faces fired and cured at the lockstep (3 census RED arms —
+  the PAD §12 inventory row on the db-path drift 509 → 512, the
+  UNIT-constant reality census, the plans-map tail-currency on the
+  58th plan file — all GREEN at the lockstep, the census driving the
+  docs, its own doctrine). The ten provenance sites re-anchored to
+  1..58 — lag 0 at ship; SKILL v1.53.0 → v1.54.0; PAD §8.1 + the
+  carry line at 730.
+- VERIFIED: the full gate on the exact commit tree (below); the
+  parity walk #31; the captures 123/124 on the dev server
+  (PIL-verified); docs lockstep (README's badge 800 + session-58 row
+  + gate footer + the testing-table 730 sites; AGENTS's plans-map
+  fifty-eighth round + the 730; CLAUDE's 730; PAD's §8.1 table +
+  carry line + §12's db-path row 509 → 512 with the session-58
+  clause; SKILL v1.54.0 frontmatter/project_state/§0.5 1..58/
+  Appendix A's session-58 row/Appendix B's header; the docs-counts
+  constants UNIT 730 + the s58 ladder entry; the ten provenance
+  sites at 1..58; worklog Task 58; docs/session_58.md (the formal
+  log replacing the owner's narration); the session-58 plan's
+  post-execution record).
+
+**Gate at the session-58 ship: lint 0/0 · tsc 0 · unit 730/730 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

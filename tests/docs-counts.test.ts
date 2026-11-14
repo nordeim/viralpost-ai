@@ -322,6 +322,14 @@ import {
 // made executable; battery on record: the quote-strip plant REDs the
 // fixtures pin, the newline-truncate plant REDs the resolve pin)) and
 // the e2e 70 unchanged. SMOKE 16 unchanged.
+// s58: 730/40 (+3 — the S58-1 pins (the boot-gate DATABASE_URL
+// unclosed-quote residue warning: the SPAN face (bun's census: an
+// embedded newline, both quote chars), the LEADING-QUOTE face
+// (@next/env's census: the quote kept, both chars, with every
+// documented clean shape silent), and the dev-mode face (the F10-11
+// doctrine — a mode-gate plant REDs exactly it; the leading-quote
+// co-pin documented in the pin's comment)) and the e2e 70 unchanged.
+// SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -329,7 +337,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 727;
+const UNIT = 730;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
