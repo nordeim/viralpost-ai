@@ -37,9 +37,9 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..50.
+// are docs/session_1..51.
 
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -638,6 +638,28 @@ describe("session-50 (S50-1): the launch-dir shadow union", () => {
       process.env.PWD = artifactDir;
       const deduped = shadowingEnvFileWarningsForServer({ NODE_ENV: "production" });
       expect(deduped.filter((w) => w.includes(artifactDir))).toHaveLength(1);
+      // Session-51 (S51-1, AUDIT-1 L1): the normalization faces — the
+      // same physical dir must not warn twice however PWD spells it,
+      // and an uninterpretable relative PWD must never probe at all.
+      // The alias face: a symlink spelling of the cwd (pre-cure: the
+      // string compare pushed it — two warnings for one physical
+      // file; the fs probe follows the symlink).
+      const alias = join(launchDir, "s51-alias");
+      symlinkSync(artifactDir, alias);
+      process.env.PWD = alias;
+      const aliased = shadowingEnvFileWarningsForServer({ NODE_ENV: "production" });
+      expect(aliased.filter((w) => w.includes(".env.local")), "an alias-spelled PWD of the cwd must not duplicate the warning").toHaveLength(1);
+      // The trailing-slash face: resolve() normalizes it onto the
+      // cwd (pre-cure: the string compare pushed it as a distinct dir).
+      process.env.PWD = `${artifactDir}/`;
+      const slashed = shadowingEnvFileWarningsForServer({ NODE_ENV: "production" });
+      expect(slashed.filter((w) => w.includes(".env.local")), "a trailing-slash PWD is the same dir — one warning").toHaveLength(1);
+      // The relative face: uninterpretable (a relative PWD names the
+      // SHELL's dir at spawn time) — skipped, never probed. Pre-cure
+      // it probed "." and emitted a second, misleading warning.
+      process.env.PWD = ".";
+      const relative = shadowingEnvFileWarningsForServer({ NODE_ENV: "production" });
+      expect(relative.filter((w) => w.includes(".env.local")), "a relative PWD must be skipped, never probed").toHaveLength(1);
     } finally {
       process.chdir(prevCwd);
       if (prevPwd === undefined) delete process.env.PWD;

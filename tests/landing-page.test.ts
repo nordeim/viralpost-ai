@@ -236,6 +236,16 @@ describe("landing: the generator card (the reference's core contract)", () => {
   // copy() captures the epoch BEFORE the clipboard await and its
   // continuation applies the copied state + arms the timer only when no
   // regeneration started meanwhile.
+  // Session-51 (S51-2, AUDIT-2 L1): the unmount leg — an unmount never
+  // moves the epoch (only a regeneration does), so a continuation
+  // landing after the unmount cleanup ran passed the epoch gate, called
+  // the no-op setState, and armed a fresh 2s timer on the dead ref that
+  // nothing would ever clear (the S17-6 tracked-timer hygiene violated
+  // in exactly this window). The gate now checks BOTH: the epoch (a
+  // regeneration started) and the mount (the component still lives).
+  // This pin owns the generator-card GATE; the S17-6 unmount-safe it
+  // below owns the MECHANISM (the mounted ref + the cleanup flip) and
+  // the CONTACT gate — one face one pin, the N12-2 doctrine.
   it("regeneration clears the stale Copied! state — and a slow clipboard continuation cannot re-arm it (the copy-epoch guard)", () => {
     const card = read("src/components/marketing/generator-card.tsx");
     // The reset sequence rides the generate body, before the fetch —
@@ -248,8 +258,9 @@ describe("landing: the generator card (the reference's core contract)", () => {
     // the inequality check as the continuation's gate, and BOTH effects
     // (the flag flip + the fresh timer arm) behind it — the late
     // continuation of the S50-4 persona lands after the epoch moved and
-    // must return before either effect runs.
-    expect(card).toMatch(/const epochAtCopy = genEpoch\.current;[^]*?await navigator\.clipboard\.writeText\(post\);[^]*?if \(epochAtCopy !== genEpoch\.current\) return;[^]*?setCopied\(true\);[^]*?resetTimer\.current = setTimeout\(\(\) => setCopied\(false\), 2000\);/);
+    // must return before either effect runs. S51-2 widens the gate to
+    // epoch ∪ mounted (the unmount leg).
+    expect(card).toMatch(/const epochAtCopy = genEpoch\.current;[^]*?await navigator\.clipboard\.writeText\(post\);[^]*?if \(!mounted\.current \|\| epochAtCopy !== genEpoch\.current\) return;[^]*?setCopied\(true\);[^]*?resetTimer\.current = setTimeout\(\(\) => setCopied\(false\), 2000\);/);
   });
 
   it("the limit wall ships the reference's paywall copy", () => {
@@ -497,13 +508,34 @@ describe("landing: the fire-and-forget reset timers are unmount-safe (session-17
       expect(src, `${p} must clear the tracked timer before re-arming (the toast's timer-reset idiom)`).toContain(
         "if (resetTimer.current) clearTimeout(resetTimer.current);",
       );
-      expect(src, `${p} must clear the tracked timer on unmount`).toMatch(
-        /useEffect\(\(\) => \(\) => \{\s*if \(resetTimer\.current\) clearTimeout\(resetTimer\.current\);/,
+      expect(src, `${p} must clear the tracked timer on unmount, flipping the mounted flag beside it (S51-2)`).toMatch(
+        /useEffect\(\(\) => \(\) => \{\s*mounted\.current = false;\s*if \(resetTimer\.current\) clearTimeout\(resetTimer\.current\);/,
       );
       expect(src, `${p} must arm the tracked timer`).toContain(
         `resetTimer.current = setTimeout(() => ${setter}, ${ms})`,
       );
     }
+    // Session-51 (S51-2, AUDIT-2 L1): the ASYNC edge of this hygiene —
+    // an unmount moves neither the epoch nor any state these
+    // continuations check, so a promise landing AFTER the cleanup ran
+    // passed straight through and armed a fresh timer on the dead ref
+    // that nothing would ever clear. The mounted mechanism closes it:
+    // the cleanup flips the ref beside the timer clear (pinned in the
+    // loop above); the gates check it. The division: THIS it owns the
+    // MECHANISM (both files) + the CONTACT gate; the S50-4 sequence pin
+    // above owns the generator-card GATE (widened in place) — one face
+    // one pin, the N12-2 doctrine.
+    for (const p of [
+      "src/components/marketing/generator-card.tsx",
+      "src/components/marketing/contact-form.tsx",
+    ] as const) {
+      expect(bare(p), `${p} must track the mounted flag`).toContain(
+        "const mounted = React.useRef(true);",
+      );
+    }
+    expect(bare("src/components/marketing/contact-form.tsx"), "the contact success arm must gate on the mounted flag").toMatch(
+      /if \(!mounted\.current\) return;\s*setSent\(true\);/,
+    );
   });
 });
 

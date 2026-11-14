@@ -28,8 +28,8 @@
 // Session-47 (S47-2): the shadow seam below is the only fs-touching
 // default in this module (the injectable-exists pattern — bootEnvCheck
 // itself stays pure over the env record).
-import { existsSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, realpathSync } from "node:fs";
+import { isAbsolute, join, resolve } from "node:path";
 
 /** The closed VIRALPOST_* knob set (the six-knob contract's 3 server knobs). */
 export const KNOWN_VIRALPOST_VARS: ReadonlySet<string> = new Set([
@@ -469,13 +469,40 @@ export function shadowingEnvFileWarnings(
 // PWD = the launch cwd and the chdir never updates it, so the union
 // covers both postures; the dev/start postures (no chdir) keep
 // cwd === PWD and probe exactly once (the dedupe arm).
+// Session-51 (S51-1, AUDIT-1 L1): the PWD leg normalizes before
+// compare/push — the S50-1 union deduped by STRING identity, so a
+// symlink alias of the cwd warned twice for one physical shadow file,
+// a trailing-slash spelling did the same, and a RELATIVE PWD probed
+// the wrong directory with a misleading path in the warning. Now:
+// absolute only (a relative PWD names the SHELL's dir at spawn time —
+// uninterpretable, skipped), resolve()-normalized (trailing slashes
+// and .. segments fold onto the canonical form), and deduped against
+// the cwd through a best-effort realpathSync comparison (a symlink
+// spelling of the SAME physical dir as the cwd adds nothing — the
+// cwd leg already probes it).
+// Session-51 (AUDIT-1 I1): the PWD face rides on the launch shell
+// setting it — a PWD-less process manager (systemd-style units,
+// exec-form containers) falls back to the cwd-only probe; no such
+// posture is documented today (DEPLOYMENT.md ships bun run start).
 export function shadowingEnvFileWarningsForServer(
   env: { NODE_ENV?: string | undefined },
 ): string[] {
   const cwd = process.cwd();
   const dirs = [cwd];
   const pwd = process.env.PWD;
-  if (pwd && pwd !== cwd) dirs.push(pwd);
+  if (pwd && isAbsolute(pwd)) {
+    const norm = resolve(pwd);
+    if (norm !== cwd) {
+      let samePhysicalDir = false;
+      try {
+        samePhysicalDir = realpathSync(norm) === realpathSync(cwd);
+      } catch {
+        // best-effort only — a missing PWD target probes below (the
+        // probe itself finds no env files in a missing dir).
+      }
+      if (!samePhysicalDir) dirs.push(norm);
+    }
+  }
   const out: string[] = [];
   for (const d of dirs) {
     out.push(...shadowingEnvFileWarnings(d, env));

@@ -30,7 +30,16 @@ export function ContactForm() {
   // setState after unmount is a React 19 no-op; the tracked timer is
   // the family's hygiene).
   const resetTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Session-51 (S51-2, AUDIT-2 L1): the mounted flag joins the tracked
+  // timer — the fetch continuation landing after the unmount cleanup
+  // ran passed straight through (unmount moves no state this arm
+  // checks), set the no-op setSent, and armed a fresh 2.6s timer on the
+  // dead ref that nothing would ever clear (the S17-6 hygiene's async
+  // edge, the unmount-mid-await face). The cleanup flips it beside the
+  // timer clear; the success arm's gate below checks it.
+  const mounted = React.useRef(true);
   React.useEffect(() => () => {
+    mounted.current = false;
     if (resetTimer.current) clearTimeout(resetTimer.current);
   }, []);
 
@@ -52,6 +61,15 @@ export function ContactForm() {
         toast.error(body?.error?.message ?? "Something went wrong. Please try again.");
         return;
       }
+      // Session-51 (S51-2, AUDIT-2 L1): the unmount-mid-await gate — the
+      // fetch resolved after the unmount cleanup ran; nothing after this
+      // line may run (the no-op setStates are harmless, the tracked timer
+      // arm is not — it would outlive the component).
+      // Session-51 (S51-2, AUDIT-2 L1): the unmount-mid-await gate — the
+      // fetch resolved after the unmount cleanup ran; nothing after this
+      // line may run (the no-op setStates are harmless, the tracked timer
+      // arm is not — it would outlive the component).
+      if (!mounted.current) return;
       setSent(true);
       setForm(EMPTY);
       if (resetTimer.current) clearTimeout(resetTimer.current);
@@ -116,7 +134,11 @@ export function ContactForm() {
         disabled={sending}
         className="mt-6 w-full py-3.5 bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-teal-200 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
       >
-        {sent ? (
+        {/* S51-3: sending precedence — the Send icon in flight, the
+            Check only after the response lands. */}
+        {sending ? (
+          <Send className="h-4 w-4" aria-hidden="true" />
+        ) : sent ? (
           <Check className="h-4 w-4" aria-hidden="true" />
         ) : (
           <Send className="h-4 w-4" aria-hidden="true" />
@@ -126,8 +148,14 @@ export function ContactForm() {
             fired (disabled={sending}) but the label gave no in-flight
             feedback until the response landed (the S22-6 genus, one
             surface over). The reference's form is a stub (D-2) — no
-            parity face; the family's consistency owns the label. */}
-        {sent ? "Message Sent!" : sending ? "Sending…" : "Send Message"}
+            parity face; the family's consistency owns the label.
+            Session-51 (S51-3, AUDIT-2 L2): `sending` now outranks
+            `sent` — the old precedence showed the stale "Message
+            Sent!" through a re-submit fired inside the 2.6s post-success
+            window, masking the in-flight face the relabel exists to
+            show. The icon ternary below mirrors the swap (in flight:
+            Send; success: Check). */}
+        {sending ? "Sending…" : sent ? "Message Sent!" : "Send Message"}
       </button>
       {/* Session-24 (S24-3): the success swap's AT announcement. A button
           label change is NOT re-announced by screen readers (even when
@@ -137,8 +165,15 @@ export function ContactForm() {
           mutation rather than an insertion; the toast viewport (S19-8)
           and InfoCallout (S14-5) are the family precedents. The visible
           surface — the reference's own label swap — is untouched. */}
+      {/* Session-51 (S51-4, AUDIT-2 L3): the BUSY arm — the region
+          carried only the sent flip, so AT users got zero feedback
+          through the entire network round-trip (the S26-2 genus — the
+          generator card's BUSY window — one surface over). In flight
+          the region names it; on success the sent line; sending
+          precedence per the S51-3 swap. The reference's form is a stub
+          (D-2) — no parity face; the a11y family owns the region. */}
       <p role="status" aria-live="polite" className="sr-only">
-        {sent ? "Message sent" : ""}
+        {sending ? "Sending your message…" : sent ? "Message sent" : ""}
       </p>
     </form>
   );

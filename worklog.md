@@ -5541,3 +5541,107 @@ tree, the cures continued from S50-4.)
 
 **Gate at the session-50 ship: lint 0/0 · tsc 0 · unit 724/724 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+
+---
+
+## Task 51 — The PWD-Union Normalization + The Unmount-Timer Hygiene + The Sending Precedence + The Busy Announce + The ok-16 Truth + The Entry Ownership + The s29 Catch-up + The Raw-Bound Behavior (2026-11-14)
+Agent: main (Z.ai)
+Session: 51 (2026-11-14)
+
+Task: The standing instruction round on the session-50 tree (`3e1f517` +
+the owner's narration `48929d8`): docs review → baseline gate → the
+comprehensive audit → the live reference parity walk → the TDD cures →
+the gate → captures → push.
+
+- BASELINE: lint 0/0 · tsc 0 · unit 724/724 (40 files) · build · smoke
+  16/16 · e2e 70/70 (9 specs) · census MATCH — exactly the session-50
+  ship record; the standing contracts verified (the `.env`
+  `DATABASE_URL="file:../db/custom.db"` contract with `db/` at the repo
+  root; `.env.example` at provenance 1..50; `skills/` excluded from
+  every gate; neo-crm re-cloned and re-checked — unchanged, HEAD
+  b3d0fbe, still session-217/session_459.md, no new lessons).
+- AUDIT: **0C/0H/0M/8L/2I** (AUDIT-1 0C/0H/0M/2L/1I · AUDIT-2
+  0C/0H/0M/3L/1I · AUDIT-3 0C/0H/0M/3L/0I), every load-bearing finding
+  hand-verified in source by the lead — the decisive probes: the live
+  temp-dir probe of the union's alias/trailing/relative faces (2
+  warnings per face pre-cure; the PWD-unset and PWD===cwd faces
+  verified correct in the same probe), the unmount-mid-await trace (the
+  epoch never moves on an unmount), the git-show 74bc770 read of the
+  S34-7 ship itself proving the ok-16 claim false (only uploads is
+  beyond the excludes; worklog/test-results were IN the excludes at
+  S34-7 too), and the ladder's s28→s30 arithmetic 636+3≠644 exposing
+  the never-written s29 entry. The session-50 diff verified correct on
+  all three passes.
+- PARITY WALK: the **twenty-fourth consecutive clean walk** — the
+  walk's two flagged faces (panel link display inline/block + a brand
+  entry in the REF panel census; the desktop count 6 vs 11) resolved by
+  the targeted panel-scoped probe + the visibility split (the
+  session-50 outer-wrapper precedent; the S26-1 hidden-in-DOM design vs
+  the reference's unmount); the panel byte-identical class-for-class
+  (brandInPanel null both sides); 6 visible desktop links identical;
+  the documented supersets persist (the D-1 generator superset, the
+  hamburger cursor, the head census, sitemap 4, robots, the login
+  round-trip, the /api/auth/me session).
+- CURES (TDD, the batteries on record, every new arm single-tooth):
+  S51-1 the PWD-union normalization (isAbsolute + resolve + the
+  best-effort realpathSync dedupe; the S50-1 pin extended IN PLACE
+  with the alias/trailing/relative faces; the battery: the pre-cure
+  string-compare form planted → exactly the new faces, the S50-1
+  originals green through it); S51-2 the unmount-timer hygiene (the
+  mounted ref flipped by the cleanup beside the timer clear; the copy
+  gate checks epoch ∪ mounted, the contact success arm gates on the
+  mount; the ownership divided — the S50-4 sequence pin owns the
+  generator-card gate, the S17-6 it owns the mechanism + the contact
+  gate; the batteries: A the epoch-only gate → exactly the S50-4 pin;
+  B the contact gate removed → exactly the S17-6 contact expect; C the
+  full deletion → both its, the catastrophic case both owners cover);
+  S51-3 the sending precedence (sending outranks sent in the label +
+  icon ternaries; the S50-11 pin updated in place; the battery: the
+  old precedence planted → exactly the pin); S51-4 the busy announce
+  (the status region's three-face form; the S24-3 it extended in
+  place; the battery: the arm removed → exactly the pin); S51-5 the
+  ok-16 truth re-spell (uploads is the ONE sanctioned tripwire beyond
+  the excludes — worklog/test-results ride BOTH lists; the S50-8
+  docs-lie corrected the round after its birth; prose only); S51-6 the
+  entry ownership (the gate-script $entry assertion DELETED — one
+  defect one owner; the battery: the loop-variable rename trips
+  error-boundaries' literal arms AND gate-script's loop-shape — the
+  plan's "gate-script green" wording corrected in the post-execution
+  record; the decisive face: the $entry literal now has exactly ONE
+  owner); S51-7 the s29 catch-up (the ladder's missing entry written
+  from the session-29 plan's own record — +5: S29-1/2/3/6/7, the
+  S29-5 e2e fold; the comment-lag genus, the s49 precedent; prose
+  only); S51-8 the raw-bound behavior (the e2e fill-2 leg — a
+  whitespace-padded 1001-char idea whose collapse fits answers the
+  RAW pre-filter's 1000 message, never the seam's; the seam's 500
+  boundary pinned beside the 501 throw; co-pinned with F11-7
+  documented — the textual pin owns the source shape, the e2e leg the
+  behavior; the batteries: the >= off-by-one plant → exactly the
+  500-boundary expect (the 501 pin green), and the classic
+  single-message revert + build + the generator-spec e2e → the fill-2
+  leg RED alongside F11-7); S51-9 the register (the copy in-flight
+  face — not recommended: the reference's own copy is instantaneous,
+  no family precedent; the walk's two flagged readings — probe
+  artifacts, the session-50 outer-wrapper precedent, recorded never to
+  be "fixed").
+- COUNTS: UNIT 724 HELD, SUITES 40, E2E 70, SPECS 9, SMOKE 16, BADGE
+  794 — all held (every S51 pin folds into an existing it in place;
+  S51-6 deletes an expect; no s51 ladder entry — no growth, the
+  convention). PAD §12's generator-card row re-anchored 292 → 306; the
+  ten provenance sites re-anchored to 1..51 — lag 0 at ship; SKILL
+  v1.46.0 → v1.47.0.
+- VERIFIED: the full gate on the exact commit tree (below); the
+  mutation batteries single-tooth on record (the unmount A/B/C faces,
+  the normalization battery, the precedence battery, the busy-announce
+  battery, the entry-ownership battery, the off-by-one battery, the
+  raw-bound battery); the parity walk post-cure (the standing faces
+  hold, no drift); the captures 109/110 on the dev server (the
+  owner-instructed posture, the session-29..50 precedent): the
+  mobile-menu open clean-walk at 390×844 + the landing hero at
+  1280×800, PIL-verified; docs lockstep (README + AGENTS + PAD + SKILL
+  v1.47.0 + the ten provenance sites + worklog Task 51 +
+  docs/session_51.md + the plan's post-execution record).
+
+**Gate at the session-51 ship: lint 0/0 · tsc 0 · unit 724/724 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

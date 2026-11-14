@@ -19,7 +19,7 @@
 // is on record in the session-39 plan.
 //
 // Lineage note: session numbers in this file cite THIS repo's ledger
-// (docs/session_1..50.md) unless marked otherwise.
+// (docs/session_1..51.md) unless marked otherwise.
 
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";

@@ -1,132 +1,265 @@
-I'll start by setting up a task list and then working through this multi-phase assignment systematically.
-Workspace refreshed — `git pull` brought in `docs/session_50.md` (new session log). Now let me review the repo structure and project documents.
-The repo is well-established (50 sessions of prior work, test configs, `db/` folder, `.env.example` already present). Now let me review the core project documents.
-Now the larger docs. Let me check sizes and read them in order.
-All docs are manageable. Reading them in full now.
-`session_50.md` is the owner's narration of the session-49 delivery (the previous conversation). This round is session 50. Now let me read the session-49 formal log, the session-49 plan, and the worklog tail.
-Now the worklog tail and the SKILL/PAD docs.
-Now the SKILL.md (distilled engineering memory) and PAD.
-Core documentation is internalized. Now let me validate the current project state against the codebase — checking the standing contracts (`.env`, db, test suites, src tree).
-`.env`/`.env.example`/`db/` contracts verified (the local `.env` provenance-note lag is untracked-only; `.env.example` carries 1..49). Now checking screenshots convention, the SSH runbook, and environment readiness.
-Docs and state validated. Now the baseline verification of the session-49 change set, then the full gate.
-All session-49 cures verified in source. Now the baseline gate — starting with lint/typecheck/unit.
-Lint 0/0 · tsc 0 · unit 720/720 (40 files) — matches documented counts exactly. Now build + smoke + e2e.
-**BASELINE GATE GREEN** at documented counts: lint 0/0 · tsc 0 · unit 720/720 (40 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH. Now the neo-crm currency check and repo skills catalog review.
-neo-crm unchanged (HEAD `b3d0fbe`, latest round still session-217 / `session_459.md`) — no new lessons this round, consistent with the session-48/49 checks. Cleaning up and reviewing the repo skills catalog.
-Skills catalog internalized. Now dispatching the three-way audit in parallel — same structure as prior rounds (API/lib seams, components/pages/effects, SEO/configs/tests/docs).
-Three-way audit returned: **0C/0H/2M/5L/14I**. Now hand-verifying the load-bearing findings in source before accepting them.
-A3-M1 and A1-L1 confirmed. Verifying the exact exclude-list counts and the remaining load-bearing findings.
-All load-bearing audit findings hand-verified and confirmed. Now the parity walk — starting the clone dev server and checking reference reachability.
-Dev server up. Writing the parity walk script (in /tmp — never committed) following the session-49 walk protocol.
-The walk's pricing-link selector grabbed a hidden desktop link — needs the visible filter (the house convention). Let me check the navbar DOM shape first to calibrate selectors.
-REF side mostly captured (pill 14px/600 at templixco, links teal/slate 14px/500, no aria family, sitemap 4 URLs, login → /Home). Two probe bugs to fix (container probe matched an outer wrapper; route-change probe false-positived on the pricing page's own CTA) and the clone dev server needs a restart check.
-Dev server was reaped. Restarting with `setsid` to detach fully, then re-running the walk with fixed probes.
-Reference uses `nav` (no header post-hydration). Updating the walk probes: nav anchor, container walk-up (px24/py16), `a:text-is("Home")` as the panel marker (the pill false-positives on /Pricing CTAs), and body-scoped generator probe.
-There's a scoping bug — `panelOpen` is defined inside the `if` block but used after it. Let me view and restructure the menu block cleanly.
-The REF side now matches the documented posture on every face — except `routeChangeClosed: false` which contradicts the session-46/49 record ("panel closed, /Pricing both"). Let me debug that one probe on the reference before concluding.
-Reference route-change close is real — the panel unmounts (its links vanish from the DOM); my probe just collided with a page-content "Home" link. Fixing the marker to be panel-scoped, and bundling server-start + walk in one Bash call (the sandbox reaps background processes between calls).
-The walk is essentially clean — but one face needs a targeted re-probe: panel link `display` (REF shows "inline", CLONE "block" — my div-matching probe captured different containers on each side). Let me probe the reference's panel links directly.
-**Panel is byte-identical both sides — the walk's inline/block discrepancy was a probe artifact on the outer wrapper.** The targeted probe confirms class-for-class parity: `px-6 py-4 space-y-3` container, Home teal block 14px/500, siblings rgb(203,213,225), pill rgb(15,23,42) 14px/600.
+# Session 51 — The PWD-Union Normalization + The Unmount-Timer Hygiene + The Sending Precedence + The Busy Announce + The ok-16 Truth + The Entry Ownership + The s29 Catch-up + The Raw-Bound Behavior (2026-11-14)
 
-**The twenty-third consecutive clean parity walk.** No clone-side drift, no new reference-side drift; documented supersets persist. Now validating cure insertion points before writing the remediation plan.
-Now examining the remaining insertion points — pins for playwright env, generate messages, contact-form label, the sweep/plans-map/gate-script arm areas, and sanitizeIdea's collapse shape.
-Now the final insertion-point reads before writing the plan.
-All insertion points validated. Now writing the session-50 remediation plan document.
-Plan validated against all insertion points. Now executing the cures in TDD order. Starting with **S50-1** (RED first).
-**S50-1 RED confirmed** — exactly the new pin fails. Now GREEN: the wrapper union cure.
-Now the instrumentation.ts comment-truth fix:
-Battery confirmed — the planted defect trips exactly the pin. Restoring the cure:
-**S50-1 complete** (RED → GREEN → battery, 55/55). Now **S50-2** — the envprod gitignore closure. RED first: the new docs-counts arm.
-RED confirmed — the S50-2 pin plus the two designed count-lag faces (UNIT census + plans-map tail). Now GREEN: the gitignore + never-commit lists.
-Now the AGENTS never-commit list and the SKILL §11 line:
-**S50-2 complete** (battery confirmed; the 2 remaining failures are the designed count-lag faces). Now **S50-3** — the smoke-tail truth (prose).
-Now the error-boundaries census comment re-anchor:
-S50-3 prose done. Now S50-8 (the ok-16 message) — checking for pins on that string first:
-S50-3 and S50-8 done. Now **S50-4** — the copy-epoch guard. RED first: extend the landing-page S49-2 pin.
+The round opened on the shipped tree (`3e1f517` — session-50's commit;
+the owner's narration commit `48929d8` followed, carrying session_51.md
+as the round-50 narration — replaced now by this round's formal log).
+The core docs re-read and re-verified (AGENTS, CLAUDE, README, PAD,
+SKILL v1.46.0 — every lockstep site confirmed at the session-50 ship
+counts), then the session-50 set (the formal session_50.md log, the
+session-50 plan's post-execution record, worklog Task 50, the owner
+narration). This round is session 51, the standing instruction on the
+shipped tree.
 
-The workspace survived with the session-50 work mid-flight. Let me set up the task list and read the session-50 plan to see where exactly the previous session stopped.
-The plan is fully laid out. Previous session completed S50-1, S50-2, S50-3, S50-8 and was starting S50-4. Let me verify the current state of the executed cures in the working tree before continuing.
-S50-1/2/3/8 cures are all confirmed in the tree. Let me run the unit suite to confirm the current count and the two designed count-lag faces, and check the SKILL diff tail.
-All 3 failures are the designed count-lag faces (PAD §12 rows, UNIT census 720→722, plans-map tail) — exactly as the previous session recorded. These stay RED until the docs-lockstep step. Now continuing with **S50-4 (the copy-epoch guard)**. Let me find the landing page's S49-2 cure and its pin.
-现在让我读取 landing-page 测试中的 S49-2 pin 以进行就地（in-place）扩展。
-The S49-2 pin is at lines 225-236. Per the plan, S50-4 extends this pin IN PLACE with the epoch assertion. Writing the RED extension first.
-Now the RED run — exactly this pin must fail:
-RED confirmed — exactly the extended pin. Now GREEN: the genEpoch guard in generator-card.tsx.
-GREEN (39/39). Now the battery — remove the guard, expect exactly the pin RED:
-**S50-4 complete** (RED → GREEN → battery). Now **S50-5 — the src-sweep closure**. Let me locate the four arms (S48-1 ban, S13-10 forms-guard, loop-arm, S49-3 sweep) and the census's inline src scan.
-现在让我读取 docs-counts.test.ts 的常量头部和辅助部分，以设计 S50-5 提取。
-No census pin owns the comment-ladder tail (I'll catch up the s49/s50 ladder entries at docs-lockstep). Now executing **S50-5** — first the gap demonstration: plant a `src/*.test.ts` with a block-only strip and prove today's sweep does NOT see it.
-Gap demonstrated — the census sees the plant's blocks but the sweep stays GREEN (the src file is invisible to all four arms). Now the cure: the shared helpers + the union conversion of all five sites.
-Now run with the plant still in place — the sweep must RED naming the src file:
-The sweep now REDs naming the src plant — exactly the designed battery. Removing the plant:
-**S50-5 complete.** Now **S50-6 — the mirror-set pin**. Let me examine the excludes config and the smoke leg-16 list.
-Now let me check the existing smoke-side pin (S36-5a in error-boundaries) to ensure the new arm complements rather than duplicates it:
-S36-5a owns the smoke-side literal; the new arm owns the config↔smoke relation — complementary. Landing the S50-6 arm at the end of docs-counts.test.ts:
-Arm lands GREEN. Now the battery — drop an exclude from next.config only:
-Exactly the arm REDs naming the dropped exclude. Restoring:
-**S50-6 complete** (config restored byte-identical). Now **S50-7 — the redundant-arm cure** in gate-script.test.ts:
-该修复将 `gate-script` 的成员关系检测范围重新划定（由 `error-boundaries` 的 S36-5a full-line pin 所拥有）调整为 loop-shape 检测，并在两条注释中均记录了所有权移交过程：
-Now the S50-7 verification battery — face 1: remove `.env.production` from the smoke list → exactly error-boundaries trips, gate-script stays green:
-Face 1 verified — exactly error-boundaries trips; gate-script green. Restoring, then face 2: remove the loop line entirely:
-git checkout 撤销了 S50-3 未提交的 prose 修改 —— 现在正重新准确应用它们：
-S50-3 已原样恢复，两者均为绿色。接下来进行第二部分 —— 移除整个循环行：
-Face 2 observed truth: deleting the loop line trips BOTH arms (the shape face has teeth in gate-script; error-boundaries' literal died with the line — deletion is the catastrophic case both owners cover). The decisive redundancy face is face 1 (exactly error-boundaries, gate-script green) — verified. I'll record the plan's "exactly gate-script" wording correction in the post-execution record. Restoring:
-循环行回到了错误的位置（在注释块之前，而不是之后）。正在修复位置：
-Pure S50-3 diff restored, loop line intact as context. **S50-7 complete.** Now **S50-9 — the plans-map duplicates arm** (extends the S49-4 arm in place):
-The map line enumerates session-1..49 with no duplicates (the ×2 counts elsewhere in AGENTS.md are off the map line). Extending the arm in place with the Set-size face:
-Now the S50-9 battery — temporarily cure the tail (append session-50 entry) and plant a duplicate token; the arm must RED on the duplicate face:
-Duplicate face verified (51 tokens vs 50 distinct). Reverting the battery edit (keeping the S50-2 never-commit edit intact):
-**S50-9 complete.** Now **S50-10 — the e2e webServer env pin** in playwright.config.ts:
-No existing pin owns the config's env block — S50-10 is the config edit only (consistent with the plan's +0 count). Applying:
-Verifying the comment's parse claim against rate-limit.ts:
-**S50-10 complete** (parse claim verified). Now **S50-11 — the contact-form sending face**:
-The form has `disabled={sending}` but the label never changes in flight. Let me view the a11y-controls contact-form pins to place the new pin in-family:
-All safe — the S27-1 pin owns the class string (untouched), e2e clicks run from idle. RED first — the S50-11 pin after the S24-3 success-swap pin:
-RED confirmed. GREEN — the contact-form three-face label:
-GREEN。测试 —— 将标签恢复到双面形态，正是引脚 RED：
-**S50-11 complete.** Now **S50-12 — the honest raw-bound message**. Let me examine the current shape:
-所有固定点已映射。根据计划进行就地重锚定——并将 S15-2 正则表达式重新划分范围至仅 `typeof-gate`（在诞生时就应用了 S50-7 单一所有者经验，这使得计划的电池测试变得精确）。先进行红测试（RED）：
-RED — exactly the re-anchored F11-7 pin. GREEN: the generator.ts extraction + the route branch:
-Now the route branch:
-GREEN (83/83). Battery — revert the branch to the single-message form; exactly the F11-7 pin must RED:
-**S50-12 complete** — battery tripped exactly F11-7. Now **S50-13** — the register addition (PAD §11 link-clobber row). Let me read PAD §11's tail:
-Verified — 10/IP/15min limit + per-user token overwrite. Adding the PAD §11 row:
-**S50-13 complete.** All thirteen cures executed. Now the **count re-anchor** — first verify the live disk counts:
-Live counts confirmed: **724/40** — exactly the plan's target. The 3 failures are the designed lag faces. Now the docs lockstep — locating every count/provenance site:
-docs/session_50.md is the owner's narration (to be replaced by the formal log at ship). Let me check the provenance-range census to enumerate the exact "1..50" sites:
-All ten provenance sites enumerated. Now executing the lockstep. First, live line counts for the §12 rows:
-Executing the lockstep. First the census constants + the ladder (with the s49 catch-up):
-The census demands are clear. Executing the README lockstep:
-Now the README session-50 table row and the footer:
-README done. Now AGENTS.md (counts + the plans-map fiftieth round):
-Now CLAUDE.md and PAD:
-All remaining demands are SKILL-side. Let me view the §0.5, checklist, and Appendix areas:
-Now the Appendix A session-50 row:
-Now the remaining nine provenance sites → 1..50:
-docs-counts fully GREEN (47/47). Now the worklog Task 50 row:
-Now the formal session_50.md. Let me check the current narration and the session_49 formal form:
-Now writing the formal session_50.md (replacing the owner's narration):
-Now the plan's post-execution record (with the S50-7 wording correction):
-Docs lockstep complete. Now the full gate — lint and typecheck first:
-Lint 0/0 · tsc 0. Now unit + build:
-Unit 724/724 · build green. Now smoke + e2e:
-**FULL GATE GREEN** — lint 0/0 · tsc 0 · unit 724/724 (40 files) · build · smoke 16/16 · e2e 70/70 · census MATCH. Now captures 107/108. Checking the convention:
-Convention confirmed. Starting the dev server and capturing 107/108:
-First-compile timeout on dev. Warming the route first and relaxing the wait:
-Port 3000 is held by a pre-existing server (my spawn hit EADDRINUSE). Let me identify what's serving:
-That's the previous session's dev server on this same live tree (Next dev hot-reloads my changes). The click raced hydration — adding a settle wait and retrying:
-The stale dev server is in a reload loop. Killing it and starting fresh:
-Captures 107/108 landed and PIL-verified. Cleaning up the dev server and running the tree check:
-Tree check clean — 30 modified + 3 new, exactly the designed change set (no .env/key/db/logs staged). Now let me read the SSH push runbook before committing:
-Runbook internalized. Checking the shim + paramiko, then committing:
-Shim + paramiko ready. Committing the designed change set:
-Committed `3e1f517` on main. Now the push ritual — key to a 0600 file outside the repo:
-Dry-run green — clean fast-forward (f74d434..3e1f517). Real push:
-Push verified — remote main @ 3e1f517 == local HEAD. Shredding the operator key and doing the final verification:
-**Session 50 — delivered** (commit `3e1f517`, pushed to `main` via the SSH wrapper, remote verified `refs/heads/main @ 3e1f517 == local HEAD`, key shredded, working tree clean, no new branches).
+Baseline gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit
+724/724, 40 files · build · smoke 16/16 · e2e 70/70, 9 specs · census
+MATCH) — exactly the session-50 ship record, no drift; the standing
+asks re-verified up front (the `.env`
+`DATABASE_URL="file:../db/custom.db"` contract intact with `db/` at
+the repo root — census MATCH; `.env.example` committed at provenance
+1..50; the vitest + playwright suites in place and current; the
+sitemap/robots/manifest/OG family verified live against the reference
+in this round's walk; `skills/` excluded from every gate). The
+neo-crm reference repo re-cloned (the prior clone lived in /tmp,
+recycled) and re-checked per the standing instruction: unchanged since
+the session-48/49/50 checks — its latest round is still its
+session-217 (HEAD b3d0fbe); stack pins identical; no new lessons this
+round. The web-application skill + the skills catalog internalized;
+tdd, clone-app-pat-pro, and the agent-browser doctrine (computed
+styles as ground truth, never eyeballs) applied throughout.
 
-Resumed mid-flight after the context stop: S50-1/2/3/8 verified in place, then executed S50-4 through S50-13 TDD — the copy-epoch guard, the src-sweep union, the mirror-set pin, the redundant-arm cure, the duplicates face, the proxy-hops pin, the sending face, the honest raw-bound message, and the register row. Nine mutation batteries on record; the plan's one imprecise battery claim is corrected honestly in the post-execution record.
+## The audit
 
-**Gate: lint 0/0 · tsc 0 · unit 724/724 (40 files) · build · smoke 16/16 · e2e 70/70 · census MATCH.** Docs fully lockstep (badge 794, SKILL v1.46.0, ten provenance sites at 1..50), captures 107/108 taken.
+Three parallel dispatched subagents (AUDIT-1 API/lib seams, AUDIT-2
+components/pages/effects, AUDIT-3 SEO/configs/tests/docs) — every
+load-bearing finding hand-verified in source by the lead.
+**AUDIT-1: 0C/0H/0M/2L/1I · AUDIT-2: 0C/0H/0M/3L/1I · AUDIT-3:
+0C/0H/0M/3L/0I** — combined **0 Critical / 0 High / 0 Medium /
+8 Low / 2 Info**. The session-50 diff itself verified correct on all
+three passes (the subagents re-probed every S50 cure at its
+boundaries: the union's correct faces, the collapse semantics, the
+message-bound honesty at raw 1000/1001 and collapse 500/501, the
+genEpoch interleavings, the compiled-sheet Tailwind family — zero
+`(hover:hover)` media queries, the custom-variant unwrap holding
+family-wide); the eight Lows are hardening/truth gaps at the
+session-50 cures' own boundaries.
 
-Next step whenever you want another round: re-run the standing instruction on the shipped tree.
+The decisive hand-verifications: **S51-1 (AUDIT-1 L1)** — the S50-1
+union dedupes by STRING identity and pushes the PWD face
+un-normalized (boot-env.ts:477-478): a symlink-alias PWD of the cwd
+emits the same physical shadow file's warning TWICE; a
+trailing-slash PWD does the same; a RELATIVE PWD (".") probes the
+wrong directory and prints a misleading "exists at ." path —
+live-probed in temp dirs (2 warnings per face pre-cure; the PWD-unset
+and PWD===cwd faces verified correct in the same probe). **S51-2
+(AUDIT-2 L1)** — the S50-4 epoch guard checks only the epoch; an
+UNMOUNT never moves it, so a clipboard promise (or the contact fetch)
+resolving after the unmount cleanup already ran passes the gate, then
+arms a fresh 2s/2.6s timer on the dead ref that nothing will ever
+clear — the S17-6 tracked-timer hygiene violated in exactly this
+window. **S51-3 (AUDIT-2 L2)** — the S50-11 label ternary gives
+`sent` precedence over `sending`, so a re-submit inside the 2.6s
+post-success window shows the stale "Message Sent!" through the whole
+in-flight round-trip. **S51-4 (AUDIT-2 L3)** — the contact form's
+polite status region carries only the sent flip: zero feedback to AT
+users through the entire network round-trip (the S26-2 genus, one
+surface over). **S51-5 (AUDIT-3 L1)** — the S50-8 ok-16 re-spell
+claims "uploads/worklog/test-results are the sanctioned S34-7
+tripwires beyond the excludes set" — FALSE: only `uploads` is beyond
+the excludes (verified against the S34-7 ship itself, `git show
+74bc770:next.config.ts`); the docs-lie genus, introduced by the S50-8
+cure itself. **S51-6 (AUDIT-3 L2)** — the
+`.next/standalone/$entry` literal pinned by BOTH gate-script:77-80
+(with a message mislabeling its face as ".env.production") and
+error-boundaries' full-line pin — the N12-2 dual-pin the S50-7 cure
+retired for the membership face but left here. **S51-7 (AUDIT-3 L3)**
+— the count ladder has no s29 entry: s28 documents 636/38, s30
+claims "+3" to 644, but 636+3=639 — session 29 grew the suite +5 to
+641/38 and never wrote the entry. **S51-8 (AUDIT-1 L2)** — the
+S50-12 message pick is pinned only by source-text regexes; no unit
+or e2e drives the raw-length arm BEHAVIORALLY.
+
+## The parity walk
+
+**ALL CLONE FACES MATCH — the twenty-fourth consecutive clean walk,
+no clone-side drift, no NEW reference-side drift.** The walk's first
+panel reading flagged two faces — link display "inline" (REF) vs
+"block" (CLONE), plus a "ViralPost AI" brand entry in the REF panel
+census — both resolved by the targeted panel-scoped probe (the
+session-50 outer-wrapper precedent): the panel is byte-identical
+class-for-class on BOTH sides (container `px-6 py-4 space-y-3` =
+px24/py16/block/maxHeight none/transparent; Home teal rgb(45,212,191)
+14px/500 **block**; the siblings rgb(203,213,225) 14px/500 **block**;
+the pill rgb(15,23,42) 14px/600 **block**; `brandInPanel: null` BOTH
+sides — the div-walking probe had matched an outer wrapper on the
+reference side). The desktop census split by visibility: 6 VISIBLE
+links IDENTICAL both sides (the brand + the four routes + the pill);
+CLONE total 11 = 6 visible + 5 hidden panel anchors — the documented
+S26-1 design (our closed panel stays hidden in the DOM for the stable
+aria-controls target; the reference UNMOUNTS its closed panel — its
+inner container reads `exists:false` at 1280). The mobile menu works
+exactly as expected (the owner's standing concern): the hamburger
+cursor pointer both sides (the Tailwind v4 standing concern holding);
+the reference's hamburger still ships NO aria family (our expanded
+family the documented superset); Escape leaves the reference's panel
+open (our superset closes); the outside-tap face leaves it open on
+BOTH sides; route-change close verified both sides at /Pricing; the
+five-route head census identical (titles + descriptions); sitemap 4
+URLs both + robots identical modulo origin; the generator probe
+symmetrically dead/live (R: no copy button, no generation lands; L: a
+5-hashtag post + the copy button — the D-1 documented superset); the
+login round-trip both landing the landing (R /Home, L / — the
+documented 308 deviation); the clone session verified live via
+/api/auth/me (Demo Creator, role admin).
+
+## The cures (TDD — the batteries on record; the ownership division enumerated at birth)
+
+- **S51-1 (LOW, AUDIT-1 L1 + I1)** — the PWD-union normalization:
+  the PWD leg guards on `isAbsolute` (a relative PWD names the
+  SHELL's dir at spawn time — uninterpretable, skipped entirely),
+  normalizes with `resolve()` (trailing slashes and `..` segments
+  fold onto the canonical form), and dedupes the symlink-alias face
+  best-effort through `realpathSync` comparison (a symlink spelling
+  of the SAME physical dir as the cwd must not duplicate the probe —
+  the cwd leg already covers it). The S50-1 comment block gains the
+  PWD-less-posture hedge sentence (a process manager that clears the
+  environment falls back to the cwd-only probe — no such posture is
+  documented today). The S50-1 boot-env pin extended IN PLACE: the
+  alias, trailing-slash, and relative-PWD faces inside the existing
+  it (temp dirs + chdir + PWD, restored in finally; a symlink created
+  inside the launch dir, cleaned by its rmSync). Battery: the union
+  reverted to the un-normalized string-compare push → exactly the new
+  faces RED (the S50-1 originals — the launch-dir warn and the
+  PWD===cwd dedupe — stayed GREEN through the battery).
+- **S51-2 (LOW, AUDIT-2 L1)** — the unmount-timer hygiene: a
+  `mounted` ref (flipped false by the unmount cleanup, beside the
+  timer clear) + the continuation gates — generator-card's copy
+  continuation widens to `if (!mounted.current || epochAtCopy !==
+  genEpoch.current) return;`; contact-form's success arm gains
+  `if (!mounted.current) return;` before the setSent/timer arm. The
+  ownership division (one face one pin, the N12-2 doctrine): the
+  landing-page S50-4 sequence pin owns the generator-card GATE (the
+  whole continuation sequence, widened in place); the S17-6
+  unmount-safe it owns the MECHANISM (the mounted ref + the cleanup
+  flip, both files, the loop's unmount regex widened in place) and
+  the CONTACT gate. Batteries: A the epoch-only gate planted →
+  exactly the S50-4 pin (the mechanism pins GREEN); B the contact
+  gate removed → exactly the S17-6 contact expect (the S50-4 pin
+  GREEN); C the full deletion (mechanism + gates) → both its — the
+  catastrophic case both owners cover, the S50-7 face-2 precedent
+  (the intermediate plant — mechanism stripped, gate text left —
+  tripped exactly the mechanism pins: the incoherent-source state
+  whose own face it is).
+- **S51-3 (LOW, AUDIT-2 L2)** — the sending precedence: the label
+  ternary becomes `{sending ? "Sending…" : sent ? "Message Sent!" :
+  "Send Message"}` and the icon ternary mirrors it (in flight: the
+  Send icon; success: the Check). The S50-11 pin updated IN PLACE
+  (the new form + the icon-mirror expect). Battery: the old
+  precedence planted → exactly the pin.
+- **S51-4 (LOW, AUDIT-2 L3)** — the busy announce: the status region
+  becomes the three-face form `{sending ? "Sending your message…" :
+  sent ? "Message sent" : ""}` (the S26-2 BUSY family, one surface
+  over; the reference's contact form is a stub — D-2 — no parity
+  face constrains it). The S24-3 it extended IN PLACE. Battery: the
+  arm removed → exactly the pin.
+- **S51-5 (LOW, AUDIT-3 L1)** — the ok-16 truth re-spell: uploads is
+  the ONE sanctioned S34-7 tripwire beyond the excludes set —
+  worklog/test-results ride BOTH lists (excludes + mirror); the
+  S50-8 re-spell's docs-lie corrected the round after its birth.
+  Prose only; the S50-6 set-equality arm already enforces the true
+  relation.
+- **S51-6 (LOW, AUDIT-3 L2)** — the entry ownership: the gate-script
+  `$entry` assertion DELETED (error-boundaries' full-line pin owns
+  the literal — one defect, one owner; the mislabeled message gone),
+  the handoff documented in the comment. Battery: the loop-variable
+  rename trips error-boundaries' literal arms AND gate-script's
+  loop-shape — the plan's "exactly error-boundaries, gate-script
+  GREEN" wording was WRONG (the loop variable's name is part of the
+  loop's shape; the S50-7 face-2 precedent — the observed truth
+  kept); the decisive face holds: the $entry literal now has exactly
+  ONE owner.
+- **S51-7 (LOW, AUDIT-3 L3)** — the s29 catch-up ladder entry,
+  written from the session-29 plan's own post-execution record (+5:
+  S29-1/2/3/6/7; the S29-5 e2e fold in place — the S25-17 precedent;
+  S29-4's comment-truth arm rides the existing loginSchema it), the
+  comment-lag genus named in the entry itself (the s49 precedent).
+  Prose only.
+- **S51-8 (LOW, AUDIT-1 L2)** — the raw-bound behavior: the e2e
+  over-length test extended IN PLACE with a second fill —
+  `"x".repeat(497) + " ".repeat(504)` (raw 1001, collapse 497 fits
+  the seam) must answer the RAW pre-filter's "1000 characters max"
+  message, never the seam's; the seam-boundary unit pins extended IN
+  PLACE with the 500 boundary (`sanitizeIdea("x".repeat(500))`
+  passes — the seam's bound is `>`, never `>=`). Co-pinned faces
+  documented at birth: F11-7 owns the branch's SOURCE shape; the e2e
+  leg owns the BEHAVIOR. Batteries: the `>=` off-by-one planted in
+  the seam → exactly the 500-boundary expect (the 501 pin GREEN);
+  the classic single-message revert + build + the generator-spec e2e
+  → the fill-2 leg RED alongside F11-7.
+- **S51-9 (register)** — the accepted-residual additions, with
+  reasons: the copy affordance's own in-flight face (not recommended:
+  the reference's own copy is instantaneous, the family has no
+  precedent demanding it, and the pending window is measured in tens
+  of ms); the walk's two flagged readings (probe artifacts, the
+  session-50 outer-wrapper precedent — recorded in the parity
+  section above, never to be "fixed" into the panel).
+
+**Accepted/observed register (the standing residuals carried forward
+unchanged):** the nav links' UA-default focus outline; the reduced-motion
+live-toggle gap; the quota store's midnight rollover; the classifier's
+P1001/P1002 500 face; the api-robustness census's route.ts-only matcher;
+the hero-portrait weight/resize; the workspace's ambient absolute
+DATABASE_URL; the detectNiche substring shape; the proxyHopDepth parse
+mirror; the setSessionCookie unit gap; the signup first-admin race; the
+verify/resend read-then-write pair; the enumeration faces; the
+single-node limiter; the 404/error main-landmark posture; the smoke-leg
+retired-form negatives; the in-process limiter; the 404 client-render
+body; the formula-driven generator; the in-app OTP delivery; the footer
+© build-time year; the forgot-password link-clobber (PAD §11);
+ContactMessage.email's unindexed readback scan; the failed-regeneration
+post discard; the verify-digits wipe while a resend is in flight; the
+two sanctioned window.location.origin reads; the novel strip idioms
+escaping the textual arms; the local .env's stale provenance note
+(untracked-only); the implementation-plan §4 unticked checkboxes.
+
+## The count re-anchor
+
+UNIT 724 HELD (every S51 pin folds into an existing it IN PLACE; S51-6
+DELETES an expect), SUITES 40 unchanged, E2E 70 unchanged (the fill-2
+extends the existing test), E2E_SPECS 9 unchanged, SMOKE 16 unchanged,
+BADGE 794 unchanged. No s51 ladder entry (no growth — the ladder's own
+convention: entries record growth); the s29 catch-up written. PAD §12's
+generator-card row re-anchored 292 → 306 (the only drifted row of the
+21); the ten provenance sites re-anchored to 1..51 — lag 0 at ship;
+SKILL v1.46.0 → v1.47.0.
+
+## Verified
+
+- The full gate on the exact commit tree (below)
+- The mutation batteries single-tooth on record: the normalization
+  revert → exactly its new faces (the S50-1 originals green through
+  it); the unmount A/B/C faces (the epoch-only gate → exactly the
+  S50-4 pin; the contact gate removal → exactly the S17-6 contact
+  expect; the full deletion → both its); the precedence revert →
+  exactly its pin; the busy-arm removal → exactly its pin; the
+  loop-variable rename → error-boundaries' literal arms AND
+  gate-script's loop-shape (the plan's wording corrected, the
+  decisive face held); the `>=` plant → exactly the 500-boundary
+  expect; the single-message revert → the e2e fill-2 leg alongside
+  F11-7
+- The redundant-arm check: every S51 arm verified single-tooth at
+  birth (the co-pinned F11-7/e2e division documented in both pins'
+  comments)
+- The parity walk post-cure: the standing faces hold, no drift
+- Captures 109/110 on the dev server (the owner-instructed posture,
+  the session-29..50 precedent): the mobile-menu open clean-walk at
+  390×844 + the landing hero at 1280×800, PIL-verified
+- Docs lockstep: README (the session-51 row on the continuous table,
+  the gate footer); AGENTS (the plans map's fifty-first round); CLAUDE
+  (counts held — no change needed); PAD (§12's generator-card row,
+  Last Updated); SKILL v1.46.0 → v1.47.0 (frontmatter, §0.5 1..51,
+  Appendix A's session-51 row, Appendix B's header); the ten
+  provenance sites at 1..51; worklog Task 51; this session log; the
+  plan's post-execution record
+
+**Gate at the session-51 ship: lint 0/0 · tsc 0 · unit 724/724 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

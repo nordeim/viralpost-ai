@@ -86,6 +86,19 @@ test.describe("generator (desktop)", () => {
     // too, with its own failure toast — the D-1 record; ours recovers
     // with a retry affordance, the superset contract).
     await expect(page.getByRole("button", { name: "Generate Post" })).toBeEnabled();
+    // Session-51 (S51-8, AUDIT-1 L2): the RAW-bound behavioral leg — a
+    // whitespace-padded 1001-char idea (collapse 497 fits the seam's
+    // 500) must answer the RAW pre-filter's message, never the seam's:
+    // the honest bound's behavior pin. The textual F11-7 regexes
+    // (api-robustness) own the branch's SOURCE shape; THIS leg owns
+    // the BEHAVIOR (the class a textual pin cannot catch — a
+    // behavior-reverted branch keeping the source text). Born green;
+    // the battery reverts the branch to the single-message form and
+    // REDs this leg alongside F11-7.
+    await TEXTBOX(page).fill("x".repeat(497) + " ".repeat(504));
+    await page.getByRole("button", { name: "Generate Post" }).click();
+    await expect(page.getByText(/1000 characters max/i)).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByRole("button", { name: "Generate Post" })).toBeEnabled();
   });
 
   // Session-47 (S47-7, AUDIT-2 L3): the toast auto-dismiss leg — the

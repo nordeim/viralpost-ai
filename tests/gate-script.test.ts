@@ -74,10 +74,6 @@ describe("session-11: the gate-script pins (the neo-crm adoption)", () => {
       path.resolve(import.meta.dirname, "..", "scripts", "smoke-test.sh"),
       "utf8",
     );
-    expect(
-      smoke,
-      "smoke leg 16's hygiene mirror must check .env.production (the artifact-level assertion of the S49-1 closure)",
-    ).toContain(".next/standalone/$entry");
     // Session-50 (S50-7, AUDIT-3 L3): re-scoped from the .env.production
     // MEMBERSHIP face — owned by error-boundaries' S36-5a full-line pin
     // since session-36 (two pins on one defect: removing the entry
@@ -86,9 +82,18 @@ describe("session-11: the gate-script pins (the neo-crm adoption)", () => {
     // in` loop over a list carrying a standalone .env entry
     // (re-anchor-stable — a list edit re-anchors error-boundaries'
     // literal while this face keeps watching the loop's existence).
+    // Session-51 (S51-6, AUDIT-3 L2): the `.next/standalone/$entry`
+    // assertion that sat here is DELETED — it was a second pin on
+    // error-boundaries' own literal (the S36-5a arm reads the same
+    // string), with a message that mislabeled its face as
+    // ".env.production"; a loop-variable rename tripped both arms with
+    // two messages for one defect (the N12-2 genus the S50-7 cure
+    // retired for the membership face but left here). One defect, one
+    // owner: error-boundaries owns the literal, this arm owns the
+    // loop-shape.
     expect(
       smoke,
-      "smoke leg 16 must stay a for-entry loop with a standalone .env entry (the loop-shape face; the literal content is error-boundaries' S36-5a pin — S50-7 handoff)",
+      "smoke leg 16 must stay a for-entry loop with a standalone .env entry (the loop-shape face; the literal content is error-boundaries' S36-5a pin — S50-7/S51-6 handoff)",
     ).toMatch(/for entry in [^']*\.env /);
   });
 

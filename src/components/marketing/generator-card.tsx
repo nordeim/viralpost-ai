@@ -53,7 +53,17 @@ export function GeneratorCard() {
   // is the family's hygiene; the clear-before-re-arm also gives a
   // rapid re-copy its full 2s window (the toast's timer-reset shape).
   const resetTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Session-51 (S51-2, AUDIT-2 L1): the mounted flag joins the tracked
+  // timer — an unmount never moves the epoch (only a regeneration
+  // does), so a clipboard promise landing after the cleanup ran passed
+  // the epoch-only gate, called the no-op setState, and armed a fresh
+  // 2s timer on the dead ref that nothing would ever clear (the S17-6
+  // hygiene's async edge, the unmount-mid-await face). The cleanup
+  // flips it beside the timer clear; the copy continuation's gate
+  // checks it beside the epoch.
+  const mounted = React.useRef(true);
   React.useEffect(() => () => {
+    mounted.current = false;
     if (resetTimer.current) clearTimeout(resetTimer.current);
   }, []);
   // Session-50 (S50-4, AUDIT-2 L1): the copy-epoch guard's counter —
@@ -130,10 +140,14 @@ export function GeneratorCard() {
     // (the S49-2 reset + epoch bump already ran) must not flip the
     // copied flag or arm a fresh 2s timer on the new, never-copied post
     // (the async sibling of the S49-2 synchronous edge).
+    // Session-51 (S51-2, AUDIT-2 L1): the gate also checks the mount —
+    // an unmount never moves the epoch, so the continuation landing
+    // after the unmount cleanup ran re-armed the stale state on the
+    // dead ref anyway (the unmount-mid-await face). Epoch ∪ mounted.
     const epochAtCopy = genEpoch.current;
     try {
       await navigator.clipboard.writeText(post);
-      if (epochAtCopy !== genEpoch.current) return;
+      if (!mounted.current || epochAtCopy !== genEpoch.current) return;
       setCopied(true);
       if (resetTimer.current) clearTimeout(resetTimer.current);
       resetTimer.current = setTimeout(() => setCopied(false), 2000);

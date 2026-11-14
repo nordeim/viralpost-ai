@@ -167,6 +167,12 @@ describe("generator: input hygiene", () => {
   it("rejects empty / whitespace-only / oversized ideas", () => {
     expect(() => sanitizeIdea("   ")).toThrow(/describe/i);
     expect(() => sanitizeIdea("x".repeat(501))).toThrow(/shorter/i);
+    // Session-51 (S51-8, AUDIT-1 L2): the 500 boundary — the seam's
+    // bound is >, never >= (an off-by-one drift would reject the
+    // exactly-500 ideas the seam has always accepted while the 501
+    // pin above stays green, hiding the drift). Born green — the
+    // battery plants >= in the seam and REDs exactly this expect.
+    expect(sanitizeIdea("x".repeat(500))).toBe("x".repeat(500));
   });
 
   // Session-40 (S40-13): a dash-run token (`love ---- today`) used to

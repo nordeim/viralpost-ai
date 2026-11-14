@@ -125,6 +125,17 @@ import {
 // (S28-5), and the smoke-leg disk census (S28-6); the S28-4
 // comment-blind dead-token census hardening folds into the existing
 // dead-token it in place) and the e2e 63 unchanged.
+// s29: 641/38 (+5 the session-29 pins — the logout session-gate (S29-1),
+// the shared shape-guard (S29-2), the generator-card parse mirror
+// (S29-3), the db operator-script wiring census (S29-6), and the icon
+// IHDR pins (S29-7); the S29-4 comment-truth arm rides the existing
+// loginSchema it in place) and the e2e 63 unchanged (the S29-5 head-DOM
+// superset folds into the existing unknown-route e2e in place — the
+// S25-17 precedent). Written at session-51, S51-7 (AUDIT-3 L3): the
+// comment-lag genus — the s29 ship grew the suite +5 and never wrote
+// this entry, breaking the ladder's arithmetic chain (the s30 entry's
+// "+3" closes 636→644 only through this entry; the s49 catch-up's
+// "contiguous" claim held for s49 itself, never for the range).
 // s30: 644/38 (+3 the session-30 pins — the db-path empty-string pair
 // (S30-1) and the sections dead-import census (S30-2)) and the e2e 63
 // unchanged.

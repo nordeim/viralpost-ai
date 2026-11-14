@@ -713,7 +713,7 @@ commit as the file.)
 | `src/lib/api.ts` | 323 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2; the transient-abort classifier, session-37, S37-2; the seam's own transient arm, session-38, S38-1; the two-code 503 taxonomy note, session-46 S46-7) |
 | `src/app/globals.css` | 250 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1) |
 | `src/components/marketing/navbar.tsx` | 280 | The nav + the mobile menu (parity-verified) |
-| `src/components/marketing/generator-card.tsx` | 292 | The core surface: quota dots, generate, copy, paywall (the S50-4 copy-epoch guard) |
+| `src/components/marketing/generator-card.tsx` | 306 | The core surface: quota dots, generate, copy, paywall (the S50-4 copy-epoch guard + the S51-2 unmount-mounted gate) |
 | `src/components/effects/iridescence.tsx` | 273 | The WebGL hero background (aspect-aware shader) |
 | `src/components/effects/particle-text.tsx` | 333 | The canvas particle title |
 | `src/components/effects/floating-icons.tsx` | 122 | The monetization section's ten-icon float field (session-19, S19-2) |

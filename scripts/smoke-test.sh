@@ -272,7 +272,7 @@ for entry in .env .env.example .env.production .env.local .git db skills docs up
   [ -e ".next/standalone/$entry" ] && hygiene_fail="$hygiene_fail $entry"
 done
 [ -z "$hygiene_fail" ] \
-  && ok 16 "the artifact carries no repo-root drag (the hygiene mirror: env files/.git/db/skills/docs/uploads/worklog/test-results/logs/configs/scripts/tests — session-50, S50-8: uploads/worklog/test-results are the sanctioned S34-7 tripwires beyond the excludes set, so the mirror is the hygiene family, never the excludes one)" \
+  && ok 16 "the artifact carries no repo-root drag (the hygiene mirror: env files/.git/db/skills/docs/uploads/worklog/test-results/logs/configs/scripts/tests — session-50, S50-8; session-51, S51-5, AUDIT-3 L1: uploads is the ONE sanctioned S34-7 tripwire beyond the excludes set — worklog/test-results ride BOTH lists (excludes + mirror), the S50-8 re-spell wrongly named all three as beyond-the-excludes — so the mirror is the hygiene family, never the excludes one)" \
   || { fail 16 "the artifact ships:$hygiene_fail"; exit 1; }
 
 echo "SMOKE: 16/16 PASS"

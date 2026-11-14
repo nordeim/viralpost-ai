@@ -95,6 +95,14 @@ describe("named-control source pins (the open surfaces)", () => {
     // The region renders BEFORE the state flips (always in the tree, so
     // the mutation — not the insertion — is what AT announces).
     expect(src).not.toMatch(/\{sent &&[^}]*role="status"/);
+    // Session-51 (S51-4, AUDIT-2 L3): the BUSY arm — the region carried
+    // only the sent flip, so AT users got zero feedback through the
+    // entire network round-trip (the S26-2 genus — the generator card's
+    // BUSY window — one surface over; the S24-3 comment above already
+    // calls the button-label change NOT re-announced). The three-face
+    // form with sending precedence (the S51-3 swap): in flight the
+    // region names it, on success the sent line.
+    expect(src).toContain('{sending ? "Sending your message…" : sent ? "Message sent" : ""}');
   });
 
   // Session-50 (S50-11, AUDIT-2 I4): the contact submit joins the
@@ -108,11 +116,20 @@ describe("named-control source pins (the open surfaces)", () => {
   // contact form is a stub (docs/reference-investigation.md §5 D-2 —
   // no parity face constrains it); the family's consistency owns the
   // label.
+  // Session-51 (S51-3, AUDIT-2 L2): the precedence swap — the S50-11
+  // form gave `sent` precedence, so a re-submit fired inside the 2.6s
+  // post-success window (form refilled + resubmitted before the reset
+  // timer flipped `sent`) showed the stale "Message Sent!" through the
+  // whole in-flight round-trip. `sending` now outranks `sent` — the
+  // in-flight face can never be masked by the lingering success flag.
   it("session-50 (S50-11): the contact submit relabels Sending… in flight (the pending-face family's sixth member)", () => {
     const src = read("src/components/marketing/contact-form.tsx");
-    // The three-face label: sent → sending → idle, one expression —
+    // The three-face label with sending precedence, one expression —
     // the S49-8 pin form ('{resending ? "Please wait…" : "Resend"}').
-    expect(src).toContain('{sent ? "Message Sent!" : sending ? "Sending…" : "Send Message"}');
+    expect(src).toContain('{sending ? "Sending…" : sent ? "Message Sent!" : "Send Message"}');
+    // The icon ternary mirrors the precedence (in flight: the Send
+    // icon; success: the Check) — the S51-3 swap covers both.
+    expect(src).toContain('{sending ? (');
   });
 
   // Session-25 (S25-2): the S24-3 genus, one file over — the generator
