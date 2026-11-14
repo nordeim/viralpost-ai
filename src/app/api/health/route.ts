@@ -4,9 +4,12 @@ import { ok, fail } from "@/lib/api";
 export const dynamic = "force-dynamic";
 
 // Session-36 (S36-P5 — donor-ledger numbers; this repo's sessions are
-// docs/session_1..51, the SKILL §0.5 enumeration): the db-down branch
-// is an honest 503 — the session-34 incident (production start serving
-// db:"down" at 200 while every DB route 500'd) is the existence proof
+// docs/session_1..52, the SKILL §0.5 enumeration): the db-down branch
+// is an honest 503 — the session-34 incident (a DONOR-ledger number —
+// the NEO-CRM seam's own recovery session, the db-path.ts marker's
+// sibling; this repo's own session 34 was the contact-persistence
+// round — the S52-7 anti-collision marker) — production start serving
+// db:"down" at 200 while every DB route 500'd — is the existence proof
 // that the 200 form lies to
 // monitoring. The playwright webServer probe still passes on a healthy
 // boot (SQLite auto-creates db/e2e.db on first connect and SELECT 1

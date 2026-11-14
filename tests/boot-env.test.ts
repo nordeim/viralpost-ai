@@ -37,9 +37,9 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..51.
+// are docs/session_1..52.
 
-import { mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -654,6 +654,26 @@ describe("session-50 (S50-1): the launch-dir shadow union", () => {
       process.env.PWD = `${artifactDir}/`;
       const slashed = shadowingEnvFileWarningsForServer({ NODE_ENV: "production" });
       expect(slashed.filter((w) => w.includes(".env.local")), "a trailing-slash PWD is the same dir — one warning").toHaveLength(1);
+      // The dotdot face (Session-52, S52-6, AUDIT-1 L2): resolve()
+      // folds .. segments onto the canonical form — a PWD spelling
+      // the cwd through a child-and-back path is the SAME dir, one
+      // warning. resolve() is purely lexical, but the sub segment is
+      // created for real so the PRE-cure tooth is honest too: the
+      // raw-string form pushed the unfolded spelling and the fs
+      // probe resolved THROUGH it (sub must exist for the kernel to
+      // walk sub/..) — two warnings for one physical file. Battery
+      // truth (the S51-6 wording precedent): the no-dedupe plant
+      // trips this it at the FIRST dedupe arm (the alias face above)
+      // — this arm shares the dedupe-family failure face (co-pinned,
+      // the N12-2 documented form); its independent value is the
+      // GREEN-direction pin of resolve()'s fold — the S51-1 comment
+      // claimed the fold and nothing asserted it. The S52-5 statSync
+      // identity dedupe folds every alias spelling too, so the
+      // normalization and the dedupe are belt-and-braces here.
+      mkdirSync(join(artifactDir, "sub"));
+      process.env.PWD = `${artifactDir}/sub/..`;
+      const dotted = shadowingEnvFileWarningsForServer({ NODE_ENV: "production" });
+      expect(dotted.filter((w) => w.includes(".env.local")), "a ..-segment PWD folds onto the cwd — one warning").toHaveLength(1);
       // The relative face: uninterpretable (a relative PWD names the
       // SHELL's dir at spawn time) — skipped, never probed. Pre-cure
       // it probed "." and emitted a second, misleading warning.

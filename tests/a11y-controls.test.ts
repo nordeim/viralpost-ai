@@ -129,7 +129,11 @@ describe("named-control source pins (the open surfaces)", () => {
     expect(src).toContain('{sending ? "Sending…" : sent ? "Message Sent!" : "Send Message"}');
     // The icon ternary mirrors the precedence (in flight: the Send
     // icon; success: the Check) — the S51-3 swap covers both.
-    expect(src).toContain('{sending ? (');
+    // Session-52 (S52-4, AUDIT-2 L3): the arm pins the BRANCH faces,
+    // not just the ternary's existence — the old '{sending ? ('
+    // form stayed green through a branch-content swap (a pin weaker
+    // than its own comment, the vacuous-adjacent genus).
+    expect(src).toMatch(/\{sending \? \(\s*<Send[^]*?\) : sent \? \(\s*<Check/);
   });
 
   // Session-25 (S25-2): the S24-3 genus, one file over — the generator

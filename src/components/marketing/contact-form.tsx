@@ -38,9 +38,22 @@ export function ContactForm() {
   // edge, the unmount-mid-await face). The cleanup flips it beside the
   // timer clear; the success arm's gate below checks it.
   const mounted = React.useRef(true);
-  React.useEffect(() => () => {
-    mounted.current = false;
-    if (resetTimer.current) clearTimeout(resetTimer.current);
+  // Session-52 (S52-1, AUDIT-2 H1): the flag is RE-ARMED in the effect
+  // body — the S51-2 empty-body form flipped it false in the cleanup
+  // with no re-arm, so under React StrictMode's dev setup→cleanup→setup
+  // remount (the Next 16 App Router default) the flag read false for
+  // the component's whole dev life and the success-arm gate below
+  // fired its return on every submit — "Message Sent!" never landed,
+  // the form never cleared, and a retrying dev user double-wrote
+  // ContactMessage rows, while every production-built gate stayed
+  // green (prod never double-invokes). The body re arm is the
+  // canonical StrictMode-safe form; prod behavior is identical.
+  React.useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      if (resetTimer.current) clearTimeout(resetTimer.current);
+    };
   }, []);
 
 
@@ -64,11 +77,9 @@ export function ContactForm() {
       // Session-51 (S51-2, AUDIT-2 L1): the unmount-mid-await gate — the
       // fetch resolved after the unmount cleanup ran; nothing after this
       // line may run (the no-op setStates are harmless, the tracked timer
-      // arm is not — it would outlive the component).
-      // Session-51 (S51-2, AUDIT-2 L1): the unmount-mid-await gate — the
-      // fetch resolved after the unmount cleanup ran; nothing after this
-      // line may run (the no-op setStates are harmless, the tracked timer
-      // arm is not — it would outlive the component).
+      // arm is not — it would outlive the component). Session-52 (S52-2,
+      // AUDIT-2 L1): this block was pasted twice at the S51-2 ship — the
+      // duplicate retired.
       if (!mounted.current) return;
       setSent(true);
       setForm(EMPTY);
@@ -153,8 +164,10 @@ export function ContactForm() {
             `sent` — the old precedence showed the stale "Message
             Sent!" through a re-submit fired inside the 2.6s post-success
             window, masking the in-flight face the relabel exists to
-            show. The icon ternary below mirrors the swap (in flight:
-            Send; success: Check). */}
+            show. The icon ternary above mirrors the swap (in flight:
+            Send; success: Check). Session-52 (S52-3, AUDIT-2 L2): the
+            direction word corrected — the icon ternary sits above this
+            comment, the label below. */}
         {sending ? "Sending…" : sent ? "Message Sent!" : "Send Message"}
       </button>
       {/* Session-24 (S24-3): the success swap's AT announcement. A button

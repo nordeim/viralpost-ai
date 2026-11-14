@@ -5645,3 +5645,96 @@ the gate → captures → push.
 
 **Gate at the session-51 ship: lint 0/0 · tsc 0 · unit 724/724 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 52 — The StrictMode Mounted Re-Arm + The Comment-Truth Pair + The Icon-Pin Strength + The statSync Identity + The Dotdot Arm + The Donor Marker + The Ladder Arithmetic (2026-11-14)
+Agent: main (Z.ai)
+Session: 52 (2026-11-14)
+
+Task: The standing instruction round on the session-51 tree (`e24c803` +
+the owner's narration `084fba4`): docs review → baseline gate → the
+comprehensive audit → the live reference parity walk → the TDD cures →
+the gate → captures → push.
+
+- CONTEXT: the workspace re-cloned (the sandbox reset between rounds);
+  `.env` restored from `.env.example` + `db/` re-pushed/seeded (census
+  MATCH); the one-time `bunx playwright install chromium` re-run (the
+  cache held 1200, the repo's Playwright wants 1248). The core docs
+  re-read and re-verified (AGENTS, CLAUDE, README, PAD, SKILL v1.47.0);
+  session_51.md (the formal log) + the session-51 plan's post-execution
+  record + worklog Task 51 + session_52.md (the owner's round-51
+  narration) internalized; every lockstep site confirmed at the
+  session-51 ship counts.
+- BASELINE GATE GREEN at the exact documented counts: lint 0/0 · tsc 0 ·
+  unit 724/724 (40 files) · build · smoke 16/16 · e2e 70/70 (9 specs) ·
+  census MATCH — zero drift. neo-crm re-checked: unchanged (HEAD
+  b3d0fbe, still its session-217) — the fifth consecutive round.
+- AUDIT: three parallel subagents (API/lib seams, components/effects,
+  SEO/configs/tests/docs) — **AUDIT-1 0C/0H/0M/3L/2I · AUDIT-2
+  0C/1H/0M/3L/1I · AUDIT-3 0C/0H/0M/1L/2I** — combined 0C/1H/0M/7L/5I,
+  every load-bearing finding hand-verified in source by the lead (the
+  decisive H1 verification: next.config.ts carries NO reactStrictMode
+  override (the App Router default applies) and iridescence.tsx:255-257
+  documents the live-observed StrictMode dev remount — the S51-2
+  empty-body mounted flag is false-forever in dev, the copy/sent faces
+  dead on the two flagship surfaces while every prod-built gate stayed
+  green; the ladder arithmetic verified against session_13/20/21.md's
+  own ship records: 528/+10/+15).
+- PARITY WALK #25 — the twenty-fifth consecutive clean walk (the panel
+  byte-identical class-for-class both sides; the walk's outside-tap
+  REF-CLOSED reading resolved as the walk script's own
+  toggle-sequencing artifact — the genuine non-nav tap re-probe keeps
+  the reference's panel OPEN; the route-change close settle-verified
+  both sides at /Pricing; the brand wordmark gradient byte-identical;
+  the head census/sitemap/robots/generator/login faces all holding).
+  Walk-protocol findings recorded: the dev-server transient
+  document-reload flapping on fresh opens (self-terminating; the
+  production build 100% stable — settle 30s+ before interactive
+  probes); the REF body fallback ink rgb(10,10,10) vs ours
+  rgb(15,23,42) (sub-visual, registered never chased); the
+  oklab-vs-rgba /60 serialization family.
+- CURES (TDD): S52-1 the StrictMode-safe mounted re-arm (both files —
+  the effect body re-arms, the cleanup keeps the S51-2 flip + timer
+  clear; the S17-6 pin widened IN PLACE; the batteries: each file's
+  empty-body plant trips exactly the pin, the other file green through
+  each plant); S52-2 the duplicate S51-2 comment block retired;
+  S52-3 the direction word corrected (the icon ternary sits ABOVE);
+  S52-4 the icon pin strengthened to the branch faces (the battery: the
+  branch-swap plant trips exactly the strengthened arm); S52-5 the
+  statSync dev/ino identity dedupe (the macOS case-variant face — the
+  S51-1 string compare's surviving edge; Linux-equivalence honestly
+  recorded: the string-compare battery plant keeps every arm green on
+  Linux, the case face unobservable in this sandbox); S52-6 the dotdot
+  arm (the S51-1 comment's claimed .. fold now pinned, the sub segment
+  created real for the pre-cure tooth; the co-pinned dedupe family
+  documented at birth — the no-dedupe plant trips the it at the alias
+  arm, the S51-6 wording precedent); S52-7 the health-route donor
+  marker (the bare session-34 cite gains the db-path.ts marker's form);
+  S52-8 the ladder-arithmetic catch-up (s13 526→528, s14 +11→+10
+  annotated, s20 +9→+10 annotated, s21 +13→+15 — every correction
+  cites its session record); S52-9 the register (the symlinkSync
+  Windows portability, the route-tier exact-500 e2e arm, the failed
+  re-submit window face, the ok-16 partial summary, the .env provenance
+  register re-scope, the walk's observed faces — each with its reason).
+  The prose-safe lesson re-learned at S52-1's own birth: the comment's
+  "context-lost" hyphenation scanned as a text-lost color utility and
+  tripped the step-less census — re-spelled prose-safe (the S28-4
+  doctrine, the third birth-defect the censuses have caught).
+- COUNTS: UNIT 724 HELD, SUITES 40, E2E 70, SPECS 9, SMOKE 16, BADGE
+  794 — all held (every S52 pin folds into an existing it in place; no
+  s52 ladder entry — no growth, the convention). PAD §12's
+  generator-card row re-anchored 306 → 319 (the only §12 row touched);
+  the ten provenance sites re-anchored to 1..52 — lag 0 at ship; SKILL
+  v1.47.0 → v1.48.0.
+- VERIFIED: the full gate on the exact commit tree (below); the
+  mutation batteries on record (the re-arm A/B plants, the branch-swap
+  plant, the statSync Linux-equivalence observation, the no-dedupe
+  family plant); the parity walk post-cure (the standing faces hold,
+  no drift); the captures 111/112 on the dev server (the
+  owner-instructed posture, the session-29..51 precedent): the
+  mobile-menu open clean-walk at 390×844 + the landing hero at
+  1280×800, PIL-verified; docs lockstep (README + AGENTS + PAD + SKILL
+  v1.48.0 + the ten provenance sites + worklog Task 52 +
+  docs/session_52.md + the plan's post-execution record).
+
+**Gate at the session-52 ship: lint 0/0 · tsc 0 · unit 724/724 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

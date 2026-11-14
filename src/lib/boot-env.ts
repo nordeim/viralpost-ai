@@ -28,7 +28,7 @@
 // Session-47 (S47-2): the shadow seam below is the only fs-touching
 // default in this module (the injectable-exists pattern — bootEnvCheck
 // itself stays pure over the env record).
-import { existsSync, realpathSync } from "node:fs";
+import { existsSync, statSync } from "node:fs";
 import { isAbsolute, join, resolve } from "node:path";
 
 /** The closed VIRALPOST_* knob set (the six-knob contract's 3 server knobs). */
@@ -477,9 +477,12 @@ export function shadowingEnvFileWarnings(
 // absolute only (a relative PWD names the SHELL's dir at spawn time —
 // uninterpretable, skipped), resolve()-normalized (trailing slashes
 // and .. segments fold onto the canonical form), and deduped against
-// the cwd through a best-effort realpathSync comparison (a symlink
-// spelling of the SAME physical dir as the cwd adds nothing — the
-// cwd leg already probes it).
+// the cwd through a best-effort statSync dev/ino IDENTITY comparison
+// (Session-52, S52-5: a symlink spelling of the SAME physical dir as
+// the cwd adds nothing — the cwd leg already probes it; inode
+// identity, not path spelling, is the same-file test — a case-variant
+// PWD of the cwd on a case-insensitive filesystem survives a realpath
+// STRING compare but not dev/ino).
 // Session-51 (AUDIT-1 I1): the PWD face rides on the launch shell
 // setting it — a PWD-less process manager (systemd-style units,
 // exec-form containers) falls back to the cwd-only probe; no such
@@ -495,7 +498,20 @@ export function shadowingEnvFileWarningsForServer(
     if (norm !== cwd) {
       let samePhysicalDir = false;
       try {
-        samePhysicalDir = realpathSync(norm) === realpathSync(cwd);
+        // Session-52 (S52-5, AUDIT-1 L1): identity, not spelling — the
+        // S51-1 realpathSync STRING compare survives its own case face
+        // on case-insensitive filesystems (macOS dev postures: a
+        // case-variant PWD reads distinct in both the string compare
+        // and realpath's output, double-warning the same physical
+        // file). statSync follows symlinks exactly like realpathSync;
+        // dev/ino is the canonical same-file test, alias- and
+        // case-robust in one home. On Linux (the documented target) a
+        // case-variant spelling of an existing dir simply ENOENTs into
+        // the catch — the face is macOS-only, unobservable in this
+        // repo's Linux sandbox (the S52-5 battery's honest result).
+        const pwdStat = statSync(norm);
+        const cwdStat = statSync(cwd);
+        samePhysicalDir = pwdStat.dev === cwdStat.dev && pwdStat.ino === cwdStat.ino;
       } catch {
         // best-effort only — a missing PWD target probes below (the
         // probe itself finds no env files in a missing dir).

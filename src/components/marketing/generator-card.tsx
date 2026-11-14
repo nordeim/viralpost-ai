@@ -62,9 +62,22 @@ export function GeneratorCard() {
   // flips it beside the timer clear; the copy continuation's gate
   // checks it beside the epoch.
   const mounted = React.useRef(true);
-  React.useEffect(() => () => {
-    mounted.current = false;
-    if (resetTimer.current) clearTimeout(resetTimer.current);
+  // Session-52 (S52-1, AUDIT-2 H1): the flag is RE-ARMED in the effect
+  // body — the S51-2 empty-body form flipped it false in the cleanup
+  // with no re-arm, so under React StrictMode's dev setup→cleanup→setup
+  // remount (the Next 16 App Router default; this repo's own
+  // iridescence.tsx remount comment observes it live) the flag read
+  // false for the component's whole dev life and the copy gate below
+  // fired its return on every invocation — "Copied!" never landed in
+  // dev while every production-built gate stayed green (prod never
+  // double-invokes). The body re-arm is the canonical StrictMode-safe
+  // form; prod behavior is identical.
+  React.useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      if (resetTimer.current) clearTimeout(resetTimer.current);
+    };
   }, []);
   // Session-50 (S50-4, AUDIT-2 L1): the copy-epoch guard's counter —
   // bumped beside the S49-2 reset so a pending copy()'s continuation

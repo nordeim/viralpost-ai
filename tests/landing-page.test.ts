@@ -508,8 +508,8 @@ describe("landing: the fire-and-forget reset timers are unmount-safe (session-17
       expect(src, `${p} must clear the tracked timer before re-arming (the toast's timer-reset idiom)`).toContain(
         "if (resetTimer.current) clearTimeout(resetTimer.current);",
       );
-      expect(src, `${p} must clear the tracked timer on unmount, flipping the mounted flag beside it (S51-2)`).toMatch(
-        /useEffect\(\(\) => \(\) => \{\s*mounted\.current = false;\s*if \(resetTimer\.current\) clearTimeout\(resetTimer\.current\);/,
+      expect(src, `${p} must re-arm the mounted flag in the effect BODY and clear the tracked timer on unmount (S51-2 + S52-1: the empty-body form left the flag false for the component's whole dev life under React StrictMode's setup→cleanup→setup remount — the copy/sent faces died in dev while every prod-built gate stayed green)`).toMatch(
+        /useEffect\(\(\) => \{\s*mounted\.current = true;\s*return \(\) => \{\s*mounted\.current = false;\s*if \(resetTimer\.current\) clearTimeout\(resetTimer\.current\);/,
       );
       expect(src, `${p} must arm the tracked timer`).toContain(
         `resetTimer.current = setTimeout(() => ${setter}, ${ms})`,

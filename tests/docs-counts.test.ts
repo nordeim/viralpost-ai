@@ -41,7 +41,11 @@ import {
 // dedup, +1 the stepped-semantic census arm, +5 the reality +
 // semantic-prose censuses below) and the e2e 50 → 52 (+2 the
 // reset-funnel e2e — F12-2, the funnel's first behavioral coverage),
-// the specs 8 → 9. s13: 526/37 files (+6 the S13-1 boot-env delivery-
+// the specs 8 → 9. s13: 528/37 files (Session-52, S52-8, AUDIT-3 L1:
+// the header said 526 — the mid-iteration stale CENSUS number the
+// note below itself describes; the session-13 ship record reads
+// "final arithmetic: UNIT 528, badge 582" — 507+21=528, and s14's
+// 538 only closes from 528) (+6 the S13-1 boot-env delivery-
 // polarity pins, +3 the S13-2/S13-5 auth-contract pins, +2 the S13-3/
 // S13-7 effects-motion pins, +8 the from-url seam suite — S13-4, the
 // resolver's first behavioral coverage, +1 the S13-10 forms-guard census
@@ -54,7 +58,10 @@ import {
 // +2 the forms-guard + loop-arm censuses). s14: 538/37 files (+3 the
 // S14-1 from-url escape pins, +3 the S14-2 equalizer pins, +1 the
 // S14-3 wiring pin, +1 the S14-4 schemas pin, +1 the S14-5 login-views
-// re-anchor, +1 the S14-6 toast pin, +1 the S14-7 effects-motion pin)
+// re-anchor, +1 the S14-6 toast pin, +1 the S14-7 effects-motion pin;
+// Session-52, S52-8: the enumeration sums +11 but the ship arithmetic
+// is +10 — 528→538 — the S14-5 "+1" is the over-count, a RE-ANCHOR
+// updates an existing pin in place; the ship count is the authority)
 // and the e2e 55 (+1 the S14-1 escape leg). s15: 543/37 files (+1 the
 // S15-1 resend P2025 pin, +2 the S15-2 null-body vocabulary pins, +1
 // the S15-4 signin-icon pin, +1 the S15-8 hamburger focus-ring pin) and
@@ -74,9 +81,15 @@ import {
 // server-component pin, +2 the effects-motion pins — the init reduced
 // skip S20-5 + the iridescence context-lost pair S20-12 (the loseContext
 // negative rides the same describe), +1 the toast focus-pause pin, +1
-// the generator bank-cap pin) and the e2e 57 unchanged (the api-
+// the generator bank-cap pin; Session-52, S52-8: the enumeration
+// names nine and sums +9 but the session-20 ship record reads +10
+// ("UNIT 561 → 571 (+10 pins)") — the unnamed tenth rides the
+// record's own cure family; the ship count is the authority) and
+// the e2e 57 unchanged (the api-
 // robustness key pin re-anchored in place — no count change).
-// s21: 586/37 (+13 the session-21 pins). s22: 599/37 (+13 the
+// s21: 586/37 (+15 the session-21 pins — Session-52, S52-8: the
+// header said +13; the session-21 ship record reads "+15 unit pins"
+// and 571→586=+15). s22: 599/37 (+13 the
 // session-22 pins) and the e2e 58 → 63 (the a11y matrix's logged-out
 // family + the icon leg). s23: 606/38 (+7 — the seo-surfaces suite's
 // manifest/sitemap pins, the skip-link tabIndex pin, the toast
