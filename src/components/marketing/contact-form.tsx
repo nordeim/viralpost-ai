@@ -75,9 +75,11 @@ export function ContactForm() {
         return;
       }
       // Session-51 (S51-2, AUDIT-2 L1): the unmount-mid-await gate — the
-      // fetch resolved after the unmount cleanup ran; nothing after this
-      // line may run (the no-op setStates are harmless, the tracked timer
-      // arm is not — it would outlive the component). Session-52 (S52-2,
+      // fetch resolved after the unmount cleanup ran; nothing that
+      // matters after this line may run (Session-53, S53-4, AUDIT-2
+      // I3: the old opening said "nothing" — the finally block's
+      // no-op setSending still runs; the state arms and the tracked
+      // timer arm are what must not). Session-52 (S52-2,
       // AUDIT-2 L1): this block was pasted twice at the S51-2 ship — the
       // duplicate retired.
       if (!mounted.current) return;

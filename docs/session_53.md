@@ -1,100 +1,284 @@
-I'll start by internalizing the operating instructions, then refresh the workspace and assess the current project state.
-Sessions 50 and 51 are complete and pushed. Now reading core docs in parallel.
-Session 51 is complete and pushed (`e24c803`); `docs/session_52.md` is the owner's round-51 narration — this round (52) is the standing instruction re-run on the shipped session-51 tree. Now reading the core docs.
-`.env` and `db/` are gitignored (expected on fresh clone) — will restore per contract after doc review. Reading core docs now.
-现在正在阅读 README、session-51 计划文档以及 worklog 的尾部。
-Now reading worklog tail (Task 51) and the SKILL document.
-Now reading the SKILL doc and PAD (key sections).
-Core docs internalized. Now setting up the workspace: `.env`, `db/`, dependencies.
-数据库已就绪，census 匹配。现在开始运行 baseline gate —— lint 和 typecheck 优先。
-Unit 724/724 (40 files) — exact documented count. Now build + smoke.
-E2E setup 失败 —— 正在排查。
-Version mismatch — cache has chromium-1200, repo needs 1248. Installing the documented one-time browser.
-**基线检查通过（BASELINE GATE GREEN）**——完全符合 session-51 交付记录：lint 0/0 · tsc 0 · unit 724/724 (40 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH。无偏差。
-neo-crm unchanged (HEAD `b3d0fbe`, latest round still session-217) — no new lessons, consistent with the session-48..51 checks. Now scanning the repo skills catalog.
-Skills catalog confirmed. Now enumerating the session-51 change set for the audit dispatch.
-Session-51 change set enumerated (28 files). Dispatching the three-way parallel audit — same structure as prior rounds.
-Three-way audit complete: **AUDIT-1: 0C/0H/0M/3L/2I · AUDIT-2: 0C/1H/0M/3L/1I · AUDIT-3: 0C/0H/0M/1L/2I** — combined **0C/1H/0M/7L/5I**. AUDIT-2's H1 (StrictMode-unsafe `mounted` flag) is the decisive finding. Hand-verifying the load-bearing findings now.
-H1 confirmed in contact-form.tsx (line 41-44: empty effect body, cleanup-only flip — StrictMode-unsafe), L1 duplicate comment (lines 64-71), L2 "below"→"above" (line 156). Now verifying generator-card and the StrictMode default.
-Same StrictMode-unsafe shape confirmed in generator-card.tsx:64-68. Now verifying the StrictMode default and the repo's own evidence.
-H1 fully verified: no `reactStrictMode` override in next.config.ts (App Router default = enabled), and the repo's own iridescence.tsx:255-257 documents live-observed StrictMode dev remounts. Now verifying the remaining audit findings.
-F2 and L3 confirmed. Now verifying the health-route donor cite and the count-ladder arithmetic.
-All AUDIT-3 L1 arithmetic verified against session records (s13: 528 not 526; s20: +10 not +9; s21: +15 not +13). F3 donor-cite confirmed. Now the parity walk (#25). Checking agent-browser tooling.
-正在准备第 25 次一致性检查 (parity walk)。先检查演示凭据 (demo credentials)。
-Now reading the navbar source to design the walk probes precisely.
-正在检查 Generator 卡片的标记，以用于 walk probe。
-正在测试 agent-browser，在编写 walk 脚本之前。
-正在检查 `press/wait` 的确切语法，然后编写 walk 脚本。
-Async eval works. Writing the walk script now.
-现在执行合并后的单一调用：dev server 启动（setsid 分离）+ 健康检查等待 + 第 25 次遍历。
-Walk #25 is mostly clean — panel byte-identical both sides, burger cursor pointer, head census identical, sitemap/robots matched, generator dead/live as documented. But three faces need targeted re-probes: (1) REF outside-tap closed the panel (documented posture: stays open), (2) CLONE route-change face wasn't actually driven (my script's toggle assumption), (3) REF brand color rgb(10,10,10) vs CLONE rgb(15,23,42). Checking our Logo source first.
-Our wordmark is gradient-clipped (the anchor's inherited color is invisible ink). Checking what the e2e pins say about the brand face, then running targeted re-probes.
-Re-probes resolved: (A) the REF outside-tap stays OPEN on a genuine non-nav tap — the original "CLOSED" reading was my walk script's toggle-sequencing artifact (Escape left REF's panel open, so "reopen" actually closed it); (C) brand wordmark gradient is byte-identical both sides (the anchor ink is invisible under the gradient clip). Probe B needs a hydration-aware retry. Checking the body-ink face and the REF's body classes.
-Our body ink is `#0f172a` (slate-900); REF's brand anchor inherited `rgb(10,10,10)` — probing the REF's body ink and paragraph inks directly, plus the hydration-aware CLONE route-change retry.
-CLONE landing is misbehaving on fresh dev servers (intermittent NO-NAV, no `<p>` elements — the page isn't the landing at all at probe time). Checking the dev log and curling the landing directly.
-The dev logs show a page RELOAD LOOP (repeated `GET /` / `GET /Pricing` + manifest.json every ~400ms). Comparing with the original successful walk's log.
-The reload loop needs a controlled experiment: fresh session vs reused profile, clean process table first.
-Page itself loaded once (1 navigation entry) yet "/" is fetched every ~300ms server-side. Inspecting the raw log for request shapes.
-One browser, one navigation, yet continuous `GET /`. Identifying the fetcher from inside the page via resource entries.
-Page context shows zero fetches of "/" — the requests come from elsewhere. Checking TCP connections and iframe usage.
-The loop is a transient (~20-30s, self-terminating — a dev/headless-browser settle artifact, not an app defect: the page works fully once settled, and the production e2e suite is green). Verifying the route-change face is e2e-pinned, then re-running probe B settle-robust.
-Route-change close is e2e-pinned (mobile-navigation.spec.ts:27, green in the baseline gate). Completing the settle-robust B probe for the walk record.
-The flapping window needs to be waited out before probing. Final B attempt: open, settle 30s, single-pass probe.
-**Walk #25 COMPLETE — the twenty-fifth consecutive clean walk.** All faces match the documented posture: panel byte-identical, route-change closes both sides, generator dead/live as documented, sitemap/head census identical. The dev-server flapping was a sandbox transient (production build + e2e is stable). Now validating the cure insertion points before writing the session-52 plan.
-All insertion points mapped. Checking for test pins on the health-route comment and ladder text before writing the plan.
-所有插入点均已验证。PAD §12 的唯一统计数据影响是 generator-card（306 → 重新锚定）。正在编写 session-52 计划。
-Plan validated. Executing **S52-1 RED** first — widening the S17-6 pin to the body-re-arm form.
-RED confirmed — exactly the S17-6 it. Now **GREEN**: the re-arm cure in both files.
-GREEN 39/39. Now the **S52-1 battery**: plant the empty-body form in generator-card → expect exactly the S17-6 it RED.
-**S52-1 已完成**（RED → GREEN 39/39 → 两个电池均单点触发 → 已恢复）。现在 **S52-2 + S52-3**：进行注释真实性配对。
-S52-2/3 已应用。现在 **S52-4**：强化图标 pin。
-**S52-4 complete** (born GREEN → branch-swap battery trips exactly the pin → restored). Now **S52-5**: the statSync identity dedupe.
-S52-5 已应用。现在进行 **S52-6** —— 检查测试导入中的 `dotdot` 分支。
-55/55 GREEN. Running the S52-5 battery (string-compare plant → honest Linux result).
-Battery result as documented (Linux-equivalent — the case face is macOS-only). Restoring, then the S52-6 battery.
-My plant was wrong — the statSync identity alone also folds those faces (the dedupe block came with S51-1). Re-planting the true S50-1 form (no dedupe block).
-The no-dedupe plant trips the it at the alias arm (first in sequence) — the dotdot arm shares the dedupe-family failure face (the statSync dedupe folds all three spellings). Restoring and recording this honestly.
-GREEN everywhere. Amending the dotdot arm's comment to record the battery truth honestly (the co-pinning doctrine).
-Now **S52-7** (health route donor marker) and **S52-8** (ladder arithmetic).
-S52-7 已应用（provenance site 已在同一 commit 中重新锚定）。现在进行 S52-8 —— 四项阶梯修正。
-s13/s14 landed. Applying s20 and s21 individually.
-All four ladder corrections in. Running docs-counts — expecting exactly the designed count-lag faces.
-Exactly the two designed count-lag faces (§12 census: generator-card 306→319; plans-map tail). Full unit run now.
-The third failure is NOT a designed lag face — investigating the step-less census.
-My "context-lost" hyphenation in the new comment introduced a `lost` candidate — the S28-4 prose-safe doctrine. Checking the census rule and the iridescence precedent.
-The mechanism: "con**text**-lost" contains the `text-lost` utility match (the S28-4 doctrine). Rephrasing prose-safe.
-All touched suites GREEN (153/153). Now the docs lockstep — locating all ten provenance sites.
-All ten sites at 1..52. Now PAD §12, AGENTS plans map, README, and SKILL.
-Now the README session-52 row and gate footer.
-README done. Now the SKILL: frontmatter, Appendix A row, Appendix B header.
-现在进行 SKILL 更新：frontmatter、Appendix A 第 52 行、Appendix B 标头。
-现在正将 Session 52 行追加到附录 A。
-SKILL 已完成。现在进行 worklog Task 52 条目 —— 正在检查 Task 51 的格式。
-现在是正式的 session_52.md 日志（替换所有者的叙述）。
-现在是该计划的执行后记录。
-现在进行交付前的全量门禁检查：lint、typecheck、unit。
-Unit 724/724 — lag faces resolved. Now build + smoke + e2e.
-**全量测试通过** — lint 0/0 · tsc 0 · unit 724/724 · build · smoke 16/16 · e2e 70/70 · census MATCH。现在进行修复后的走查 + 捕获 111/112，包括决定性的 S52-1 开发环境验证（复制/发送功能在 dev 环境中必须正常工作 — 在修复前它们是无法使用的）。
-Panel faces hold, captures saved. **The S52-1 dev proof: contact form CLEARED (formCleared=true — the success arm ran through the gate; pre-cure this was blocked)**. The copy face's "NO-COPIED-FACE" needs the toast check (headless clipboard permission?), then PIL-verify the captures.
-Confirmed: the headless clipboard rejects writeText (NotAllowedError) — the copy face's dev probe is an environment face, not the mounted flag. The S52-1 proof stands on the contact form-clear (live in dev) + the e2e production suite. Amending the session log's Verified section for honesty, then PIL-verifying captures.
-Captures PIL-verified (99.9% / 100% non-white). Now the tree check.
-目录结构干净 —— 24 个文件，完全符合设计。正在读取 SSH wrapper runbook 以执行 push。
-No ssh binary — extracting the full paramiko shim to a workspace bin dir.
-Shim 已就绪。先进行提交（runbook 规则 3）。
-已提交 `6743e4f`，指纹已验证。现在进行试运行（dry-run），使用明确指定的 `--remote` 参数（包装器默认指向的是模板仓库）。
-Dry-run clean — fast-forward `084fba4..6743e4f`. Real push now.
-**第 52 会话 —— 已交付**（提交 `6743e4f` 到 `main` 分支，已通过 SSH wrapper 推送到 git@github.com:nordeim/viralpost-ai.git，远程验证 `refs/heads/main @ 6743e4f == 本地 HEAD`，密钥已销毁，工作区清洁，无新分支）。
+# Session 53 — The Dotdot-Arm Mechanism Truth + The Deps-Array Pin + The Icon Idle Face + The Gate-Comment Word + The s21 e2e Clause + The Unclosed-Quote Register (2026-11-14)
 
-常设指令在已发布的第 51 会话代码树上端到端重新运行：
+The round opened on the shipped tree (`6743e4f` — session-52's commit;
+the owner's narration commit `3ac3b6a` followed, carrying session_53.md
+as the round-52 working narration — replaced now by this round's formal
+log). The core docs re-read and re-verified (AGENTS, CLAUDE, README,
+PAD, SKILL v1.48.0 — every lockstep site confirmed at the session-52
+ship counts), then the session-52 set (the formal session_52.md log,
+the session-52 plan's post-execution record, worklog Task 52, the
+owner's narration). This round is session 53, the standing instruction
+on the shipped tree.
 
-**状态**：基准检查门全绿，达到精确记录的计数（724/724 · 16/16 · 70/70 · 普查 MATCH，零漂移）；neo-crm 未变更（`b3d0fbe`，连续第 5 轮）。
+Baseline gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit
+724/724, 40 files · build · smoke 16/16 · e2e 70/70, 9 specs · census
+MATCH) — exactly the session-52 ship record, no drift; the standing
+asks re-verified up front (the `.env`
+`DATABASE_URL="file:../db/custom.db"` contract intact with `db/` at
+the repo root; `.env.example` committed at provenance 1..52; the
+vitest + playwright suites in place and current; the
+sitemap/robots/manifest/OG family verified live against the reference
+in this round's walk; `skills/` excluded from every gate). The
+workspace carried over between rounds (no re-clone; the browser cache
+already held the repo's chromium-1248); the walk-era probe residue
+reseeded to the pristine census. The neo-crm reference repo re-cloned
+and re-checked per the standing instruction: unchanged since the
+session-48..52 checks — its latest round is still its session-217
+(HEAD b3d0fbe); no new lessons this round (the sixth consecutive
+no-change check). The web-application skill + the skills catalog
+internalized; tdd, clone-app-pat-pro, and the agent-browser doctrine
+(computed styles as ground truth, never eyeballs) applied throughout.
 
-**审计**：三路并行子代理 **0C/1H/0M/7L/5I**，每个关键发现均在源码中人工验证。关键 High 级别问题：S51-2 `mounted` 标志在 **dev 环境中因 StrictMode 导致永久为 false**（空 body effect 形式），导致 copy/sent 接口失效，而所有基于生产环境的检查门保持绿色。
+## The audit
 
-**一致性检查 #25（连续）**：面板在两侧字节级一致；通过针对性重探测，外部点击误报已被判定为 walk-script 伪影而解决；品牌 wordmark 渐变字节级一致；生成器无效/有效按文档记录。
+Three parallel dispatched subagents (AUDIT-1 API/lib seams, AUDIT-2
+components/pages/effects, AUDIT-3 SEO/configs/tests/docs) — every
+load-bearing finding hand-verified in source by the lead.
+**AUDIT-1: 0C/0H/0M/1L/2I · AUDIT-2: 0C/0H/0M/2L/1I · AUDIT-3:
+0C/0H/0M/1L/0I** — combined **0 Critical / 0 High / 0 Medium /
+4 Low / 3 Info**. The session-52 diff itself verified correct on all
+three lanes at its shipped boundaries (AUDIT-1 live-probed the statSync
+identity dedupe against fourteen PWD shapes — every same-dir spelling
+warns exactly once, every statSync error mode (ENOENT/EACCES/ENOTDIR,
+each observed throwing) lands in the catch with the documented
+behavior; AUDIT-2 traced every async path of both components through
+the re-arm — the flag correct at every await resumption under both
+StrictMode dev and single-invoke production, the ungated generate()
+continuation verified sound by design (no timer armed there; the
+module-store increment the correct post-unmount semantic); AUDIT-3
+re-ran the count ladder end-to-end — every UNIT step contiguous s8 →
+s52 at the enforced constants, the four S52-8 corrections each verified
+against its session record — and the docs lockstep census: 52 plans-map
+entries 1:1 with the plan files, §12 21/21 rows live-matched, the ten
+provenance sites at 1..52); the four Lows are truth/hardening gaps at
+the session-52 cures' own boundaries — the standing genus, now at
+pin-precision scale.
 
-**修复（S52-1..9，TDD + 电池测试）**：StrictMode 安全的重置机制（双方文件，S17-6 锁定已扩大 —— dev 证明：联系表单现已在 dev 环境中清除）、注释真实性配对、图标锁定加强至分支面、statSync dev/ino 身份去重、dotdot 臂、健康路由捐赠者标记、阶梯算术追赶（s13 528 / s14 +10 / s20 +10 / s21 +15）。
+The decisive hand-verifications: **S53-1 (AUDIT-1 F1+F2 — the round's
+decisive finding)** — the S52-6 dotdot arm's comment claims "the sub
+segment is created for real so the PRE-cure tooth is honest too …
+(sub must exist for the kernel to walk sub/..)" — the mechanism claim
+is FALSE. The fs probe is `exists(join(dir, name))` and `path.join`
+folds `..` segments LEXICALLY in userland: `join("<d>/sub/..",
+".env.local")` → `"<d>/.env.local"` — the kernel never sees the dotdot
+(Verified live: the identical warning fires with an existing `sub` AND
+with a nonexistent `missing` intermediate; cross-checked against the
+raw syscall — statSync on `missing/..` ENOENTs where join folds,
+proving the fold is userland). The mkdirSync line's entire documented
+rationale is unfounded, and the false rationale masked a strictly
+stronger available design: the nonexistent-intermediate form
+(`PWD = ${artifactDir}/missing/..`) owns the resolve()-fold face
+outright — with resolve() removed the raw spelling survives, statSync
+ENOENTs on the missing segment, the raw dir is pushed, and the
+join()-fold probe double-warns → RED; the shipped `sub/..` shape stays
+GREEN under EVERY resolve-only regression (statSync(sub/..) resolves →
+the S52-5 dedupe masks it — both plants verified). The false mechanism
+sentence had shipped into four sites: the arm's comment,
+docs/session_52.md's S52-6 entry, the session-52 plan doc, and worklog
+Task 52. **S53-2 (AUDIT-2 L1)** — the widened S17-6 mechanism pin
+terminates at `clearTimeout(resetTimer.current);` and does NOT own the
+effect's `}, []);` deps array — the S52-1 re-arm's safety depends on
+the empty deps (any dep re-runs the effect mid-life: its cleanup wipes
+an in-flight reset timer — the copied/sent flag sticks forever — and
+re-arms the flag mid-session) while every pin in the describe stays
+GREEN through the plant. **S53-3 (AUDIT-2 L2)** — the strengthened
+S52-4 icon pin pins the in-flight and success faces but NOT the idle
+third face (`: (<Send` — no owner anywhere in the suite; the idle-swap
+plant ships green), and the arm reads RAW source (a JSX comment
+spelling the needle satisfies the pin — the comment-needle plant
+verified). **S53-4 (AUDIT-2 I3)** — the S51-2 gate comment says
+"nothing after this line may run" but the finally block's no-op
+setSending does run — the docs-lie genus at clause scale. **S53-5
+(AUDIT-3 L1)** — the ladder's s21 entry, rewritten by S52-8 itself,
+still omits the e2e clause: the 57→58 (+1) step happened at s21
+(session_21.md:123: "E2E 57 → 58"; 586+58=644) and is narrated nowhere —
+s22's pre-state 58 is reconstructible only by leaving the ladder. **S53-6
+(AUDIT-1 F3, register)** — parseEnvFile diverges from bun's loader on
+the UNCLOSED-QUOTE face (bun's quote scan is file-scoped, parseEnvFile
+line-scoped — for an unclosed-quote DATABASE_URL the seam's parse
+disagrees with what bun actually loaded; pathological input,
+pre-existing since session-21, live-verified, no docs-lie in the
+S21-8 comment) — registered with the reason, not cured: modeling bun's
+cross-line garbage-in-garbage-out scan has no honest "correct" form;
+the operator posture is "fix the .env".
 
-**交付**：检查门重新运行通过（所有计数保持不变，徽章 794），捕获 111/112 已通过 PIL 验证，文档完全同步（provenance 1..52，SKILL v1.48.0，正式的 session_52.md，工作日志 Task 52）。
+## The parity walk
 
-下一轮：随时准备好后，在已发布的代码树上重新运行常设指令。
+**ALL CLONE FACES MATCH — the twenty-sixth consecutive clean walk, no
+clone-side drift, no NEW reference-side drift.** The panel is
+byte-identical class-for-class on BOTH sides (container
+px24/py16/block/maxHeight none/transparent; Home teal rgb(45,212,191)
+14px/500 block; the siblings rgb(203,213,225) 14px/500 block; the pill
+rgb(15,23,42) 14px/600 block; linkTexts identical — Home, Tool,
+Pricing, Contact, Upgrade to Pro – $19; `brandInPanel: null` BOTH
+sides). The hamburger cursor pointer both sides with the
+`md:hidden p-2 text-slate-300` base identical (the reference still
+ships NO aria family — our expanded family the documented superset).
+Escape leaves the reference's panel open / closes ours — verified with
+a REAL key press this round (the walk-protocol lesson: a synthetic
+document.dispatchEvent never reaches React's delegated handlers). The
+outside-tap face leaves it open on BOTH sides — the genuine non-nav
+tap (the hero heading DIV), pathname-checked, and this round through
+the VISIBILITY-CHECKED panel probe (the walk-25 toggle-sequencing
+lesson generalized to the helper itself: our closed panel stays in the
+DOM — the S26-1 hidden design — so a DOM-presence probe reads "open"
+forever; the fixed helper checks real geometry). Route-change close
+verified both sides at /Pricing (the reference UNMOUNTS the closed
+panel; ours hides it in-DOM — the documented S26-1 design). The
+desktop census: 6 VISIBLE links IDENTICAL both sides, CLONE total
+11 = 6 visible + 5 hidden panel anchors. The brand wordmark gradient
+byte-identical both sides (linear-gradient(to right, rgb(45,212,191),
+rgb(251,191,36)), clip text, 18px/700). The five-route head census
+identical (titles + descriptions). Sitemap 4 URLs both + robots
+identical modulo origin. The generator probe symmetrically dead/live
+(R: no copy button, no generation lands; L: a 6-hashtag post + the
+copy button, quota 0→1 — probed hydration-aware on a fresh quota; the
+round's first generator reading was a dev-flap transient, the targeted
+re-probe landed the documented face). The login round-trip both
+landing the landing (R settled /Home through a transient "/" hop —
+recorded honestly as firstHop; L / — the documented 308 deviation).
+
+**The walk-protocol findings recorded for the future (the S53-7
+register):** (1) the panel probe helper must check VISIBILITY, not DOM
+presence — the in-DOM hidden panel (the S26-1 design) makes
+DOM-presence probes read "open" forever; (2) interactive key faces
+need a REAL key press — synthetic KeyboardEvent dispatch never reaches
+React's delegated handlers; (3) the post-login path probe must record
+the SETTLED path, not the first non-/login hop (the reference passes
+through a transient "/"); (4) the generator probe must be
+hydration-aware (poll for the card inside the eval) and the quota is
+per-context localStorage — a fresh browser context starts at 0; (5)
+the eval-retry wrapper (the CDP "target navigated" error through the
+dev-server settle flap) is the robust form for every probe — the
+session-52 settle protocol operationalized; (6) the reference's BODY
+fallback ink (rgb(10,10,10) vs our rgb(15,23,42)) — the registered
+sub-visual face, unchanged posture.
+
+## The cures (TDD — the batteries on record; the ownership divisions enumerated at birth)
+
+- **S53-1 (LOW, AUDIT-1 F1+F2)** — the dotdot arm TRUTH + STRENGTHEN:
+  the arm re-spelled to the nonexistent-intermediate form
+  (`PWD = ${artifactDir}/missing/..`; the mkdirSync retired with its
+  import), the comment re-spelled to the true mechanism (the probe's
+  join() folds the `..` lexically in userland — the kernel never sees
+  it — so the pre-cure tooth needs no real segment; the intermediate
+  is deliberately MISSING so the arm owns the resolve()-fold face
+  outright). The false mechanism claim corrected at all four shipped
+  sites (the arm's comment, docs/session_52.md, the session-52 plan
+  doc, worklog Task 52 — each annotated with the Session-53
+  correction, the S52-8 form). Batteries: the no-dedupe plant (the
+  true S50-1 form) still trips the it at the FIRST dedupe arm (the
+  alias face — the co-pinned family unchanged); the NEW tooth — the
+  resolve-removed plant (statSync dedupe kept) REDs at the dotdot arm
+  exactly ("expected 2 to have length 1"), proved both ways: the same
+  plant against the old sub form stays GREEN (the gap, demonstrated
+  live).
+- **S53-2 (LOW, AUDIT-2 L1)** — the deps-array pin: the S17-6
+  mechanism regex EXTENDED IN PLACE to consume the closing `};` +
+  `}, []);` — the pin now owns the empty deps array (the re-arm's
+  safety precondition; the expect's message carries the S53-2 note).
+  Battery: the `}, [limitReached]);` plant in ONE file → exactly that
+  file's expect RED (the assertion names the file; the untouched
+  file's pass proves the per-file tooth); restore → GREEN.
+- **S53-3 (LOW, AUDIT-2 L2)** — the icon idle face: the S52-4 regex
+  EXTENDED IN PLACE with the third alternation (`\) : \(\s*<Send` —
+  the idle face). Battery: the idle-swap plant (idle `<Send` →
+  `<Mail`) → exactly the icon expect RED (the label pin — the
+  important face — GREEN through the plant). The comment-needle face
+  REGISTERED, not cured: this round's battery planted a JSX-comment
+  needle and the intended stripped-read cure MISSED it — the one-idiom
+  stripComments family's `(^|\s)` block opener never matches the `{`
+  of a `{/*` JSX comment, a FAMILY-WIDE gap (~40 sites in 20 files +
+  the S48-1 census needle itself); the stripped-read was re-scoped at
+  birth to the honest register note in the pin's comment (closing the
+  gap is the one-idiom shape's own dedicated round, never a rider on
+  one arm) — the second consecutive round a mutation battery caught a
+  cure's own birth defect (the S52 context-lost precedent).
+- **S53-4 (INFO, AUDIT-2 I3)** — the gate-comment word: "nothing after
+  this line may run" → "nothing that matters after this line may run"
+  (the finally block's no-op setSending still runs; the state arms and
+  the timer arm are what must not — the correction noted in place).
+  Comment-only.
+- **S53-5 (LOW, AUDIT-3 L1)** — the s21 e2e clause: the ladder's s21
+  entry gains the e2e narration in the S52-8 form ("and the e2e
+  57 → 58 … session_21.md:123 records 'E2E 57 → 58'"). Prose-only.
+- **S53-6 (register)** — the unclosed-quote divergence, registered
+  with its reason (modeling bun's cross-line scan mirrors a
+  pathological-input behavior with no honest correct form; the S21-8
+  comment documents the mirror for every well-formed shape).
+- **S53-7 (register)** — the accepted-residual additions: the
+  stripComments JSX-brace family gap (the S53-3 battery's catch); the
+  walk-26 protocol lessons (visibility-checked panel probes, real key
+  presses, settled-path login probes, hydration-aware generator
+  probes, eval retries); the bind-mount/mountpoint alias now deduping
+  under statSync identity (AUDIT-1's benign note — the dedupe's
+  intended direction).
+
+**Accepted/observed register (the standing residuals carried forward
+unchanged):** the nav links' UA-default focus outline; the reduced-motion
+live-toggle gap; the quota store's midnight rollover; the classifier's
+P1001/P1002 500 face; the api-robustness census's route.ts-only matcher;
+the hero-portrait weight/resize; the workspace's ambient absolute
+DATABASE_URL; the detectNiche substring shape; the proxyHopDepth parse
+mirror; the setSessionCookie unit gap; the signup first-admin race; the
+verify/resend read-then-write pair; the enumeration faces; the
+single-node limiter; the 404/error main-landmark posture; the smoke-leg
+retired-form negatives; the in-process limiter; the 404 client-render
+body; the formula-driven generator; the in-app OTP delivery; the footer
+© build-time year; the forgot-password link-clobber (PAD §11);
+ContactMessage.email's unindexed readback scan; the failed-regeneration
+post discard; the verify-digits wipe while a resend is in flight; the
+two sanctioned window.location.origin reads; the novel strip idioms
+escaping the textual arms; the implementation-plan §4 unticked
+checkboxes; the symlinkSync Windows-portability face; the route-tier
+exact-500 e2e arm; the failed re-submit inside the 2.6s window keeping
+the stale "Message Sent!" label; the ok-16 partial family summary; the
+`.env` provenance register entry re-scope; the REF body fallback ink;
+the oklab-vs-rgba `/60` serialization family; the dev-server flapping
+transient + the settle protocol; the parseEnvFile unclosed-quote
+divergence (S53-6); the bind-mount alias dedupe direction (S53-7); the
+stripComments JSX-brace family gap (S53-7).
+
+## The count re-anchor
+
+UNIT 724 HELD (the S17-6 regex and the S52-4 icon pin extend IN PLACE;
+the S53-1 arm rewrite stays INSIDE the existing it; S53-4/S53-5 are
+comment-only), SUITES 40 unchanged, E2E 70 unchanged, E2E_SPECS 9
+unchanged, SMOKE 16 unchanged, BADGE 794 unchanged. No s53 ladder
+entry (no growth — the ladder's own convention). No §12 row touched
+(boot-env.test/a11y-controls/docs-counts/landing-page are not §12
+rows; contact-form's comment re-spell is not a row regardless). The
+ten provenance sites re-anchored to 1..53 — lag 0 at ship; SKILL
+v1.48.0 → v1.49.0.
+
+## Verified
+
+- The full gate on the exact commit tree (below)
+- The mutation batteries on record: the resolve-removed plant (RED at
+  the dotdot arm on the new form; GREEN on the old sub form — both
+  observed); the no-dedupe plant (RED at the alias arm — the
+  co-pinned family unchanged); the deps plant (RED at exactly the
+  planted file's expect); the idle-swap plant (RED at exactly the icon
+  expect); the comment-needle plant (the stripped-read cure's birth
+  defect caught and re-scoped — the honest result recorded in the
+  pin's comment)
+- The parity walk post-cure: the standing faces hold, no drift; the
+  walk ran on the cured tree's dev server (the panel/escape/
+  outside-tap/route-change/generator/login faces all re-verified
+  live)
+- Captures 113/114 on the dev server (the owner-instructed posture,
+  the session-29..52 precedent): the mobile-menu open clean-walk at
+  390×844 + the landing hero at 1280×800, PIL-verified (99.9% /
+  100.0% non-white)
+- Docs lockstep: README (the session-53 row on the continuous table,
+  the gate footer); AGENTS (the plans map's fifty-third round); CLAUDE
+  (counts held — no change needed); PAD (unchanged — no §12 row
+  touched); SKILL v1.48.0 → v1.49.0 (frontmatter, §0.5 1..53, Appendix
+  A's session-53 row + the session-52 row's dotdot sentence annotated,
+  Appendix B's header); the ten provenance sites at 1..53; worklog
+  Task 53; this session log; the plan's post-execution record; the
+  S52-6 truth re-anchors in docs/session_52.md, the session-52 plan
+  doc, and worklog Task 52
+
+**Gate at the session-53 ship: lint 0/0 · tsc 0 · unit 724/724 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

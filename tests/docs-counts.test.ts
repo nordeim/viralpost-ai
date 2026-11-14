@@ -89,7 +89,10 @@ import {
 // robustness key pin re-anchored in place — no count change).
 // s21: 586/37 (+15 the session-21 pins — Session-52, S52-8: the
 // header said +13; the session-21 ship record reads "+15 unit pins"
-// and 571→586=+15). s22: 599/37 (+13 the
+// and 571→586=+15) and the e2e 57 → 58 (Session-53, S53-5, AUDIT-3
+// L1: the +1 step this ladder never narrated — session_21.md:123
+// records "E2E 57 → 58"; s22's pre-state 58 is reconstructible from
+// the ladder alone now). s22: 599/37 (+13 the
 // session-22 pins) and the e2e 58 → 63 (the a11y matrix's logged-out
 // family + the icon leg). s23: 606/38 (+7 — the seo-surfaces suite's
 // manifest/sitemap pins, the skip-link tabIndex pin, the toast

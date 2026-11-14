@@ -127,13 +127,23 @@ describe("named-control source pins (the open surfaces)", () => {
     // The three-face label with sending precedence, one expression —
     // the S49-8 pin form ('{resending ? "Please wait…" : "Resend"}').
     expect(src).toContain('{sending ? "Sending…" : sent ? "Message Sent!" : "Send Message"}');
-    // The icon ternary mirrors the precedence (in flight: the Send
-    // icon; success: the Check) — the S51-3 swap covers both.
+    // The icon ternary mirrors the precedence on ALL THREE faces (in
+    // flight: the Send icon; success: the Check; idle: the Send) — the
+    // S51-3 swap covers the first two.
     // Session-52 (S52-4, AUDIT-2 L3): the arm pins the BRANCH faces,
     // not just the ternary's existence — the old '{sending ? ('
     // form stayed green through a branch-content swap (a pin weaker
     // than its own comment, the vacuous-adjacent genus).
-    expect(src).toMatch(/\{sending \? \(\s*<Send[^]*?\) : sent \? \(\s*<Check/);
+    // Session-53 (S53-3, AUDIT-2 L2): the idle third face pinned too —
+    // an idle-icon swap shipped green through the two-face form. The
+    // comment-needle face stays REGISTERED, not cured: this round's
+    // battery planted a JSX-comment needle and the one-idiom
+    // stripComments family MISSED it (the `(^|\s)` block opener never
+    // matches the `{` of a `{/*` JSX comment — the gap is FAMILY-WIDE,
+    // ~40 sites in 20 files + the S48-1 census needle itself; closing
+    // it is the one-idiom shape's own dedicated round, registered
+    // S53-7, never a rider on this arm).
+    expect(src).toMatch(/\{sending \? \(\s*<Send[^]*?\) : sent \? \(\s*<Check[^]*?\) : \(\s*<Send/);
   });
 
   // Session-25 (S25-2): the S24-3 genus, one file over — the generator

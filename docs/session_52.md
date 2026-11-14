@@ -212,7 +212,13 @@ the documented v4 color-mix family.
   (`PWD = ${artifactDir}/sub/..` → resolve() folds it onto the cwd →
   one warning; the sub segment created real so the pre-cure tooth is
   honest — the raw-string form pushed the unfolded spelling and the
-  fs probe resolved THROUGH it). Born GREEN (S51-1's resolve()
+  fs probe resolved THROUGH it — Session-53, S53-1: that mechanism
+  claim was FALSE, corrected in place — the probe's join() folds the
+  .. lexically in userland, the kernel never sees the dotdot, and
+  the pre-cure tooth needs no real segment; the arm now spells the
+  intermediate NONEXISTENT, which also gives the resolve()-fold its
+  own independent RED tooth the sub form could never carry). Born
+  GREEN (S51-1's resolve()
   already folds). Battery truth (the S51-6 wording precedent,
   recorded in the arm's comment): the no-dedupe plant (the true
   S50-1 form) trips the it at the FIRST dedupe arm (the alias face)

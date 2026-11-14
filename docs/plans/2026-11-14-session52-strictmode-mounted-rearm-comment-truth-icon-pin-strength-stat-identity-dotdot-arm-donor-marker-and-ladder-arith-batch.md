@@ -319,7 +319,11 @@ Executed as planned, with the deviations the record owes the truth:
   never execute; and an intermediate plant (resolve() removed, the
   statSync dedupe kept) keeps every arm GREEN — the S52-5 identity
   dedupe folds every alias spelling, so the normalization and the
-  dedupe are belt-and-braces for these faces. The dotdot arm's
+  dedupe are belt-and-braces for these faces — Session-53, S53-1:
+  true of the SHIPPED sub form; the session-53 re-spelling (the
+  nonexistent intermediate) gives that same plant its own RED tooth
+  at the dotdot arm — the arm's missing independent value, cured).
+  The dotdot arm's
   co-pinned dedupe family is documented in its own comment at birth;
   its independent value is the GREEN-direction pin of resolve()'s
   fold (the S51-1 comment claimed the fold, nothing asserted it —

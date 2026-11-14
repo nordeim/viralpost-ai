@@ -5705,7 +5705,11 @@ the gate → captures → push.
   recorded: the string-compare battery plant keeps every arm green on
   Linux, the case face unobservable in this sandbox); S52-6 the dotdot
   arm (the S51-1 comment's claimed .. fold now pinned, the sub segment
-  created real for the pre-cure tooth; the co-pinned dedupe family
+  created real for the pre-cure tooth — Session-53, S53-1: the
+  sub-segment rationale was false, the probe's join() folds the ..
+  lexically in userland; the arm re-spelled to a nonexistent
+  intermediate, gaining the resolve()-fold its own independent RED
+  tooth; the co-pinned dedupe family
   documented at birth — the no-dedupe plant trips the it at the alias
   arm, the S51-6 wording precedent); S52-7 the health-route donor
   marker (the bare session-34 cite gains the db-path.ts marker's form);
@@ -5737,4 +5741,96 @@ the gate → captures → push.
   docs/session_52.md + the plan's post-execution record).
 
 **Gate at the session-52 ship: lint 0/0 · tsc 0 · unit 724/724 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 53 — The Dotdot-Arm Mechanism Truth + The Deps-Array Pin + The Icon Idle Face + The Gate-Comment Word + The s21 e2e Clause + The Unclosed-Quote Register (2026-11-14)
+Agent: main (Z.ai)
+Session: 53 (2026-11-14)
+
+Task: The standing instruction round on the session-52 tree (`6743e4f` +
+the owner's narration `3ac3b6a`): docs review → baseline gate → the
+comprehensive audit → the live reference parity walk → the TDD cures →
+the gate → captures → push.
+
+- CONTEXT: the workspace carried over (no re-clone needed); `.env` +
+  `db/` intact; the walk-era probe residue reseeded (pristine census
+  MATCH restored); the browser cache already held chromium-1248. The
+  core docs re-read and re-verified (AGENTS, CLAUDE, README, PAD, SKILL
+  v1.48.0); session_52.md (the formal log) + the session-52 plan's
+  post-execution record + worklog Task 52 + session_53.md (the owner's
+  round-52 narration) internalized; every lockstep site confirmed at
+  the session-52 ship counts.
+- BASELINE GATE GREEN at the exact documented counts: lint 0/0 · tsc 0 ·
+  unit 724/724 (40 files) · build · smoke 16/16 · e2e 70/70 (9 specs) ·
+  census MATCH — zero drift. neo-crm re-checked: unchanged (HEAD
+  b3d0fbe, still its session-217) — the sixth consecutive round.
+- AUDIT: three parallel subagents (API/lib seams, components/effects,
+  SEO/configs/tests/docs) — **AUDIT-1 0C/0H/0M/1L/2I · AUDIT-2
+  0C/0H/0M/2L/1I · AUDIT-3 0C/0H/0M/1L/0I** — combined 0C/0H/0M/4L/3I,
+  every load-bearing finding hand-verified in source by the lead (the
+  decisive S53-1 verification: the fs probe's join() folds `sub/..`
+  lexically in userland — live-probed with an existing sub AND a
+  nonexistent intermediate, the raw syscall ENOENTs where join folds —
+  so the S52-6 "kernel walks sub/.." claim is false, and the
+  nonexistent-intermediate form gives the resolve()-fold its own
+  independent RED tooth the shipped sub form could never carry, both
+  plants verified).
+- PARITY WALK #26 — the twenty-sixth consecutive clean walk (the panel
+  byte-identical class-for-class both sides; the Escape face verified
+  with a REAL key press — synthetic dispatch never reaches React's
+  delegated handlers; the outside-tap genuine both sides through the
+  VISIBILITY-CHECKED panel probe — the walk-25 toggle-sequencing lesson
+  generalized to the helper itself (the in-DOM hidden panel made
+  DOM-presence probes read open forever); the route-change close both
+  sides (R unmounts, L hides in-DOM); the brand wordmark gradient
+  byte-identical; the head census/sitemap/robots/login faces all
+  holding; the generator probe hydration-aware + quota-fresh — a
+  6-hashtag post + the copy button, quota 0→1). Walk-protocol lessons
+  recorded: visibility-checked probes, real key presses, settled-path
+  login probes (the reference's transient / hop), eval retries through
+  the dev flap.
+- CURES (TDD): S53-1 the dotdot-arm truth + strengthen (the arm
+  re-spelled to `PWD=${artifactDir}/missing/..`, the mkdirSync retired;
+  the false kernel-walk claim corrected at all four shipped sites —
+  session_52.md, the session-52 plan doc, worklog Task 52, the arm's
+  own comment; the batteries: the no-dedupe plant still trips the it at
+  the alias arm (the co-pinned family unchanged), and the NEW tooth —
+  the resolve-removed plant REDs at the dotdot arm, proved both ways:
+  the same plant stays GREEN against the old sub form); S53-2 the
+  deps-array pin (the S17-6 mechanism regex extended to own the empty
+  deps — a dep addition re-runs the effect mid-life and wipes an
+  in-flight reset timer, invisibly to every pin; the battery: the
+  `}, [limitReached]);` plant trips exactly the file's expect); S53-3
+  the icon idle face (the S52-4 pin's third alternation — the
+  idle-swap battery trips exactly the icon pin; the comment-needle face
+  REGISTERED, not cured: the round's battery exposed that the one-idiom
+  stripComments family MISSES JSX brace comments — the `(^|\s)` opener
+  never matches the `{` of `{/*`, a family-wide gap at ~40 sites in 20
+  files + the S48-1 census needle itself; the intended stripped-read
+  cure re-scoped honestly at birth — the second consecutive round a
+  battery caught a cure's own birth defect); S53-4 the gate-comment
+  word ("nothing" → "nothing that matters" — the finally block does
+  run); S53-5 the s21 e2e clause (the ladder's unnarrated 57→58 step,
+  session_21.md:123 cited, the S52-8 form); S53-6 the unclosed-quote
+  register (parseEnvFile's line-scope vs bun's file-scope on unclosed
+  quotes — pathological, pre-existing, registered with the reason);
+  S53-7 the register (the stripComments JSX-brace family gap + the
+  walk-26 protocol lessons + the bind-mount alias note).
+- COUNTS: UNIT 724 HELD, SUITES 40, E2E 70, SPECS 9, SMOKE 16, BADGE
+  794 — all held (every S53 pin extends an existing it in place; no
+  s53 ladder entry — no growth, the convention). No §12 row touched;
+  the ten provenance sites re-anchored to 1..53 — lag 0 at ship; SKILL
+  v1.48.0 → v1.49.0.
+- VERIFIED: the full gate on the exact commit tree (below); the
+  mutation batteries on record (the resolve-removed plant both ways,
+  the no-dedupe plant, the deps plant, the idle-swap plant, the
+  comment-needle birth-defect catch); the parity walk post-cure faces
+  hold (the walk ran on the cured tree's dev server); the captures
+  113/114 on the dev server (the owner-instructed posture, the
+  session-29..52 precedent): the mobile-menu open clean-walk at 390×844
+  + the landing hero at 1280×800, PIL-verified; docs lockstep (README +
+  AGENTS + SKILL v1.49.0 + the ten provenance sites + worklog Task 53 +
+  docs/session_53.md + the plan's post-execution record).
+
+**Gate at the session-53 ship: lint 0/0 · tsc 0 · unit 724/724 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
