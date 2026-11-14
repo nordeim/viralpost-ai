@@ -19,9 +19,18 @@
 export async function register(): Promise<void> {
   if (process.env.NEXT_RUNTIME === "edge") return;
   if (process.env.NEXT_PHASE === "phase-production-build") return;
-  const { applyBootEnvReport, bootEnvCheck, shadowingEnvFileWarningsForServer } = await import("./lib/boot-env");
+  const { applyBootEnvReport, bootEnvCheck, databaseUrlFileResidueWarningsForServer, shadowingEnvFileWarningsForServer } = await import("./lib/boot-env");
   applyBootEnvReport(bootEnvCheck(process.env));
   for (const warning of shadowingEnvFileWarningsForServer(process.env)) {
+    console.warn(warning);
+  }
+  // Session-59 (S59-1): the .env-FILE-face residue warnings — the
+  // @next/env single-line-unclosed shape DROPS the line from
+  // process.env (the process-env arm above cannot see it) while the
+  // db-path seam's own .env parse keeps the leading quote and hands
+  // the engine the value raw. Same warn-only posture, same print
+  // order (after the report and the shadow warnings).
+  for (const warning of databaseUrlFileResidueWarningsForServer(process.env)) {
     console.warn(warning);
   }
   // Session-47 (S47-2): the shadowing-env-file warning — warn-only, the

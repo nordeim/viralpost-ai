@@ -56,7 +56,6 @@ export function ContactForm() {
     };
   }, []);
 
-
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (sending) return;

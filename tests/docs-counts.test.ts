@@ -330,6 +330,22 @@ import {
 // doctrine — a mode-gate plant REDs exactly it; the leading-quote
 // co-pin documented in the pin's comment)) and the e2e 70 unchanged.
 // SMOKE 16 unchanged.
+// s59: 735/40 (+5 — the S59-1 pins (the boot-gate .env-FILE-face
+// residue arm: the FILE-FACE residue pin (the @next/env single-line
+// census — the loader drops the line, the .env parse keeps the quote,
+// both chars, with every clean file value silent), the ENV-FACE guard
+// pin (one owner — a set process env keeps the file arm silent; the
+// envUrl-guard plant REDs exactly it), the dev-mode face (the F10-11
+// doctrine; its quote-disjunct co-pin documented in the pin's comment),
+// the MECHANISM-TRUTH split pin (the leading-quote face names the raw
+// pass-through + PrismaClientInitializationError, never the span
+// face's junk-file sentence; the split-revert plant REDs exactly it),
+// and the instrumentation wiring pin (the unwire plant REDs exactly
+// it); battery on record: the quote-disjunct plant REDs pins 1+3, the
+// always-warn plant REDs exactly pin 1, the envUrl-guard plant REDs
+// exactly pin 2, the mode-gate plant REDs exactly pin 3, the
+// split-revert plant REDs exactly pin 4, the unwire plant REDs exactly
+// pin 5)) and the e2e 70 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -337,7 +353,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 730;
+const UNIT = 735;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */

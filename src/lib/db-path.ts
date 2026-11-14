@@ -257,69 +257,15 @@ export function resolveDatabaseUrl(rawUrl: string): string {
   return rawUrl;
 }
 
-/**
- * Minimal dotenv parser: quotes stripped, comments/blanks skipped.
- * Session-21 (S21-8): an UNQUOTED trailing inline comment (`KEY=value #
- * note`) is stripped too — bun's own loader does this, and a parser that
- * disagrees breaks the bun-absolutization signature check in
- * `effectiveDatabaseUrl` (the DB then silently lands outside the repo;
- * live-verified divergence on bun 1.3.14). Bun's scan order (verified
- * live, isolated): a QUOTE-OPENED value runs to its matching closing
- * quote (a `#` inside survives; anything after the closing quote is
- * discarded, so `KEY="v" # note` parses as `v`); an unquoted value cuts
- * at the FIRST `#` anywhere — no whitespace guard (bun parses
- * `KEY=abc#def` as `abc`; dotenv would keep it whole, but the seam
- * exists to mirror bun, and a mid-token `#` in an unquoted URL is
- * pathological — quote such values).
- * (Session-56, S56-3 — the unclosed-quote cross-line face, completing
- * the S53-6 register; re-spelled session-57, S57-1b, after the final
- * clause below was falsified live end-to-end: on a single-line
- * unclosed quote the seam and bun AGREE (live-probed on 1.3.14 —
- * both keep the leading `"` in the value, so the signature
- * comparison stays consistent on the realistic typo; later
- * UNCLOSED-quoted and mid-line-quoted lines do not span either —
- * agreement). The ONE divergent shape: an unclosed quote on the
- * DATABASE_URL line PLUS a later CLOSED quoted value — bun's scan
- * spans to the closing quote that ENDS its line, swallowing the
- * newline and the intermediate quote (DATABASE_URL becomes
- * `file:../db/custom.db\nOTHER="quoted value`, OTHER unset) while
- * this line-based parser cannot model that, doubly pathological.
- * The spanned value is a RELATIVE `file:` URL; the seam's own
- * line-based parse keeps the leading quote (not a relative file:
- * URL — the signature arm is skipped), so the spanned value rides
- * the tail arm and the module anchor re-anchors it into the
- * JUNK-NAMED `<repo>/db/custom.db\nOTHER="quoted value` file — NOT
- * the clean repo db (session-57 live probe, the repo's own
- * @prisma/client 6.19.3: the engine ACCEPTS the junk URL — a 0-byte
- * junk file is created under <repo>/db/, `SELECT 1` answers, the
- * first `User` query P2021s — the S47-1 artifact genus: a healthy
- * 200 against a table-less empty DB). REGISTERED, not cured — the
- * S53-6 posture stands: fix the .env. Boot-warned session-58 (S58-1):
- * the boot gate now names the residue BOTH sanctioned loaders leave
- * (bun's span embeds a newline; @next/env keeps the leading quote or
- * drops the line — live-probed both, both quote chars), so the genus
- * is no longer silent. Pinned session-57, S57-1a: the parse fixtures
- * + the resolve junk-tail face in tests/db-path.test.ts.)
- */
-export function parseEnvFile(contents: string): Record<string, string> {
-  const out: Record<string, string> = {};
-  for (const line of contents.split(/\r?\n/)) {
-    const match = /^\s*(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$/.exec(line);
-    if (!match) continue; // comment or blank line
-    let value = match[2].trim();
-    const quote = value[0];
-    if ((quote === '"' || quote === "'") && value.length >= 2) {
-      const closing = value.indexOf(quote, 1);
-      if (closing !== -1) value = value.slice(1, closing);
-    } else {
-      // The unquoted comment strip — bun's rule: the first `#` anywhere.
-      const comment = /#/.exec(value);
-      if (comment) value = value.slice(0, comment.index).trim();
-    }
-    out[match[1]] = value;
-  }
-  return out;
-}
+// Session-59 (S59-1b): parseEnvFile moved to the leaf module
+// src/lib/env-file.ts (pure string parsing, zero imports) so the boot
+// gate can share the parser without dragging this seam's heavyweight
+// trace (import.meta.url anchoring + the fs reads) into the
+// instrumentation artifact. Re-exported here — every existing
+// consumer's import path is unchanged.
+import { parseEnvFile } from "./env-file";
+export { parseEnvFile };
+
 
 function isRelativeFileUrl(url: string | undefined): url is string {
   if (!url) return false;
@@ -410,7 +356,7 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  *
  * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
  * NEO-CRM seam's own recovery session; this repo's sessions are
- * docs/session_1..58, the SKILL §0.5 enumeration): the standalone server.js runs
+ * docs/session_1..59, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The

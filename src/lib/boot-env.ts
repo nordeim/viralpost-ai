@@ -28,8 +28,16 @@
 // Session-47 (S47-2): the shadow seam below is the only fs-touching
 // default in this module (the injectable-exists pattern — bootEnvCheck
 // itself stays pure over the env record).
-import { existsSync, statSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { isAbsolute, join, resolve } from "node:path";
+// Session-59 (S59-1): the one-home parse — the file-face arm's
+// predicate and the runtime consumption share the runtime's OWN .env
+// parser (the env-file.ts leaf db-path itself parses with), so the
+// warning can never diverge from what the engine sees. Imported from
+// the LEAF, not db-path: importing db-path here ballooned the
+// instrumentation artifact's trace (the hygiene leg's scripts/
+// exclude tripped — the S59-1b extraction note in env-file.ts).
+import { parseEnvFile } from "./env-file";
 
 /** The closed VIRALPOST_* knob set (the six-knob contract's 3 server knobs). */
 export const KNOWN_VIRALPOST_VARS: ReadonlySet<string> = new Set([
@@ -191,11 +199,23 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
   // the leading quote on the single-line-unclosed shape; @next/env
   // (next dev via node / the standalone server.js) NEVER spans — the S3
   // shape keeps the LEADING QUOTE (`"file:../db/custom.db`), the
-  // single-line shape drops to undefined. Both residues ride the
-  // db-path seam's tail arm into a junk-named file under db/ that the
-  // engine ACCEPTS (a 0-byte file; SELECT 1 answers; the first User
-  // query P2021s — the S47-1 artifact genus; db-path.ts's S57-1b
-  // docblock owns the full truth). The runtime cure stays REGISTERED
+  // single-line shape drops to undefined (that last face belongs to
+  // the S59-1 file-face arm below — the process-env record this seam
+  // reads cannot carry it).
+  // The MECHANISM splits on whether the residue still carries the
+  // file: prefix (session-59, S59-1 — the live-probed truth; the old
+  // single message described only the span face and misdirected the
+  // leading-quote operator toward a junk file that never exists): a
+  // file:-prefixed residue re-anchors through the db-path seam into a
+  // junk-named file under db/ that the engine ACCEPTS (a 0-byte file;
+  // SELECT 1 answers; the first User query P2021s — the S47-1 artifact
+  // genus; db-path.ts's S57-1b docblock owns the full truth); a
+  // non-file: residue is passed through RAW (db-path.ts's postgres
+  // pass-through arm) and the engine answers
+  // PrismaClientInitializationError at the first DB-touching
+  // invocation — no junk file, no healthy boot (the session-59 live
+  // probe on the repo's own @prisma/client 6.19.3).
+  // The runtime cure stays REGISTERED
   // (the S53-6 posture: fix the .env) — this warning converts the genus
   // from SILENT to loud, in EVERY mode (the F10-11 doctrine: a
   // malformed value is always wrong, dev included — the operator edits
@@ -211,7 +231,9 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
     (/\p{Cc}/u.test(dbUrl) || dbUrl.startsWith('"') || dbUrl.startsWith("'"))
   ) {
     warnings.push(
-      `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries an unclosed quote residue from .env (the session-57 S57-1 genus) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`,
+      dbUrl.startsWith("file:")
+        ? `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries an unclosed quote residue from .env (a control character rides the value — the session-57 S57-1 loader-span genus) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`
+        : `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries an unclosed quote residue from .env — the value does not start with "file:", so the db-path seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation (no junk file is created; static pages still serve while every DB route fails). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`,
     );
   }
 
@@ -410,6 +432,59 @@ export function applyBootEnvReport(
   if (report.fatal !== null) throw new Error(report.fatal);
 }
 
+// Session-59 (S59-1, AUDIT-1 L1): the .env-FILE-face residue warning —
+// the pure seam in the bootEnvCheck family. WHY: the S58-1 arm reads
+// only the PROCESS-ENV face, but the @next/env loader DROPS a
+// single-line-unclosed DATABASE_URL line to undefined (the session-58
+// loader census) — in that shape bootEnvCheck sees NOTHING while the
+// db-path seam's own .env parse keeps the leading quote
+// (parseEnvFile: no closing quote ⇒ the slice never runs) and
+// resolveDatabaseUrl passes the non-file: value through RAW. The
+// session-59 live probe (ambient env unset, a single-line-unclosed
+// scratch .env): runtimeDatabaseUrl answered `"file:../db/custom.db`
+// and the repo's own @prisma/client 6.19.3 threw
+// PrismaClientInitializationError at the first invocation — a loud
+// request-time failure with ZERO boot signal, the hole in the S58-1
+// "no longer silent, in EVERY mode" claim. The cure mirrors the
+// shadow seam's pattern: THIS pure function takes both faces (the env
+// record + the .env file's parsed DATABASE_URL), the server wrapper
+// below feeds it. FIRES ONLY when the process-env face is UNSET — the
+// one posture where the file residue reaches the engine unseen: a SET
+// env face either carries the residue itself (the S58-1 arm owns that
+// face — one owner) or is a clean override (the file value never
+// reaches the engine, effectiveDatabaseUrl's envUrl ?? envFileUrl
+// tail). Warn-only, every mode (the F10-11 doctrine), the [boot]
+// family vocabulary.
+export function databaseUrlFileResidueWarning(
+  env: { NODE_ENV?: string | undefined; DATABASE_URL?: string | undefined },
+  envFileUrl: string | undefined,
+): string | null {
+  // A SET process-env face owns the signal: it either carries the
+  // residue itself (the S58-1 arm in bootEnvCheck — one owner, never
+  // a double warning) or is a clean override the runtime honors over
+  // the file value (effectiveDatabaseUrl's envUrl ?? envFileUrl tail —
+  // the file residue never reaches the engine, warning about it would
+  // be a false alarm). No mode gate either (the F10-11 doctrine: a
+  // malformed .env is always wrong, dev included — the operator edits
+  // .env in dev); the env record carries NODE_ENV solely so a future
+  // mode-gate "cure" is expressible — and pinned against (the dev
+  // pin's mode-gate plant).
+  const envUrl = env.DATABASE_URL?.trim() || undefined;
+  if (envUrl) return null;
+  const fileUrl = envFileUrl?.trim() || undefined;
+  if (fileUrl === undefined || fileUrl === "") return null;
+  if (!( /\p{Cc}/u.test(fileUrl) || fileUrl.startsWith('"') || fileUrl.startsWith("'") )) {
+    return null;
+  }
+  // The file-face mechanism is always the raw pass-through: the only
+  // residue the line-based parse can carry is the leading quote (a
+  // span needs an embedded newline, which a line-based parse cannot
+  // produce), so the value is never file:-prefixed — the session-59
+  // live probe answered PrismaClientInitializationError at the first
+  // invocation.
+  return `[boot] the .env DATABASE_URL=${JSON.stringify(fileUrl)} carries an unclosed quote residue — the env loader dropped the line from the process environment (the @next/env single-line shape), so the process-env arm cannot see it; the db-path seam's own .env parse keeps the quote and hands the engine the value raw, and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`;
+}
+
 // Session-47 (S47-2): the shadowing-env-file warning — a pure seam in
 // the bootEnvCheck family. WHY: the db-path seam's bun-absolutization
 // recovery signature reads ONLY .env (readDatabaseUrlFromEnvAt — the
@@ -520,9 +595,13 @@ export function shadowingEnvFileWarnings(
 // setting it — a PWD-less process manager (systemd-style units,
 // exec-form containers) falls back to the cwd-only probe; no such
 // posture is documented today (DEPLOYMENT.md ships bun run start).
-export function shadowingEnvFileWarningsForServer(
-  env: { NODE_ENV?: string | undefined },
-): string[] {
+// Session-59 (S59-1): the cwd ∪ PWD union extracted to ONE home — the
+// shadow wrapper and the file-face residue wrapper below probe the
+// same dirs (the S50-1/S51-1/S52-5 lineage; the dedupe/normalize/
+// identity rules moved verbatim out of shadowingEnvFileWarningsForServer,
+// a pure refactor its pins hold green for — one dir list, never two
+// that can diverge).
+function serverEnvProbeDirs(): string[] {
   const cwd = process.cwd();
   const dirs = [cwd];
   const pwd = process.env.PWD;
@@ -552,9 +631,45 @@ export function shadowingEnvFileWarningsForServer(
       if (!samePhysicalDir) dirs.push(norm);
     }
   }
+  return dirs;
+}
+
+// Session-47 (S47-2): the shadowing-env-file warning — the SERVER
+// wiring face. The cwd read and the PWD union live in
+// serverEnvProbeDirs (shared with the file-face wrapper below since
+// session-59); this wrapper keeps its own pure seam
+// (shadowingEnvFileWarnings) per dir.
+export function shadowingEnvFileWarningsForServer(
+  env: { NODE_ENV?: string | undefined },
+): string[] {
   const out: string[] = [];
-  for (const d of dirs) {
+  for (const d of serverEnvProbeDirs()) {
     out.push(...shadowingEnvFileWarnings(d, env));
+  }
+  return out;
+}
+
+// Session-59 (S59-1): the file-face residue wrapper — reads each probe
+// dir's .env DATABASE_URL through the db-path seam's OWN parser
+// (parseEnvFile — the one-home parse: the warning's predicate and the
+// runtime consumption share one parser, so they can never diverge) and
+// routes it through the pure seam with the live process env. The
+// PWD-less process-manager boundary inherits the S51-1 register (the
+// union is cwd-only there; the db-path seam's module-anchor recovery
+// may still consume a launch-dir .env the union cannot see — the same
+// documented boundary the shadow wrapper carries).
+export function databaseUrlFileResidueWarningsForServer(
+  env: { NODE_ENV?: string | undefined; DATABASE_URL?: string | undefined },
+): string[] {
+  const out: string[] = [];
+  for (const d of serverEnvProbeDirs()) {
+    const envPath = join(d, ".env");
+    let envFileUrl: string | undefined;
+    if (existsSync(envPath)) {
+      envFileUrl = parseEnvFile(readFileSync(envPath, "utf8")).DATABASE_URL;
+    }
+    const warning = databaseUrlFileResidueWarning(env, envFileUrl);
+    if (warning !== null) out.push(warning);
   }
   return out;
 }

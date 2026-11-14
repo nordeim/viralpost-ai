@@ -30,7 +30,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-slate-900/40" />
       <div className="relative z-10 w-full max-w-6xl mx-auto px-6 pt-24 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <Reveal direction="left" className="w-full" >
+          <Reveal direction="left" className="w-full">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-teal-500/20 border border-teal-400/30 rounded-full text-xs font-semibold text-teal-300 mb-6">
               <Zap className="h-3.5 w-3.5" aria-hidden="true" />
               AI-Powered Social Media Content

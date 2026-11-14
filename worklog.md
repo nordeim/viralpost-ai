@@ -6342,3 +6342,146 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-58 ship: lint 0/0 · tsc 0 · unit 730/730 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 59 — The Boot-Gate File-Face Residue Arm + The Mechanism-Truth Split + The Register Batch (2026-11-15)
+
+- CONTEXT: the shipped tree 90db7af (session-58's 84d3608 + the owner's
+  narration commit carrying docs/session_59.md). Core docs re-read at
+  the session-58 ship counts; the S58 cures verified in source (the
+  three S58-1a pins, the arm, the re-indent per git show -w). Baseline
+  gate GREEN at the documented counts — lint 0/0 · tsc 0 · unit
+  730/730 (40 files) · build · smoke 16/16 · e2e 70/70 (9 specs) ·
+  census MATCH — zero drift. Standing asks re-verified (the .env
+  DATABASE_URL="file:../db/custom.db" contract with db/ at the repo
+  root; .env.example committed and code-verified; the vitest +
+  playwright suites current; the sitemap/robots/manifest/OG family
+  verified live in this round's walk; skills/ excluded from every
+  gate). neo-crm re-checked: unchanged (HEAD b3d0fbe, the twelfth
+  consecutive no-change check).
+- AUDIT (three parallel subagents + the lead's hand-verification):
+  AUDIT-1 (API/lib seams) 0C/0H/0M/2L/3I · AUDIT-2
+  (components/pages/effects) 0C/0H/0M/0L/2I · AUDIT-3
+  (SEO/configs/tests/docs) 0C/0H/0M/0L/5I — combined 0 Critical / 0
+  High / 0 Medium / 2 Low / 10 Informational.
+- THE LEAD'S HAND-VERIFICATION (reproduce-before-trusting): AUDIT-1 L1
+  verified in source AND probed live — the S58-1 warning is blind to
+  @next/env's single-line-unclosed shape (the loader DROPS the line to
+  undefined; the arm's dbUrl !== undefined guard cannot fire) while
+  the db-path seam's own .env parse keeps the leading quote and
+  resolveDatabaseUrl passes the non-file: value through RAW; the live
+  probe (runtimeDatabaseUrl on a single-line-unclosed scratch .env,
+  ambient env unset): resolved "file:../db/custom.db and the repo's
+  own @prisma/client 6.19.3 threw PrismaClientInitializationError at
+  the first invocation — zero boot signal. AUDIT-1 L2 verified in
+  source AND probed live — the warning's junk-file mechanism sentence
+  ("re-anchors it into a junk-named file under db/ … SELECT 1 answers
+  … P2021") is true ONLY for the bun SPAN face; the leading-quote face
+  never starts with file: — raw pass-through + engine rejection, no
+  junk file. AUDIT-2 I-1 verified with cat -A (the three whitespace
+  spots). AUDIT-1 I1 folded into the L2 cure (the per-face messages);
+  the rest adjudicated as registers.
+- PARITY WALK #32 — the thirty-second consecutive clean walk. REF leg
+  (live, logged in): login settled at /Home; the hamburger
+  md:hidden p-2 text-slate-300 base with NO aria family; the panel
+  inner px-6 py-4 space-y-3 byte-identical (16px/24px, block,
+  maxHeight none, transparent — the bg-slate-900/98 dead class
+  computing transparent); linkTexts identical; Home teal
+  rgb(45,212,191) 14px/500, the siblings rgb(203,213,225) 14px/500,
+  the pill rgb(15,23,42) 14px/600 9999px; Escape via a REAL key press
+  leaves the reference's panel open; the outside-tap genuine non-nav
+  tap leaves it open; route-change at /Pricing the reference UNMOUNTS
+  (panelDivCount 0); the desktop census 6 visible identical; the
+  brand gradient byte-identical (linear-gradient(to right,
+  rgb(45,212,191), rgb(251,191,36)), 18px/700, clip text); the
+  five-route head census identical (the per-route prefix family, the
+  bare / and /login titles, the canonicals, the single shared
+  ogImage); sitemap exactly 4 URLs + robots Allow-all + Sitemap line;
+  the generator DEAD (no generation lands, no copy button, no quota
+  keys — the documented 402 face). CLONE leg (the dev server on
+  :3000, quota cleared): login landed at / (the documented 308
+  deviation); the panel byte-identical on every computed face (the
+  pill 3.35544e+07px — v4's infinity calc rendering the identical
+  capsule); the hamburger base identical + the aria superset ACTIVE
+  (aria-controls mobile-menu, expanded false→true live-verified, the
+  Open/Close-menu relabel); Escape closes OUR menu with focus
+  returned to the toggle (focusOnToggle true — the documented
+  superset); the outside-tap leaves it open (parity); route-change at
+  /Pricing ours hides in-DOM (panelCount 1, display none, hidden attr
+  — the S26-1 design); the desktop census 6 visible identical + CLONE
+  total 11; the brand gradient byte-identical; the five-route head
+  census identical modulo origin; sitemap 4 URLs + robots identical
+  modulo origin; the generator LIVE (a 5-hashtag post in the 5-8
+  family + the Copy button, quota 0→1 — the viralpost_generations
+  counter key). NO clone-side drift, no NEW reference-side drift.
+  Mobile nav verified working as expected on both sides; all seven
+  Tailwind v4 mitigations verified present and test-pinned.
+- CURES (TDD — the pins first, born RED, six planted-defect batteries
+  on record): the five S59-1 pins (tests/boot-env.test.ts — the
+  FILE-FACE residue: the @next/env single-line census, both quote
+  chars, every clean file value silent; the ENV-FACE guard: one
+  owner, a set process env keeps the file arm silent; the dev-mode
+  face: the F10-11 doctrine, the quote-disjunct co-pin documented in
+  the pin's comment; the MECHANISM-TRUTH split: the leading-quote
+  face names the raw pass-through + PrismaClientInitializationError,
+  never the span face's junk-file sentence, while the span face keeps
+  its own truth; the instrumentation wiring pin, source-pinned; the
+  batteries: the quote-disjunct plant REDs pins 1+3, the always-warn
+  plant REDs exactly pin 1, the envUrl-guard plant REDs exactly pin
+  2, the mode-gate plant REDs exactly pin 3, the split-revert plant
+  REDs exactly pin 4, the unwire plant REDs exactly pin 5 — all
+  restored GREEN), the file-face arm (src/lib/boot-env.ts: the pure
+  databaseUrlFileResidueWarning + the server wrapper
+  databaseUrlFileResidueWarningsForServer probing the SHARED cwd ∪
+  PWD union — serverEnvProbeDirs extracted to one home, the shadow
+  pins holding the pure refactor green — through the runtime's own
+  parseEnvFile, extracted to the zero-import leaf src/lib/env-file.ts
+  mid-gate (the planned db-path import ballooned the instrumentation
+  artifact trace 4 → 79 files — scripts/prisma-env.ts and
+  prisma/seed.ts rode into .next/standalone, the smoke hygiene
+  leg-16 correctly RED; the leaf cured it at the root, trace 79 → 5,
+  db-path re-exporting so every consumer's import path is unchanged):
+  the one-home parse, the warning's predicate and the runtime
+  consumption share one parser), the mechanism-truth split in
+  bootEnvCheck (the file:-prefix discriminator — the span face keeps
+  the junk-file/P2021 sentence, the leading-quote face names the raw
+  pass-through + engine rejection), the instrumentation wiring (after
+  the shadow warnings), the db-path.ts docblock completion (the genus
+  no longer silent on ANY loader face), the S59-2 whitespace batch
+  (hero's trailing space + the contact-form and generator-card
+  double-blank collapses — generator-card 319→318, whitespace-only).
+- REGISTERS: readBoundedJson's time-unbounded 16KB stream (the
+  documented limitation now names the time face), the
+  forgot-password write-failure enumeration window (the F9-7
+  residual), the aria-controls desktop posture (the censused
+  superset, S23-1), the framework-emitted 404 noindex (S27-6,
+  e2e+smoke-pinned), the manifest 192x192 same-src parity (A3-I1),
+  the 13th convenience script (the S44-4 advertised set unaffected),
+  the e2e 69+1 composition (census-owned). The bun-audit triage
+  re-verified: the SAME 9 advisories as the session-55..58 records —
+  ALL dev-toolchain/build-time, NONE on the runtime request path.
+- COUNTS: UNIT 730 → 735 (+5 — the five S59-1 pins) / SUITES 40 /
+  E2E 70 / E2E_SPECS 9 / SMOKE 16 / BADGE 800 → 805. The designed
+  count-lag faces fired and were cured at the lockstep exactly as the
+  doctrine describes (the PAD §12 inventory rows on the db-path drift
+  512 → 518 → 458 (the parseEnvFile leaf extraction, S59-1b) and the
+  generator-card drift 319 → 318, the UNIT-constant
+  reality census, the plans-map tail-currency on the 59th plan file —
+  all GREEN at the lockstep, the census driving the docs, its own
+  doctrine). The ten provenance sites re-anchored to 1..59 — lag 0 at
+  ship (docs/session_59.md existed on disk as the owner's narration;
+  the formal log replaces its content). SKILL v1.54.0 → v1.55.0.
+- VERIFIED: the full gate on the exact commit tree (below); the
+  parity walk #32; the captures 125/126 on the dev server
+  (PIL-verified); docs lockstep (README's badge 805 + session-59 row
+  + gate footer + the testing-table 735 sites; AGENTS's plans-map
+  fifty-ninth round + the 735; CLAUDE's 735; PAD's §8.1 table + carry
+  line + §12's db-path 518 and generator-card 318 rows; SKILL
+  v1.55.0 frontmatter/project_state/§0.5 1..59/Appendix A's
+  session-59 row/Appendix B's header + gate line + the pre-ship
+  checklist; the docs-counts constants UNIT 735 + the s59 ladder
+  entry; the ten provenance sites at 1..59; worklog Task 59;
+  docs/session_59.md (the formal log replacing the owner's
+  narration); the session-59 plan's post-execution record).
+
+**Gate at the session-59 ship: lint 0/0 · tsc 0 · unit 735/735 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

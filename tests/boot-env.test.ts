@@ -37,13 +37,13 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..58.
+// are docs/session_1..59.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { applyBootEnvReport, bootEnvCheck, KNOWN_VIRALPOST_VARS, shadowingEnvFileWarnings, shadowingEnvFileWarningsForServer } from "../src/lib/boot-env";
+import { applyBootEnvReport, bootEnvCheck, databaseUrlFileResidueWarning, KNOWN_VIRALPOST_VARS, shadowingEnvFileWarnings, shadowingEnvFileWarningsForServer } from "../src/lib/boot-env";
 
 const root = join(import.meta.dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
@@ -488,6 +488,95 @@ describe("session-58 (S58-1): the DATABASE_URL unclosed-quote residue warning (t
   });
 });
 
+// ---------------------------------------------------------------------------
+// Session-59 (S59-1): the .env-FILE-face residue arm + the mechanism-truth
+// split. The S58-1 warning reads only the PROCESS-ENV face — but the
+// @next/env loader DROPS a single-line-unclosed DATABASE_URL line to
+// undefined (the session-58 census), and in that shape the db-path
+// seam's own .env parse keeps the leading quote and hands the engine
+// the value RAW (the session-59 live probe: resolved
+// `"file:../db/custom.db`, PrismaClientInitializationError at the
+// first invocation). Two cures, one seam: the file-face arm (the pure
+// databaseUrlFileResidueWarning + the server wrapper) and the per-face
+// mechanism split of the S58-1 message (the junk-file sentence is the
+// bun SPAN face's truth; the leading-quote face never re-anchors).
+// ---------------------------------------------------------------------------
+describe("session-59 (S59-1): the .env-FILE-face residue arm (the @next/env single-line shape the process-env arm cannot see)", () => {
+  it("the FILE-FACE residue (the loader dropped the line, the .env parse kept the quote — both quote chars) warns; clean file values with an unset env face stay silent", () => {
+    // The @next/env single-line census: process.env.DATABASE_URL
+    // undefined (the loader dropped the line), the .env file value
+    // carrying the kept leading quote.
+    const doubleQuoted = databaseUrlFileResidueWarning({ NODE_ENV: "production" }, '"file:../db/custom.db');
+    expect(doubleQuoted).toContain("[boot]");
+    expect(doubleQuoted).toContain("unclosed quote");
+    expect(doubleQuoted).toContain("dropped the line");
+    expect(doubleQuoted).toContain("PrismaClientInitializationError");
+    expect(doubleQuoted).toContain("close the quote");
+
+    const singleQuoted = databaseUrlFileResidueWarning({ NODE_ENV: "production" }, "'file:../db/custom.db");
+    expect(singleQuoted).toContain("unclosed quote");
+
+    // The clean file values never warn with an unset env face: the
+    // .env contract value (the launch-recovery posture — the seam
+    // consumes the clean .env value), the e2e override, an absolute
+    // value, and no DATABASE_URL line at all.
+    expect(databaseUrlFileResidueWarning({ NODE_ENV: "production" }, "file:../db/custom.db")).toBeNull();
+    expect(databaseUrlFileResidueWarning({ NODE_ENV: "production" }, "file:../db/e2e.db")).toBeNull();
+    expect(databaseUrlFileResidueWarning({ NODE_ENV: "production" }, "file:/var/lib/viralpost/custom.db")).toBeNull();
+    expect(databaseUrlFileResidueWarning({ NODE_ENV: "production" }, undefined)).toBeNull();
+  });
+
+  it("the ENV-FACE guard: a SET process env keeps the file arm silent (the S58-1 arm owns the residue face; a clean override means the file value never reaches the engine)", () => {
+    // Co-pin note (the N12-2 doctrine): the residue-in-env arm here is
+    // the S58-1 leading-quote pin's face — this pin's OWN face is the
+    // guard (dropping it double-warns the env face and false-alarms
+    // the clean-override face; the envUrl-guard plant REDs exactly
+    // this pin, the S58-1 pins staying green under it).
+    const envResidue = bootEnvCheck(env({ DATABASE_URL: '"file:../db/custom.db' }));
+    expect(envResidue.warnings).toHaveLength(1); // the S58-1 arm's warning — exactly one
+    expect(databaseUrlFileResidueWarning({ NODE_ENV: "production", DATABASE_URL: '"file:../db/custom.db' }, '"file:../db/custom.db')).toBeNull();
+    // A CLEAN override wins at runtime (effectiveDatabaseUrl's envUrl
+    // ?? envFileUrl tail) — the file residue is inert, warning about
+    // it would be a false alarm.
+    expect(databaseUrlFileResidueWarning({ NODE_ENV: "production", DATABASE_URL: "file:../db/e2e.db" }, '"file:../db/custom.db')).toBeNull();
+    expect(databaseUrlFileResidueWarning({ NODE_ENV: "production", DATABASE_URL: "file:/var/lib/viralpost/custom.db" }, "'file:../db/custom.db")).toBeNull();
+  });
+
+  it("development mode warns TOO (the F10-11 doctrine — the operator edits .env in dev)", () => {
+    // This pin's OWN face is the MODE (a prod-only gate is the
+    // plausible "cure" that would regress it; the mode-gate plant
+    // REDs exactly this pin). Co-pin note (the N12-2 doctrine): the
+    // quote-disjunct plant trips this pin alongside the file-face pin
+    // — it rides the leading-quote fixture by choice, exactly the
+    // session-58 dev pin's documented co-pinning shape (battery on
+    // record this round: plant 1 REDs pins 1+3, plant 4 REDs exactly
+    // pin 3).
+    const warning = databaseUrlFileResidueWarning({ NODE_ENV: "development" }, '"file:../db/custom.db');
+    expect(warning).toContain("unclosed quote");
+  });
+
+  it("the MECHANISM-TRUTH split: the leading-quote face names the raw pass-through + the engine rejection, NOT the junk-file sentence; the span face keeps its own truth", () => {
+    // The session-59 live probe: the leading-quote value is NOT a
+    // file: URL, so resolveDatabaseUrl passes it through raw and the
+    // engine answers PrismaClientInitializationError — the S58-1
+    // message's junk-file sentence (the bun span face's truth)
+    // misdirects the operator toward a file that will not exist.
+    const leading = bootEnvCheck(env({ DATABASE_URL: '"file:../db/custom.db' })).warnings[0];
+    expect(leading).toContain("passes it through raw");
+    expect(leading).toContain("PrismaClientInitializationError");
+    expect(leading).not.toContain("junk-named file");
+    expect(leading).not.toContain("P2021");
+
+    // The span (control-char) face KEEPS the junk-file mechanism — the
+    // S57-1 live-probed genus (the newline-embedded value still carries
+    // the file: prefix, so the anchors re-anchor it into the junk-named
+    // file; SELECT 1 answers; the first User query P2021s).
+    const span = bootEnvCheck(env({ DATABASE_URL: 'file:../db/custom.db\nOTHER="quoted value' })).warnings[0];
+    expect(span).toContain("junk-named file");
+    expect(span).toContain("P2021");
+  });
+});
+
 describe("session-170 (WP-3): applyBootEnvReport — the warnings print, the fatal throws", () => {
   it("the fatal throws the message verbatim (the [boot] family)", () => {
     const report = bootEnvCheck(env({ AUTH_SECRET: undefined }));
@@ -516,6 +605,10 @@ describe("session-170 (WP-3): the instrumentation hook (the Next form, source-pi
   it("dynamically imports the seam (the standalone bundle traces it)", () => {
     expect(hook).toContain('import("./lib/boot-env")');
     expect(hook).toContain("applyBootEnvReport");
+  });
+
+  it("session-59 (S59-1): wires the file-face residue warnings after the shadow warnings", () => {
+    expect(hook).toContain("databaseUrlFileResidueWarningsForServer");
   });
 });
 

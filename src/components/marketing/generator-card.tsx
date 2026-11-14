@@ -104,7 +104,6 @@ export function GeneratorCard() {
     prevLimitRef.current = limitReached;
   }, [limitReached]);
 
-
   const generate = async () => {
     if (!idea.trim() || generating || limitReached) return;
     setGenerating(true);
