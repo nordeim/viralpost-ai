@@ -185,6 +185,21 @@ describe("landing: the section composition", () => {
     expect(sections).toContain('value: "3 sec"');
   });
 
+  it("session-61 (S61-2): the two rendered decorative glyphs ride aria-hidden spans (the stats ★ + the footer ❤️)", () => {
+    // Session-61 (S61-2): a full-range decorative-glyph scan of src/
+    // finds exactly TWO rendered glyphs — the stats ★ (U+2605, the
+    // "Average Rating" label carries the meaning, so the glyph is
+    // decorative in the WCAG sense) and the S60-2 footer ❤️. The
+    // session-60 census claim ("the only unannotated decorative glyph
+    // in the tree") was emoji-scoped — the ★ in the Miscellaneous
+    // Symbols block escaped it. Each arm's plant: dropping its span
+    // REDs exactly its arm (the annotation-removal battery).
+    const sections = read("src/components/marketing/sections.tsx");
+    const footer = read("src/components/marketing/footer.tsx");
+    expect(sections).toContain('aria-hidden="true">★');
+    expect(footer).toContain('aria-hidden="true">❤️');
+  });
+
   it("the testimonials ship the reference's three creators", () => {
     const sections = read("src/components/marketing/sections.tsx");
     expect(sections).toContain("@sofialifestyle");

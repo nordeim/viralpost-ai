@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..60.
+// are docs/session_1..61.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -502,14 +502,20 @@ describe("session-58 (S58-1): the DATABASE_URL unclosed-quote residue warning (t
 // bun SPAN face's truth; the leading-quote face never re-anchors).
 // ---------------------------------------------------------------------------
 describe("session-59 (S59-1): the .env-FILE-face residue arm (the @next/env single-line shape the process-env arm cannot see)", () => {
-  it("the FILE-FACE residue (the loader dropped the line, the .env parse kept the quote — both quote chars) warns; clean file values with an unset env face stay silent", () => {
-    // The @next/env single-line census: process.env.DATABASE_URL
-    // undefined (the loader dropped the line), the .env file value
-    // carrying the kept leading quote.
+  it("the FILE-FACE residue (no sanctioned loader consumed this .env, the .env parse kept the quote — both quote chars) warns; clean file values with an unset env face stay silent", () => {
+    // Session-61 (S61-1) re-anchor: the S58-1 loader census clause
+    // ("@next/env … the single-line shape drops to undefined") was
+    // FALSIFIED by a direct probe of the repo's own @next/env 16.4.2 —
+    // it KEEPS the leading-quote value in process.env on every
+    // unclosed shape (both quote chars, dev:true and dev:false). The
+    // file-face arm's REAL coverage is the unloaded-.env postures
+    // (the S51-1 launch-dir family): this pin fires with the process
+    // env UNSET, the .env file value carrying the kept leading quote.
     const doubleQuoted = databaseUrlFileResidueWarning({ NODE_ENV: "production" }, '"file:../db/custom.db');
     expect(doubleQuoted).toContain("[boot]");
     expect(doubleQuoted).toContain("unclosed quote");
-    expect(doubleQuoted).toContain("dropped the line");
+    expect(doubleQuoted).toContain("no sanctioned loader consumed this .env");
+    expect(doubleQuoted).not.toContain("the env loader dropped the line");
     expect(doubleQuoted).toContain("PrismaClientInitializationError");
     expect(doubleQuoted).toContain("close the quote");
 

@@ -6619,3 +6619,152 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-60 ship: lint 0/0 · tsc 0 · unit 738/738 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 61 — The Boot-Gate Loader-Census Truth Respell + The Stats-Star Annotation + The README Gate-Footer Residue and Register Batch (2026-11-15)
+
+- BASELINE: gate GREEN at the session-60 ship counts (lint 0/0 · tsc 0 ·
+  unit 738/738, 40 files · build · smoke 16/16 · e2e 70/70, 9 specs ·
+  census MATCH) — zero drift. Standing asks re-verified up front (the
+  `.env` DATABASE_URL="file:../db/custom.db" contract with db/ at the
+  repo root, census MATCH; `.env.example` committed and code-verified;
+  vitest + playwright current; the sitemap/robots/manifest/OG family
+  verified live in this round's walk #34; skills/ excluded from every
+  gate). neo-crm unchanged (b3d0fbe — the fourteenth consecutive
+  no-change check).
+- AUDIT: three parallel subagents + the lead's hand-verification —
+  AUDIT-1 (API/lib seams) 0C/0H/0M/1L/0I · AUDIT-2
+  (components/pages/effects) 0C/0H/0M/1L/2I · AUDIT-3
+  (SEO/configs/tests/docs) 0C/0H/0M/1L/2I — combined 0 Critical / 0
+  High / 0 Medium / 3 Low / 4 Info. The three Lows live-verified AND
+  probed: AUDIT-1 L1 — the S58-1/S59-1 loader census clause ("@next/env
+  … the single-line shape drops to undefined") FALSIFIED by a direct
+  probe of the repo's own @next/env 16.4.2 (loadEnvConfig on a scratch
+  .env carrying a single-line-unclosed DATABASE_URL, ambient env unset,
+  both quote chars, dev:true and dev:false alike): @next/env KEEPS the
+  leading-quote value in process.env on EVERY unclosed shape
+  (`process.env.DATABASE_URL = '"file:../db/custom.db'`); it never
+  drops the line to undefined. The clause was interpolated into all
+  three databaseUrlFileResidueWarning returns (the `dropped` constant)
+  and framed by the S58-1 census comment, the S59-1 docblock premise,
+  the predicate-area echo, and the S60-1 loader parenthetical. No
+  behavioral defect (a sanctioned loader's consumption puts the residue
+  in the process env and the S58-1 arm fires; the file-face arm defers
+  by its one-owner design); the file-face arm's REAL coverage is the
+  UNLOADED-.env postures (the S51-1 launch-dir family) — in exactly
+  those firing postures the printed clause was false: nothing was
+  dropped, the file was never loaded. AUDIT-2 L-1 — the stats `4.9★`
+  (sections.tsx:297) shipped the U+2605 star as a bare text character,
+  the one surviving unannotated decorative glyph (the session-60 census
+  was emoji-scoped; the Miscellaneous Symbols block escaped it; the
+  full-range scan found exactly two rendered glyphs — this ★ and the
+  now-annotated footer ❤️). AUDIT-3 F-1 — the session-60 gate-footer
+  re-spell left the old footer's tail spliced in after the new one
+  (README:289-291 carried the retired `unit 735/735` in a live-tense
+  site, invisible to both the full-shape GATE_FOOTER_RE (matches once,
+  asserts count 1) and the S43-3 line-start count). Registers: the hero
+  gradient overlays' optional annotations, the S60-2 footer span
+  unpinned (closed this round by the S61-2 pin), the local untracked
+  .env stale provenance (healed locally), the playwright
+  2-projects/9-specs expectation note, the frozen historical records
+  carrying the falsified loader census (README's session-58 row, SKILL
+  Appendix A's session-58 row — the correction lives in this round's
+  records), the bun-audit triage (the same 9 advisories as
+  session-55..60 — all dev-toolchain via source-map-js/postcss/vitest,
+  none on the runtime request path).
+- PARITY WALK #34 — the thirty-fourth consecutive clean walk. REF leg
+  (live, logged in): login settled at /Home; the hamburger
+  md:hidden p-2 text-slate-300 base with NO aria family; the panel
+  inner px-6 py-4 space-y-3 byte-identical (16px/24px, block, maxHeight
+  none, transparent — the bg-slate-900/98 dead class computing
+  transparent); linkTexts identical; Home teal rgb(45,212,191)
+  14px/500, the siblings rgb(203,213,225) 14px/500, the pill
+  rgb(15,23,42) 14px/600 9999px; Escape via a REAL key press leaves
+  the reference's panel open; the outside-tap genuine non-nav tap
+  leaves it open; route-change at /Pricing the reference UNMOUNTS
+  (panelDivCount 0); the desktop census 6 visible identical; the brand
+  gradient byte-identical (linear-gradient(to right, rgb(45,212,191),
+  rgb(251,191,36)), 18px/700, clip text); the five-route head census
+  identical (the per-route prefix family, the 170-char / description +
+  the 92/95-char per-route family, the canonicals, the single shared
+  ogImage); sitemap exactly 4 URLs + robots Allow-all + Sitemap line;
+  the generator DEAD (no generation lands, no copy button, no quota
+  keys — the documented 402 face). CLONE leg (the dev server on :3000,
+  quota cleared): login landed at / (the documented 308 deviation); the
+  panel byte-identical on every computed face (the pill 3.35544e+07px
+  — v4's infinity calc rendering the identical capsule); the hamburger
+  base identical + the aria superset ACTIVE (aria-controls mobile-menu,
+  expanded false→true live-verified, the Open/Close-menu relabel);
+  Escape closes OUR menu with focus returned to the toggle
+  (focusOnToggle true, activeElement BUTTON — the documented superset);
+  the outside-tap leaves it open (parity); route-change at /Pricing
+  ours hides in-DOM (panelCount 1, display none, aria false — the S26-1
+  design); the desktop census 6 visible identical; the brand gradient
+  byte-identical; the five-route head census identical modulo origin;
+  sitemap 4 URLs + robots identical modulo origin; the generator LIVE
+  (a 7-hashtag post in the 5-8 family + the Copy button, quota 0→1 —
+  the viralpost_generations counter key). NO clone-side drift, no NEW
+  reference-side drift. Mobile nav verified working as expected on both
+  sides; all seven Tailwind v4 mitigations verified present and
+  test-pinned.
+- CURES (TDD — the pins first, born RED, the batteries on record): the
+  S61-1a loader-census-truth re-anchor (the S59-1 file-face pin's
+  `dropped the line` assertion → "no sanctioned loader consumed this
+  .env" present + "the env loader dropped the line" absent; the
+  respell-revert plant REDs exactly it — 1 failed, 65 passed under the
+  plant), the S61-1b loader-census truth respell in boot-env.ts (the
+  `dropped` clause → "the process environment does not carry the value
+  (no sanctioned loader consumed this .env — the S51-1 launch-dir
+  family)"; the S58-1 census comment, the S59-1 docblock premise, the
+  predicate-area echo, and the S60-1 loader parenthetical all
+  re-spelled to the probed truth — comment-truth only, no behavior
+  change, the S56-1 comment-only precedent), the S61-2 stats-star
+  annotation (the render-site split 4.9<span aria-hidden="true">★
+  </span> — the data stays verbatim (value: "4.9★", the reference's own
+  copy, the :184 data pin untouched); the two-arm decorative-glyph pin
+  (the stats ★ + the S60-2 footer ❤️): the annotation-removal plant
+  REDs both arms, the footer-only plant REDs exactly the footer arm —
+  closing the documented unpinned-state register; restored GREEN
+  40/40), the S61-3 README gate-footer residue cure + the
+  splice-residue guard (the post-footer region between the terminal
+  `e2e 70/70.` and `## License` carries no `unit N/N` fragment; the
+  residue-splice plant REDs the guard; restored GREEN). The mid-round
+  sed repair on record: the arm-2 battery's restore sed hit the STATS
+  const and the render conditional too broadly — repaired with
+  exact-match edits, the const/comment/conditional re-verified
+  byte-exact, no residue.
+- REGISTERS: the hero gradient overlays' optional aria-hidden
+  annotations (empty divs never announced by AT — the annotation
+  family's consistency nicety), the local untracked .env stale
+  provenance range (gitignored; healed locally at this ship; refreshing
+  from .env.example is the operator posture), the playwright
+  2-projects/9-specs expectation note (no doc claims "9 projects"),
+  the frozen historical records carrying the falsified loader census
+  (README's session-58 table row, SKILL Appendix A's session-58 row —
+  the correction lives in THIS round's records, never as history
+  edits), the bun-audit triage re-verified (the same 9 advisories as
+  session-55..60 — all dev-toolchain/build-time, none on the runtime
+  request path).
+- COUNTS: UNIT 738 → 740 (+2 — the S61-2a decorative-glyph pin, the
+  S61-3a splice-residue guard) / SUITES 40 / E2E 70 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 808 → 810. NO PAD §12 row changes. The designed
+  count-lag faces fired and were cured at the lockstep exactly as the
+  doctrine describes (the UNIT-constant reality census 738 vs disk 740;
+  the plans-map tail-currency on the 61st plan file — all GREEN at the
+  lockstep, the census driving the docs, its own doctrine). The ten
+  provenance sites re-anchored to 1..61 — lag 0 at ship. SKILL
+  v1.56.0 → v1.57.0.
+- VERIFIED: the full gate on the exact commit tree (below); the parity
+  walk #34; the captures 129/130 on the dev server (PIL-verified);
+  docs lockstep (README's badge 810 + the session-61 row + the gate
+  footer re-spell to the session-61 ship + the testing-table 740 sites;
+  AGENTS's plans-map sixty-first round + the 740; CLAUDE's 740; PAD's
+  §8.1 table + carry line at 740/70/16; SKILL v1.57.0
+  frontmatter/project_state/§0.5 1..61/Appendix A's session-61
+  row/Appendix B's header + gate line + the pre-ship checklist 740;
+  the docs-counts constants UNIT 740 + the s61 ladder entry; the ten
+  provenance sites at 1..61; worklog Task 61; docs/session_61.md (the
+  formal log replacing the owner's narration); the session-61 plan's
+  post-execution record).
+
+**Gate at the session-61 ship: lint 0/0 · tsc 0 · unit 740/740 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

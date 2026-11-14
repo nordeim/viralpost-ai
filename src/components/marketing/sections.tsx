@@ -305,7 +305,21 @@ export function StatsSection() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {STATS.map((s) => (
             <Reveal key={s.label} className="text-center">
-              <div className="text-4xl sm:text-5xl font-black text-white mb-1">{s.value}</div>
+              <div className="text-4xl sm:text-5xl font-black text-white mb-1">
+                {/* Session-61 (S61-2): the rating star is decorative — the
+                    "Average Rating" label carries the meaning, so the glyph
+                    rides an aria-hidden span (screen readers stop announcing
+                    "black star" mid-value). The data stays verbatim
+                    (value: "4.9★" — the reference's own copy); the span is
+                    style-less and inline, zero visual change. */}
+                {s.value === "4.9★" ? (
+                  <>
+                    4.9<span aria-hidden="true">★</span>
+                  </>
+                ) : (
+                  s.value
+                )}
+              </div>
               <div className="text-white font-semibold mb-1">{s.label}</div>
               <div className="text-teal-100/70 text-xs">{s.sub}</div>
             </Reveal>

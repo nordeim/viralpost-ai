@@ -360,6 +360,15 @@ import {
 // fix-sentence plant REDs the three pins' fix arms, the
 // mechanism-revert plant REDs exactly pin 3)) and the e2e 70
 // unchanged. SMOKE 16 unchanged.
+// s61: 740/40 (+2 — the S61-2a decorative-glyph annotation pin (the
+// stats ★ + the S60-2 footer ❤️, two arms; the annotation-removal
+// plant REDs both, the footer-only plant REDs exactly the footer
+// arm) and the S61-3a splice-residue guard (the README post-footer
+// region; the residue-splice plant REDs it). The S61-1a re-anchor
+// (the S59-1 file-face pin's `dropped the line` assertion → the
+// posture-truth wording) is a re-anchor, not a count change — the
+// respell-revert plant REDs exactly it) and the e2e 70 unchanged.
+// SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -367,7 +376,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 738;
+const UNIT = 740;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -555,6 +564,33 @@ const GATE_FOOTER_RE = new RegExp(
     }
     const footers = readme.match(/^Gate at the session-/gm) ?? [];
     expect(footers.length, "exactly one gate footer line (the closing footer)").toBe(1);
+  });
+
+  // Session-61 (S61-3): the splice-residue genus. The session-60
+  // gate-footer re-spell left the OLD footer's tail spliced in after
+  // the new one ("… e2e 70/70. lint 0/0 · tsc 0 · unit 735/735 ·
+  // build · smoke 16/16 · e2e 70/70.") — carrying the retired 735
+  // count in a live-tense site, yet invisible to BOTH existing arms:
+  // GATE_FOOTER_RE matches the full shape exactly once (asserts count
+  // 1) and the S43-3 line-start count needs the `Gate at the
+  // session-` prefix. The residue carries neither. This guard owns
+  // the region AFTER the matched footer's terminal `e2e 70/70.`
+  // UNTIL `## License`: no `unit N/N` fragment may appear there.
+  // Plant: re-splice the session-59 tail (the battery on record).
+  it("session-61 (S61-3): the README gate-footer region carries no residual count fragments (the splice-residue genus)", () => {
+    const readme = read("README.md");
+    GATE_FOOTER_RE.lastIndex = 0; // a fresh consumption of the shared /g source
+    const footers = [...readme.matchAll(GATE_FOOTER_RE)];
+    expect(footers.length, "the full-shape gate footer exists").toBeGreaterThan(0);
+    const last = footers[footers.length - 1]!;
+    const terminal = (last.index ?? 0) + last[0].length;
+    const licenseAt = readme.indexOf("## License");
+    expect(licenseAt, "the License section follows the footer").toBeGreaterThan(terminal);
+    const region = readme.slice(terminal, licenseAt);
+    expect(
+      /unit \d+\/\d+/.test(region),
+      `the post-footer region must carry no residual count fragment — region reads "${region.replace(/\s+/g, " ").slice(0, 80)}"`,
+    ).toBe(false);
   });
 
   // Session-43 (S43-4a): DEPLOYMENT.md's API-route count is a

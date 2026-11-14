@@ -1,81 +1,319 @@
-I'll continue this multi-phase task systematically. Let me set up the task tracking and begin with Phase 1 (workspace refresh).
-Both repos cloned. The viralpost-ai repo already has `db/`, `prisma/`, vitest/playwright configs — prior session work appears committed. Let me check git state and history.
-HEAD is at session_60 (this session will be session_61). Now Phase 2 — reviewing core docs. Let me read them.
-README is large. Let me check doc sizes and read the most critical ones for current status — session docs and worklog first.
-`session_60.md` is the owner's narration of the session-59 round — so the current round is **session 60**. Let me read the session-59 plan and worklog tail.
-Now the worklog tail (Task 59 entry) and the SSH push runbook.
-Now the SSH wrapper runbook and key repo state checks.
-Runbook internalized. Now let me verify the tooling environment, check `.env` state, and validate the skills catalog structure.
-State matches the session-59 record: fresh clone, `.env` absent, `db/` with `.gitkeep` only, neo-crm unchanged (`b3d0fbe` — 13th consecutive no-change check). Let me look at the skills catalog structure, then set up the environment.
-Let me read the mandated web-application skill and check key config files.
-Skills understood (same as session-59's audit doctrine). Now setting up the environment: install, `.env`, db push/seed.
-`.env` set with the standing contract, db seeded, census MATCH. Now the baseline gate — lint, typecheck, unit first.
-Unit 735/735 (40 files) — matches the ship record. Now the build, then smoke ladder.
-**Baseline gate fully GREEN** — lint 0/0 · tsc 0 · unit 735/735 (40 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH. Zero drift from the session-59 ship record. Let me update progress and check the agent-browser tooling for the parity walk.
-agent-browser is available. Now dispatching the three-way parallel audit (session precedent: AUDIT-1 API/lib seams, AUDIT-2 components/pages/effects, AUDIT-3 SEO/configs/tests/docs) — while they run, I'll do the live parity walk.
-Three-way audit complete: **AUDIT-1 0C/0H/0M/1L/4I · AUDIT-2 0C/0H/0M/1L/4I · AUDIT-3 0C/0H/0M/2L/6I** — combined **0 Critical / 0 High / 0 Medium / 4 Low / 14 Informational**. Now the lead's hand-verification of the four Low findings before adjudication.
-AUDIT-1 L1 verified in source — the predicate fires on control-char OR quote, but both messages attribute to "unclosed quote" and prescribe a quote-fix. Now verifying AUDIT-2 L-1 (footer emoji) and AUDIT-3 F-1/F-2 (stale 518).
-All four Lows verified in source. Adjudication: **S60-1** (attribution split — AUDIT-1 L1), **S60-2** (footer emoji aria-hidden — AUDIT-2 L-1), **S60-3** (comment-truth batch: stale-518 pair + env-file escape-face census line), rest registers. Before finalizing, the parity walk — let me start the dev server and set up agent-browser.
-agent-browser workflow understood. Now the parity walk #33 — REF leg first: login to the reference at mobile viewport.
-Login settled at `/Home` — matches documented posture. Now the mobile-menu census. Let me snapshot to find the hamburger.
-REF base census matches (no aria family, `md:hidden p-2 text-slate-300`, cursor pointer/block/8px/transparent). Now open the panel and census it.
-The reference panel won't carry our clone's `mobile-menu` id. Let me find it structurally.
-REF panel is open with inner `px-6 py-4 space-y-3` and the exact linkTexts. Now the full computed census.
-REF panel census byte-identical. Now the three behavior faces — Escape (real key press) first.
-Escape leaves REF panel open (documented). Now the outside-tap face — genuine non-nav H1 tap.
-Outside-tap leaves REF panel open (documented parity). Now the route-change face — navigate to /Pricing.
-REF route-change: panel unmounted (panelDivCount 0), title "Pricing | ViralPost AI". Now the desktop census at 1280×800.
-Desktop census matches (6 visible links, brand gradient byte-identical). Now the five-route head census.
-Head census matches the documented family. Now sitemap/robots and the generator probe on the REF.
-REF leg complete — generator dead (documented 402 face), all faces at documented postures. Now the CLONE leg. Let me check the seed credentials first.
-Same credentials as the reference (the seed's demo user). Now the CLONE leg — login at mobile viewport.
-Login landed at `/` (the documented 308 deviation). Now the CLONE mobile-menu census — base + aria superset first.
-CLONE census matches every face (aria superset live-verified, pill 3.35544e+07px v4 equivalence). Now the three behavior faces.
-All three CLONE behavior faces hold. Now the CLONE desktop census + head census.
-Generator LIVE on the clone (quota 0→1, Copy button, 7 hashtags). **Parity walk #33 complete — clean.** Now the captures. Let me check the existing numbering.
-Captures verified. Now the decisive probe for the S60-1 cure design — what the current arm says for a quote-free control-char value. Let me check the boot-env exports first.
-Probe confirms AUDIT-1 L1 live: a tab-bearing, quote-free value gets the "unclosed quote" headline and a quote-fix that won't cure it — and notably, the `file:` branch is ONLY reachable by control-char values (a leading-quote value can't start with `file:`), so its "unclosed quote" headline is always false. Let me read the existing pin family to design the cure.
-Let me read the file-face arm's message — the same attribution issue may exist there.
-The file-face arm has the same misattribution — and its mechanism claim ("never file:-prefixed") may be false for tab-bearing unquoted values. Let me probe `parseEnvFile` on the decisive shapes.
-Decisive finding — the tab-unquoted shape produces a **file:-prefixed control-char value** in the file face, falsifying the arm's "never file:-prefixed" mechanism claim. Let me probe the seam's resolution of that shape for evidence-backed mechanism prose.
-The seam re-anchors the tab-bearing value into the junk-named file (`db/custom.db\tjunk`) — mechanism now live-verified. Let me check footer pins and run the periodic bun audit triage.
-No pins on the footer text; bun audit matches the register (same 9, all dev-toolchain). One more probe — the escape face for the env-file.ts header census line (AUDIT-1 I4).
-All probes complete. Now let me validate the §12/env-file question and docs-counts constants before writing the plan.
-No §12 row changes this round (none of the touched files are §12 files). Now writing the session-60 remediation plan.
-Plan written. Now validating it against the codebase — batch verification of every lockstep site it names.
-All lockstep sites validate. Now executing S60-1a — the pins first, born RED. Let me check the `env()` helper.
-Now writing the three S60-1a pins (born RED against the current misattributed messages).
-Pins in place. Now confirming the designed RED face.
-RED confirmed — 3 new pins fail, 63 existing stay green. Now the GREEN step: implementing the message split in both arms.
-Exact-match failure — let me re-read the precise text.
-Both arms implemented. Checking GREEN.
-GREEN — 66/66. Now the planted-defect batteries. Plant A — the S60-1 split reverted (branch-condition plant).
-Plant A REDs all three pins as designed. Restoring and running Plant B — the fix-sentence plant.
-Plant B REDs the fix arms. Restoring and running Plant C — the mechanism-revert plant.
-Plant C REDs exactly pin 3. All batteries on record. Restoring and confirming GREEN.
-S60-2 done. Now S60-3 — the comment-truth batch (stale-518 pair + env-file header line).
-Adding the escape-face census line to the env-file.ts header (S60-3c).
-All cures in place. Now the full verification pass — lint, typecheck, full unit suite (expecting the designed count-lag REDs).
-Both designed count-lag faces fired exactly as the doctrine describes. Now the docs lockstep. First the docs-counts constants + ladder.
-Now README — badge, testing table, the session-60 row, gate footer.
-Now the SKILL updates — version, project_state, §0.5, Appendix A/B, and the ten provenance sites.
-Now the ten provenance sites — `session_1..59` → `session_1..60`.
-rg is scanning too broadly. Let me search the targeted paths directly.
-All ten provenance sites re-anchored. Running the full unit suite to confirm the lockstep.
-738/738 GREEN — lockstep complete. Now worklog Task 60 + the formal session_60.md log.
-Worklog Task 60 done. Now the full gate on the final tree — build, smoke, e2e.
-**Full gate GREEN on the final tree.** Now the formal session_60.md log (replacing the owner's narration).
-Now the plan's post-execution record.
-The change set is exactly the designed set — no strays. Final verification pass on the exact tree, then commit.
-Committed. Now the push via the SSH wrapper — checking for ssh binary and paramiko first.
-Dry-run clean (auth OK, fast-forward a037906..0414d8e). Real push now.
-Push verified (remote refs/heads/main @ 0414d8e == local HEAD, main only, tree clean). Fixing the key shred (wrong file mode).
-**Session 60 — delivered.** Commit `0414d8e` pushed to `git@github.com:nordeim/viralpost-ai.git` **main** via the SSH wrapper (remote ref verified: `refs/heads/main @ 0414d8e == local HEAD`, tracking synced, operator key shredded, no new branch, tree clean).
+# Session 61 — The Boot-Gate Loader-Census Truth Respell + The Stats-Star Annotation + The README Gate-Footer Residue and Register Batch (2026-11-15)
 
-**The round:**
-- **Baseline gate GREEN at the session-59 ship counts** (735/70/16, census MATCH) — zero drift; all standing asks re-verified (`.env` `DATABASE_URL="file:../db/custom.db"` with `db/` at root; `.env.example` code-verified; vitest + playwright current; sitemap/robots/manifest/OG verified live; `skills/` excluded). neo-crm unchanged (`b3d0fbe` — 13th consecutive check).
-- **Three-way audit: 0 Critical / 0 High / 0 Medium / 4 Low / 14 Info** — all four Lows live-verified AND probed. The headline (AUDIT-1 L1 + its deeper tail): the boot-gate messages attributed every control-char hit to an "unclosed quote" with a quote-fix that cures nothing for a stray tab; probes proved the `file:` branch is reachable only by control-char values, a tab-bearing `file:` value re-anchors into the junk-named file (S57-1 genus), and the file-face arm's "never file:-prefixed" mechanism claim was falsified by the parseEnvFile census.
-- **Parity walk #33** (33rd consecutive clean walk): mobile nav byte-identical both sides (aria superset live-verified, Escape/outside-tap/route-change all at documented postures, Tailwind v4 pill-equivalence), head census + sitemap/robots identical, generator dead (REF, 402 face) / live (clone, 7 hashtags, quota 0→1).
-- **Cures (TDD — 3 pins born RED + 3 planted-defect batteries)**: the control-char attribution split in both boot-gate arms (tab face gets its own truth; newline keeps the unclosed-quote story; file-face mechanism split per branch), the footer-emoji `aria-hidden` span, and the comment-truth batch (stale-518 pair + the env-file escape-face census line).
+The round opened on the shipped tree (`c014436` = session-60's `0414d8e` +
+the owner's narration commit carrying `docs/session_61.md` as the round-61
+working narration; this formal log replaces its content at ship). The core
+docs re-read and re-verified at the session-60 ship counts (AGENTS, CLAUDE,
+README, PAD, SKILL v1.56.0 — every lockstep site confirmed on disk), then
+the session-60 set (the formal session_60.md log, the session-60 plan's
+post-execution record, worklog Task 60, the owner's narration), and the S60
+cures verified in source (the three S60-1a pins; the S60-1b message split;
+the S60-2 footer aria-hidden span; the S60-3 comment-truth batch — worklog
+"db-path 458", session_59.md "512 → 518 → 458", the env-file.ts
+escape-face census header). This round is session 61, the standing
+instruction on the shipped tree.
 
-**Verified:** full gate on the final tree — lint 0/0 · tsc 0 · unit **738/738** (40 files) · build · smoke 16/16 · e2e 70/70 · census MATCH; docs lockstep complete (badge 808, provenance 1..60, SKILL v1.56.0, formal session_60.md, worklog Task 60); captures 127/128 PIL-verified. **Reasoned/Assumed:** none this round. Next: the standing cadence — session 61 re-pulls, re-audits, and walks again.
+Baseline gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit
+738/738, 40 files · build · smoke 16/16 · e2e 70/70, 9 specs · census
+MATCH) — exactly the session-60 ship record, no drift; the standing
+asks re-verified up front (the `.env`
+`DATABASE_URL="file:../db/custom.db"` contract intact with `db/` at
+the repo root, census MATCH; `.env.example` committed and
+code-verified at every comment claim; the vitest + playwright suites
+in place and current; the sitemap/robots/manifest/OG family verified
+live against the reference in this round's walk; `skills/` excluded
+from every gate — the tsconfig/eslint/vitest configs + the smoke
+leg-16 hygiene mirror). The neo-crm reference repo re-checked per the
+standing instruction: unchanged (HEAD `b3d0fbe` — the fourteenth
+consecutive no-change check). The web-application skill + the skills
+catalog internalized; the tdd and agent-browser doctrine (computed
+styles as ground truth, never eyeballs) applied throughout — the walk
+probes as JS files consumed via `agent-browser eval --stdin`, the
+session-56/57 lesson.
+
+## The audit (three parallel subagents + the lead's hand-verification)
+
+AUDIT-1 (API/lib seams): 0C/0H/0M/1L/0I · AUDIT-2
+(components/pages/effects): 0C/0H/0M/1L/2I · AUDIT-3
+(SEO/configs/tests/docs): 0C/0H/0M/1L/2I — combined **0 Critical / 0
+High / 0 Medium / 3 Low / 4 Informational**. AUDIT-1 re-verified the
+full standing-contract set on its lane (the envelope discipline on all
+13 handlers, the db seam monopoly, the status discipline with
+Retry-After on every 429, the transient classifier, the limiter, the
+auth family, the ten-contract ledger 10/10, the six-knob contract, the
+instrumentation trace — plus the S60-1b split probed live on every
+(branch × face) combination: correct end to end). AUDIT-2 re-verified
+all seven Tailwind v4 mitigations, the complete mobile-menu mechanic
+set, the React 19 pattern law across every effect in scope, and the
+WCAG floor (352 lane unit tests + 40 e2e executions: axe 17/17 at both
+viewports, mobile-nav 9/9). AUDIT-3 re-derived every count from disk
+(738/40/70/9/16/808, 61 session docs, 60 plan files, the ten
+provenance sites at 1..60, PAD §12 21/21 rows — all MATCH) and
+confirmed the docs-counts lockstep; the prior round's stale-518 pair
+verified cured.
+
+**The lead's hand-verification before adjudication (the
+reproduce-before-trusting doctrine):**
+
+- **AUDIT-1 L1, verified by a DIRECT probe of the repo's own @next/env
+  16.4.2** — the S58-1/S59-1 loader census clause ("@next/env … the
+  single-line shape drops to undefined") is FALSIFIED: a scratch `.env`
+  carrying `DATABASE_URL="file:../db/custom.db` (single-line-unclosed,
+  ambient env unset) loads under `loadEnvConfig` to
+  `process.env.DATABASE_URL = '"file:../db/custom.db'` — @next/env
+  KEEPS the leading-quote value in the process env on every probed
+  shape (both quote chars, with/without trailing newline, alone or
+  followed by closed-quoted or plain lines, dev:true and dev:false). It
+  never drops the line to undefined. The clause is interpolated into
+  ALL THREE `databaseUrlFileResidueWarning` returns through the
+  `dropped` constant and framed by the S58-1 census comment, the
+  S59-1 docblock premise ("the @next/env loader DROPS a
+  single-line-unclosed DATABASE_URL line to undefined … in that shape
+  bootEnvCheck sees NOTHING"), the predicate-area echo, and the S60-1
+  loader parenthetical. No behavioral defect: when a sanctioned loader
+  consumed the `.env`, the process env carries the residue and the
+  S58-1 process-env arm fires with the correct message; the file-face
+  arm defers by its one-owner design (the envUrl guard). The file-face
+  arm fires only when NO sanctioned loader consumed that `.env` (the
+  S51-1 launch-dir/unloaded-file family) — and in exactly those firing
+  postures the printed clause ("the env loader dropped the line from
+  the process environment") is false: nothing was dropped; the file was
+  never loaded into the process env. The file-face arm's REAL coverage
+  is the unloaded-`.env` postures — the truth the cure re-spells to.
+- **AUDIT-2 L-1, verified in source** — `sections.tsx:297` ships
+  `{ value: "4.9★", … }` with the U+2605 star as a bare text character:
+  a full-range decorative-glyph scan of `src/` finds exactly two
+  rendered decorative glyphs — the now-annotated footer ❤️ (S60-2) and
+  this ★ (Miscellaneous Symbols block; present since the stats section
+  shipped; it escaped the session-60 emoji-scoped census, so that
+  round's "the only unannotated decorative glyph in the tree" claim was
+  over-broad as written). The repo's own conventions annotate both
+  siblings of this genus (the footer heart, and the testimonials'
+  stars at sections.tsx:361 `role="img" aria-label="5 out of 5
+  stars"`). The adjacent "Average Rating" label carries the meaning,
+  so the glyph is decorative in the WCAG sense. No pin owned the
+  annotation; the data pin at tests/landing-page.test.ts:184 pins the
+  SOURCE const (`value: "4.9★"` — the reference's own copy, preserved
+  verbatim).
+- **AUDIT-3 F-1, verified with cat -A + git show** — README.md:289-291:
+  the session-60 gate-footer re-spell left the old footer's tail
+  spliced in after the new one — "Gate at the session-60 ship: lint 0/0
+  · tsc 0 · unit 738/738 · build · smoke 16/16 · e2e 70/70. lint 0/0 ·
+  tsc 0 · unit 735/735 · build · smoke 16/16 · e2e 70/70." Everything
+  after the first `e2e 70/70.` is session-59 residue carrying the
+  retired `unit 735/735` count. The mechanical census missed it
+  (GATE_FOOTER_RE matches the full-shape footer exactly once and
+  asserts count 1; the residue carries no `Gate at the session-` prefix
+  and no full-shape match — invisible to both arms).
+- **AUDIT-2 I-1/I-2, AUDIT-3 F-2/F-3 adjudicated as registers**
+  (below) — the hero gradient overlays' optional aria-hidden
+  annotations (empty divs are never announced by AT); the S60-2 footer
+  span unpinned (the documented accepted state — this round's S61-2
+  pin closes it); the local untracked `.env`'s stale provenance range
+  (gitignored, by-design out of the repo contract — healed locally at
+  this ship, operator-heals-by-copy the posture); the playwright "9
+  projects" expectation note (2 projects / 9 spec files — no doc
+  claims "9 projects"; docs and disk agree at "9 specs"). The
+  historical session-58/59/60 records that carry the falsified loader
+  census (README's session-58 table row, SKILL Appendix A's session-58
+  row, the session docs) are the frozen record layer — the correction
+  lives in THIS round's records, never as history edits. The bun-audit
+  triage (the AGENTS.md periodic duty): the SAME 9 advisories as the
+  session-55..60 records (3 high / 5 moderate / 1 low) — ALL
+  dev-toolchain/build-time (source-map-js via postcss/vitest), NONE
+  on the runtime request path. No action.
+
+## The parity walk (walk #34 — the thirty-fourth consecutive clean walk)
+
+REF leg (live, logged in with the demo credentials): login settled at
+`/Home`. The hamburger `md:hidden p-2 text-slate-300` base (cursor
+pointer, block, 8px padding, rgb(203,213,225), transparent bg — NO aria
+family, all three attributes null). The panel inner `px-6 py-4
+space-y-3` byte-identical (16px/24px padding, block, maxHeight none,
+transparent background — the reference's own `bg-slate-900/98` dead
+class computing transparent, the documented face); linkTexts identical
+(Home, Tool, Pricing, Contact, Upgrade to Pro – $19); Home teal
+rgb(45,212,191) 14px/500 block; the siblings rgb(203,213,225) 14px/500
+block; the pill rgb(15,23,42) 14px/600 block (9999px radius — the
+v3-era spelling). Escape via a REAL key press leaves the reference's
+panel open. The outside-tap face (a genuine non-nav paragraph tap below
+the open panel) leaves it open. Route-change at /Pricing — the
+reference UNMOUNTS the panel (panelDivCount 0), title "Pricing |
+ViralPost AI". Desktop census: 6 VISIBLE links IDENTICAL (ViralPost AI,
+Home, Tool, Pricing, Contact, Upgrade to Pro); the brand wordmark
+gradient byte-identical (linear-gradient(to right, rgb(45,212,191),
+rgb(251,191,36)), 18px/700, background-clip text). The five-route head
+census identical (the per-route prefix family `<Page> | ViralPost AI`,
+the bare `/` and `/login` titles, the 170-char plain description on
+`/` + the per-route `<Page> on ViralPost AI.` family at 92/95 chars,
+the canonicals, the single shared ogImage, summary_large_image).
+Sitemap exactly 4 URLs (weekly, 1.0/0.8/0.8/0.8) + robots Allow-all +
+Sitemap line. The generator probe: the reference's generator DEAD (no
+generation lands, no copy button, no quota keys, the generate button
+re-enabled with nothing rendered — the documented 402 face).
+
+CLONE leg (the dev server on :3000, quota cleared per the walk
+protocol): the login landed at `/` (the documented 308 deviation). The
+panel byte-identical on every computed face (inner `px-6 py-4 space-y-3`
+16px/24px, block, maxHeight none, transparent bg; linkTexts + every
+link style identical; the pill 3.35544e+07px radius — v4's infinity
+calc rendering the identical capsule the reference's 9999px renders,
+the documented v3/v4 computed-value equivalence). The hamburger base
+identical (`md:hidden p-2 text-slate-300` + our focus-ring superset)
+with the aria superset ACTIVE and live-verified (aria-controls
+mobile-menu; expanded false→true on the open panel; the Open/Close-menu
+relabel). Escape closes OUR menu with focus returned to the toggle
+(panel display none, hidden attr present, aria false, focusOnToggle
+true, activeElement BUTTON — the documented superset). The outside-tap
+face (a genuine non-nav H2 tap below the open panel) leaves it open
+(parity). Route-change close at /Pricing: ours hides in-DOM (panelCount
+1, display none, aria false — the S26-1 design; the documented
+R-unmount/L-hide divergence), title "Pricing | ViralPost AI" in the
+head census. Desktop census: 6 VISIBLE links IDENTICAL; the brand
+gradient byte-identical (18px/700, clip text). The five-route head
+census identical modulo origin (the per-route prefix family, the
+170-char `/` description, the 92/95-char per-route family, the
+canonicals, the single shared og-image.png, summary_large_image).
+Sitemap 4 URLs + robots identical modulo origin. The generator LIVE: a
+7-hashtag post (in the 5-8 family) + the Copy button, quota 0→1 (the
+`viralpost_generations` counter key `{"date":"…","count":1}` — the D-1
+documented superset). **ALL CLONE FACES MATCH — no clone-side drift,
+no NEW reference-side drift. Mobile nav verified working as expected
+on both sides; all seven Tailwind v4 mitigations verified present and
+test-pinned this round (the audit's own lane).** Captures 129/130 on
+the dev server PIL-verified (99.9%/100.0% non-white, teal present at
+2.49%/4.67%).
+
+## The cures (TDD — the pins first, born RED, each with its planted-defect battery)
+
+- **S61-1a — the loader-census-truth re-anchor**
+  (tests/boot-env.test.ts): the S59-1 file-face pin's `dropped the
+  line` assertion re-anchors to the posture-truth wording — the warning
+  on the leading-quote file face CONTAINS "no sanctioned loader
+  consumed this .env" and does NOT contain "the env loader dropped the
+  line"; the pin's census comment re-spelled to the probed truth.
+  Born RED against the pre-respell messages (the respell-revert
+  battery: restoring the `dropped` clause verbatim REDs exactly this
+  pin — 1 failed, 65 passed under the plant; restored GREEN).
+- **S61-1b — the loader-census truth respell** (src/lib/boot-env.ts):
+  the `dropped` clause re-spelled to the posture-true cause ("the
+  process environment does not carry the value (no sanctioned loader
+  consumed this .env — the S51-1 launch-dir family), so the
+  process-env arm cannot see it"); the S58-1 census comment's tail
+  re-spelled (both sanctioned loaders carry the single-line-unclosed
+  residue into the process env; the file-face arm's real coverage is
+  the unloaded-`.env` postures); the S59-1 docblock premise
+  re-spelled the same way; the predicate-area echo re-anchored ("kept
+  by BOTH sanctioned loaders — the session-61 S61-1 probe census");
+  the S60-1 loader parenthetical re-spelled to the loader-neutral
+  truth. No behavior change — message-truth and comment-truth only,
+  the S56-1 comment-only precedent.
+- **S61-2a — the decorative-glyph annotation pin**
+  (tests/landing-page.test.ts): one new pin, two arms — sections.tsx
+  source CONTAINS `aria-hidden="true">★` (the stats star annotated)
+  AND footer.tsx source CONTAINS `aria-hidden="true">❤️` (the S60-2
+  footer heart annotated — closing the documented unpinned-state
+  register). The batteries: the annotation-removal plant (drop both
+  spans) REDs the pin at the sections arm; the footer-only plant REDs
+  it at the footer expect (independent teeth per arm, both on record);
+  restored GREEN.
+- **S61-2b — the stats-star annotation**
+  (src/components/marketing/sections.tsx): the render site splits the
+  one star-bearing stat — the data stays verbatim (`value: "4.9★"` —
+  the reference's own copy, the :184 data pin untouched) and the render
+  emits `4.9<span aria-hidden="true">★</span>` for the star-bearing
+  entry (zero visual change — the text content preserved byte-for-byte
+  in the DOM, the span style-less and inline; the "Average Rating"
+  label carries the meaning, so the glyph is decorative in the WCAG
+  sense; screen readers stop announcing "black star" mid-value). The
+  session-61 comment marks it.
+- **S61-3a — the splice-residue guard** (tests/docs-counts.test.ts):
+  one new pin owning the README region AFTER the matched gate footer's
+  terminal `e2e 70/70.` UNTIL `## License` — no `unit \d+/\d+`
+  fragment may appear there (the residue class the full-shape
+  GATE_FOOTER_RE and the S43-3 line-start count cannot see). The
+  battery: the residue-splice plant (re-splice the session-59 tail)
+  REDs the guard; restored GREEN.
+- **S61-3b — the README gate-footer residue cure** (README.md:289-291):
+  the residual fragment deleted — the footer reads exactly "Gate at the
+  session-60 ship: lint 0/0 · tsc 0 · unit 738/738 · build · smoke
+  16/16 · e2e 70/70." at the cure, then the session-61 lockstep
+  re-spells it to the session-61 ship (740/740) at this round's own
+  gate line.
+- **S61-4..S61-7 — the registers** (carried in this log): the hero
+  gradient overlays' optional annotations (empty divs never announced
+  by AT); the local untracked `.env` stale provenance (healed locally
+  at this ship; operator-heals-by-copy the posture); the playwright
+  2-projects/9-specs expectation note; the frozen historical records
+  carrying the falsified loader census (README's session-58 row, SKILL
+  Appendix A's session-58 row — the correction lives in THIS round's
+  records, never as history edits). The bun-audit triage: the SAME 9
+  advisories as the session-55..60 records — ALL dev-toolchain, NONE
+  on the runtime request path. No action.
+
+## The count re-anchor and the docs lockstep
+
+UNIT 738 → 740 (+2 — the S61-2a decorative-glyph pin, the S61-3a
+splice-residue guard), SUITES 40 held, E2E 70 held, E2E_SPECS 9 held,
+SMOKE 16 held, BADGE 808 → 810. NO PAD §12 row changes (boot-env.ts,
+sections.tsx, footer.tsx, landing-page.test.ts, docs-counts.test.ts
+are all non-§12 files — re-verified this round). The designed
+count-lag faces fired and were cured at the lockstep exactly as the
+doctrine describes (the UNIT-constant reality census 738 vs disk 740;
+the plans-map tail-currency on the 61st plan file — both GREEN at the
+lockstep, the census driving the docs, its own doctrine). The ten
+provenance sites re-anchored to 1..61 — lag 0 at ship. SKILL v1.56.0
+→ v1.57.0. README: the badge 810, the session-61 row on the continuous
+table, the gate footer re-spelled to the session-61 ship, the
+testing-table 740 sites. AGENTS: the plans map's sixty-first round, the
+740 in the testing conventions. CLAUDE: the 740 line. PAD: §8.1's
+table + the carry line at 740/70/16. The formal session log (this
+file), the plan's post-execution record, and worklog Task 61 (this
+round's own set).
+
+## The post-execution record (session-61 ship)
+
+Executed as planned, with the deviations the record owes the truth:
+
+- **The three pins landed first (TDD)** — all three born RED together
+  (the S61-1a re-anchor, the S61-2 two-arm pin, the S61-3 guard) plus
+  the two designed count-lag faces (the UNIT reality census, the
+  plans-map tail-currency): 5 failed at the designed RED, 152 green.
+  The GREEN phase: all three cures applied; the count-lag faces held
+  until the lockstep per the doctrine. All batteries on record:
+  the respell-revert plant (1 failed, 65 passed — exactly the S61-1a
+  pin), the annotation-removal plant (both arms, then the footer-only
+  plant proving arm 2's independent teeth at the footer expect), the
+  residue-splice plant (the guard RED, the two count-lag faces riding)
+  — all restored GREEN.
+- **The probe before the prose**: the cure's mechanism and coverage
+  sentences name the S51-1 launch-dir family because the round's probe
+  observed @next/env keeping the leading-quote value (the direct
+  loadEnvConfig probe, 8+ shape variants) — the respell is
+  evidence-backed, not reasoned. The file-face arm's deferral posture
+  (the envUrl guard) was re-verified in source as the one-owner design.
+- **The mid-execution sed repair**: the arm-2 battery's restore sed
+  hit the STATS const and the render conditional too broadly (three
+  lines corrupted); repaired with exact-match edits in the same
+  round — the battery then proved arm 2 cleanly (the footer-only
+  plant REDs at the footer expect, 39 passed alongside). No residue:
+  the const, the comment, and the conditional re-verified byte-exact
+  after the repair; the landing-page suite 40/40 GREEN.
+- **No unintended RED fired at the lockstep** (the session-59
+  design-tokens lesson): the new prose introduced no class-shaped
+  compounds. The two designed count-lag faces fired and were cured at
+  the lockstep exactly as the doctrine describes.
+- **The stats-star annotation is DOM-structural but parity-neutral**:
+  the walk's computed-style faces are unaffected (the text content is
+  preserved byte-for-byte in the DOM; the span is style-less and
+  inline); the reference's own copy is unchanged. The a11y posture is
+  the S60-2 doctrine's sibling (screen readers stop announcing
+  "black star" mid-value).
+- Counts at ship: UNIT 740 / SUITES 40 / E2E 70 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 810 — the ten provenance sites at 1..61 (lag 0);
+  SKILL v1.57.0; captures 129/130 on the dev server PIL-verified; the
+  full gate re-run green on the final tree; push to main via the SSH
+  wrapper runbook.
+
+**Gate at the session-61 ship: lint 0/0 · tsc 0 · unit 740/740 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

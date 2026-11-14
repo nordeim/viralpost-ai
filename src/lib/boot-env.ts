@@ -198,10 +198,18 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
   // NEWLINE — `file:../db/custom.db\nOTHER="quoted value`) and keeps
   // the leading quote on the single-line-unclosed shape; @next/env
   // (next dev via node / the standalone server.js) NEVER spans — the S3
-  // shape keeps the LEADING QUOTE (`"file:../db/custom.db`), the
-  // single-line shape drops to undefined (that last face belongs to
-  // the S59-1 file-face arm below — the process-env record this seam
-  // reads cannot carry it).
+  // shape keeps the LEADING QUOTE (`"file:../db/custom.db`).
+  // (Session-61, S61-1 — the loader-census truth respell: this
+  // comment's prior tail — "the single-line shape drops to undefined"
+  // — was FALSIFIED by a direct probe of the repo's own @next/env
+  // 16.4.2 (loadEnvConfig on a scratch .env, ambient env unset, both
+  // quote chars, dev:true and dev:false alike): @next/env KEEPS the
+  // leading-quote value in process.env on EVERY unclosed shape. Both
+  // sanctioned loaders carry the single-line-unclosed residue into the
+  // process env; the S59-1 file-face arm's real coverage is the
+  // UNLOADED-.env postures — the S51-1 launch-dir/unloaded-file family
+  // where NO sanctioned loader ever consumed that .env, so the
+  // process-env record this seam reads cannot carry it.)
   // The MECHANISM splits on whether the residue still carries the
   // file: prefix (session-59, S59-1 — the live-probed truth; the old
   // single message described only the span face and misdirected the
@@ -231,8 +239,9 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
     (/\p{Cc}/u.test(dbUrl) || dbUrl.startsWith('"') || dbUrl.startsWith("'"))
   ) {
     // Session-60 (S60-1): the attribution splits by trigger face. The
-    // predicate fires on THREE faces — the leading quote (the S58-1/
-    // S59-1 loader census), the embedded newline (the S57-1 span genus:
+    // predicate fires on THREE faces — the leading quote (kept by BOTH
+    // sanctioned loaders — the session-61 S61-1 probe census), the
+    // embedded newline (the S57-1 span genus:
     // an unclosed quote in .env spanning lines IS the usual cause of a
     // newline in the value, so that face KEEPS the unclosed-quote story
     // and the close-the-quote fix), and every OTHER control character
@@ -454,20 +463,28 @@ export function applyBootEnvReport(
   if (report.fatal !== null) throw new Error(report.fatal);
 }
 
-// Session-59 (S59-1, AUDIT-1 L1): the .env-FILE-face residue warning —
-// the pure seam in the bootEnvCheck family. WHY: the S58-1 arm reads
-// only the PROCESS-ENV face, but the @next/env loader DROPS a
-// single-line-unclosed DATABASE_URL line to undefined (the session-58
-// loader census) — in that shape bootEnvCheck sees NOTHING while the
-// db-path seam's own .env parse keeps the leading quote
-// (parseEnvFile: no closing quote ⇒ the slice never runs) and
-// resolveDatabaseUrl passes the non-file: value through RAW. The
-// session-59 live probe (ambient env unset, a single-line-unclosed
-// scratch .env): runtimeDatabaseUrl answered `"file:../db/custom.db`
-// and the repo's own @prisma/client 6.19.3 threw
-// PrismaClientInitializationError at the first invocation — a loud
-// request-time failure with ZERO boot signal, the hole in the S58-1
-// "no longer silent, in EVERY mode" claim. The cure mirrors the
+// Session-59 (S59-1, AUDIT-1 L1; the premise re-spelled session-61,
+// S61-1): the .env-FILE-face residue warning — the pure seam in the
+// bootEnvCheck family. WHY: the S58-1 arm reads only the PROCESS-ENV
+// face, and there are postures where the process env carries NOTHING
+// while the db-path seam's own .env parse sees the residue — the
+// UNLOADED-.env postures (the S51-1 launch-dir/unloaded-file family:
+// no sanctioned loader ever consumed that .env). The session-59
+// premise — "the @next/env loader DROPS a single-line-unclosed
+// DATABASE_URL line to undefined" — was FALSIFIED by the session-61
+// probe (the repo's own @next/env 16.4.2 KEEPS the leading-quote value
+// in process.env on every unclosed shape); when a sanctioned loader
+// DID consume the .env, the process env carries the residue and the
+// S58-1 arm fires — the file-face arm defers by its one-owner design
+// (the envUrl guard). In the postures where THIS arm fires, the file
+// value keeps the leading quote (parseEnvFile: no closing quote ⇒ the
+// slice never runs) and resolveDatabaseUrl passes the non-file: value
+// through RAW. The session-59 live probe (ambient env unset, a
+// single-line-unclosed scratch .env): runtimeDatabaseUrl answered
+// `"file:../db/custom.db` and the repo's own @prisma/client 6.19.3
+// threw PrismaClientInitializationError at the first invocation — a
+// loud request-time failure with ZERO boot signal, the hole in the
+// S58-1 "no longer silent, in EVERY mode" claim. The cure mirrors the
 // shadow seam's pattern: THIS pure function takes both faces (the env
 // record + the .env file's parsed DATABASE_URL), the server wrapper
 // below feeds it. FIRES ONLY when the process-env face is UNSET — the
@@ -498,12 +515,15 @@ export function databaseUrlFileResidueWarning(
   if (!( /\p{Cc}/u.test(fileUrl) || fileUrl.startsWith('"') || fileUrl.startsWith("'") )) {
     return null;
   }
-  // Session-60 (S60-1): the per-face mechanism truth. The line-based
-  // parse carries TWO residue faces (this round's parseEnvFile census):
-  // the leading quote (an unclosed quote on the line — the @next/env
-  // single-line shape), and a control character on an unquoted line (a
-  // pasted tab or platform artifact). A span needs an embedded newline,
-  // which a line-based parse cannot produce — that clause stays true.
+  // Session-60 (S60-1): the per-face mechanism truth (the loader
+  // parenthetical re-spelled session-61, S61-1). The line-based parse
+  // carries TWO residue faces (this round's parseEnvFile census): the
+  // leading quote (an unclosed quote on the line — kept by BOTH
+  // sanctioned loaders; the file-face arm's real coverage is the
+  // UNLOADED-.env postures), and a control character on an unquoted
+  // line (a pasted tab or platform artifact). A span needs an embedded
+  // newline, which a line-based parse cannot produce — that clause
+  // stays true.
   // The leading-quote face is never file:-prefixed (the raw
   // pass-through + PrismaClientInitializationError mechanism, the
   // session-59 live probe); the control-char face CAN be file:-prefixed
@@ -513,7 +533,7 @@ export function databaseUrlFileResidueWarning(
   // branch exactly like the process-env arm's S60-1 split.
   const quoteFace = fileUrl.startsWith('"') || fileUrl.startsWith("'");
   const prefix = `[boot] the .env DATABASE_URL=${JSON.stringify(fileUrl)}`;
-  const dropped = `the env loader dropped the line from the process environment (the @next/env single-line shape), so the process-env arm cannot see it`;
+  const dropped = `the process environment does not carry the value (no sanctioned loader consumed this .env — the S51-1 launch-dir family), so the process-env arm cannot see it`;
   if (quoteFace) {
     return `${prefix} carries an unclosed quote residue — ${dropped}; the db-path seam's own .env parse keeps the quote and hands the engine the value raw, and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`;
   }
