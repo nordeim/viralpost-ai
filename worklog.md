@@ -6005,3 +6005,88 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-55 ship: lint 0/0 · tsc 0 · unit 725/725 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 56 — The DB-Path Collision Truth + The Reveal Mechanism Re-Spell + The ParseEnv Cross-Line Note + The Census Registration-Form Note + The Register Batch (2026-11-14)
+
+- CONTEXT: the workspace PERSISTED between rounds (no sandbox reset —
+  node_modules, db/custom.db/e2e.db/smoke.db, the chromium-1248 install,
+  and .env all in place; a `git pull` fast-forwarded 62220d9 → 9b5e76c,
+  adding docs/session_56.md — the owner's round-55 narration). The core
+  docs re-read and re-verified (AGENTS, CLAUDE, README, PAD, SKILL
+  v1.51.0); session_55.md (the formal log) + the session-55 plan's
+  post-execution record + worklog Task 55 + session_56.md (the owner's
+  narration) internalized; every lockstep site confirmed at the
+  session-55 ship counts. The neo-crm reference repo re-checked
+  (ninth consecutive no-change check — HEAD b3d0fbe, its
+  session-217). The repo skills internalized (web-application, the
+  catalog, tdd, clone-app-pat-pro, agent-browser).
+- BASELINE GATE GREEN at the session-55 ship record, zero drift:
+  lint 0/0 · tsc 0 · unit 725/725 (40 files) · build · smoke 16/16 ·
+  e2e 70/70 (9 specs) · census MATCH. The standing asks re-verified:
+  the .env DATABASE_URL="file:../db/custom.db" contract (db/ at the
+  repo root, census MATCH); the vitest + playwright suites (725/40 +
+  70/9); the sitemap/robots/manifest/OG family live-verified in the
+  walk; .env.example committed at provenance 1..55; skills/ excluded
+  from every gate.
+- AUDIT (three parallel subagents, findings hand-verified in source):
+  **0C/0H/0M/1L/9I** (AUDIT-1 1L/1I, AUDIT-2 0L/4I, AUDIT-3 0L/4I).
+  Key findings: the DEPLOYMENT.md §4 "absolute paths pass through
+  untouched" doc-truth gap (the one collision class — an intentional
+  absolute env value byte-equaling bun's absolutization of the .env
+  value is re-anchored; live shell probe confirmed the designed
+  recovery firing on this machine's ambient value); the reveal.tsx
+  S31-5b comment's overstated hazard mechanism; the parseEnvFile
+  unclosed-quote cross-line divergence (the S53-6 register's own face,
+  re-confirmed with live bun probes); the census's line-start-only
+  registration blind spot; plus the bun-audit re-triage (the same 9
+  advisories as session-55), the effects' no-IO-visibility-gate
+  posture, the footer h2→h4 heading skip, the toast touch hover-pause
+  face, and the vitest exclude-replaces-defaults awareness.
+- PARITY WALK #29 — the twenty-ninth consecutive clean walk (the
+  panel byte-identical on every computed face — inner px-6 py-4
+  space-y-3 at 16px/24px, block, maxHeight none, transparent
+  background both sides, linkTexts + every link style identical;
+  the hamburger base + cursor pointer both sides, the reference still
+  shipping NO aria family; Escape via a real key press leaves the
+  reference's panel open / closes ours with focus return; the
+  outside-tap genuine non-nav tap both open; route-change at /Pricing
+  R-unmounts/L-hides; the desktop census 6 visible identical + CLONE
+  total 11; the brand gradient byte-identical; the five-route head
+  census identical; sitemap 4 URLs + robots identical modulo origin;
+  the generator dead/live with quota 0→1; the login round-trips
+  R-/Home L-/). No clone drift, no new reference drift.
+- CURES (comment-truth only — no behavior change, no new pins, the
+  S55-3 precedent; no mutation battery — the doctrine binds NEW
+  pins): S56-1 the DEPLOYMENT.md §4 collision-class sentence + the
+  effectiveDatabaseUrl docblock's named exception; S56-2 the
+  reveal.tsx mechanism re-spell (persistent-offset,
+  opacity-preserving — never "stuck invisible"); S56-3 the
+  parseEnvFile cross-line note (completing the S53-6 register);
+  S56-4 the census's own registration-form note; S56-5 the bun-audit
+  triage recorded in the session-56 plan (all
+  dev-toolchain/build-time, none on the runtime request path);
+  S56-6/S56-7/S56-8/S56-9 the registers/reconcile (the IO-gate
+  posture, the footer h4 parity reconcile, the toast hover-pause
+  face, the vitest exclude awareness).
+- COUNTS: UNIT 725 / SUITES 40 / E2E 70 / E2E_SPECS 9 / SMOKE 16 /
+  BADGE 795 — ALL HELD (the comment-truth round; the s56 ladder entry
+  written). PAD §12: db-path.ts's row re-anchored 477 → 492 (the two
+  docblock notes). The ten provenance sites re-anchored to 1..56 —
+  lag 0 at ship; SKILL v1.51.0 → v1.52.0.
+- VERIFIED: the full gate on the exact commit tree (below); the
+  designed count-lag faces confirmed — the PAD §12 inventory RED on
+  the db-path line-count drift and the plans-map tail-currency RED on
+  the 56th plan file, both GREEN at the lockstep; the parity walk
+  post-cure (the standing faces hold, no drift); the captures 119/120
+  on the dev server (the owner-instructed posture, the session-29..55
+  precedent): the mobile-menu open clean-walk at 390×844 + the
+  landing hero at 1280×800, PIL-verified; docs lockstep (README's
+  session-56 row + the gate footer; AGENTS's plans-map fifty-sixth
+  round; PAD §12's db-path row; SKILL v1.52.0 frontmatter/§0.5/
+  Appendix A's session-56 row/Appendix B's header; the ten provenance
+  sites at 1..56; worklog Task 56; docs/session_56.md (the formal log
+  replacing the owner's narration); the session-56 plan's
+  post-execution record).
+
+**Gate at the session-56 ship: lint 0/0 · tsc 0 · unit 725/725 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

@@ -1,86 +1,252 @@
-I've internalized the operating instructions (six-phase workflow: ANALYZE → PLAN → VALIDATE → IMPLEMENT → VERIFY → DELIVER, evidence-backed claims, surgical changes, no guardrail weakening). Let me set up my task plan and begin.
-克隆已完成——这是一个成熟的仓库，已有 55 个会话的历史记录。现在正在阅读核心文档。
-Session 55 is the owner's working narration for this round. Now reading the session-54 plan, worklog tail, and remaining core docs.
-Now reading the architecture document and skill memory file.
-Now let me examine the repo skills catalog and the web-application skill, plus the project configuration files.
-核心文档已内化。现在正在配置工作区：安装依赖、恢复 `.env`、数据库和浏览器。
-工作区已准备就绪。正在运行 baseline gate —— 首先是 lint、typecheck 和单元测试。
-Unit: 724/724 in 40 files — matches the ship record. Now the production build.
-Smoke: 16/16. Now the e2e suite.
-**BASELINE GATE GREEN** — lint 0/0 · tsc 0 · unit 724/724 (40 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH. Zero drift from the session-54 ship record.
+# Session 56 — The DB-Path Collision Truth + The Reveal Mechanism Re-Spell + The ParseEnv Cross-Line Note + The Census Registration-Form Note + The Register Batch (2026-11-14)
 
-Now checking the neo-crm reference repo per the standing instruction.
-neo-crm unchanged (HEAD `b3d0fbe`, its session-217) — the eighth consecutive no-change check. Now internalizing the repo audit skills.
-Skills internalized: web-application (audit dimensions + gate), tdd (seams discipline, red-green loop), clone-app-pat-pro (computed styles as ground truth), agent-browser (browser automation). Now dispatching the three-way parallel audit — the session-54 precedent pattern.
-Three-way audit complete: **AUDIT-1 0C/0H/0M/1L/2I · AUDIT-2 0C/0H/0M/1L/0I · AUDIT-3 0C/0H/0M/1L/1I** — combined **0 Critical / 0 High / 0 Medium / 3 Low / 3 Info**. Before the remediation plan I must hand-verify the load-bearing findings in source, then run the parity walk. Let me verify the key findings first.
-All findings hand-verified in source. Now the parity walk — starting the dev server, then walking both the live reference and the clone with agent-browser (computed styles as ground truth).
-agent-browser is ready with `eval --stdin`, `set viewport`, `press`. Now writing the parity-walk probe script (computed styles as ground truth — the session-53/54 protocol baked in), then running both legs.
-Now the REF leg — opening the live reference and logging in.
-Reference login landed at /Home (the documented settled path). Now running the mobile-menu faces on the reference at 390×844.
-The reference probe captured most faces. The panel detection found the flex container — let me inspect the reference's actual dropdown panel structure directly for the byte-identical comparison.
-The reference's panel structure is now clear (`md:hidden bg-slate-900/98 border-b border-white/10 overflow-hidden` → inner `px-6 py-4 space-y-3`). Let me capture the precise panel computed styles on the reference.
-Panel face captured — matches the session-54 record exactly. Now the Escape face on the reference (real key press — the reference should stay open).
-Escape leaves the reference's panel open — documented posture confirmed. Now the outside-tap face on the reference.
-Outside-tap keeps the reference panel open — documented posture. Now the route-change close face at /Pricing.
-Reference route-change closes by UNMOUNTING (panelCount 0) — the documented S26-1 divergence face. Now the desktop census at 1280×800.
-Desktop census: 6 visible links on the reference. Now the head census across the five routes, plus sitemap/robots.
-The head census loop was ordered wrong (eval before navigation). Re-running properly — navigate first, then read.
-Head census captured. Now the generator probe on the reference — the documented 402-dead face.
-The reference generator is dead — no copy button, no generation lands (the recorded posture). One more probe right after click to catch the transient toast face.
-REF leg complete — every face at the documented posture. Now the CLONE leg on localhost:3000.
-Clone login landed at `/` — the documented 308 deviation. Now the clone's mobile-menu faces at 390×844 (quota cleared per the walk protocol).
-The hamburger base classes match byte-for-byte (`md:hidden p-2 text-slate-300` + our focus superset). Now capturing the clone's open panel face.
-Clone panel matches the reference byte-for-byte on every computed face. Now the Escape face on the clone (ours should close).
-Escape closes the clone menu with focus returned to the hamburger — the documented superset. Now the outside-tap face.
-Outside-tap keeps the clone panel open — matching the reference. Now the route-change close at /Pricing.
-Route-change closes the clone menu in-DOM (S26-1 design). Now the desktop census at 1280×800.
-Desktop census matches — 6 visible links, clone total 11, brand gradient byte-identical. Now the clone's head census + SEO endpoints + generator probe.
-Head census identical. Now the generator probe on the clone — the documented LIVE face.
-The click eval had a syntax error — retrying the generate click properly.
-**PARITY WALK #28 COMPLETE — the twenty-eighth consecutive clean walk.** All clone faces match the documented posture: panel byte-identical (transparent bg, px24/py16, block, linkTexts + link styles identical), hamburger base identical, Escape superset, outside-tap both open, route-change close (R unmounts / L hides), desktop census 6/6 visible, brand gradient identical, head census identical, sitemap 4 URLs + robots identical modulo origin, generator dead/live, login round-trips.
+The round opened on the shipped tree (`9b5e76c` — the owner's narration
+commit carrying session_56.md as the round-55 working narration;
+session-55's own commit was `b5c5d92`). The core docs re-read and
+re-verified (AGENTS, CLAUDE, README, PAD, SKILL v1.51.0 — every
+lockstep site confirmed at the session-55 ship counts), then the
+session-55 set (the formal session_55.md log, the session-55 plan's
+post-execution record, worklog Task 55, the owner's narration). This
+round is session 56, the standing instruction on the shipped tree.
 
-Now writing the remediation plan. First validating the exact cure sites against the codebase.
-Now reading the floating-icons source completely to pin its motion arms.
-现在正在定位文档同步站点——计数、来源范围以及阶梯惯例。
-所有 cure sites 已验证。正在编写第 55 次 session 的计划（在执行前已对照代码库进行验证）。
-计划已记录。现在正在执行 **S55-1** —— 将 `float-field` `motion-arm` `pin` 添加到 `effects-motion` 测试套件中（S47-4 形式，S48-7 `comment-stripped` 惯用法）。
-Pin已写入。正在运行测试套件——应该在真实源码上验证通过（born GREEN）。
-14/14 GREEN. Now the mutation battery — Plant A (remove the reduced early-return).
-Plant A REDs exactly the new pin. Restoring the source, then Plant B.
-Plant B REDs exactly the pin too. Restoring the cleanup and confirming GREEN.
-**S55-1 complete** — both plants RED exactly the new pin; the source restored byte-identical (empty diff). Now **S55-3** — the sitemap comment symmetry.
-S55-3 landed. Now the count re-anchor — UNIT constant + the s55 ladder entry in docs-counts.
-现在运行完整的单元测试套件——设计好的 count-lag 特性应该确切地显示哪些 doc pins 需要进行 lockstep 更新。
-All 10 count-lag faces confirmed — exactly the designed lockstep targets. Executing the docs lockstep now, starting with README.
-README done. Now AGENTS, CLAUDE, PAD.
-PAD 已完成。现在是 SKILL 文件——frontmatter、§0.5、§11 清单、附录 A 行、附录 B 标题。
-SKILL done. Now the remaining nine provenance sites — re-anchoring `session_1..54` → `session_1..55`.
-All ten provenance sites re-anchored. Running the docs-counts census to check the lockstep state.
-docs-counts GREEN — lockstep complete. Running the full unit suite (should be 725/725).
-725/725 in 40 files. Now writing worklog Task 55 and the formal session log.
-Now the formal session_55.md log (replacing the owner's narration).
-Now the plan's post-execution record.
-All docs written. Now capturing the round's screenshots (117/118) on the dev server.
-Both captured. PIL-verifying them.
-PIL-verified (99.9% / 100.0% non-white — the precedent's exact numbers). Spot-checking the mobile-menu capture to confirm the menu is open.
-Vision isn't available in this session — verifying the open panel programmatically by sampling the panel region's link colors in the capture.
-Panel capture verified OPEN (teal Home link, slate siblings, amber pill all rendered). Now the full gate on the final tree.
-**FULL GATE GREEN** — lint 0/0 · tsc 0 · unit 725/725 (40 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH. Now the tree check and the push. Reading the SSH wrapper runbook first.
-Tree check: 22 entries — exactly the designed change set, no forbidden files. Committing to main.
-已提交 `b5c5d92`。现在通过 SSH wrapper 进行推送 —— 首先将 key 具体化并检查沙箱的 ssh 情况。
-没有 ssh 二进制文件也没有 paramiko —— 这是已知的沙箱环境。正在安装 paramiko 并部署 shim。
-Key verified (ed25519). Dry-run with the shim on PATH.
-Dry-run clean — fast-forward `62220d9..b5c5d92`. Real push.
-Pushed and remote-verified (`refs/heads/main @ b5c5d92 == local HEAD`). Shredding the operator key and running the final status check.
-已全部验证。正在清理浏览器会话和开发服务器。
-**Session 55 — delivered.** Commit `b5c5d92` pushed to `main` on `git@github.com:nordeim/viralpost-ai.git` (remote verified, key shredded, clean tree, no new branches).
+Baseline gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit
+725/725, 40 files · build · smoke 16/16 · e2e 70/70, 9 specs · census
+MATCH) — exactly the session-55 ship record, no drift; the standing
+asks re-verified up front (the `.env`
+`DATABASE_URL="file:../db/custom.db"` contract intact with `db/` at
+the repo root; `.env.example` committed at provenance 1..55; the
+vitest + playwright suites in place and current; the
+sitemap/robots/manifest/OG family verified live against the reference
+in this round's walk; `skills/` excluded from every gate). The
+workspace persisted between rounds (no sandbox reset — `node_modules`,
+the db files, the chromium-1248 install, and `.env` all in place; the
+dev server's background processes now die with their spawning shell
+session in this sandbox, so the round's dev-server work — the clone
+walk leg + the captures — ran inside single persistent sessions). The
+neo-crm reference repo re-checked per the standing instruction:
+unchanged since the session-48..55 checks — its latest round is still
+its session-217 (HEAD `b3d0fbe`, fetch confirmed zero new commits); no
+new lessons this round (the ninth consecutive no-change check). The
+web-application skill + the skills catalog internalized; tdd,
+clone-app-pat-pro, and the agent-browser doctrine (computed styles as
+ground truth, never eyeballs) applied throughout.
 
-**Status**: sandbox reset between rounds — repo re-cloned, `.env` restored with `DATABASE_URL="file:../db/custom.db"` + `db/` at root (schema pushed, seed run, census MATCH), chromium 1248 re-installed. Baseline gate GREEN at the session-54 counts — zero drift. neo-crm unchanged (`b3d0fbe`, eighth consecutive check). All standing asks verified in place: db contract ✓, vitest + playwright suites wired ✓, sitemap/SEO family live-verified ✓, `.env.example` committed ✓, `skills/` excluded from every gate ✓.
+## The audit
 
-**Audit** (three parallel subagents, findings hand-verified in source): **0C/0H/0M/3L/3I**. Key findings: FloatingIcons carried zero motion-arm pins (the S47-4 genus's fourth file); `bun audit` triage unrecorded; the sitemap route comment lacked the sibling routes' inlining sentence; plus the scryptSync blocking posture, the `"ai"` bare-token gap, and the robots.txt ask-reconciliation (the Allow-all form is the triple-pinned reference-parity doctrine — the ask was re-spelled, not the code).
+Three parallel dispatched subagents (AUDIT-1 API/lib seams, AUDIT-2
+components/pages/effects, AUDIT-3 SEO/configs/tests/docs) — every
+load-bearing finding hand-verified in source by the lead.
+**AUDIT-1: 0C/0H/0M/1L/1I · AUDIT-2: 0C/0H/0M/0L/4I · AUDIT-3:
+0C/0H/0M/0L/4I** — combined **0 Critical / 0 High / 0 Medium /
+1 Low / 9 Info**. The session-55 diff itself verified correct on all
+three lanes at its shipped boundaries (AUDIT-1 re-verified the S55-3
+sibling-sentence comment truth in all three SEO routes and the
+comment-only diff shape; AUDIT-2 verified the S55-1 pin coherent with
+the source at all three needles plus all seven Tailwind v4
+mitigations present, exact, and test-pinned, the complete mobile-menu
+mechanic set, and the React 19 discipline — 0C/0H/0M/0L on the whole
+lane; AUDIT-3 re-derived every count in the lockstep census from disk
+and declared the docs five-way lockstep clean at 725/40/70/9/16/795,
+the plans map 1:1 with the 55 plan files, the ten provenance sites at
+1..55 — lag 1, inside the designed owner-narration window).
 
-**Parity walk #28** (twenty-eighth consecutive clean walk, live reference logged in, computed styles as ground truth): mobile-menu panel byte-identical (24px/16px, block, transparent, linkTexts + every link style identical), hamburger base + cursor identical, Escape/outside-tap/route-change all at the documented posture, desktop census 6/6, brand gradient, five-route head census, sitemap + robots identical modulo origin, generator dead/live with quota 0→1, login round-trips. No clone drift, no new reference drift.
+The decisive hand-verifications (all reproduced by the lead in source):
+**S56-1 (AUDIT-1 F1)** — `docs/DEPLOYMENT.md:75` promises absolute
+`DATABASE_URL` values "pass through untouched." That is FALSE for
+exactly one input class: an intentional absolute process-env value that
+byte-equals bun's absolutization of the `.env`'s relative value — the
+signature arm in `effectiveDatabaseUrl` (db-path.ts:344-348) treats it
+as derived and re-anchors it inside the repo. Live shape on this
+machine: the sandbox shell exports
+`DATABASE_URL=file:/home/z/my-project/db/custom.db` while the repo
+`.env` carries the default `file:../db/custom.db`; from the repo root,
+`bunAbsolutized(.env value)` produces exactly the shell value → the
+re-anchor fired (probed live: the effective URL resolved to
+`<repo>/db/custom.db`, the DESIGNED recovery — the shell value is a
+bun-derived artifact, not an intentional override; bun's `.env` loader
+does not override a pre-set process env var, probed on 1.3.14). The
+defect is the undocumented exception, not the behavior — doc-truth
+cure only (in the rewrite regime the same signature IS the correct
+recovery; intent and derivation are information-theoretically
+indistinguishable at the collision).
+**S56-2 (AUDIT-2 I2)** — the `reveal.tsx` S31-5b contract comment
+overstated the hazard mechanism: React's style diffing compares the
+previous style PROP (opacity: 0 → 0, unchanged) — it never rewrites
+the DOM opacity that `settle()` wrote directly, so a settled element
+remains visible; the realistic symptom of the (forbidden) post-mount
+prop change is a re-applied `transform` offset, not invisibility (the
+same behavior keeps the generator-card's card→paywall `Reveal` swap
+visible).
+**S56-3 (AUDIT-1 I1)** — `parseEnvFile` is line-based; bun's
+unclosed-quote parsing spans lines. On a single-line unclosed quote
+the seam and bun AGREE (live-probed on 1.3.14 — both keep the leading
+`"` in the value, so the signature comparison stays consistent on the
+realistic typo); divergence needs an unclosed quote on the
+DATABASE_URL line PLUS a later quoted value — doubly pathological.
+The S53-6 registered residual's own face, completed.
+**S56-4 (AUDIT-3 I1)** — the census's UNIT count counts only
+line-start `it(`/`test(` registrations; a plain mid-line registration
+(`cond ? it("a") : it("b")` — not the .each/.skip family the
+forms-guard bans, not a loop-body form the loop-arm guard scans) would
+execute in the runner while evading the census. Recount: exactly 725
+line-start = the runner's 725/725; zero live mid-line instances.
+**S56-5 (AUDIT-1 I2-family duty)** — `bun audit` reports the SAME 9
+advisories as the session-55 record (minimatch moderate / eslint
+chain; deepmerge-ts high / prisma CLI; the vite 8.3.0–8.3.2 family
+incl. three launch-editor advisories / vitest; source-map-js high /
+the postcss chain via next + @tailwindcss/postcss). Triage re-verified:
+NONE ride the runtime request path (build-time CSS compilation +
+devDependencies; the EIGHT-package runtime diet unaffected). Recorded
+in the session-56 plan per the duty's own form; no runtime action.
+**S56-6 (AUDIT-2 I1, register)** — the three effects loops
+(floating-icons, iridescence, particle-text) run whenever mounted — no
+IntersectionObserver pause when scrolled out of view. Battery/CPU
+only; the reference's own loops behave identically (the parity
+posture); the unmount-cleanup contract is fully test-pinned.
+REGISTERED: the IO-gate lift is a sound future superset (the reveal
+idiom is the template).
+**S56-7 (AUDIT-2 I3, reconcile-the-ask)** — the footer's `h4` column
+headings under a deepest-preceding `h2`: class-for-class the reference's
+own footer markup; axe "moderate" best-practice, not a WCAG 2.2 A/AA
+failure (the e2e axe floor passes both widths). RECONCILED: fixing it
+would be a parity divergence on a reference-owned surface; the
+sr-only `h3` superset stays available if the doctrine is ever
+extended.
+**S56-8 (AUDIT-2 I4, register)** — the toast's pause arm rides
+mouseenter/mouseleave (+ the deliberate focus pair, S20-6); on touch
+browsers a tap fires a synthetic mouseenter and the compensating
+mouseleave timing varies — a toast can linger briefly past its 4s
+window. REGISTERED (negligible; the reference's toast surface is
+DOM-dead — ours is superset-by-design; the matchMedia gate is the
+documented lift).
+**S56-9 (AUDIT-3 I4, register)** — vitest's `exclude` REPLACES the
+default exclusion set; harmless here (the include globs cannot reach
+those trees). REGISTERED as awareness for any future include-widening.
 
-**Cures (TDD)**: S55-1 the float-field motion-arm pin (+1 unit test; battery: each plant REDs exactly the new it, source restored byte-identical); S55-2 the audit-triage record; S55-3 the sitemap comment symmetry; S55-4/5/6 the registers/reconciliation. **Verified** — full gate re-run green: lint 0/0 · tsc 0 · unit **725/725** (40 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH; captures 117/118 PIL-verified (99.9%/100.0% non-white, panel-open pixels confirmed); docs lockstep complete (README/AGENTS/CLAUDE/PAD/SKILL v1.51.0, ten provenance sites at 1..55, worklog Task 55, formal session_55.md, the plan's post-execution record). **Reasoned** — the scryptSync async-swap recommendation (documented in the plan for the provider face; deliberately deferred: demo-posture limiter bounds it). **Unverifiable** — none this round.
+## The parity walk
 
-Next round: re-run the standing instruction on the shipped tree whenever you're ready.
+**ALL CLONE FACES MATCH — the twenty-ninth consecutive clean walk, no
+clone-side drift, no NEW reference-side drift.** The panel: inner
+`px-6 py-4 space-y-3` byte-identical (16px/24px padding, block,
+maxHeight none, transparent background both sides — the reference's
+`bg-slate-900/98` dead-class render); linkTexts identical (Home, Tool,
+Pricing, Contact, Upgrade to Pro – $19); Home teal rgb(45,212,191)
+14px/500 block; the siblings rgb(203,213,225) 14px/500 block; the pill
+rgb(15,23,42) 14px/600 block. The hamburger `md:hidden p-2
+text-slate-300` base with cursor pointer both sides (the reference
+still ships NO aria family — our expanded family the documented
+superset). Escape leaves the reference's panel open / closes ours with
+focus returned to the toggle (the documented superset, a REAL key
+press). The outside-tap face (a genuine non-nav H1 tap,
+pathname-checked) leaves it open on BOTH sides. Route-change close
+verified both sides at /Pricing (the reference UNMOUNTS the closed
+panel — panelCount 0; ours hides it in-DOM — the S26-1 design, hidden
+attr true, aria false). The desktop census: 6 VISIBLE links IDENTICAL
+both sides, CLONE total 11 = 6 visible + 5 hidden panel anchors. The
+brand wordmark gradient byte-identical both sides
+(linear-gradient(to right, rgb(45,212,191), rgb(251,191,36)), 18px/700,
+transparent fill). The five-route head census identical (titles +
+descriptions + canonicals — the per-route prefix family). Sitemap 4
+URLs both (weekly, 1.0/0.8/0.8/0.8) + robots identical modulo origin.
+The generator probe symmetrically dead/live (R: no copy button, no
+generation lands, quota unchanged; L: a 5-hashtag post + the copy
+button, quota 0→1 — the D-1 documented superset). The login round-trip
+both landing the landing (R settled /Home; L / — the documented 308
+deviation).
+
+## The cures (comment-truth only — no behavior change; the S55-3 precedent)
+
+- **S56-1 (LOW, AUDIT-1 F1)** — DEPLOYMENT.md §4 item 2 gains the
+  collision-class sentence (the one absolute value that byte-equals
+  bun's absolutization of the `.env`'s relative value is re-anchored —
+  the signature arm's designed recovery; every other absolute value
+  passes through untouched), and the `effectiveDatabaseUrl` docblock's
+  "anything else wins as an intentional override" line gains the same
+  named exception. Comment/doc only.
+- **S56-2 (INFO, AUDIT-2 I2)** — the reveal.tsx S31-5b contract
+  parenthetical re-spelled to the accurate mechanism (persistent
+  transform-offset drift, opacity-preserving — React's unchanged-key
+  style diffing; never "stuck invisible").
+- **S56-3 (INFO, AUDIT-1 I1)** — the parseEnvFile docblock gains the
+  cross-line sentence (bun's unclosed-quote scan spans lines; the
+  line-based parser models the single-line shape where seam and bun
+  agree — completing the S53-6 register's record).
+- **S56-4 (INFO, AUDIT-3 I1)** — the docs-counts UNIT census's comment
+  gains the registration-form note (line-start-only counting; the
+  forms-guard + loop-arm coverage boundary; the runner-vs-census ship
+  diff is the standing backstop — write registrations at line start).
+- **S56-5 (INFO)** — the bun-audit triage recorded in the session-56
+  plan (all dev-toolchain/build-time; none on the runtime request
+  path; no runtime action) — the AGENTS.md duty's own form.
+- **S56-6/S56-7/S56-8/S56-9 (registers/reconcile)** — the IO-gate
+  posture, the footer-h4 parity reconcile, the toast hover-pause face,
+  and the vitest exclude awareness, all carried in this record and
+  the plan's register.
+
+No new unit tests this round (every cure is comment/doc-truth — the
+census counts registrations, not comments; the seo-surfaces pins read
+comment-stripped). No mutation battery (the doctrine binds NEW pins;
+no new pins ship).
+
+**Accepted/observed register (the standing residuals carried forward
+unchanged — the session-55 register plus S56-6/S56-7/S56-8/S56-9):**
+the nav links' UA-default focus outline; the reduced-motion
+live-toggle gap; the quota store's midnight rollover; the
+classifier's P1001/P1002 500 face; the api-robustness census's
+route.ts-only matcher; the hero-portrait weight/resize; the
+workspace's ambient absolute DATABASE_URL; the detectNiche substring
+shape; the proxyHopDepth parse mirror; the setSessionCookie unit gap;
+the signup first-admin race; the verify/resend read-then-write pair;
+the enumeration faces; the single-node limiter; the 404/error
+main-landmark posture; the smoke-leg retired-form negatives; the
+in-process limiter; the 404 client-render body; the formula-driven
+generator; the in-app OTP delivery; the footer © build-time year; the
+forgot-password link-clobber (PAD §11); ContactMessage.email's
+unindexed readback scan; the failed-regeneration post discard; the
+verify-digits wipe while a resend is in flight; the two sanctioned
+window.location.origin reads; the novel strip idioms escaping the
+textual arms; the implementation-plan §4 unticked checkboxes; the
+symlinkSync Windows-portability face; the route-tier exact-500 e2e
+arm; the failed re-submit inside the 2.6s window keeping the stale
+"Message Sent!" label; the ok-16 partial family summary; the `.env`
+provenance register entry re-scope; the REF body fallback ink; the
+oklab-vs-rgba `/60` serialization family; the dev-server flapping
+transient + the settle protocol; the parseEnvFile unclosed-quote
+divergence (S53-6, its cross-line face completed S56-3); the
+bind-mount alias dedupe direction (S53-7); the stripComments
+JSX-brace family gap (S53-7); the walk-protocol lessons (S53-7); the
+post-unmount error/catch toasts (S54-7); the scryptSync blocking
+posture (S55-4); the "ai" bare-token gap (S55-5); the effects'
+no-IO-visibility-gate posture (S56-6); the footer h2→h4 heading skip
+(S56-7, reconciled as parity); the toast touch hover-pause face
+(S56-8); the vitest exclude-replaces-defaults awareness (S56-9).
+
+## The count re-anchor
+
+UNIT 725 unchanged, SUITES 40 unchanged, E2E 70 unchanged, E2E_SPECS 9
+unchanged, SMOKE 16 unchanged, BADGE 795 unchanged (the comment-truth
+round; the s56 ladder entry written per the ladder's own held-run
+convention). PAD §12: db-path.ts's row re-anchored 477 → 492 (the two
+docblock notes — the only §12 file touched). The ten provenance sites
+re-anchored to 1..56 — lag 0 at ship; SKILL v1.51.0 → v1.52.0.
+
+## Verified
+
+- The full gate on the exact commit tree (below)
+- The designed count-lag faces on record: the PAD §12 inventory RED on
+  the db-path line-count drift (477 → the live 492) and the plans-map
+  tail-currency RED on the 56th plan file — both GREEN at the lockstep
+  (the census driving the docs, its own doctrine)
+- The parity walk post-cure: the standing faces hold, no drift
+- Captures 119/120 on the dev server (the owner-instructed posture,
+  the session-29..55 precedent): the mobile-menu open clean-walk at
+  390×844 + the landing hero at 1280×800, PIL-verified
+- Docs lockstep: README (the session-56 row on the continuous table,
+  the gate footer re-spell); AGENTS (the plans map's fifty-sixth
+  round); PAD (§12's db-path row); SKILL v1.51.0 → v1.52.0
+  (frontmatter, §0.5 1..56, project_state, Appendix A's session-56
+  row, Appendix B's header); the ten provenance sites at 1..56;
+  worklog Task 56; this session log; the plan's post-execution record
+
+**Gate at the session-56 ship: lint 0/0 · tsc 0 · unit 725/725 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

@@ -271,6 +271,15 @@ export function resolveDatabaseUrl(rawUrl: string): string {
  * `KEY=abc#def` as `abc`; dotenv would keep it whole, but the seam
  * exists to mirror bun, and a mid-token `#` in an unquoted URL is
  * pathological — quote such values).
+ * (Session-56, S56-3 — the unclosed-quote cross-line face, completing
+ * the S53-6 register: on a single-line unclosed quote the seam and bun
+ * AGREE (live-probed on 1.3.14 — both keep the leading `"` in the
+ * value, so the signature comparison stays consistent on the realistic
+ * typo); bun's scan then SPANS LINES to the next `"` while this
+ * line-based parser cannot model that — the divergence needs an
+ * unclosed quote on the DATABASE_URL line PLUS a later quoted value,
+ * doubly pathological, and the raw-relative fallback re-anchors
+ * correctly through the module anchor.)
  */
 export function parseEnvFile(contents: string): Record<string, string> {
   const out: Record<string, string> = {};
@@ -317,6 +326,12 @@ function bunAbsolutized(envFileUrl: string, envFileDir: string): string {
  * file. A process-env value that is exactly bun's absolutization of the
  * .env value is treated as derived (re-anchored on the schema rule);
  * anything else wins as an intentional override.
+ * (Session-56, S56-1 — the named exception to "anything else": an
+ * intentional absolute value that byte-equals the signature is
+ * indistinguishable from a bun-derived one, so the re-anchor wins there
+ * too — with the default .env that colliding value is exactly the
+ * parent-of-repo file:<parent>/db/custom.db path; DEPLOYMENT.md §4
+ * carries the operator-facing sentence.)
  */
 export function effectiveDatabaseUrl(input: {
   envUrl?: string | undefined;
@@ -375,7 +390,7 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  *
  * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
  * NEO-CRM seam's own recovery session; this repo's sessions are
- * docs/session_1..55, the SKILL §0.5 enumeration): the standalone server.js runs
+ * docs/session_1..56, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The

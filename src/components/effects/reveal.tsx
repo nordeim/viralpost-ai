@@ -32,8 +32,12 @@ function hiddenStyle(direction: RevealDirection): React.CSSProperties {
  * CONTRACT (session-31, S31-5b): `direction` and `delay` are MOUNT-TIME
  * constants. The observer effect arms once with `[]` deps while the
  * hidden inline style derives from the props — a call site that changes
- * either after mount would re-apply the hidden style to an element whose
- * observer has already disconnected (stuck invisible). Every live call
+ * either after mount re-applies the transform offset to an element whose
+ * observer has already disconnected while the settled opacity SURVIVES
+ * (React's style diffing skips unchanged keys, so it never rewrites the
+ * DOM opacity that settle() wrote directly — the persistent-offset
+ * drift, not invisibility; the mechanism re-spelled session-56,
+ * S56-2: the old "stuck invisible" claim overstated). Every live call
  * site passes mount-time constants — computed delays (`i * 100` and
  * kin) ride keyed instances, the prescribed keyed-remount form;
  * dynamic usage must remount using the `key` prop instead (the wording

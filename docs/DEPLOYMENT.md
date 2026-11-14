@@ -75,6 +75,13 @@ must run without the flag.
    Absolute paths pass through untouched — immune to any working-directory
    ambiguity across service managers, containers, or cron wrappers. Point
    them at a persisted volume and back the file up.
+   (Session-56, S56-1 — the one named exception: an absolute value that
+   BYTE-EQUALS bun's absolutization of the `.env`'s relative value is
+   treated as a bun-derived artifact and re-anchored by the seam's
+   signature arm — with the default `.env`, that is exactly the
+   parent-of-repo `file:<parent>/db/custom.db` path, the one absolute
+   value a deliberate override must avoid spelling to be honored as
+   intentional; every other absolute value wins verbatim.)
 
 3. **PostgreSQL.** Switch `provider = "postgresql"` in
    `prisma/schema.prisma`, set a `postgresql://` URL, then

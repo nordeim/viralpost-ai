@@ -313,6 +313,9 @@ import {
 // (effects-motion, the AUDIT-2 F-1 coverage gap: floating-icons.tsx
 // was the fourth effects file whose motion arms carried no pin)) and
 // the e2e 70 unchanged. SMOKE 16 unchanged.
+// s56: 725/40 held (the comment-truth round — every cure is a
+// docblock/doc/comment note (the S55-3 precedent); no new it, no
+// behavior change) and the e2e 70 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -843,6 +846,15 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
     // tests/ ∪ src/ UNION through the shared helpers, and every
     // strip-chain arm (the S48-1 ban, the S13-10 forms-guard + loop-arm,
     // the S49-3 sweep) iterates the same union below.
+    // Session-56 (S56-4): the block count below counts LINE-START
+    // `it(`/`test(` registrations only — the shape every suite here
+    // writes. A plain registration penned MID-LINE (`cond ? it("a") :`
+    // `it("b")` — not the .each/.skip family the forms-guard bans, not
+    // a loop-body form the loop-arm guard scans) would execute in the
+    // runner while evading this census, decoupling UNIT from reality.
+    // Zero live instances at this writing (recount: 725 line-start =
+    // the runner's 725); the runner-vs-census ship diff is the
+    // standing backstop — write registrations at line start.
     const allUnit = allUnitTestFiles();
     expect(allUnit.length, `unit test files on disk (tests/ ∪ src/): ${allUnit.length} (SUITES says ${SUITES})`).toBe(SUITES);
     let unitTests = 0;
