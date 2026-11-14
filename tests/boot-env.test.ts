@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..59.
+// are docs/session_1..60.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -574,6 +574,98 @@ describe("session-59 (S59-1): the .env-FILE-face residue arm (the @next/env sing
     const span = bootEnvCheck(env({ DATABASE_URL: 'file:../db/custom.db\nOTHER="quoted value' })).warnings[0];
     expect(span).toContain("junk-named file");
     expect(span).toContain("P2021");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-60 (S60-1): the control-char attribution split. The S58-1/S59-1
+// messages headline "carries an unclosed quote residue" and prescribe
+// "close the quote" for EVERY trigger face — but the predicate fires on
+// quote-free control-char values too (a pasted tab in an unquoted .env
+// line), and for THAT face the quote fix does nothing. The round's
+// probes (bootEnvCheck + parseEnvFile + resolveDatabaseUrl, ambient env
+// unset): a tab-bearing `file:` value re-anchors into the junk-named
+// file exactly like the newline span (the S57-1 genus, same code path);
+// a tab-bearing non-`file:` value passes through raw. The `file:`
+// branch of the S58-1 arm is reachable ONLY by control-char values (a
+// leading-quote value can never start with `file:`), so its "unclosed
+// quote" headline was false for every value that reached it. The split:
+// the NEWLINE face keeps the unclosed-quote story (an unclosed quote in
+// .env spanning lines is the usual cause — TRUE for that face); every
+// OTHER control-char face gets its own attribution + its own fix.
+// ---------------------------------------------------------------------------
+describe("session-60 (S60-1): the control-char attribution split (the tab face gets its own truth)", () => {
+  it("Pin 1 — the PROCESS-ENV tab face (file: branch): the CONTROL-CHARACTER attribution, the junk-file mechanism, the remove-the-character fix; the NEWLINE face keeps the unclosed-quote story (the discriminator pair)", () => {
+    // The round's probe: a tab-bearing file: value, no quote anywhere.
+    const tab = bootEnvCheck(env({ DATABASE_URL: "file:../db/custom.db\tjunk" })).warnings[0];
+    expect(tab).toContain("[boot] DATABASE_URL=");
+    expect(tab).toContain("control character");
+    expect(tab).not.toContain("unclosed quote");
+    // The mechanism stays the S57-1 genus (the seam probe re-anchored the
+    // tab-bearing value into the junk-named file — SELECT 1 answers, the
+    // first User query P2021s).
+    expect(tab).toContain("junk-named file");
+    expect(tab).toContain("P2021");
+    // The fix is the tab face's own — never the quote face's.
+    expect(tab).toContain("remove the control character");
+    expect(tab).not.toContain("close the quote");
+
+    // The NEWLINE face (the S57-1 span genus) KEEPS the unclosed-quote
+    // story — an unclosed quote in .env spanning lines IS the usual cause
+    // of an embedded newline, and closing it is the working fix.
+    const span = bootEnvCheck(env({ DATABASE_URL: 'file:../db/custom.db\nOTHER="quoted value' })).warnings[0];
+    expect(span).toContain("unclosed quote");
+    expect(span).toContain("close the quote");
+    expect(span).toContain("P2021");
+  });
+
+  it("Pin 2 — the PROCESS-ENV tab face (non-file: branch): the CONTROL-CHARACTER attribution, the raw pass-through mechanism, the remove-the-character fix", () => {
+    const tab = bootEnvCheck(env({ DATABASE_URL: "postgresql://u:p@h:5432/db\tjunk" })).warnings[0];
+    expect(tab).toContain("control character");
+    expect(tab).not.toContain("unclosed quote");
+    // The mechanism stays the S59-1 leading-quote face's — a non-file:
+    // residue passes through raw, the engine rejects it at first contact.
+    expect(tab).toContain("passes it through raw");
+    expect(tab).toContain("PrismaClientInitializationError");
+    expect(tab).toContain("remove the control character");
+    expect(tab).not.toContain("close the quote");
+    expect(tab).not.toContain("junk-named file");
+  });
+
+  it("Pin 3 — the FILE-FACE tab arm: the CONTROL-CHARACTER attribution with the per-branch mechanism (file:-prefixed → junk-file re-anchor, the round's parseEnvFile + seam probes; non-file: → raw pass-through); the leading-quote face keeps its own truth", () => {
+    // The round's parseEnvFile census: an unquoted tab-bearing .env line
+    // parses to the file:-prefixed, tab-bearing value — so the file-face
+    // CAN carry a control char (the S59-1 comment claimed only the
+    // leading quote was possible), and THAT shape re-anchors into the
+    // junk-named file (the seam probe), NOT the raw pass-through the
+    // message claimed for every face.
+    const tabFile = databaseUrlFileResidueWarning({ NODE_ENV: "production" }, "file:../db/custom.db\tjunk");
+    expect(tabFile).toContain("control character");
+    expect(tabFile).not.toContain("unclosed quote");
+    expect(tabFile).toContain("junk-named file");
+    expect(tabFile).toContain("P2021");
+    expect(tabFile).not.toContain("passes it through raw");
+    expect(tabFile).not.toContain("PrismaClientInitializationError");
+    expect(tabFile).toContain("remove the control character");
+    expect(tabFile).not.toContain("close the quote");
+
+    // The non-file: control-char file-face sub-shape (an unquoted
+    // postgres URL with a tab) rides the raw pass-through mechanism.
+    const tabNonFile = databaseUrlFileResidueWarning({ NODE_ENV: "production" }, "postgresql://u:p@h:5432/db\tjunk");
+    expect(tabNonFile).toContain("control character");
+    expect(tabNonFile).not.toContain("unclosed quote");
+    expect(tabNonFile).toContain("passes it through raw");
+    expect(tabNonFile).toContain("PrismaClientInitializationError");
+    expect(tabNonFile).not.toContain("junk-named file");
+    expect(tabNonFile).toContain("remove the control character");
+    expect(tabNonFile).not.toContain("close the quote");
+
+    // The leading-quote face keeps its own story untouched (the existing
+    // S59-1 pins own it; this is the pair's other side).
+    const quote = databaseUrlFileResidueWarning({ NODE_ENV: "production" }, '"file:../db/custom.db');
+    expect(quote).toContain("unclosed quote");
+    expect(quote).toContain("close the quote");
+    expect(quote).toContain("PrismaClientInitializationError");
   });
 });
 

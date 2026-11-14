@@ -60,6 +60,17 @@
  * session-59 live probe). The genus is no longer silent on any loader
  * face. Pinned session-57, S57-1a: the parse fixtures + the resolve
  * junk-tail face in tests/db-path.test.ts.)
+ *
+ * (Session-60, S60-3c — the escape-face census, the module's own "a
+ * parser that disagrees" doctrine applied to its last undocumented
+ * face, this round's probe: `KEY="a\"b"` parses to `a\` here — the
+ * scan cuts at the FIRST closing quote, keeping the backslash —
+ * exactly like bun's loader; @next/env's dotenv-style unescaping
+ * would yield `a"b`, a divergence on the escape face. No live-probed
+ * DATABASE_URL shape ever carries an escape (pathological for a path
+ * or URL); harmless for resolution (a missed bun-signature falls to
+ * the tail, which re-anchors relative values to the same file).
+ * DECLARED OUT-OF-SCOPE, never probed end-to-end.)
  */
 export function parseEnvFile(contents: string): Record<string, string> {
   const out: Record<string, string> = {};

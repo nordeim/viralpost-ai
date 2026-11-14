@@ -253,9 +253,11 @@ rephrasing, not allowlist growth). The ten provenance sites
 re-anchored to 1..59 — lag 0 at ship (docs/session_59.md existed on
 disk as the owner's narration; this formal log replaces its content).
 SKILL v1.54.0 → v1.55.0. PAD §12: db-path.ts's row re-anchored
-512 → 518 with the session-59 clause appended; generator-card.tsx's
-row re-anchored 319 → 318; boot-env.ts is NOT a §12 file (re-verified
-this round). README: the badge 805, the session-59 row on the
+512 → 518 → 458 with the session-59 clause appended (the S59-1b
+parseEnvFile leaf extraction removed the docblock the 518 midpoint
+measured — the shipped row is 458, re-spelled session-60 S60-3);
+generator-card.tsx's row re-anchored 319 → 318; boot-env.ts is NOT a
+§12 file (re-verified this round). README: the badge 805, the session-59 row on the
 continuous table, the gate footer re-spell, the testing-table 735
 sites. AGENTS: the plans map's fifty-ninth round, the 735 in the
 testing conventions. CLAUDE: the 735 line. The formal session log

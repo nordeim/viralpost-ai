@@ -105,7 +105,13 @@ export function Footer() {
                 value; see PAD §11. */}
             © {new Date().getFullYear()} ViralPost AI. All rights reserved.
           </p>
-          <p className="text-slate-500 text-sm">Made with ❤️ for creators</p>
+          {/* Session-60 (S60-2): the decorative heart rides an aria-hidden
+              span — screen readers stop announcing the glyph mid-sentence
+              (the a11y best-practice superset; zero visual change, the
+              reference's own copy preserved verbatim). */}
+          <p className="text-slate-500 text-sm">
+            Made with <span aria-hidden="true">❤️</span> for creators
+          </p>
         </div>
       </div>
     </footer>

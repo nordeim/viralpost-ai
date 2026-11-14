@@ -6475,7 +6475,7 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
   (PIL-verified); docs lockstep (README's badge 805 + session-59 row
   + gate footer + the testing-table 735 sites; AGENTS's plans-map
   fifty-ninth round + the 735; CLAUDE's 735; PAD's §8.1 table + carry
-  line + §12's db-path 518 and generator-card 318 rows; SKILL
+  line + §12's db-path 458 and generator-card 318 rows; SKILL
   v1.55.0 frontmatter/project_state/§0.5 1..59/Appendix A's
   session-59 row/Appendix B's header + gate line + the pre-ship
   checklist; the docs-counts constants UNIT 735 + the s59 ladder
@@ -6484,4 +6484,138 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
   narration); the session-59 plan's post-execution record).
 
 **Gate at the session-59 ship: lint 0/0 · tsc 0 · unit 735/735 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 60 — The Boot-Gate Control-Char Attribution Split + The Footer-Emoji Annotation + The Comment-Truth Batch (2026-11-15)
+
+- BASELINE: gate GREEN at the session-59 ship counts (lint 0/0 · tsc 0 ·
+  unit 735/735, 40 files · build · smoke 16/16 · e2e 70/70, 9 specs ·
+  census MATCH) — zero drift. Standing asks re-verified up front (the
+  `.env` DATABASE_URL="file:../db/custom.db" contract with db/ at the
+  repo root, census MATCH; `.env.example` committed and code-verified;
+  vitest + playwright current; the sitemap/robots/manifest/OG family
+  verified live in this round's walk; skills/ excluded from every
+  gate). neo-crm unchanged (b3d0fbe — the thirteenth consecutive
+  no-change check).
+- AUDIT: three parallel subagents + the lead's hand-verification —
+  AUDIT-1 (API/lib seams) 0C/0H/0M/1L/4I · AUDIT-2
+  (components/pages/effects) 0C/0H/0M/1L/4I · AUDIT-3
+  (SEO/configs/tests/docs) 0C/0H/0M/2L/6I — combined 0 Critical / 0
+  High / 0 Medium / 4 Low / 14 Info. The four Lows live-verified AND
+  probed: AUDIT-1 L1 — the S58-1/S59-1 messages headline "carries an
+  unclosed quote residue" and prescribe "close the quote" for every
+  trigger face, but the predicate fires on quote-free control-char
+  values (a pasted tab in an unquoted .env line) — the round's probes:
+  a tab-bearing `file:` value gets the quote headline with a fix that
+  does nothing for a tab; the `file:` branch is reachable ONLY by
+  control-char values (a leading-quote value can never start with
+  `file:`) so its headline was false for every value that reached it;
+  the tab-bearing `file:` value re-anchors into the junk-named file
+  exactly like the newline span (the S57-1 genus, the resolveDatabaseUrl
+  probe); and the FILE-FACE arm's "the value is never file:-prefixed"
+  mechanism claim was FALSIFIED by the parseEnvFile census (an unquoted
+  tab-bearing .env line parses to the file:-prefixed tab-bearing value —
+  the S59-1 comment's "only the leading quote is possible" clause was
+  false too). AUDIT-2 L-1 — the footer's `Made with ❤️` shipped the
+  decorative heart as a bare text character (the only unannotated glyph
+  in the tree; no pins on the footer text). AUDIT-3 F-1/F-2 — the
+  worklog Task 59 VERIFIED line and the session-59 log's count-reanchor
+  section narrated the db-path §12 intermediate 518 where the shipped
+  row is 458. AUDIT-1 I4 probed: the escape face `KEY="a\"b"` parses to
+  `a\` under the line-based scan exactly like bun's loader; @next/env's
+  dotenv-style unescaping would yield `a"b` (a divergence face the
+  header census never declared).
+- PARITY WALK #33 — the thirty-third consecutive clean walk. REF leg
+  (live, logged in): login settled at /Home; the hamburger
+  md:hidden p-2 text-slate-300 base with NO aria family; the panel
+  inner px-6 py-4 space-y-3 byte-identical (16px/24px, block, maxHeight
+  none, transparent — the bg-slate-900/98 dead class computing
+  transparent); linkTexts identical; Home teal rgb(45,212,191)
+  14px/500, the siblings rgb(203,213,225) 14px/500, the pill
+  rgb(15,23,42) 14px/600 9999px; Escape via a REAL key press leaves
+  the reference's panel open; the outside-tap genuine non-nav tap
+  leaves it open; route-change at /Pricing the reference UNMOUNTS
+  (panelDivCount 0); the desktop census 6 visible identical; the brand
+  gradient byte-identical (linear-gradient(to right, rgb(45,212,191),
+  rgb(251,191,36)), 18px/700, clip text); the five-route head census
+  identical (the per-route prefix family, the bare / and /login
+  titles, the canonicals, the single shared ogImage); sitemap exactly 4
+  URLs + robots Allow-all + Sitemap line; the generator DEAD (no
+  generation lands, no copy button, no quota keys — the documented 402
+  face). CLONE leg (the dev server on :3000, quota cleared): login
+  landed at / (the documented 308 deviation); the panel byte-identical
+  on every computed face (the pill 3.35544e+07px — v4's infinity calc
+  rendering the identical capsule); the hamburger base identical + the
+  aria superset ACTIVE (aria-controls mobile-menu, expanded false→true
+  live-verified, the Open/Close-menu relabel); Escape closes OUR menu
+  with focus returned to the toggle (focusOnToggle true — the
+  documented superset); the outside-tap leaves it open (parity);
+  route-change at /Pricing ours hides in-DOM (panelCount 1, display
+  none, hidden attr — the S26-1 design); the desktop census 6 visible
+  identical; the brand gradient byte-identical; the five-route head
+  census identical modulo origin; sitemap 4 URLs + robots identical
+  modulo origin; the generator LIVE (a 7-hashtag post in the 5-8
+  family + the Copy button, quota 0→1 — the viralpost_generations
+  counter key). NO clone-side drift, no NEW reference-side drift.
+  Mobile nav verified working as expected on both sides; all seven
+  Tailwind v4 mitigations verified present and test-pinned.
+- CURES (TDD — the pins first, born RED, three planted-defect batteries
+  on record): the three S60-1a attribution pins (tests/boot-env.test.ts
+  — Pin 1 the process-env tab face on the file: branch: the
+  CONTROL-CHARACTER attribution + the junk-file mechanism +
+  the remove-the-character fix, the NEWLINE face keeping the
+  unclosed-quote story as the discriminator pair; Pin 2 the process-env
+  tab face on the non-file: branch: the raw pass-through mechanism +
+  the remove-the-character fix; Pin 3 the file-face tab arm: the
+  per-branch mechanism (file:-prefixed → junk-file re-anchor,
+  non-file: → raw pass-through) per the round's parseEnvFile + seam
+  probes; the batteries: the split-revert plant REDs pins 1+2+3 (the
+  documented co-pinning), the fix-sentence plant REDs the three pins'
+  fix arms, the mechanism-revert plant REDs exactly pin 3 — all
+  restored GREEN), the S60-1b message split in BOTH arms (the tab face
+  gets its own attribution + its own fix; the newline face keeps the
+  unclosed-quote story — an unclosed quote in .env spanning lines IS
+  the usual cause of an embedded newline; the file-face mechanism
+  splits per branch; both falsified comment blocks re-spelled to the
+  per-face truth), the footer-emoji aria-hidden span (zero visual
+  change, the reference's own copy), the comment-truth batch (the
+  stale-518 pair re-spelled to the shipped 512 → 518 → 458 chain + the
+  env-file.ts escape-face census line).
+- REGISTERS: the `bun run start` tee exit-code mask (dash has no
+  pipefail — a set -o pipefail would break the script under /bin/sh;
+  the gates boot the artifact directly, operators see the crash text
+  live), the PWD-less process-manager boundary (the S51-1 register,
+  inherited by the S59-1b wrapper), the file-face dir-naming (the
+  doubly-pathological shape; the JSON.stringify'd value
+  disambiguates), the historical Tailwind report's superseded gradient
+  form (the frozen record layer — the live mitigation is test-pinned),
+  the parseEnvFile escape face (declared in the header, S60-3c), the
+  e2e 69+1 / manifest 192x192 / 13th-script / 404-noindex / lag-1
+  registers re-confirmed. The bun-audit triage re-verified: the SAME 9
+  advisories as the session-55..59 records — ALL dev-toolchain/
+  build-time, NONE on the runtime request path.
+- COUNTS: UNIT 735 → 738 (+3 — the three S60-1a pins) / SUITES 40 /
+  E2E 70 / E2E_SPECS 9 / SMOKE 16 / BADGE 805 → 808. NO PAD §12 row
+  changes (boot-env.ts, env-file.ts, footer.tsx are all non-§12
+  files). The designed count-lag faces fired and were cured at the
+  lockstep exactly as the doctrine describes (the UNIT-constant
+  reality census 735 vs disk 738, the plans-map tail-currency on the
+  60th plan file — all GREEN at the lockstep, the census driving the
+  docs, its own doctrine). The ten provenance sites re-anchored to
+  1..60 — lag 0 at ship (docs/session_60.md existed on disk as the
+  owner's narration; the formal log replaces its content). SKILL
+  v1.55.0 → v1.56.0.
+- VERIFIED: the full gate on the exact commit tree (below); the parity
+  walk #33; the captures 127/128 on the dev server (PIL-verified);
+  docs lockstep (README's badge 808 + the session-60 row + the gate
+  footer re-spell + the testing-table 738 sites; AGENTS's plans-map
+  sixtieth round + the 738; CLAUDE's 738; PAD's §8.1 table + carry
+  line at 738/70/16; SKILL v1.56.0 frontmatter/project_state/§0.5
+  1..60/Appendix A's session-60 row/Appendix B's header + gate line +
+  the pre-ship checklist 738; the docs-counts constants UNIT 738 + the
+  s60 ladder entry; the ten provenance sites at 1..60; worklog Task 60;
+  docs/session_60.md (the formal log replacing the owner's narration);
+  the session-60 plan's post-execution record).
+
+**Gate at the session-60 ship: lint 0/0 · tsc 0 · unit 738/738 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

@@ -230,10 +230,32 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
     dbUrl !== undefined && dbUrl !== "" &&
     (/\p{Cc}/u.test(dbUrl) || dbUrl.startsWith('"') || dbUrl.startsWith("'"))
   ) {
+    // Session-60 (S60-1): the attribution splits by trigger face. The
+    // predicate fires on THREE faces — the leading quote (the S58-1/
+    // S59-1 loader census), the embedded newline (the S57-1 span genus:
+    // an unclosed quote in .env spanning lines IS the usual cause of a
+    // newline in the value, so that face KEEPS the unclosed-quote story
+    // and the close-the-quote fix), and every OTHER control character
+    // (a pasted tab or platform artifact on an unquoted line — no
+    // quote is involved, so the quote headline and the quote fix were
+    // misattributions for this face; the round's probes: the seam
+    // re-anchors a tab-bearing file: value into the junk-named file
+    // exactly like the newline span, and passes a tab-bearing non-file:
+    // value through raw). The `file:` branch is reachable ONLY by
+    // control-char values (a leading-quote value can never start with
+    // `file:`) — before the split its "unclosed quote" headline was
+    // false for every value that reached it.
+    const quoteFace = dbUrl.startsWith('"') || dbUrl.startsWith("'");
+    const controlFace = /\p{Cc}/u.test(dbUrl);
+    const newlineFace = controlFace && (dbUrl.includes("\n") || dbUrl.includes("\r"));
     warnings.push(
       dbUrl.startsWith("file:")
-        ? `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries an unclosed quote residue from .env (a control character rides the value — the session-57 S57-1 loader-span genus) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`
-        : `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries an unclosed quote residue from .env — the value does not start with "file:", so the db-path seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation (no junk file is created; static pages still serve while every DB route fails). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`,
+        ? (newlineFace
+            ? `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries an unclosed quote residue from .env (a control character rides the value — the session-57 S57-1 loader-span genus) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`
+            : `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries a control character from .env (a stray control character rides the value — no quote is involved, the session-60 S60-1 census) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe re-anchored the tab-bearing value exactly like the newline span). Fix the .env: remove the control character from the DATABASE_URL value.`)
+        : (quoteFace
+            ? `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries an unclosed quote residue from .env — the value does not start with "file:", so the db-path seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation (no junk file is created; static pages still serve while every DB route fails). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`
+            : `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries a control character from .env (a stray control character rides the value — no quote is involved, the session-60 S60-1 census) — the value does not start with "file:", so the db-path seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation (no junk file is created; static pages still serve while every DB route fails). Fix the .env: remove the control character from the DATABASE_URL value.`),
     );
   }
 
@@ -476,13 +498,29 @@ export function databaseUrlFileResidueWarning(
   if (!( /\p{Cc}/u.test(fileUrl) || fileUrl.startsWith('"') || fileUrl.startsWith("'") )) {
     return null;
   }
-  // The file-face mechanism is always the raw pass-through: the only
-  // residue the line-based parse can carry is the leading quote (a
-  // span needs an embedded newline, which a line-based parse cannot
-  // produce), so the value is never file:-prefixed — the session-59
-  // live probe answered PrismaClientInitializationError at the first
-  // invocation.
-  return `[boot] the .env DATABASE_URL=${JSON.stringify(fileUrl)} carries an unclosed quote residue — the env loader dropped the line from the process environment (the @next/env single-line shape), so the process-env arm cannot see it; the db-path seam's own .env parse keeps the quote and hands the engine the value raw, and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`;
+  // Session-60 (S60-1): the per-face mechanism truth. The line-based
+  // parse carries TWO residue faces (this round's parseEnvFile census):
+  // the leading quote (an unclosed quote on the line — the @next/env
+  // single-line shape), and a control character on an unquoted line (a
+  // pasted tab or platform artifact). A span needs an embedded newline,
+  // which a line-based parse cannot produce — that clause stays true.
+  // The leading-quote face is never file:-prefixed (the raw
+  // pass-through + PrismaClientInitializationError mechanism, the
+  // session-59 live probe); the control-char face CAN be file:-prefixed
+  // (the session-60 probes: an unquoted tab-bearing line parses to a
+  // file:-prefixed value, and the seam re-anchors it into the junk-named
+  // file under db/ — the S57-1 genus), so the mechanism splits per
+  // branch exactly like the process-env arm's S60-1 split.
+  const quoteFace = fileUrl.startsWith('"') || fileUrl.startsWith("'");
+  const prefix = `[boot] the .env DATABASE_URL=${JSON.stringify(fileUrl)}`;
+  const dropped = `the env loader dropped the line from the process environment (the @next/env single-line shape), so the process-env arm cannot see it`;
+  if (quoteFace) {
+    return `${prefix} carries an unclosed quote residue — ${dropped}; the db-path seam's own .env parse keeps the quote and hands the engine the value raw, and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`;
+  }
+  if (fileUrl.startsWith("file:")) {
+    return `${prefix} carries a control character — ${dropped}; the db-path seam's own .env parse keeps the control character (an unquoted line's pasted tab — the session-60 S60-1 census), and, the value being file:-prefixed, the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe). Fix the .env: remove the control character from the DATABASE_URL value.`;
+  }
+  return `${prefix} carries a control character — ${dropped}; the db-path seam's own .env parse keeps the control character (an unquoted line's pasted tab — the session-60 S60-1 census), and, the value not starting with "file:", the seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: remove the control character from the DATABASE_URL value.`;
 }
 
 // Session-47 (S47-2): the shadowing-env-file warning — a pure seam in

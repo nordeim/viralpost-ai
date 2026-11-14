@@ -346,6 +346,20 @@ import {
 // exactly pin 2, the mode-gate plant REDs exactly pin 3, the
 // split-revert plant REDs exactly pin 4, the unwire plant REDs exactly
 // pin 5)) and the e2e 70 unchanged. SMOKE 16 unchanged.
+// s60: 738/40 (+3 — the S60-1a attribution pins (the control-char
+// split: Pin 1 the process-env tab face on the file: branch — the
+// CONTROL-CHARACTER attribution + the junk-file mechanism + the
+// remove-the-character fix, with the newline face keeping the
+// unclosed-quote story as the discriminator pair; Pin 2 the
+// process-env tab face on the non-file: branch — the raw pass-through
+// mechanism + the remove-the-character fix; Pin 3 the file-face tab
+// arm — the per-branch mechanism (file:-prefixed → junk-file
+// re-anchor, non-file: → raw pass-through) per the round's
+// parseEnvFile + seam probes; battery on record: the split-revert
+// plant REDs pins 1+2+3 (the documented co-pinning), the
+// fix-sentence plant REDs the three pins' fix arms, the
+// mechanism-revert plant REDs exactly pin 3)) and the e2e 70
+// unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -353,7 +367,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 735;
+const UNIT = 738;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
