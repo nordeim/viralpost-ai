@@ -281,3 +281,37 @@ describe("session-47 (S47-4): the scroll-reveal settle contract (source-pinned)"
     expect(src).toMatch(/\}, \[\]\);/);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Session-55 (S55-1, AUDIT-2 F-1): the float field's motion arms — the
+// FOURTH effects file joins the suite. The S47-4 header enumerated this
+// suite as covering particle-text + iridescence (+ reveal at S47-4);
+// floating-icons.tsx was the one remaining effects file whose motion
+// arms carried NO pin (tests/landing-page.test.ts pins only the 10-icon
+// DOM contract — identity/color/position/size). A deleted
+// `if (reduced) return;` (a perpetual rAF transform loop for
+// prefers-reduced-motion users — invisible to axe and toBeVisible, the
+// a11y floor's blind spot) or a deleted cleanup return (a leaked
+// per-frame loop per mount) ships green through the entire gate.
+// Enumerated at birth.
+// ---------------------------------------------------------------------------
+describe("session-55 (S55-1): the float field's motion arms (source-pinned)", () => {
+  it("collapses to the static face under reduced motion and cancels its rAF on unmount", () => {
+    // Comment-stripped (the s64/s65/s66 needle-in-own-doc lesson — the
+    // S48-7 one-idiom doctrine, the family's only shape).
+    const src =
+      read("src/components/effects/floating-icons.tsx")
+        .replace(/\/\/[^\n]*/g, "")
+        .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
+    // Reduced motion: the effect early-returns BEFORE any rAF
+    // registration (the static render below IS the reduced face — the
+    // house collapse doctrine, matching the other three effects).
+    expect(src).toMatch(/if \(reduced\) return;/);
+    // The loop's cleanup: the rAF handle is cancelled on unmount (the
+    // effects lifecycle law — no leaked per-frame loop per mount).
+    expect(src).toMatch(/return \(\) => cancelAnimationFrame\(raf\);/);
+    // The static render ships full opacity at the pinned positions (the
+    // reduced face never paints opacity 0).
+    expect(src).toContain("style={{ left: f.left, top: f.top, opacity: 1 }}");
+  });
+});

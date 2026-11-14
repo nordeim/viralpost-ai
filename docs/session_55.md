@@ -1,55 +1,233 @@
-`docs/session_54.md` 是所有者对第 53 轮的工作叙述——第 54 轮是针对已发布的第 53 轮树结构的固定指令。正在设置 TODO 计划并验证工作区。
-Lockstep verified at session-53 ship counts. Now workspace setup (fresh clone: deps, .env, db, browser).
-工作区已就绪。正在运行 baseline gate ——优先进行 lint 和 typecheck。
-**基准门禁绿色 (BASELINE GATE GREEN)** — 相比 session-53 的交付记录零偏差。正在检查 neo-crm 的时效性。
-neo-crm 未变更 (`b3d0fbe`，第 7 个连续回合)。在安排审计之前，我正在亲自审查 session-53 的 src diff。
-Complete picture of the session-53 change set confirmed. Dispatching the three-way parallel audit.
-三路审计完成：**AUDIT-1: 0C/0H/0M/0L/2I · AUDIT-2: 0C/0H/0M/2L/4I · AUDIT-3: 0C/0H/0M/0L/0I** — 合计 **0 严重 / 0 高 / 0 中 / 2 低 / 6 信息**。正在源码中人工核实关键发现。
-The L2 probe confirms exactly (current breaks on spacing variants, hardened tolerates them, dep-plant still REDs). My L1 probe's hand-typed sample didn't match the pin at all — re-probing against the real file text.
-The pin returning None against real source contradicts the green suite — debugging the actual source region.
-Found it — my Python probe used JS's `[^]` (any char) which Python interprets differently. Re-probing L1 in bun (the JS dialect the pin actually runs in).
-L1 confirmed — and my first hardened form still false-greens (the second span crosses). The full fix must terminate ALL spans at their natural tag boundaries. Verifying the complete hardened form.
-Fully-bounded form passes all six probes — that's the S54-1 cure form. Verifying the remaining findings (I3 site counts, I4 gate scope, F2 precondition).
-All findings hand-verified. Now the parity walk #27 — recreating the walk script (sandbox reset wiped it).
-REF leg complete — every face at the documented posture. Now the CLONE leg.
-CLONE 分支清理完成。逐项比对及截图的 PIL 验证。
-**Walk #27 COMPLETE — the twenty-seventh consecutive clean walk.** All faces at the documented posture (the one container-color DIFF is the registered REF body fallback ink). Captures 115/116 PIL-verified, census MATCH. Writing the session-54 plan.
-计划已制定。正在执行 **S54-1** — 测试槽位关闭 (in a11y-controls.test.ts)。
-29/29 通过（S54-5 的枚举重写也已应用）。现在进行 S54-1 电池测试 —— over-span 植入。
-三节电池均已完成触发并恢复。**S54-1 已完成。** 现在处理 **S54-2** —— `deps` pin 的间距容差。
-The suite broke — I embedded raw backticks inside the template-literal expect message. Fixing.
-39/39 通过（S54-4 的消息重写已包含在同一处修改中）。现在进行 S54-2 的电池测试。
-所有 S54-2 电池已确认。现在 **S54-3** — state-arms 子句 + **S54-6** — 前置条件 pin。
-修复我注释中的 cure-number 标签（S54-3，而非 S54-4）。
-S54-3 已完成。现在进行 **S54-6** —— boot-env.test.ts 中的前置条件 pin。
-S54-6 电池已确认（植入物导致前置条件完全变红）。所有源码修改已完成 — 正在已修复的代码树上运行完整单元测试套件。
-正是设计的滞后部分（plans-map 尾部——在 AGENTS lockstep 之前，磁盘上已存在 plan 文件）。现在执行文档 lockstep：先处理 provenance 站点。
-现在是 SKILL 同步步骤 (v1.49.0 → v1.50.0)。
-现在进行 S54-8 —— session_53.md 中的 quote 重新锚定。
-S54-8 landed. Running the full unit suite — the lag face should now be GREEN.
-**724/724 — 单元保持，滞后问题已解决。** 现在记录 `worklog Task 54`。
-现在是正式的 session_54.md 日志（替换所有者的叙述）。
-现在是该计划的执行后记录，然后是 full gate。
-现在对最终树结构进行完整的门禁检查：lint、typecheck、build、smoke、e2e。
-**完整门禁已通过** — 在交付时保持所有计数。进行树结构检查，然后执行 commit。
-21 个条目 —— 正好是设计好的变更集，没有禁止的文件。正在提交。
-已提交 `dca1ff2`。现在开始 SSH wrapper 推送：密钥具体化、指纹检查、shim 提取、试运行。
-全新的沙箱，同样缺少 paramiko。正在安装它。
-指纹已验证（与之前的推送相同）。正在提取 paramiko shim 并执行 dry-run。
-预运行清理 — fast-forward `9c53eef..dca1ff2`。正式推送。
-已推送并完成远程验证。正在销毁操作员密钥并执行最终状态检查。
-**Session 54 — 已交付** (提交 `dca1ff2` 到 `main` 分支，已通过 SSH wrapper 推送至 `git@github.com:nordeim/viralpost-ai.git`，远端验证 `refs/heads/main @ dca1ff2 == 本地 HEAD`，密钥已销毁，工作树干净，无新分支)。
+# Session 55 — The Float-Field Motion-Arm Pin + The Audit-Triage Record + The Sitemap Comment Symmetry + The Register Batch (2026-11-14)
 
-已在已交付的 session-53 树上端到端重新运行标准指令：
+The round opened on the shipped tree (`62220d9` — the owner's narration
+commit carrying session_55.md as the round-54 working narration;
+session-54's own commit was `dca1ff2`). The core docs re-read and
+re-verified (AGENTS, CLAUDE, README, PAD, SKILL v1.50.0 — every
+lockstep site confirmed at the session-54 ship counts), then the
+session-54 set (the formal session_54.md log, the session-54 plan's
+post-execution record, worklog Task 54, the owner's narration). This
+round is session 55, the standing instruction on the shipped tree.
 
-**状态**：沙箱在轮次之间重置 — 已重新克隆，恢复 `.env` + DB + 种子数据（census MATCH），重新安装浏览器。基准门禁在准确的记录计数下呈绿色（724/724 · 16/16 · 70/70 · 零偏差）。neo-crm 未更改（`b3d0fbe`，连续第七轮）。
+Baseline gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit
+724/724, 40 files · build · smoke 16/16 · e2e 70/70, 9 specs · census
+MATCH) — exactly the session-54 ship record, no drift; the standing
+asks re-verified up front (the `.env`
+`DATABASE_URL="file:../db/custom.db"` contract intact with `db/` at
+the repo root; `.env.example` committed at provenance 1..54; the
+vitest + playwright suites in place and current; the
+sitemap/robots/manifest/OG family verified live against the reference
+in this round's walk; `skills/` excluded from every gate). The
+workspace re-cloned between rounds (the sandbox reset): `.env`
+restored, the schema pushed, the seed re-run, the one-time
+`bunx playwright install chromium` re-run. The neo-crm reference repo
+re-cloned and re-checked per the standing instruction: unchanged since
+the session-48..54 checks — its latest round is still its session-217
+(HEAD b3d0fbe); no new lessons this round (the eighth consecutive
+no-change check). The web-application skill + the skills catalog
+internalized; tdd, clone-app-pat-pro, and the agent-browser doctrine
+(computed styles as ground truth, never eyeballs) applied throughout.
 
-**审计**：三个并行子代理 — **0C/0H/0M/2L/6I**，在裁定任何新发现之前，每一项上一轮的断言记录都已通过实证重现。关键发现：图标固定的惰性区间跨越三元运算符边界重新锚定（在复合工厂上误报为绿色 — 即“过度跨度”问题），并且依赖项固定的尾部在没有格式化程序保护的情况下，在 `}, [] );` 风格的变体上误报为红色。本轮自身的经验教训已记录：JS 正则表达式需在 JS 中进行探测（`[^]` 在 Python 中读取不同的方言），我的第一个强化形式仍然误报为绿色 — 只有完全有界的形式才能通过所有六个探测。
+## The audit
 
-**等效性遍历 #27**（连续第 27 次干净遍历）：每个界面均处于记录状态；session-53 遍历协议从一开始就已嵌入 — 两条腿在第一次尝试时都很干净。
+Three parallel dispatched subagents (AUDIT-1 API/lib seams, AUDIT-2
+components/pages/effects, AUDIT-3 SEO/configs/tests/docs) — every
+load-bearing finding hand-verified in source by the lead.
+**AUDIT-1: 0C/0H/0M/1L/2I · AUDIT-2: 0C/0H/0M/1L/0I · AUDIT-3:
+0C/0H/0M/1L/1I** — combined **0 Critical / 0 High / 0 Medium /
+3 Low / 3 Info**. The session-54 diff itself verified correct on all
+three lanes at its shipped boundaries (AUDIT-1 re-verified the S54-1
+fully-bounded icon regex + the S54-6 precondition pin in source and
+empirically — a11y-controls 29 + boot-env 55 GREEN; AUDIT-2 verified
+all seven Tailwind v4 mitigations present, exact, and test-pinned, the
+complete mobile-menu mechanic set, and the React 19 discipline —
+166/166 across the eight named suites; AUDIT-3 re-derived every count
+in the lockstep census from disk and declared the docs five-way
+lockstep clean at 724/40/70/9/16/794, the plans map 1:1 with the 54
+plan files, the ten provenance sites at 1..54 — lag 1, inside the
+designed owner-narration window).
 
-**修复（S54-1..8，TDD + 测试用例）**：图标固定区间关闭、依赖项固定间距容差、状态臂注释真实性、期望消息真实性、注册注释的精确枚举、点号前置条件固定（现在无法静默失效）、卸载后错误提示注册、session_53.md 的 vitest 引用重新锚定。测试用例捕获了本次修复自身的出生缺陷（消息中的原始反引号 — 第三次连续轮次）。
+The decisive hand-verifications (all reproduced by the lead in source):
+**S55-1 (AUDIT-2 F-1)** — `src/components/effects/floating-icons.tsx`
+is the ONE effects file whose motion arms carry no pin: the suite's own
+S47-4 header enumerates it as covering particle-text + iridescence
+(+ reveal at S47-4), and tests/landing-page.test.ts pins only the
+10-icon DOM contract. Verified live: neither `if (reduced) return;`
+(line 78 — the reduced-motion static face; a deletion would run a
+perpetual rAF transform loop for prefers-reduced-motion users,
+invisible to axe and toBeVisible) nor `return () =>
+cancelAnimationFrame(raf);` (line 99 — the cleanup; a deletion would
+leak a per-frame loop per mount) appears in any `expect()` across the
+test tree. Blast radius small (decorative, aria-hidden, one call site)
+hence Low — but the S47-4 genus exactly: the fourth effects file joins
+the suite's own convention.
+**S55-2 (AUDIT-1 I2)** — `bun audit` (the AGENTS.md PERIODIC pre-ship
+duty) reports 9 advisories: minimatch (moderate, eslint chain),
+deepmerge-ts (high, prisma CLI › @prisma/config), the vite
+8.3.0–8.3.2 family incl. three launch-editor advisories (vitest ›
+@vitest/mocker › vite), source-map-js (high, the postcss chain —
+reached via next and @tailwindcss/postcss). Lead triage verified: NONE
+ride the runtime request path (the postcss/source-map usage is
+build-time CSS compilation; prisma CLI/vitest/vite/eslint are
+devDependencies; the runtime dependency diet unaffected). Recorded in
+the session-55 plan per the duty's own form; no runtime action.
+**S55-3 (AUDIT-3 I1)** — the sitemap.xml route's header comment omits
+the one operator-critical sentence its two sibling routes carry
+(robots.txt and manifest.json both state the build-time-inlining
+posture); comment-only family symmetry.
+**S55-4 (AUDIT-1 L1, register)** — the password/verify-code crypto seam
+uses synchronous `scryptSync` (password.ts:15,23): every
+login/verify/resend burns 1–2 scrypts, each stalling the whole event
+loop. Under honest keying the per-route fixed-window limits bound the
+aggregate; the amplification face requires the already-registered
+XFF-rotation hazard. REGISTERED with the reason: the async-scrypt swap
+at the pure seam is a sound future lift (the timing-equalizer doctrine
+survives — both branches would pay the same awaited work), deliberately
+not taken this round (the blast radius spans five routes + the
+password seam's test family for a demo-posture performance face the
+limiter already bounds).
+**S55-5 (AUDIT-1 I1, register)** — the tech niche's `"ai"` keyword
+(generator.ts:329) is unreachable as a bare token (keywordsOf's
+`length >= 3` floor) but LIVE as a substring ("email".includes("ai") →
+tech — live-probed: "AI is changing everything" → evergreen). REGISTERED
+as the detectNiche substring-shape genus's own bare-token face: the
+keyword is not dead weight, and niche-detection changes are a product
+decision for a dedicated round.
+**S55-6 (AUDIT-3 L1, reconcile-the-ask)** — the standing ask's
+"robots.txt (the disallow /api/ family)" description never matched the
+tree: robots.txt is deliberately Allow-all + the Sitemap line —
+byte-parity with the reference's own 75-byte body (re-verified in this
+round's walk), triple-pinned. The ask RE-SPELLED in this record;
+adding a Disallow would be a deviation from the reference requiring a
+Deviations-Ledger entry — not taken.
 
-**交付**：门禁重新运行呈绿色（所有计数保持不变，徽章 794），截图 115/116 已通过 PIL 验证，文档完全同步（溯源 1..54，SKILL v1.50.0，正式的 session_54.md，工作日志 Task 54）。
+## The parity walk
 
-下一轮：随时在已交付的树上重新运行标准指令。
+**ALL CLONE FACES MATCH — the twenty-eighth consecutive clean walk, no
+clone-side drift, no NEW reference-side drift.** The panel: inner
+`px-6 py-4 space-y-3` byte-identical (24px/16px padding, block,
+maxHeight none, transparent background both sides — the reference's
+`bg-slate-900/98` dead-class render); linkTexts identical (Home, Tool,
+Pricing, Contact, Upgrade to Pro – $19); Home teal rgb(45,212,191)
+14px/500 block; the siblings rgb(203,213,225) 14px/500 block; the pill
+rgb(15,23,42) 14px/600 block. The hamburger cursor pointer both sides
+with the `md:hidden p-2 text-slate-300` base identical (the reference
+still ships NO aria family — our expanded family the documented
+superset). Escape leaves the reference's panel open / closes ours with
+focus returned to the toggle (the documented superset, a REAL key
+press). The outside-tap face (a genuine non-nav H1 tap,
+pathname-checked) leaves it open on BOTH sides. Route-change close
+verified both sides at /Pricing (the reference UNMOUNTS the closed
+panel — panelCount 0; ours hides it in-DOM — the S26-1 design, hidden
+attr true, aria false). The desktop census: 6 VISIBLE links IDENTICAL
+both sides, CLONE total 11 = 6 visible + 5 hidden panel anchors. The
+brand wordmark gradient byte-identical both sides (linear-gradient(to
+right, rgb(45,212,191), rgb(251,191,36)), 18px/700, transparent fill).
+The five-route head census identical (titles + descriptions +
+canonicals). Sitemap 4 URLs both (weekly, 1.0/0.8/0.8/0.8) + robots
+identical modulo origin. The generator probe symmetrically dead/live
+(R: no copy button, no generation lands; L: a 6-hashtag post + the
+copy button, quota 0→1 — the D-1 documented superset). The login
+round-trip both landing the landing (R settled /Home; L / — the
+documented 308 deviation). Walk-protocol note: the session-53/54
+protocol held throughout (settle waits, visibility-checked panel
+probes, real key presses, settled-path recording, hydration-aware
+generator with the quota cleared); the walk's first panel probe read
+the outer flex bar before the targeted panel-scoped div probe landed
+(the session-50/51 precedent — resolved by the targeted probe, no
+finding).
+
+## The cures (TDD — the battery on record; the ownership divisions enumerated at birth)
+
+- **S55-1 (LOW, AUDIT-2 F-1)** — the float-field motion-arm pin: one
+  describe + one it added to tests/effects-motion.test.ts, mirroring
+  the S47-4 form (the S48-7 comment-stripped bare() read): pins
+  `if (reduced) return;` (the reduced-motion static face — NO rAF
+  registration may sit in the reduced shape), `return () =>
+  cancelAnimationFrame(raf);` (the cleanup — the effects lifecycle
+  law), and the static render's `style={{ left: f.left, top: f.top,
+  opacity: 1 }}` (the reduced face never paints opacity 0). Born GREEN
+  against the cured source. Battery: (a) the reduced plant — line 78
+  removed → exactly the new it REDs (the other 13 green); restored →
+  GREEN; (b) the cleanup plant — the return gutted to `return () =>
+  {};` → exactly the new it REDs; restored → GREEN; the source
+  byte-identical through the round (the empty post-restore diff).
+- **S55-2 (INFO, AUDIT-1 I2)** — the bun-audit triage recorded in the
+  session-55 plan (all dev-toolchain/build-time; none on the runtime
+  request path; no runtime action) — the AGENTS.md duty's own required
+  form. No code change.
+- **S55-3 (INFO, AUDIT-3 I1)** — the sitemap route's header comment
+  gains the two sibling routes' exact sentence: "Static content:
+  prerendered at build time (NEXT_PUBLIC_SITE_URL is inlined — set it
+  before `bun run build` in production)." Comment-only (the
+  seo-surfaces S37-4 pins read comment-stripped; no §12 row).
+- **S55-4 (register)** — the scryptSync blocking posture, registered
+  with the reason (the async-swap lift documented for the provider
+  face).
+- **S55-5 (register)** — the "ai" bare-token gap, registered as the
+  detectNiche substring-shape genus's own face.
+- **S55-6 (reconcile)** — the robots.txt standing ask re-spelled in
+  the session-55 plan's record: byte-parity (Allow-all + Sitemap line)
+  is the doctrine.
+
+**Accepted/observed register (the standing residuals carried forward
+unchanged — the session-54 register plus S55-4/S55-5):** the nav links'
+UA-default focus outline; the reduced-motion live-toggle gap; the quota
+store's midnight rollover; the classifier's P1001/P1002 500 face; the
+api-robustness census's route.ts-only matcher; the hero-portrait
+weight/resize; the workspace's ambient absolute DATABASE_URL; the
+detectNiche substring shape; the proxyHopDepth parse mirror; the
+setSessionCookie unit gap; the signup first-admin race; the
+verify/resend read-then-write pair; the enumeration faces; the
+single-node limiter; the 404/error main-landmark posture; the smoke-leg
+retired-form negatives; the in-process limiter; the 404 client-render
+body; the formula-driven generator; the in-app OTP delivery; the footer
+© build-time year; the forgot-password link-clobber (PAD §11);
+ContactMessage.email's unindexed readback scan; the
+failed-regeneration post discard; the verify-digits wipe while a resend
+is in flight; the two sanctioned window.location.origin reads; the
+novel strip idioms escaping the textual arms; the implementation-plan
+§4 unticked checkboxes; the symlinkSync Windows-portability face; the
+route-tier exact-500 e2e arm; the failed re-submit inside the 2.6s
+window keeping the stale "Message Sent!" label; the ok-16 partial
+family summary; the `.env` provenance register entry re-scope; the REF
+body fallback ink; the oklab-vs-rgba `/60` serialization family; the
+dev-server flapping transient + the settle protocol; the parseEnvFile
+unclosed-quote divergence (S53-6); the bind-mount alias dedupe
+direction (S53-7); the stripComments JSX-brace family gap (S53-7); the
+walk-protocol lessons (S53-7); the post-unmount error/catch toasts
+(S54-7); the scryptSync blocking posture (S55-4); the "ai" bare-token
+gap (S55-5).
+
+## The count re-anchor
+
+UNIT 724 → 725 (the S55-1 pin is ONE new it), SUITES 40 unchanged,
+E2E 70 unchanged, E2E_SPECS 9 unchanged, SMOKE 16 unchanged, BADGE
+794 → 795. The s55 ladder entry written (with the s51..s54 held-run
+summarized — no growth in those rounds, the ladder's own convention).
+No §12 row touched (floating-icons.tsx's line count unchanged — the
+cure is test-only; sitemap.xml/route.ts is not a §12 file). The ten
+provenance sites re-anchored to 1..55 — lag 0 at ship; SKILL v1.50.0 →
+v1.51.0.
+
+## Verified
+
+- The full gate on the exact commit tree (below)
+- The mutation battery on record: the reduced plant (RED exactly the
+  new it, restored GREEN) and the cleanup plant (RED exactly the new
+  it, restored GREEN) — the source byte-identical through the round
+- The parity walk post-cure: the standing faces hold, no drift
+- Captures 117/118 on the dev server (the owner-instructed posture,
+  the session-29..54 precedent): the mobile-menu open clean-walk at
+  390×844 + the landing hero at 1280×800, PIL-verified
+- Docs lockstep: README (badge 795, the two 40-files/725-tests sites,
+  the session-55 row on the continuous table, the gate footer); AGENTS
+  (the unit counts; the plans map's fifty-fifth round); CLAUDE (the
+  unit counts); PAD (§8.1's unit row + the §8.3 lockstep sentence);
+  SKILL v1.50.0 → v1.51.0 (frontmatter, §0.5 1..55, project_state, §11
+  checklist, Appendix A's session-55 row, Appendix B's header); the
+  ten provenance sites at 1..55; worklog Task 55; this session log;
+  the plan's post-execution record
+
+**Gate at the session-55 ship: lint 0/0 · tsc 0 · unit 725/725 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

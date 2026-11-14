@@ -5920,3 +5920,88 @@ the gate → captures → push.
 
 **Gate at the session-54 ship: lint 0/0 · tsc 0 · unit 724/724 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+## Task 55 — The Float-Field Motion-Arm Pin + The Audit-Triage Record + The Sitemap Comment Symmetry + The Register Batch (2026-11-14)
+
+- CONTEXT: the workspace re-cloned (the sandbox reset between rounds);
+  `.env` restored from `.env.example` + the schema pushed + the seed
+  re-run (census MATCH); the one-time `bunx playwright install
+  chromium` re-run (1248). The core docs re-read and re-verified (AGENTS,
+  CLAUDE, README, PAD, SKILL v1.50.0); session_54.md (the formal log) +
+  the session-54 plan's post-execution record + worklog Task 54 +
+  session_55.md (the owner's round-54 narration) internalized; every
+  lockstep site confirmed at the session-54 ship counts. neo-crm
+  re-checked: unchanged (HEAD b3d0fbe, still its session-217) — the
+  eighth consecutive round.
+- BASELINE GATE GREEN at the exact documented counts: lint 0/0 · tsc 0 ·
+  unit 724/724 (40 files) · build · smoke 16/16 · e2e 70/70 (9 specs) ·
+  census MATCH — zero drift. The standing asks re-verified up front
+  (the `.env` `DATABASE_URL="file:../db/custom.db"` contract with `db/`
+  at the repo root; the vitest + playwright suites in place and
+  current; the sitemap/robots/manifest/OG family verified live in this
+  round's walk; `skills/` excluded from every gate; `.env.example`
+  committed).
+- AUDIT: three parallel subagents (API/lib seams, components/effects,
+  SEO/configs/tests/docs) — **AUDIT-1 0C/0H/0M/1L/2I · AUDIT-2
+  0C/0H/0M/1L/0I · AUDIT-3 0C/0H/0M/1L/1I** — combined 0C/0H/0M/3L/3I.
+  AUDIT-1 re-verified the S54-1/S54-6 cures in source + empirically
+  (a11y-controls + boot-env 84 GREEN), the PrismaClient one-home rule,
+  the rate-limit table, the reset-token contract, and ran `bun audit`
+  (9 advisories — the triage recorded in the session-55 plan: ALL
+  dev-toolchain/build-time, none on the runtime request path);
+  AUDIT-2 verified all seven Tailwind v4 mitigations present, exact,
+  and test-pinned, the full mobile-menu mechanic set, and the React 19
+  discipline (166/166 across the eight named suites; 724/724 total);
+  AUDIT-3 re-derived every lockstep count from disk and declared the
+  SEO family + configs clean (92/92). The lead's hand-verifications:
+  the float-field coverage gap (neither floating-icons.tsx motion arm
+  in any expect — the S47-4 genus's fourth file), the scryptSync
+  blocking posture (registered, the async-swap lift documented), the
+  "ai" bare-token gap (registered — the keyword is LIVE via
+  substrings), the robots.txt ask-reconciliation (the Allow-all form
+  is the reference-parity doctrine, triple-pinned; the ask re-spelled).
+- PARITY WALK #28 — the twenty-eighth consecutive clean walk (the panel
+  inner byte-identical — 24px/16px/block/maxHeight none/transparent
+  both sides, linkTexts + every link style identical; the hamburger
+  base + cursor pointer both sides, the reference still shipping NO
+  aria family; Escape leaves the reference open / closes ours with
+  focus return; the outside-tap genuine both sides; route-change at
+  /Pricing R-unmounts/L-hides; the desktop census 6 visible identical +
+  CLONE total 11; the brand gradient byte-identical; the five-route
+  head census identical; sitemap 4 URLs + robots identical modulo
+  origin; the generator dead/live with quota 0→1; the login round-trips
+  R-/Home L-/).
+- CURES (TDD): S55-1 the float-field motion-arm pin (+1 pin in
+  effects-motion — the fourth effects file joins; pins the reduced
+  early-return (NO rAF in the reduced shape), the rAF cleanup, and the
+  static render's opacity-1 style; the battery: each plant — the
+  reduced line removed, the cleanup gutted — REDs exactly the new it,
+  restored GREEN, the source byte-identical through the round);
+  S55-2 the bun-audit triage recorded in the session plan (the AGENTS
+  duty's own form); S55-3 the sitemap route's header comment gains the
+  sibling SEO routes' build-time-inlining sentence (family symmetry,
+  comment-only); S55-4 the scryptSync blocking posture REGISTERED (the
+  async-swap lift documented for the provider face); S55-5 the "ai"
+  bare-token gap REGISTERED (the detectNiche substring-shape genus's
+  own face); S55-6 the robots.txt standing ask re-spelled (byte-parity
+  Allow-all + Sitemap line is the doctrine).
+- COUNTS: UNIT 724 → 725 (the S55-1 pin; the s55 ladder entry written
+  with the s51..s54 held-run summarized), SUITES 40, E2E 70, SPECS 9,
+  SMOKE 16, BADGE 795. No §12 row touched (floating-icons.tsx's line
+  count unchanged — test-only; sitemap.xml/route.ts is not a §12 file).
+  The ten provenance sites re-anchored to 1..55 — lag 0 at ship; SKILL
+  v1.50.0 → v1.51.0.
+- VERIFIED: the full gate on the exact commit tree (below); the
+  mutation battery on record (each plant RED exactly the new it);
+  the parity walk post-cure (the standing faces hold, no drift); the
+  captures 117/118 on the dev server (the owner-instructed posture,
+  the session-29..54 precedent): the mobile-menu open clean-walk at
+  390×844 + the landing hero at 1280×800, PIL-verified; docs lockstep
+  (README badge 795 + the session-55 row + the gate footer; AGENTS
+  unit counts + the plans map's fifty-fifth round; CLAUDE unit counts;
+  PAD §8.1 + §8.3; SKILL v1.51.0 frontmatter/§0.5/§11/Appendix A's
+  session-55 row/Appendix B's header; the ten provenance sites at
+  1..55; worklog Task 55; docs/session_55.md (the formal log replacing
+  the owner's narration); the session-55 plan's post-execution record).
+
+**Gate at the session-55 ship: lint 0/0 · tsc 0 · unit 725/725 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

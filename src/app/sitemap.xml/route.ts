@@ -13,6 +13,12 @@ import { siteUrl } from "@/lib/site";
 // Route surface: the canonical paths the router serves — / (the landing),
 // /Tool, /Pricing, /Contact. The reference's capitalized /Home alias
 // 308-redirects to / (the duplicate-content fix), so only / is listed.
+//
+// Static content: prerendered at build time (NEXT_PUBLIC_SITE_URL is
+// inlined — set it before `bun run build` in production) — the sibling
+// SEO routes' own note (robots.txt/manifest.json carry the same
+// sentence; session-55, S55-3 — family symmetry for the operator
+// reading this one file's header).
 export const dynamic = "force-static";
 
 const ROUTES: Array<{ path: string; priority: string }> = [

@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..54.
+// are docs/session_1..55.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";

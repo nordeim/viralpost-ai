@@ -307,6 +307,12 @@ import {
 // e2e 70 unchanged (the S50-10 proxy-hops pin is the playwright
 // config's env edit — doctrine closure only, no count change).
 // SMOKE 16 unchanged.
+// s51..s54: unit 724/40 held (every cure extends an existing it in
+// place — no growth, the ladder's own convention; s54's own entry
+// says so). s55: 725/40 (+1 — the S55-1 float-field motion-arm pin
+// (effects-motion, the AUDIT-2 F-1 coverage gap: floating-icons.tsx
+// was the fourth effects file whose motion arms carried no pin)) and
+// the e2e 70 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -314,7 +320,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 724;
+const UNIT = 725;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
