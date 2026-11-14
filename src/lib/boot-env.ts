@@ -458,8 +458,27 @@ export function shadowingEnvFileWarnings(
 // next-runtime guard returns before the import executes on edge).
 // The pure seam above stays pure — this wrapper is the Node-only
 // adapter, the applyBootEnvReport pattern's shadow sibling.
+// Session-50 (S50-1, AUDIT-1 M1): the wrapper probes the DEDUPED UNION
+// of the cwd and PWD. The standalone server.js runs
+// process.chdir(__dirname) BEFORE next loads, so in the
+// bun-run-start posture the cwd at register() sits in
+// .next/standalone — a cwd-only probe never saw the LAUNCH dir (the
+// repo root) where bun loaded the env files, leaving the S47-2 warning
+// inert for repo-root shadow files (live-probed: the shadow file's
+// DATABASE_URL reached the server with zero signal). bun inherits
+// PWD = the launch cwd and the chdir never updates it, so the union
+// covers both postures; the dev/start postures (no chdir) keep
+// cwd === PWD and probe exactly once (the dedupe arm).
 export function shadowingEnvFileWarningsForServer(
   env: { NODE_ENV?: string | undefined },
 ): string[] {
-  return shadowingEnvFileWarnings(process.cwd(), env);
+  const cwd = process.cwd();
+  const dirs = [cwd];
+  const pwd = process.env.PWD;
+  if (pwd && pwd !== cwd) dirs.push(pwd);
+  const out: string[] = [];
+  for (const d of dirs) {
+    out.push(...shadowingEnvFileWarnings(d, env));
+  }
+  return out;
 }

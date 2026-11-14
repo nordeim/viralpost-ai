@@ -125,11 +125,32 @@ describe("the { ok, error } envelope family", () => {
     // has no maxLength; a paste reaches the boundary). The pin: the
     // schema-failure branch distinguishes over-length from empty through
     // the SAME exported message the seam owns.
+    // Session-50 (S50-12, AUDIT-1 I1): the honest bound. The branch
+    // answers the seam's 500 message only when the COLLAPSED idea
+    // exceeds the seam's bound (the seam would reject it too); a
+    // collapse that FITS was rejected by the schema's raw 1000
+    // pre-filter alone — the NEW ideaRawLengthMessage names that
+    // bound, never the seam's (the old single-message form told a
+    // whitespace-padded 1001-char idea its collapsed form was too
+    // long — dishonest; the seam would have accepted it).
     const src = stripComments(read("src/app/api/generate/route.ts") ?? "");
     expect(src).toMatch(/ideaTooLongMessage\(\)/);
+    expect(src).toMatch(/ideaRawLengthMessage\(\)/);
+    expect(src).toMatch(/collapseIdea\(rawIdea\)\.length > MAX_IDEA_CHARS/);
     expect(src).toMatch(/"Describe your post idea first\."/);
     const gen = stripComments(read("src/lib/generator.ts") ?? "");
     expect(gen).toMatch(/export function ideaTooLongMessage/);
+    expect(gen).toMatch(/export function ideaRawLengthMessage/);
+    // MAX_IDEA_CHARS exports (one home) — the route's branch compares
+    // the collapsed length against the SEAM's bound without
+    // duplicating the 500.
+    expect(gen).toMatch(/export const MAX_IDEA_CHARS = 500/);
+    // The raw message names the pre-filter's own bound (1000), never
+    // the seam's.
+    expect(gen).toMatch(/export function ideaRawLengthMessage\(\): string \{\s*return "[^"]*1000[^"]*";\s*\}/);
+    // The pre-filter the raw message names is the schema's max(1000)
+    // — the two move together.
+    expect(src).toMatch(/z\.string\(\)\.min\(1\)\.max\(1000\)/);
   });
 
   // Session-15 (S15-2): the two route-local parse sites (generate +
@@ -167,8 +188,14 @@ describe("the { ok, error } envelope family", () => {
       // over-length message for a type error. Only a genuine string idea
       // can be over-length.
       const src = stripComments(read("src/app/api/generate/route.ts") ?? "");
+      // Session-50 (S50-12): the regex owns ONLY the typeof gate — the
+      // message choice behind the ? is F11-7's face (the S50-7
+      // one-owner lesson applied at birth: the old tail
+      // (\?\s*ideaTooLongMessage\(\)) made THIS pin co-own the branch's
+      // message vocabulary, tripping alongside F11-7 on any message
+      // change).
       const branch = src.match(
-        /typeof rawIdea === "string" && rawIdea\.trim\(\)\.length > 0\s*\?\s*ideaTooLongMessage\(\)/,
+        /typeof rawIdea === "string" && rawIdea\.trim\(\)\.length > 0\s*\?/,
       );
       expect(branch, "the over-length arm must gate on typeof rawIdea === 'string'").toBeTruthy();
     });

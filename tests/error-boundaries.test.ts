@@ -27,7 +27,7 @@
 // RED at birth (the files do not exist yet); GREEN when WP-4/WP-5 land.
 // Lineage note (session-21, S21-12): the scandihaven/s169 citations
 // are donor-ledger numbers (the template family's repos); this repo's
-// own sessions are docs/session_1..49.
+// own sessions are docs/session_1..50.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -142,7 +142,10 @@ describe("session-170 (WP-5): the smoke leg (scripts/smoke-test.sh, the §13.4 s
     expect(script).toContain(".next/standalone/$entry");
     // Session-34 (S34-7): the enumeration now mirrors next.config's
     // outputFileTracingExcludes root files (plus uploads, the
-    // pre-existing tripwire — 29 entries vs the config's 28;
+    // pre-existing tripwire — 31 entries vs the config's 30, the
+    // session-50 S50-3 re-anchor: the S49-1 ship added the two env
+    // names to the loop but left this census comment at 29/28 —
+    // the docs-lie genus, cured one round late;
     // S36-5c restored the qualifier). Session-35 (S35-5): the two
     // partial chunks replaced by the FULL loop line as ONE toContain —
     // the old form left the middle 4 + the tail 10 entries (14 of 29,
@@ -152,7 +155,14 @@ describe("session-170 (WP-5): the smoke leg (scripts/smoke-test.sh, the §13.4 s
     // entry (e.g. `tests`) from the loop → exactly this pin REDs.
     // Session-49 (S49-1): .env.production + .env.local join the list
     // (31 entries — the .env.production closure's mirror side; the
-    // census comment above re-anchored in the same commit).
+    // census comment above re-anchored at session-50, S50-3 — the
+    // same-commit claim in the S49-1 ship note was false, the
+    // comment-lag genus).
+    // Session-50 (S50-7): the ownership handoff — THIS pin owns the
+    // loop's literal content (every entry, the membership faces
+    // included); gate-script's smoke arm re-scoped off the
+    // .env.production membership to the loop-shape face (one defect,
+    // one owner — the N12-2 doctrine).
     expect(script).toContain(
       "for entry in .env .env.example .env.production .env.local .git db skills docs uploads worklog.md test-results dev.log server.log AGENTS.md CLAUDE.md README.md Project_Architecture_Document.md viralpost-ai_SKILL.md neo-crm_SKILL.md next.config.ts LICENSE bun.lock package-lock.json eslint.config.mjs playwright.config.ts postcss.config.mjs tsconfig.json tsconfig.tsbuildinfo vitest.config.mts scripts tests; do",
     );

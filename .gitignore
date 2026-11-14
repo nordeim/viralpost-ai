@@ -29,6 +29,15 @@ server.log
 # local env files — never commit secrets
 .env
 .env*.local
+# Session-50 (S50-2): the Next-convention mode files join the block —
+# the S49-1 persona (an operator's .env.production carrying the real
+# AUTH_SECRET per DEPLOYMENT.md §4) staged on the first `git add -A`
+# while the block covered only `.env` + `.env*.local` (git
+# check-ignore exited 1). The cascade mirror (boot-env) and the
+# shadow-union probe (S50-1) anticipate exactly these names.
+.env.production
+.env.development
+.env.test
 
 # database binaries — recreate with db:push + db:seed
 db/*.db

@@ -102,6 +102,15 @@ export default defineConfig({
       // disarmed this very guard.)
       VIRALPOST_DISABLE_IN_APP_OTP: "",
       VIRALPOST_DISABLE_IN_APP_RESET: "",
+      // Session-50 (S50-10, AUDIT-3 I4): the D-195a3 polluted-shell
+      // doctrine completed — the one knob this env block still
+      // inherited from the ambient shell (the ...process.env spread
+      // above). A polluted parent exporting a deeper trust depth would
+      // change the limiter's X-Forwarded-For parsing mid-suite; "1" is
+      // the unset/empty default (rate-limit.ts's fails-closed parse:
+      // unset/empty = 1, unparsable/negative fails closed), so this
+      // pin is doctrine closure only — no determinism impact today.
+      VIRALPOST_PROXY_HOPS: "1",
     } as Record<string, string>,
   },
 });

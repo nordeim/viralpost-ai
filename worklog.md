@@ -5467,3 +5467,77 @@ the gate → captures → push.
 
 **Gate at the session-49 ship: lint 0/0 · tsc 0 · unit 720/720 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 50 — The Launch-Dir Shadow Union + The Envprod Gitignore Closure + The Smoke-Tail Truth + The Copy-Epoch Guard + The Src-Sweep Closure + The Mirror-Set Pin + The Redundant-Arm Cure + The Prose Batch (2026-11-14)
+Agent: main (Z.ai)
+Session: 50 (2026-11-14)
+
+Task: The standing instruction round on the session-49 tree (`5663c63` +
+the owner's narration `f74d434`): docs review → baseline gate → the
+comprehensive audit → the live reference parity walk → the TDD cures →
+the gate → captures → push. (The round resumed mid-flight after a
+context-window stop: S50-1/2/3/8 were verified in place in the working
+tree, the cures continued from S50-4.)
+
+- BASELINE: lint 0/0 · tsc 0 · unit 720/720 (40 files) · build · smoke
+  16/16 · e2e 70/70 (9 specs) · census MATCH; the `.env`
+  `DATABASE_URL="file:../db/custom.db"` contract intact with `db/` at
+  the repo root; chromium-1248 present; `skills/` excluded from every
+  gate; `.env.example` committed, six-knob contract; neo-crm unchanged
+  (HEAD b3d0fbe, its session-217 — no new lessons).
+- AUDIT: three parallel subagents (AUDIT-1 API/lib seams, AUDIT-2
+  components/pages/effects, AUDIT-3 SEO/configs/tests/docs) — combined
+  **0C/0H/2M/5L/14I**, every load-bearing finding hand-verified in
+  source by the lead. The two Medium: the launch-dir shadow gap
+  (S50-1) and the envprod git boundary (S50-2).
+- PARITY WALK: the twenty-third consecutive clean walk — no clone-side
+  drift, no new reference-side drift; the mobile-menu panel
+  byte-identical class-for-class (the targeted div probe), the
+  route-change close verified on BOTH sides (the reference UNMOUNTS
+  the closed panel), the documented supersets persist.
+- CURES (TDD, every new arm battery-planted): S50-1 the launch-dir
+  shadow union (the deduped cwd ∪ PWD probe + the instrumentation
+  comment-truth fix + 1 behavioral pin, battery on record); S50-2 the
+  envprod gitignore closure (.gitignore + AGENTS + SKILL, +1 arm,
+  battery on record); S50-3 the smoke-tail truth (31-entry header +
+  the error-boundaries census comment re-anchor + the S49-1
+  same-commit claim corrected); S50-4 the copy-epoch guard (the async
+  sibling of S49-2; the landing pin extended IN PLACE, battery on
+  record); S50-5 the src-sweep closure (the S48-1 ban, the forms-guard
+  + loop-arm, and the S49-3 sweep iterate tests/ ∪ src/ through the
+  shared srcUnitTestFiles/allUnitTestFiles helpers; the planted-src
+  battery on record — the plant invisible pre-cure, flagged
+  post-cure); S50-6 the excludes↔smoke mirror-set pin (+1 arm, the
+  exclude-drop battery on record); S50-7 the redundant-arm cure
+  (gate-script re-scoped onto the loop-shape face; battery face 1
+  decisive — exactly error-boundaries trips; face 2 observed — the
+  loop-line deletion trips both owners, the plan's "exactly
+  gate-script" wording corrected in the post-execution record);
+  S50-8 the ok-16 hygiene-mirror re-spell; S50-9 the plans-map
+  duplicates face (the Set-size teeth, the duplicate-token battery on
+  record); S50-10 the e2e webServer's VIRALPOST_PROXY_HOPS pin; S50-11
+  the contact "Sending…" face (+1 pin, battery on record); S50-12 the
+  honest raw-bound message (collapseIdea one-home + MAX_IDEA_CHARS
+  exported + ideaRawLengthMessage; the F11-7 pin extended + the S15-2
+  regex re-scoped to the typeof gate — the battery tripped exactly
+  F11-7); S50-13 the register (the PAD §11 forgot-password
+  link-clobber row + the accepted-residual additions).
+- COUNTS: UNIT 720 → 724 (+4: the S50-1 pin, the S50-2 arm, the S50-6
+  arm, the S50-11 face; S50-4/5/7/9/12 extend existing its IN PLACE),
+  SUITES 40, E2E 70 held, SPECS 9, SMOKE 16, BADGE 790 → 794. PAD
+  §12's generator.ts (470 → 495), generator-card (279 → 292), and
+  smoke-test (275 → 278) rows re-anchored to the live wc -l; the ten
+  provenance sites re-anchored to 1..50 — lag 0 at ship; SKILL
+  v1.45.0 → v1.46.0. The docs-counts count-ladder's missed s49 entry
+  written at session-50, contiguous (the comment-lag genus, named in
+  the entry itself).
+- VERIFIED: the full gate on the exact commit tree (below); the
+  mutation batteries single-tooth on record (the redundant-arm
+  division proven twice — the S50-7 face-1 battery and the S50-12
+  F11-7-only battery); the parity walk post-cure; the captures 107/108
+  on the dev server; docs lockstep (README + AGENTS + CLAUDE + PAD +
+  SKILL v1.46.0 + the ten provenance sites + worklog Task 50 +
+  docs/session_50.md + the plan's post-execution record).
+
+**Gate at the session-50 ship: lint 0/0 · tsc 0 · unit 724/724 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

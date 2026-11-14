@@ -78,10 +78,18 @@ describe("session-11: the gate-script pins (the neo-crm adoption)", () => {
       smoke,
       "smoke leg 16's hygiene mirror must check .env.production (the artifact-level assertion of the S49-1 closure)",
     ).toContain(".next/standalone/$entry");
+    // Session-50 (S50-7, AUDIT-3 L3): re-scoped from the .env.production
+    // MEMBERSHIP face — owned by error-boundaries' S36-5a full-line pin
+    // since session-36 (two pins on one defect: removing the entry
+    // tripped both arms, the N12-2 redundant-arm genus). This arm owns
+    // the loop-SHAPE face only: the hygiene check stays a `for entry
+    // in` loop over a list carrying a standalone .env entry
+    // (re-anchor-stable — a list edit re-anchors error-boundaries'
+    // literal while this face keeps watching the loop's existence).
     expect(
       smoke,
-      "smoke leg 16's entry list must include .env.production (the S34-7 mirror doctrine)",
-    ).toMatch(/for entry in [^']*\.env\.production /);
+      "smoke leg 16 must stay a for-entry loop with a standalone .env entry (the loop-shape face; the literal content is error-boundaries' S36-5a pin — S50-7 handoff)",
+    ).toMatch(/for entry in [^']*\.env /);
   });
 
   it("the start script boots the standalone server in production", () => {

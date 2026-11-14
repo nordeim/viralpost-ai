@@ -261,6 +261,25 @@ import {
 // toast-anatomy — the pause re-arm dep-array pin, S48-4) and the e2e
 // 70 unchanged (the S48-6 wrapper anchor is in-place on the existing
 // leg). SMOKE 16 unchanged.
+// s49: 720/40 (+2 — the S49-3 strip-chain SWEEP replaced the S48-1
+// carriers arm (its own it re-titled, the enumeration retired) +1;
+// the S49-4 plans-map tail-currency census arm +1; the S49-2
+// copied-reset pin extended the landing-page S17-6 family it IN
+// PLACE and the S49-8 resend face extended the S22-6 family it IN
+// PLACE — +0; this ladder entry itself was MISSED at the s49 ship
+// and is written at session-50, contiguous — the comment-lag genus,
+// named) and the e2e 70 unchanged. SMOKE 16 unchanged.
+// s50: 724/40 (+4 — the S50-1 launch-dir shadow-union pin (boot-env,
+// behavioral: real temp dirs + chdir + PWD); the S50-2
+// envprod-gitignore arm (docs-counts); the S50-6 excludes↔smoke
+// mirror-set arm (docs-counts, the config-side tripwire); the S50-11
+// contact Sending… face (a11y-controls, the pending family's sixth
+// member); the S50-4 copy-epoch guard, the S50-5 src-sweep closure,
+// the S50-7 redundant-arm cure, the S50-9 duplicates face, and the
+// S50-12 raw-bound message all extend existing its IN PLACE) and the
+// e2e 70 unchanged (the S50-10 proxy-hops pin is the playwright
+// config's env edit — doctrine closure only, no count change).
+// SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -268,7 +287,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 720;
+const UNIT = 724;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -327,6 +346,33 @@ function e2eSpecFiles(): string[] {
 /** The e2e surface the forms-guard scans: specs + the setup project. */
 function e2eCountedFiles(): string[] {
   return [...e2eSpecFiles(), "auth.setup.ts"].sort();
+}
+
+// Session-50 (S50-5, AUDIT-3 L1): the src-side unit surface, ONE HOME.
+// The vitest config admits src/**/*.test.ts (none exist today); the
+// census carried an inline scan of the same directory while the
+// strip-chain arms (the S48-1 ban, the S13-10 forms-guard + loop-arm,
+// the S49-3 sweep) iterated tests/ only — a src suite would execute in
+// the runner while escaping every textual arm. The scan extracts to
+// this helper; the union helper below feeds every census and sweep.
+function srcUnitTestFiles(): string[] {
+  return existsSync(join(root, "src"))
+    ? readdirSync(join(root, "src"), { recursive: true })
+        .filter((f) => String(f).endsWith(".test.ts"))
+        .map(String)
+        .sort()
+    : [];
+}
+
+/** The FULL unit surface every census and sweep arm iterates:
+ *  tests/ ∪ src/, each entry its repo-relative path (tests/…, src/…)
+ *  so every read(f) stays valid — a src suite joins every census and
+ *  every strip-chain arm the day it appears (S50-5). */
+function allUnitTestFiles(): string[] {
+  return [
+    ...unitTestFiles().map((f) => `tests/${f}`),
+    ...srcUnitTestFiles().map((f) => `src/${f}`),
+  ].sort();
 }
 
 describe("docs-counts: the live-tense count sites (the badge-drift genus, retired)", () => {
@@ -759,21 +805,16 @@ const GATE_FOOTER_RE = new RegExp(
 
 describe("docs-counts: session-12 — the reality census (constants vs DISK, F12-1)", () => {
   it("UNIT/SUITES match the live vitest surface (files + it/test blocks counted on disk)", () => {
-    const unitFiles = unitTestFiles();
-    expect(unitFiles.length, `tests/*.test.ts on disk: ${unitFiles.length} files (SUITES says ${SUITES})`).toBe(SUITES);
+    // Session-50 (S50-5): the vitest config admits src/**/*.test.ts too
+    // (none exist today) — the file and block counts both run over the
+    // tests/ ∪ src/ UNION through the shared helpers, and every
+    // strip-chain arm (the S48-1 ban, the S13-10 forms-guard + loop-arm,
+    // the S49-3 sweep) iterates the same union below.
+    const allUnit = allUnitTestFiles();
+    expect(allUnit.length, `unit test files on disk (tests/ ∪ src/): ${allUnit.length} (SUITES says ${SUITES})`).toBe(SUITES);
     let unitTests = 0;
-    for (const f of unitFiles) {
-      unitTests += (read(`tests/${f}`).match(/^\s*(?:it|test)\(/gm) ?? []).length;
-    }
-    // The vitest config also admits src/**/*.test.ts — none exist today;
-    // if one appears, it joins the census (and the count ladder).
-    const srcTestFiles = existsSync(join(root, "src"))
-      ? readdirSync(join(root, "src"), { recursive: true })
-          .filter((f) => String(f).endsWith(".test.ts"))
-          .map(String)
-      : [];
-    for (const f of srcTestFiles) {
-      unitTests += (read(join("src", f)).match(/^\s*(?:it|test)\(/gm) ?? []).length;
+    for (const f of allUnit) {
+      unitTests += (read(f).match(/^\s*(?:it|test)\(/gm) ?? []).length;
     }
     expect(unitTests, `it/test blocks on disk: ${unitTests} (UNIT says ${UNIT}) — re-anchor UNIT + every doc site above`).toBe(UNIT);
   });
@@ -854,11 +895,12 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
   it("no uncountable registration form in any unit suite or e2e spec (the census's shape contract)", () => {
     // Session-46 (S46-10): the module-level stripComments (the S45-9
     // helper above) — the local copies retired (the one-idiom doctrine).
-    const unitFiles = unitTestFiles();
+    // Session-50 (S50-5): the union — src suites join the guard.
+    const unitFiles = allUnitTestFiles();
     // Session-24 (S24-2): recursive — a nested spec dodges a flat scan
     // (the forms-guard's own blind spot until now).
     const e2eFiles = e2eCountedFiles();
-    for (const f of [...unitFiles.map((f) => `tests/${f}`), ...e2eFiles.map((f) => `tests/e2e/${f}`)]) {
+    for (const f of [...unitFiles, ...e2eFiles.map((f) => `tests/e2e/${f}`)]) {
       const src = stripComments(read(f));
       const form = src.match(/\.(each|skip|only|todo|concurrent|fails)\(/);
       expect(form, `${f} uses a "${form?.[0] ?? ""}" registration form the reality census cannot count — count it by hand and extend the census, or write plain it(/test( blocks`).toBeNull();
@@ -878,9 +920,10 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
   it("no it(/test( registration inside a for-loop body in any unit suite (the census counts source blocks)", () => {
     // Session-46 (S46-10): the module-level stripComments (the S45-9
     // helper above) — the local copy retired (the one-idiom doctrine).
-    const unitFiles = unitTestFiles();
+    // Session-50 (S50-5): the union — src suites join the guard.
+    const unitFiles = allUnitTestFiles();
     for (const f of unitFiles) {
-      const lines = stripComments(read(`tests/${f}`)).split("\n");
+      const lines = stripComments(read(f)).split("\n");
       for (let i = 0; i < lines.length; i++) {
         const forLine = lines[i].match(/^(\s*)for \(.*\) \{/);
         if (!forLine) continue;
@@ -1207,15 +1250,15 @@ describe("docs-counts: session-48 (S48-1) — the stripComments one-idiom census
   const flatten = (text: string) => text.replace(/\s+/g, " ");
 
   it("no unit test file carries the naive block-first signature (the phantom-open genus, banned family-wide)", () => {
-    for (const f of unitTestFiles()) {
+    for (const f of allUnitTestFiles()) {
       // RAW read (flattened): the needle itself contains // — a
       // comment-stripped read would line-eat the needle's own tail and
       // the ban could NEVER trip (the vacuous-pin genus the battery
       // caught at birth). A commented-out helper tripping the raw ban
       // is the desired stance: dead code gets retired, not commented
       // out (the repo's standing doctrine).
-      const flat = flatten(read(`tests/${f}`));
-      expect(flat, `tests/${f} must not carry the naive block-first strip form (line comments are eaten only after the block pass has already phantom-opened on their prose)`).not.toContain(NAIVE);
+      const flat = flatten(read(f));
+      expect(flat, `${f} must not carry the naive block-first strip form (line comments are eaten only after the block pass has already phantom-opened on their prose)`).not.toContain(NAIVE);
     }
   });
 
@@ -1226,12 +1269,15 @@ describe("docs-counts: session-48 (S48-1) — the stripComments one-idiom census
     // an exact per-file orphan count, so the exemption can never go
     // vacuous (remove an entry → the live orphans trip the sweep; add
     // a phantom entry → nothing changes, the count is exact).
+    // Session-50 (S50-5): the keys carry the union's repo-relative
+    // paths (tests/…, src/…) — a src-side CSS suite would key as
+    // "src/…" the day it appears.
     const CSS_ONLY_ORPHANS: Record<string, number> = {
-      "design-tokens.test.ts": 2,
-      "typography.test.ts": 2,
+      "tests/design-tokens.test.ts": 2,
+      "tests/typography.test.ts": 2,
     };
-    for (const f of unitTestFiles()) {
-      const flat = flatten(read(`tests/${f}`));
+    for (const f of allUnitTestFiles()) {
+      const flat = flatten(read(f));
       let start = 0;
       let orphans = 0;
       let sites = 0;
@@ -1258,7 +1304,7 @@ describe("docs-counts: session-48 (S48-1) — the stripComments one-idiom census
       const exempt = CSS_ONLY_ORPHANS[f] ?? 0;
       expect(
         orphans,
-        `tests/${f}: ${orphans} of ${sites} anchored block-pass site(s) lack the line-first chain (${exempt} CSS-only exempted) — the one-idiom doctrine (S48-1/S49-3) requires the line pass in every chain`,
+        `${f}: ${orphans} of ${sites} anchored block-pass site(s) lack the line-first chain (${exempt} CSS-only exempted) — the one-idiom doctrine (S48-1/S49-3) requires the line pass in every chain`,
       ).toBe(exempt);
     }
   });
@@ -1295,13 +1341,19 @@ describe("docs-counts: session-48 (S48-8) — the Appendix-B header bound census
 // sequence to the plan files on disk — the map enumerates every round 1:1
 // (one plan file per session since session 1), so a lagging tail or a
 // skipped middle entry REDs with the fix named.
+// Session-50 (S50-9, AUDIT-3 I2): the 1:1 claim's DUPLICATE face — a
+// pasted round (session-42 twice) kept every contains-assertion green
+// while the map stopped enumerating rounds 1:1 (matchAll counts tokens,
+// not distinct rounds). The Set-size assertion gives the claim
+// mechanical teeth.
 // ---------------------------------------------------------------------------
 describe("docs-counts: session-49 (S49-4) — the AGENTS plans-map tail-currency census (the missing-round genus, mechanically retired)", () => {
-  it("the plans map enumerates every plan round: the last session-N equals the plan-file count, no skipped middles", () => {
+  it("the plans map enumerates every plan round: the last session-N equals the plan-file count, no skipped middles, no duplicates", () => {
     const agents = read("AGENTS.md");
     const mapLine = agents.match(/`docs\/plans\/`[^\n]*/)?.[0] ?? "";
     expect(mapLine.length, "AGENTS's docs/plans/ enumeration line must exist (the Key docs section's plans map)").toBeGreaterThan(0);
     const rounds = [...mapLine.matchAll(/session-(\d+)/g)].map((m) => Number(m[1]));
+    expect(new Set(rounds).size, `the plans map carries a duplicated session-N token (${rounds.length} tokens vs ${new Set(rounds).size} distinct) — the map enumerates every round exactly once (the S50-9 1:1 teeth); remove the pasted duplicate`).toBe(rounds.length);
     expect(rounds.length, "the map must enumerate at least through the session-9 starter (the semantic-prose arm pins it)").toBeGreaterThanOrEqual(9);
     const last = Math.max(...rounds);
     const planFiles = readdirSync(join(root, "docs/plans")).filter((f) => f.endsWith(".md")).length;
@@ -1309,5 +1361,70 @@ describe("docs-counts: session-49 (S49-4) — the AGENTS plans-map tail-currency
     for (let i = 1; i <= last; i++) {
       expect(rounds, `the plans map skips session-${i} — every round carries its entry (one plan file per session, 1:1)`).toContain(i);
     }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-50 (S50-2, AUDIT-3 M1): the envprod GIT-boundary closure. The
+// S49-1 artifact closure (the persona: an operator's .env.production
+// carrying the real AUTH_SECRET per DEPLOYMENT.md §4) stopped at the
+// artifact boundary; the .gitignore carried only `.env` + `.env*.local`
+// (git check-ignore .env.production exits 1), so the persona's file
+// staged on the first `git add -A`. The env block now covers the
+// Next-convention mode family, and the AGENTS never-commit list + the
+// SKILL §11 checklist line (both re-spelled by S49-5 without it) carry
+// the family in the same commit.
+// ---------------------------------------------------------------------------
+describe("docs-counts: session-50 (S50-2) — the envprod gitignore closure (the git boundary of the S49-1 persona)", () => {
+  it("the .gitignore env block ignores the Next-convention mode files, and the never-commit lists name them", () => {
+    const gi = read(".gitignore");
+    for (const name of [".env.production", ".env.development", ".env.test"]) {
+      expect(gi.includes(`\n${name}\n`), `the .gitignore must ignore ${name} (the S49-1 persona's secrets file staged on git add -A pre-S50-2)`).toBe(true);
+    }
+    expect(read("AGENTS.md"), "AGENTS's never-commit list must name .env.production").toContain("`.env`, `.env.production`");
+    expect(read("viralpost-ai_SKILL.md"), "the SKILL §11 checklist's git-status line must name .env.production").toContain("no .env, .env.production, *.key");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-50 (S50-6, AUDIT-3 L2): the excludes↔smoke MIRROR-SET pin. The
+// S34-7 doctrine claims the smoke ladder's leg-16 hygiene list "mirrors"
+// next.config's outputFileTracingExcludes — but every pin sat on the
+// SMOKE side (error-boundaries' S36-5a full-line pin owns the loop's
+// literal; the smoke-leg prose censuses own the count prose): an exclude
+// dropped from next.config ONLY (the smoke list keeping the stale entry,
+// the artifact-hygiene posture silently diverging) shipped green — the
+// config-side tripwire the mirror doctrine claimed but never enforced.
+// This arm parses BOTH sides and asserts SET EQUALITY (normalizing
+// `x/**` → `x`): the smoke list === the excludes list + `uploads` (the
+// sanctioned S34-7 tripwire extra — the runtime uploads dir the tracer
+// never sees, belt-and-suspenders on the smoke side only). Division of
+// ownership (the N12-2 one-owner doctrine): S36-5a owns the smoke-side
+// literal; THIS arm owns the config↔smoke relation.
+// ---------------------------------------------------------------------------
+describe("docs-counts: session-50 (S50-6) — the excludes↔smoke mirror-set pin (the config-side tripwire the doctrine claimed but never enforced)", () => {
+  it("the smoke leg-16 list set-equals the outputFileTracingExcludes list + uploads (normalized x/** → x)", () => {
+    // next.config.ts: the "*" array body, its line comments stripped,
+    // its quoted strings collected. The strip runs on the BODY only —
+    // never the whole file (a // inside a URL string elsewhere in the
+    // config would be mangled by the line pass; the body's entries
+    // carry no //).
+    const rawBody = read("next.config.ts").match(/outputFileTracingExcludes:\s*\{\s*"\*":\s*\[([\s\S]*?)\]/)?.[1] ?? "";
+    expect(rawBody.length, "next.config.ts must carry the outputFileTracingExcludes \"*\" array (the artifact-hygiene source of truth) — a zero-length body means the parse shape changed; fix the arm's regex in the same commit").toBeGreaterThan(0);
+    const excludes = [...stripComments(rawBody).matchAll(/"([^"]+)"/g)].map((m) => m[1].replace(/\/\*\*$/, ""));
+
+    // smoke-test.sh: the leg-16 `for entry in …` list.
+    const smoke = read("scripts/smoke-test.sh").match(/for entry in ([^;]+); do/)?.[1]?.trim().split(/\s+/) ?? [];
+    expect(smoke.length, "smoke-test.sh must carry the leg-16 for-entry loop (the hygiene mirror's consumer) — a zero-length list means the loop's shape changed; fix the arm's regex in the same commit").toBeGreaterThan(0);
+
+    const exclSet = new Set(excludes);
+    const smokeSet = new Set(smoke);
+    // Direction 1 — every exclude mirrors into the smoke list.
+    const missing = [...exclSet].filter((e) => !smokeSet.has(e));
+    expect(missing, `the smoke leg-16 list must mirror every outputFileTracingExcludes entry (normalized) — missing: ${missing.join(", ")}. The two lists move TOGETHER: either restore the next.config exclude or drop the stale smoke entry in the same commit (S36-5a's full-line pin owns the smoke literal)`).toEqual([]);
+    // Direction 2 — the smoke list carries nothing beyond the excludes
+    // + the one sanctioned extra.
+    const extra = [...smokeSet].filter((e) => e !== "uploads" && !exclSet.has(e));
+    expect(extra, `the smoke leg-16 list carries entries beyond the excludes + the sanctioned S34-7 uploads extra — extra: ${extra.join(", ")}. The two lists move TOGETHER: either add the next.config exclude or drop the smoke entry in the same commit`).toEqual([]);
   });
 });

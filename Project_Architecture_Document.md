@@ -568,7 +568,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 40 | 720 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 40 | 724 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 70 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -586,7 +586,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 720/70/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 724/70/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -687,6 +687,7 @@ delivery.
 | LOW | `eslint.config.mjs` ships the family template's off-switches — TREE-WIDE, not just `react-hooks/exhaustive-deps` (session-15, S15-6; blast radius re-recorded session-16, S16-3) | No automated tripwire for hook-dependency regressions, stray `console.log`s, dead writes (`no-unused-vars`/`no-undef`/`no-unreachable`/`no-console` also off) | Accepted with evidence: a dry run surfaces exactly 3 exhaustive-deps flags (session-43, S43-2, re-counted live) — particle-text.tsx ×2 (the deliberate `texts.join("\|")` stability idiom, both flags at particle-text.tsx:313) + the navbar's S31-2 pathname-keyed focus-return arm (its deliberate `menuWasOpen` omission — the effect's own in-code comment names it; added after the session-17 S17-8 re-verification the register previously cited, which is why the stale "exactly 2" claim survived 26 sessions. Session-46, S46-4: the brittle line-number citation retired — a line-anchored cite drifted twice (95→103→111) as comment blocks moved around it); scoping the off-switches per-file requires restructuring BOTH idioms first — the tsc-strict gate + the census tests compensate meanwhile |
 | LOW | The footer's © year evaluates at `next build` on the statically-prerendered `(site)` pages (session-16, S16-5) | The displayed year rolls only on the next deploy (the reference's SPA computes it client-side every load — divergence opens only after a calendar-year boundary crosses the last deploy) | Accepted + documented in-code: a client-side island would trade hydration risk for zero current-day value |
 | LOW | The signup first-user-admin bootstrap race — `findUnique → count → create` is not atomic, so two concurrent different-email signups on a never-seeded table can both read count 0 and both mint `role: "admin"` (session-44, S44-7; live-reproduced on a scratch SQLite db) | A fresh-clone-only window can mint two admins | Accepted + documented in-route: `role` is inert in this tree (echoed by login/me, consumed by no authorization gate), and any seeded deployment (the census contract: 1 user pristine) already carries the admin demo user — the empty-table window never opens; the `$transaction` lift is deliberately not taken (a write-lock transaction for an inert field is not worth the contention on the hot signup path) |
+| LOW | The forgot-password link clobber — each request overwrites the user's live `resetToken` row (`db.user.update` on the same record, session-50 S50-13 register), so a second request invalidates the first's link mid-flight | A user who re-requests kills their own earlier link (rate-limited 10/IP/15min, `forgot:` bucket) | Accepted (session-50, S50-13): subsumed by the demo in-app delivery posture — the fresh link is delivered in-response, so the overwrite is self-healing for the demo user; the single-row serialization lift is not worth the hot-path contention |
 
 Swept at session-2 ship — no open CRITICAL/HIGH items.
 
@@ -700,7 +701,7 @@ commit as the file.)
 
 | File | Lines | Purpose |
 |------|-------|---------|
-| `src/lib/generator.ts` | 470 | The deterministic viral-formula engine + the reference's exact prompt |
+| `src/lib/generator.ts` | 495 | The deterministic viral-formula engine + the reference's exact prompt (the S50-12 collapse seam: collapseIdea one-home + the honest raw-bound message) |
 | `src/lib/generation-counter.ts` | 113 | The 3/day quota: pure functions + the store adapter |
 | `src/lib/route-title.ts` | 75 | The unknown-route title derivation (ADR-006) |
 | `src/lib/from-url.ts` | 43 | The from_url open-redirect guard (session-13, S13-4; the leading-// arm, session-14, S14-1) |
@@ -712,7 +713,7 @@ commit as the file.)
 | `src/lib/api.ts` | 323 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2; the transient-abort classifier, session-37, S37-2; the seam's own transient arm, session-38, S38-1; the two-code 503 taxonomy note, session-46 S46-7) |
 | `src/app/globals.css` | 250 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1) |
 | `src/components/marketing/navbar.tsx` | 280 | The nav + the mobile menu (parity-verified) |
-| `src/components/marketing/generator-card.tsx` | 279 | The core surface: quota dots, generate, copy, paywall |
+| `src/components/marketing/generator-card.tsx` | 292 | The core surface: quota dots, generate, copy, paywall (the S50-4 copy-epoch guard) |
 | `src/components/effects/iridescence.tsx` | 273 | The WebGL hero background (aspect-aware shader) |
 | `src/components/effects/particle-text.tsx` | 333 | The canvas particle title |
 | `src/components/effects/floating-icons.tsx` | 122 | The monetization section's ten-icon float field (session-19, S19-2) |
@@ -720,7 +721,7 @@ commit as the file.)
 | `src/app/api/[...path]/route.ts` | 43 | The API subtree's envelope 404 (session-15, S15-7; OPTIONS joined session-18, S18-2) |
 | `src/app/api/route.ts` | 51 | The bare `/api` envelope 404 (session-16, S16-2; OPTIONS joined session-18, S18-2) |
 | `prisma/schema.prisma` | 64 | User + ContactMessage |
-| `scripts/smoke-test.sh` | 275 | The 16-leg artifact ladder (the live-429 leg, session-32 S32-3; the header's leg-16 summary re-anchored, session-35 S35-6) |
+| `scripts/smoke-test.sh` | 278 | The 16-leg artifact ladder (the live-429 leg, session-32 S32-3; the header's leg-16 summary re-anchored, session-35 S35-6 + session-50 S50-3) |
 
 ---
 

@@ -97,6 +97,24 @@ describe("named-control source pins (the open surfaces)", () => {
     expect(src).not.toMatch(/\{sent &&[^}]*role="status"/);
   });
 
+  // Session-50 (S50-11, AUDIT-2 I4): the contact submit joins the
+  // pending-face family (S22-6's four in-card submits + the S49-8
+  // resend — the login family's consistency doctrine, one surface
+  // over). The form already carried the logic guard + the disabled
+  // face (disabled={sending}), but the label stayed "Send Message"
+  // through the whole in-flight window — the S22-6 genus exactly: the
+  // disabled utilities without the visible relabel, the user getting
+  // zero submit feedback until the response landed. The reference's
+  // contact form is a stub (docs/reference-investigation.md §5 D-2 —
+  // no parity face constrains it); the family's consistency owns the
+  // label.
+  it("session-50 (S50-11): the contact submit relabels Sending… in flight (the pending-face family's sixth member)", () => {
+    const src = read("src/components/marketing/contact-form.tsx");
+    // The three-face label: sent → sending → idle, one expression —
+    // the S49-8 pin form ('{resending ? "Please wait…" : "Resend"}').
+    expect(src).toContain('{sent ? "Message Sent!" : sending ? "Sending…" : "Send Message"}');
+  });
+
   // Session-25 (S25-2): the S24-3 genus, one file over — the generator
   // card (the app's core surface) announced NONE of its async success
   // states: the result card mounts silently, the Copy confirmation is a

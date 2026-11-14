@@ -37,12 +37,13 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..49.
+// are docs/session_1..50.
 
-import { readFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { applyBootEnvReport, bootEnvCheck, KNOWN_VIRALPOST_VARS, shadowingEnvFileWarnings } from "../src/lib/boot-env";
+import { applyBootEnvReport, bootEnvCheck, KNOWN_VIRALPOST_VARS, shadowingEnvFileWarnings, shadowingEnvFileWarningsForServer } from "../src/lib/boot-env";
 
 const root = join(import.meta.dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
@@ -600,5 +601,49 @@ describe("session-48 (S48-2): the shadow-env cascade mirror", () => {
     expect(warnings.some((w) => w.includes(".env.local ") || w.includes(" .env.local"))).toBe(false);
     expect(warnings.some((w) => w.includes(".env.test.local"))).toBe(true);
     expect(warnings.some((w) => w.includes(".env.test"))).toBe(true);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-50 (S50-1, AUDIT-1 M1): the launch-dir shadow union. The
+// standalone server.js runs process.chdir(__dirname) BEFORE next loads,
+// so at register() time the cwd sits in .next/standalone — a cwd-only
+// probe never sees the LAUNCH dir (the repo root) where bun loaded the
+// env files, and the S47-2 warning was inert for repo-root shadow files
+// in the flagship bun-run-start posture (the exact "operator believes
+// .env is the source of truth, silently wrong, zero signal" hazard the
+// seam exists to surface). The wrapper now probes the DEDUPED union of
+// the cwd and PWD (bun inherits PWD = the launch cwd; the chdir never
+// updates it). Behavioral pin: real temp dirs + chdir + PWD, restored
+// in finally.
+// ---------------------------------------------------------------------------
+describe("session-50 (S50-1): the launch-dir shadow union", () => {
+  it("the server wrapper warns for a launch-dir shadow file even after the standalone chdir moved the cwd", () => {
+    const launchDir = mkdtempSync(join(tmpdir(), "s50-launch-"));
+    const artifactDir = mkdtempSync(join(tmpdir(), "s50-artifact-"));
+    writeFileSync(join(launchDir, ".env.production"), "AUTH_SECRET=launch-dir-value\n");
+    writeFileSync(join(artifactDir, ".env.local"), "AUTH_SECRET=artifact-dir-value\n");
+    const prevCwd = process.cwd();
+    const prevPwd = process.env.PWD;
+    try {
+      // The standalone posture: cwd moved into the artifact dir; PWD
+      // still names the launch dir (bun inherited it at spawn).
+      process.chdir(artifactDir);
+      process.env.PWD = launchDir;
+      const warnings = shadowingEnvFileWarningsForServer({ NODE_ENV: "production" });
+      expect(warnings.some((w) => w.includes(launchDir) && w.includes(".env.production")), "the launch-dir shadow file must warn (the S47-2 hazard, inert pre-S50-1)").toBe(true);
+      expect(warnings.some((w) => w.includes(artifactDir) && w.includes(".env.local")), "the cwd-side shadow file keeps warning").toBe(true);
+      // The dedupe face: PWD === cwd probes the dir exactly ONCE —
+      // an undeduped union would emit the same warning twice.
+      process.env.PWD = artifactDir;
+      const deduped = shadowingEnvFileWarningsForServer({ NODE_ENV: "production" });
+      expect(deduped.filter((w) => w.includes(artifactDir))).toHaveLength(1);
+    } finally {
+      process.chdir(prevCwd);
+      if (prevPwd === undefined) delete process.env.PWD;
+      else process.env.PWD = prevPwd;
+      rmSync(launchDir, { recursive: true, force: true });
+      rmSync(artifactDir, { recursive: true, force: true });
+    }
   });
 });

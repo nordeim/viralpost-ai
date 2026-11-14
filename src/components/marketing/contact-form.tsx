@@ -117,16 +117,17 @@ export function ContactForm() {
         className="mt-6 w-full py-3.5 bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-teal-200 transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
       >
         {sent ? (
-          <>
-            <Check className="h-4 w-4" aria-hidden="true" />
-            Message Sent!
-          </>
+          <Check className="h-4 w-4" aria-hidden="true" />
         ) : (
-          <>
-            <Send className="h-4 w-4" aria-hidden="true" />
-            Send Message
-          </>
+          <Send className="h-4 w-4" aria-hidden="true" />
         )}
+        {/* Session-50 (S50-11): the in-flight relabel joins the S22-6/
+            S49-8 pending-face family — the disabled utilities already
+            fired (disabled={sending}) but the label gave no in-flight
+            feedback until the response landed (the S22-6 genus, one
+            surface over). The reference's form is a stub (D-2) — no
+            parity face; the family's consistency owns the label. */}
+        {sent ? "Message Sent!" : sending ? "Sending…" : "Send Message"}
       </button>
       {/* Session-24 (S24-3): the success swap's AT announcement. A button
           label change is NOT re-announced by screen readers (even when

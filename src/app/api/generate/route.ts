@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 import { fail, isJsonObject, isGuarded, ok, readBoundedJson, requireSession } from "@/lib/api";
-import { generatePost, ideaTooLongMessage, sanitizeIdea } from "@/lib/generator";
+import { generatePost, ideaRawLengthMessage, ideaTooLongMessage, collapseIdea, MAX_IDEA_CHARS, sanitizeIdea } from "@/lib/generator";
 import { clientKey, rateLimit, sweepRateLimits } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
@@ -106,6 +106,13 @@ export async function POST(req: Request) {
     // non-string idea ({"idea": 999}) is a type error and answers the
     // describe-first branch (String(999) used to reach the over-length
     // message for a type error).
+    // Session-50 (S50-12, AUDIT-1 I1): the honest bound. The collapsed
+    // idea over the seam's MAX_IDEA_CHARS gets the seam's message (the
+    // seam would reject it too); a collapse that FITS was rejected by
+    // the raw pre-filter alone — the raw-length message names that
+    // bound, never the seam's (a whitespace-padded 1001-char idea
+    // whose collapse fits used to hear "500 characters max" — the
+    // seam would have accepted it).
     const rawIdea =
       read.value && typeof read.value === "object" && "idea" in read.value
         ? (read.value as { idea: unknown }).idea
@@ -113,7 +120,9 @@ export async function POST(req: Request) {
     return fail(
       "BAD_REQUEST",
       typeof rawIdea === "string" && rawIdea.trim().length > 0
-        ? ideaTooLongMessage()
+        ? collapseIdea(rawIdea).length > MAX_IDEA_CHARS
+          ? ideaTooLongMessage()
+          : ideaRawLengthMessage()
         : "Describe your post idea first.",
     );
   }

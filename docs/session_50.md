@@ -1,72 +1,231 @@
-工作区已存在。让我制定任务计划并开始执行。
-Pull 成功，新增了 `docs/session_49.md`。现在开始精读核心文档。
-现在读取会话历史文档。
-`session_49.md` 是所有者对 session-48 交付的叙述——本轮即 session 49，最后需要替换为正式日志。继续读取 session-48 计划文档与 worklog。
-文档研读完成。本轮即 session 49。现在对照代码库验证理解——先检查环境与常设要求。
-`.env` 契约、`.env.example`、`db/` 目录均已就位。检查运行时环境并验证代码库结构。
-环境完好（bun 1.3.14、chromium-1248 已装、40 单测套件 + 9 e2e 规格）。快速验证 SEO 路由与测试配置。
-代码库结构与文档完全对齐。所有常设要求已就位。现在运行基线 gate（lint → typecheck → unit）。
-lint 0/0 · tsc 0 · 单元测试 718/718（40 个文件）——与文档计数完全一致。继续构建 + 冒烟测试 + 端到端测试。
-**基线 gate 全绿**：lint 0/0 · tsc 0 · unit 718/718（40 文件）· build · smoke 16/16 · e2e 70/70（9 specs）。运行 census 并做 neo-crm 时效性检查。
-neo-crm 无变化（仍为 session-217 / session_459.md，b3d0fbe/bc9b982）——与 session-48 记录一致。清理克隆，读取 repo 技能目录准备审计。
-技能目录已了解。先看 session-48 的变更集，为三方审计提供焦点。
-现在并行派发三方审计子代理（AUDIT-1 API/lib seams、AUDIT-2 components/pages/effects、AUDIT-3 SEO/configs/tests/docs）。
-三方审计返回：**合计 0 Critical / 0 High / 3 Medium / 4 Low / 9 Info**。现在按内部规范手动验证源码中的核心发现。
-AUDIT-1 M1 **已验证**：Next 16.4.2 的 `writeStandaloneDirectory` 同时复制 `.env` 和 `.env.production`，而构建脚本只删 `.env`——真实的产物卫生缺口。继续验证其余发现。
-AUDIT-2 M1 **已验证**：`generate()` 清除 post 但不清除 `copied` 标志与其计时器。验证 AUDIT-3 M1 的 CARRIERS 列表。
-内联两段式确实存在于 CARRIERS 之外的文件中。精确清点内联站点数。
-AUDIT-3 M1 **已验证**：20 个文件携带 line-pass 签名（36 站点），CARRIERS 只覆盖 10 个文件——10 个内联载体文件约 25 个站点未被 presence arm 覆盖。验证剩余低级别发现。
-所有关键发现已验证（3M/4L/9I，其中 4 项经我直接源码验证）。现在进行实时等价性遍历（parity walk）——先启动克隆 dev server，再编写双向遍历脚本。
-双向对比结果基本全绿。差异均为已记录的偏差（308 重定向、aria 超集、Escape 超集、logo 环境墨色、D-1 生成器超集）。但 `gen_hashtag_count CLONE=0` 需要复查——我的选择器可能匹配不到整段文本中的 hashtag。做一次针对性复测。
-克隆生成器产出 5 个 hashtag + 复制按钮——D-1 超集姿态确认。**第二十二次连续干净的等价性遍历（parity walk）**。清理临时文件，撰写修复计划。
-撰写计划前，先验证各修复目标的插入点——检查现有 pin 对 build 脚本、excludes 清单、smoke leg-16 镜像、Resend 文本的断言方式。
-精确探查 S49-3 重设计所需的站点形态——每个 BLOCK_PASS 出现是否都有紧邻前导的 LINE_PASS。
-探针字符串构造有误（`\/\*` 需要 B+'/'+B+'*'）。修正后重跑。
-探针完美确认 S49-3 设计：19 个文件全部链式前置，仅 design-tokens ×2 与 typography ×2 为已记录的 CSS-only 孤儿（豁免候选）。查看 S49-2 与 S49-8 的插入点。
-所有插入点已确认。检查是否有现有 pin 断言 build 脚本的精确字符串，然后撰写修复计划。
-现有 pin（gate-script.test.ts:56）断言的子串在我的修改后仍然成立。读取 .gitignore 全文以确定 S49-5 的措辞，然后撰写计划。
-现在撰写 session-49 修复计划文档。
-计划已写好。执行前最后验证：检查 S49-5 的措辞修改是否会触碰现有的 semantic-prose pin。
-验证完成，无 pin 冲突。现在开始 TDD 执行。**S49-2 RED 阶段**——先写失败测试。
-**S49-2 RED 确认**——恰为新增 pin 失败。GREEN 阶段：应用修复。
-S49-2 GREEN。执行变异电池：移除修复 → 恰好该 pin 变红 → 恢复。
-S49-2 完成。现在 **S49-3**——先看 `unitTestFiles()` 辅助函数与现有 CARRIERS arm 的完整上下文。
-现在我将把 CARRIERS 常量和存在性测试重新设计为家族范围内的 strip-chain 扫描：
-三个失败中两个是设计内的 count-lag 面（lockstep 时更新），但 sweep 本身也有失败——查看详情。
-发现 sweep 的出生缺陷：S48-1 的针（needle）不带前导点号（原 CARRIERS arm 只做 indexOf 顺序检查，点号无所谓），但我的链式检查中两个 pass 之间隔着方法链的 `.`。改用 gap 精确检查（`"."` 或 `" ."`）。
-Sweep 在出生时显示为绿色（剩余 2 个失败是设计好的 count-lag 面）。现在执行三个变异测试电池：
-S49-3 完成——三电池全证（且电池在出生时抓住了我的 dot-gap 出生缺陷——连续第四轮）。现在 **S49-4**：先写 RED 的 plans-map 尾部时效性 arm。
-S49-4 arm 如设计般处于初始 RED 状态（map 滞后于 47，而文件为 49——需补 48 与 49 两个条目）。GREEN 阶段：追加两个 map 条目。
-S49-4 GREEN（仅剩两个设计内 count-lag 面）。电池：移除 map 尾条目 → 恰好 arm 变红。
-S49-4 电池已证实。现在处理 **S49-1** —— 先写 RED 的 gate-script 闭包断言。
-RED 确认。GREEN 阶段——修复三个站点。
-S49-1 显示为绿色。执行三站电池测试：
-注意——最后一个电池的恢复顺序有误（stash/pop 可能保留了 planted 版本）。检查 smoke-test.sh 状态：
-电池恢复策略有误——`git checkout` 回退到了 HEAD（丢失修复）而非修复态。重新应用三个站点的修复：
-S49-1 完成（diff 干净）。现在 **S49-8**——Resend pending face。RED 先行：
-S49-8 完成。现在处理散文批（S49-5/6/7/10/11）。先读取各站点：
-S49-6/11 已落。现在 S49-7（api.ts 分类器范围注释）与 S49-5（gitignore + SKILL §11）：
-S49-5 gitignore 侧完成（SKILL §11 行并入 lockstep 批）。现在 S49-10——worklog 标题规范化。先确认家族形态：
-S49-10 完成。运行完整单元套件查看当前状态（预期仅剩 2 个设计内 count-lag RED）：
-两个预期外的失败——我的注释/散文修改触碰了 census pin。查看详情：
-找到了——我在 boot-env 的注释 `shadow-file` 被 census 读作 `shadow-<word>` 工具类。按 S17-5/S13-4 先例把 `file` 加入 NON_COLOR 英文片段白名单：
-现在更新 error-boundaries.test.ts 中的 smoke leg-16 条目列表 pin：
-恰好只剩两个设计内的 count-lag 面。现在执行 count re-anchor——先找常量定义：
-census 按设计走 RED→GREEN。现在系统性更新所有文档站点。先处理五文档的计数：
-Footer 标签 pin 要求 SKILL §0.5 同步。现在更新 SKILL 的全部 lockstep 站点（版本、§0.5、Appendix A/B、十个 provenance 站点）：
-脚本断言失败未写入（tail 字符串有误：应为 "counts" 而非 "unit"）。修正后重跑：
-census 全绿（45/45）。现在写 worklog Task 49、session_49.md 正式日志与计划后执行记录：
-Now the formal session_49.md log (replacing the owner's narration) and the plan's post-execution record:
-现在采集截图（105/106，沿用 dev-server 惯例）：
-截图已捕获并通过 PIL 验证。做一次视觉抽检确认菜单状态：
-当前模型无法直接查看图像——但程序化验证已完成（aria-expanded=true、panel 可见、5 链接、PIL 非空白验证），与 session-48 的验证程序一致。清理并跑完整 gate：
-工作树完全符合设计变更集（30 修改 + 3 新增）。运行完整 gate：
-**FULL GATE GREEN**：lint 0/0 · tsc 0 · unit 720/720（40 文件）· build · smoke 16/16 · e2e 70/70（9 specs）· census MATCH。现在读取 SSH 推送手册并执行提交推送：
-手册已内化。先提交，然后按手册执行推送仪式：
-paramiko 5.1.0 + 工作区 shim（`/home/z/my-project/bin/ssh`）就绪。提交：
-**推送已验证**：`refs/heads/main @ 5663c63 == local HEAD`，密钥已粉碎，工作树干净。最后清理：
-**Session 49 — delivered** (commit `5663c63`, pushed to `main` via the SSH wrapper, remote verified `refs/heads/main @ 5663c63 == local HEAD`, key shredded, no new branches).
+# Session 50 — The Launch-Dir Shadow Union + The Envprod Gitignore Closure + The Smoke-Tail Truth + The Copy-Epoch Guard + The Src-Sweep Closure + The Mirror-Set Pin + The Redundant-Arm Cure + The Prose Batch (2026-11-14)
 
-**What happened, in order:** git pull (`0046fc4`, the owner's narration) → docs + session-history review → baseline gate green (718/718 · 16/16 · 70/70 · census MATCH) → three-way audit (**0C/0H/3M/4L/9I**, every load-bearing finding hand-verified) → 22nd consecutive clean parity walk (mobile menu byte-identical, hamburger pointer both sides — the Tailwind v4 concern holds) → eleven TDD cures: the **.env.production artifact closure** (Next's standalone writer copies BOTH env files — the rm covered one), the **stale-Copied! reset**, the **strip-chain sweep** (family-wide, future-proof), the **plans-map truth** + tail-currency census, plus the prose batch → full gate green (**lint 0/0 · tsc 0 · unit 720/720 (40 files) · build · smoke 16/16 · e2e 70/70 · census MATCH**) → captures 105/106 → docs lockstep (SKILL v1.45.0, badge 790, ten provenance sites at 1..49) → push.
+The round opened on the shipped tree (`5663c63` — session-49's commit;
+the owner's narration commit `f74d434` followed, carrying session_50.md
+as the round-49 narration — replaced now by this round's formal log).
+The core docs read in full (AGENTS, CLAUDE, README, PAD, SKILL
+v1.45.0), then the session-49 set (session_49.md, the session-49 plan,
+worklog Task 49, the owner narration). This round is session 50. The
+round resumed mid-flight after a context-window stop: the cures
+S50-1/2/3/8 were verified in place in the working tree (the audit, the
+parity walk, and the plan already on record), and the TDD execution
+continued from S50-4.
 
-**Honest handoff:** four mutation batteries on record; the battery caught a birth defect for the fourth consecutive round (the dot-gap — the S48-1 needles carry no leading dot, so the first sweep form could never see the chain's method-dot). Deferred debt: the standing accepted residuals (documented in the session log's register). Next step if you want another round: re-run the standing instruction on the shipped tree.
+Baseline gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit
+720/720, 40 files · build · smoke 16/16 · e2e 70/70, 9 specs · census
+MATCH); the standing asks re-verified up front (the `.env`
+`DATABASE_URL="file:../db/custom.db"` contract intact with `db/` at
+the repo root — census MATCH; the vitest + playwright suites in place
+and current — chromium-1248 present; the sitemap/robots/manifest/OG
+family verified live against the reference in this round's walk;
+`skills/` excluded from every gate; the committed `.env.example`
+matching the six-knob contract).
+
+The web-application skill + the skills catalog internalized; tdd,
+clone-app-pat-pro, and the agent-browser doctrine (computed styles as
+ground truth, never eyeballs) applied throughout. The neo-crm
+reference repo re-checked per the standing instruction: unchanged
+since the session-48/49 checks — its latest round is still its
+session-217 (HEAD b3d0fbe); stack pins identical; no new lessons this
+round.
+
+## The audit
+
+Three parallel dispatched subagents (AUDIT-1 API/lib seams, AUDIT-2
+components/pages/effects, AUDIT-3 SEO/configs/tests/docs) — every
+load-bearing finding hand-verified in source by the lead.
+**AUDIT-1: 0C/0H/1M/1L/3I · AUDIT-2: 0C/0H/0M/1L/5I · AUDIT-3:
+0C/0H/1M/3L/6I** — combined **0 Critical / 0 High / 2 Medium / 5 Low /
+14 Info**. The session-49 diff itself verified correct on all three
+passes; the two Medium findings are standing gaps the prior rounds
+left open.
+
+The decisive hand-verifications: **S50-1 (AUDIT-1 M1)** — the
+standalone `server.js` runs `process.chdir(__dirname)` BEFORE requiring
+next (read at .next/standalone/server.js:5), so in the flagship
+`bun run start` posture the cwd at register() time is
+`<repo>/.next/standalone`, NOT the repo root — while bun loads env
+files from the LAUNCH cwd (the repo root). A repo-root
+`.env.local`/`.env.production` shadow file therefore landed in
+process.env with ZERO boot warning — exactly the hazard the S47-2 seam
+was built to surface — and instrumentation.ts's "one dir probe"
+justification was factually false for this posture. Live-probed by the
+subagent (the shadow file's DATABASE_URL demonstrably reached the
+server with no warning; bun inherits PWD = the launch cwd and the
+chdir never updates it — the union probe's second leg, verified live).
+**S50-2 (AUDIT-3 M1)** — `git check-ignore .env.production` exited 1:
+the S49-1 closure stopped at the ARTIFACT boundary; the GIT boundary
+stayed open (one `git add -A` stages the operator's secrets file), and
+both never-commit lists (AGENTS + SKILL §11, re-spelled by S49-5 in
+the same session-49 commit) omitted it too.
+
+## The parity walk
+
+**ALL CLONE FACES MATCH — the twenty-third consecutive clean walk, no
+clone-side drift, no NEW reference-side drift.** The mobile menu works
+exactly as expected (the owner's standing concern): the panel
+byte-identical both sides class-for-class (`px-6 py-4 space-y-3`
+container, Home teal rgb(45,212,191) 14px/500 block, the siblings'
+rgb(203,213,225), the Gumroad pill 14px/600 — the targeted div probe
+after the walk's first outer-wrapper read); the hamburger cursor
+pointer both sides (the Tailwind v4 standing concern holding); the
+reference's hamburger still ships NO aria family (our expanded family
+the documented superset); Escape leaves the reference's panel open
+(our superset closes); the outside-tap face leaves it open on BOTH
+sides; route-change close verified both sides (the reference UNMOUNTS
+the closed panel — its links vanish from the DOM; the probe's first
+marker collided with a page-content Home link and was re-scoped to the
+panel); the desktop nav identical (6 links both sides); the five-route
+head census identical; sitemap 4 URLs both + robots identical modulo
+origin; the generator probe symmetrically dead/live (the D-1
+documented superset); the login round-trip both landing the landing
+(R /Home, L / — the documented 308 deviation).
+
+## The cures (TDD — nine mutation batteries on record; every new arm single-tooth)
+
+- **S50-1 (MEDIUM)** — the launch-dir shadow union:
+  `shadowingEnvFileWarningsForServer` probes the DEDUPED UNION of
+  `process.cwd()` and `process.env.PWD`; the instrumentation.ts
+  "one dir probe" sentence re-spells to the two-dir truth. NEW
+  behavioral pin (real temp dirs + chdir + PWD manipulation, restored
+  in finally): the launch-dir shadow file warns while the cwd sits in
+  a clean artifact dir; PWD === cwd probes exactly once (the dedupe
+  face). Battery: the union reduced back to the cwd-only probe →
+  exactly the pin RED.
+- **S50-2 (MEDIUM)** — the envprod gitignore closure: the `.gitignore`
+  env block gains `.env.production` + `.env.development` + `.env.test`;
+  the AGENTS never-commit list and the SKILL §11 checklist line carry
+  the production family in the same commit. NEW docs-counts arm.
+  Battery: the entry removed → exactly the pin RED.
+- **S50-3 (LOW)** — the smoke-tail truth: the header leg-16 summary
+  re-spells (the full 31-entry mirror, naming the env-files family +
+  the live count); error-boundaries' S34-7 census comment re-anchors
+  (31 vs 30); the S49-1 "re-anchored in the same commit" claim
+  corrected to the truth (session-50, S50-3 — the docs-lie genus).
+  Prose only.
+- **S50-4 (LOW)** — the copy-epoch guard: a `genEpoch` ref closes the
+  async interleave the S49-2 reset left open — `generate()` bumps the
+  epoch beside the reset; `copy()` captures the epoch BEFORE the
+  clipboard await and its continuation applies the copied state + arms
+  the timer only when no regeneration started meanwhile (the
+  late-continuation face). The landing-page S49-2 pin extended IN
+  PLACE. Battery: the guard removed → exactly the pin RED.
+- **S50-5 (LOW)** — the src-sweep closure: the S48-1 ban, the S13-10
+  forms-guard + loop-arm, and the S49-3 sweep iterate the UNION of
+  tests/ and src/ unit test files (vitest admits `src/**/*.test.ts`;
+  none exist today). The census's inline src scan extracted into the
+  shared `srcUnitTestFiles()` helper (one home) + the
+  `allUnitTestFiles()` union helper. Battery: a planted
+  `src/*.test.ts` carrying a block-only strip — invisible to the sweep
+  pre-cure (the gap demonstrated GREEN), flagged naming the src file
+  post-cure (the census count-lag RED alongside is the designed face).
+- **S50-6 (LOW)** — the mirror-set pin: a NEW docs-counts arm parses
+  `next.config.ts`'s outputFileTracingExcludes and smoke-test.sh's
+  leg-16 list (normalizing `x/**` → `x`) and asserts SET EQUALITY —
+  the smoke list === the excludes list + `uploads` (the sanctioned
+  S34-7 extra, documented in the arm). Battery: an exclude dropped
+  from next.config only → exactly the arm RED.
+- **S50-7 (LOW)** — the redundant-arm cure: gate-script's smoke regex
+  re-scopes from the `.env.production` membership face (owned by
+  error-boundaries' full-line pin since S36-5a — two pins on one
+  defect, the N12-2 genus) to the loop-shape face. The ownership
+  handoff documented in both comments. Battery: removing
+  `.env.production` from the smoke list trips exactly error-boundaries
+  (gate-script stays green — the redundancy retired); removing the
+  loop line trips gate-script's shape face AND error-boundaries'
+  literal (the catastrophic case both owners cover — the plan's
+  "exactly gate-script" wording corrected here, the observed truth on
+  record).
+- **S50-8 (INFO→cure)** — the ok-16 message re-spell: the
+  hygiene-mirror truth (uploads/worklog/test-results are the
+  sanctioned S34-7 tripwires, never excludes). Prose only.
+- **S50-9 (INFO→cure)** — the plans-map duplicates arm: the S49-4
+  tail-currency arm gains the Set-size assertion (a duplicated
+  session-N token REDs). Extends the arm IN PLACE. Battery: a
+  duplicated entry → exactly the arm RED.
+- **S50-10 (INFO→cure)** — the e2e webServer env pins
+  `VIRALPOST_PROXY_HOPS: "1"` (the D-195a3 polluted-shell doctrine
+  completed; fails-closed parse, no determinism impact today, doctrine
+  closure only).
+- **S50-11 (INFO→cure)** — the contact-form sending face: the submit
+  relabels "Sending…" in flight (joining the S22-6/S49-8 pending
+  family; the reference's contact form is a stub — D-2 — no parity
+  face constrains it). NEW PIN in a11y-controls. Battery: the relabel
+  removed → exactly the pin RED.
+- **S50-12 (INFO→cure)** — the honest raw-bound message: `collapseIdea`
+  extracts one-home from sanitizeIdea; the generate route's
+  schema-failure branch picks `ideaTooLongMessage()` (collapsed > the
+  seam's exported `MAX_IDEA_CHARS` — the seam would reject) vs the NEW
+  `ideaRawLengthMessage()` (raw > the schema's 1000 pre-filter while
+  the collapse fits — the pre-filter's own bound, never the seam's).
+  The api-robustness F11-7 pin extended and the S15-2 branch regex
+  re-scoped to the typeof gate alone IN PLACE (the one-owner lesson
+  applied to the re-anchor at birth). Battery: the branch reverted to
+  the single-message form → exactly the F11-7 pin RED.
+- **S50-13 (register)** — the accepted-residual additions, with
+  reasons: the forgot-password link-clobber (PAD §11 gains the row),
+  ContactMessage.email's unindexed readback scan, the
+  failed-regeneration post discard, the verify-digits wipe while a
+  resend is in flight, the two sanctioned window.location.origin reads,
+  the novel strip idioms escaping the textual arms, the local .env's
+  stale provenance note, the implementation-plan §4 unticked
+  checkboxes.
+
+**Accepted/observed register:** the standing residuals carried forward
+unchanged (the nav links' UA-default focus outline; the reduced-motion
+live-toggle gap; the quota store's midnight rollover; the classifier's
+P1001/P1002 500 face; the api-robustness census's route.ts-only
+matcher; the hero-portrait weight/resize; the workspace's ambient
+absolute DATABASE_URL; the detectNiche substring shape; the
+proxyHopDepth parse mirror; the setSessionCookie unit gap; the signup
+first-admin race; the verify/resend read-then-write pair; the
+enumeration faces; the single-node limiter; the 404/error
+main-landmark posture; the smoke-leg retired-form negatives; the
+in-process limiter; the 404 client-render body; the formula-driven
+generator; the in-app OTP delivery; the footer © build-time year).
+
+## The count re-anchor
+
+UNIT 720 → **724** (+4 — the S50-1 shadow-union pin, the S50-2
+gitignore arm, the S50-6 mirror-set arm, the S50-11 sending face;
+S50-4, S50-5, S50-7, S50-9, S50-12 extend existing its in place, the
+one-face-one-pin doctrine), SUITES 40 unchanged, E2E 70 unchanged,
+E2E_SPECS 9 unchanged, SMOKE 16 unchanged, badge 790 → **794**.
+Constants re-anchored FIRST; the census walked the doc sites RED→GREEN.
+PAD §12's generator.ts row re-anchored 470 → 495, generator-card 279 →
+292, smoke-test 275 → 278; the ten provenance sites re-anchored to
+1..50 — lag 0 at ship; SKILL v1.45.0 → v1.46.0. The docs-counts
+count-ladder's missed s49 entry written at session-50, contiguous (the
+comment-lag genus, named in the entry itself).
+
+## Verified
+
+- The full gate on the exact commit tree (below)
+- The nine mutation batteries single-tooth on record: the
+  shadow-union revert → exactly its pin; the gitignore entry removal →
+  exactly its arm; the copy-epoch guard removal → exactly the extended
+  pin; the planted src suite → the sweep RED naming the src file
+  (invisible pre-cure); the exclude drop → exactly the mirror-set arm;
+  the redundant-arm face 1 → exactly error-boundaries (gate-script
+  green); the duplicate token → exactly the plans-map arm; the
+  sending-face removal → exactly its pin; the raw-bound branch revert
+  → exactly the F11-7 pin
+- The redundant-arm check: every new arm verified single-tooth; the
+  S15-2 regex re-scoped at birth so the S50-12 battery tripped exactly
+  ONE pin (the one-owner lesson applied to the re-anchor itself)
+- The parity walk post-cure: the standing faces hold, no drift
+- Captures 107/108 on the dev server (the owner-instructed posture,
+  the session-29..49 precedent): the mobile-menu open clean-walk at
+  390×844 + the landing hero at 1280×800, PIL-verified
+- Docs lockstep: README (badge 794, the 40/724 + 9/70 rows, the
+  session-50 row on the continuous table, the re-anchored footer);
+  AGENTS (counts, the plans map's fiftieth round, the never-commit
+  list's production family); CLAUDE (counts); PAD (§8.1 40/724 + 70,
+  §8.3 724/70/16, §11's link-clobber row, §12's re-anchored rows);
+  SKILL v1.45.0 → v1.46.0 (frontmatter, §0.5 1..50, §11's checklist
+  line, Appendix A's session-50 row, Appendix B's header + counts, the
+  pre-ship checklist's counts); the ten provenance sites at 1..50;
+  worklog Task 50; this session log; the plan's post-execution record
+
+**Gate at the session-50 ship: lint 0/0 · tsc 0 · unit 724/724 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

@@ -56,6 +56,11 @@ export function GeneratorCard() {
   React.useEffect(() => () => {
     if (resetTimer.current) clearTimeout(resetTimer.current);
   }, []);
+  // Session-50 (S50-4, AUDIT-2 L1): the copy-epoch guard's counter —
+  // bumped beside the S49-2 reset so a pending copy()'s continuation
+  // (a slow clipboard promise) can detect that a regeneration started
+  // meanwhile and return before re-arming the stale state.
+  const genEpoch = React.useRef(0);
 
   const limitReached = used >= FREE_LIMIT;
 
@@ -85,6 +90,7 @@ export function GeneratorCard() {
     // otherwise mounted the new post's button already reading "Copied!"
     // (the S17-6 unmount-hygiene idiom applied to the regeneration edge).
     if (resetTimer.current) clearTimeout(resetTimer.current);
+    genEpoch.current += 1;
     setCopied(false);
     setPost("");
     try {
@@ -119,8 +125,15 @@ export function GeneratorCard() {
 
   const copy = async () => {
     if (!post) return;
+    // Session-50 (S50-4): capture the epoch BEFORE the clipboard await —
+    // a slow writeText whose continuation lands after a regeneration
+    // (the S49-2 reset + epoch bump already ran) must not flip the
+    // copied flag or arm a fresh 2s timer on the new, never-copied post
+    // (the async sibling of the S49-2 synchronous edge).
+    const epochAtCopy = genEpoch.current;
     try {
       await navigator.clipboard.writeText(post);
+      if (epochAtCopy !== genEpoch.current) return;
       setCopied(true);
       if (resetTimer.current) clearTimeout(resetTimer.current);
       resetTimer.current = setTimeout(() => setCopied(false), 2000);

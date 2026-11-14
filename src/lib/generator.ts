@@ -33,7 +33,11 @@ import { createHash } from "node:crypto";
 // import dragged it into the client graph. Server consumers of the
 // limit (none today) would import it from the counter module.
 
-const MAX_IDEA_CHARS = 500;
+/** Session-50 (S50-12, AUDIT-1 I1): the seam's bound, exported (one
+ *  home) — the API route's schema-failure branch compares the
+ *  collapsed idea against THIS bound to pick the honest message,
+ *  never a duplicated 500. */
+export const MAX_IDEA_CHARS = 500;
 
 /** Session-11 (F11-7): the over-length message, exported so the API
  *  route's schema-failure branch answers the SAME text the seam throws —
@@ -44,12 +48,33 @@ export function ideaTooLongMessage(): string {
   return "Keep the idea a little shorter (500 characters max).";
 }
 
-/** Collapse whitespace, strip control chars, bound the length. */
-export function sanitizeIdea(raw: string): string {
-  const cleaned = raw
+/** Session-50 (S50-12, AUDIT-1 I1): the RAW-length message — the
+ *  schema pre-filter's own bound, never the seam's. A 1001-char idea
+ *  whose whitespace-collapsed form fits the seam's 500 was rejected
+ *  by the route's raw pre-filter alone; answering the seam's message
+ *  told the user their (collapsed) idea was too long when the seam
+ *  would have accepted it. The 1000 the text names is the route
+ *  bodySchema's max(1000) — co-pinned in api-robustness; the two move
+ *  together. */
+export function ideaRawLengthMessage(): string {
+  return "That idea is too long to submit (1000 characters max).";
+}
+
+/** Session-50 (S50-12): the seam's exact collapse, one home — the
+ *  control-char replacement, the whitespace collapse, the trim.
+ *  sanitizeIdea runs it before its bounds; the route's schema-failure
+ *  branch runs it to pick the honest message (a collapse that fits
+ *  the seam was rejected by the RAW pre-filter, not the seam). */
+export function collapseIdea(raw: string): string {
+  return raw
     .replace(/[\u0000-\u001f\u007f]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+/** Collapse whitespace, strip control chars, bound the length. */
+export function sanitizeIdea(raw: string): string {
+  const cleaned = collapseIdea(raw);
   if (!cleaned) {
     throw new Error("Describe your post idea first.");
   }

@@ -227,12 +227,29 @@ describe("landing: the generator card (the reference's core contract)", () => {
   // regeneration inside the window mounted the NEW post's button already
   // reading "Copied!" (a state for content never copied; pasting within
   // the window yielded the OLD post's text).
-  it("regeneration clears the stale Copied! state (the copied flag + its timer reset before the fetch)", () => {
+  // Session-50 (S50-4, AUDIT-2 L1): the S49-2 reset closed the
+  // synchronous edge but left the ASYNC one — a slow clipboard promise
+  // (copy() clicked, writeText still pending) whose continuation landed
+  // after a regeneration re-armed the stale state anyway: setCopied(true)
+  // + a fresh 2s timer on the NEW post, content never copied. The
+  // copy-epoch guard: generate() bumps genEpoch beside the reset;
+  // copy() captures the epoch BEFORE the clipboard await and its
+  // continuation applies the copied state + arms the timer only when no
+  // regeneration started meanwhile.
+  it("regeneration clears the stale Copied! state — and a slow clipboard continuation cannot re-arm it (the copy-epoch guard)", () => {
     const card = read("src/components/marketing/generator-card.tsx");
     // The reset sequence rides the generate body, before the fetch —
     // the timer clear first (an armed 2s timeout must not re-flip the
-    // flag on the new post), then the flag, then the post clear.
-    expect(card).toMatch(/setGenerating\(true\);[^]*?clearTimeout\(resetTimer\.current\);[^]*?setCopied\(false\);[^]*?setPost\(""\);/);
+    // flag on the new post), then the flag, then the post clear; the
+    // epoch bump rides the same reset (a pending copy's continuation
+    // must observe it after its await).
+    expect(card).toMatch(/setGenerating\(true\);[^]*?clearTimeout\(resetTimer\.current\);[^]*?genEpoch\.current \+= 1;[^]*?setCopied\(false\);[^]*?setPost\(""\);/);
+    // The guard's three faces: the capture BEFORE the clipboard await,
+    // the inequality check as the continuation's gate, and BOTH effects
+    // (the flag flip + the fresh timer arm) behind it — the late
+    // continuation of the S50-4 persona lands after the epoch moved and
+    // must return before either effect runs.
+    expect(card).toMatch(/const epochAtCopy = genEpoch\.current;[^]*?await navigator\.clipboard\.writeText\(post\);[^]*?if \(epochAtCopy !== genEpoch\.current\) return;[^]*?setCopied\(true\);[^]*?resetTimer\.current = setTimeout\(\(\) => setCopied\(false\), 2000\);/);
   });
 
   it("the limit wall ships the reference's paywall copy", () => {

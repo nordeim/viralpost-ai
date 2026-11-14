@@ -26,14 +26,17 @@
 #   15  THE BOOT-GATE PROBE: a second boot WITHOUT AUTH_SECRET refuses
 #       to serve — the fail-fast posture (the log carries the message)
 #   16  THE ARTIFACT-HYGIENE assertions: the built artifact contains NO
-#       .env / .git / db / skills / docs / uploads / worklog.md /
-#       test-results entries — session-35 (S35-6): the full 29-entry
-#       mirror (all the root contract docs + SKILL/LICENSE + the
-#       lockfiles + the configs + tsbuildinfo + scripts/ + tests/);
-#       the in-loop enumeration below is the authority, this header a
-#       summary (the pre-S34-7 8-entry form stayed stale here for two
-#       rounds — the header must name the families, never enumerate
-#       exhaustively)
+#       env files / .git / db / skills / docs / uploads / worklog.md /
+#       test-results entries — session-35 (S35-6) + session-50 (S50-3,
+#       the S49-1 tail cure): the full 31-entry mirror (the env-files
+#       family — .env/.env.example/.env.production/.env.local, the
+#       session-49 S49-1 pair — + all the root contract docs +
+#       SKILL/LICENSE + the lockfiles + the configs + tsbuildinfo +
+#       scripts/ + tests/); the in-loop enumeration below is the
+#       authority, this header a summary (the pre-S34-7 8-entry form
+#       stayed stale here for two rounds, and the S49-1 ship left the
+#       count stale at 29 — the header must name the families AND the
+#       live count, never a lagging one)
 #
 # Every assertion: ok "NN — description" || { fail "NN"; exit 1; }
 # The trap kills the server on ANY exit.
@@ -269,7 +272,7 @@ for entry in .env .env.example .env.production .env.local .git db skills docs up
   [ -e ".next/standalone/$entry" ] && hygiene_fail="$hygiene_fail $entry"
 done
 [ -z "$hygiene_fail" ] \
-  && ok 16 "the artifact carries no repo-root drag (the excludes mirror: env files/.git/db/skills/docs/uploads/logs/configs/markdown/scripts/tests)" \
+  && ok 16 "the artifact carries no repo-root drag (the hygiene mirror: env files/.git/db/skills/docs/uploads/worklog/test-results/logs/configs/scripts/tests — session-50, S50-8: uploads/worklog/test-results are the sanctioned S34-7 tripwires beyond the excludes set, so the mirror is the hygiene family, never the excludes one)" \
   || { fail 16 "the artifact ships:$hygiene_fail"; exit 1; }
 
 echo "SMOKE: 16/16 PASS"
