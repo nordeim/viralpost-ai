@@ -272,14 +272,31 @@ export function resolveDatabaseUrl(rawUrl: string): string {
  * exists to mirror bun, and a mid-token `#` in an unquoted URL is
  * pathological — quote such values).
  * (Session-56, S56-3 — the unclosed-quote cross-line face, completing
- * the S53-6 register: on a single-line unclosed quote the seam and bun
- * AGREE (live-probed on 1.3.14 — both keep the leading `"` in the
- * value, so the signature comparison stays consistent on the realistic
- * typo); bun's scan then SPANS LINES to the next `"` while this
- * line-based parser cannot model that — the divergence needs an
- * unclosed quote on the DATABASE_URL line PLUS a later quoted value,
- * doubly pathological, and the raw-relative fallback re-anchors
- * correctly through the module anchor.)
+ * the S53-6 register; re-spelled session-57, S57-1b, after the final
+ * clause below was falsified live end-to-end: on a single-line
+ * unclosed quote the seam and bun AGREE (live-probed on 1.3.14 —
+ * both keep the leading `"` in the value, so the signature
+ * comparison stays consistent on the realistic typo; later
+ * UNCLOSED-quoted and mid-line-quoted lines do not span either —
+ * agreement). The ONE divergent shape: an unclosed quote on the
+ * DATABASE_URL line PLUS a later CLOSED quoted value — bun's scan
+ * spans to the closing quote that ENDS its line, swallowing the
+ * newline and the intermediate quote (DATABASE_URL becomes
+ * `file:../db/custom.db\nOTHER="quoted value`, OTHER unset) while
+ * this line-based parser cannot model that, doubly pathological.
+ * The spanned value is a RELATIVE `file:` URL; the seam's own
+ * line-based parse keeps the leading quote (not a relative file:
+ * URL — the signature arm is skipped), so the spanned value rides
+ * the tail arm and the module anchor re-anchors it into the
+ * JUNK-NAMED `<repo>/db/custom.db\nOTHER="quoted value` file — NOT
+ * the clean repo db (session-57 live probe, the repo's own
+ * @prisma/client 6.19.3: the engine ACCEPTS the junk URL — a 0-byte
+ * junk file is created under <repo>/db/, `SELECT 1` answers, the
+ * first `User` query P2021s — the S47-1 artifact genus: a healthy
+ * 200 against a table-less empty DB). REGISTERED, not cured — the
+ * S53-6 posture stands: fix the .env. Pinned session-57, S57-1a:
+ * the parse fixtures + the resolve junk-tail face in
+ * tests/db-path.test.ts.)
  */
 export function parseEnvFile(contents: string): Record<string, string> {
   const out: Record<string, string> = {};
@@ -390,7 +407,7 @@ function readDatabaseUrlFromEnvAt(dir: string): string | undefined {
  *
  * STANDALONE LAUNCH RECOVERY (session-34, a donor-ledger number — the
  * NEO-CRM seam's own recovery session; this repo's sessions are
- * docs/session_1..56, the SKILL §0.5 enumeration): the standalone server.js runs
+ * docs/session_1..57, the SKILL §0.5 enumeration): the standalone server.js runs
  * `process.chdir(__dirname)` at boot — AFTER bun already absolutized a
  * relative `file:` DATABASE_URL against the LAUNCH directory's .env
  * (typically <repo>/.env via `bun run start` from the repo root). The

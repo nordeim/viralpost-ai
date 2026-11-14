@@ -316,6 +316,12 @@ import {
 // s56: 725/40 held (the comment-truth round — every cure is a
 // docblock/doc/comment note (the S55-3 precedent); no new it, no
 // behavior change) and the e2e 70 unchanged. SMOKE 16 unchanged.
+// s57: 727/40 (+2 — the S57-1a pins (the parseEnvFile unclosed-quote
+// divergence fixtures + the resolveDatabaseUrl spanned-value junk-tail
+// face; the S56-3 docblock's falsified "re-anchors correctly" clause
+// made executable; battery on record: the quote-strip plant REDs the
+// fixtures pin, the newline-truncate plant REDs the resolve pin)) and
+// the e2e 70 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -323,7 +329,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 725;
+const UNIT = 727;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */

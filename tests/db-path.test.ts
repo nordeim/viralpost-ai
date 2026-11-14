@@ -113,6 +113,35 @@ describe("parseEnvFile", () => {
   it("a quoted value followed by a comment parses to the quoted content", () => {
     expect(parseEnvFile('KEY="v" # after-quote note')).toEqual({ KEY: "v" });
   });
+
+  // Session-57 (S57-1a): the unclosed-quote faces, pinned to the S53-6
+  // register the S56-3 note completed — the fixtures record exactly which
+  // shapes diverge (live-probed on bun 1.3.14, isolated temp dirs, the
+  // ambient DATABASE_URL unset so bun's .env loader runs): a single-line
+  // unclosed quote leaves seam and bun AGREEING (both keep the leading `"`
+  // — the S56-3 note's accurate half); a later UNCLOSED-quoted line does
+  // NOT span (each line keeps its own leading quote — agreement); a later
+  // mid-line-quoted line does NOT span; a later CLOSED quoted value is the
+  // ONE divergent shape — bun's scan swallows the newline + the
+  // intermediate quote and terminates at the line-end closing quote.
+  it("session-57 (S57-1a): the unclosed-quote fixtures — the single-line agreement face + the line-based cross-line parse (bun spans; this parser cannot)", () => {
+    // The single-line face: seam and bun agree — the leading `"` stays in
+    // the value, so the signature comparison stays consistent on the
+    // realistic one-line typo.
+    expect(parseEnvFile('DATABASE_URL="file:../db/custom.db')).toEqual({
+      DATABASE_URL: '"file:../db/custom.db',
+    });
+    // The cross-line divergence shape (unclosed quote + a later CLOSED
+    // quoted value): bun's DATABASE_URL becomes the spanned fixture the
+    // resolve pin below consumes (`file:../db/custom.db\nOTHER="quoted
+    // value`, OTHER unset) while this line-based parser reads each line
+    // independently — the leading quote stays on DATABASE_URL and OTHER
+    // parses to its own clean value.
+    expect(parseEnvFile('DATABASE_URL="file:../db/custom.db\nOTHER="quoted value"')).toEqual({
+      DATABASE_URL: '"file:../db/custom.db',
+      OTHER: "quoted value",
+    });
+  });
 });
 
 describe("effectiveDatabaseUrl (bun absolutization re-anchoring)", () => {
@@ -279,7 +308,7 @@ describe("runtimeDatabaseUrl (standalone launch contexts — session-34, a donor
   // S33-3): the session-34/35/36 numbers in this describe cite the
   // NEO-CRM donor ledger (the template repo the db-path seam was ported
   // from — its own standalone-launch-recovery sessions). THIS repo's
-  // own sessions are docs/session_1..56; the donor enumeration lives
+  // own sessions are docs/session_1..57; the donor enumeration lives
   // in viralpost-ai_SKILL.md §0.5. Unmarked, the numbers collide with
   // this repo's imminent session 34/35/36 rounds — the exact genus
   // §0.5 exists to prevent (the S31-4 auth.ts precedent).
@@ -624,6 +653,31 @@ describe("resolveDatabaseUrl", () => {
   it("never returns the raw relative URL when the repo root is discoverable", () => {
     const resolved = resolveDatabaseUrl("file:../db/custom.db");
     expect(resolved).not.toBe("file:../db/custom.db");
+  });
+
+  // Session-57 (S57-1a): the spanned-value face the S56-3 docblock's
+  // "re-anchors correctly" clause got wrong — the clause shipped in the
+  // session-56 comment-only round and was falsified live end-to-end in
+  // session-57 (the lead's probes: resolveDatabaseUrl(spanned) → the
+  // junk-named URL; the repo's own @prisma/client 6.19.3 ACCEPTS it — the
+  // 0-byte junk file is created under <repo>/db/, SELECT 1 answers, the
+  // first User query P2021s — the S47-1 artifact genus). The pin owns the
+  // resolve face; the parse fixtures above own the parser face (one pin
+  // per face, no co-pinning).
+  it("session-57 (S57-1a): bun's cross-line SPANNED value re-anchors through the module anchor with the junk tail preserved — never the clean custom.db (the S47-1 genus face)", () => {
+    // The spanned fixture (bun's parse of the divergence shape above —
+    // a RELATIVE file: URL whose tail carries the newline and the
+    // swallowed line). effectiveDatabaseUrl's signature arm is skipped on
+    // this shape (the seam's own line-based parse keeps the leading quote,
+    // so the .env value is not a relative file: URL), and the spanned
+    // value rides the tail arm: the module anchor re-anchors it into the
+    // JUNK-NAMED file — the S53-6 REGISTERED-not-cured posture (fix the
+    // .env), now executable so the docblock can never re-drift silently.
+    const spanned = 'file:../db/custom.db\nOTHER="quoted value';
+    const resolved = resolveDatabaseUrl(spanned);
+    expect(resolved.startsWith("file:/")).toBe(true); // the module anchor fired (absolute, not raw)
+    expect(resolved.endsWith('db/custom.db\nOTHER="quoted value')).toBe(true); // the junk tail rides
+    expect(resolved.endsWith("db/custom.db")).toBe(false); // NEVER the clean file
   });
 });
 

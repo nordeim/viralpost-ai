@@ -32,18 +32,21 @@ function hiddenStyle(direction: RevealDirection): React.CSSProperties {
  * CONTRACT (session-31, S31-5b): `direction` and `delay` are MOUNT-TIME
  * constants. The observer effect arms once with `[]` deps while the
  * hidden inline style derives from the props — a call site that changes
- * either after mount re-applies the transform offset to an element whose
- * observer has already disconnected while the settled opacity SURVIVES
- * (React's style diffing skips unchanged keys, so it never rewrites the
- * DOM opacity that settle() wrote directly — the persistent-offset
- * drift, not invisibility; the mechanism re-spelled session-56,
- * S56-2: the old "stuck invisible" claim overstated). Every live call
- * site passes mount-time constants — computed delays (`i * 100` and
- * kin) ride keyed instances, the prescribed keyed-remount form;
- * dynamic usage must remount using the `key` prop instead (the wording
- * re-spelled session-38, S38-7e: "literals" overstated — the count
- * corrected session-39, S39-4: FOUR sites compute, none re-render
- * past mount).
+ * `direction` after mount re-applies the transform offset to an element
+ * whose observer has already disconnected while the settled opacity
+ * SURVIVES (React's style diffing skips unchanged keys, so it never
+ * rewrites the DOM opacity that settle() wrote directly — the
+ * persistent-offset drift, not invisibility; the mechanism re-spelled
+ * session-56, S56-2: the old "stuck invisible" claim overstated; the
+ * either-word scoped session-57, S57-2: a DELAY-only change rewrites
+ * just the `transitionDelay` key — the unchanged `transform` value is
+ * skipped, no offset re-application, no visible drift on that face).
+ * Every live call site passes mount-time constants — computed delays
+ * (`i * 100` and kin) ride keyed instances, the prescribed
+ * keyed-remount form; dynamic usage must remount using the `key` prop
+ * instead (the wording re-spelled session-38, S38-7e: "literals"
+ * overstated — the count corrected session-39, S39-4: FOUR sites
+ * compute, none re-render past mount).
  *
  * Session-39 (S39-10): the polymorphic `as` prop is RETIRED — zero
  * call sites ever passed it (all 17 render the default div — the count

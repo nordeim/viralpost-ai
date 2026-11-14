@@ -6090,3 +6090,110 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-56 ship: lint 0/0 · tsc 0 · unit 725/725 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 57 — The Spanned-Value Junk-DB Truth + The Parse Divergence Fixtures + The Reveal Either-Scope + The Register Batch (2026-11-14)
+
+- CONTEXT: the workspace PERSISTED between rounds (a `git pull`
+  fast-forwarded 7ec7f8e → 3c4d8b1, adding docs/session_57.md — the
+  owner's round-56 narration; node_modules, the db files, the
+  chromium-1248 install, .env, the dev server, AND the agent-browser
+  daemon all survived between Bash calls this round — the walk ran in
+  discrete probe steps for the first time since the reaper pattern
+  appeared). The core docs re-read and re-verified (AGENTS, CLAUDE,
+  README, PAD, SKILL v1.52.0); session_56.md (the formal log) + the
+  session-56 plan's post-execution record + worklog Task 56 +
+  session_57.md (the owner's narration) internalized; every lockstep
+  site confirmed at the session-56 ship counts. The neo-crm reference
+  repo re-checked (tenth consecutive no-change check — HEAD b3d0fbe,
+  its session-217). The repo skills internalized (web-application,
+  the catalog, tdd, clone-app-pat-pro, agent-browser).
+- BASELINE GATE GREEN at the session-56 ship record, zero drift: lint
+  0/0 · tsc 0 · unit 725/725 (40 files) · build · smoke 16/16 · e2e
+  70/70 (9 specs) · census MATCH. The standing asks re-verified: the
+  .env DATABASE_URL="file:../db/custom.db" contract with db/ at the
+  repo root (census MATCH); .env.example committed at provenance
+  1..56; the vitest + playwright suites current; the
+  sitemap/robots/manifest/OG family verified live in this round's
+  walk; skills/ excluded from every gate.
+- AUDIT (three parallel subagents + the lead's hand-verification,
+  the one behavioral claim REPRODUCED END-TO-END by the lead before
+  acceptance): AUDIT-1 0C/0H/0M/2L/0I · AUDIT-2 0C/0H/0M/1L/5I ·
+  AUDIT-3 0C/0H/0M/0L/3I — combined 0C/0H/0M/3L/8I. The decisive
+  finding: the S56-3 docblock's "re-anchors correctly" clause is
+  FALSE — the lead's four-shape bun 1.3.14 census (isolated temp
+  dirs, ambient env unset): ONLY the later-CLOSED-quoted-value shape
+  spans (bun's scan runs to the closing quote that ENDS its line,
+  swallowing the newline + the intermediate quote); the spanned
+  value is a RELATIVE file: URL, the seam's own parse keeps the
+  leading quote (the signature arm skipped), the tail arm re-anchors
+  it into the JUNK-NAMED <repo>/db/custom.db\nOTHER="quoted value
+  file — the repo's own @prisma/client 6.19.3 ACCEPTS it (0-byte junk
+  file created, SELECT 1 answers, the first User query P2021s — the
+  S47-1 artifact genus). The subagent's probe initially disagreed
+  with the lead's first probe (the ambient-shell shape masked bun's
+  .env loading) — the reproduce-before-trusting doctrine settled the
+  mechanism, and the S2/S4 agreement faces are now fixture-pinned.
+  The reveal either-word precision gap was found independently by
+  two lanes.
+- PARITY WALK #30 — the thirtieth consecutive clean walk (the panel
+  byte-identical on every computed face — inner px-6 py-4 space-y-3
+  at 16px/24px, block, maxHeight none, transparent background both
+  sides; linkTexts + every link style identical; the pill 9999px
+  (reference, v3-era) vs 33554432px (clone, v4 infinity calc) — the
+  documented computed-value equivalence rendering the identical
+  capsule; the hamburger base + cursor pointer both sides, the
+  reference still shipping NO aria family; Escape via a real key
+  press R-open/L-close-with-focus-return; the outside-tap genuine
+  non-nav tap both open; route-change at /Pricing R-unmounts
+  (panelCount 0)/L-hides-in-DOM (panelCount 1, display none); the
+  desktop census 6 visible identical + CLONE total 11; the brand
+  gradient byte-identical; the five-route head census identical;
+  sitemap 4 URLs + robots identical modulo origin; the generator
+  dead/live with quota 0→1 (a 7-hashtag post + the Copy button); the
+  login round-trips R-/Home L-/). No clone drift, no new reference
+  drift. Mobile nav verified working as expected on both sides; all
+  seven Tailwind v4 mitigations verified present and test-pinned
+  (the audit's own lane).
+- CURES (TDD — the pins first, each with its planted-defect battery):
+  the two S57-1a pins (the parseEnvFile unclosed-quote divergence
+  fixtures — the single-line agreement face + the line-based
+  cross-line parse; the resolveDatabaseUrl spanned-value junk-tail
+  face — the module anchor fired, the junk tail rides, NEVER the
+  clean file; the batteries: the quote-strip plant REDs exactly the
+  fixtures pin, the newline-truncate plant REDs exactly the resolve
+  pin, both restored GREEN, the source byte-identical through the
+  round; one pin per face, no co-pinning), the S57-1b docblock
+  re-spell (the refined span model + the junk-DB truth + the
+  REGISTERED-not-cured posture — the S53-6 register stands: fix the
+  .env), the S57-2 reveal either-word re-scope (direction re-applies
+  the offset; a delay-only change rewrites just transitionDelay);
+  REGISTERS: the toast double-announce face, the reveal threshold
+  tall-element trap, the mobile-menu md-cross open-state (S26-3),
+  the login-card caret-before-digit heuristic, the canvas-buffer
+  no-ResizeObserver face, the bun.lock terminology note, the vitest
+  isolate hint; the bun-audit triage re-verified (the same 9
+  advisories as session-55/56 — all dev-toolchain/build-time, none
+  on the runtime request path).
+- COUNTS: UNIT 727 (+2 — the two S57-1a pins) / SUITES 40 / E2E 70 /
+  E2E_SPECS 9 / SMOKE 16 / BADGE 797. The designed count-lag faces
+  fired and cured at the lockstep (11 RED arms — the census driving
+  the docs — plus the PAD §12 db-path row 492 → 509 and the
+  plans-map 57th round, all GREEN at the lockstep). The ten
+  provenance sites re-anchored to 1..57 — lag 0 at ship; SKILL
+  v1.52.0 → v1.53.0.
+- VERIFIED: the full gate on the exact commit tree (below); the
+  parity walk post-cure (the standing faces hold, no drift); the
+  captures 121/122 on the dev server (the owner-instructed posture,
+  the session-29..56 precedent): the mobile-menu open clean-walk at
+  390×844 + the landing hero at 1280×800, PIL-verified; docs
+  lockstep (README's badge + session-57 row + gate footer; AGENTS's
+  plans-map fifty-seventh round + the 727; CLAUDE's 727; PAD's §8.1
+  table + carry line + §12's db-path row; SKILL v1.53.0
+  frontmatter/§0.5/Appendix A's session-57 row/Appendix B's header;
+  the docs-counts constants + the s57 ladder entry; the ten
+  provenance sites at 1..57; worklog Task 57; docs/session_57.md
+  (the formal log replacing the owner's narration); the session-57
+  plan's post-execution record).
+
+**Gate at the session-57 ship: lint 0/0 · tsc 0 · unit 727/727 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
