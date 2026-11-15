@@ -403,6 +403,27 @@ import {
 // re-anchor, not a count change — the guard's it count held. The
 // S64-7 docblock move and the S64-8 memory-face register note are +0
 // tests. The e2e 70 unchanged. SMOKE 16 unchanged.
+// s65: 758/40 (+3 — the S65-1a delimiter-bypass redaction pin (the
+// redaction-revert plant REDs exactly it), the S65-4a page-titles
+// consumption hardening (+1 it — the vacuity plant REDs exactly it),
+// and the S65-5a spawn-error arm pin (the error-arm-removal plant
+// REDs exactly it)). The S65-2/S65-3 comment-truth respells, the
+// S65-6 uniform-lag ship arm, and the S65-7 register rows are +0
+// tests. The e2e 70 unchanged. SMOKE 16 unchanged. (The rung itself
+// was MISSED at the s65 ship and appended at session-67, S67-3 — the
+// comment-lag genus, third instance after s29 and s49.)
+// s66: 766/40 (+8 — the S66-1a residual-tiers redaction pin ×3 (the
+// redaction-revert plant REDs exactly them), the S66-3a 404
+// self-canonical pin ×2 (the canonical-revert plant REDs exactly
+// them), the S66-4a toast dismiss-focus pin (the focus-arm-removal
+// plant REDs exactly it), the S66-6a copy catch-arm gate pin (the
+// catch-gate-removal plant REDs exactly it), and the S66-5 JSX-pass
+// census arm ×1 (the runtime-constructed-needle form — the contiguous
+// literal self-matched the arm's own first run)). The S66-2b
+// scroll-settle pass + register entry ride the existing e2e tests
+// (+0 unit). The e2e 70 unchanged. SMOKE 16 unchanged. (The rung
+// itself was MISSED at the s66 ship and appended at session-67,
+// S67-3 — same genus.)
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -410,7 +431,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 766;
+const UNIT = 769;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */

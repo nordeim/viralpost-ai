@@ -128,6 +128,15 @@ export function GeneratorCard() {
       // login-card/reset-password/contact-form idiom).
       const body = (await res.json().catch(() => null)) as GenerateResponse | null;
       if (!res.ok || !body?.ok || !body.data) {
+        // Session-67 (S67-2, AUDIT-2 L-1): the fetch-error toast rides
+        // the mount gate — a plain fetch is not aborted by the client
+        // router, so a response landing after the user navigated away
+        // toasted the failure on the destination route (the Toaster is
+        // root-mounted and app-global). The S66-6 copy-catch doctrine
+        // extended to its last ungated sibling arms. No epoch check:
+        // the generating flag makes overlapping requests impossible
+        // within a mount — the unmount leg is the only live face.
+        if (!mounted.current) return;
         // The explicit error state the reference lacks (D-1): settle the
         // button, tell the user, keep their idea for a retry.
         toast.error(
@@ -139,6 +148,9 @@ export function GeneratorCard() {
       generatedThisMountRef.current = true;
       incrementLive();
     } catch {
+      // Session-67 (S67-2, AUDIT-2 L-1): the catch arm rides the same
+      // mount gate as the !res.ok arm above.
+      if (!mounted.current) return;
       toast.error("Network error — check your connection and try again.");
     } finally {
       setGenerating(false);

@@ -663,9 +663,30 @@ function redactCredentials(url: string): string {
   // S66-1 face 1: the query-param credentials (password/passfile/
   // sslpassword — the libpq secret-bearing keys; user= is an identity,
   // not a secret). Case-insensitive: over-redact, never under.
-  return masked.replace(
+  const queryMasked = masked.replace(
     /([?&](?:password|passfile|sslpassword)=)[^&\s"']*/gi,
     "$1***",
+  );
+  // Session-67 (S67-1, AUDIT-1 M-1 — live-probed): the KEYWORD-VALUE
+  // libpq form — the space-separated spelling ('host=localhost
+  // user=admin password=…', the habitual psql habit) — carries no
+  // scheme, no @, and no ?/&, so every arm above passed it through and
+  // the warning family printed the password verbatim. The pass below
+  // rides every arm's output like the query pass; the (^|\s) prefix
+  // keeps the two passes disjoint (a password= key rides either a ?/&
+  // or whitespace, never both — the already-redacted ?password=***
+  // output can never match here). REGISTERED boundaries (named, not
+  // cured): the @-less colon-segment face ('postgresql://user:secretpw/
+  // db' — the password sits in URL grammar's port slot; libpq reads
+  // host=user port=secretpw, and masking host:port would destroy the
+  // host-visibility doctrine); the unencoded-& tail (a query value
+  // carrying a raw & prints its post-delimiter tail — libpq parses
+  // only the pre-& run as the password, which IS masked); and the
+  // key-set asymmetry (sslkey/servicefile stay visible while passfile
+  // masks — the chosen trio is the secret-bearing set).
+  return queryMasked.replace(
+    /(^|\s)((?:password|passfile|sslpassword)=)[^\s"']*/gi,
+    "$1$2***",
   );
 }
 

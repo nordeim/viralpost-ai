@@ -7332,3 +7332,113 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-66 ship: lint 0/0 · tsc 0 · unit 766/766 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 67 — The Redaction Keyword-Form Arm + The Fetch-Toast Mount Gate + The Ladder Rungs + The Settle Teeth and the Register Batch (2026-11-15)
+
+- ANALYZE: `git clone` refresh (the workspace had been reset; the
+  fresh clone landed at `c3110c4` = session-66's `23047ca` + the
+  owner's narration commit carrying `docs/session_67.md`, the
+  round-66 working narration — this formal log replaces its content
+  at ship). Core docs re-read at the session-66 ship counts (AGENTS,
+  CLAUDE, README, PAD, SKILL v1.62.0); the session-66 set re-verified
+  (the formal log, the plan's post-execution record, worklog Task 66,
+  the narration); the S66 cures verified in source. `.env` re-created
+  from `.env.example` at the contract (`DATABASE_URL="file:../db/
+  custom.db"`, `db/` at the repo root, `AUTH_SECRET` set — the
+  user's standing ask satisfied at the documented seam); db:push +
+  db:seed + census MATCH. The ambient DATABASE_URL pollution found
+  live again and neutralized (env -u discipline, the S63..S66
+  lesson). Baseline gate: lint 0/0 · tsc 0 · unit 766/766 (the
+  session-66 ship counts, lag 0) · build · smoke 16/16 · e2e 70/70
+  (the one-time chromium install re-run for the repo's Playwright
+  build) · census MATCH; bun audit: the same 9 dev-toolchain
+  advisories as session-55..66 (none on the runtime path).
+- AUDIT (three parallel subagents + the lead's hand-verification):
+  **0 Critical / 0 High / 1 Medium / 3 Low / 12 Info**. The Medium
+  live-probed through the REAL exported warning builder by the lead;
+  every standing contract held (envelope 13 handlers, db seam,
+  bounded reader, limiter buckets, auth family, boot gate, seven
+  Tailwind v4 mitigations, mobile-menu mechanics, React 19 laws, SEO
+  family live-verified in the walk, docs counts 55/55, ten
+  provenance sites uniformly lag-1). Headlines: the keyword-value
+  libpq connection string (the habitual psql spelling, zero
+  malformation required) printed the password verbatim through the
+  warning family; the fetch-error toast arms (four, across
+  generator-card + contact-form) rode no mount gate — a stale
+  generate/contact failure toasted on the destination route; the
+  docs-counts ladder missing its s65/s66 rungs (the comment-lag
+  genus, third instance); the revealSettle deadline-exit silently
+  soft-degrading the S66-2 coverage claim; the stale :278 cite.
+- PARITY WALK #40 — CLEAN (both legs, every documented posture: the
+  hamburger byte-identical + our aria superset, the panel inner
+  byte-identical with the infinity-calc pill + the transparent-panel
+  posture, Escape R-open/L-close-with-focus-return, the outside-tap
+  both open, the route-change R-unmount/L-hidden-in-DOM, the desktop
+  census 6 identical, the brand gradient byte-identical, the head
+  census + sitemap/robots identical modulo origin, the generator
+  DEAD on the reference (stuck at Generating through a 40s settle) /
+  LIVE on the clone with a hashtagged post + Copy + quota 0→1 used;
+  no Tailwind v4 bug in the mobile menu). Captures 141/142
+  PIL-verified (1440×6971 landing; 390×10718 mobile menu open — the
+  amber-CTA pixel count byte-identical to capture 140).
+- IMPLEMENT (TDD — the pins first, born RED): S67-1a the
+  keyword-form redaction pin (2 its — the keyword password verbatim
+  through the inert-value + tab-residue arms; the composition control);
+  S67-2a the fetch-toast mount-gate pin (1 it owning the four-arm
+  family, anchored on each file's fetch await). The GREEN phase:
+  S67-1b the keyword-form pass riding every arm's output beside the
+  query-param pass (the (^|\s) prefix keeps the passes disjoint; the
+  user= identity and host tails visible; every pinned S63..S66 shape
+  byte-identical; the three REGISTER notes in the comment);
+  S67-2b the mounted gate before all four fetch-error toasts (no
+  epoch check — the generating/sending flags own that face);
+  S67-3b the s65/s66 ladder rungs appended with their breakdowns;
+  S67-4b the cite re-anchored :278 → :285; S67-5b the revealSettle
+  deadline-exit throws with the unsettled count (the vacuous-gate
+  genus cured — a pathological hang REDs, never silently degrades).
+  THE BATTERY-FOUND DEEPENING (S67-5c): the teeth RED'd the full
+  e2e's first landing test — NOT a pathological hang but the S66-2
+  settle mechanism's own defect the silent deadline had masked since
+  its ship: globals.css's scroll-behavior: smooth made every bare
+  window.scrollTo(0, y) an ANIMATION, and the 150ms retargets crawled
+  far behind the step math (the probe: 4465 of 6071 reached, ~10
+  wrappers still at opacity: 0 through the whole 5s poll; skipped
+  nodes produce no axe violations, so session-66's runs had stayed
+  green on the partially-unscrolled DOM). The cure: behavior:
+  "instant" on the walk + the return-to-top; after-cure probe
+  6071/6071, 0 hidden right after the walk; the full e2e 70/70
+  GREEN.
+- BATTERIES (on record, each plant RED exactly its pin, all restored
+  GREEN): the keyword-arm-revert (REDs exactly the 2 S67-1a its),
+  the mount-gate-removal (REDs exactly S67-2a); the ladder-rung +
+  settle-teeth plants are prose/e2e-infra — no unit pin can fail by
+  construction, recorded as such (the full e2e run exercises the
+  settle teeth on every a11y test).
+- LOCKSTEP: UNIT 766 → 769 (+3 its), SUITES/E2E/SPECS/SMOKE held,
+  BADGE 836 → 839; the ten provenance sites 1..66 → 1..67 (uniform,
+  lag 0 — the S65-6a posture); the docs-counts constants; PAD §8.1 +
+  §11 (+3 register rows: the @-less colon boundary, the tokenVersion
+  stale-mint race, the toast last-card fallback + viewport clip) +
+  §12 (the generator-card row 325→337); README's badge + session-67
+  row + gate footer (the S43-3 continuity arm caught a blank line
+  the row insertion left inside the table — the S17-2 genus
+  re-caught by its own pin, cured same-commit); AGENTS's plans-map
+  sixty-seventh round + the 769; CLAUDE's 769; SKILL v1.62.0 →
+  v1.63.0 (frontmatter, §0.5 range, Appendix-A session-67 row,
+  Appendix-B re-certification through 67 + the gate line's 769).
+- REGISTERS: the @-less colon-segment redaction boundary (a
+  double-malformation face — masking host:port would destroy the
+  host-visibility doctrine), the unencoded-& tail face + the key-set
+  asymmetry (named in the S67-1 comment), the tokenVersion
+  stale-mint race in verify/login (mint-from-the-update-row is the
+  lift), the toast last-card <body> fallback + the ~320px clip face
+  (beside the S66 eviction row); the local .env's provenance note
+  refreshed (local hygiene, no commit).
+- Counts at ship: UNIT 769 / SUITES 40 / E2E 70 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 839; the ten provenance sites at 1..67 (lag 0,
+  uniform); SKILL v1.63.0; captures 141/142 PIL-verified; the full
+  gate green on the final tree; push to main via the SSH wrapper
+  runbook.
+
+**Gate at the session-67 ship: lint 0/0 · tsc 0 · unit 769/769 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

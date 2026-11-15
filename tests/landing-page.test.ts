@@ -313,6 +313,38 @@ describe("landing: the generator card (the reference's core contract)", () => {
     );
   });
 
+  // Session-67 (S67-2, AUDIT-2 L-1): the FETCH-error toast arms ride
+  // the mount gate — the ungated residue the S66-6 cure left one file
+  // over. A plain fetch is not aborted by the Next client router, so
+  // a generate/contact submit whose response lands after the user
+  // navigated away toasted "Generation failed…"/"Network error…"/
+  // "Something went wrong…" on the destination route (the Toaster is
+  // root-mounted and app-global). No epoch check here — the
+  // generating/sending flags make overlapping requests impossible
+  // within a mount, so the unmount leg is the only live face (the
+  // copy gate's epoch arm guards a copy-vs-regeneration coupling
+  // these arms do not have). The regexes anchor on each file's fetch
+  // await so the copy arms can never satisfy them; one pin owns the
+  // whole four-arm face family.
+  it("S67-2: the fetch-error toast arms ride the mounted gate (a stale generate/contact failure never toasts on the destination route)", () => {
+    // generator-card.tsx — the !res.ok arm and the catch arm.
+    const card = readCode("src/components/marketing/generator-card.tsx");
+    expect(card).toMatch(
+      /await fetch\("\/api\/generate"[^]*?if \(!res\.ok \|\| !body\?\.ok \|\| !body\.data\) \{[^]*?if \(!mounted\.current\) return;[^]*?toast\.error\(/,
+    );
+    expect(card).toMatch(
+      /await fetch\("\/api\/generate"[^]*?\} catch \{[^]*?if \(!mounted\.current\) return;[^]*?toast\.error\("Network error/,
+    );
+    // contact-form.tsx — the same two arms.
+    const form = readCode("src/components/marketing/contact-form.tsx");
+    expect(form).toMatch(
+      /await fetch\("\/api\/contact"[^]*?if \(!res\.ok \|\| !body\?\.ok\) \{[^]*?if \(!mounted\.current\) return;[^]*?toast\.error\(/,
+    );
+    expect(form).toMatch(
+      /await fetch\("\/api\/contact"[^]*?\} catch \{[^]*?if \(!mounted\.current\) return;[^]*?toast\.error\("Network error/,
+    );
+  });
+
   it("the limit wall ships the reference's paywall copy", () => {
     const card = readCode("src/components/marketing/generator-card.tsx");
     expect(card).toContain("You reached the free limit");

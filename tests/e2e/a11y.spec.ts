@@ -68,15 +68,18 @@ const SANCTIONED: Record<string, Array<{ any: string[]; cite: string }>> = {
       // teal-600 family — the testimonial handles (text-teal-600
       // #0d9488 at 12px on the bg-slate-50 cards = 3.57:1, under the
       // 4.5:1 AA floor) + the post-generation "Generated Post" label's
-      // state-only face (generator-card:278). The reference's own
-      // palette, class-for-class parity — adjudicated, never restyled
-      // (the doctrine this register exists for). The family was
-      // INVISIBLE to the battery before the S66-2 scroll-settle pass
-      // (every below-fold Reveal sat at opacity: 0, which axe skips);
-      // the other text-teal-600 rides aria-hidden icons (never
-      // text-flagged) and the copy button's hover:text-teal-600 computes
-      // slate-500 at rest (this entry's substring match covers them
-      // harmlessly — the over-broad direction).
+      // state-only face (generator-card:285 — the S66-6 catch gate
+      // added 7 lines above it inside the same commit; re-cited
+      // session-67, S67-4, the S46-4 line-drift doctrine). The
+      // reference's own palette, class-for-class parity — adjudicated,
+      // never restyled (the doctrine this register exists for). The
+      // family was INVISIBLE to the battery before the S66-2
+      // scroll-settle pass (every below-fold Reveal sat at opacity: 0,
+      // which axe skips); the other text-teal-600 rides aria-hidden
+      // icons (never text-flagged) and the copy button's
+      // hover:text-teal-600 computes slate-500 at rest (this entry's
+      // substring match covers them harmlessly — the over-broad
+      // direction).
       any: ["text-teal-600"],
       cite: "the testimonial handles + the generated-post label on the light cards — the reference's own palette",
     },
@@ -101,18 +104,42 @@ async function revealSettle(page: import("@playwright/test").Page): Promise<void
     const height = document.documentElement.scrollHeight;
     const step = Math.max(200, Math.floor(window.innerHeight / 2));
     for (let y = 0; y < height; y += step) {
-      window.scrollTo(0, y);
+      // Session-67 (S67-5, the battery-found deepening): INSTANT
+      // scrolls — globals.css ships `scroll-behavior: smooth`, so a
+      // bare window.scrollTo(0, y) ANIMATES, and retargeting the
+      // animation every 150ms crawls far behind the step math (the
+      // live probe: the walk "ended" at scrollY 4465 of maxScroll
+      // 6071 — the tail wrappers never intersected and ~10 stayed at
+      // opacity: 0 through the whole 5s poll). The silent deadline
+      // had been masking this since S66-2 (skipped nodes produce no
+      // axe violations, so the tests stayed green on the unscrolled
+      // DOM — the vacuous-gate genus, exactly what the teeth exposed).
+      // behavior: "instant" overrides the CSS smooth per call.
+      window.scrollTo({ top: y, behavior: "instant" });
       await new Promise((r) => setTimeout(r, 150));
     }
     const deadline = Date.now() + 5000;
-    while (Date.now() < deadline) {
-      const hidden = Array.from(document.querySelectorAll<HTMLElement>("div")).filter(
+    let hidden = Array.from(document.querySelectorAll<HTMLElement>("div")).filter(
+      (el) => el.style.opacity === "0",
+    );
+    while (hidden.length > 0 && Date.now() < deadline) {
+      await new Promise((r) => setTimeout(r, 250));
+      hidden = Array.from(document.querySelectorAll<HTMLElement>("div")).filter(
         (el) => el.style.opacity === "0",
       );
-      if (hidden.length === 0) break;
-      await new Promise((r) => setTimeout(r, 250));
     }
-    window.scrollTo(0, 0);
+    // Session-67 (S67-5, AUDIT-3 I-3): the deadline-exit gains teeth —
+    // a silent soft-degrade let axe run on a partially-hidden DOM and
+    // the S66-2 coverage claim degrade with zero signal (the
+    // vacuous-gate genus). The settle is one-way and the deadline path
+    // is pathological — exactly why failing LOUDLY is safe: a
+    // pathological CI hang surfaces as a red test, never a green lie.
+    if (hidden.length > 0) {
+      throw new Error(
+        `revealSettle: ${hidden.length} Reveal wrapper(s) never settled (still opacity: 0 after the 5s deadline) — the S66-2 settled-DOM coverage claim requires the settled DOM`,
+      );
+    }
+    window.scrollTo({ top: 0, behavior: "instant" });
     await new Promise((r) => setTimeout(r, 150));
   });
 }

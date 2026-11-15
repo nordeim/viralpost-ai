@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..66.
+// are docs/session_1..67.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -1333,5 +1333,85 @@ describe("session-66 (S66-1): the residual redaction tiers (query-param, scheme-
       "file:../db/custom.db\tjunk",
     );
     expect(fileFace).toContain("file:../db/custom.db\\tjunk");
+  });
+});
+
+// Session-67 (S67-1, AUDIT-1 M-1 — live-probed through the REAL
+// exported warning builder): the KEYWORD-VALUE libpq connection string
+// — the space-separated form ('host=localhost user=admin password=…',
+// the habitual psql spelling) — carries no scheme, no @, and no ?/&,
+// so every S63..S66 arm passed it through and the inert-value warning
+// printed the password VERBATIM (the live probe: 'secretpw' visible
+// through databaseUrlInertValueWarning while the S66-1 query-param
+// control redacted in the same run). The realism: this face needs
+// ZERO malformation — a psql-habit operator's clean .env value on a
+// node-booted standalone is enough; Prisma itself rejects the keyword
+// form (the value is inert), which is exactly when the warning fires.
+// The cure: a keyword-form pass riding every arm's output beside the
+// S66-1 query-param pass — the (^|\s) prefix keeps the two passes
+// disjoint (a password= key rides either a ?/& or whitespace, never
+// both).
+describe("session-67 (S67-1): the keyword-value libpq form never prints the password", () => {
+  it("a keyword-form password never prints — on the inert-value arm and the tab-paste residue arm; the user= identity and host stay visible", () => {
+    // Face 1 — the inert-value arm (the S63-1 posture: a node-booted
+    // standalone, a clean non-default .env value the runtime never
+    // reads — the keyword form IS a clean value; only the engine
+    // rejects its grammar).
+    const inert = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=localhost user=admin password=secretpw dbname=app",
+      false,
+    );
+    expect(inert).toContain("password=***");
+    expect(inert).not.toContain("secretpw");
+    // The identity doctrine (the S65-1b visibility posture): user= is
+    // an identity, not a secret; the host tail is the diagnostic.
+    expect(inert).toContain("user=admin");
+    expect(inert).toContain("host=localhost");
+
+    // Face 2 — the tab-paste residue arm (the S60-1 print vehicle):
+    // the control char fires the warning on the same print that must
+    // mask the keyword password (the S65-1 doctrine, one tier down).
+    const report = bootEnvCheck(
+      env({ DATABASE_URL: "host=localhost password=TopSecret99\t" }),
+    );
+    const joined = (report.warnings ?? []).join("\n");
+    expect(joined).toContain("password=***");
+    expect(joined).not.toContain("TopSecret99");
+  });
+
+  it("the controls hold — the S66-1 query-param face byte-identical, the file: contract verbatim, and the two forms compose", () => {
+    // Control 1 — the S66-1 query-param face is unchanged under the
+    // new arm (its password= rides a ?, never whitespace — the passes
+    // are disjoint; no double-mask artifact like password=****).
+    const query = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "postgresql://db.example.com:5432/prod?user=admin&password=SuperSecret9",
+      false,
+    );
+    expect(query).toContain("password=***");
+    expect(query).not.toContain("password=****");
+    expect(query).not.toContain("SuperSecret9");
+
+    // Control 2 — the clean file: contract stays verbatim (its only
+    // = faces ride the path and the outer quoting, never a
+    // whitespace-preceded secret key).
+    const fileFace = databaseUrlFileResidueWarning(
+      { NODE_ENV: "production" },
+      "file:../db/custom.db\tjunk",
+    );
+    expect(fileFace).toContain("file:../db/custom.db\\tjunk");
+
+    // Control 3 — the composition: a URL carrying BOTH a query-param
+    // password AND a keyword password masks both (a value can carry
+    // two secret spellings; one mask must never satisfy the other).
+    const both = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "postgresql://u:p@host/db?password=QSecret1 host=h password=KSecret2",
+      false,
+    );
+    expect(both).toContain("password=***");
+    expect(both).not.toContain("QSecret1");
+    expect(both).not.toContain("KSecret2");
   });
 });

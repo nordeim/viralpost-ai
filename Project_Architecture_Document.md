@@ -568,7 +568,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 40 | 766 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 40 | 769 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 70 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -586,7 +586,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 766/70/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 769/70/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -704,6 +704,9 @@ delivery.
 | LOW | The toast 5th-push eviction face: `slice(-4)` in push() can evict a card that currently HOLDS FOCUS (the S20-6 focus-pause arm only guards the auto-dismiss path, not the eviction) (session-66, AUDIT-2 L-1's registered face) | Focus falls to <body> when a focused toast is evicted by four newer pushes | Accepted + registered: push() has no DOM seam; the Toaster-side eviction-detection layout effect is the lift if the face ever matters |
 | LOW | The 404 head's og:url/og:image keep advertising the LANDING's family (the root layout's openGraph) beside the S66-3 self-canonical (session-66, AUDIT-3-1's registered face) | Link previews of 404 URLs show the site card (arguably desirable); zero SEO weight on a noindexed page | Accepted + registered: rebuilding the full OG object in the catchAll layout would forfeit the inherited family for nothing — the documented posture |
 | LOW | The a11y-controls suite reads its TSX sources RAW (no stripComments helper — the S65-4/S66-5 genus, unaudited this round) + the design-tokens dead-token src sweeps face the JSX false-ALIVE genus (a token mentioned only in a JSX comment counts as a consumer) (session-66, S66-5's registered faces) | Latent only: no live vacuous instance (spot-verified); the a11y-controls pins could be disarmed by a JSX-commented literal; the design-tokens census could false-alive a dead token | Accepted + registered for the next touch of either file: route a11y-controls' positives through readCode; chain the JSX arm into the two design-tokens sweep sites |
+| LOW | The redaction @-less colon-segment boundary: `"postgresql://user:secretpw/db` (unclosed-quote residue PLUS a missing @host — the intended password sits in URL grammar's port slot) prints `user:secretpw` verbatim (session-67, AUDIT-1 L-1, verified by probe) | Under-redaction on a double-malformation face only; libpq reads host=user port=secretpw (invalid-port error) — the engine never treats it as a password | Accepted + registered: masking host:port would destroy the host-visibility doctrine (the S65-1b posture); named in the S67-1 comment as the documented boundary |
+| LOW | The session cookie mints from the tokenVersion captured at `findUnique` time in verify/login — a concurrent password-reset committing inside the read→mint window mints a v-stale cookie (session-67, AUDIT-1 I-4) | The client sees verified:true/200 then appears signed out at the next getSessionUser (the v-compare kills the cookie); self-healing via re-login | Accepted + registered: ultra-narrow race; the lift is minting from the `update` call's returned row whenever those routes are next touched |
+| LOW | The toast last-card dismissal falls focus to `<body>` (the documented in-code fallback — Radix behaves identically) + the viewport clips only on ~320px-high mini-viewports at the 4-card cap (session-67, AUDIT-2 I-1/I-2, verified) | Keyboard users resume at document top after the last dismissal; no parity face (the reference ships no live toast system) | Accepted + registered beside the S66 eviction-face row: the fallback matches ecosystem norms; the clip face needs the cap to rise above 4 to matter |
 Swept at session-2 ship — no open CRITICAL/HIGH items.
 
 ---
@@ -728,7 +731,7 @@ commit as the file.)
 | `src/lib/api.ts` | 323 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2; the transient-abort classifier, session-37, S37-2; the seam's own transient arm, session-38, S38-1; the two-code 503 taxonomy note, session-46 S46-7) |
 | `src/app/globals.css` | 259 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1; the dead single-word-rule genus note, session-63 S63-5) |
 | `src/components/marketing/navbar.tsx` | 284 | The nav + the mobile menu (parity-verified) |
-| `src/components/marketing/generator-card.tsx` | 325 | The core surface: quota dots, generate, copy, paywall (the S50-4 copy-epoch guard + the S51-2 unmount-mounted gate, StrictMode re-armed S52-1; the S59-2 double-blank collapse — whitespace-only) |
+| `src/components/marketing/generator-card.tsx` | 337 | The core surface: quota dots, generate, copy, paywall (the S50-4 copy-epoch guard + the S51-2 unmount-mounted gate, StrictMode re-armed S52-1; the S59-2 double-blank collapse — whitespace-only; the S67-2 fetch-toast mount gate) |
 | `src/components/effects/iridescence.tsx` | 273 | The WebGL hero background (aspect-aware shader) |
 | `src/components/effects/particle-text.tsx` | 331 | The canvas particle title |
 | `src/components/effects/floating-icons.tsx` | 122 | The monetization section's ten-icon float field (session-19, S19-2) |

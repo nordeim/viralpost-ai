@@ -70,6 +70,14 @@ export function ContactForm() {
         | { ok: boolean; error?: { message: string } }
         | null;
       if (!res.ok || !body?.ok) {
+        // Session-67 (S67-2, AUDIT-2 L-1): the fetch-error toast rides
+        // the mount gate — a plain fetch is not aborted by the client
+        // router, so a response landing after the user navigated away
+        // toasted the failure on the destination route (the Toaster is
+        // root-mounted and app-global). The S51-2/S66-6 gate doctrine
+        // extended to the toast arms; no epoch check — the sending flag
+        // makes overlapping requests impossible within a mount.
+        if (!mounted.current) return;
         toast.error(body?.error?.message ?? "Something went wrong. Please try again.");
         return;
       }
@@ -90,6 +98,9 @@ export function ContactForm() {
       if (resetTimer.current) clearTimeout(resetTimer.current);
       resetTimer.current = setTimeout(() => setSent(false), 2600);
     } catch {
+      // Session-67 (S67-2, AUDIT-2 L-1): the catch arm rides the same
+      // mount gate as the !res.ok arm above.
+      if (!mounted.current) return;
       toast.error("Network error — check your connection and try again.");
     } finally {
       setSending(false);
