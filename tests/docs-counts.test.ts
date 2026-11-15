@@ -443,6 +443,19 @@ import {
 // S68-1b/S68-5b/S68-6b/S68-7b comment-and-prose cures are +0 by
 // construction (the comment-lag genus). The e2e 70 unchanged. SMOKE
 // 16 unchanged.
+// s69: 782/40 (+7 — the S69-1a quoted-tail redaction pin ×1 (the
+// quoted-tail revert plant REDs exactly it), the S69-2a verify-submit
+// mirror-gate pin ×1 (the mirror-gate revert plant REDs exactly it +
+// the two re-anchored count co-pins F11-12 and the S22-6-era submit
+// face — the designed coupling), the S69-3a divergence bare-origin
+// pin ×3 (the two boundary its + the control; the gate-removal plant
+// REDs exactly the two boundary its), the S69-4a residue trim-face
+// pin ×1 (the trim-face revert plant REDs exactly it), and the S69-7a
+// PAD §11 register-continuity pin ×1 (the blank-line re-plant REDs
+// exactly it). The S69-6b/S69-8b/S69-9b/S69-10b comment-and-prose
+// cures are +0 by construction except the S47-9 arm's own re-anchor
+// (its stale-form re-plant is the battery). The e2e 70 unchanged.
+// SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -450,7 +463,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 775;
+const UNIT = 782;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -1396,7 +1409,22 @@ describe("docs-counts: session-34 (S34-5) — the provenance-range census (the l
 // name. Ban-safe paraphrase doctrine (s216): this arm's own prose and
 // the session-47 log PARAPHRASE the stale form — never quote it.
 describe("docs-counts: session-47 (S47-9) — the generator-hang stale-prose census (the neo-crm idiom at birth)", () => {
-  const STALE_FORMS = ["hangs forever", 'hangs at "Generating'];
+  // Session-69 (S69-9, AUDIT-3 L-3): the ban widened with the GERUND
+  // inflections — the exact-string forms missed "hanging forever" (the
+  // session-1 spec header survived the S47-9 cure that declared the
+  // genus retired), and a future re-plant in that inflection stayed
+  // green. Session-69 (S69-8, AUDIT-3 L-2): the presence needle
+  // re-anchored from /failure toast/i to the drift-proof phrase — the
+  // reference's failure face has drifted twice (failure toast →
+  // silent rest); a needle pinned to a mutable face freezes the stale
+  // claim (exactly what happened: four sites sat one drift behind
+  // while the arm stayed green).
+  const STALE_FORMS = [
+    "hangs forever",
+    "hanging forever",
+    'hangs at "Generating',
+    'hanging at "Generating',
+  ];
   const FILES = [
     "docs/implementation-plan.md",
     "README.md",
@@ -1412,15 +1440,56 @@ describe("docs-counts: session-47 (S47-9) — the generator-hang stale-prose cen
     for (const file of FILES) {
       const flat = flatten(read(file));
       for (const stale of STALE_FORMS) {
-        expect(flat, `${file} must not carry the stale "${stale}" claim (the D-1 posture: the reference now settles with a failure toast)`).not.toContain(stale);
+        expect(flat, `${file} must not carry the stale "${stale}" claim (the D-1 posture: the reference never lands a generation)`).not.toContain(stale);
       }
     }
   });
 
-  it("each site carries the corrected settled posture (the failure-toast record, present-form)", () => {
+  it("each site carries the drift-proof DEAD posture (no generation ever lands — present-form, stable across failure-face drift)", () => {
     for (const file of FILES) {
       const flat = flatten(read(file));
-      expect(flat, `${file} must carry the corrected posture (the failure-toast form)`).toMatch(/failure toast/i);
+      expect(flat, `${file} must carry the drift-proof posture (the no-generation-ever-lands form)`).toContain("no generation ever lands");
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-69 (S69-7, AUDIT-3 L-1 — verified): the PAD §11 register-table
+// continuity. A blank line at PAD :694 (dated to the session-2 docs
+// rebuild) split the Known-Issues register into two GFM tables — ~20
+// rows (sessions 34–68) rendered as headerless pipe-prose on GitHub,
+// the exact S17-2/S43-3 genus (classified Low both times) recurring in
+// the PAD's most-consulted section. This arm extends the S43-3a README
+// status-table precedent to the PAD: every line from the section's
+// table header through the "Swept at" tail is a table row — no blank
+// line, no prose, may split the register.
+// ---------------------------------------------------------------------------
+describe("docs-counts: session-69 (S69-7) — the PAD §11 register-table continuity", () => {
+  it("every line of the §11 register from the table header through the Swept-at tail is a table row (no blank line splits the GFM table)", () => {
+    const pad = read("Project_Architecture_Document.md");
+    const start = pad.indexOf("## 11. Known Issues & Outstanding Tasks");
+    expect(start).toBeGreaterThanOrEqual(0);
+    const swept = pad.indexOf("Swept at session-2 ship", start);
+    expect(swept).toBeGreaterThan(start);
+    const section = pad.slice(start, swept);
+    // trimEnd: the slice ends at the "Swept at" index, so its last
+    // character is the newline ending the final table row — and a
+    // blank line AFTER the table's last row merely terminates the
+    // table (never splits it). A blank INSIDE the row sequence still
+    // trips the walk.
+    const lines = section.trimEnd().split("\n");
+    // Anchor the walk at the table header (the sanctioned blank between
+    // the section heading and the table is GFM structure, not a split);
+    // from the header through the last register row before the
+    // "Swept at" tail, EVERY line must be a table row (starts with "|"
+    // — the header, the delimiter, and every register row).
+    const headerIdx = lines.findIndex((l) => l.startsWith("| Priority |"));
+    expect(headerIdx).toBeGreaterThan(0);
+    for (let i = headerIdx; i < lines.length; i++) {
+      expect(
+        lines[i],
+        `PAD §11 line ${i + 1} of the section must be a table row (a blank line or prose here splits the GFM table — the S17-2/S43-3 genus)`,
+      ).toMatch(/^\|/);
     }
   });
 });

@@ -244,7 +244,12 @@ export function Iridescence({
     window.addEventListener("resize", onResize);
 
     // The S68-3 collapse: stop the loop and repaint the S24-6 static
-    // seed (the same frame a reduced-mode resize repaints).
+    // seed (the same frame a reduced-mode resize repaints). (Session-69,
+    // S69-10 — the accepted sub-frame corner: a change arriving before
+    // the first rAF callback finds seedT still 0, so the repaint uses
+    // the literal t=0 frame — a one-frame window where the alternative
+    // (no repaint) would leave the canvas blank until a resize; the
+    // S24-6 invariant holds for every face a user can observe.)
     const onMotionChange = (e: MediaQueryListEvent) => {
       if (!e.matches) return;
       reduced = true;

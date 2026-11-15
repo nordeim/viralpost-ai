@@ -594,10 +594,15 @@ describe("session-11: the verification-funnel closure (F11-3 + F11-4)", () => {
     const src = loginCardSrc()
       .replace(/\/\/[^\n]*/g, "")
       .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
-    // onSigninSubmit / onSignupSubmit / onVerifySubmit: `if (pending) return;`
-    // (onSendResetLink already had it; onResend rides its own `resending`).
+    // onSigninSubmit / onSignupSubmit / onSendResetLink: `if (pending) return;`
+    // (onResend rides its own `resending`; onVerifySubmit's guard
+    // widened to the two-flag form at session-69 — S69-2 — so the
+    // single-flag count is three; the verify guard is co-owned by
+    // S69-2a, which pins the two-flag face itself).
     const guards = src.match(/if \(pending\) return;/g) ?? [];
-    expect(guards.length).toBe(4);
+    expect(guards.length).toBe(3);
+    const twoFlag = src.match(/if \(pending \|\| resending\) return;/g) ?? [];
+    expect(twoFlag.length).toBe(1);
   });
 });
 
@@ -689,10 +694,16 @@ describe("session-22: the forgot-password submit joins the pending-face family (
       '<button type="submit" disabled={pending} className={LOGIN_RESET_LAYOUT.send}>',
     );
     expect(src).toContain('{pending ? "Please wait…" : "Send reset link"}');
-    // The four in-card submits now ALL carry the face (signin, signup,
-    // verify, forgot) — the reset screen's own submit is a separate file.
+    // The four in-card submits ALL carry the disabled face (signin,
+    // signup, verify, forgot) — the reset screen's own submit is a
+    // separate file. (Session-69, S69-2: the verify submit's face
+    // widened to the two-flag form — `disabled={pending || resending}`
+    // — mirroring its S68-2 guard; the single-flag count is three,
+    // the two-flag face is co-owned by S69-2a.)
     const faces = src.match(/<button type="submit" disabled=\{pending\}/g) ?? [];
-    expect(faces.length).toBe(4);
+    expect(faces.length).toBe(3);
+    const twoFlagFaces = src.match(/<button type="submit" disabled=\{pending \|\| resending\}/g) ?? [];
+    expect(twoFlagFaces.length).toBe(1);
     // Session-49 (S49-8, AUDIT-2 I1): the fifth async affordance — the
     // verify view's Resend — joins the family (the verify view is
     // platform-inherited: the reference never renders it, so no parity
@@ -719,5 +730,27 @@ describe("session-68 (S68-2): the Resend single-in-flight gate (the verify submi
     // secondary affordance's.)
     expect(src).toContain("if (resending || pending) return;");
     expect(src).toContain("disabled={resending || pending}");
+  });
+})
+
+describe("session-69 (S69-2): the verify-submit mirror gate (the resend and the verify can never cross, either direction)", () => {
+  it("the Verify submit is disabled while a resend is in flight, and onVerifySubmit guards on both flags", () => {
+    const src = loginCardSrc()
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
+    // S69-2 (AUDIT-2 L-1): session-68's S68-2 gated the RESEND
+    // affordance on both flags, but the inverse direction stayed open
+    // — the Verify submit guarded and disabled on `pending` alone, so
+    // a Verify clicked inside a resend round-trip raced the two POSTs:
+    // the resend re-minted the code (replacing the stored hash) and
+    // wiped the digit boxes mid-submit, so the in-flight verify
+    // compared the OLD digits against the NEW hash and failed "no
+    // longer valid" — the exact confusing-failure symptom S68-2 cured,
+    // from the mirrored direction. The cure completes the doctrine:
+    // BOTH flags gate BOTH affordances. (The label stays keyed on
+    // `pending` alone — the resending face is the Resend's own
+    // relabel, never the submit's.)
+    expect(src).toContain("if (pending || resending) return;");
+    expect(src).toContain("disabled={pending || resending}");
   });
 })

@@ -71,7 +71,11 @@ export function FloatingIcons() {
   React.useEffect(() => {
     // Session-21 (S21-21): the guarded form the other three effects
     // carry (a sandboxed/older embedding without matchMedia renders the
-    // static face instead of throwing inside the effect).
+    // full-motion face instead of throwing inside the effect — the
+    // throw-prevention is the point; a missing matchMedia reads as
+    // not-reduced, so the rAF loop arms. Session-69, S69-6: the prior
+    // comment claimed the static face here — it never was the
+    // behavior, at birth or since).
     const mq =
       typeof window.matchMedia === "function"
         ? window.matchMedia("(prefers-reduced-motion: reduce)")

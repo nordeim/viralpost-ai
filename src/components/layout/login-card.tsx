@@ -261,7 +261,13 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
 
   /** S21-P5: the verify view's submit — the incomplete guard first ("Please
    *  enter all 6 digits"), then the code check; success signs the account
-   *  in and redirects (no toast). */
+   *  in and redirects (no toast). Session-69 (S69-2): the guard mirrors
+   *  the S68-2 two-flag form — a verify fired during a resend round-trip
+   *  raced the two POSTs (the resend re-minted the code and wiped the
+   *  digit boxes mid-submit, so the in-flight verify compared the OLD
+   *  digits against the NEW hash) — BOTH flags now gate BOTH
+   *  affordances; the label stays keyed on `pending` alone (the
+   *  resending face is the Resend's own relabel, never the submit's). */
   async function onVerifySubmit(e: React.FormEvent) {
     e.preventDefault();
     const code = codeDigits.join("");
@@ -269,7 +275,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
       setError(verificationIncompleteMessage());
       return;
     }
-    if (pending) return;
+    if (pending || resending) return;
     setPending(true);
     setError(null);
     try {
@@ -720,7 +726,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                           {info && <InfoCallout message={info} />}
 
                           <div className={LOGIN_VERIFY_LAYOUT.buttonsGroup}>
-                            <button type="submit" disabled={pending} className={LOGIN_VERIFY_LAYOUT.submit}>
+                            <button type="submit" disabled={pending || resending} className={LOGIN_VERIFY_LAYOUT.submit}>
                               {pending ? "Please wait…" : "Verify email"}
                             </button>
                             <div className={LOGIN_VERIFY_LAYOUT.resendWrap}>

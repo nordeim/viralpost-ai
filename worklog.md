@@ -7524,3 +7524,68 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-68 ship: lint 0/0 · tsc 0 · unit 775/775 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 69
+
+- **Session 69 (2026-11-16)** — The redaction quoted-tail cure + the
+  verify-submit mirror gate + the boot-gate bare-origin split + the
+  residue trim-face + the comment-truth batch and the register batch.
+- BASELINE: workspace refreshed at `f2eea61`; `.env` held at the
+  contract (census MATCH); the ambient DATABASE_URL hazard
+  neutralized with `env -u`; baseline gate green at the session-68
+  ship counts (unit 775/775, smoke 16/16, e2e 70/70); `bun audit`
+  the same 9 dev-toolchain advisories; neo-crm UNCHANGED at b3d0fbe.
+  The owner's standing asks each verified: the .env/db contract held
+  (the seam monopoly re-verified), the vitest/playwright configs
+  current, sitemap/SEO verified live + source-pinned, the mobile nav
+  + Tailwind v4 battery clean.
+- AUDIT: three parallel lanes + hand-verification — **0 Critical /
+  0 High / 1 Medium / 8 Low / 3 Info**. The Medium (live-probed
+  through the real warning builders): the S67-1/S66-1 redaction
+  passes' value runs treated quotes as TERMINATORS, so libpq's
+  sanctioned single-quoted password container printed its quoted tail
+  verbatim after the mask. The Lows: the verify submit not gated on
+  resending (the mirrored half of the S68-2 race); the divergence arm
+  double-warning on non-bare-origin runtime values against its own
+  well-formed-origin claim; the residue predicate's untrimmed face vs
+  the engine's trimmed consumption; the S68-4 boundary postures
+  unpinned; the floating-icons comment's static-face lie; the PAD
+  §11 register's session-2-era blank line (~20 headerless rows on
+  GitHub); four stale failure-toast prose sites frozen by the S47-9
+  needle; the spec's session-1 hang header + the ban's missing
+  gerund inflections.
+- CURES (TDD — seven pins born RED, six planted-defect batteries on
+  record): S69-1 the quoted-tail alternation in both redaction passes
+  (the percent-encoded query-key face registered); S69-2 the
+  verify-submit both-flags mirror gate (the F11-12 and S22-6-era
+  count pins re-anchored as documented co-pins); S69-3 the divergence
+  arm's bare-origin gate + the path arm's dev-only-scope re-spell;
+  S69-4 the residue arm's trimmed-face alignment (the S66-1/S67-1
+  print vehicles re-anchored to interior control chars — the
+  designed-lag interaction caught in-commit); S69-7 the PAD §11
+  blank line cured + the new register-continuity pin (the S43-3a
+  README precedent extended to the PAD); S69-8/S69-9 the
+  drift-proof failure-face respells + the S47-9 needle re-anchor +
+  the gerund ban widening; S69-10 the BootEnvOptions invariant note +
+  the iridescence sub-frame corner annotation (both PAD §11 rows).
+- PARITY WALK #42 — the forty-second consecutive clean walk (both
+  legs at every documented posture; the reference's generator silent-
+  rest face re-confirmed DEAD; the clone LIVE with quota 3→2; no
+  Tailwind v4 bug; captures 145/146 PIL-verified).
+- LOCKSTEP: UNIT 775 → 782 (+7 its — the plan projected +5; the
+  S69-3a control earned its own it, the session-68 precedent),
+  SUITES/E2E/SPECS/SMOKE held, BADGE 845 → 852; the ten provenance
+  sites 1..68 → 1..69 (uniform, lag 0); the docs-counts s69 rung;
+  PAD §8.1 + §11 (+3 register rows) + §12 (two rows re-anchored);
+  README's badge + session-69 row + gate footer; AGENTS's plans-map
+  sixty-ninth round + the 782; CLAUDE's 782; SKILL v1.64.0 → v1.65.0;
+  the formal session_69.md; the plan's post-execution record; the
+  local .env's provenance note refreshed.
+- Counts at ship: UNIT 782 / SUITES 40 / E2E 70 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 852; the ten provenance sites at 1..69 (lag 0,
+  uniform); SKILL v1.65.0; captures 145/146 PIL-verified; the full
+  gate green on the final tree; push to main via the SSH wrapper
+  runbook.
+
+**Gate at the session-69 ship: lint 0/0 · tsc 0 · unit 782/782 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

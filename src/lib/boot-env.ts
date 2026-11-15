@@ -103,7 +103,14 @@ export interface BootEnvReport {
  * truth) and stay silent when the served face is healthy and the
  * runtime face is merely unset (the node-booted-standalone family's
  * false alarm). The seam stays PURE — both faces are injected; the
- * one-arg call behaves exactly as before (every prior pin holds). */
+ * one-arg call behaves exactly as before (every prior pin holds).
+ * (Session-69, S69-10 — the servedIsHealthy invariant: the caller
+ * contract is a BARE http(s) origin or undefined; the only live caller
+ * passes siteUrl(), which returns exactly that shape. A future caller
+ * must not pass a malformed non-loopback value — servedIsHealthy's
+ * predicate conflates "non-loopback" with "healthy", and a malformed
+ * served face would suppress the unset/loopback warning with no shape
+ * warning of its own.) */
 export interface BootEnvOptions {
   servedSiteUrl?: string;
 }
@@ -177,7 +184,7 @@ export function bootEnvCheck(
     }
     if (pathCarrying) {
       warnings.push(
-        `[boot] NEXT_PUBLIC_SITE_URL="${siteUrl}" carries a path — the value must be the bare ORIGIN. The site seam falls back to http://localhost:3000 until it is fixed (S28-1 — a path prefix used to compose inconsistently across metadataBase/canonicals and the twitter:url cards); set e.g. https://viralpost.example.com with no trailing path.`,
+        `[boot] NEXT_PUBLIC_SITE_URL="${siteUrl}" carries a path — the value must be the bare ORIGIN. The site seam falls back to http://localhost:3000 until it is fixed in dev (a built artifact keeps serving its build-inlined origin — the S68-4 leg split; the runtime value is inert either way) (S28-1 — a path prefix used to compose inconsistently across metadataBase/canonicals and the twitter:url cards); set e.g. https://viralpost.example.com with no trailing path.`,
       );
     }
     if (queryCarrying) {
@@ -250,20 +257,36 @@ export function bootEnvCheck(
   // loopback spellings included: a leftover localhost in the runtime
   // env against a healthy served origin is the same inert-value genus
   // the S63-1 warning names for DATABASE_URL).
+  // Session-69 (S69-3, AUDIT-1 F2 — live-probed): the WELL-FORMED
+  // claim is now mechanically true. The old parseability-only gate
+  // admitted path-carrying, query-carrying, and non-http(s) values —
+  // each fired the divergence warning IN ADDITION to its shape
+  // warning (two warnings, one root cause — the S22-18
+  // warning-authority erosion). The bare-origin gate below requires
+  // http(s), no path beyond "/", no search, no hash; every other
+  // class stays owned by the shape arms (exactly one warning per bad
+  // posture).
   // siteUrl(x) is only ever called with a non-empty string here — the
   // default-param process.env read can never trigger inside the seam.
+  const runtimeIsBareOrigin = (() => {
+    if (!siteUrl) return false;
+    try {
+      const u = new URL(siteUrl);
+      return (
+        (u.protocol === "http:" || u.protocol === "https:") &&
+        (u.pathname === "/" || u.pathname === "") &&
+        u.search === "" &&
+        u.hash === ""
+      );
+    } catch {
+      return false;
+    }
+  })();
   if (
     isProduction &&
     servedSiteUrl !== undefined &&
     siteUrl &&
-    (() => {
-      try {
-        new URL(siteUrl);
-        return true;
-      } catch {
-        return false;
-      }
-    })() &&
+    runtimeIsBareOrigin &&
     normalizeSiteUrl(siteUrl) !== normalizeSiteUrl(servedSiteUrl)
   ) {
     warnings.push(
@@ -315,10 +338,28 @@ export function bootEnvCheck(
   // absolute override). The value prints JSON.stringify'd — the
   // residue is malformed by definition, and the escaped one-line form
   // (the newline visible as \n) is the diagnostic itself.
+  // Session-69 (S69-4, AUDIT-1 F3 — live-probed): the arm reads the
+  // TRIMMED face throughout — mirroring the engine's consumption
+  // exactly (runtimeDatabaseUrl resolves process.env.DATABASE_URL
+  // .trim(); the file-face arm above already trimmed — the two arms
+  // of the family are now aligned). An EDGE-only control char (a
+  // trailing tab inside a quoted .env value — quoted inner content
+  // survives both loaders) is consumed away by the trim and the boot
+  // is HEALTHY: the old untrimmed predicate fired a false alarm whose
+  // junk-file / raw-pass-through mechanism sentences were false for
+  // that face. INTERIOR control chars and leading quotes survive the
+  // trim exactly as the engine sees them (the raw resolve bakes an
+  // interior tab into the resolved path — verified live), and the
+  // printed face loses nothing for firing shapes (an interior control
+  // char stays visible in the trimmed value).
   const dbUrl = env.DATABASE_URL;
+  // (The ?? "" fallback is unreachable inside the arm — the guard below
+  // requires a non-empty dbUrl — but it satisfies the type narrowing the
+  // separate const otherwise loses.)
+  const dbFace = (dbUrl ?? "").trim();
   if (
     dbUrl !== undefined && dbUrl !== "" &&
-    (/\p{Cc}/u.test(dbUrl) || dbUrl.startsWith('"') || dbUrl.startsWith("'"))
+    (/\p{Cc}/u.test(dbFace) || dbFace.startsWith('"') || dbFace.startsWith("'"))
   ) {
     // Session-60 (S60-1): the attribution splits by trigger face. The
     // predicate fires on THREE faces — the leading quote (kept by BOTH
@@ -336,16 +377,18 @@ export function bootEnvCheck(
     // control-char values (a leading-quote value can never start with
     // `file:`) — before the split its "unclosed quote" headline was
     // false for every value that reached it.
-    const quoteFace = dbUrl.startsWith('"') || dbUrl.startsWith("'");
-    const controlFace = /\p{Cc}/u.test(dbUrl);
-    const newlineFace = controlFace && (dbUrl.includes("\n") || dbUrl.includes("\r"));
+    const quoteFace = dbFace.startsWith('"') || dbFace.startsWith("'");
+    const controlFace = /\p{Cc}/u.test(dbFace);
+    const newlineFace = controlFace && (dbFace.includes("\n") || dbFace.includes("\r"));
     // Session-63 (S63-2): the printed value is REDACTED (a credentialed
     // postgres URL never leaks its password to stdout/server.log — the
     // residue shape stays, the userinfo segment goes); the branch
-    // conditions below still test the RAW value (the parse truth).
-    const shown = JSON.stringify(redactCredentials(dbUrl));
+    // conditions test the SAME trimmed face the engine consumes (the
+    // S69-4 alignment — the raw value's edge whitespace never reaches
+    // the engine, so it must not reach the branch selector either).
+    const shown = JSON.stringify(redactCredentials(dbFace));
     warnings.push(
-      dbUrl.startsWith("file:")
+      dbFace.startsWith("file:")
         ? (newlineFace
             ? `[boot] DATABASE_URL=${shown} carries an unclosed quote residue from .env (a control character rides the value — the session-57 S57-1 loader-span genus) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`
             : `[boot] DATABASE_URL=${shown} carries a control character from .env (a stray control character rides the value — no quote is involved, the session-60 S60-1 census) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe re-anchored the tab-bearing value exactly like the newline span). Fix the .env: remove the control character from the DATABASE_URL value.`)
@@ -744,8 +787,17 @@ function redactCredentials(url: string): string {
   // S66-1 face 1: the query-param credentials (password/passfile/
   // sslpassword — the libpq secret-bearing keys; user= is an identity,
   // not a secret). Case-insensitive: over-redact, never under.
+  // Session-69 (S69-1, AUDIT-1 F1 — live-probed): the value alternation
+  // consumes a QUOTED TAIL before the bare run — libpq's query values
+  // may be single-quoted containers ('my secret'), and the bare run
+  // ([^&\s"']*) stopped at the opening quote, printing the quoted tail
+  // verbatim after the mask. The quoted alternative consumes to the
+  // closing quote (or the run's end — unclosed quotes are exactly the
+  // residue class these warnings print); the double-quoted form
+  // over-redacts the same way (the container doctrine does not care
+  // which quote char opened it).
   const queryMasked = masked.replace(
-    /([?&](?:password|passfile|sslpassword)=)[^&\s"']*/gi,
+    /([?&](?:password|passfile|sslpassword)=)('[^']*'?|"[^"]*"?|[^&\s"']*)/gi,
     "$1***",
   );
   // Session-67 (S67-1, AUDIT-1 M-1 — live-probed): the KEYWORD-VALUE
@@ -765,8 +817,20 @@ function redactCredentials(url: string): string {
   // only the pre-& run as the password, which IS masked); and the
   // key-set asymmetry (sslkey/servicefile stay visible while passfile
   // masks — the chosen trio is the secret-bearing set).
+  // Session-69 (S69-1, AUDIT-1 F1 — live-probed): the SAME quoted-tail
+  // alternation as the query pass — libpq's documented keyword form
+  // uses a single-quoted value as a CONTAINER (password='my secret' is
+  // the sanctioned spelling for values with spaces; Prisma accepts
+  // libpq connection strings), and the bare run ([^\s"']*) stopped at
+  // the opening quote, so the replacement inserted *** and the ENTIRE
+  // quoted tail printed verbatim (the live probe:
+  // password=***'my secret'). REGISTERED with this cure: the
+  // percent-encoded query-key face ('%70assword=' — libpq
+  // percent-decodes query keys, so the decoded key IS the password;
+  // the literal-spelling match is the chosen posture — the
+  // registered-boundary precedent above).
   return queryMasked.replace(
-    /(^|\s)((?:password|passfile|sslpassword)=)[^\s"']*/gi,
+    /(^|\s)((?:password|passfile|sslpassword)=)('[^']*'?|"[^"]*"?|[^\s"']*)/gi,
     "$1$2***",
   );
 }

@@ -156,7 +156,7 @@ stable (upsert-by-email) so live sessions survive.
 
 ## Testing Strategy
 
-- **Unit (Vitest)**: 40 files / 775 tests at the pure seams. TDD default
+- **Unit (Vitest)**: 40 files / 782 tests at the pure seams. TDD default
   (red → green) for new lib logic. Several suites pin SOURCE contracts
   textually (page-titles, design-tokens, typography) — update pins in the
   same commit as the markup they pin.
@@ -207,8 +207,10 @@ stable (upsert-by-email) so live sessions survive.
 ## Error Handling & Debugging
 
 - Toasts for user-facing failures; the generator ALWAYS settles — and
-  actually generates (the reference's 402-dead generator settles with a
-  failure toast, no generation ever lands — our documented superset).
+  actually generates (the reference's 402-dead generator never lands a
+  post — no generation ever lands; the failure face has drifted across
+  walks, a session-46-era failure toast then silent rest by the
+  session-68 walk — our documented superset).
 - Symptom table lives in `viralpost-ai_SKILL.md` §10 (the Debugging
   Guide) and `docs/DEPLOYMENT.md` §7 (the production subset); the
   load-bearing rows: db `Error code 14` (wrong anchor), login loops

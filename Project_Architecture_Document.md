@@ -568,7 +568,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 40 | 775 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 40 | 782 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 70 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -586,7 +586,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 775/70/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 782/70/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -691,7 +691,6 @@ delivery.
 | LOW | ~20 dead single-word utility rules ship in the built stylesheet (`.{collapse, visible, invisible, static, inline, table, container×5, contents, shrink, grow, lowercase, resize, transform, outline, shadow, blur, invert, filter, transition, ring}` — session-63, S63-5, AUDIT-2 L1) | ~1.9-2.4 KB of the 64.5 KB sheet (~3-3.7%), zero functional impact, no compound utility depends on them (verified against the built artifact) | Accepted + registered (the S35-1 scoping's documented limit): v4's candidate scanner reads ALL src/ text, and the feeders are unavoidable English prose ("the ContactMessage table", "grow your audience") + the literal `"resize"` DOM event-name string — dictionary words and API strings are not prose-safe-able (the S28-4 doctrine's boundary); the genus note lives at the `@import` scoping site in `src/app/globals.css` |
 | LOW | The auth forms' `noValidate` renders their constraint attributes advisory-only (session-65, AUDIT-2 I-1): the password/confirm inputs carry `required minLength={8}` but browser validation never fires — the server's Zod banner owns the UX (the deliberate single-error pattern); the S28-5 pin asserts attribute PRESENCE as an a11y family face, not behavioral effect | None functional (server owns validation); the risk is a future maintainer reading the attrs as live | Accepted + registered — the in-code note rides the S28-5 pin's comment; dropping the attrs is the alternative cure, kept for intent-documentation |
 | LOW | The reveal-wrapped sections stay `opacity: 0` if JS never loads (session-65, AUDIT-2 I-2): SSR ships the hidden inline form — the documented S32-4 parity posture (the reference's framer-motion `whileInView` initial state is identical; an SPA is strictly worse without JS) | No-JS visitors see the navbar/footer/unwrapped content only | Accepted + registered (parity doctrine); a `<noscript>` style override is the cheap future superset if ever wanted |
-
 | LOW | The limiter's rotation-hazard MEMORY face — every distinct client key mints a bucket; a sustained rotating-key attack on a misdeclared-topology deploy mints ~R × window live entries (reclaimed only at the sweep's watermark crossing) plus a full-map walk per earliest-expiry crossing (session-64, S64-8, AUDIT-1 I2) | Resource-exhaustion surface on a direct-exposed/misdeclared deploy only; behind a correctly-declared proxy the attacker cannot choose the trusted hop | Accepted + registered (the documented single-node posture's other face; the S9-1 boot warning's "fresh rate-limit bucket per request" clause carries the map-growth cost — named at the module header in `src/lib/rate-limit.ts`) |
 | LOW | `flex-shrink-0` at 3 sections.tsx sites is a v3-era alias — Tailwind 4.3.3 still generates it (compile-verified session-64, AUDIT-2 I2), but the canonical v4 name is `shrink-0` | None today; a future Tailwind major that drops the alias silently kills the no-shrink on the benefit-card icon tiles and both pricing checkmark circles | Accepted + registered: normalize to `shrink-0` the next time sections.tsx is touched for class reasons (neither spelling is test-pinned — verified) |
 | LOW | The auth gates key on exact `NODE_ENV === "production"` (auth.ts secret() + the boot gate's isProduction) — any other value (`staging`) silently gets the hardcoded DEV session secret with one console.warn (session-66, AUDIT-1 I-2) | A mis-deployed non-dev environment serves forgeable sessions | Accepted + registered: the documented postures are dev/test/production (DEPLOYMENT.md); the fail-closed lift (treat unknown values as production for the secret gate) is the named cure if the posture set ever grows |
@@ -712,6 +711,9 @@ delivery.
 | LOW | `db.user.count()` full-scans the user table on every signup (the avatar-color rotation + the first-user-admin bootstrap faces; session-68, AUDIT-1 I-5) | O(table) per signup; harmless at demo scale, grows with the user table | Accepted + registered: derive the color from a hash of the email/id and gate the admin bootstrap on a one-time flag/meta row if ever lifted |
 | LOW | The toast's nested live regions (polite viewport + per-card `role="alert"`/`role="status"`) may double-announce in some AT combinations (session-68, AUDIT-2 I-1; the documented S19-8 doctrine's known edge) | Possible duplicated announcement of error toasts; cosmetic SR noise, no functional loss; no reproduced face | Accepted + registered as a watch item: if ever observed in AT testing, scope the viewport's live region to a text-only mirror node (sonner's approach) |
 | LOW | The WebKit-motivated cures (the S23-3 `tabIndex={-1}` sequential-focus family, the skip-link pill path) are runtime-unverifiable in the Chromium-only e2e matrix — their contracts ride source pins alone (session-68, AUDIT-3 I-3) | A WebKit regression in the focus family ships green | Accepted + registered (the documented one-engine posture): a periodic manual WebKit walk, or a WebKit project in the e2e matrix, is the lift if the Safari face ever matters |
+| LOW | The redaction's percent-encoded query-key face — a `%70assword=` key (libpq percent-decodes query keys, so the decoded key IS the password) prints verbatim through the warning family (session-69, S69-1's registered boundary — the print-side bypass live-probed; the libpq decode step is documented behavior) | Under-redaction on an exotic spelling only reachable in a malformation-posture print; requires the operator to percent-encode the key themselves | Accepted + registered (the S67-1 boundary precedent): the literal-spelling match is the chosen posture; named in the S69-1 comment at both passes |
+| LOW | The boot gate's `servedIsHealthy` predicate conflates non-loopback with healthy (session-69, S69-10 — the BootEnvOptions invariant note): a future caller passing a malformed non-loopback served face would suppress the unset/loopback warning with no shape warning of its own | None today — the only live caller passes `siteUrl()`, which returns a bare http(s) origin or the default | Accepted + registered: the caller contract is documented at the `BootEnvOptions.servedSiteUrl` field; assert-parseability there if a second caller ever appears |
+| LOW | The iridescence collapse's sub-frame corner — a change-to-reduce arriving before the first rAF callback finds `seedT` still 0, so the repaint uses the literal t=0 frame, not the S24-6 mount-time seed (session-69, S69-10 — the accepted corner) | One-frame window, no observable face; the alternative (no repaint) would leave the canvas blank until a resize | Accepted + registered: annotated in the S68-3 comment; capture-early is the named lift if the corner ever matters |
 Swept at session-2 ship — no open CRITICAL/HIGH items.
 
 ---
@@ -737,9 +739,9 @@ commit as the file.)
 | `src/app/globals.css` | 259 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1; the dead single-word-rule genus note, session-63 S63-5) |
 | `src/components/marketing/navbar.tsx` | 284 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 337 | The core surface: quota dots, generate, copy, paywall (the S50-4 copy-epoch guard + the S51-2 unmount-mounted gate, StrictMode re-armed S52-1; the S59-2 double-blank collapse — whitespace-only; the S67-2 fetch-toast mount gate) |
-| `src/components/effects/iridescence.tsx` | 295 | The WebGL hero background (aspect-aware shader; the S68-3 live reduced-motion subscribe — the change listener repaints the static seed) |
+| `src/components/effects/iridescence.tsx` | 300 | The WebGL hero background (aspect-aware shader; the S68-3 live reduced-motion subscribe — the change listener repaints the static seed) |
 | `src/components/effects/particle-text.tsx` | 354 | The canvas particle title (the S68-3 live subscribe — the reduced branch takes over from any phase) |
-| `src/components/effects/floating-icons.tsx` | 144 | The monetization section's ten-icon float field (session-19, S19-2; the S68-3 live subscribe — stop-and-reset on change-to-reduce) |
+| `src/components/effects/floating-icons.tsx` | 148 | The monetization section's ten-icon float field (session-19, S19-2; the S68-3 live subscribe — stop-and-reset on change-to-reduce) |
 | `src/app/[...catchAll]/layout.tsx` | 47 | The 404 title owner (ADR-006) + the self-canonical (S66-3) |
 | `src/app/api/[...path]/route.ts` | 43 | The API subtree's envelope 404 (session-15, S15-7; OPTIONS joined session-18, S18-2) |
 | `src/app/api/route.ts` | 51 | The bare `/api` envelope 404 (session-16, S16-2; OPTIONS joined session-18, S18-2) |

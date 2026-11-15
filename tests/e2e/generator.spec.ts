@@ -3,7 +3,8 @@ import { expect, test } from "@playwright/test";
 // The generator journey — the app's core workflow, run against the real
 // standalone server with the LOCAL engine (no external LLM dependency —
 // the deterministic engine is the offline contract; the reference's own
-// LLM was observed returning HTTP 402 with the UI hanging forever).
+// LLM was observed returning HTTP 402 with no generation ever landing —
+// the failure face has drifted across walks, the D-1 record).
 
 const TEXTBOX = (page: import("@playwright/test").Page) =>
   page.getByLabel("Describe your post idea");
@@ -82,9 +83,11 @@ test.describe("generator (desktop)", () => {
     await TEXTBOX(page).fill("x".repeat(600));
     await page.getByRole("button", { name: "Generate Post" }).click();
     await expect(page.getByText(/shorter/i)).toBeVisible({ timeout: 10_000 });
-    // The button settles (the reference's dead generator now settles
-    // too, with its own failure toast — the D-1 record; ours recovers
-    // with a retry affordance, the superset contract).
+    // The button settles (the reference's dead generator never lands a
+    // post — no generation ever lands, the drift-proof D-1 record; the
+    // failure face drifted from a session-46-era failure toast to silent
+    // rest by the session-68 walk; ours recovers with a retry
+    // affordance, the superset contract).
     await expect(page.getByRole("button", { name: "Generate Post" })).toBeEnabled();
     // Session-51 (S51-8, AUDIT-1 L2): the RAW-bound behavioral leg — a
     // whitespace-padded 1001-char idea (collapse 497 fits the seam's

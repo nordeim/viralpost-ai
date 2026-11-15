@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..68.
+// are docs/session_1..69.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -1273,9 +1273,13 @@ describe("session-66 (S66-1): the residual redaction tiers (query-param, scheme-
 
     // Face 1b — the tab-paste residue arm (the S60-1 print vehicle):
     // the control char fires the warning, the query password must
-    // still mask on the same print that names the char.
+    // still mask on the same print that names the char. (Session-69,
+    // S69-4 re-anchor: the vehicle's control char must be INTERIOR —
+    // the old trailing-tab form was exactly the edge-only class the
+    // S69-4 trim cure silences, because the engine consumes the
+    // trimmed face and boots healthy.)
     const report = bootEnvCheck(
-      env({ DATABASE_URL: "postgresql://db.example.com:5432/prod?user=admin&password=TopSecret99\t" }),
+      env({ DATABASE_URL: "postgresql://db.example.com:5432/prod?user=admin&password=TopSecret99&tag=a\tb" }),
     );
     const joined = (report.warnings ?? []).join("\n");
     expect(joined).toContain("password=***");
@@ -1372,8 +1376,11 @@ describe("session-67 (S67-1): the keyword-value libpq form never prints the pass
     // Face 2 — the tab-paste residue arm (the S60-1 print vehicle):
     // the control char fires the warning on the same print that must
     // mask the keyword password (the S65-1 doctrine, one tier down).
+    // (Session-69, S69-4 re-anchor: the vehicle's control char must
+    // be INTERIOR — the old trailing-tab form was exactly the
+    // edge-only class the S69-4 trim cure silences.)
     const report = bootEnvCheck(
-      env({ DATABASE_URL: "host=localhost password=TopSecret99\t" }),
+      env({ DATABASE_URL: "host=localhost password=TopSecret99 dbname=a\tb" }),
     );
     const joined = (report.warnings ?? []).join("\n");
     expect(joined).toContain("password=***");
@@ -1413,6 +1420,94 @@ describe("session-67 (S67-1): the keyword-value libpq form never prints the pass
     expect(both).toContain("password=***");
     expect(both).not.toContain("QSecret1");
     expect(both).not.toContain("KSecret2");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-69 (S69-1, AUDIT-1 F1 — live-probed): the QUOTED-VALUE tail.
+// libpq's documented keyword form uses a single-quoted value as a
+// CONTAINER (password='my secret' is the sanctioned spelling for values
+// with spaces; Prisma accepts libpq connection strings) — but the
+// S67-1/S66-1 passes' value runs treated quotes as TERMINATORS
+// ([^\s"']* / [^&\s"']*), so the run matched zero characters at the
+// opening quote, the replacement inserted ***, and the ENTIRE quoted
+// tail printed verbatim (the live probe: password=***'my secret').
+// The one-owner doctrine ("the password never prints") defeated by the
+// one spelling an operator with a space in their password is told to
+// use. The cure: the value alternation consumes a quoted tail before
+// the bare run. REGISTERED boundary (named, not cured — the S67-1
+// precedent): a percent-encoded query key ('%70assword=' — libpq
+// percent-decodes query keys, so the decoded key IS the password)
+// stays visible; the literal-spelling match is the chosen posture.
+// ---------------------------------------------------------------------------
+describe("session-69 (S69-1): a quoted libpq value never prints (the quoted-tail redaction)", () => {
+  it("keyword-form and query-param quoted passwords mask with their quoted tails — closed, unclosed, and double-quoted; identity and host stay visible", () => {
+    // Face 1 — the keyword-form single-quoted value, closed and
+    // unclosed (an unclosed quote is exactly the residue class these
+    // warnings print).
+    const kwClosed = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=localhost user=admin password='my secret' dbname=app",
+      false,
+    );
+    expect(kwClosed).toContain("password=***");
+    expect(kwClosed).not.toContain("my secret");
+    const kwUnclosed = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=localhost user=admin password='my secret",
+      false,
+    );
+    expect(kwUnclosed).toContain("password=***");
+    expect(kwUnclosed).not.toContain("my secret");
+    // The identity doctrine (the S65-1b visibility posture): user=
+    // and host stay visible.
+    expect(kwClosed).toContain("user=admin");
+    expect(kwClosed).toContain("host=localhost");
+
+    // Face 2 — the query-param quoted value (the S66-1 pass's quoted
+    // tail; the run must consume past the quote, not stop at it).
+    const queryQuoted = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "postgresql://db.example.com:5432/prod?password='my secret'",
+      false,
+    );
+    expect(queryQuoted).toContain("password=***");
+    expect(queryQuoted).not.toContain("my secret");
+
+    // Face 3 — the double-quoted form over-redacts the same way (an
+    // unmatched double quote rides the unclosed-residue class; the
+    // container doctrine does not care which quote char opened it).
+    const dbl = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      'host=localhost password="my secret',
+      false,
+    );
+    expect(dbl).toContain("password=***");
+    expect(dbl).not.toContain("my secret");
+
+    // Face 4 — the tab-paste residue arm (the S60-1 print vehicle):
+    // the control char fires the warning on the same print that must
+    // mask the quoted keyword password. (Session-69, S69-4
+    // re-anchor: the vehicle's control char must be INTERIOR — a
+    // trailing tab is the edge-only class the S69-4 trim cure
+    // silences, and this pin was born before that cure was designed.)
+    const report = bootEnvCheck(
+      env({ DATABASE_URL: "host=localhost password='my secret' dbname=a\tb" }),
+    );
+    const joined = (report.warnings ?? []).join("\n");
+    expect(joined).toContain("password=***");
+    expect(joined).not.toContain("my secret");
+
+    // The control — every prior pinned shape is byte-identical under
+    // the quoted-tail alternation (the bare-run faces keep their
+    // masks; no quoted artifact rides an unquoted value).
+    const bare = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=localhost user=admin password=secretpw dbname=app",
+      false,
+    );
+    expect(bare).toContain("password=***");
+    expect(bare).not.toContain("secretpw");
   });
 });
 
@@ -1494,5 +1589,92 @@ describe("session-68 (S68-4): the NEXT_PUBLIC_SITE_URL served-face leg split", (
     );
     expect(report.fatal).toBeNull();
     expect(report.warnings).toHaveLength(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-69 (S69-3, AUDIT-1 F2 — live-probed): the divergence arm's
+// bare-origin gate. The S68-4 arm's URL-parseability gate admitted ANY
+// URL-parseable value — a path-carrying, query-carrying, or non-http(s)
+// runtime value fired the divergence warning IN ADDITION to the F10-11
+// shape warning (the live probe: BOTH warnings for
+// https://example.com/base), falsifying the arm's own "fires only on a
+// WELL-FORMED runtime origin" claim and session-68's "exactly one
+// warning per bad posture" record. The cure: the arm fires only when
+// the runtime face is a bare http(s) ORIGIN (parses, http/https, no
+// path beyond "/", no search, no hash) — every other class stays owned
+// by the shape arms. (S69-5's two boundary postures are this pin's
+// faces: the malformed-runtime + served-face posture and the
+// path-carrying double-warning face were both unpinned.)
+//
+// Session-69 (S69-4, AUDIT-1 F3 — live-probed): the residue
+// predicate's TRIMMED face. runtimeDatabaseUrl() trims the process-env
+// DATABASE_URL before resolving; the predicate tested the UNTRIMMED
+// value — a value whose only malformation is an EDGE control char (a
+// trailing tab) fired the warning while the engine consumed the
+// cleaned value and booted healthy (the junk-file / raw-pass-through
+// mechanism sentences FALSE for that face). The cure: the arm reads
+// the trimmed face throughout — mirroring the engine's consumption
+// exactly. Interior control chars and leading quotes survive the trim
+// as the engine sees them (the file-face arm at :601 already trimmed;
+// the two arms of the family are now aligned).
+// ---------------------------------------------------------------------------
+describe("session-69 (S69-3/S69-4): the divergence arm's bare-origin gate + the residue predicate's trimmed face", () => {
+  it("S69-3a: a path-carrying runtime value against a healthy served face answers EXACTLY ONE warning — the shape arm owns it, the divergence arm stays silent", () => {
+    // The F10-11 path shape arm carries the whole posture (one
+    // warning per bad posture — the S22-18 warning-authority
+    // doctrine); the divergence arm must not pile on.
+    const report = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "https://example.com/base" }),
+      { servedSiteUrl: "https://example.com" },
+    );
+    expect(report.fatal).toBeNull();
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("carries a path");
+    expect(report.warnings.join("\n")).not.toContain("is NOT what this server serves");
+  });
+
+  it("S69-3a (the sibling face): a non-http(s) runtime value against a healthy served face answers EXACTLY ONE warning — the malformed-protocol arm owns it, the divergence arm stays silent", () => {
+    const report = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "ftp://example.com" }),
+      { servedSiteUrl: "https://example.com" },
+    );
+    expect(report.fatal).toBeNull();
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("could not be parsed as an http(s) origin");
+    expect(report.warnings.join("\n")).not.toContain("is NOT what this server serves");
+  });
+
+  it("S69-3a (the control): a WELL-FORMED bare runtime origin the served face disagrees with still answers the divergence warning (the S68-4 false-negative cure intact)", () => {
+    const report = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "https://runtime.example.com" }),
+      { servedSiteUrl: "https://built.example.com" },
+    );
+    expect(report.fatal).toBeNull();
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("is NOT what this server serves");
+    expect(report.warnings[0]).toContain("https://runtime.example.com");
+    expect(report.warnings[0]).toContain("https://built.example.com");
+  });
+
+  it("S69-4a: an EDGE-only control character is silent (the engine consumes the trimmed face; the boot is healthy), while an INTERIOR control character still fires", () => {
+    // The trailing tab inside a quoted .env value survives both
+    // loaders — but the engine's face is the TRIMMED value, and that
+    // face is clean: no warning (the false-alarm cure; the old
+    // predicate fired with a junk-file mechanism text that was false
+    // for this face).
+    const edge = bootEnvCheck(
+      env({ DATABASE_URL: "file:../db/custom.db\t" }),
+    );
+    expect(edge.fatal).toBeNull();
+    expect(edge.warnings).toHaveLength(0);
+
+    // The interior control char reaches the engine (the raw resolve
+    // bakes it into the resolved path) — the warning still fires.
+    const interior = bootEnvCheck(
+      env({ DATABASE_URL: "file:../db/cu\tstom.db" }),
+    );
+    expect(interior.warnings.length).toBeGreaterThanOrEqual(1);
+    expect(interior.warnings.join("\n")).toContain("control character");
   });
 });
