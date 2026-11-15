@@ -321,13 +321,11 @@ export function ParticleText({
       />
       {/* The real heading for crawlers + screen readers (the reference's
           own sr-only pattern — a REAL h1 whose visually-hidden text
-          carries the full phrase list). */}
-      <h1
-        className="sr-only"
-        style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}
-      >
-        {srText ?? texts.join(" ")}
-      </h1>
+          carries the full phrase list). Session-63 (S63-7, AUDIT-2 I3):
+          the hand-rolled inline clip duplicate of sr-only RETIRED —
+          the utility class owns the face (belt-and-braces duplication
+          removed; no behavior change). */}
+      <h1 className="sr-only">{srText ?? texts.join(" ")}</h1>
     </div>
   );
 }

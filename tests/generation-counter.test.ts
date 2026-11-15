@@ -1,4 +1,6 @@
 // The free-quota counter contract — the reference's verbatim semantics.
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -76,5 +78,34 @@ describe("generation counter: parseRecord robustness", () => {
       date: "Sat Nov 08 2026",
       count: 1,
     });
+  });
+});
+
+// Session-63 (S63-6, AUDIT-2 L2 — plus its registered cross-tab sibling):
+// the quota store re-emits when the live value moves WITHOUT this tab
+// writing it — (a) the `storage` event (another tab's increment; the
+// cross-tab staleness face registered session 30 now cured at the store),
+// and (b) focus/visibilitychange (the same-tab date rollover: a tab left
+// open across midnight re-reads the day-rolled counter and the paywall
+// unmounts — the server limiter is the wall either way, this is the UX
+// truth). Both re-emitters fire through a change-guard (no focus-event
+// render spam), browser-guarded, StrictMode-safe (a module-level wired
+// flag — the listeners share the store's own page-lifetime class, the
+// same class as the listeners Set itself). Source-census: the S29-2
+// idiom.
+describe("session-63 (S63-6): the quota store re-emits on external change (cross-tab + date rollover)", () => {
+  it("subscribeUsage's wiring carries the storage listener (key-guarded) + the focus/visibilitychange re-emitters behind a change-guard", () => {
+    const root = join(import.meta.dirname, "..");
+    const src = readFileSync(join(root, "src", "lib", "generation-counter.ts"), "utf8");
+    // The cross-tab face: the storage listener guarded on the counter key.
+    expect(src).toContain('addEventListener("storage"');
+    expect(src).toContain("e.key === GENERATIONS_KEY");
+    // The rollover face: focus + visibilitychange re-emit.
+    expect(src).toContain('addEventListener("focus"');
+    expect(src).toContain('addEventListener("visibilitychange"');
+    // The change-guard: re-emit only when the live value moved.
+    expect(src).toContain("reemitIfChanged");
+    // The StrictMode-safe one-time wiring.
+    expect(src).toContain("wired");
   });
 });

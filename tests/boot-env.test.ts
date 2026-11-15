@@ -37,13 +37,13 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..62.
+// are docs/session_1..63.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { applyBootEnvReport, bootEnvCheck, databaseUrlFileResidueWarning, KNOWN_VIRALPOST_VARS, shadowingEnvFileWarnings, shadowingEnvFileWarningsForServer } from "../src/lib/boot-env";
+import { applyBootEnvReport, bootEnvCheck, databaseUrlFileResidueWarning, databaseUrlInertValueWarning, KNOWN_VIRALPOST_VARS, shadowingEnvFileWarnings, shadowingEnvFileWarningsForServer } from "../src/lib/boot-env";
 
 const root = join(import.meta.dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
@@ -1018,5 +1018,105 @@ describe("session-62 (S62-2): the PWD-leg mechanism-truth split (the runtime rea
     const src = readFileSync(join(root, "src", "lib", "boot-env.ts"), "utf8");
     expect(src).toContain("d === process.cwd()");
     expect(src).toContain("runtimeConsumesFile");
+  });
+});
+
+// Session-63 (S63-1, AUDIT-1 M1 — live-probed): the inert-VALUE divergence
+// warning. The S62-2 split's live probe (a healthy boot against the default
+// db while a PWD-leg RESIDUE warning fired) left one face unpinned: a CLEAN
+// non-default value in a launch-dir .env never warns anywhere — the
+// clean-value early return at the residue seam — while the runtime (under a
+// node boot with an empty shell env) reads only the server CWD's .env
+// (removed from the artifact by the build's hygiene step) and resolves the
+// DEFAULT. This round's decisive probe (env -u DATABASE_URL, a schema-only
+// db/alt.db with 0 users behind a clean absolute value in the repo .env):
+// /api/health answered db:up AND the demo-credentials login answered 200
+// with the SEEDED user — the engine served the default db's user from a
+// file the operator's .env never named — with ZERO [boot] warnings. The
+// S47-2 shadow-file genus, one face deeper: not a shadow FILE, an inert
+// VALUE.
+describe("session-63 (S63-1): the inert-value divergence warning (a clean non-default .env value the runtime never reads)", () => {
+  it("fires ONLY on the non-consumed leg, unset env, clean non-default value — naming the divergence truth + the fix", () => {
+    // The firing face: the PWD leg (runtimeConsumesFile: false), the
+    // process env unset, a clean non-default value.
+    const w = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "file:/srv/viralpost/production.db",
+      false,
+    );
+    expect(w).toContain("file:/srv/viralpost/production.db");
+    expect(w).toContain("never read by this server");
+    expect(w).toContain("resolves the default");
+    expect(w).toContain("file:../db/custom.db");
+    expect(w).toContain("bun run start");
+
+    // The non-firing faces, each its own boundary:
+    // (a) the consumed leg — the runtime honors the file value there.
+    expect(databaseUrlInertValueWarning({ NODE_ENV: "production" }, "file:/srv/x.db", true)).toBeNull();
+    // (b) the two-arg default (every legacy call form) — consumed leg.
+    expect(databaseUrlInertValueWarning({ NODE_ENV: "production" }, "file:/srv/x.db")).toBeNull();
+    // (c) a SET process env owns the signal (the one-owner doctrine —
+    // the runtime honors the override; warning would be a false alarm).
+    expect(
+      databaseUrlInertValueWarning({ NODE_ENV: "production", DATABASE_URL: "file:/env/x.db" }, "file:/srv/x.db", false),
+    ).toBeNull();
+    // (d) the raw DEFAULT spelling — it lands on the same file the
+    // default resolves to (the schema rule), so there is no divergence.
+    // The designed approximation: a non-repo PWD carrying the default
+    // spelling is the documented false-negative corner (named in the
+    // seam's comment) — the .env.example spelling must never warn.
+    expect(databaseUrlInertValueWarning({ NODE_ENV: "production" }, "file:../db/custom.db", false)).toBeNull();
+    // (e) residue values — the RESIDUE seam owns them (one face one
+    // pin); the inert seam stays silent on malformed values.
+    expect(databaseUrlInertValueWarning({ NODE_ENV: "production" }, '"file:../db/custom.db', false)).toBeNull();
+    expect(databaseUrlInertValueWarning({ NODE_ENV: "production" }, "file:../db/custom.db\tjunk", false)).toBeNull();
+    // (f) empty / missing values — nothing to say.
+    expect(databaseUrlInertValueWarning({ NODE_ENV: "production" }, undefined, false)).toBeNull();
+    expect(databaseUrlInertValueWarning({ NODE_ENV: "production" }, "", false)).toBeNull();
+  });
+
+  it("the WRAPPER wires the inert-value seam with the same leg discriminator — the S29-2/S62-2b source-census idiom", () => {
+    // The wrapper's loop is the only place the leg is knowable; the
+    // plant (drop the call) REDs exactly this pin while the residue
+    // arms hold.
+    const src = readFileSync(join(root, "src", "lib", "boot-env.ts"), "utf8");
+    expect(src).toContain("databaseUrlInertValueWarning(env, envFileUrl, d === process.cwd())");
+  });
+});
+
+// Session-63 (S63-2, AUDIT-1 L1): the credential redaction. Both residue
+// arms interpolate the FULL raw value — and the db-path seam passes
+// non-file: URLs through verbatim by design (the documented PostgreSQL
+// path), where URLs commonly embed credentials. A malformed credentialed
+// URL would print its password to stdout (and `tee server.log` persists
+// it). The redaction replaces only the userinfo segment; the residue
+// shape (the diagnostic) stays visible.
+describe("session-63 (S63-2): the residue-warning credential redaction (the password never prints)", () => {
+  it("a credentialed malformed value answers ***@, not the password — on both arms; file: values stay verbatim", () => {
+    // The process-env arm: the unclosed-quote residue on a credentialed
+    // postgres URL (the leading quote is the residue; the password is
+    // the secret).
+    const report = bootEnvCheck(env({ DATABASE_URL: '"postgresql://admin:s3cret-pw@db.example.com/prod' }));
+    const joined = (report.warnings ?? []).join("\n");
+    expect(joined).toContain("***@");
+    expect(joined).not.toContain("s3cret-pw");
+    expect(joined).toContain("db.example.com");
+
+    // The file-face arm (the consumed leg — the CWD .env shape): the
+    // same redaction through the prefix.
+    const fileFace = databaseUrlFileResidueWarning(
+      { NODE_ENV: "production" },
+      '"postgresql://admin:s3cret-pw@db.example.com/prod',
+    );
+    expect(fileFace).toContain("***@");
+    expect(fileFace).not.toContain("s3cret-pw");
+
+    // The file: SQLite contract carries no userinfo — no false
+    // redaction (the residue stays verbatim, the S60-1b faces hold).
+    const fileValue = databaseUrlFileResidueWarning(
+      { NODE_ENV: "production" },
+      "file:../db/custom.db\tjunk",
+    );
+    expect(fileValue).toContain("file:../db/custom.db\\tjunk");
   });
 });

@@ -4,7 +4,7 @@ import { ok, fail } from "@/lib/api";
 export const dynamic = "force-dynamic";
 
 // Session-36 (S36-P5 — donor-ledger numbers; this repo's sessions are
-// docs/session_1..62, the SKILL §0.5 enumeration): the db-down branch
+// docs/session_1..63, the SKILL §0.5 enumeration): the db-down branch
 // is an honest 503 — the session-34 incident (a DONOR-ledger number —
 // the NEO-CRM seam's own recovery session, the db-path.ts marker's
 // sibling; this repo's own session 34 was the contact-persistence
@@ -20,7 +20,13 @@ export async function GET() {
   try {
     await db.$queryRaw`SELECT 1`;
     return ok({ status: "healthy", db: "up" });
-  } catch {
+  } catch (error) {
+    // Session-63 (S63-3, AUDIT-1 I1): the 503 envelope is the monitoring
+    // signal (S36-P5); this line is its diagnosis half — WHY SELECT 1
+    // failed rides the server log, so an operator does not need a local
+    // repro to see the cause (wrong db path, locked file, corrupted
+    // file — the SKILL §10 symptom family).
+    console.error("[health] db probe failed:", error);
     return fail("SERVICE_UNAVAILABLE", "Database unavailable", 503);
   }
 }

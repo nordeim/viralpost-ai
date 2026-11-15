@@ -568,7 +568,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 40 | 744 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 40 | 750 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 70 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -586,7 +586,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 744/70/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 750/70/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -688,6 +688,7 @@ delivery.
 | LOW | The footer's © year evaluates at `next build` on the statically-prerendered `(site)` pages (session-16, S16-5) | The displayed year rolls only on the next deploy (the reference's SPA computes it client-side every load — divergence opens only after a calendar-year boundary crosses the last deploy) | Accepted + documented in-code: a client-side island would trade hydration risk for zero current-day value |
 | LOW | The signup first-user-admin bootstrap race — `findUnique → count → create` is not atomic, so two concurrent different-email signups on a never-seeded table can both read count 0 and both mint `role: "admin"` (session-44, S44-7; live-reproduced on a scratch SQLite db) | A fresh-clone-only window can mint two admins | Accepted + documented in-route: `role` is inert in this tree (echoed by login/me, consumed by no authorization gate), and any seeded deployment (the census contract: 1 user pristine) already carries the admin demo user — the empty-table window never opens; the `$transaction` lift is deliberately not taken (a write-lock transaction for an inert field is not worth the contention on the hot signup path) |
 | LOW | The forgot-password link clobber — each request overwrites the user's live `resetToken` row (`db.user.update` on the same record, session-50 S50-13 register), so a second request invalidates the first's link mid-flight | A user who re-requests kills their own earlier link (rate-limited 10/IP/15min, `forgot:` bucket) | Accepted (session-50, S50-13): subsumed by the demo in-app delivery posture — the fresh link is delivered in-response, so the overwrite is self-healing for the demo user; the single-row serialization lift is not worth the hot-path contention |
+| LOW | ~20 dead single-word utility rules ship in the built stylesheet (`.{collapse, visible, invisible, static, inline, table, container×5, contents, shrink, grow, lowercase, resize, transform, outline, shadow, blur, invert, filter, transition, ring}` — session-63, S63-5, AUDIT-2 L1) | ~1.9-2.4 KB of the 64.5 KB sheet (~3-3.7%), zero functional impact, no compound utility depends on them (verified against the built artifact) | Accepted + registered (the S35-1 scoping's documented limit): v4's candidate scanner reads ALL src/ text, and the feeders are unavoidable English prose ("the ContactMessage table", "grow your audience") + the literal `"resize"` DOM event-name string — dictionary words and API strings are not prose-safe-able (the S28-4 doctrine's boundary); the genus note lives at the `@import` scoping site in `src/app/globals.css` |
 
 Swept at session-2 ship — no open CRITICAL/HIGH items.
 
@@ -702,7 +703,7 @@ commit as the file.)
 | File | Lines | Purpose |
 |------|-------|---------|
 | `src/lib/generator.ts` | 495 | The deterministic viral-formula engine + the reference's exact prompt (the S50-12 collapse seam: collapseIdea one-home + the honest raw-bound message) |
-| `src/lib/generation-counter.ts` | 113 | The 3/day quota: pure functions + the store adapter |
+| `src/lib/generation-counter.ts` | 150 | The 3/day quota: pure functions + the store adapter (the S63-6 external-change re-emit — cross-tab storage + the date-rollover focus/visibility faces) |
 | `src/lib/route-title.ts` | 75 | The unknown-route title derivation (ADR-006) |
 | `src/lib/from-url.ts` | 43 | The from_url open-redirect guard (session-13, S13-4; the leading-// arm, session-14, S14-1) |
 | `src/lib/auth.ts` | 202 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
@@ -711,11 +712,11 @@ commit as the file.)
 | `src/lib/db-path.ts` | 458 | THE database path resolver (ADR-008; the S44-1 tail decomposition — the query preserved, the fragment stripped, one helper for all three consumption sites; the cwdFallbackUrl seam, session-45 S45-1; the artifact-only truth + the .env-only-face notes, session-46 S46-2/S46-9; the artifact-deploy truth re-spell + the anchor-order note, session-47 S47-1; the collision-class doc truth + the unclosed-quote cross-line note, session-56 S56-1/S56-3; the spanned-value junk-DB truth re-spell + the refined span model, session-57 S57-1; the boot-warned clause — the residue BOTH loaders leave, session-58 S58-1; the no-silent-face completion — the file-face arm for the unloaded-.env postures, session-59 S59-1; the parseEnvFile extraction to the src/lib/env-file.ts leaf — the boot gate shares the parser without ballooning the instrumentation trace, session-59 S59-1b) |
 | `src/lib/site.ts` | 219 | The metadata factory + canonical origin seam |
 | `src/lib/api.ts` | 323 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2; the transient-abort classifier, session-37, S37-2; the seam's own transient arm, session-38, S38-1; the two-code 503 taxonomy note, session-46 S46-7) |
-| `src/app/globals.css` | 250 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1) |
-| `src/components/marketing/navbar.tsx` | 280 | The nav + the mobile menu (parity-verified) |
+| `src/app/globals.css` | 259 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1; the dead single-word-rule genus note, session-63 S63-5) |
+| `src/components/marketing/navbar.tsx` | 284 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 318 | The core surface: quota dots, generate, copy, paywall (the S50-4 copy-epoch guard + the S51-2 unmount-mounted gate, StrictMode re-armed S52-1; the S59-2 double-blank collapse — whitespace-only) |
 | `src/components/effects/iridescence.tsx` | 273 | The WebGL hero background (aspect-aware shader) |
-| `src/components/effects/particle-text.tsx` | 333 | The canvas particle title |
+| `src/components/effects/particle-text.tsx` | 331 | The canvas particle title |
 | `src/components/effects/floating-icons.tsx` | 122 | The monetization section's ten-icon float field (session-19, S19-2) |
 | `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |
 | `src/app/api/[...path]/route.ts` | 43 | The API subtree's envelope 404 (session-15, S15-7; OPTIONS joined session-18, S18-2) |

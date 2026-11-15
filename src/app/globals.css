@@ -13,7 +13,16 @@
    src/ (probe-proven through the installed @tailwindcss/postcss 4.3.3:
    the bare form emitted the dead classes; the scoped form emits only
    src/'s classes). The S28-4 prose-safe doctrine stays as defense in
-   depth. */
+   depth.
+   Session-63 (S63-5, AUDIT-2 L1 — the accepted-register genus, PAD §11):
+   the scoping killed the ROOT-scan bloat, but v4's candidate scanner
+   still reads ALL src/ text — ~20 single-word utility rules fed by
+   unavoidable English prose ("the ContactMessage table", "grow your
+   audience", "the only ring that reads on…") and the literal "resize"
+   DOM event-name string ship dead in the built sheet (~1.9-2.4 KB of
+   the 64.5 KB artifact, zero functional impact, no consumer depends
+   on them). Dictionary words and API strings are not prose-safe-able —
+   the genus is accepted and registered, not chased. */
 @import "tailwindcss" source("../");
 
 /* THE HOVER-VARIANT UN-WRAP (carried from the template's session-80

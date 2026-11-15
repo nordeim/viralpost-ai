@@ -67,7 +67,40 @@ export function limitReached(record: QuotaRecord | null, today: string, limit: n
 // incrementLive() notifies and the card re-renders with the fresh count).
 const listeners = new Set<() => void>();
 
+// Session-63 (S63-6, AUDIT-2 L2 + the registered cross-tab sibling): the
+// store also re-emits when the live value moves WITHOUT this tab writing
+// it — (a) the `storage` event (another tab's increment; the cross-tab
+// staleness face registered session 30, cured here at the store), and
+// (b) focus/visibilitychange (the same-tab date rollover: a tab left
+// open across midnight re-reads the day-rolled counter and the mounted
+// paywall unmounts — the server limiter stays the wall either way; this
+// is the UX truth). Both re-emitters fire through a change-guard (no
+// focus-event render spam), browser-guarded, StrictMode-safe (the wired
+// flag — the listeners share the store's own page-lifetime class, the
+// same class as the listeners Set itself).
+let wired = false;
+let lastSeenUsage: number | null = null;
+
+function reemitIfChanged(): void {
+  const now = getUsedTodayLive();
+  if (now !== lastSeenUsage) {
+    lastSeenUsage = now;
+    emitUsage();
+  }
+}
+
+function wireExternalChangeReemit(): void {
+  if (wired || typeof window === "undefined") return;
+  wired = true;
+  window.addEventListener("storage", (e: StorageEvent) => {
+    if (e.key === GENERATIONS_KEY) reemitIfChanged();
+  });
+  window.addEventListener("focus", reemitIfChanged);
+  document.addEventListener("visibilitychange", reemitIfChanged);
+}
+
 export function subscribeUsage(fn: () => void): () => void {
+  wireExternalChangeReemit();
   listeners.add(fn);
   return () => {
     listeners.delete(fn);
@@ -75,6 +108,10 @@ export function subscribeUsage(fn: () => void): () => void {
 }
 
 function emitUsage(): void {
+  // The change-guard's bookkeeping rides every emit path (the local
+  // increment included) so a later external change compares against the
+  // value the subscribers last saw.
+  lastSeenUsage = getUsedTodayLive();
   for (const fn of listeners) fn();
 }
 

@@ -380,6 +380,17 @@ import {
 // the smoke/e2e fragments; the smoke-tail plant REDs the widened
 // guard) is a re-anchor, not a count change — the guard's it count
 // held. The e2e 70 unchanged. SMOKE 16 unchanged.
+// s63: 750/40 (+6 — the S63-1a inert-value divergence pin (the
+// branch-revert plant REDs exactly it), the S63-1b wrapper wiring pin
+// (the call-drop plant REDs exactly it while S63-1a holds), the
+// S63-2a credential-redaction pin (the redaction-revert plant REDs
+// exactly it), the S63-3a health-catch log pin (the S29-2 source
+// census; the line-removal plant REDs exactly it), the S63-6a quota
+// re-emit wiring pin (the listener-removal plant REDs exactly it),
+// and the S63-8a mid-line registration census arm (the S56-4 blind
+// spot closed; the mid-line plant REDs exactly it)). The S63-4
+// comment-truth pair, the S63-5 register row, and the S63-7 sr-only
+// cleanup are +0 tests. The e2e 70 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -387,7 +398,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 744;
+const UNIT = 750;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -1632,5 +1643,39 @@ describe("docs-counts: session-62 — the SKILL §16 model census (S62-3)", () =
         expect(models, `the SKILL §16 ${model} comment omits the live schema field '${field}' — add it in the same commit as any schema change`).toContain(field);
       }
     }
+  });
+});
+
+// Session-63 (S63-8, AUDIT-3 I3): the S56-4 blind spot closed. The
+// reality census above counts LINE-START registrations only; a mid-line
+// registration (the S56-4 comment's own `cond ? it("a") : it("b")`
+// shape) would execute in the runner while evading the census. This arm
+// scans the comment-stripped source of every unit file EXCEPT this
+// census file itself (its own guard MESSAGES name `it()` — three
+// verified string-literal occurrences; the file is exempt by
+// construction, its own registrations are line-start and covered by the
+// census + the ship-time runner diff) and asserts ZERO boundary-guarded
+// mid-line registrations: an `it(`/`test(` NOT at line start and NOT
+// preceded by a word char or `.` (the `rateLimit(`/`.test(` families are
+// not registrations). The mid-line plant (pen a registration mid-line
+// in any other suite) REDs exactly this arm.
+describe("docs-counts: session-63 — the mid-line registration census (the S56-4 blind spot)", () => {
+  it("no unit file registers a test mid-line (every registration is line-start, countable by the reality census)", () => {
+    const MIDLINE = /(?<![A-Za-z0-9_.])(?:it|test)\(/;
+    const offenders: string[] = [];
+    for (const f of allUnitTestFiles()) {
+      // The census file's own guard MESSAGES name it()/test() (the
+      // route-title arm count, the a11y matrix label, the loop-arm
+      // decoy strings, the forms-guard verdicts) — string literals,
+      // never registrations; exempt by construction (its own
+      // registrations are line-start and counted by the census above).
+      if (f === "tests/docs-counts.test.ts" || f === "docs-counts.test.ts") continue;
+      const lines = stripComments(read(`tests/${f.replace(/^tests\//, "")}`)).split("\n");
+      lines.forEach((line, i) => {
+        if (/^\s*(?:it|test)\(/.test(line)) return; // line-start: the countable shape
+        if (MIDLINE.test(line)) offenders.push(`${f}:${i + 1}: ${line.trim().slice(0, 70)}`);
+      });
+    }
+    expect(offenders, `mid-line registrations (write it(/test( at line start, or extend the census): ${offenders.join(" | ")}`).toEqual([]);
   });
 });

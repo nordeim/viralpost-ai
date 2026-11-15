@@ -6923,3 +6923,103 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-62 ship: lint 0/0 · tsc 0 · unit 744/744 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 63 — The Launch-Env Inert-Value Divergence Warning + The Credential Redaction + The Health Catch Log + The Quota Rollover Re-Emit and the Register Batch (2026-11-15)
+
+- ANALYZE: the round opened on the shipped tree (`1ed646e` = session-62's
+  `15b8c93` + the owner's narration commit carrying docs/session_63.md);
+  the core docs re-read at the session-62 ship counts, the session-62
+  set re-verified (the formal log, the plan's post-execution record,
+  worklog Task 62, the S62 cures in source). Baseline gate GREEN at the
+  documented counts — lint 0/0 · tsc 0 · unit 744/744 (40 files) ·
+  build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH — zero drift.
+  Standing asks re-verified (the .env contract, db/ at root, census
+  MATCH, .env.example committed, vitest + playwright current,
+  sitemap/robots/manifest/OG verified in walk #36, skills/ excluded);
+  neo-crm unchanged (b3d0fbe — sixteenth consecutive check).
+- AUDIT: three parallel subagents (AUDIT-1 API/lib seams 0C/0H/1M/1L/2I,
+  AUDIT-2 components/pages/effects 0C/0H/0M/2L/5I, AUDIT-3
+  SEO/configs/tests/docs 0C/0H/0M/0L/4I — combined 0/0/1/3/11). The
+  lead's hand-verification: AUDIT-1 M1 live-probed DECISIVELY (the
+  env -u DATABASE_URL standalone probe — a clean non-default .env value
+  silently ignored, the engine serving the seeded user from the default
+  db, zero warnings — the S47-2 genus one face deeper: an inert VALUE);
+  L1's raw-value prints verified in source; the health catch verified;
+  AUDIT-2's dead-rule set verified against the built sheet (the
+  feeders are prose + the literal "resize" event string); L2's render
+  graph traced; the comment-truth trio verified; AUDIT-3's counts all
+  MATCH (the 63-file session ledger = the designed narration-window
+  transient). bun audit: the SAME 9 dev-toolchain advisories as
+  session-55..62.
+- PROBE-METHODOLOGY RECORD (the round's own deviations, all healed):
+  the ambient-shell pollution (a stale exported DATABASE_URL pointing
+  at a parent-of-repo path — every unpinned live boot Error-14'd until
+  env -u; the shell unset, the workspace .env healed); the
+  &-precedence incident (cd && ... & backgrounds the whole chain — the
+  foreground restore wrote the workspace .env and poisoned the backup
+  chain; the repo .env re-healed byte-identical to .env.example,
+  census re-run MATCH); the tr -d title artifact (output compaction
+  stripped spaces and manufactured a phantom reference-side title
+  drift; the raw re-probe proved both legs byte-identical).
+- PARITY WALK #36 — CLEAN (the thirty-sixth consecutive): REF leg
+  (login→/Home; the hamburger base no-aria; the panel byte-identical;
+  Escape + outside-tap leave-open; the route-change unmount; the
+  desktop census 6 identical; the brand gradient byte-identical; the
+  five-route head census identical incl. the RAW title re-probe;
+  sitemap 4 + robots; the generator DEAD). CLONE leg (login→/ the 308
+  deviation; the aria superset live-verified; the panel byte-identical
+  incl. the v4-infinity pill; Escape closes with focus return; the
+  outside-tap parity; the route-change hides in-DOM; the desktop +
+  gradient identical; the head census identical modulo origin; the
+  generator LIVE with quota 0→1). Captures 133/134 PIL-verified
+  (99.9% non-white both, teal 1.48%/1.70%).
+- CURES (TDD — six pins born RED, the batteries on record): the S63-1
+  inert-value divergence warning (the databaseUrlInertValueWarning pure
+  seam + the wrapper wiring — fires only on the non-consumed leg, unset
+  env, clean non-default value; the raw-default spelling suppressed by
+  design; the branch-revert plant REDs exactly the seam pin 1 failed /
+  70 passed, the call-drop plant REDs exactly the wiring pin 1 failed /
+  70 passed, restored GREEN), the S63-2 credential redaction (the
+  redactCredentials helper at both arms' interpolation sites — the
+  password never prints, the residue shape stays, the file: contract
+  untouched; the redaction-revert plant REDs exactly it 1 failed / 70
+  passed, restored GREEN), the S63-3 health catch log (the
+  console.error before the 503; the removal plant REDs exactly it 1
+  failed / 25 passed, restored GREEN), the S63-4 comment-truth pair
+  (the navbar citation re-pointed; the sections respray — +0 tests),
+  the S63-5 dead-rule register (the PAD §11 row + the globals.css
+  genus note — accept-and-register, +0 tests), the S63-6 quota re-emit
+  (the store re-emits behind a change-guard on the key-guarded storage
+  event + focus/visibilitychange — the cross-tab face and the rollover
+  face cured at the store; the listener-removal plant REDs exactly it 1
+  failed / 10 passed, restored GREEN), the S63-7 sr-only
+  inline-duplicate retirement (+0 tests), the S63-8 mid-line
+  registration census arm (the S56-4 blind spot closed; the mid-line
+  plant REDs exactly it, restored GREEN).
+- REGISTERS: the bun-audit triage (the same 9 advisories — all
+  dev-toolchain, none on the runtime path), the footer h4 heading-skip
+  (parity-owned), the SEO route-handler + manifest same-src faces (by
+  design), the round's three probe-methodology artifacts (above).
+- COUNTS: UNIT 744 → 750 (+6) / SUITES 40 / E2E 70 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 814 → 820. PAD §11 +1 row (the dead-rule register);
+  the §12 live-count rows re-anchored (generation-counter 150,
+  navbar 284, particle-text 331, globals.css 259). The designed
+  count-lag faces fired and were cured at the lockstep exactly as the
+  doctrine describes. The ten provenance sites re-anchored to 1..63 —
+  lag 0 at ship. SKILL v1.58.0 → v1.59.0.
+- VERIFIED: the full gate on the exact commit tree (below); the parity
+  walk #36; the captures 133/134 on the dev server (PIL-verified);
+  docs lockstep (README's badge 820 + the session-63 row + the gate
+  footer re-spell to the session-63 ship + the testing-table 750
+  sites; AGENTS's plans-map sixty-third round + the 750; CLAUDE's 750;
+  PAD's §8.1 table + carry line at 750/70/16 + §11's register row +
+  §12's four live-count rows; SKILL v1.59.0
+  frontmatter/project_state/§0.5 1..63/Appendix A's session-63
+  row/Appendix B's header + gate line + the pre-ship checklist 750;
+  the docs-counts constants UNIT 750 + the s63 ladder entry; the ten
+  provenance sites at 1..63; worklog Task 63; docs/session_63.md (the
+  formal log replacing the owner's narration); the session-63 plan's
+  post-execution record).
+
+**Gate at the session-63 ship: lint 0/0 · tsc 0 · unit 750/750 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

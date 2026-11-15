@@ -13,9 +13,13 @@
 // twice: absent sessions 1–21, present 22, absent 23). Chasing its
 // deploy state would strip a WCAG 4.1.2 state/label contract — ours
 // STAYS, as a DOCUMENTED SUPERSET (the a11y doctrine's genus). The
-// supersets (Deviations Ledger): the aria family itself, the menu
-// closing on route change and on Escape with focus return (keyboard
-// hardening the reference lacks). The reference's panel token —
+// supersets (session-63, S63-4 — the citation re-pointed to their real
+// home; docs/implementation-plan.md §6 carries no mobile-menu row): the
+// aria family itself, the menu closing on route change and on Escape
+// with focus return (keyboard hardening the reference lacks) — recorded
+// in the session-11/23/25/31 session logs and pinned by
+// tests/a11y-controls.test.ts + tests/e2e/mobile-navigation.spec.ts.
+// The reference's panel token —
 // slate-900 at the 98-percent opacity step — is a DEAD class in its
 // Tailwind build (computed backgroundColor: transparent; the step is
 // not generated), so over the hero its menu shows the WebGL glow

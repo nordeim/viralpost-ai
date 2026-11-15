@@ -456,7 +456,9 @@ export function PricingCards() {
           </ul>
           {/* Session-21 (S21-2): re-anchored to the LIVE reference's
               hover family (shadow + lift, transition-all) — our
-              hover:bg-teal-50 tint had drifted from it. */}
+              teal-50 hover tint had drifted from it (session-63, S63-4:
+              respelled prose-safe — the S28-4 doctrine; the class's
+              live consumer is the Copy button in generator-card). */}
           <a
             href={GUMROAD_URL}
             target="_blank"

@@ -258,14 +258,19 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
     const quoteFace = dbUrl.startsWith('"') || dbUrl.startsWith("'");
     const controlFace = /\p{Cc}/u.test(dbUrl);
     const newlineFace = controlFace && (dbUrl.includes("\n") || dbUrl.includes("\r"));
+    // Session-63 (S63-2): the printed value is REDACTED (a credentialed
+    // postgres URL never leaks its password to stdout/server.log — the
+    // residue shape stays, the userinfo segment goes); the branch
+    // conditions below still test the RAW value (the parse truth).
+    const shown = JSON.stringify(redactCredentials(dbUrl));
     warnings.push(
       dbUrl.startsWith("file:")
         ? (newlineFace
-            ? `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries an unclosed quote residue from .env (a control character rides the value — the session-57 S57-1 loader-span genus) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`
-            : `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries a control character from .env (a stray control character rides the value — no quote is involved, the session-60 S60-1 census) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe re-anchored the tab-bearing value exactly like the newline span). Fix the .env: remove the control character from the DATABASE_URL value.`)
+            ? `[boot] DATABASE_URL=${shown} carries an unclosed quote residue from .env (a control character rides the value — the session-57 S57-1 loader-span genus) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`
+            : `[boot] DATABASE_URL=${shown} carries a control character from .env (a stray control character rides the value — no quote is involved, the session-60 S60-1 census) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe re-anchored the tab-bearing value exactly like the newline span). Fix the .env: remove the control character from the DATABASE_URL value.`)
         : (quoteFace
-            ? `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries an unclosed quote residue from .env — the value does not start with "file:", so the db-path seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation (no junk file is created; static pages still serve while every DB route fails). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`
-            : `[boot] DATABASE_URL=${JSON.stringify(dbUrl)} carries a control character from .env (a stray control character rides the value — no quote is involved, the session-60 S60-1 census) — the value does not start with "file:", so the db-path seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation (no junk file is created; static pages still serve while every DB route fails). Fix the .env: remove the control character from the DATABASE_URL value.`),
+            ? `[boot] DATABASE_URL=${shown} carries an unclosed quote residue from .env — the value does not start with "file:", so the db-path seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation (no junk file is created; static pages still serve while every DB route fails). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`
+            : `[boot] DATABASE_URL=${shown} carries a control character from .env (a stray control character rides the value — no quote is involved, the session-60 S60-1 census) — the value does not start with "file:", so the db-path seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation (no junk file is created; static pages still serve while every DB route fails). Fix the .env: remove the control character from the DATABASE_URL value.`),
     );
   }
 
@@ -534,7 +539,11 @@ export function databaseUrlFileResidueWarning(
   // file under db/ — the S57-1 genus), so the mechanism splits per
   // branch exactly like the process-env arm's S60-1 split.
   const quoteFace = fileUrl.startsWith('"') || fileUrl.startsWith("'");
-  const prefix = `[boot] the .env DATABASE_URL=${JSON.stringify(fileUrl)}`;
+  // Session-63 (S63-2): the printed value is REDACTED (the userinfo
+  // segment of a credentialed URL never prints; the residue shape —
+  // the diagnostic — stays); the branch conditions below still test
+  // the RAW value.
+  const prefix = `[boot] the .env DATABASE_URL=${JSON.stringify(redactCredentials(fileUrl))}`;
   // Session-62 (S62-2): re-named from `dropped` — the S61-1 respell
   // re-spelled the VALUE to the posture truth; the vestigial name
   // followed it this round (the constant no longer says "dropped").
@@ -566,6 +575,75 @@ export function databaseUrlFileResidueWarning(
     return `${prefix} carries a control character — ${unseen}; the db-path seam's own .env parse keeps the control character (an unquoted line's pasted tab — the session-60 S60-1 census), and, the value being file:-prefixed, the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe). Fix the .env: remove the control character from the DATABASE_URL value.`;
   }
   return `${prefix} carries a control character — ${unseen}; the db-path seam's own .env parse keeps the control character (an unquoted line's pasted tab — the session-60 S60-1 census), and, the value not starting with "file:", the seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: remove the control character from the DATABASE_URL value.`;
+}
+
+// Session-63 (S63-2, AUDIT-1 L1): the residue warnings print the raw
+// value — the diagnostic IS the residue shape. But the db-path seam
+// passes non-file: URLs through verbatim by design (the documented
+// PostgreSQL migration path), and such URLs commonly embed credentials
+// (`postgresql://user:pass@host/db`); a MALFORMED one (the only shape
+// these warnings fire on — a stray tab or unclosed quote) would print
+// the password to stdout, and `bun run start`'s `tee server.log`
+// persists it. The redaction replaces only the userinfo segment; the
+// residue shape stays visible (the residue, not the secret, is the
+// diagnostic). file: values carry no userinfo — untouched.
+function redactCredentials(url: string): string {
+  return url.replace(/([A-Za-z][A-Za-z0-9+.-]*:\/\/)[^@/\s"']+@/g, "$1***@");
+}
+
+// Session-63 (S63-1, AUDIT-1 M1 — live-probed): the inert-VALUE
+// divergence warning, the residue seam's clean-value sibling. The
+// round's decisive probe (env -u DATABASE_URL, a node-booted standalone
+// server, a schema-only db/alt.db with 0 users behind a clean absolute
+// value in the repo .env): /api/health answered db:up AND the
+// demo-credentials login answered 200 with the SEEDED user — the engine
+// served the DEFAULT db's user from a file the operator's .env never
+// named — with ZERO [boot] warnings (the clean-value early return in
+// the residue seam below). The S47-2 shadow-file genus one face deeper:
+// not a shadow FILE, an inert VALUE — the operator's belief that .env
+// is the source of truth is silently wrong, with zero signal. This seam
+// speaks for that posture: a CLEAN value on a leg the runtime never
+// reads (runtimeConsumesFile: false — the S62-2 leg discriminator)
+// diverges from what the engine will actually open.
+export function databaseUrlInertValueWarning(
+  env: { NODE_ENV?: string | undefined; DATABASE_URL?: string | undefined },
+  envFileUrl: string | undefined,
+  runtimeConsumesFile: boolean = true,
+): string | null {
+  // A SET process-env face owns the signal (the one-owner doctrine —
+  // the runtime honors the override; warning about the file value
+  // would be a false alarm).
+  const envUrl = env.DATABASE_URL?.trim() || undefined;
+  if (envUrl) return null;
+  const fileUrl = envFileUrl?.trim() || undefined;
+  if (fileUrl === undefined || fileUrl === "") return null;
+  // Residue values belong to the residue seam (one face one pin); this
+  // seam speaks only for CLEAN values (the shape that never warns
+  // anywhere else).
+  if (/\p{Cc}/u.test(fileUrl) || fileUrl.startsWith('"') || fileUrl.startsWith("'")) {
+    return null;
+  }
+  // The consumed leg honors the file value (the db-path seam's own .env
+  // parse feeds the runtime there) — no divergence to name.
+  if (runtimeConsumesFile) return null;
+  // The raw DEFAULT spelling lands on the same file the default itself
+  // resolves to (the schema rule) — the .env.example contract must
+  // never warn. The designed approximation: a NON-repo PWD carrying
+  // the default spelling would resolve elsewhere but stays silent (the
+  // false-negative corner, named here; the value is inert either way).
+  // The literal mirrors db-path's DEFAULT_DATABASE_URL — importing it
+  // would drag the seam's heavyweight trace into the instrumentation
+  // artifact (the S59-1b lightweight-trace doctrine).
+  if (fileUrl === "file:../db/custom.db") return null;
+  return (
+    `[boot] the .env DATABASE_URL=${JSON.stringify(redactCredentials(fileUrl))} here is never read by this server ` +
+    "(the process environment carries no DATABASE_URL and the db-path seam's runtime reads only the server CWD's .env — " +
+    "the S51-1 launch-dir family), so the engine resolves the default file:../db/custom.db instead " +
+    "(the session-63 live probe: a clean non-default .env value under a node boot served the seeded user from the " +
+    "default db while the operator's file carried none — the value is inert, not honored). " +
+    "Fix: export DATABASE_URL in the server's environment (a systemd Environment= line, a docker -e), " +
+    "or boot with bun run start, which loads this .env."
+  );
 }
 
 // Session-47 (S47-2): the shadowing-env-file warning — a pure seam in
@@ -764,6 +842,13 @@ export function databaseUrlFileResidueWarningsForServer(
     // the leg to speak the true mechanism sentence.
     const warning = databaseUrlFileResidueWarning(env, envFileUrl, d === process.cwd());
     if (warning !== null) out.push(warning);
+    // Session-63 (S63-1): the clean-value sibling on the same leg —
+    // a non-default value the runtime never reads diverges from what
+    // the engine will open, with zero signal anywhere else (the
+    // round's live probe: the seeded user served from the default db
+    // while the operator's .env carried none).
+    const inert = databaseUrlInertValueWarning(env, envFileUrl, d === process.cwd());
+    if (inert !== null) out.push(inert);
   }
   return out;
 }

@@ -524,3 +524,15 @@ describe("session-46 (S46-1): the API route family's force-dynamic posture (ever
     }
   });
 });
+
+// Session-63 (S63-3, AUDIT-1 I1): the health route's db-down branch logs
+// the CAUSE before the honest 503 (the S36-P5 doctrine's diagnosis half —
+// the code rides the wire, the cause rides the log). Source-census: the
+// S29-2 idiom (a wiring face the pure suites cannot reach).
+describe("session-63 (S63-3): the health catch logs the cause", () => {
+  it("the db-down catch prints the underlying error before the 503 envelope", () => {
+    const src = read("src/app/api/health/route.ts");
+    expect(src).toContain('console.error("[health] db probe failed:", error)');
+    expect(src).toMatch(/catch \(error\)/);
+  });
+});
