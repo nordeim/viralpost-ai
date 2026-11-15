@@ -5,6 +5,25 @@ import { describe, expect, it } from "vitest";
 const root = join(import.meta.dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
 
+// Session-66 (S66-5, AUDIT-3-2 L): the house stripComments idiom (the
+// S48-1 hardened form + the S66-5 battery-found JSX-comment arm that
+// rides FIRST — the same three-pass shape page-titles/toast-anatomy/
+// seo-surfaces/auth-contract/docs-counts now carry), hoisted to ONE
+// shared home. The
+// POSITIVE pins below read code-only (readCode) so an explanatory
+// comment quoting a pinned literal can never satisfy one (the S65-4
+// vacuity class: login's docblock satisfied the pageMetadata pin and
+// the export-delete plant shipped green). Negative pins stay on the
+// RAW read (`read`) — the stricter form; the line-anchored regex pins
+// are structurally comment-immune either way.
+function stripComments(s: string): string {
+  return s
+    .replace(/\{\/\*[\s\S]*?\*\/\}/g, "")
+    .replace(/\/\/[^\n]*/g, "")
+    .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
+}
+const readCode = (p: string) => stripComments(read(p));
+
 // Session-26 (S26-4): the DISK CENSUS walker — every .ts/.tsx file under
 // src/ whose content begins with the "use client" directive. The
 // hardcoded 13-file roster this test replaced went stale silently the
@@ -41,7 +60,7 @@ function listClientFiles(dir: string): string[] {
 
 describe("landing: the section composition", () => {
   it("the page renders hero → tool → monetization → features → how → stats → testimonials → pricing → CTA → contact", () => {
-    const page = read("src/app/(site)/page.tsx");
+    const page = readCode("src/app/(site)/page.tsx");
     const order = [
       "<Hero />",
       "<ToolSection>",
@@ -68,7 +87,7 @@ describe("landing: the section composition", () => {
   });
 
   it("the hero carries the reference's exact phrase cycle", () => {
-    const hero = read("src/components/marketing/hero.tsx");
+    const hero = readCode("src/components/marketing/hero.tsx");
     expect(hero).toContain('"Go Viral!", "Post Smarter.", "Grow Faster.", "ViralPost AI"');
     expect(hero).toContain("Create Viral Social Media Posts");
     expect(hero).toContain('className="text-teal-400">with AI</span>');
@@ -86,13 +105,13 @@ describe("landing: the section composition", () => {
   });
 
   it("the hero mounts the iridescence background with the reference's props", () => {
-    const hero = read("src/components/marketing/hero.tsx");
+    const hero = readCode("src/components/marketing/hero.tsx");
     expect(hero).toContain("<Iridescence hue={174} power={1.5} focus={28} distortion={1.2} />");
     expect(hero).toContain("absolute inset-0 opacity-80");
   });
 
   it("the hero stat cards match the reference's pair", () => {
-    const hero = read("src/components/marketing/hero.tsx");
+    const hero = readCode("src/components/marketing/hero.tsx");
     expect(hero).toContain("Posts Generated");
     expect(hero).toContain("500K+");
     expect(hero).toContain("Active Users");
@@ -101,22 +120,23 @@ describe("landing: the section composition", () => {
 
   it("the monetization section ships the reference's EN copy (the session-19 redesign, live-extracted 2026-11-10)", () => {
     const sections = read("src/components/marketing/sections.tsx");
-    expect(sections).toContain("Free Access — No Strings Attached");
-    expect(sections).toContain("Download Free.");
-    expect(sections).toContain("If It Helps You, Help Us Too.");
+    const sectionsCode = readCode("src/components/marketing/sections.tsx");
+    expect(sectionsCode).toContain("Free Access — No Strings Attached");
+    expect(sectionsCode).toContain("Download Free.");
+    expect(sectionsCode).toContain("If It Helps You, Help Us Too.");
     // The paragraph (pinned in two halves — prettier wraps the sentence).
-    expect(sections).toContain("We believe in honesty. Use the tool completely free. If it transforms");
-    expect(sections).toContain("your content and grows your social media presence, contribute");
-    expect(sections).toContain("any amount that feels right to you");
-    expect(sections).toContain("100% free to start — no credit card required");
-    expect(sections).toContain("Instant access, no sign-up hassle");
-    expect(sections).toContain("Supporters receive the full Pro version as a thank-you");
-    expect(sections).toContain("Your support keeps the tool free for everyone");
-    expect(sections).toContain("Get Free Access Now");
-    expect(sections).toContain("Support &amp; Unlock Pro");
+    expect(sectionsCode).toContain("We believe in honesty. Use the tool completely free. If it transforms");
+    expect(sectionsCode).toContain("your content and grows your social media presence, contribute");
+    expect(sectionsCode).toContain("any amount that feels right to you");
+    expect(sectionsCode).toContain("100% free to start — no credit card required");
+    expect(sectionsCode).toContain("Instant access, no sign-up hassle");
+    expect(sectionsCode).toContain("Supporters receive the full Pro version as a thank-you");
+    expect(sectionsCode).toContain("Your support keeps the tool free for everyone");
+    expect(sectionsCode).toContain("Get Free Access Now");
+    expect(sectionsCode).toContain("Support &amp; Unlock Pro");
     // The trust line (pinned in halves — prettier wraps it).
-    expect(sections).toContain("100% secure payment via Gumroad · Instant Pro access after");
-    expect(sections).toContain("contribution");
+    expect(sectionsCode).toContain("100% secure payment via Gumroad · Instant Pro access after");
+    expect(sectionsCode).toContain("contribution");
     // The retired PT face is gone from the tree entirely.
     expect(sections).not.toContain("Baixe");
     expect(sections).not.toContain("Acesso Gratuito");
@@ -124,16 +144,17 @@ describe("landing: the section composition", () => {
 
   it("the monetization section's CTAs are BOTH Gumroad anchors with the live-extracted classes (the PT era's internal /Tool Link is retired)", () => {
     const sections = read("src/components/marketing/sections.tsx");
-    expect(sections).toContain("px-8 py-4 bg-white/10 border border-white/20 text-white font-semibold rounded-full");
-    expect(sections).toContain("px-8 py-4 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-bold rounded-full");
-    expect(sections).toContain("w-full sm:w-auto");
+    const sectionsCode = readCode("src/components/marketing/sections.tsx");
+    expect(sectionsCode).toContain("px-8 py-4 bg-white/10 border border-white/20 text-white font-semibold rounded-full");
+    expect(sectionsCode).toContain("px-8 py-4 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 font-bold rounded-full");
+    expect(sectionsCode).toContain("w-full sm:w-auto");
     expect(sections).not.toContain('href="/Tool"');
   });
 
   it("the monetization section mounts the FloatingIcons island (the reference's ten floating icons)", () => {
-    const sections = read("src/components/marketing/sections.tsx");
+    const sections = readCode("src/components/marketing/sections.tsx");
     expect(sections).toContain("<FloatingIcons />");
-    const icons = read("src/components/effects/floating-icons.tsx");
+    const icons = readCode("src/components/effects/floating-icons.tsx");
     // The ten pinned icons (identity + color step + position + size,
     // live-captured on the reference 2026-11-10).
     expect(icons).toContain('icon: Hash, color: "text-teal-400/40", left: "8%", top: "15%", size: 28');
@@ -164,7 +185,7 @@ describe("landing: the section composition", () => {
   });
 
   it("the features section ships the six reference cards", () => {
-    const sections = read("src/components/marketing/sections.tsx");
+    const sections = readCode("src/components/marketing/sections.tsx");
     for (const title of [
       "Instant Generation",
       "Platform Optimized",
@@ -178,7 +199,7 @@ describe("landing: the section composition", () => {
   });
 
   it("the stats row ships the reference's four numbers", () => {
-    const sections = read("src/components/marketing/sections.tsx");
+    const sections = readCode("src/components/marketing/sections.tsx");
     expect(sections).toContain('value: "10K+"');
     expect(sections).toContain('value: "500K+"');
     expect(sections).toContain('value: "4.9★"');
@@ -194,21 +215,21 @@ describe("landing: the section composition", () => {
     // in the tree") was emoji-scoped — the ★ in the Miscellaneous
     // Symbols block escaped it. Each arm's plant: dropping its span
     // REDs exactly its arm (the annotation-removal battery).
-    const sections = read("src/components/marketing/sections.tsx");
-    const footer = read("src/components/marketing/footer.tsx");
+    const sections = readCode("src/components/marketing/sections.tsx");
+    const footer = readCode("src/components/marketing/footer.tsx");
     expect(sections).toContain('aria-hidden="true">★');
     expect(footer).toContain('aria-hidden="true">❤️');
   });
 
   it("the testimonials ship the reference's three creators", () => {
-    const sections = read("src/components/marketing/sections.tsx");
+    const sections = readCode("src/components/marketing/sections.tsx");
     expect(sections).toContain("@sofialifestyle");
     expect(sections).toContain("@marcusbizcoach");
     expect(sections).toContain("@lunatiktok");
   });
 
   it("the pricing cards ship the reference's feature lists", () => {
-    const sections = read("src/components/marketing/sections.tsx");
+    const sections = readCode("src/components/marketing/sections.tsx");
     expect(sections).toContain('"3 posts per day"');
     expect(sections).toContain('"Basic post generation"');
     expect(sections).toContain('"Standard hashtags"');
@@ -223,7 +244,7 @@ describe("landing: the section composition", () => {
 
 describe("landing: the generator card (the reference's core contract)", () => {
   it("carries the reference's class strings", () => {
-    const card = read("src/components/marketing/generator-card.tsx");
+    const card = readCode("src/components/marketing/generator-card.tsx");
     expect(card).toContain("bg-white rounded-3xl border border-slate-200 shadow-xl shadow-teal-100/50 p-6 sm:p-8");
     expect(card).toContain("w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl");
     expect(card).toContain("from-teal-500 to-teal-700 text-white font-semibold rounded-2xl");
@@ -232,7 +253,7 @@ describe("landing: the generator card (the reference's core contract)", () => {
   });
 
   it("the copy round-trip flips Copy ⇄ Copied! for 2s", () => {
-    const card = read("src/components/marketing/generator-card.tsx");
+    const card = readCode("src/components/marketing/generator-card.tsx");
     expect(card).toContain("navigator.clipboard.writeText(post)");
     expect(card).toContain("setTimeout(() => setCopied(false), 2000)");
   });
@@ -262,7 +283,7 @@ describe("landing: the generator card (the reference's core contract)", () => {
   // below owns the MECHANISM (the mounted ref + the cleanup flip) and
   // the CONTACT gate — one face one pin, the N12-2 doctrine.
   it("regeneration clears the stale Copied! state — and a slow clipboard continuation cannot re-arm it (the copy-epoch guard)", () => {
-    const card = read("src/components/marketing/generator-card.tsx");
+    const card = readCode("src/components/marketing/generator-card.tsx");
     // The reset sequence rides the generate body, before the fetch —
     // the timer clear first (an armed 2s timeout must not re-flip the
     // flag on the new post), then the flag, then the post clear; the
@@ -278,20 +299,34 @@ describe("landing: the generator card (the reference's core contract)", () => {
     expect(card).toMatch(/const epochAtCopy = genEpoch\.current;[^]*?await navigator\.clipboard\.writeText\(post\);[^]*?if \(!mounted\.current \|\| epochAtCopy !== genEpoch\.current\) return;[^]*?setCopied\(true\);[^]*?resetTimer\.current = setTimeout\(\(\) => setCopied\(false\), 2000\);/);
   });
 
+  // Session-66 (S66-6, AUDIT-2 I-1): the catch arm rides the SAME
+  // gate — a clipboard REJECTION landing after a regeneration or an
+  // unmount still toasted on whatever page the user is now on (the
+  // doctrine the S51-2 comment claims for the continuation; this arm
+  // was the ungated residue). The regex anchors on the clipboard await
+  // so the generate() catch (a different toast.error, no gate) can
+  // never satisfy it.
+  it("S66-6: the copy catch arm rides the same epoch/mount gate (a stale clipboard rejection never toasts)", () => {
+    const card = readCode("src/components/marketing/generator-card.tsx");
+    expect(card).toMatch(
+      /await navigator\.clipboard\.writeText\(post\);[^]*?catch \{[^]*?if \(!mounted\.current \|\| epochAtCopy !== genEpoch\.current\) return;[^]*?toast\.error\("Couldn't access the clipboard\."\);/,
+    );
+  });
+
   it("the limit wall ships the reference's paywall copy", () => {
-    const card = read("src/components/marketing/generator-card.tsx");
+    const card = readCode("src/components/marketing/generator-card.tsx");
     expect(card).toContain("You reached the free limit");
     expect(card).toContain("Upgrade to generate unlimited viral social media posts.");
     expect(card).toContain("Unlock Unlimited Posts – $19");
   });
 
   it("the dot meter fills used-first (teal left-to-right)", () => {
-    const card = read("src/components/marketing/generator-card.tsx");
+    const card = readCode("src/components/marketing/generator-card.tsx");
     expect(card).toContain('${i < used ? "bg-teal-500" : "bg-slate-100"}');
   });
 
   it("the error states settle (the superset over the reference's hang)", () => {
-    const card = read("src/components/marketing/generator-card.tsx");
+    const card = readCode("src/components/marketing/generator-card.tsx");
     expect(card).toContain("toast.error");
     expect(card).toContain("setGenerating(false)");
   });
@@ -304,7 +339,7 @@ describe("landing: the generator card (the reference's core contract)", () => {
   // face, not the catch block's network-error toast (misleading for a
   // server-side failure — the button settles either way, D-1 holds).
   it("S29-3: the response parse carries the family's .catch(() => null) (a non-JSON error body reaches the !res.ok arm, not the network catch)", () => {
-    const card = read("src/components/marketing/generator-card.tsx");
+    const card = readCode("src/components/marketing/generator-card.tsx");
     expect(card).toContain("res.json().catch(() => null)");
   });
 
@@ -316,9 +351,9 @@ describe("landing: the generator card (the reference's core contract)", () => {
   // superset layer, the reference's base classes untouched. teal-600
   // (#0d9488) computes ≈3.05:1 on white — the floor cleared.
   it("session-23 (S23-21): the input surfaces carry the keyboard-only focus-visible superset ring (WCAG 1.4.11)", () => {
-    const card = read("src/components/marketing/generator-card.tsx");
+    const card = readCode("src/components/marketing/generator-card.tsx");
     expect(card).toContain("focus-visible:ring-2 focus-visible:ring-teal-600");
-    const form = read("src/components/marketing/contact-form.tsx");
+    const form = readCode("src/components/marketing/contact-form.tsx");
     expect(form).toContain("focus-visible:ring-2 focus-visible:ring-teal-600");
   });
 
@@ -331,34 +366,35 @@ describe("landing: the generator card (the reference's core contract)", () => {
   // reintroduce it (the reference's base classes stay untouched).
   it("session-24 (S24-4): the Copy button's superset ring joins the AA family — and the sub-3:1 teal-500 form is banned", () => {
     const card = read("src/components/marketing/generator-card.tsx");
-    expect(card).toContain("focus-visible:ring-2 focus-visible:ring-teal-600");
+    const cardCode = readCode("src/components/marketing/generator-card.tsx");
+    expect(cardCode).toContain("focus-visible:ring-2 focus-visible:ring-teal-600");
     expect(card).not.toContain("focus-visible:ring-teal-500");
   });
 });
 
 describe("landing: the page shells", () => {
   it("the Tool page ships the reference's header trio", () => {
-    const page = read("src/app/(site)/Tool/page.tsx");
+    const page = readCode("src/app/(site)/Tool/page.tsx");
     expect(page).toContain("Free Tool");
     expect(page).toContain("AI Post Generator");
     expect(page).toContain("Describe your idea. Let AI do the rest. Viral-ready in seconds.");
   });
 
   it("the Pricing page ships the reference's header trio", () => {
-    const page = read("src/app/(site)/Pricing/page.tsx");
+    const page = readCode("src/app/(site)/Pricing/page.tsx");
     expect(page).toContain("Simple, Transparent Pricing");
     expect(page).toContain("No subscriptions. Pay once, create unlimited viral posts forever.");
   });
 
   it("the Contact page ships the reference's header trio", () => {
-    const page = read("src/app/(site)/Contact/page.tsx");
+    const page = readCode("src/app/(site)/Contact/page.tsx");
     expect(page).toContain("Get in Touch");
     expect(page).toContain("Contact Us");
     expect(page).toContain("love to hear from you");
   });
 
   it("the footer ships the reference's one-liner + product column", () => {
-    const footer = read("src/components/marketing/footer.tsx");
+    const footer = readCode("src/components/marketing/footer.tsx");
     // Session-39 (S39-9): the one-liner is WIRED to BRAND.tagline (the
     // single-source cure) — the footer source pins the wiring, the string
     // itself lives once in nav-config (pinned on the BRAND side by
@@ -378,7 +414,8 @@ describe("landing: the page shells", () => {
   // mobile) keep all four routes; the footer is its own surface.
   it("session-25 (S25-1): the footer Product column is the reference's THREE-link family (no Contact)", () => {
     const footer = read("src/components/marketing/footer.tsx");
-    expect(footer).toContain('NAV_ROUTES.filter((r) => r.id !== "contact")');
+    const footerCode = readCode("src/components/marketing/footer.tsx");
+    expect(footerCode).toContain('NAV_ROUTES.filter((r) => r.id !== "contact")');
     // The unfiltered map — the drift form that shipped sessions 1–24.
     expect(footer).not.toMatch(/\{NAV_ROUTES\.map/);
   });
@@ -386,8 +423,8 @@ describe("landing: the page shells", () => {
   it("session-25 (S25-13): the contact section is ONE component (both pages render ContactSection, the hand-inlined duplicate retired)", () => {
     const landing = read("src/app/(site)/page.tsx");
     const contact = read("src/app/(site)/Contact/page.tsx");
-    expect(landing).toContain("<ContactSection />");
-    expect(contact).toContain("<ContactSection />");
+    expect(readCode("src/app/(site)/page.tsx")).toContain("<ContactSection />");
+    expect(readCode("src/app/(site)/Contact/page.tsx")).toContain("<ContactSection />");
     // The hand-inlined duplicate — the drift-risk form that shipped
     // sessions 1–24 (the next contact-surface cure would have applied
     // in two places).
@@ -418,7 +455,7 @@ describe("landing: the page shells", () => {
   });
 
   it("the site layout wraps every page in navbar + footer", () => {
-    const layout = read("src/app/(site)/layout.tsx");
+    const layout = readCode("src/app/(site)/layout.tsx");
     expect(layout).toContain("<Navbar />");
     expect(layout).toContain("<Footer />");
   });
@@ -441,7 +478,8 @@ describe("landing: the session-21 CTA re-anchors (the live reference walk)", () 
 
   it("the footer 'Upgrade – $19' CTA carries the reference's exact classes (S21-1)", () => {
     const footer = read("src/components/marketing/footer.tsx");
-    expect(footer).toContain(
+    const footerCode = readCode("src/components/marketing/footer.tsx");
+    expect(footerCode).toContain(
       "inline-block px-5 py-2.5 bg-gradient-to-r from-teal-500 to-teal-600 text-white text-sm font-semibold rounded-full hover:shadow-lg hover:shadow-teal-500/30 transition-all",
     );
     // The retired clone-form fragments must never return.
@@ -450,7 +488,8 @@ describe("landing: the session-21 CTA re-anchors (the live reference walk)", () 
 
   it("the Pro-card CTA carries the reference's exact classes incl. the hover family (S21-2)", () => {
     const sections = read("src/components/marketing/sections.tsx");
-    expect(sections).toContain(
+    const sectionsCode = readCode("src/components/marketing/sections.tsx");
+    expect(sectionsCode).toContain(
       "mt-8 block w-full py-3.5 text-center font-semibold rounded-2xl bg-white text-teal-700 hover:shadow-lg hover:-translate-y-0.5 transition-all",
     );
     // The retired hover-tint form is banned.
@@ -458,7 +497,7 @@ describe("landing: the session-21 CTA re-anchors (the live reference walk)", () 
   });
 
   it("the mobile-menu pill says 'Upgrade to Pro – $19' in the reference's bare form (S22-1/S22-2)", () => {
-    const navbar = read("src/components/marketing/navbar.tsx");
+    const navbar = readCode("src/components/marketing/navbar.tsx");
     // The session-22 walk (2026-11-11): the reference's dropdown REVERTED
     // to its session-1-era form — the priced text WITHOUT the hover family
     // (the session-21 "Upgrade to Pro" + hover-family capture was a
@@ -474,21 +513,22 @@ describe("landing: the session-21 CTA re-anchors (the live reference walk)", () 
 
   it("the mobile-menu links carry the reference's bare mobile family (S22-3)", () => {
     const navbar = read("src/components/marketing/navbar.tsx");
+    const navbarCode = readCode("src/components/marketing/navbar.tsx");
     // The session-22 walk: the reference's dropdown links show the BARE
     // mobile family again (no after:* underline affordances — the
     // session-21 S21-4 adoption is retired; py-2 rides the reference's
     // own base now, so the touch target matches ours).
-    expect(navbar).toContain(
+    expect(navbarCode).toContain(
       'const MENU_LINK_BASE =\n  "block w-full text-left text-sm font-medium py-2 transition-colors";',
     );
-    expect(navbar).toContain('? "text-teal-400"\n                  : "text-slate-300 hover:text-white",');
+    expect(navbarCode).toContain('? "text-teal-400"\n                  : "text-slate-300 hover:text-white",');
     // The underline family is banned from the menu composition (the
     // desktop LINK_BASE keeps it — only the MENU const is pinned bare).
     expect(navbar).not.toMatch(/MENU_LINK_BASE[\s\S]{0,400}after:absolute/);
   });
 
   it("the menu panel darkens when the home route scrolls into light sections (S22-5)", () => {
-    const navbar = read("src/components/marketing/navbar.tsx");
+    const navbar = readCode("src/components/marketing/navbar.tsx");
     // Session-22 (S22-5): `onHero` alone keyed the dark-panel superset on
     // the ROUTE — on `/` the panel never gained bg-slate-900/95 even
     // scrolled deep into the landing's light sections (slate-300 links
@@ -505,11 +545,9 @@ describe("landing: the fire-and-forget reset timers are unmount-safe (session-17
   // flip at 2s, the sent flip at 2.6s). Co-pinned faces — ONE owner:
   // the planted-defect proof removes either unmount clear (or the
   // ref tracking) and REDs this pin. The pins read comment-stripped
-  // source (the s64 needle-in-own-doc lesson).
-  const bare = (p: string) =>
-    read(p)
-      .replace(/\/\/[^\n]*/g, "")
-      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
+  // source (the s64 needle-in-own-doc lesson; S66-5 hoisted the
+  // idiom to the file's shared readCode — bare now delegates).
+  const bare = (p: string) => readCode(p);
 
   it("generator-card + contact-form track their reset timers in a ref, reset before re-arm, and clear on unmount", () => {
     for (const [p, setter, ms] of [
@@ -562,7 +600,7 @@ describe("landing: the fire-and-forget reset timers are unmount-safe (session-17
 // geometry face.
 describe("landing: the hero portrait's CLS contract (S47-5)", () => {
   it("the plain <img> carries the explicit 512×512 geometry (the pre-load box reservation)", () => {
-    const hero = read("src/components/marketing/hero.tsx");
+    const hero = readCode("src/components/marketing/hero.tsx");
     expect(hero).toContain('src="/hero-portrait.png"');
     expect(hero).toContain("width={512}");
     expect(hero).toContain("height={512}");

@@ -1,84 +1,227 @@
-我将系统地处理这项复杂的任务。让我先建立工作区并创建一个总计划。
-Repo cloned. Now let me read the core documentation files:
-Now let me read the SKILL.md and session docs:
-Let me examine the worklog and the session-64 plan to understand the current state and conventions:
-The convention is now clear: `docs/session_65.md` at HEAD is the round-64 working narration; my round is **session 65**. Let me read the session-64 plan record and skills catalog:
-I've internalized the web-application skill. Now let me set up the environment and validate the codebase state:
-Key finding: the ambient shell carries a stale `DATABASE_URL=file:/home/z/my-project/db/custom.db` (outside the repo) — the exact S63/S64 documented hazard. I'll neutralize it with `env -u` discipline on every DB-touching command. Now installing:
-Census MATCH — db-path contract intact. Now the baseline gate (lint → typecheck → unit):
-One unit test failed — likely the ambient `DATABASE_URL` still set in this shell (the documented hazard). Let me identify it:
-Found a real baseline finding: `.env.example` still cites `docs/session_1..63` while the disk ledger is at 65 — the round-64 lockstep re-anchored "ten provenance sites" but missed this one. Let me verify the site list:
-Confirmed — `.env.example` is a stale provenance site (lag 2), masked by the lag-1 window at round-64 ship. This becomes a round-65 finding (S65-1). Continuing the baseline gate — build, then chromium + e2e:
-**Baseline gate: lint 0/0 · tsc 0 · unit 754/755 (one lag face — the S65-1 finding) · build · smoke 16/16 · e2e 70/70 · census MATCH.** Now the periodic `bun audit` duty:
-Same 9 dev-toolchain advisories as session-55..64 records (none on the runtime path) — consistent. Now dispatching the three-way parallel audit (the session precedent), each lane with its brief:
-Three-way audit complete: **combined 0 Critical / 0 High / 2 Medium / 3 Low / 10 Info**. Now the lead's hand-verification (reproduce-before-trusting), starting with AUDIT-1's M-1 redaction bypass:
-AUDIT-1 M-1 **verified live** — the delimiter-in-password bypass is real (`p/ss` and the tab form print verbatim). Now verifying AUDIT-3's findings:
-All audit findings hand-verified. Now the parity walk against the live reference. Let me check the browser tooling:
-agent-browser is ready. Starting the clone dev server, then running the parity walk (REF leg then CLONE leg):
-Logged in — landed at /Home (documented posture). Now the mobile-nav battery at 390×844:
-Hamburger base matches the session-63/64 record (`md:hidden p-2 text-slate-300`, no aria family). Opening the panel:
-Panel rhythm + no-aria posture confirmed. Now the three interaction faces on the reference (Escape, outside-tap, route-change):
-All three reference interaction faces match the documented postures. Now desktop census + brand gradient at 1440px:
-Brand gradient captured. Now the five-route head census + sitemap/robots:
-Head census + sitemap/robots identical to records. Now the reference generator probe (expected: the documented 402-dead face):
-**Reference generator: DEAD as documented** (error face, no copy button, no post). REF leg complete — all faces at documented postures. Now the CLONE leg:
-Clone login landed at `/` (the documented /Home deviation). Mobile-nav battery on the clone:
-Panel byte-identical + aria superset ACTIVE. Now the clone's three interaction faces:
-All three clone interaction faces at documented postures. Desktop census + brand gradient:
-Desktop census identical, brand gradient byte-identical (the inline sRGB dodge). Clone head census + sitemap + generator probe:
-Head census identical modulo origin. Now the clone's LIVE generator probe (the documented superset):
-**Parity walk #38 — CLEAN.** Both legs at every documented posture (mobile menu mechanics, desktop census, brand gradient byte-identical, head census, sitemap/robots, generator dead/live with quota 0→1). Now let me examine the existing pins to design the remediation precisely:
-Interesting — the health route shows `"ealth] db probe failed:"` (truncated `[health]` prefix?). The session-64 agent called this a false alarm. Let me verify the raw bytes:
-**New finding (S65-3)**: The health log at HEAD literally reads `"ealth] db probe failed:"` — the `[h` of `[health]` was eaten at session 63 (confirmed in the 462f763 diff), the S63-3 pin pinned the truncated form, and session-64's "false alarm" verification was wrong. Let me see the full pin context:
-prisma-env is pinned in `gate-script.test.ts` (the S29-6 wiring family) — that's the home for the new pin. I now have the complete picture. Writing the session-65 remediation plan:
-Plan written. Now validating it against the codebase — first the self-scan hazards (my new literals must not trip the census's own regexes):
-All validation checks pass. Let me check the census constants for the lockstep:
-Constants located. Now executing **Phase 1 — the pins** (TDD, born RED). First S65-1a, the malformed-face redaction pin:
-The process-env arm needs the residue form (leading quote) to fire the print — matching the S64-1 pin pattern. Fixing:
-**S65-1a born RED exactly as designed** — the live bypass prints `p/ss` verbatim. Now S65-3a, the health pin correction:
-A display discrepancy — grep showed `"ealth]"` but Read shows `"[health]"`. Let me check the raw bytes with Python (the authoritative read):
-Confirmed: both files carry the truncated `"ealth]"` bytes — the earlier Read display was an artifact (the same artifact that fooled the session-64 agent). Re-doing the pin edit with true bytes:
-The heredoc backslash escaping caused the mismatch. Using the Edit tool directly with the verified bytes:
-Conflicting reads — a display-layer artifact is mangling `[h` sequences in some outputs. Let me settle it with ordinals only:
-**Critical correction**: decoding the ordinals — `091 104 101 097 108 116 104 093` = `[health]`. **Both files carry the FULL prefix.** My earlier "eaten `[h`" reads were ALL display-layer artifacts (the tool output pipeline mangles `[h` sequences). The session-64 "false alarm" call was RIGHT, and my F-3 finding is RETRACTED. Let me verify file integrity:
-File integrity confirmed — only my S65-1a pin exists (+55 lines); the S63-3 pin is intact and correct. F-3 is retracted (a display artifact, not a defect — the session-64 "false alarm" call was right). Let me read the residue-warning path to design S65-1b correctly:
-The design is settled (a manual scan avoids `String.replace`'s match-consumption trap). First, let me update the plan to record the F-3 retraction, then implement S65-1b:
-Now implementing **S65-1b** — the redaction cure in `src/lib/boot-env.ts`:
-S65-1a GREEN (74/74 — all pinned shapes byte-identical). Now **S65-4a** — the page-titles pin hardening:
-S65-4a done. Now **S65-5a** — the prisma-env error-arm pin:
-Now **S65-6a** — the uniform-lag ship arm + the NINTH comment respell in docs-counts.test.ts:
-All pins placed. Running the designed RED picture across the three suites:
-RED picture exactly as designed: 5 REDs = 3 designed count-lag faces (UNIT census, lag invariant, plans map) + S65-6a born RED on the live mixed state + S65-5a born RED. S65-4a born GREEN (census-arm pattern). Now **Phase 2** — the S65-5b cure:
-S65-5a GREEN. Adding the health-catch register note (AUDIT-1 I-1, comment-only):
-Now **Phase 3 — the planted-defect batteries**. Battery 1: revert the redaction cure → expect exactly S65-1a RED:
-Battery 1 verified — exactly S65-1a RED. Restoring, then Battery 2 (delete login's export):
-Battery 2 verified — the vacuity is dead (this plant would have shipped GREEN under the old pin). Restoring, Battery 3:
-All batteries on record (3 plants, each RED exactly its pin, all restored GREEN — 99/99). Now **Phase 4 — the lockstep**. Re-anchoring all ten provenance sites to `1..65`:
-All ten sites at 1..65 — the lag invariant + uniform-lag arm now GREEN. Three designed count-lag faces remain. Curing each:
-The census is doing its job — 10 doc-count faces now RED. Enumerating them all:
-Applying the docs lockstep — count sites first, then the new session-65 rows:
-docs-counts fully GREEN (54/54). Now the PAD §11 register rows and the remaining doc rows:
-Now the README session-65 row and SKILL Appendix-A row:
-The row landed after the blank line separating the table from the footer — breaking table continuity. Fixing the placement:
-**Unit suite fully GREEN — 758/758 (40 files).** Now the S65-6a battery (mixed-lag plant, post-lockstep):
-All four batteries on record. Now writing the round's records — worklog Task 65, the formal session log, and the plan's post-execution record:
-Now the formal session log (replacing the narration in `docs/session_65.md`):
-Records complete. Now the captures — checking the existing numbering and the dev server state:
-Both captures PIL-verified (137: 1440×6971 landing full-page, 138: 390×10718 mobile menu open — teal present, non-blank). Now the **full final gate**:
-**FULL FINAL GATE GREEN** — lint 0/0 · tsc 0 · unit 758/758 · build · smoke 16/16 · e2e 70/70. Now the ship. Reading the push runbook:
-Runbook internalized. Now reviewing the change set and preparing the commit:
-No ssh binary and no paramiko — the documented sandbox posture. Deploying the shim per Appendix A:
-Shim deployed. Writing the operator key and sanity-checking:
-Dry-run passed (fast-forward `47730cb..0c6e39a`). Executing the real push:
-The wrapper verified the remote ref (0c6e39a == local HEAD) and synced tracking. Independent confirmation via HTTPS:
-**Session 65 — delivered.** Commit `0c6e39a` pushed to `main` (remote verified via HTTPS: `refs/heads/main @ 0c6e39a == local HEAD`, tree clean, operator key shredded, no new branch). Final cleanup:
-**Session 65 — delivered.** Commit `0c6e39a` pushed to `git@github.com:nordeim/viralpost-ai.git` **main** via the SSH wrapper (remote verified: `refs/heads/main @ 0c6e39a == local HEAD` via HTTPS ls-remote, tracking synced, operator key shredded, no new branch, tree clean).
+# Session 66 — The Redaction Residual Tiers + The A11y Settled-DOM Register + The 404 Self-Canonical + The Toast Dismiss Focus Arm + The stripComments Generalization and the Register Batch (2026-11-15)
 
-**The round:**
-- **Baseline**: fresh clone, gate green at the session-64 ship counts except ONE RED — `.env.example`'s provenance note at `1..63` (lag 2). The ambient `DATABASE_URL` shell pollution was found live and neutralized (`env -u` discipline). Census MATCH.
-- **Audit** (three parallel subagents + hand-verification): **0 Critical / 0 High / 2 Medium / 3 Low / 10 Info**. Headlines: the redaction delimiter bypass (a password containing `/`/tab before the `@` printed verbatim through every boot warning — live-probed) and the round-64 lockstep straggler (nine sites re-anchored, not the claimed ten).
-- **Parity walk #38 — clean**: mobile menu byte-identical with our aria superset live-verified on both legs (Escape/outside-tap/route-change at documented postures), desktop census + brand gradient byte-identical, head census/sitemap/robots identical, reference generator dead / ours live with quota 0→1. **No Tailwind v4 bug in the mobile menu** (compiler-probed on 4.3.3).
-- **Cures (TDD — 4 pins, 3 born RED, all 4 planted-defect batteries on record)**: the manual-scan redaction cure (over-redact, never under), the uniform-lag ship arm (straggler class mechanically retired at the gate), the stripComments pin-vacuity cure, the prisma-env spawn-error arm, the ten-site re-anchor to `1..65`, and the register batch. One interim finding (the "eaten `[health]` prefix") was **RETRACTED at validation** — a tool-display artifact; ordinal-level byte inspection proved the session-64 record right.
-- **Ship**: unit 755 → **758/758**, badge 828, SKILL v1.61.0, full gate green (lint 0/0 · tsc 0 · build · smoke 16/16 · e2e 70/70), captures 137/138 PIL-verified, docs lockstep complete (formal `docs/session_65.md`, plan record, worklog Task 65).
+The round opened on the shipped tree (`28746e6` = session-65's
+`0c6e39a` + the owner's narration commit carrying `docs/session_66.md`
+as the round-65 working narration; this formal log replaces its
+content at ship). The core docs re-read and re-verified at the
+session-65 ship counts (AGENTS, CLAUDE, README, PAD, SKILL v1.61.0),
+then the session-65 set (the formal `docs/session_65.md` log, the
+session-65 plan's post-execution record, worklog Task 65), and the
+S65 cures verified in source (the manual-scan redaction, the
+spawn-error arm, the uniform-lag ship arm, the stripComments pin
+hardening, the ten-site provenance at `1..65`). This round is session
+66, the standing instruction on the shipped tree.
 
-**Verified:** everything above was executed and observed directly. **Assumed/Unverifiable:** none. Next: the standing cadence — session 66 re-pulls, re-audits, and walks again.
+## Baseline
+
+`git pull` fast-forward `0c6e39a..28746e6` (the narration commit —
+one file). `.env` on disk verified at the contract
+(`DATABASE_URL="file:../db/custom.db"`, `db/` at the repo root,
+`AUTH_SECRET` set); census MATCH (1 user + 0 contact messages). The
+ambient-shell `DATABASE_URL` pollution (an absolute path OUTSIDE the
+repo — the S63/S64/S65 hazard) was found live and neutralized with
+`env -u DATABASE_URL` on every DB-touching command. The `[health]`
+display artifact re-confirmed harmless at baseline via ordinal byte
+inspection (91 104 101 97 108 116 104 93 = the full prefix — the
+S65 retraction's lesson applied, not re-litigated).
+
+Baseline gate: lint 0/0 · tsc 0 · unit **758/758** (40 files — the
+uniform lag-1 baseline: every provenance site at `1..65` against the
+disk ledger at 66, exactly the S65-6a-sanctioned post-narration
+state) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.
+`bun audit`: the same 9 dev-toolchain advisories as session-55..65
+(3H/5M/1L, none on the runtime request path).
+
+## The audit (three parallel lanes + the lead's hand-verification)
+
+Combined profile: **0 Critical / 0 High / 2 Medium / 3 Low / 7 Info**
+(AUDIT-1 API/lib seams 0/0/1/0/3 · AUDIT-2 components/pages/effects
+0/0/1/2/2 · AUDIT-3 SEO/configs/tests/docs 0/0/0/2/5). Every
+load-bearing finding hand-verified by the lead — the two Mediums
+live-probed through the REAL exported warning builders
+(`bootEnvCheck` / `databaseUrlInertValueWarning`), the 404 canonical
+live-probed against the standalone build, the two component Lows
+verified by code read. The standing contracts all held (the envelope
+on 13 handlers, the db seam monopoly, the bounded reader 8/8, the
+limiter's buckets, the auth/revocation family, the boot gate arms,
+all seven Tailwind v4 mitigations, the mobile-menu mechanic set, the
+React 19 laws, the SEO family, every docs count re-derived from
+disk).
+
+**S66-1 (AUDIT-1-1, Medium — live-probed): the redaction residual
+tiers.** The S65-1b manual scan left three verbatim classes: (1)
+query-param credentials on an otherwise VALID URL —
+`postgresql://db.example.com:5432/prod?user=admin&password=SuperSecret9`
+is a documented libpq/Prisma spelling and printed `SuperSecret9`
+verbatim through the inert-value warning (the tab-paste residue
+variant printed `TopSecret99` while naming the control char it was
+printing) — the most realistic face yet, no typo required; (2)
+scheme-less credentialed values (`user:supersecret@host/db`) through
+the `!schemeMatch` early return, on the inert-value, leading-quote,
+and control-char faces alike; (3) credentials before the first
+scheme, where the `restAt > afterScheme` guard declines. The
+one-owner doctrine ("the password never prints") still had unmasked
+faces.
+
+**S66-2 (AUDIT-2-1, Medium — live-probed): the a11y battery never
+scanned the settled DOM.** The spec ran goto → networkidle → axe
+with NO scroll: every below-fold Reveal wrapper sat at opacity:0 and
+axe SKIPS opacity-0 nodes — the sanctioned register's coverage claim
+was validated only against the unscrolled DOM. The live probe (axe
+4.13 on the standalone build, slow-scroll + settle, all 17 wrappers
+at opacity 1): 9 settled violations, 6 register-matching and **3
+unadjudicated** — the testimonial handles (`text-teal-600` #0d9488
+at 12px on #f8fafc = 3.57:1, the reference's own palette,
+class-for-class parity). Both halves cured: the scroll-settle pass
++ the register's `text-teal-600` light-card entry (adjudicated,
+never restyled — the parity doctrine this register exists for).
+
+**S66-3 (AUDIT-3-1, Low — live-probed): the 404 head's foreign
+canonical.** The catchAll layout's generateMetadata returned only
+the title, so Next shallow-merged over the root layout's metadata:
+every 404 shipped `<link rel="canonical" href="<origin>"/>` (the
+LANDING's canonical) + og:url at the origin root while emitting
+noindex — a mixed signal with zero owners.
+
+**S66-4 (AUDIT-2-2, Low): the toast dismiss focus drop** — the
+genus cured on the navbar/paywall/login/reset but not the toast; the
+dismiss click unmounted the focused card and focus fell to `<body>`.
+
+**S66-5 (AUDIT-3-2, Low): the raw-read positive pins** — the latent
+S65-4 genus in landing-page (112 toContains) / error-boundaries (39)
+/ http-headers (4); no live vacuous instance (spot-verified), the
+class latent.
+
+**S66-6 (AUDIT-2 I-1, upgraded): the copy catch arm** bypassed the
+S51-2 epoch/mount gate the comments claim for "the continuation".
+
+**The registers (documented, PAD §11 + the plan):** the
+NODE_ENV-staging DEV-secret posture, the scrypt cost, the
+mobile-menu md-crossing rotation, the particle-text resize debounce,
+the auth pages' build-caught force-dynamic, the JSON-LD/robots
+parity postures, the e2ePort NaN guard, the toast eviction focus
+face, the 404 og:url inheritance posture, and (found mid-cure) the
+a11y-controls raw-TSX reads + the design-tokens JSX false-alive
+face — both next-touch. The local untracked `.env`'s stale
+provenance note refreshed (local hygiene, no commit).
+
+## Parity walk #39 — the thirty-ninth consecutive clean walk
+
+Both legs at every documented posture: the hamburger base
+byte-identical (`md:hidden p-2 text-slate-300`, NO aria family on
+the reference vs our ACTIVE superset — Open/Close-menu relabel,
+aria-expanded, `aria-controls="mobile-menu"`); the panel inner
+byte-identical (`px-6 py-4 space-y-3`, 4 links + the amber CTA
+pill) with the 12px rhythm in each side's engine form (the
+reference's margin-top v3 / our margin-block-end v4) and the pill
+(9999px / the v4 infinity calc 33554432px); Escape R-open /
+L-close-with-focus-return (focus observed back on the toggle); the
+outside-tap both open (censused parity); the route-change
+R-unmount / L-hidden-in-DOM; the desktop census 6 visible identical
+at 1440; the brand gradient byte-identical
+(`linear-gradient(to right, rgb(45, 212, 191), rgb(251, 191, 36))`);
+the five-route head census identical (bare `/` + `/login` titles,
+the `<Page> |` family, the prefixed descriptions, the canonicals);
+sitemap 4 URLs + robots identical modulo origin; the generator DEAD
+on the reference (error face, no copy button, no post) / LIVE on the
+clone (7 hashtags, the Copy button, the quota counter 3→2 remaining
+— the 0→1 used face). **No Tailwind v4 bug in the mobile menu** —
+every mechanic live-verified at 390×844 on both legs. Captures
+139/140 on the dev server PIL-verified (1440×6871 landing full-page;
+390×10718 mobile menu open).
+
+## The cures (TDD — the pins first, born RED, batteries on record)
+
+- **S66-1a** the residual-tiers redaction pin (boot-env.test.ts, 3
+  its) born RED exactly as designed — all three faces printed
+  verbatim through the real warning builders; the controls (the
+  clean `file:` contract, the S63-2/S64-1/S65-1 pinned shapes)
+  byte-identical.
+- **S66-1b** the residual tiers: the scheme-less arm masks to the
+  LAST `@` (a no-@ value stays verbatim); the pre-scheme arm masks
+  the WHOLE prefix (slicing from afterScheme would keep the
+  credential in the prefix it skips over); the query-param pass
+  rides EVERY arm's output (`password|passfile|sslpassword`,
+  case-insensitive — a URL can carry BOTH userinfo and a query
+  password), with the user= identity and host tails staying visible.
+- **S66-2b** the scroll-settle pass (a stepwise half-viewport walk +
+  the inline-opacity poll reading `el.style.opacity` —
+  serialization-independent; every Reveal is one-way so the settle is
+  permanent) applied to the four marketing surfaces + the 404; the
+  SANCTIONED register's `text-teal-600` light-card entry. No new
+  `test()` blocks — A11Y_SOURCE_TESTS stays 3, E2E stays 70.
+- **S66-3a** the 404 self-canonical pin (route-title.test.ts, 2 its)
+  born RED — generateMetadata called directly with the params shape
+  Next passes; the title asserts the KNOWN literal (never a
+  re-derivation through unknownRouteTitle); **S66-3b** the cure (the
+  pageMetadata factory's relative `alternates` form; the root og
+  family stays — the registered posture) + the e2e leg asserting the
+  RENDERED canonical.
+- **S66-4a** the dismiss-focus source pin (toast-anatomy.test.ts)
+  born RED; **S66-4b** the handleDismiss focus arm (rootRef +
+  contains(activeElement) + the DOM-next card's dismiss control
+  BEFORE the store mutation; DOM order = tab order — the viewport's
+  flex-col-reverse reorders visuals, never tabs).
+- **S66-6a** the catch-arm gate pin (landing-page.test.ts, anchored
+  on the clipboard await so the generate() catch can never satisfy
+  it) born RED; **S66-6b** the catch arm gated identically to the
+  success continuation.
+- **S66-5a** the stripComments generalization (the three suites'
+  positives through the stripped read; negatives stay raw — the
+  stricter form) — **which the battery then deepened**: the vacuity
+  plant (hero's `width={512}` deleted from code, planted in a JSX
+  comment) stayed GREEN — the S48-1 hardened form's `(^|\s)` block
+  opener NEVER strips a brace-preceded `{/*`. The JSX-comment arm
+  joined the house idiom FAMILY-WIDE (the eight TSX-reading named
+  helpers), riding FIRST — a `//` inside a JSX comment (the footer's
+  `text-slate-900//25` prose) eats the closing `*/}` under the line
+  pass, leaving an unterminated `{/*` whose late arm would over-eat
+  LIVE CODE to the next `*/}` (the footer's Upgrade – $19 face —
+  caught and fixed mid-battery, the arm-order correction). The
+  one-idiom census gained the JSX-pass enforcement arm
+  (runtime-constructed needles — the contiguous literal self-matched
+  the arm's own first run, the S64-2 union-read genus reborn and
+  caught same-round).
+
+## The batteries (all on record — each plant REDs exactly its pin, all restored)
+
+1. The redaction-revert plant (S66-1b → the S65-1b form) → REDs
+   exactly the 3 S66-1a its (74 others GREEN).
+2. The register-entry-deletion plant (the `text-teal-600` entry
+   dropped, the settle kept) → REDs the a11y surface tests on the
+   settled DOM (run against the built tree — the arm's teeth).
+3. The canonical-revert plant (the alternates dropped) → REDs
+   exactly the 2 S66-3a its.
+4. The focus-arm-removal plant (handleDismiss → plain dismiss) →
+   REDs exactly S66-4a.
+5. The catch-gate-removal plant → REDs exactly S66-6a.
+6. The vacuity-proof plants ×3 (landing-page / error-boundaries /
+   http-headers: a pinned literal deleted from code, planted in a
+   comment) → each REDs exactly its pin under the armed idiom — the
+   first plant's initial GREEN is the round's battery-found finding
+   (the JSX-comment hole), cured family-wide mid-round.
+
+## The lockstep
+
+UNIT 758 → **766** (+8 its: S66-1a ×3, S66-3a ×2, S66-4a, S66-6a,
+the JSX-pass census arm), SUITES 40 held, E2E 70 held (the canonical
+assertion rides inside the existing 404 test), E2E_SPECS 9 held,
+SMOKE 16 held, BADGE 828 → **836**. The ten provenance sites
+re-anchored `1..65` → `1..66` (all ten at diskMax, lag 0, uniform —
+the S65-6a posture). The docs-counts constants; PAD §8.1's table +
+carry line; PAD §11 +10 register rows; PAD §12's catchAll layout row
+(32 → 47, the self-canonical note) + the generator-card row (318 →
+325); README's badge + the session-66 row (inside the table — the
+S43-3 continuity arm green) + the gate footer; AGENTS's plans-map
+sixty-sixth round + the 766; CLAUDE's 766; SKILL v1.61.0 → v1.62.0
+(frontmatter, §0.5 range, Appendix-A session-66 row, Appendix-B
+re-certification through 66 + the route-title pin count 13 → 15).
+
+## The ship
+
+The full gate green on the final tree; captures 139/140 on the dev
+server PIL-verified; the Conventional Commit to main and the push via
+the SSH wrapper runbook.
+
+**Gate at the session-66 ship: lint 0/0 · tsc 0 · unit 766/766 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

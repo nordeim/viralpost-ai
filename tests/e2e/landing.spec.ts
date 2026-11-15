@@ -101,6 +101,16 @@ test("the 404 page renders for unknown routes", async ({ page }) => {
     "content",
     /noindex/,
   );
+  // Session-66 (S66-3, AUDIT-3-1 L): the SELF-CANONICAL runtime arm —
+  // before the cure every 404 head carried the LANDING's canonical
+  // (Next shallow-merged the root layout's alternates over the
+  // title-only segment metadata) while emitting noindex: a mixed
+  // signal with zero owners. The unit pin (route-title S66-3a) owns
+  // generateMetadata; this leg owns the RENDERED head.
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    "href",
+    /\/definitely-not-a-route$/,
+  );
   await page.getByRole("link", { name: "Go Home" }).click();
   await page.waitForURL("/");
 });

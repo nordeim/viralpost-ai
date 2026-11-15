@@ -410,7 +410,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 758;
+const UNIT = 766;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -434,6 +434,7 @@ const read = (p: string) => readFileSync(join(root, p), "utf8");
 // family's only shape).
 function stripComments(src: string): string {
   return src
+    .replace(/\{\/\*[\s\S]*?\*\/\}/g, "")
     .replace(/\/\/[^\n]*/g, "")
     .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 }
@@ -1396,6 +1397,10 @@ describe("docs-counts: session-47 (S47-9) — the generator-hang stale-prose cen
 // The cure: the hardened form (line pass first; block opener anchored
 // (^|\s) — db-path.test.ts's S47-10 idiom) becomes the family's ONLY
 // shape (the one-idiom doctrine the S46-10 comments already declared).
+// Session-66 (S66-5, the battery-found third pass): the TSX-reading
+// named helpers chain a JSX-comment arm FIRST (a JSX comment is the
+// one comment family the two-pass form never strips — the vacuity
+// genus the S66-5 battery proved; see the JSX_PASS needle below).
 // type-gate's string-aware state machine coexists (different genus —
 // string-literal-aware; the canonical idiom for the block-first family
 // is the hardened form).
@@ -1432,6 +1437,29 @@ describe("docs-counts: session-48 (S48-1) — the stripComments one-idiom census
   // The hardened first pass, assembled the same way (runtime pieces,
   // never contiguous in this file).
   const LINE_PASS = ["replace(/", "\\/", "\\/", "[^\\n]*", "/g, \"\")"].join("");
+  // Session-66 (S66-5, the battery-found third pass): the JSX-comment
+  // arm, assembled the same way. The S48-1 hardened form's (^|\s) block
+  // opener deliberately never matches a JSX comment's brace-preceded
+  // {/* — so a pinned literal quoted inside one satisfied every
+  // "comment-stripped" pin in the family (the S66-5 battery's plant:
+  // hero's width={512} deleted from code, planted in a JSX comment —
+  // GREEN under the two-pass idiom). The arm runs FIRST (while the
+  // comments are balanced): a // inside a JSX comment (the S21-1
+  // "text-slate-900//25" prose) eats the closing */} under the line
+  // pass, leaving an unterminated {/* whose non-greedy arm would then
+  // over-eat LIVE CODE to the next */} (the footer's Upgrade – $19
+  // face, caught mid-battery).
+  const JSX_PASS = [
+    "replace(/",
+    "\\{",
+    "\\/",
+    "\\*",
+    "[\\s\\S]*?",
+    "\\*",
+    "\\/",
+    "\\}",
+    "/g, \"\")",
+  ].join("");
   // The hardened second pass, assembled the same way.
   const BLOCK_PASS = [
     "replace(/",
@@ -1503,6 +1531,51 @@ describe("docs-counts: session-48 (S48-1) — the stripComments one-idiom census
         orphans,
         `${f}: ${orphans} of ${sites} anchored block-pass site(s) lack the line-first chain (${exempt} CSS-only exempted) — the one-idiom doctrine (S48-1/S49-3) requires the line pass in every chain`,
       ).toBe(exempt);
+    }
+  });
+
+  // Session-66 (S66-5, AUDIT-3-2 L): the JSX-pass face of the one-idiom
+  // doctrine — a file that READS .tsx sources (the raw text carries a
+  // .tsx path literal) and defines a named stripComments helper must
+  // chain the JSX-comment arm: a JSX comment is the one comment family
+  // the two-pass idiom never strips, so a pinned literal quoted inside
+  // one satisfied every "comment-stripped" pin (the battery's plant —
+  // hero's width={512} — proved it GREEN under the old form). The
+  // trigger is MECHANICAL (the .tsx literal in the file's own text —
+  // the S49-3 no-enumeration lesson); the scope is the NAMED-HELPER
+  // form only: the inline census-floor readers (design-tokens' src
+  // sweeps — reached through walkSourceFiles, not path literals, and
+  // facing the false-ALIVE genus rather than the vacuity one) and the
+  // raw-read suites with no helper (a11y-controls — REGISTERED for the
+  // next touch) stay outside this arm by construction.
+  it("every named stripComments helper in a .tsx-reading file chains the JSX-comment arm (the S66-5 face of the one-idiom doctrine)", () => {
+    // The helper signature, runtime-constructed (the s216 ban-safe-
+    // paraphrase doctrine): a contiguous literal here would match THIS
+    // arm's own source in the self-read (the S64-2 union-read genus —
+    // caught by this arm's own first run).
+    const HELPER_SIG = ["function ", "stripComments("].join("");
+    for (const f of allUnitTestFiles()) {
+      const raw = read(f);
+      if (!/\.tsx"/.test(raw)) continue; // reads no TSX source — the arm is inert there
+      const flat = flatten(raw);
+      let search = 0;
+      let helpers = 0;
+      let unarmed = 0;
+      for (;;) {
+        const helperAt = flat.indexOf(HELPER_SIG, search);
+        if (helperAt < 0) break;
+        helpers++;
+        // the arm must appear within the helper body (before the next
+        // top-level function or 600 flattened chars — the bodies are
+        // three-line chains)
+        const window = flat.slice(helperAt, helperAt + 600);
+        if (!window.includes(JSX_PASS)) unarmed++;
+        search = helperAt + 1;
+      }
+      expect(
+        unarmed,
+        `${f}: ${unarmed} of ${helpers} named stripComments helper(s) read .tsx sources without the JSX-comment arm — the S66-5 battery proved a JSX-commented literal satisfies the two-pass form (the vacuity genus)`,
+      ).toBe(0);
     }
   });
 });

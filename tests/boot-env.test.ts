@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..65.
+// are docs/session_1..66.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -1233,5 +1233,105 @@ describe("session-65 (S65-1): a delimiter/control char inside the password never
       "file:../db/custom.db\tjunk",
     );
     expect(fileValue).toContain("file:../db/custom.db\\tjunk");
+  });
+});
+
+// Session-66 (S66-1, AUDIT-1-1 M — live-probed through the REAL
+// exported warning builders): the residual tiers the S65-1b manual scan
+// still left unmasked. The scheme-anchored design has three verbatim
+// classes: (1) QUERY-PARAM credentials on an otherwise VALID URL —
+// 'postgresql://host/db?user=u&password=p' is a documented
+// libpq/Prisma spelling, and the @-anchored scan never sees the
+// password (the most realistic face yet: no typo required, only the
+// inert-value posture this warning family exists to diagnose); (2)
+// SCHEME-LESS credentialed values ('user:pass@host/db') returned
+// verbatim by the !schemeMatch early return; (3) credentials BEFORE
+// the first scheme, where the restAt > afterScheme guard declines to
+// mask. The probes: SuperSecret9/TopSecret99 printed verbatim through
+// the inert-value and tab-paste residue arms; supersecret printed
+// through the scheme-less inert-value, leading-quote, and control-char
+// faces; admin:pass printed through the pre-scheme face. The
+// one-owner doctrine ("the password never prints") has no unmasked
+// face left after the cure.
+describe("session-66 (S66-1): the residual redaction tiers (query-param, scheme-less, pre-scheme)", () => {
+  it("a query-param password never prints (a VALID libpq spelling) — on the inert-value and residue arms; the user= identity stays visible", () => {
+    // Face 1 — the inert-value arm (the S63-1 posture: a node-booted
+    // standalone, a clean non-default .env value the runtime never
+    // reads). The URL is VALID; only the posture is wrong — the exact
+    // diagnostic class of this arm.
+    const inert = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "postgresql://db.example.com:5432/prod?user=admin&password=SuperSecret9",
+      false,
+    );
+    expect(inert).toContain("password=***");
+    expect(inert).not.toContain("SuperSecret9");
+    // The user= identity is not a secret — the host/user stay visible
+    // where parseable (the S65-1b visibility doctrine).
+    expect(inert).toContain("user=admin");
+    expect(inert).toContain("db.example.com");
+
+    // Face 1b — the tab-paste residue arm (the S60-1 print vehicle):
+    // the control char fires the warning, the query password must
+    // still mask on the same print that names the char.
+    const report = bootEnvCheck(
+      env({ DATABASE_URL: "postgresql://db.example.com:5432/prod?user=admin&password=TopSecret99\t" }),
+    );
+    const joined = (report.warnings ?? []).join("\n");
+    expect(joined).toContain("password=***");
+    expect(joined).not.toContain("TopSecret99");
+  });
+
+  it("a scheme-less credentialed value never prints — on the inert-value arm and both residue faces", () => {
+    // The clean scheme-less shape through the inert-value arm.
+    const inert = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "user:supersecret@host/db",
+      false,
+    );
+    expect(inert).toContain("***@");
+    expect(inert).not.toContain("supersecret");
+    expect(inert).not.toContain("user:");
+
+    // The leading-quote residue face (the unclosed-quote print
+    // vehicle) on the same scheme-less shape.
+    const quoteFace = bootEnvCheck(env({ DATABASE_URL: '"user:supersecret@host/db' }));
+    const quoteJoined = (quoteFace.warnings ?? []).join("\n");
+    expect(quoteJoined).toContain("***@");
+    expect(quoteJoined).not.toContain("supersecret");
+    expect(quoteJoined).not.toContain("user:");
+
+    // The control-char residue face: the tab both defeats the token
+    // run AND fires the warning — the redaction holds on the same
+    // print that names the char (the S65-1 doctrine, one tier down).
+    const tabFace = bootEnvCheck(env({ DATABASE_URL: "user:pa\tss@host/db" }));
+    const tabJoined = (tabFace.warnings ?? []).join("\n");
+    expect(tabJoined).toContain("***@");
+    expect(tabJoined).not.toContain("pa\tss");
+    expect(tabJoined).not.toContain("user:pa");
+  });
+
+  it("a credential before the first scheme never prints (the whole prefix masks)", () => {
+    // The contrived-but-real shape: the userinfo rides BEFORE any
+    // scheme run, so both the token arm (no @ after the scheme) and
+    // the restAt > afterScheme guard decline — the S65-1b design's
+    // last verbatim face. The cure masks the WHOLE prefix to the last
+    // @ (masking from afterScheme would keep the credential in the
+    // prefix it slices over).
+    const report = bootEnvCheck(
+      env({ DATABASE_URL: '"admin:pass@host\npostgres://x/y' }),
+    );
+    const joined = (report.warnings ?? []).join("\n");
+    expect(joined).toContain("***@");
+    expect(joined).not.toContain("admin:pass");
+    expect(joined).not.toContain('"admin');
+
+    // The control: the clean file: contract stays verbatim under the
+    // cure (no @, no query params — nothing to mask).
+    const fileFace = databaseUrlFileResidueWarning(
+      { NODE_ENV: "production" },
+      "file:../db/custom.db\tjunk",
+    );
+    expect(fileFace).toContain("file:../db/custom.db\\tjunk");
   });
 });

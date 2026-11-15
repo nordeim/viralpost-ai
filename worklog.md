@@ -7228,3 +7228,107 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-65 ship: lint 0/0 · tsc 0 · unit 758/758 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 66 — The Redaction Residual Tiers + The A11y Settled-DOM Register + The 404 Self-Canonical + The Toast Dismiss Focus Arm + The stripComments Generalization and the Register Batch (2026-11-15)
+
+- ANALYZE: `git pull` fast-forward `0c6e39a..28746e6` (the owner's
+  narration commit, one file); core docs re-read at the session-65
+  ship counts (AGENTS, CLAUDE, README, PAD, SKILL v1.61.0); the
+  session-65 set re-verified (the formal log, the plan's
+  post-execution record, worklog Task 65, the narration
+  session_66.md); the S65 cures verified in source. The ambient
+  DATABASE_URL pollution found live and neutralized (env -u
+  discipline, the S63/S64/S65 lesson); the [health] display artifact
+  re-confirmed harmless via ordinals at baseline. Baseline gate:
+  lint 0/0 · tsc 0 · unit 758/758 (the uniform lag-1 baseline — all
+  ten sites at 1..65, disk ledger 66) · build · smoke 16/16 · e2e
+  70/70 · census MATCH; bun audit: the same 9 dev-toolchain
+  advisories as session-55..65 (none on the runtime path).
+- AUDIT (three parallel subagents + the lead's hand-verification):
+  **0 Critical / 0 High / 2 Medium / 3 Low / 7 Info**. Both Mediums
+  live-probed through the REAL exported warning builders by the lead;
+  the 404 canonical live-probed on the standalone build; every
+  standing contract held (envelope 13 handlers, db seam, bounded
+  reader 8/8, limiter buckets, auth family, boot gate, seven
+  Tailwind v4 mitigations, mobile-menu mechanics, React 19 laws, SEO
+  family, docs counts). Headlines: the redaction residual tiers (the
+  query-param face on a VALID libpq spelling — no typo required; the
+  scheme-less face; the pre-scheme face) and the a11y settled-dom
+  register gap (the battery never scrolled — the testimonial handles
+  at 3.57:1 unadjudicated and invisible to the gate).
+- PARITY WALK #39 — CLEAN (both legs, every documented posture: the
+  hamburger byte-identical + our aria superset, the panel inner
+  byte-identical with the 12px rhythm + the infinity-calc pill,
+  Escape R-open/L-close-with-focus-return, the outside-tap both
+  open, the route-change R-unmount/L-hidden-in-DOM, the desktop
+  census 6 identical, the brand gradient byte-identical, the head
+  census + sitemap/robots identical modulo origin, the generator
+  DEAD on the reference / LIVE on the clone with 7 hashtags + Copy +
+  quota 0→1 used; no Tailwind v4 bug in the mobile menu). Captures
+  139/140 PIL-verified (1440×6871 landing; 390×10718 mobile menu
+  open).
+- IMPLEMENT (TDD — the pins first, born RED): S66-1a the
+  residual-tiers redaction pin (3 its — all three faces verbatim
+  under the live probe); S66-3a the 404 self-canonical pin (2 its,
+  the known-literal title form); S66-4a the dismiss-focus source
+  pin; S66-6a the catch-arm gate pin (anchored on the clipboard
+  await). The GREEN phase: S66-1b the residual tiers (the
+  scheme-less arm masks to the last @; the pre-scheme arm masks the
+  whole prefix; the query-param pass rides every arm's output —
+  password|passfile|sslpassword case-insensitive, the user= identity
+  and host tails visible; every pinned S63-2/S64-1/S65-1 shape
+  byte-identical); S66-2b the scroll-settle pass (stepwise walk +
+  the inline-opacity poll) + the register's text-teal-600 light-card
+  entry; S66-3b the catchAll layout's self-canonical + the e2e
+  rendered-head leg; S66-4b the handleDismiss focus arm (rootRef +
+  contains(activeElement) + the DOM-next card's dismiss control
+  before the store mutation); S66-6b the catch arm gated identically.
+- THE BATTERY-FOUND DEEPENING (S66-5): the stripComments
+  generalization's vacuity plant (hero's width={512} deleted from
+  code, planted in a JSX comment) stayed GREEN — the S48-1 hardened
+  form's (^|\s) block opener never strips a brace-preceded {/* — so
+  the JSX-comment arm joined the house idiom FAMILY-WIDE (the eight
+  TSX-reading named helpers), riding FIRST (a // inside a JSX
+  comment — the footer's text-slate-900//25 prose — eats the closing
+  */} under the line pass and an arm-after would over-eat live code
+  to the next */}, the footer's Upgrade face caught and fixed
+  mid-battery); the one-idiom census gained the JSX-pass enforcement
+  arm (runtime-constructed needles — the contiguous literal
+  self-matched the arm's own first run, the S64-2 union-read genus
+  reborn and caught same-round); three vacuity plants each RED
+  exactly their pin under the armed idiom; the a11y-controls raw
+  reads + the design-tokens false-alive face REGISTERED (next-touch).
+- BATTERIES (all on record, each plant RED exactly its pin, all
+  restored GREEN — the full suite green after the restores): the
+  redaction-revert (REDs the 3 S66-1a its), the canonical-revert
+  (REDs the 2 S66-3a its), the focus-arm-removal (REDs S66-4a), the
+  catch-gate-removal (REDs S66-6a), the register-entry-deletion
+  (REDs the settled a11y surface tests, run against the built tree),
+  the three vacuity plants (each REDs exactly its pin — and the
+  first one's initial GREEN is the round's battery-found finding).
+- LOCKSTEP: UNIT 758 → 766 (+8 its), SUITES/E2E/SPECS/SMOKE held,
+  BADGE 828 → 836; the ten provenance sites 1..65 → 1..66 (uniform,
+  lag 0 — the S65-6a posture); the docs-counts constants; PAD §8.1 +
+  §11 (+10 register rows) + §12 (the layout row 32→47 + the
+  generator-card row 318→325); README's badge + session-66 row +
+  gate footer; AGENTS's plans-map sixty-sixth round + the 766;
+  CLAUDE's 766; SKILL v1.61.0 → v1.62.0 (frontmatter, §0.5 range,
+  Appendix-A session-66 row, Appendix-B re-certification through 66
+  + the route-title pin count 13 → 15).
+- REGISTERS: the NODE_ENV-staging DEV-secret posture (fail-closed is
+  the named lift), the scrypt cost (format versioning required), the
+  mobile-menu md-crossing rotation (reference-identical, the S26-3
+  posture), the particle-text resize debounce (the S13-7 posture),
+  the auth pages' build-caught force-dynamic, the JSON-LD/robots
+  parity postures, the e2ePort NaN guard, the toast eviction focus
+  face, the 404 og:url inheritance posture, the a11y-controls +
+  design-tokens JSX faces (next-touch); the local .env's stale
+  provenance note refreshed (local hygiene, no commit).
+- Counts at ship: UNIT 766 / SUITES 40 / E2E 70 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 836; the ten provenance sites at 1..66 (lag 0,
+  uniform); SKILL v1.62.0; captures 139/140 PIL-verified; the full
+  gate green on the final tree; push to main via the SSH wrapper
+  runbook.
+
+**Gate at the session-66 ship: lint 0/0 · tsc 0 · unit 766/766 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

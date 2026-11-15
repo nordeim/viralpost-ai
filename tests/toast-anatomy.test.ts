@@ -33,9 +33,12 @@ const srcRaw = readFileSync(path.join(root, "src/components/ui/toast.tsx"), "utf
 // negatives must read code-only (the mutation-feedback stripComments idiom)
 // Session-48 (S48-1): the hardened form — line pass first, block
 // opener anchored (the S47-10 idiom; the one-idiom doctrine, the
-// family's only shape).
+// family's only shape). Session-66 (S66-5): the JSX-comment arm rides
+// FIRST (the battery-found third pass — a JSX comment is the one
+// comment family the anchored block pass never strips).
 function stripComments(s: string): string {
   return s
+    .replace(/\{\/\*[\s\S]*?\*\/\}/g, "")
     .replace(/\/\/[^\n]*/g, "")
     .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 }
@@ -253,5 +256,38 @@ describe("session-42 — the toast call-site census (S42-7)", () => {
       count("success"),
       "toast.success call sites — zero BY DESIGN (S41-6: the kit face, never retired)",
     ).toBe(0);
+  });
+});
+
+// Session-66 (S66-4, AUDIT-2 L-1 — verified by read): the dismiss
+// FOCUS arm. The only per-card control was the icon-only Dismiss
+// button; activating it unmounted the focused card and focus fell to
+// <body> (the next Tab resumed at the document top). The same genus
+// was deliberately cured on the navbar (F11-11/S25-16/S31-2), the
+// paywall swap (S25-15), the login view swaps (S19-10), and the reset
+// success swap (S21-6) — but not here. The cure: ToastCard's
+// handleDismiss checks whether THIS card holds document.activeElement
+// before the store mutation and hands focus to the next remaining
+// card's dismiss control (DOM order = tab order; the viewport's
+// flex-col-reverse reorders visuals, never tabs). The 5th-push
+// eviction face (slice(-4) evicting a focused card) is REGISTERED —
+// push() has no DOM seam (the PAD §11 row owns it). The focus-pause
+// arm (S20-6) means an auto-dismiss never fires while focus is inside
+// the card, so the dismiss click is the sole focus-drop path this arm
+// owns. Source pin (the toast is transient — no e2e face; the S31-2
+// navbar precedent): the stripped source must carry the
+// contains(activeElement) check and the sibling-focus handoff BEFORE
+// the dismiss call.
+describe("session-66 (S66-4): the dismiss click never drops focus to <body> (the focus-return doctrine's toast arm)", () => {
+  it("handleDismiss checks the active element and hands focus to the next remaining card's dismiss control before the store mutation", () => {
+    const code = stripComments(srcRaw);
+    // The rootRef exists and rides the card's root div.
+    expect(code).toContain("rootRef");
+    // The focus check precedes the store mutation, and the handoff
+    // targets the next remaining card's dismiss control (next sibling
+    // first, previous as the fallback).
+    expect(code).toMatch(
+      /rootRef\.current;[^]*?root\.contains\(document\.activeElement\)[^]*?nextElementSibling[^]*?previousElementSibling[^]*?\.focus\(\);[^]*?dismiss\(item\.id\);/,
+    );
   });
 });

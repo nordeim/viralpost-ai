@@ -164,6 +164,13 @@ export function GeneratorCard() {
       if (resetTimer.current) clearTimeout(resetTimer.current);
       resetTimer.current = setTimeout(() => setCopied(false), 2000);
     } catch {
+      // Session-66 (S66-6, AUDIT-2 I-1): the catch arm rides the SAME
+      // gate as the success continuation — a clipboard REJECTION
+      // landing after a regeneration or an unmount used to toast on
+      // whatever page the user is now on (the ungated residue of the
+      // S50-4/S51-2 doctrine; the comment blocks above claim the gate
+      // for "the continuation" and now mean both arms).
+      if (!mounted.current || epochAtCopy !== genEpoch.current) return;
       toast.error("Couldn't access the clipboard.");
     }
   };

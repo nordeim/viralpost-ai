@@ -16,6 +16,7 @@ const read = (p: string) => readFileSync(join(root, p), "utf8");
 // the battery in the session-65 plan record is the proof).
 function stripComments(src: string): string {
   return src
+    .replace(/\{\/\*[\s\S]*?\*\/\}/g, "")
     .replace(/\/\/[^\n]*/g, "")
     .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 }

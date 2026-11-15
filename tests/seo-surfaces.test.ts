@@ -25,9 +25,12 @@ import { siteUrl } from "@/lib/site";
 // pin joins them).
 // Session-48 (S48-1): the hardened form — line pass first, block
 // opener anchored (the S47-10 idiom; the one-idiom doctrine, the
-// family's only shape).
+// family's only shape). Session-66 (S66-5): the JSX-comment arm rides
+// FIRST (the battery-found third pass — a JSX comment is the one
+// comment family the anchored block pass never strips).
 function stripComments(src: string): string {
   return src
+    .replace(/\{\/\*[\s\S]*?\*\/\}/g, "")
     .replace(/\/\/[^\n]*/g, "")
     .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
 }

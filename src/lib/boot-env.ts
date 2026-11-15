@@ -612,22 +612,61 @@ function redactCredentials(url: string): string {
   // it (replace()'s match-consumption boundary made the extended tiers
   // un-expressible there — a replacement cannot consume past its
   // match, so the delimiter face duplicated the tail).
+  //
+  // Session-66 (S66-1, AUDIT-1-1 M — live-probed through the real
+  // warning builders): three residual classes still printed verbatim,
+  // closed here. (1) SCHEME-LESS credentialed values ('user:pass@host/
+  // db') fell through the !schemeMatch early return — now masked to
+  // the LAST @ (a no-@ value stays verbatim; nothing to hide). (2) A
+  // credential BEFORE the first scheme ('"admin:pass@host\npostgres://
+  // x/y') declined under the restAt > afterScheme guard — masking from
+  // afterScheme would keep the credential in the sliced prefix, so the
+  // whole prefix masks to the last @. (3) QUERY-PARAM credentials on
+  // an otherwise VALID url ('postgresql://host/db?user=u&password=p' —
+  // a documented libpq/Prisma spelling) never ride an @; the pass
+  // below runs on EVERY arm's output (a url can carry BOTH userinfo
+  // and a query password). The user= identity and host tails stay
+  // visible where parseable (the S65-1b visibility doctrine); every
+  // pinned S63-2/S64-1/S65-1 shape is byte-identical (none carries a
+  // query param or a scheme-less/pre-scheme form).
+  let masked: string;
   const schemeMatch = /([A-Za-z][A-Za-z0-9+.-]*:\/\/)/.exec(url);
-  if (!schemeMatch) return url;
-  const scheme = schemeMatch[1];
-  const afterScheme = schemeMatch.index + scheme.length;
-  const token = /^[^\s"']*/.exec(url.slice(afterScheme))?.[0] ?? "";
-  const tokenAt = token.lastIndexOf("@");
-  if (tokenAt !== -1) {
-    return url.slice(0, afterScheme) + "***" + token.slice(tokenAt) + url.slice(afterScheme + token.length);
+  if (!schemeMatch) {
+    // S66-1 face 2: the scheme-less value — mask to the last @ when
+    // one rides the input (over-redact; the safe direction).
+    const at = url.lastIndexOf("@");
+    masked = at === -1 ? url : "***" + url.slice(at);
+  } else {
+    const scheme = schemeMatch[1];
+    const afterScheme = schemeMatch.index + scheme.length;
+    const token = /^[^\s"']*/.exec(url.slice(afterScheme))?.[0] ?? "";
+    const tokenAt = token.lastIndexOf("@");
+    if (tokenAt !== -1) {
+      masked = url.slice(0, afterScheme) + "***" + token.slice(tokenAt) + url.slice(afterScheme + token.length);
+    } else {
+      // The control-char face: the password held whitespace/control
+      // bytes, so the token run ends before its @ — mask to the
+      // input's LAST @.
+      const restAt = url.lastIndexOf("@");
+      if (restAt > afterScheme) {
+        masked = url.slice(0, afterScheme) + "***" + url.slice(restAt);
+      } else if (restAt !== -1) {
+        // S66-1 face 3: the @ rides BEFORE the scheme — mask the WHOLE
+        // prefix (slicing from afterScheme would keep the credential
+        // in the prefix it skips over).
+        masked = "***" + url.slice(restAt);
+      } else {
+        masked = url;
+      }
+    }
   }
-  // The control-char face: the password held whitespace/control bytes,
-  // so the token run ends before its @ — mask to the input's LAST @.
-  const restAt = url.lastIndexOf("@");
-  if (restAt > afterScheme) {
-    return url.slice(0, afterScheme) + "***" + url.slice(restAt);
-  }
-  return url;
+  // S66-1 face 1: the query-param credentials (password/passfile/
+  // sslpassword — the libpq secret-bearing keys; user= is an identity,
+  // not a secret). Case-insensitive: over-redact, never under.
+  return masked.replace(
+    /([?&](?:password|passfile|sslpassword)=)[^&\s"']*/gi,
+    "$1***",
+  );
 }
 
 // Session-63 (S63-1, AUDIT-1 M1 — live-probed): the inert-VALUE

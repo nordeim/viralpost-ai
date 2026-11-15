@@ -147,6 +147,13 @@ function Toaster() {
 function ToastCard({ item }: { item: ToastItem }) {
   // Auto-dismiss (hover-pause via timer reset).
   const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Session-66 (S66-4, AUDIT-2 L-1): the dismiss FOCUS arm's root ref —
+  // the repo's focus-return doctrine (the navbar's three arms
+  // F11-11/S25-16/S31-2, the paywall swap S25-15, the login view swaps
+  // S19-10, the reset success swap S21-6) applied to the toast's own
+  // unmount path: dismissing the focused card used to drop focus to
+  // <body> (the next Tab resumed at the document top).
+  const rootRef = React.useRef<HTMLDivElement | null>(null);
   const [paused, setPaused] = React.useState(false);
 
   React.useEffect(() => {
@@ -157,8 +164,33 @@ function ToastCard({ item }: { item: ToastItem }) {
     };
   }, [paused, item.id]);
 
+  // The focus handoff rides BEFORE the store mutation (focus management
+  // on an unmounting node is a no-op — the S31-2 lesson). DOM order =
+  // tab order: the viewport's flex-col-reverse (phone) reorders
+  // VISUALS, never tabs, so the DOM-next card is the tab-next target;
+  // the previous card is the fallback when this is the newest. The
+  // last-card face falls back to <body> (the pre-cure behavior — no
+  // viewport focus target exists). The 5th-push eviction face
+  // (slice(-4) evicting a FOCUSED card from push(), which has no DOM
+  // seam) is REGISTERED — PAD §11 owns it. The S20-6 focus-pause arm
+  // means an auto-dismiss never fires while focus is inside the card,
+  // so the dismiss click is the sole focus-drop path this arm owns.
+  function handleDismiss(): void {
+    const root = rootRef.current;
+    if (root && root.contains(document.activeElement)) {
+      const next = (
+        root.nextElementSibling ?? root.previousElementSibling
+      )?.querySelector<HTMLButtonElement>(
+        "button[aria-label='Dismiss notification']",
+      );
+      next?.focus();
+    }
+    dismiss(item.id);
+  }
+
   return (
     <div
+      ref={rootRef}
       // Session-11 (F11-17): error toasts announce ASSERTIVELY
       // (role="alert"); every other variant stays polite (role="status").
       role={item.variant === "error" ? "alert" : "status"}
@@ -170,7 +202,7 @@ function ToastCard({ item }: { item: ToastItem }) {
         // D-124a7, s128/s129/s130, and walk22 below — are DONOR-LEDGER
         // numbers (the NEO-CRM/digma template family's own sessions and
         // findings), never this repo's docs/session_N.md; this repo's
-        // own ledger is docs/session_1..65.md (re-spelled session-38,
+        // own ledger is docs/session_1..66.md (re-spelled session-38,
         // S38-7c, to the census-legible range form — the docs-counts
         // lag invariant now owns this claim).
         // Session-131 (D-131a1): the scaffold-era data-[state] animation
@@ -205,7 +237,7 @@ function ToastCard({ item }: { item: ToastItem }) {
       </div>
       <button
         type="button"
-        onClick={() => dismiss(item.id)}
+        onClick={() => handleDismiss()}
         // Session-131 (D-131a0): the hover TEXT arm is the neutral-900
         // literal (the retired foreground-token hover ink #0a0a0a → the
         // neutral-900 form #171717) — the F-128c1 genus's FOURTH arm (s128

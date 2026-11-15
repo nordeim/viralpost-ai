@@ -568,7 +568,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 40 | 758 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 40 | 766 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 70 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -586,7 +586,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 758/70/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 766/70/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -694,6 +694,16 @@ delivery.
 
 | LOW | The limiter's rotation-hazard MEMORY face — every distinct client key mints a bucket; a sustained rotating-key attack on a misdeclared-topology deploy mints ~R × window live entries (reclaimed only at the sweep's watermark crossing) plus a full-map walk per earliest-expiry crossing (session-64, S64-8, AUDIT-1 I2) | Resource-exhaustion surface on a direct-exposed/misdeclared deploy only; behind a correctly-declared proxy the attacker cannot choose the trusted hop | Accepted + registered (the documented single-node posture's other face; the S9-1 boot warning's "fresh rate-limit bucket per request" clause carries the map-growth cost — named at the module header in `src/lib/rate-limit.ts`) |
 | LOW | `flex-shrink-0` at 3 sections.tsx sites is a v3-era alias — Tailwind 4.3.3 still generates it (compile-verified session-64, AUDIT-2 I2), but the canonical v4 name is `shrink-0` | None today; a future Tailwind major that drops the alias silently kills the no-shrink on the benefit-card icon tiles and both pricing checkmark circles | Accepted + registered: normalize to `shrink-0` the next time sections.tsx is touched for class reasons (neither spelling is test-pinned — verified) |
+| LOW | The auth gates key on exact `NODE_ENV === "production"` (auth.ts secret() + the boot gate's isProduction) — any other value (`staging`) silently gets the hardcoded DEV session secret with one console.warn (session-66, AUDIT-1 I-2) | A mis-deployed non-dev environment serves forgeable sessions | Accepted + registered: the documented postures are dev/test/production (DEPLOYMENT.md); the fail-closed lift (treat unknown values as production for the secret gate) is the named cure if the posture set ever grows |
+| LOW | scrypt rides Node's default cost (N=16384, r=8, p=1) — below current OWASP guidance (N=2^17); the `scrypt:salt:hash` format carries no cost parameters (session-66, AUDIT-1 I-3) | Offline-attack residual only (DB compromise + hash read); login is rate-limited 10/15min/IP | Accepted + registered: the lift requires format versioning (`scrypt:2:…`) + verify-time fallback + rehash-on-successful-login — a deliberate future-hardening item, not a defect |
+| LOW | The mobile menu survives an md-crossing rotation: at 390×844 portrait with the menu open, rotating to 844px landscape crosses md (768) — both toggle and panel go `display:none` while `open` stays true; rotating back re-reveals the still-open menu (session-66, AUDIT-2 I-3) | Edge-case UX/a11y roughness on device rotation (a focus fall if focus was inside the panel) | Accepted + registered: reference-identical behavior (the reference's own md:hidden family behaves the same) and the S26-3 cure consciously left `open` surviving the crossing; a `matchMedia("(min-width: 768px)")` close with the focus-return idiom is the documented superset lift |
+| LOW | particle-text rebuilds the particle field on every undebounced resize event (~1-2ms per event, desktop drag only; the S13-7 posture, openly described in the file's own comments) (session-66, AUDIT-2 I-5) | Bounded wasted work; no leak, no visual defect | Accepted + registered (the S13-7 posture); a ~100ms debounce or rAF-coalesced rebuild is the lift if the file is ever touched for performance |
+| LOW | The auth pages' `export const dynamic = "force-dynamic"` is unpinned (the API family's is census-pinned S46-1, the SEO family's force-static S37-4) (session-66, AUDIT-3 I-3) | None green-shipping: dropping /login's export trips Next's useSearchParams-without-Suspense prerender error at `next build` | Accepted + registered (build-caught): extend the S46-1 census shape to the three page files if the posture ever needs a unit owner |
+| LOW | Zero structured data (no JSON-LD/schema.org anywhere in src/) (session-66, AUDIT-3 I-4) | None for parity (the reference ships none — its SPA head has no structured data; absence IS the parity posture) | Accepted + registered: Organization/WebApplication JSON-LD is the named organic-search superset opportunity if the operator wants it |
+| LOW | `Number(e2ePort())` has no NaN guard — a non-numeric `E2E_PORT` yields `http://localhost:NaN` and fails at webServer boot with a 60s timeout + an opaque URL (session-66, AUDIT-3 I-6) | Operator-error class; fails loudly, never green | Accepted + registered: a NaN/integer validation in e2ePort() throwing with the knob name is the lift |
+| LOW | The toast 5th-push eviction face: `slice(-4)` in push() can evict a card that currently HOLDS FOCUS (the S20-6 focus-pause arm only guards the auto-dismiss path, not the eviction) (session-66, AUDIT-2 L-1's registered face) | Focus falls to <body> when a focused toast is evicted by four newer pushes | Accepted + registered: push() has no DOM seam; the Toaster-side eviction-detection layout effect is the lift if the face ever matters |
+| LOW | The 404 head's og:url/og:image keep advertising the LANDING's family (the root layout's openGraph) beside the S66-3 self-canonical (session-66, AUDIT-3-1's registered face) | Link previews of 404 URLs show the site card (arguably desirable); zero SEO weight on a noindexed page | Accepted + registered: rebuilding the full OG object in the catchAll layout would forfeit the inherited family for nothing — the documented posture |
+| LOW | The a11y-controls suite reads its TSX sources RAW (no stripComments helper — the S65-4/S66-5 genus, unaudited this round) + the design-tokens dead-token src sweeps face the JSX false-ALIVE genus (a token mentioned only in a JSX comment counts as a consumer) (session-66, S66-5's registered faces) | Latent only: no live vacuous instance (spot-verified); the a11y-controls pins could be disarmed by a JSX-commented literal; the design-tokens census could false-alive a dead token | Accepted + registered for the next touch of either file: route a11y-controls' positives through readCode; chain the JSX arm into the two design-tokens sweep sites |
 Swept at session-2 ship — no open CRITICAL/HIGH items.
 
 ---
@@ -718,11 +728,11 @@ commit as the file.)
 | `src/lib/api.ts` | 323 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2; the transient-abort classifier, session-37, S37-2; the seam's own transient arm, session-38, S38-1; the two-code 503 taxonomy note, session-46 S46-7) |
 | `src/app/globals.css` | 259 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1; the dead single-word-rule genus note, session-63 S63-5) |
 | `src/components/marketing/navbar.tsx` | 284 | The nav + the mobile menu (parity-verified) |
-| `src/components/marketing/generator-card.tsx` | 318 | The core surface: quota dots, generate, copy, paywall (the S50-4 copy-epoch guard + the S51-2 unmount-mounted gate, StrictMode re-armed S52-1; the S59-2 double-blank collapse — whitespace-only) |
+| `src/components/marketing/generator-card.tsx` | 325 | The core surface: quota dots, generate, copy, paywall (the S50-4 copy-epoch guard + the S51-2 unmount-mounted gate, StrictMode re-armed S52-1; the S59-2 double-blank collapse — whitespace-only) |
 | `src/components/effects/iridescence.tsx` | 273 | The WebGL hero background (aspect-aware shader) |
 | `src/components/effects/particle-text.tsx` | 331 | The canvas particle title |
 | `src/components/effects/floating-icons.tsx` | 122 | The monetization section's ten-icon float field (session-19, S19-2) |
-| `src/app/[...catchAll]/layout.tsx` | 32 | The 404 title owner (ADR-006) |
+| `src/app/[...catchAll]/layout.tsx` | 47 | The 404 title owner (ADR-006) + the self-canonical (S66-3) |
 | `src/app/api/[...path]/route.ts` | 43 | The API subtree's envelope 404 (session-15, S15-7; OPTIONS joined session-18, S18-2) |
 | `src/app/api/route.ts` | 51 | The bare `/api` envelope 404 (session-16, S16-2; OPTIONS joined session-18, S18-2) |
 | `prisma/schema.prisma` | 64 | User + ContactMessage |

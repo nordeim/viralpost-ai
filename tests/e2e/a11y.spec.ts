@@ -63,8 +63,59 @@ const SANCTIONED: Record<string, Array<{ any: string[]; cite: string }>> = {
       any: ["text-slate-500"],
       cite: "the footer copyright lines — the reference's own palette",
     },
+    {
+      // Session-66 (S66-2, AUDIT-2 M-1 — live-probed): the light-card
+      // teal-600 family — the testimonial handles (text-teal-600
+      // #0d9488 at 12px on the bg-slate-50 cards = 3.57:1, under the
+      // 4.5:1 AA floor) + the post-generation "Generated Post" label's
+      // state-only face (generator-card:278). The reference's own
+      // palette, class-for-class parity — adjudicated, never restyled
+      // (the doctrine this register exists for). The family was
+      // INVISIBLE to the battery before the S66-2 scroll-settle pass
+      // (every below-fold Reveal sat at opacity: 0, which axe skips);
+      // the other text-teal-600 rides aria-hidden icons (never
+      // text-flagged) and the copy button's hover:text-teal-600 computes
+      // slate-500 at rest (this entry's substring match covers them
+      // harmlessly — the over-broad direction).
+      any: ["text-teal-600"],
+      cite: "the testimonial handles + the generated-post label on the light cards — the reference's own palette",
+    },
   ],
 };
+
+// Session-66 (S66-2, AUDIT-2 M-1 — live-probed): the SCROLL-SETTLE
+// pass. The battery ran goto → networkidle → axe with NO scroll, so
+// every below-fold Reveal wrapper sat at opacity: 0 and axe SKIPPED
+// it — the sanctioned register's coverage claim was validated only
+// against the unscrolled DOM (the live probe: a slow-scroll + settle
+// run surfaced 9 violations, 3 of them UNADJUDICATED — the testimonial
+// handles this round's register entry now owns). Every Reveal is
+// ONE-WAY (settle() + io.disconnect — reveal.tsx), so a stepwise walk
+// through the page settles each wrapper permanently; the poll then
+// waits until no div still carries the hidden inline opacity (reads
+// el.style.opacity — serialization-independent) before axe runs.
+// Applied to the marketing surfaces + the 404 (harmless where no
+// Reveal rides); the logged-out auth surfaces carry none — unchanged.
+async function revealSettle(page: import("@playwright/test").Page): Promise<void> {
+  await page.evaluate(async () => {
+    const height = document.documentElement.scrollHeight;
+    const step = Math.max(200, Math.floor(window.innerHeight / 2));
+    for (let y = 0; y < height; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => setTimeout(r, 150));
+    }
+    const deadline = Date.now() + 5000;
+    while (Date.now() < deadline) {
+      const hidden = Array.from(document.querySelectorAll<HTMLElement>("div")).filter(
+        (el) => el.style.opacity === "0",
+      );
+      if (hidden.length === 0) break;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+    window.scrollTo(0, 0);
+    await new Promise((r) => setTimeout(r, 150));
+  });
+}
 
 async function axeViolations(page: import("@playwright/test").Page): Promise<Violation[]> {
   await page.addScriptTag({ path: AXE_PATH });
@@ -116,6 +167,9 @@ for (const width of WIDTHS) {
       test(`${surface.name} — named controls, labels, contrast`, async ({ page }) => {
         await page.goto(surface.path);
         await page.waitForLoadState("networkidle");
+        // S66-2: the settled DOM — the register is exercised against
+        // the page the visitor actually scrolls to, not the fold.
+        await revealSettle(page);
         const violations = await axeViolations(page);
         assertAdjudicated(violations);
       });
@@ -123,6 +177,7 @@ for (const width of WIDTHS) {
 
     test(`404 — the not-found surface`, async ({ page }) => {
       await page.goto("/definitely-not-a-route");
+      await revealSettle(page);
       const violations = await axeViolations(page);
       assertAdjudicated(violations);
     });

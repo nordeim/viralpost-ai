@@ -27,7 +27,7 @@
 // RED at birth (the files do not exist yet); GREEN when WP-4/WP-5 land.
 // Lineage note (session-21, S21-12): the scandihaven/s169 citations
 // are donor-ledger numbers (the template family's repos); this repo's
-// own sessions are docs/session_1..65.
+// own sessions are docs/session_1..66.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -36,11 +36,27 @@ import { describe, expect, it } from "vitest";
 const root = join(import.meta.dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
 
+// Session-66 (S66-5, AUDIT-3-2 L): the house stripComments idiom (the
+// S48-1 hardened form + the S66-5 battery-found JSX-comment arm that
+// rides FIRST — the page-titles S65-4 cure generalized).
+// POSITIVE pins read code-only (readCode); negative pins stay on the
+// RAW read (the stricter form). The smoke-script describe stays RAW
+// entirely — bash comments (#) are a different grammar, and the TS
+// // stripper would eat live bash text.
+function stripComments(s: string): string {
+  return s
+    .replace(/\{\/\*[\s\S]*?\*\/\}/g, "")
+    .replace(/\/\/[^\n]*/g, "")
+    .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
+}
+const readCode = (p: string) => stripComments(read(p));
+
 describe("session-170 (WP-4): the route-segment boundary (src/app/error.tsx)", () => {
   const src = read("src/app/error.tsx");
+  const code = readCode("src/app/error.tsx");
 
   it('is a client component ("use client")', () => {
-    expect(src).toContain('"use client"');
+    expect(code).toContain('"use client"');
   });
 
   it("wires the stale-chunk self-heal in useEffect with the [error] deps + the guarded storage (S22-4)", () => {
@@ -48,21 +64,21 @@ describe("session-170 (WP-4): the route-segment boundary (src/app/error.tsx)", (
     // storage null — the cooldown and the loop guard were inert in
     // production. The boundary now hands the guarded sessionStorage
     // accessor (a throwing access still disables the reload).
-    expect(src).toContain("reloadOnStaleChunk(error, { storage: safeSessionStorage() })");
-    expect(src).toMatch(/useEffect\(\(\) => \{[\s\S]*?reloadOnStaleChunk\(error[\s\S]*?\}, \[error\]\)/);
-    expect(src).toMatch(/function safeSessionStorage\(\)[\s\S]*?try[\s\S]*?window\.sessionStorage[\s\S]*?catch[\s\S]*?return null/);
+    expect(code).toContain("reloadOnStaleChunk(error, { storage: safeSessionStorage() })");
+    expect(code).toMatch(/useEffect\(\(\) => \{[\s\S]*?reloadOnStaleChunk\(error[\s\S]*?\}, \[error\]\)/);
+    expect(code).toMatch(/function safeSessionStorage\(\)[\s\S]*?try[\s\S]*?window\.sessionStorage[\s\S]*?catch[\s\S]*?return null/);
   });
 
   it("carries the reset() Try-again affordance + the digest ref", () => {
-    expect(src).toContain("reset");
-    expect(src).toContain("Try again");
-    expect(src).toContain("error.digest");
+    expect(code).toContain("reset");
+    expect(code).toContain("Try again");
+    expect(code).toContain("error.digest");
   });
 
   it("carries the copy vocabulary", () => {
-    expect(src).toContain("Something went wrong");
-    expect(src).toContain("An unexpected error occurred");
-    expect(src).toContain("We have logged the issue");
+    expect(code).toContain("Something went wrong");
+    expect(code).toContain("An unexpected error occurred");
+    expect(code).toContain("We have logged the issue");
   });
 
   it("imports NOTHING from the component tree beyond the recovery seam (the resilience posture)", () => {
@@ -81,27 +97,28 @@ describe("session-170 (WP-4): the route-segment boundary (src/app/error.tsx)", (
 
 describe("session-170 (WP-4): the root boundary (src/app/global-error.tsx)", () => {
   const src = read("src/app/global-error.tsx");
+  const code = readCode("src/app/global-error.tsx");
 
   it('is a client component ("use client")', () => {
-    expect(src).toContain('"use client"');
+    expect(code).toContain('"use client"');
   });
 
   it("renders its own <html lang> + <body> (it replaces the crashed root layout)", () => {
-    expect(src).toMatch(/<html lang="en">/);
-    expect(src).toMatch(/<body/);
+    expect(code).toMatch(/<html lang="en">/);
+    expect(code).toMatch(/<body/);
   });
 
   it("imports ./globals.css itself (a crashed root layout never loaded it)", () => {
-    expect(src).toContain('import "./globals.css"');
+    expect(code).toContain('import "./globals.css"');
   });
 
   it("wires the same recovery + copy + reset contract as the segment boundary", () => {
-    expect(src).toContain("reloadOnStaleChunk(error, { storage: safeSessionStorage() })");
-    expect(src).toContain("reset");
-    expect(src).toContain("Try again");
-    expect(src).toContain("error.digest");
-    expect(src).toContain("Something went wrong");
-    expect(src).toContain("An unexpected error occurred");
+    expect(code).toContain("reloadOnStaleChunk(error, { storage: safeSessionStorage() })");
+    expect(code).toContain("reset");
+    expect(code).toContain("Try again");
+    expect(code).toContain("error.digest");
+    expect(code).toContain("Something went wrong");
+    expect(code).toContain("An unexpected error occurred");
   });
 
   it("imports NOTHING from the component tree beyond the recovery seam", () => {
@@ -189,9 +206,10 @@ describe("session-22 (S22-10): the error boundaries hold the AA floor on their o
   // source it( blocks, so no loop registration.)
   it("src/app/error.tsx: the h1 holds large-text AA + the button is keyboard-only focus ring", () => {
     const src = read("src/app/error.tsx");
-    expect(src).toContain('<h1 className="text-4xl font-light text-slate-500">');
+    const code = readCode("src/app/error.tsx");
+    expect(code).toContain('<h1 className="text-4xl font-light text-slate-500">');
     expect(src).not.toContain("text-slate-300");
-    expect(src).toMatch(
+    expect(code).toMatch(
       /focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/,
     );
     expect(src).not.toMatch(/[^-]focus:outline-none/);
@@ -199,9 +217,10 @@ describe("session-22 (S22-10): the error boundaries hold the AA floor on their o
 
   it("src/app/global-error.tsx: the h1 holds large-text AA + the button is keyboard-only focus ring", () => {
     const src = read("src/app/global-error.tsx");
-    expect(src).toContain('<h1 className="text-4xl font-light text-slate-500">');
+    const code = readCode("src/app/global-error.tsx");
+    expect(code).toContain('<h1 className="text-4xl font-light text-slate-500">');
     expect(src).not.toContain("text-slate-300");
-    expect(src).toMatch(
+    expect(code).toMatch(
       /focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/,
     );
     expect(src).not.toMatch(/[^-]focus:outline-none/);
@@ -217,12 +236,12 @@ describe("session-22 (S22-10): the error boundaries hold the AA floor on their o
 // surface is untouched.
 describe("session-25 (S25-8): the boundary cards ANNOUNCE themselves (role=alert on the crash root)", () => {
   it("src/app/error.tsx: the route-segment card root carries role=alert", () => {
-    const src = read("src/app/error.tsx");
+    const src = readCode("src/app/error.tsx");
     expect(src).toMatch(/role="alert"/);
   });
 
   it("src/app/global-error.tsx: the root card carries role=alert", () => {
-    const src = read("src/app/global-error.tsx");
+    const src = readCode("src/app/global-error.tsx");
     expect(src).toMatch(/role="alert"/);
   });
 });

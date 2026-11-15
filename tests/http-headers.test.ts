@@ -36,6 +36,21 @@ const readOr = (rel: string): string => {
   return existsSync(p) ? readFileSync(p, "utf8") : "";
 };
 
+// Session-66 (S66-5, AUDIT-3-2 L): the house stripComments idiom (the
+// S48-1 hardened form + the S66-5 battery-found JSX-comment arm that
+// rides FIRST — the page-titles S65-4 cure generalized). The
+// POSITIVE config pins read code-only so an explanatory comment
+// quoting a pinned literal can never satisfy one; the includeSubDomains/
+// preload negatives stay on the RAW read (the stricter form — a comment
+// mentioning them REDs, the current posture).
+function stripComments(s: string): string {
+  return s
+    .replace(/\{\/\*[\s\S]*?\*\/\}/g, "")
+    .replace(/\/\/[^\n]*/g, "")
+    .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
+}
+const configCode = () => stripComments(readOr("next.config.ts"));
+
 const configSrc = () => readOr("next.config.ts");
 // Session-25 (S25-12): the sitemap/robots/manifest source helpers
 // retired with the content-type trio (seo-surfaces owns the runtime
@@ -43,42 +58,43 @@ const configSrc = () => readOr("next.config.ts");
 
 describe("session-8: the security-header set (re-attributed from the CRM template's session-20 S20-P1/P2/P3 — session-21, S21-12)", () => {
   it("next.config.ts declares an async headers() field", () => {
-    const src = configSrc();
+    const src = configCode();
     expect(src).toMatch(/async\s+headers\s*\(\s*\)\s*\{/);
   });
 
   it("headers() covers every path (source: \"/:path*\")", () => {
-    const src = configSrc();
+    const src = configCode();
     expect(src).toContain('source: "/:path*"');
   });
 
   it("ships Referrer-Policy: strict-origin-when-cross-origin (CRM s20-P1, re-attributed)", () => {
-    const src = configSrc();
+    const src = configCode();
     expect(src).toMatch(
       /key:\s*"Referrer-Policy",\s*value:\s*"strict-origin-when-cross-origin"/,
     );
   });
 
   it("ships X-Content-Type-Options: nosniff (CRM s20-P2, re-attributed)", () => {
-    const src = configSrc();
+    const src = configCode();
     expect(src).toMatch(
       /key:\s*"X-Content-Type-Options",\s*value:\s*"nosniff"/,
     );
   });
 
   it("ships Strict-Transport-Security: max-age=31536000 — bare, the reference's exact value (CRM s20-P3, re-attributed)", () => {
-    const src = configSrc();
+    const src = configCode();
     expect(src).toMatch(
       /key:\s*"Strict-Transport-Security",\s*value:\s*"max-age=31536000"/,
     );
     // The reference ships NO includeSubDomains and NO preload — the pin
     // must not invent them.
-    expect(src).not.toMatch(/includeSubDomains/);
-    expect(src).not.toMatch(/preload/);
+    const raw = configSrc();
+    expect(raw).not.toMatch(/includeSubDomains/);
+    expect(raw).not.toMatch(/preload/);
   });
 
   it("the standing config pins survive (standalone output + tracing root + no dev indicator)", () => {
-    const src = configSrc();
+    const src = configCode();
     expect(src).toContain('output: "standalone"');
     expect(src).toContain("outputFileTracingRoot");
     expect(src).toContain("devIndicators: false");

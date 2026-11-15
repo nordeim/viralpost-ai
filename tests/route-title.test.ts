@@ -74,3 +74,39 @@ describe("unknownRouteTitle: the reference's unknown-route scheme", () => {
     expect(unknownRouteTitle("/")).toBe("ViralPost AI");
   });
 });
+
+// Session-66 (S66-3, AUDIT-3-1 L — live-probed on the standalone
+// build): the 404 head's SELF-CANONICAL. The catchAll layout's
+// generateMetadata returned only the title, so Next shallow-merged
+// over the root layout's metadata and every 404 shipped the LANDING's
+// canonical (`<link rel="canonical" href="<origin>"/>`) + og:url at
+// the origin root while simultaneously emitting noindex — a mixed
+// signal with ZERO owners (the e2e 404 test asserted title/noindex/
+// body; smoke leg 06 title/noindex). The cure: the layout declares
+// the request path its own canonical (the pageMetadata factory's
+// relative form — metadataBase resolves it); the root layout's og
+// family stays (the shallow-merge replacement cost of rebuilding the
+// full OG object buys nothing on a noindexed page — REGISTERED).
+// Behavioral pin: the LAYOUT's own generateMetadata, called with the
+// params shape Next passes — the title asserts the KNOWN literal (an
+// independent source of truth, never a re-derivation through
+// unknownRouteTitle), the canonical asserts the request path.
+describe("session-66 (S66-3): the 404 head's self-canonical (the catchAll layout's metadata)", () => {
+  it("generateMetadata carries the request path's canonical — never the landing's — beside the derived title", async () => {
+    const { generateMetadata } = await import("@/app/[...catchAll]/layout");
+    const meta = await generateMetadata({
+      params: Promise.resolve({ catchAll: ["definitely-not-a-route"] }),
+    });
+    expect(meta.alternates?.canonical).toBe("/definitely-not-a-route");
+    // The known literal (the e2e family's own probe route).
+    expect(meta.title).toEqual({ absolute: "Definitely Not A Route | ViralPost AI" });
+  });
+
+  it("a deep path canonical joins every segment (the layout owns the join, not the title's last-segment rule)", async () => {
+    const { generateMetadata } = await import("@/app/[...catchAll]/layout");
+    const meta = await generateMetadata({
+      params: Promise.resolve({ catchAll: ["nested", "not-a-route"] }),
+    });
+    expect(meta.alternates?.canonical).toBe("/nested/not-a-route");
+  });
+});
