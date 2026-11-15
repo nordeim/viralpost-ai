@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..64.
+// are docs/session_1..65.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -1178,5 +1178,60 @@ describe("session-64 (S64-5): the inert-value exemption literal mirrors db-path'
     // Both literals exist (the regexes found their lines) and agree.
     expect(dbConst).toBe("file:../db/custom.db");
     expect(exemption).toBe(dbConst);
+  });
+});
+
+// Session-65 (S65-1, AUDIT-1 M-1 — live-probed): the delimiter bypass.
+// The S64-1b authority-scoped regex captures the authority with
+// [^/?#\s"']* (RFC 3986 grammar scope). A password carrying a URL
+// delimiter (/, ?, #) or a control char BEFORE the @ stops the capture
+// early — the captured segment carries no @ at all, the at === -1 arm
+// returns it verbatim, and the password prints to stdout (bun run
+// start's tee server.log persists it). The probes:
+//   redactCredentials('postgresql://admin:p/ss@host/db')    → unchanged (prints p/ss)
+//   redactCredentials('"postgresql://admin:pa\tss@host/db') → unchanged (prints pa<TAB>ss — the
+//     tab simultaneously fires the residue warning, so the diagnostic arm
+//     printed the very bytes it was diagnosing)
+// The exact malformed-value class these arms exist to print is the
+// class that defeated the cure. The malformed arm masks from the scheme
+// to the LAST @ of the raw remainder; every pinned S63-2/S64-1 shape is
+// byte-identical under it.
+describe("session-65 (S65-1): a delimiter/control char inside the password never prints (the grammar-scope bypass)", () => {
+  it("a /-in-password and a tab-in-password value answer ***@… on both residue arms — the password fragment is absent everywhere", () => {
+    // The process-env arm: the unclosed-quote residue (the print
+    // vehicle) on a value whose password embeds a slash — the capture
+    // stops at the /, before the @.
+    const slash = bootEnvCheck(env({ DATABASE_URL: '"postgresql://admin:p/ss@db.example.com/prod' }));
+    const slashJoined = (slash.warnings ?? []).join("\n");
+    expect(slashJoined).toContain("***@");
+    expect(slashJoined).not.toContain("p/ss");
+    expect(slashJoined).not.toContain("admin:p");
+
+    // The file-face arm: the same slash shape through the prefix.
+    const slashFace = databaseUrlFileResidueWarning(
+      { NODE_ENV: "production" },
+      '"postgresql://admin:p/ss@db.example.com/prod',
+    );
+    expect(slashFace).toContain("***@");
+    expect(slashFace).not.toContain("p/ss");
+
+    // The tab face: the control char both defeats the grammar-scoped
+    // capture AND fires the residue warning — the redaction must hold
+    // on the same print that names the control char.
+    const tabFace = databaseUrlFileResidueWarning(
+      { NODE_ENV: "production" },
+      '"postgresql://admin:pa\tss@db.example.com/prod',
+    );
+    expect(tabFace).toContain("***@");
+    expect(tabFace).not.toContain("pa\tss");
+    expect(tabFace).not.toContain("admin:pa");
+
+    // The clean file: contract stays verbatim (no userinfo — no false
+    // redaction; the S60-1b faces hold).
+    const fileValue = databaseUrlFileResidueWarning(
+      { NODE_ENV: "production" },
+      "file:../db/custom.db\tjunk",
+    );
+    expect(fileValue).toContain("file:../db/custom.db\\tjunk");
   });
 });

@@ -36,6 +36,16 @@ function main(): void {
     stdio: "inherit",
     env: { ...process.env, DATABASE_URL: runtimeDatabaseUrl() },
   });
+  // Session-65 (S65-5, AUDIT-1 L-1): the spawn-failure arm. Node's
+  // spawnSync semantics — a spawn failure (ENOENT, EACCES) leaves
+  // status null and error set; without this arm the wrapper exited 1
+  // with ZERO diagnostics (a bare non-zero `bun run db:push`). The
+  // error prints before the status exit; pinned by the S65-5 arm in
+  // tests/gate-script.test.ts (which also pins the ordering).
+  if (result.error) {
+    console.error(result.error);
+    process.exit(1);
+  }
   process.exit(result.status ?? 1);
 }
 

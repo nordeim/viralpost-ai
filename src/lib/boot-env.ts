@@ -596,13 +596,38 @@ export function databaseUrlFileResidueWarning(
 // one-owner doctrine is "the password never prints". Every pinned
 // S63-2 shape is byte-identical under this form.
 function redactCredentials(url: string): string {
-  return url.replace(
-    /([A-Za-z][A-Za-z0-9+.-]*:\/\/)([^/?#\s"']*)/g,
-    (_m, scheme: string, authority: string) => {
-      const at = authority.lastIndexOf("@");
-      return at === -1 ? scheme + authority : `${scheme}***${authority.slice(at)}`;
-    },
-  );
+  // Session-65 (S65-1, AUDIT-1 M-1 — live-probed): the manual scan
+  // replaces the S64-1 replace() form. The grammar-scoped authority
+  // ([^/?#\s"']*) stopped at / ? # whitespace and quotes — a password
+  // carrying one of those BEFORE its @ left the captured segment @-less
+  // and printed VERBATIM ('postgresql://admin:p/ss@host/db' printed
+  // p/ss; the tab form printed pa<TAB>ss while the residue warning
+  // named the very control char it was printing). The scan form masks
+  // to the LAST @ of the token run (the whitespace/quote-bounded run
+  // after the scheme), then falls back to the LAST @ of the whole
+  // input (the whole input is one env value, so the tail is still the
+  // value's) — over-redacting rather than under-redacting (an @-in-path
+  // token mangles to ***@tail; the safe direction; no pinned shape
+  // covers it). Every pinned S63-2/S64-1 shape is byte-identical under
+  // it (replace()'s match-consumption boundary made the extended tiers
+  // un-expressible there — a replacement cannot consume past its
+  // match, so the delimiter face duplicated the tail).
+  const schemeMatch = /([A-Za-z][A-Za-z0-9+.-]*:\/\/)/.exec(url);
+  if (!schemeMatch) return url;
+  const scheme = schemeMatch[1];
+  const afterScheme = schemeMatch.index + scheme.length;
+  const token = /^[^\s"']*/.exec(url.slice(afterScheme))?.[0] ?? "";
+  const tokenAt = token.lastIndexOf("@");
+  if (tokenAt !== -1) {
+    return url.slice(0, afterScheme) + "***" + token.slice(tokenAt) + url.slice(afterScheme + token.length);
+  }
+  // The control-char face: the password held whitespace/control bytes,
+  // so the token run ends before its @ — mask to the input's LAST @.
+  const restAt = url.lastIndexOf("@");
+  if (restAt > afterScheme) {
+    return url.slice(0, afterScheme) + "***" + url.slice(restAt);
+  }
+  return url;
 }
 
 // Session-63 (S63-1, AUDIT-1 M1 — live-probed): the inert-VALUE

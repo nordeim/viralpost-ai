@@ -144,4 +144,22 @@ describe("session-11: the gate-script pins (the neo-crm adoption)", () => {
     expect(existsSync(path.resolve(import.meta.dirname, "..", "scripts", "prisma-env.ts"))).toBe(true);
     expect(existsSync(path.resolve(import.meta.dirname, "..", "prisma", "seed.ts"))).toBe(true);
   });
+
+  // Session-65 (S65-5, AUDIT-1 L-1): the wrapper's spawn-failure arm.
+  // spawnSync's result carries result.error (Node's semantics: a spawn
+  // failure — ENOENT, EACCES — leaves status null and error set), and
+  // the S29-6 wrapper never inspected it: a failed spawn exited 1 with
+  // ZERO diagnostics — `bun run db:push` failed as a bare non-zero
+  // exit. The arm prints the spawn error before the status exit.
+  it("S65-5: the prisma-env wrapper surfaces spawn failures (result.error inspected before the status exit)", () => {
+    const src = readFileSync(
+      path.resolve(import.meta.dirname, "..", "scripts", "prisma-env.ts"),
+      "utf8",
+    );
+    expect(src).toContain("if (result.error)");
+    expect(src).toContain("console.error(result.error)");
+    // The arm rides AHEAD of the status exit (an arm after the exit is
+    // dead code).
+    expect(src.indexOf("if (result.error)")).toBeLessThan(src.indexOf("process.exit(result.status"));
+  });
 });

@@ -568,7 +568,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 40 | 755 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 40 | 758 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 70 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -586,7 +586,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 755/70/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 758/70/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -689,6 +689,8 @@ delivery.
 | LOW | The signup first-user-admin bootstrap race — `findUnique → count → create` is not atomic, so two concurrent different-email signups on a never-seeded table can both read count 0 and both mint `role: "admin"` (session-44, S44-7; live-reproduced on a scratch SQLite db) | A fresh-clone-only window can mint two admins | Accepted + documented in-route: `role` is inert in this tree (echoed by login/me, consumed by no authorization gate), and any seeded deployment (the census contract: 1 user pristine) already carries the admin demo user — the empty-table window never opens; the `$transaction` lift is deliberately not taken (a write-lock transaction for an inert field is not worth the contention on the hot signup path) |
 | LOW | The forgot-password link clobber — each request overwrites the user's live `resetToken` row (`db.user.update` on the same record, session-50 S50-13 register), so a second request invalidates the first's link mid-flight | A user who re-requests kills their own earlier link (rate-limited 10/IP/15min, `forgot:` bucket) | Accepted (session-50, S50-13): subsumed by the demo in-app delivery posture — the fresh link is delivered in-response, so the overwrite is self-healing for the demo user; the single-row serialization lift is not worth the hot-path contention |
 | LOW | ~20 dead single-word utility rules ship in the built stylesheet (`.{collapse, visible, invisible, static, inline, table, container×5, contents, shrink, grow, lowercase, resize, transform, outline, shadow, blur, invert, filter, transition, ring}` — session-63, S63-5, AUDIT-2 L1) | ~1.9-2.4 KB of the 64.5 KB sheet (~3-3.7%), zero functional impact, no compound utility depends on them (verified against the built artifact) | Accepted + registered (the S35-1 scoping's documented limit): v4's candidate scanner reads ALL src/ text, and the feeders are unavoidable English prose ("the ContactMessage table", "grow your audience") + the literal `"resize"` DOM event-name string — dictionary words and API strings are not prose-safe-able (the S28-4 doctrine's boundary); the genus note lives at the `@import` scoping site in `src/app/globals.css` |
+| LOW | The auth forms' `noValidate` renders their constraint attributes advisory-only (session-65, AUDIT-2 I-1): the password/confirm inputs carry `required minLength={8}` but browser validation never fires — the server's Zod banner owns the UX (the deliberate single-error pattern); the S28-5 pin asserts attribute PRESENCE as an a11y family face, not behavioral effect | None functional (server owns validation); the risk is a future maintainer reading the attrs as live | Accepted + registered — the in-code note rides the S28-5 pin's comment; dropping the attrs is the alternative cure, kept for intent-documentation |
+| LOW | The reveal-wrapped sections stay `opacity: 0` if JS never loads (session-65, AUDIT-2 I-2): SSR ships the hidden inline form — the documented S32-4 parity posture (the reference's framer-motion `whileInView` initial state is identical; an SPA is strictly worse without JS) | No-JS visitors see the navbar/footer/unwrapped content only | Accepted + registered (parity doctrine); a `<noscript>` style override is the cheap future superset if ever wanted |
 
 | LOW | The limiter's rotation-hazard MEMORY face — every distinct client key mints a bucket; a sustained rotating-key attack on a misdeclared-topology deploy mints ~R × window live entries (reclaimed only at the sweep's watermark crossing) plus a full-map walk per earliest-expiry crossing (session-64, S64-8, AUDIT-1 I2) | Resource-exhaustion surface on a direct-exposed/misdeclared deploy only; behind a correctly-declared proxy the attacker cannot choose the trusted hop | Accepted + registered (the documented single-node posture's other face; the S9-1 boot warning's "fresh rate-limit bucket per request" clause carries the map-growth cost — named at the module header in `src/lib/rate-limit.ts`) |
 | LOW | `flex-shrink-0` at 3 sections.tsx sites is a v3-era alias — Tailwind 4.3.3 still generates it (compile-verified session-64, AUDIT-2 I2), but the canonical v4 name is `shrink-0` | None today; a future Tailwind major that drops the alias silently kills the no-shrink on the benefit-card icon tiles and both pricing checkmark circles | Accepted + registered: normalize to `shrink-0` the next time sections.tsx is touched for class reasons (neither spelling is test-pinned — verified) |

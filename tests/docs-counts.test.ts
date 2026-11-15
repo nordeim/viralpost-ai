@@ -410,7 +410,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 755;
+const UNIT = 758;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -1230,9 +1230,12 @@ describe("docs-counts: session-12 — the semantic-prose census starter (N12-1)"
 describe("docs-counts: session-34 (S34-5) — the provenance-range census (the lag invariant)", () => {
   const RANGE_RE = /docs\/session_1\.\.(\d+)/g;
   // The live-tense site files (src/ + tests/ + the root contract docs).
-  // A NINTH site in any of these roots is owned automatically; a site
-  // in a NEW root would need the root added here (the census's own
-  // comment is the contract).
+  // Session-65 (S65-8, AUDIT-3 I-2): the count-free respell — the
+  // former "NINTH site" wording was written at the 8-site era and
+  // staled as the census grew (ten sites ride it today); ANY additional
+  // site in these roots is owned automatically; a site in a NEW root
+  // would need the root added here (the census's own comment is the
+  // contract).
   const SITE_ROOTS = [
     join(root, "src"),
     join(root, "tests"),
@@ -1314,6 +1317,24 @@ describe("docs-counts: session-34 (S34-5) — the provenance-range census (the l
         ).toBe(true);
       }
     }
+  });
+
+  // Session-65 (S65-6, AUDIT-3 I-1 + M-1 — the straggler class): the
+  // per-site invariant above allows {diskMax, diskMax − 1} INDEPENDENTLY
+  // per site, so a lockstep miss (the round-64 straggler: nine sites
+  // re-anchored 63→64, .env.example left at 63) shipped GREEN inside the
+  // lag-1 window and surfaced only after the NEXT narration commit — a
+  // one-cycle detection delay, proven in production by this round's
+  // baseline. The uniform-lag arm closes the class mechanically: the two
+  // legitimate states are exactly "all bounds == diskMax" (a ship) and
+  // "all bounds == diskMax − 1" (a baseline after the owner's narration
+  // commit) — ANY mixed state REDs at the gate, before the push.
+  it("every provenance site carries the SAME bound (the uniform-lag ship arm — a mixed state is a straggler)", () => {
+    const bounds = new Set(rangeSites().flatMap((s) => s.bounds));
+    expect(
+      bounds.size,
+      `mixed provenance bounds ${[...bounds].sort((a, b) => a - b).join(" / ")} — every site must re-anchor in the SAME lockstep commit (the straggler class this arm exists to catch at the gate)`,
+    ).toBe(1);
   });
 });
 

@@ -7122,3 +7122,109 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-64 ship: lint 0/0 · tsc 0 · unit 755/755 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 65 — The Redaction Delimiter-Bypass Cure + The Pin-Vacuity Cure + The Spawn-Error Arm + The Uniform-Lag Ship Arm and the Register Batch (2026-11-15)
+
+- ANALYZE: the round opened on the shipped tree (`47730cb` = session-64's
+  `fb2cdf0` + the owner's narration commit carrying
+  `docs/session_65.md` as the round-65 working narration; this formal
+  log replaces its content at ship). Core docs re-read at the
+  session-64 ship counts, the session-64 set re-verified (the formal
+  log, the plan's post-execution record, worklog Task 64, the S64
+  cures in source). Baseline gate: lint 0/0 · tsc 0 · unit 754/755
+  (the ONE RED: the lag invariant — `.env.example` at `1..63` vs disk
+  65) · build · smoke 16/16 · e2e 70/70 · census MATCH. The ambient
+  `DATABASE_URL` shell pollution (an absolute path OUTSIDE the repo)
+  found live and neutralized with `env -u DATABASE_URL` on every
+  DB-touching command. `bun audit`: the same 9 dev-toolchain
+  advisories as session-55..64 (none on the runtime request path).
+  Standing asks re-verified (`.env` `DATABASE_URL="file:../db/custom.db"`
+  with `db/` at the repo root, census MATCH; vitest + playwright
+  current with chromium-1248; `.env.example` committed, six-knob
+  contract; `skills/` excluded from every gate).
+- AUDIT: three parallel subagents (AUDIT-1 API/lib seams 0C/0H/1M/1L/3I,
+  AUDIT-2 components/pages/effects 0C/0H/0M/0L/3I, AUDIT-3
+  SEO/configs/tests/docs 0C/0H/1M/2L/4I — combined 0/0/2/3/10). The
+  lead's hand-verification live-probed AUDIT-1 M-1 (the redaction
+  delimiter bypass — `postgresql://admin:p/ss@host/db` and the tab
+  form print verbatim); verified AUDIT-3 M-1 (the `.env.example`
+  straggler at lag 2 — `fb2cdf0` contains no `.env.example` hunk, the
+  round-64 "ten sites" claim was factually nine), L-1 (the records'
+  overclaim) and L-2 (the page-titles login pin's comment
+  satisfiability — login carries 2 occurrences vs 1 everywhere else).
+  ONE interim finding RETRACTED at validation: the "eaten `[h` prefix
+  in the health log" was a display-layer artifact — grep, cat -A, and
+  python-repr renders ALL mangled the `[h…` sequence while
+  ordinal-level byte inspection (ord() per byte) proved both the
+  health log and the S63-3 pin carry the FULL `[health]` prefix; the
+  session-64 round's "false alarm" call was correct all along. The
+  lesson is registered: byte-level claims about `[`-prefixed tokens
+  are verified with ordinal output, never rendered text.
+- PARITY WALK #38 — the thirty-eighth consecutive clean walk: both
+  legs at every documented posture (the hamburger base byte-identical
+  with NO aria family on the reference vs our ACTIVE superset
+  (Open/Close-menu relabel, expanded, controls `mobile-menu`); the
+  panel inner byte-identical (`px-6 py-4 space-y-3`, 16px/24px) with
+  the 12px rhythm in each side's engine form (the reference's
+  margin-top v3 / our margin-block-end v4) and the pill radius
+  (9999px / the v4 infinity calc); Escape R-open / L-close-with-focus-
+  return; the outside-tap both open (censused parity); the
+  route-change R-unmount / L-hidden-in-DOM; the desktop census 6
+  visible identical; the brand gradient byte-identical
+  (`linear-gradient(to right, rgb(45, 212, 191), rgb(251, 191, 36))`
+  — the inline sRGB dodge); the five-route head census identical
+  (bare / + /login titles, the `<Page> |` family, the prefixed
+  descriptions, the canonicals); sitemap 4 URLs + robots identical
+  modulo origin; the generator DEAD on the reference (error face, no
+  copy button, no post) / LIVE on the clone (5 hashtags, Copy
+  button, quota 0→1 — the documented superset). No Tailwind v4 bug
+  in the mobile menu — every class on the toggle/panel/links/pill
+  compiles in the installed 4.3.3 (AUDIT-2's compiler probe).
+- IMPLEMENT (TDD — the pins first): S65-1a the delimiter-bypass
+  redaction pin born RED (the live warning printed `admin:p/ss`
+  verbatim — the first draft's clean-value process-env arm proved
+  shape-wrong mid-RED and was re-ridden on the unclosed-quote
+  residue vehicle, the S64-1 pattern); S65-6a the uniform-lag ship
+  arm born RED on the live mixed state (63/64); S65-5a the
+  prisma-env spawn-error arm born RED; S65-4a the page-titles
+  consumption pin hardened with the house stripComments idiom (born
+  GREEN as a census arm — its battery is the RED face). The GREEN
+  phase: S65-1b the manual-scan redaction cure (mask to the LAST @ of
+  the token run, falling back to the LAST @ of the whole input;
+  over-redact rather than under-redact; every pinned S63-2/S64-1
+  shape byte-identical — replace()'s match-consumption boundary made
+  the extended tiers un-expressible, the delimiter face duplicated
+  the tail under the first draft), S65-5b the result.error arm
+  (prints the spawn error before the status exit), the health-catch
+  register note (comment-only — AUDIT-1 I-1), the NINTH-site comment
+  respell (S65-8, count-free wording), the ten-site provenance
+  re-anchor to `1..65`, and the docs lockstep.
+- BATTERIES (all four on record, each plant RED exactly its pin, all
+  restored GREEN — the full suite 758/758 after the restores): the
+  redaction-revert plant (REDs S65-1a), the export-delete plant on
+  login's page (REDs S65-4a — the vacuity the old pin could not
+  catch), the error-arm-removal plant (REDs S65-5a), the mixed-lag
+  plant (one site back to 64; REDs exactly S65-6a).
+- LOCKSTEP: UNIT 755 → 758 (+3 its), SUITES/E2E/SPECS/SMOKE held,
+  BADGE 825 → 828; the docs-counts constants; PAD §11 +2 rows (the
+  noValidate advisory attrs, the reveal no-JS face) + §8.1's table +
+  carry line at 758/70/16; README's badge + the session-65 row (one
+  table-continuity slip caught and fixed by the S43-3 arm mid-
+  lockstep — the row first landed after the table/footer blank line)
+  + the gate footer; AGENTS's plans-map sixty-fifth round + the 758;
+  CLAUDE's 758; SKILL v1.60.0 → v1.61.0 (frontmatter, §0.5 range,
+  Appendix-A session-65 row, Appendix-B re-certification through 65).
+- REGISTERS: the detectNiche substring over-match (quality-only), the
+  playwright webServer NEXT_PUBLIC_SITE_URL ambient passthrough (zero
+  determinism impact), the vitest exclude-defaults footnote, the
+  login-card signin-branch indentation (normalize-on-next-touch), the
+  round-64 nine-vs-ten record correction (this round's records, the
+  S51-7 catch-up precedent).
+- Counts at ship: UNIT 758 / SUITES 40 / E2E 70 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 828; the ten provenance sites at `1..65` (lag 0,
+  uniform — the S65-6a posture); SKILL v1.61.0; captures 137/138 on
+  the dev server PIL-verified; the full gate green on the final tree;
+  push to main via the SSH wrapper runbook.
+
+**Gate at the session-65 ship: lint 0/0 · tsc 0 · unit 758/758 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

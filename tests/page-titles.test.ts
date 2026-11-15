@@ -7,6 +7,19 @@ import { pageMetadata, PWA_META, SITE_DESCRIPTION, siteUrl } from "@/lib/site";
 const root = join(import.meta.dirname, "..");
 const read = (p: string) => readFileSync(join(root, p), "utf8");
 
+// Session-65 (S65-4, AUDIT-3 L-2): the house stripComments idiom
+// (api-robustness / auth-contract / auth-reset carry the precedent
+// copies). The consumption pin below reads through it so a PROSE
+// mention of pageMetadata() in a comment can never satisfy the pin —
+// login/page.tsx's own docblock carried the literal, making the pin
+// vacuous for exactly that page (deleting its export shipped green;
+// the battery in the session-65 plan record is the proof).
+function stripComments(src: string): string {
+  return src
+    .replace(/\/\/[^\n]*/g, "")
+    .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
+}
+
 // The per-route title scheme — the reference's own (DOM-verified
 // 2026-11-09): bare "ViralPost AI" on / and /login;
 // "<Page> | ViralPost AI" on /Tool, /Pricing, /Contact.
@@ -111,7 +124,7 @@ describe("pageMetadata: the per-route family", () => {
 });
 
 describe("pageMetadata: the pages consume the factory", () => {
-  it("the three inner pages + the auth pages export pageMetadata-built metadata", () => {
+  it("the three inner pages + the auth pages export pageMetadata-built metadata (comment-stripped — S65-4)", () => {
     for (const p of [
       "src/app/(site)/Tool/page.tsx",
       "src/app/(site)/Pricing/page.tsx",
@@ -123,7 +136,10 @@ describe("pageMetadata: the pages consume the factory", () => {
       // (a dropped export would have shipped through a green gate).
       "src/app/reset-password/page.tsx",
     ]) {
-      expect(read(p), p).toContain("pageMetadata(");
+      // Session-65 (S65-4, AUDIT-3 L-2): stripComments before the
+      // containment — the raw read was comment-satisfiable on login
+      // (its docblock mentions the factory by name).
+      expect(stripComments(read(p)), p).toContain("pageMetadata(");
     }
   });
 
