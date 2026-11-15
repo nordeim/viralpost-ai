@@ -456,6 +456,18 @@ import {
 // cures are +0 by construction except the S47-9 arm's own re-anchor
 // (its stale-form re-plant is the battery). The e2e 70 unchanged.
 // SMOKE 16 unchanged.
+// s70: 788/41 (+6/+1 — the S70-1a spaced-equals redaction pin ×1 (the
+// spaced-equals revert plant REDs exactly it), the S70-2a
+// interior-quote bare-run pin ×1 (the bare-run revert plant REDs
+// exactly it), the S70-3a bare-origin userinfo pin ×1 (the
+// userinfo-gate revert plant REDs exactly it), the S70-4a toast
+// mixed-modality pin ×1 (the guard revert plant REDs exactly it + the
+// two re-anchored S20-6 seam co-pins — the designed coupling), and
+// the S70-5d e2e-port guard pin ×2 in a NEW SUITE FILE (the guard
+// revert plant REDs exactly both — the throw it + the healthy it's
+// trim face, the designed coupling; SUITES 40 → 41). The S70-5b
+// comment/ignores cures are +0 by construction (the comment-lag
+// genus). The e2e 70 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -463,9 +475,9 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 782;
+const UNIT = 788;
 /** Vitest suite files. */
-const SUITES = 40;
+const SUITES = 41;
 /** Playwright e2e checks (incl. the setup project's 1). */
 const E2E = 70;
 /** Playwright e2e spec files. */

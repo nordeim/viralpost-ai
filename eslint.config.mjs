@@ -54,7 +54,11 @@ const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, {
   // Session-21 (S21-16): the scaffold-family phantom ignores pruned
   // (examples/ delivery/ research/ tool-results/ mini-services/ .zscripts/
   // out/ build/ never existed here); skills stays — the doctrine.
-  ignores: ["node_modules/**", ".next/**", "next-env.d.ts", "skills"]
+  // Session-70 (S70-5, AUDIT-3 I-1): the generated-artifact dirs join
+  // (test-results/, playwright-report/, coverage/ — all .gitignored,
+  // none lintable today; the hardening keeps a future HTML-reporter or
+  // coverage switch from breaking the 0/0 gate on stale artifacts).
+  ignores: ["node_modules/**", ".next/**", "next-env.d.ts", "test-results/**", "playwright-report/**", "coverage/**", "skills"]
 }];
 
 export default eslintConfig;

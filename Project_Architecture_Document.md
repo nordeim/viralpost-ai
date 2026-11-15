@@ -331,7 +331,7 @@ viralpost-ai/
 │   │   ├── layout/             ← login-card (5 views: signin/reset/sent/signup/verify) · reset-password-screen
 │   │   └── ui/toast.tsx        ← the subscribe/store toast
 │   └── lib/                    ← THE seams (see §12 Key Files)
-├── tests/                      ← 40 unit suites + e2e/ (9 specs)
+├── tests/                      ← 41 unit suites + e2e/ (9 specs)
 ├── scripts/                    ← smoke-test.sh · census.ts · prisma-env.ts · e2e-prune.ts · e2e-contact-readback.ts
 ├── docs/                       ← plans/ · reference-investigation.md ·
 │                                  implementation-plan.md · session logs ·
@@ -568,7 +568,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 40 | 782 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 41 | 788 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 70 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -586,7 +586,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 782/70/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 788/70/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -699,7 +699,7 @@ delivery.
 | LOW | particle-text rebuilds the particle field on every undebounced resize event (~1-2ms per event, desktop drag only; the S13-7 posture, openly described in the file's own comments) (session-66, AUDIT-2 I-5) | Bounded wasted work; no leak, no visual defect | Accepted + registered (the S13-7 posture); a ~100ms debounce or rAF-coalesced rebuild is the lift if the file is ever touched for performance |
 | LOW | The auth pages' `export const dynamic = "force-dynamic"` is unpinned (the API family's is census-pinned S46-1, the SEO family's force-static S37-4) (session-66, AUDIT-3 I-3) | None green-shipping: dropping /login's export trips Next's useSearchParams-without-Suspense prerender error at `next build` | Accepted + registered (build-caught): extend the S46-1 census shape to the three page files if the posture ever needs a unit owner |
 | LOW | Zero structured data (no JSON-LD/schema.org anywhere in src/) (session-66, AUDIT-3 I-4) | None for parity (the reference ships none — its SPA head has no structured data; absence IS the parity posture) | Accepted + registered: Organization/WebApplication JSON-LD is the named organic-search superset opportunity if the operator wants it |
-| LOW | `Number(e2ePort())` has no NaN guard — a non-numeric `E2E_PORT` yields `http://localhost:NaN` and fails at webServer boot with a 60s timeout + an opaque URL (session-66, AUDIT-3 I-6) | Operator-error class; fails loudly, never green | Accepted + registered: a NaN/integer validation in e2ePort() throwing with the knob name is the lift |
+| LOW | The e2e-port guard's canonical-form strictness — `E2E_PORT=03100` (zero-padded) throws where a lenient parser would serve :03100 (session-70, S70-5d — the CURED NaN-guard's residual strictness face) | Operator-error class; fails LOUDLY at config load naming the knob and the received value (the cure's own doctrine) | Accepted: the canonical integer form is the contract; the loud throw beats the silent oddity |
 | LOW | The toast 5th-push eviction face: `slice(-4)` in push() can evict a card that currently HOLDS FOCUS (the S20-6 focus-pause arm only guards the auto-dismiss path, not the eviction) (session-66, AUDIT-2 L-1's registered face) | Focus falls to <body> when a focused toast is evicted by four newer pushes | Accepted + registered: push() has no DOM seam; the Toaster-side eviction-detection layout effect is the lift if the face ever matters |
 | LOW | The 404 head's og:url/og:image keep advertising the LANDING's family (the root layout's openGraph) beside the S66-3 self-canonical (session-66, AUDIT-3-1's registered face) | Link previews of 404 URLs show the site card (arguably desirable); zero SEO weight on a noindexed page | Accepted + registered: rebuilding the full OG object in the catchAll layout would forfeit the inherited family for nothing — the documented posture |
 | LOW | The a11y-controls suite reads its TSX sources RAW (no stripComments helper — the S65-4/S66-5 genus, unaudited this round) + the design-tokens dead-token src sweeps face the JSX false-ALIVE genus (a token mentioned only in a JSX comment counts as a consumer) (session-66, S66-5's registered faces) | Latent only: no live vacuous instance (spot-verified); the a11y-controls pins could be disarmed by a JSX-commented literal; the design-tokens census could false-alive a dead token | Accepted + registered for the next touch of either file: route a11y-controls' positives through readCode; chain the JSX arm into the two design-tokens sweep sites |

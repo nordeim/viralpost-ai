@@ -7589,3 +7589,63 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-69 ship: lint 0/0 · tsc 0 · unit 782/782 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+## Task 70
+
+- **Session 70 (2026-11-16)** — The redaction spaced-equals cure + the
+  interior-quote bare-run cure + the bare-origin userinfo gate + the
+  toast mixed-modality pause guard + the info batch and the register
+  batch.
+- BASELINE: workspace refreshed at `6985f32`; `.env` held at the
+  contract (census MATCH); the ambient DATABASE_URL hazard
+  neutralized with `env -u`; baseline gate green at the session-69
+  ship counts (unit 782/782, smoke 16/16, e2e 70/70); `bun audit`
+  the same 9 dev-toolchain advisories; neo-crm UNCHANGED at b3d0fbe.
+  The owner's standing asks each verified: the .env/db contract held
+  (the seam monopoly re-verified), the vitest/playwright configs
+  current, sitemap/SEO verified live + source-pinned, the mobile nav
+  + Tailwind v4 battery clean (zero hover-wrap queries in the built
+  sheet), skills/ excluded from every gate.
+- AUDIT: three parallel lanes + hand-verification — **0 Critical /
+  0 High / 1 Medium / 3 Low / 8 Info**. The Medium and both redaction
+  Lows live-probed through the REAL exported warning builders
+  (10/10 probe checks): the spaced-equals libpq keyword form printed
+  the password verbatim (libpq's grammar makes spaces around =
+  optional); an interior quote in a bare value leaked its post-quote
+  tail; the bare-origin gate ignored userinfo (the credentialed
+  origin double-warned + manufactured a spurious mismatch against an
+  identical served host). The toast Low code-read: the unconditional
+  onMouseLeave unpause re-armed the timer while focus was inside the
+  card (the S20-6 claim falsified; the mirror face on onBlur).
+- CURES (TDD — six pins born RED + two co-pin re-anchors, five
+  planted-defect batteries on record): S70-1 the `\s*=\s*` key-face
+  widening in both redaction passes; S70-2 the bare-run quote drop
+  (an interior quote is value material; the leading-container arms
+  own the opener case); S70-3 the bare-origin gate's username/
+  password conjuncts; S70-4 the toast mixed-modality guards (pause =
+  focus inside OR pointer over; mouseLeave checks focus containment,
+  blur checks :hover); S70-5d the registered E2E_PORT NaN-guard lift
+  landed (the canonical integer check at the single source, throwing
+  naming the knob — a new suite file); S70-5b the info batch (the
+  "RAW value" comment respell, the dark cross-family oklab
+  acceptance note, the eslint generated-artifact ignores).
+- PARITY WALK #43 — the forty-third consecutive clean walk (both
+  legs at every documented posture; the reference's generator
+  silent-rest face re-confirmed DEAD; the clone LIVE with quota 3→2;
+  no Tailwind v4 bug; captures 147/148 PIL-verified).
+- LOCKSTEP: UNIT 782 → 788 (+6), SUITES 40 → 41 (the new
+  tests/e2e-port.test.ts), E2E/SPECS/SMOKE held, BADGE 852 → 858;
+  the ten provenance sites 1..69 → 1..70 (uniform, lag 0); the
+  docs-counts s70 rung; PAD §8.1 + §11 (the E2E_PORT row re-anchored
+  to the cured posture's residual strictness face); README's badge +
+  session-70 row + gate footer; AGENTS's plans-map seventieth round
+  + the 788/41; CLAUDE's 788/41; SKILL v1.65.0 → v1.66.0; the formal
+  session_70.md; the plan's post-execution record; the local .env's
+  provenance note refreshed.
+- Counts at ship: UNIT 788 / SUITES 41 / E2E 70 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 858; the ten provenance sites at 1..70 (lag 0,
+  uniform); SKILL v1.66.0; captures 147/148 PIL-verified; the full
+  gate green on the final tree; push to main via the SSH wrapper
+  runbook.
+
+**Gate at the session-70 ship: lint 0/0 · tsc 0 · unit 788/788 (41
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..69.
+// are docs/session_1..70.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -1676,5 +1676,182 @@ describe("session-69 (S69-3/S69-4): the divergence arm's bare-origin gate + the 
     );
     expect(interior.warnings.length).toBeGreaterThanOrEqual(1);
     expect(interior.warnings.join("\n")).toContain("control character");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-70 (S70-1, AUDIT-1 M-1 — live-probed): the SPACED-EQUALS libpq
+// keyword form. PostgreSQL's documented keyword/value grammar makes
+// spaces around the equals sign OPTIONAL ("each parameter setting is
+// in the form keyword = value"), and the S67-1/S69-1 passes' key face
+// required a TIGHT `=` — so the sanctioned spaced spelling
+// (password = topsecret) matched ZERO characters of the key group and
+// the password printed VERBATIM through every warning arm (the
+// inert-value leg fires on CLEAN values, so a working spaced-form
+// password qualifies — the live probe printed it on all three arms).
+// The one-owner doctrine ("the password never prints") defeated by
+// one optional-whitespace keystroke inside the family the keyword
+// pass claims to own. The cure: the key face widens to `\s*=\s*` in
+// BOTH passes (the query form accepts the same paste-residue shape).
+// REGISTERED acceptance (the over-redaction doctrine): an EMPTY
+// spaced password (`password = ` at the run's end) masks the
+// following token, and a newline-adjacent `=` rides the same `\s`
+// class — over-redact, never under (the S65-1 direction).
+// ---------------------------------------------------------------------------
+// Session-70 (S70-2, AUDIT-1 L-1 — live-probed): the INTERIOR-QUOTE
+// bare value. The bare runs ([^&\s"']* / [^\s"']*) treated a quote
+// ANYWHERE as a terminator, but a quote only opens a CONTAINER when
+// it LEADS the value (the S69-1 alternation's first two arms own that
+// case) — so `password=ab'cd` matched the bare run only up to `ab`,
+// inserted ***, and printed the post-quote tail (`***'cd`) — password
+// material under the repo's own container model. Distinct from the
+// registered unencoded-& tail (whose leaked tail is NOT password —
+// libpq stops the query value at `&`; a quote does not stop a
+// keyword value). The cure: the bare-run tails drop the quote chars
+// (`[^&\s]*` / `[^\s]*`) — an interior quote is value material.
+// ---------------------------------------------------------------------------
+// Session-70 (S70-3, AUDIT-1 L-2 — live-probed): the bare-origin
+// gate's USERINFO face. runtimeIsBareOrigin checked protocol/path/
+// search/hash but not credentials — a credentialed origin
+// (http://user:pass@example.com) passed the gate and double-warned
+// (the S25-4 shape warning PLUS the divergence warning), the exact
+// "two warnings, one root cause" genus S69-3 cured for the path and
+// non-http(s) faces; worse, normalizeSiteUrl degrades the credentialed
+// value to the localhost default, manufacturing a spurious mismatch
+// even when the served host is IDENTICAL. The cure: the gate requires
+// empty username AND password (a credentialed origin is not a
+// well-formed bare origin; the shape arms own its warning).
+// ---------------------------------------------------------------------------
+describe("session-70 (S70-1/S70-2/S70-3): the spaced-equals key face + the interior-quote bare run + the bare-origin userinfo gate", () => {
+  it("S70-1a: a spaced-equals libpq password never prints — keyword form and query form, tight and quoted controls beside", () => {
+    // Face 1 — the keyword-form spaced password (the libpq-sanctioned
+    // spelling; the live probe printed it verbatim on this arm).
+    const kwSpaced = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=localhost password = topsecret dbname=app",
+      false,
+    );
+    expect(kwSpaced).toContain("password = ***");
+    expect(kwSpaced).not.toContain("topsecret");
+    // The identity doctrine: user= and host stay visible.
+    expect(kwSpaced).toContain("host=localhost");
+
+    // Face 2 — the spaced QUOTED form (the S69-1 container under the
+    // S70-1 widening: the key group consumes the spaces, the container
+    // arm consumes the quoted tail).
+    const kwSpacedQuoted = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=localhost password = 'my secret' dbname=app",
+      false,
+    );
+    expect(kwSpacedQuoted).toContain("password = ***");
+    expect(kwSpacedQuoted).not.toContain("my secret");
+
+    // Face 3 — the residue arm (the S60-1 print vehicle, interior
+    // control char per the S69-4 re-anchor doctrine): the warning that
+    // fires on the same print must mask the spaced password.
+    const report = bootEnvCheck(
+      env({ DATABASE_URL: "host=localhost password = topsecret dbname=a\tb" }),
+    );
+    const joined = (report.warnings ?? []).join("\n");
+    expect(joined).toContain("password = ***");
+    expect(joined).not.toContain("topsecret");
+
+    // Face 4 — the query-param spaced form (the paste-residue shape;
+    // a space is not valid in a query, but the residue class is
+    // exactly what these arms print).
+    const querySpaced = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "postgresql://db.example.com:5432/prod?password = topsecret",
+      false,
+    );
+    expect(querySpaced).toContain("password = ***");
+    expect(querySpaced).not.toContain("topsecret");
+
+    // The controls — the TIGHT forms still mask (the S67-1/S66-1
+    // postures byte-identical under the widening).
+    const tight = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=localhost password=topsecret dbname=app",
+      false,
+    );
+    expect(tight).toContain("password=***");
+    expect(tight).not.toContain("topsecret");
+  });
+
+  it("S70-2a: an interior quote in a BARE value never prints its post-quote tail — single and double faces, the leading-container controls beside", () => {
+    // Face 1 — the interior single quote (the live probe printed
+    // `password=***'cd`).
+    const interiorSingle = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=h password=ab'cd dbname=x",
+      false,
+    );
+    expect(interiorSingle).toContain("password=***");
+    expect(interiorSingle).not.toContain("'cd");
+    expect(interiorSingle).not.toContain("ab'cd");
+
+    // Face 2 — the interior double quote (the same face one quote
+    // char over).
+    const interiorDouble = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      'host=h password=a"b dbname=x',
+      false,
+    );
+    expect(interiorDouble).toContain("password=***");
+    expect(interiorDouble).not.toContain('"b');
+
+    // Face 3 — the residue arm (the interior control-char vehicle).
+    const report = bootEnvCheck(
+      env({ DATABASE_URL: "host=h password=ab'cd dbname=a\tb" }),
+    );
+    const joined = (report.warnings ?? []).join("\n");
+    expect(joined).toContain("password=***");
+    expect(joined).not.toContain("'cd");
+
+    // The controls — the LEADING-quote containers (the S69-1 faces)
+    // still mask as containers, and the quote-free bare values still
+    // mask their whole runs.
+    const leadingContainer = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=h password='my secret' dbname=x",
+      false,
+    );
+    expect(leadingContainer).toContain("password=***");
+    expect(leadingContainer).not.toContain("my secret");
+    const bare = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=h password=secretpw dbname=x",
+      false,
+    );
+    expect(bare).toContain("password=***");
+    expect(bare).not.toContain("secretpw");
+  });
+
+  it("S70-3a: a credentialed runtime origin answers EXACTLY ONE warning (the shape arm owns it, the divergence arm stays silent) — and the identical-host face too", () => {
+    // The credentialed origin against a healthy served face: the
+    // S25-4 shape arm carries the posture (one warning per bad
+    // posture); the divergence arm must not pile on with the
+    // localhost-default mismatch normalizeSiteUrl manufactures for
+    // credentialed values.
+    const report = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "http://user:pass@example.com" }),
+      { servedSiteUrl: "https://example.com" },
+    );
+    expect(report.fatal).toBeNull();
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("carries a query string (or fragment/credentials)");
+    expect(report.warnings.join("\n")).not.toContain("is NOT what this server serves");
+
+    // The identical-host face: the credentialed origin's HOST equals
+    // the served host — the spurious-mismatch manufacture is exactly
+    // what the gate must suppress.
+    const sameHost = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "http://u:p@example.com" }),
+      { servedSiteUrl: "http://example.com" },
+    );
+    expect(sameHost.fatal).toBeNull();
+    expect(sameHost.warnings).toHaveLength(1);
+    expect(sameHost.warnings.join("\n")).not.toContain("is NOT what this server serves");
   });
 });

@@ -266,6 +266,13 @@ export function bootEnvCheck(
   // http(s), no path beyond "/", no search, no hash; every other
   // class stays owned by the shape arms (exactly one warning per bad
   // posture).
+  // Session-70 (S70-3, AUDIT-1 L-2 — live-probed): USERINFO joins the
+  // conjuncts — a credentialed origin (http://user:pass@example.com)
+  // passed the four-field gate and double-warned (the S25-4 shape
+  // warning plus this arm's), and normalizeSiteUrl's credentialed
+  // fallback to the localhost default manufactured a spurious
+  // mismatch even against an IDENTICAL served host. A credentialed
+  // origin is not a well-formed bare origin; the shape arms own it.
   // siteUrl(x) is only ever called with a non-empty string here — the
   // default-param process.env read can never trigger inside the seam.
   const runtimeIsBareOrigin = (() => {
@@ -276,7 +283,9 @@ export function bootEnvCheck(
         (u.protocol === "http:" || u.protocol === "https:") &&
         (u.pathname === "/" || u.pathname === "") &&
         u.search === "" &&
-        u.hash === ""
+        u.hash === "" &&
+        u.username === "" &&
+        u.password === ""
       );
     } catch {
       return false;
@@ -666,7 +675,10 @@ export function databaseUrlFileResidueWarning(
   // Session-63 (S63-2): the printed value is REDACTED (the userinfo
   // segment of a credentialed URL never prints; the residue shape —
   // the diagnostic — stays); the branch conditions below still test
-  // the RAW value.
+  // the UN-REDACTED, TRIMMED face (session-70, AUDIT-1 I-2: the old
+  // "RAW value" wording predated the S69-4 trim cure — fileUrl IS the
+  // trimmed face here, and "raw" now invites the edge-control-char
+  // misread; un-redacted is the claim the branches rely on).
   const prefix = `[boot] the .env DATABASE_URL=${JSON.stringify(redactCredentials(fileUrl))}`;
   // Session-62 (S62-2): re-named from `dropped` — the S61-1 respell
   // re-spelled the VALUE to the posture truth; the vestigial name
@@ -796,8 +808,20 @@ function redactCredentials(url: string): string {
   // residue class these warnings print); the double-quoted form
   // over-redacts the same way (the container doctrine does not care
   // which quote char opened it).
+  // Session-70 (S70-1, AUDIT-1 M-1 — live-probed): the key face widens
+  // to `\s*=\s*` — libpq's documented keyword grammar makes spaces
+  // around the equals sign OPTIONAL ("keyword = value"), and the tight
+  // `=` left the sanctioned spaced spelling (password = topsecret)
+  // UNMASKED through every arm (the live probe printed it verbatim).
+  // Session-70 (S70-2, AUDIT-1 L-1 — live-probed): the bare run drops
+  // the quote chars (`[^&\s"']*` → `[^&\s]*`) — a quote only opens a
+  // container when it LEADS the value (the first two alternation arms
+  // own that case); an interior quote is VALUE material, and the old
+  // run printed the post-quote tail (`password=***'cd`). The
+  // over-redaction acceptance: an empty spaced password masks the
+  // following token — the safe direction (the S65-1 doctrine).
   const queryMasked = masked.replace(
-    /([?&](?:password|passfile|sslpassword)=)('[^']*'?|"[^"]*"?|[^&\s"']*)/gi,
+    /([?&](?:password|passfile|sslpassword)\s*=\s*)('[^']*'?|"[^"]*"?|[^&\s]*)/gi,
     "$1***",
   );
   // Session-67 (S67-1, AUDIT-1 M-1 — live-probed): the KEYWORD-VALUE
@@ -829,8 +853,18 @@ function redactCredentials(url: string): string {
   // percent-decodes query keys, so the decoded key IS the password;
   // the literal-spelling match is the chosen posture — the
   // registered-boundary precedent above).
+  // Session-70 (S70-1/S70-2 — live-probed): the SAME widenings as the
+  // query pass, for the same live-probed leaks — the key face takes
+  // libpq's optional whitespace around the equals sign (the spaced
+  // form `password = topsecret` printed verbatim; the live probe hit
+  // every arm this pass rides), and the bare run drops the quote
+  // chars (an interior quote is value material; the leading-container
+  // arms own the opener case). The passes stay DISJOINT (a password=
+  // key rides either a ?/& or whitespace, never both — the
+  // already-redacted `?password=***` output can never match here: ?
+  // is not whitespace).
   return queryMasked.replace(
-    /(^|\s)((?:password|passfile|sslpassword)=)('[^']*'?|"[^"]*"?|[^\s"']*)/gi,
+    /(^|\s)((?:password|passfile|sslpassword)\s*=\s*)('[^']*'?|"[^"]*"?|[^\s]*)/gi,
     "$1$2***",
   );
 }

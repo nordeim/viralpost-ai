@@ -174,7 +174,10 @@ function ToastCard({ item }: { item: ToastItem }) {
   // (slice(-4) evicting a FOCUSED card from push(), which has no DOM
   // seam) is REGISTERED — PAD §11 owns it. The S20-6 focus-pause arm
   // means an auto-dismiss never fires while focus is inside the card,
-  // so the dismiss click is the sole focus-drop path this arm owns.
+  // so the dismiss click is the sole focus-drop path this arm owns
+  // (session-70, S70-4: mechanically true since the mixed-modality
+  // guards landed — the mouseLeave/blur unpausers defer to the other
+  // modality before re-arming the timer).
   function handleDismiss(): void {
     const root = rootRef.current;
     if (root && root.contains(document.activeElement)) {
@@ -202,7 +205,7 @@ function ToastCard({ item }: { item: ToastItem }) {
         // D-124a7, s128/s129/s130, and walk22 below — are DONOR-LEDGER
         // numbers (the NEO-CRM/digma template family's own sessions and
         // findings), never this repo's docs/session_N.md; this repo's
-        // own ledger is docs/session_1..69.md (re-spelled session-38,
+        // own ledger is docs/session_1..70.md (re-spelled session-38,
         // S38-7c, to the census-legible range form — the docs-counts
         // lag invariant now owns this claim).
         // Session-131 (D-131a1): the scaffold-era data-[state] animation
@@ -222,13 +225,32 @@ function ToastCard({ item }: { item: ToastItem }) {
         item.variant === "info" && "border-line bg-white",
       )}
       onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      // Session-70 (S70-4, AUDIT-2 L-1 — code-read): the unpausers
+      // carry the mixed-modality guards — pause = focus inside OR
+      // pointer over, mechanically. The old unconditional
+      // onMouseLeave re-armed the 4s timer while a keyboard user's
+      // focus was still INSIDE the card (the S20-6 claim "an
+      // auto-dismiss never fires while focus is inside" was false on
+      // this path — the timer unmounted the focused card and focus
+      // fell to <body>, the WCAG 2.4.3 genus the S66-4 arm cured for
+      // the click path); the guard defers to the focus pair.
+      onMouseLeave={() => {
+        if (!rootRef.current?.contains(document.activeElement)) setPaused(false);
+      }}
       // Session-20 (S20-6): the focus pair mirrors the hover pair — a
       // keyboard user tabbing to the Dismiss button (or an AT user
       // still reading the announced message) keeps the card; the
       // existing paused effect re-arms the timer on both paths.
       onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
+      // Session-70 (S70-4): the MIRROR face — focus leaving while the
+      // pointer still hovers must not re-arm the timer either (the
+      // hover-hold contract); the :hover check is the pointer
+      // containment test. The sticky touch-hover residual is accepted
+      // (the failure direction is "the card stays a beat longer" —
+      // the safe direction, the S65-1 over-redaction doctrine).
+      onBlur={() => {
+        if (!rootRef.current?.matches(":hover")) setPaused(false);
+      }}
     >
       <span className="mt-0.5 shrink-0">{ICONS[item.variant]}</span>
       <div className="min-w-0 flex-1">

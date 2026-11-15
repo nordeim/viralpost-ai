@@ -115,7 +115,13 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
 
   it("the hover-pause seam (the onMouseEnter/Leave pair — live-proven: holds at 6.5s, dismisses ~4.1s after the unpause)", () => {
     expect(src).toContain("onMouseEnter={() => setPaused(true)}");
-    expect(src).toContain("onMouseLeave={() => setPaused(false)}");
+    // Session-70 (S70-4a re-anchor): the unpauser carries the
+    // focus-containment guard — a keyboard user who focused the card
+    // and then sweeps the mouse out must NOT re-arm the timer (the
+    // mixed-modality face; the S69-2a co-pin precedent).
+    expect(src).toContain(
+      "onMouseLeave={() => {\n        if (!rootRef.current?.contains(document.activeElement)) setPaused(false);\n      }}",
+    );
   });
 
   // Session-48 (S48-4, AUDIT-2 L1): the re-arm's dep array joins the
@@ -136,7 +142,36 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
   // (the existing paused effect re-arms the timer on both).
   it("the focus-pause seam (onFocus/onBlur mirror the hover pair — keyboard/AT users keep the card while reading)", () => {
     expect(src).toContain("onFocus={() => setPaused(true)}");
-    expect(src).toContain("onBlur={() => setPaused(false)}");
+    // Session-70 (S70-4a re-anchor): the blur unpauser carries the
+    // pointer guard — focus leaving while the pointer still hovers
+    // must NOT re-arm the timer (the mirror mixed-modality face).
+    expect(src).toContain(
+      "onBlur={() => {\n        if (!rootRef.current?.matches(\":hover\")) setPaused(false);\n      }}",
+    );
+  });
+
+  // Session-70 (S70-4, AUDIT-2 L-1 — code-read): the MIXED-MODALITY
+  // pause leak. The unguarded unpausers falsified the S20-6 claim
+  // ("an auto-dismiss never fires while focus is inside the card"):
+  // a keyboard user who focused the Dismiss button and then swept the
+  // mouse across and out of the card re-armed the 4s timer WHILE
+  // FOCUS WAS STILL INSIDE — the timer unmounted the focused card and
+  // focus fell to <body> (the WCAG 2.4.3 genus the S66-4 arm cured
+  // for the click path). The mirror face rode onBlur (focus leaves
+  // while the pointer still hovers → unpause → dismiss mid-hover,
+  // violating the hover-hold contract). The cure: pause = focus
+  // inside OR pointer over, mechanically — the mouseLeave unpauser
+  // checks focus containment (rootRef.contains(activeElement)), the
+  // blur unpauser checks the :hover state. The sticky touch-hover
+  // residual is accepted (the failure direction is "the card stays a
+  // beat longer" — the safe direction; the S65-1 over-redaction
+  // doctrine one seam over).
+  it("the mixed-modality pause guards (mouseLeave checks focus containment, blur checks the pointer — pause = focus inside OR pointer over)", () => {
+    expect(src).toContain("if (!rootRef.current?.contains(document.activeElement)) setPaused(false)");
+    expect(src).toContain('if (!rootRef.current?.matches(":hover")) setPaused(false)');
+    // The unguarded spellings are gone (the battery's revert target).
+    expect(src).not.toContain("onMouseLeave={() => setPaused(false)}");
+    expect(src).not.toContain("onBlur={() => setPaused(false)}");
   });
 
   // Session-19 (S19-7): the toast icons are decorative — the S15-4

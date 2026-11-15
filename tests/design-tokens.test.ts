@@ -427,6 +427,14 @@ describe("design tokens: session-21 — the oklab→sRGB gradient cure (S21-5)",
   // the utility pair is banned from src/ so the drift cannot return.
   // Same-family gradients (teal→teal, amber→amber) stay on utilities —
   // their oklab delta is sub-threshold (Δ≤2 per channel, computed).
+  // Session-70 (S70-5, AUDIT-2 I-1 — the scope note named): the
+  // DARK cross-family gradients (the slate↔teal utilities:
+  // from-slate-900 to-teal-900, via-teal-950/900) also stay on
+  // utilities and interpolate oklab BY ACCEPTANCE — both endpoints
+  // sit near-black (L*<25) and the oklab-vs-sRGB midband delta is a
+  // few RGB units (sub-perceptual; corroborated by 42+ consecutive
+  // clean visual parity walks). Only the BRIGHT hue-crossing brand
+  // pair owns the inline-sRGB cure.
 
   const BRAND_SRGB = "linear-gradient(to right, #2dd4bf, #fbbf24)";
 
