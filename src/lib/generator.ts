@@ -20,7 +20,9 @@
 //
 // Relevance: a small niche detector maps the idea's keywords to a niche
 // bank (hooks / body templates / hashtag pools). Unknown niches fall back
-// to the evergreen bank; the idea's own keywords always join the hashtags.
+// to the evergreen bank; the idea's first two keywords join the hashtags
+// (session-68, S68-1 — the old "always join" overstatement cured:
+// hashtagsFor takes kws.slice(0, 2), so only the leading pair rides).
 
 // Session-40 (S40-12): the specifier normalized to the explicit
 // "node:crypto" form (password.ts already used it; the bare-"crypto"
@@ -354,7 +356,13 @@ const STOPWORDS = new Set([
   "need", "want", "get", "got", "me", "will", "can", "just", "some", "more",
 ]);
 
-/** Meaningful keywords from the idea, longest first, capped. */
+/** Meaningful keywords from the idea, first-occurrence order (Set
+ * insertion), capped at six. (Session-68, S68-1 — the old "longest
+ * first" claim never matched the implementation: no length sort
+ * exists or ever did; the comment-truth cure, zero behavior change —
+ * the first-occurrence selection has been the shipped, property-pinned
+ * behavior since session 1. A length sort WOULD change which two
+ * keywords become hashtags — a behavior change no round has wanted.) */
 function keywordsOf(idea: string): string[] {
   return Array.from(
     new Set(

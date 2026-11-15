@@ -424,6 +424,25 @@ import {
 // (+0 unit). The e2e 70 unchanged. SMOKE 16 unchanged. (The rung
 // itself was MISSED at the s66 ship and appended at session-67,
 // S67-3 — same genus.)
+// s67: 769/40 (+3 — the S67-1a keyword-form redaction pin ×2 (the
+// keyword-arm-revert plant REDs exactly them), and the S67-2a
+// fetch-toast mount-gate pin ×1 (the mount-gate-removal plant REDs
+// exactly it)). The S67-3b ladder rungs, the S67-4b cite re-anchor,
+// and the S67-5b settle teeth are +0 unit (the teeth ride the e2e
+// helper; the full e2e run was their battery — it RED'd, exposing the
+// S67-5c smooth-scroll crawl). The e2e 70 unchanged. SMOKE 16
+// unchanged.
+// s68: 775/40 (+6 — the S68-2a Resend single-in-flight pin ×1 (the
+// resend-gate-revert plant REDs exactly it + its documented co-pin
+// S67-P5, the S12-2 co-pinned form), the S68-3a live reduced-motion
+// subscribe pin ×1 owning the four-island family (the
+// listener-removal plant REDs exactly it), and the S68-4a served-face
+// leg-split pin ×4 (the legs-dropped plant REDs exactly the three
+// behavior its; the normalization-removal plant REDs exactly the
+// fourth, the control — the born-green pin's vacuity battery)). The
+// S68-1b/S68-5b/S68-6b/S68-7b comment-and-prose cures are +0 by
+// construction (the comment-lag genus). The e2e 70 unchanged. SMOKE
+// 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -431,7 +450,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 769;
+const UNIT = 775;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */

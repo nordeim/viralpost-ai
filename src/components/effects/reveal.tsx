@@ -77,10 +77,11 @@ export function Reveal({
       el.style.transform = "none";
     };
     // Reduced motion or no observer support: settle immediately.
-    const reduced =
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced || typeof IntersectionObserver === "undefined") {
+    const mq =
+      typeof window.matchMedia === "function"
+        ? window.matchMedia("(prefers-reduced-motion: reduce)")
+        : null;
+    if (mq?.matches || typeof IntersectionObserver === "undefined") {
       settle();
       return;
     }
@@ -96,7 +97,24 @@ export function Reveal({
       { threshold: 0.15 },
     );
     io.observe(el);
-    return () => io.disconnect();
+    // Session-68 (S68-3): the LIVE reduced-motion subscribe — the
+    // mount-time read above froze the preference at boot (a mid-session
+    // toggle to reduce left every wrapper animating until reload). The
+    // subscribe is ONE-WAY by design: a change toward reduce settles
+    // now; the reverse stays the documented reload face (a settled
+    // observer cannot re-arm — remounting via key is the lift if the
+    // reverse face ever matters).
+    const onMotionChange = (e: MediaQueryListEvent) => {
+      if (e.matches) {
+        settle();
+        io.disconnect();
+      }
+    };
+    mq?.addEventListener("change", onMotionChange);
+    return () => {
+      io.disconnect();
+      mq?.removeEventListener("change", onMotionChange);
+    };
   }, []);
 
   return (

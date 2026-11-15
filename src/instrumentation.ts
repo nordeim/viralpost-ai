@@ -20,7 +20,18 @@ export async function register(): Promise<void> {
   if (process.env.NEXT_RUNTIME === "edge") return;
   if (process.env.NEXT_PHASE === "phase-production-build") return;
   const { applyBootEnvReport, bootEnvCheck, databaseUrlFileResidueWarningsForServer, shadowingEnvFileWarningsForServer } = await import("./lib/boot-env");
-  applyBootEnvReport(bootEnvCheck(process.env));
+  // Session-68 (S68-4): the site-url arms gain the SERVED face —
+  // siteUrl() returns the value the metadata/sitemap/robots/manifest
+  // surfaces actually advertise: the BUILD-TIME-INLINED literal in the
+  // artifact (Turbopack replaces the NEXT_PUBLIC_* read at build), the
+  // live env in dev (identical to the record face there — no dev
+  // behavior change). The gate can now warn on the runtime-vs-served
+  // divergence and stay silent when a healthy inlined origin makes the
+  // runtime face's unset posture a false alarm (the S62-2 leg-split
+  // doctrine mirrored; boot-env.ts's BootEnvOptions comment is the
+  // mechanism truth).
+  const { siteUrl } = await import("./lib/site");
+  applyBootEnvReport(bootEnvCheck(process.env, { servedSiteUrl: siteUrl() }));
   // Session-47 (S47-2): the shadowing-env-file warning — warn-only, the
   // [boot] family. Printed AFTER the report so a fatal (which throws)
   // still precedes it. The cwd read lives in the dynamically imported

@@ -7442,3 +7442,85 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-67 ship: lint 0/0 · tsc 0 · unit 769/769 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 68
+
+- **Session 68 (2026-11-16)** — The live reduced-motion subscribe +
+  the Resend single-in-flight gate + the boot-gate site-URL leg split
+  + the comment-truth batch and the register batch.
+- BASELINE: fresh clone at `d62ab1e`; `.env` at the contract
+  (`DATABASE_URL="file:../db/custom.db"`, `db/` at repo root,
+  `AUTH_SECRET` set); census MATCH; the ambient DATABASE_URL hazard
+  neutralized with `env -u`; baseline gate green at the session-67
+  ship counts (unit 769/769, smoke 16/16, e2e 70/70 — the one-time
+  playwright chromium 1248 install); `bun audit` the same 9
+  dev-toolchain advisories. The owner's standing asks each verified:
+  the .env/db contract held (the seam monopoly re-verified), the
+  vitest/playwright configs current, sitemap/SEO verified live +
+  source-pinned, the mobile nav + Tailwind v4 battery clean.
+- AUDIT: three parallel lanes + hand-verification — **0 Critical /
+  0 High / 0 Medium / 5 Low / 10 Info**. The five Lows: the
+  keywordsOf "longest first" comment lie; the Resend/pending
+  in-flight cross; the effects family's mount-time-only
+  prefers-reduced-motion read; the boot gate validating the runtime
+  face of NEXT_PUBLIC_SITE_URL while the surfaces consume the
+  build-inlined face (compiled-chunk evidence); the donor-worklog
+  pointer's 18-round-stale task-range.
+- CURES (TDD — the pins first, born RED, four planted-defect
+  batteries on record): S68-2 the both-flags Resend gate (the
+  concurrent resend re-minted the code under the in-flight verify's
+  feet — a guaranteed confusing failure plus a burned 5/15-min
+  resend); S68-3 the live one-way reduced-motion subscribe on all
+  four effect islands (reveal settles+disconnects; floating-icons
+  stops+resets; iridescence repaints the static seed; particle-text
+  hands control to the timeout cadence; the un-reduce direction the
+  documented reload face); S68-4 the boot-gate served-face leg split
+  (the S62-2 doctrine mirrored — an optional injected servedSiteUrl
+  keeps the seam pure, suppresses the unset false-alarm when the
+  artifact serves a healthy inlined origin, and adds the
+  both-values divergence warning for the inert runtime face; the
+  instrumentation passes siteUrl() — the build-inlined literal in the
+  artifact); S68-1 the comment-truth respell (first-occurrence
+  keywords, the leading pair rides the hashtags); S68-5 the
+  count-free worklog pointer; S68-6 the cheap-Info batch (donor
+  annotations, the canonical sentence, the spacer aria-hidden, the
+  reset-hint association); S68-7 the generator deviation row
+  re-verified (the reference's failure face drifted to silent rest —
+  the DEAD posture unchanged).
+- MID-EXECUTION CATCHES (all in-commit): the S67-P5 and
+  S47-4/S55-1 pins re-anchored to the grown shapes (the S12-2
+  co-pin form documented); the design-tokens census caught the
+  round's own "change-to-reduce" prose (the S28-4 doctrine,
+  re-spelled); the countable-registration contract rejected the
+  it.each draft (rewritten as the planned one-it loop).
+- BATTERIES: the resend-gate revert (REDs S68-2a + the documented
+  co-pin S67-P5); the listener-removal (REDs S68-3a); the
+  legs-dropped (REDs the three behavior S68-4a its); the
+  normalization-removal (REDs the S68-4a control — the born-green
+  pin's vacuity battery); the prose cures carry no failable pin by
+  construction (the comment-lag genus — the round's audit finding is
+  their battery). All restored GREEN.
+- PARITY WALK #41 — the forty-first consecutive clean walk (both
+  legs at every documented posture; the walk's own probe correction:
+  the reference carries no id=mobile-menu — the ID is our superset;
+  the generator dead on the reference — silently now — / live here
+  with quota 3→2; no Tailwind v4 bug; captures 143/144 PIL-verified).
+- LOCKSTEP: UNIT 769 → 775 (+6 its), SUITES/E2E/SPECS/SMOKE held,
+  BADGE 839 → 845; the ten provenance sites 1..67 → 1..68 (uniform,
+  lag 0); the docs-counts s68 rung; PAD §8.1 + §11 (+5 register
+  rows: the scryptSync blocking face, the detectNiche bidirectional
+  substring, the count-per-signup scan, the nested-live-region watch,
+  the WebKit coverage boundary) + §12 (four rows re-anchored);
+  README's badge + session-68 row + gate footer; AGENTS's plans-map
+  sixty-eighth round + the 775; CLAUDE's 775; SKILL v1.63.0 → v1.64.0
+  (frontmatter, §0.5 range, Appendix-A session-68 row, Appendix-B
+  re-certification through 68); the formal session_68.md; the plan's
+  post-execution record; the local .env's provenance note refreshed.
+- Counts at ship: UNIT 775 / SUITES 40 / E2E 70 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 845; the ten provenance sites at 1..68 (lag 0,
+  uniform); SKILL v1.64.0; captures 143/144 PIL-verified; the full
+  gate green on the final tree; push to main via the SSH wrapper
+  runbook.
+
+**Gate at the session-68 ship: lint 0/0 · tsc 0 · unit 775/775 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

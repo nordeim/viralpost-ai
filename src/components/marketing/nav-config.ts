@@ -6,7 +6,10 @@
 // bars src/lib from importing a components module), so the tests pin them
 // as the mirror of site.ts's strings here (route-path parity with the
 // reference: /Home, /Tool, /Pricing, /Contact — the capital forms are the
-// reference's own).
+// reference's own). (Session-68, S68-6: NavRoute.canonical rides the SAME
+// no-runtime-consumer status — the /Home 308 and the sitemap's canonical
+// paths live in site.ts/sitemap.xml/route.ts; the field is the route
+// vocabulary's documentation face, test-pinned beside its siblings.)
 
 export const BRAND = {
   name: "ViralPost AI",

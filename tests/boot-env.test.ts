@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..67.
+// are docs/session_1..68.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -1413,5 +1413,86 @@ describe("session-67 (S67-1): the keyword-value libpq form never prints the pass
     expect(both).toContain("password=***");
     expect(both).not.toContain("QSecret1");
     expect(both).not.toContain("KSecret2");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-68 (S68-4, AUDIT-1 A-1-1): the boot gate's NEXT_PUBLIC_SITE_URL
+// leg split (the S62-2 doctrine mirrored). The served surfaces consume
+// the BUILD-TIME-INLINED face — Turbopack replaces site.ts's
+// default-param process.env.NEXT_PUBLIC_SITE_URL read with the literal
+// at build (compiled-chunk-probed: `function(e="http://localhost:3000")`,
+// no env read survives) — while bootEnvCheck validated only the RUNTIME
+// record face. Wrong in both directions where the faces diverge:
+// (a) FALSE ALARM — origin set at build, runtime env unset (the
+//     node-booted-standalone family): surfaces correct, warning fired;
+// (b) FALSE NEGATIVE — origin set only at runtime: gate silent while
+//     every served OG/canonical/sitemap URL advertised the inlined
+//     localhost.
+// The cure: an OPTIONAL injected servedSiteUrl face. The seam stays
+// PURE (both faces injected; the one-arg calls behave exactly as
+// before — every prior pin in this file holds untouched, verified by
+// the suite's own run). The instrumentation caller passes siteUrl()
+// — the build-inlined literal in the artifact, the live env in dev
+// (identical to the record face there — no dev behavior change).
+// ---------------------------------------------------------------------------
+describe("session-68 (S68-4): the NEXT_PUBLIC_SITE_URL served-face leg split", () => {
+  it("production + runtime UNSET + a healthy injected served face: NO site-url warning (the false-alarm cure)", () => {
+    // The artifact serves the build-inlined origin; the runtime env
+    // face is inert for this knob (nothing reads it at serve time).
+    // Surfaces healthy + nothing actionable = silence (the S22-18
+    // no-false-alarm doctrine; the S62-2 leg-split precedent).
+    const report = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: undefined }),
+      { servedSiteUrl: "https://built.example.com" },
+    );
+    expect(report.fatal).toBeNull();
+    expect(report.warnings).toHaveLength(0);
+  });
+
+  it("production + runtime LOOPBACK + a healthy injected served face: the divergence warning replaces the generic loopback warning", () => {
+    // The runtime face is set-but-loopback while the artifact serves a
+    // real origin: the generic "would advertise a localhost origin"
+    // warning would be a lie (the surfaces advertise the healthy
+    // build-inlined origin). The divergence warning names BOTH values —
+    // the actionable truth.
+    const report = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "http://localhost:3000" }),
+      { servedSiteUrl: "https://built.example.com" },
+    );
+    expect(report.fatal).toBeNull();
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("NEXT_PUBLIC_SITE_URL");
+    expect(report.warnings[0]).toContain("http://localhost:3000");
+    expect(report.warnings[0]).toContain("https://built.example.com");
+    expect(report.warnings[0]).not.toContain("would advertise a localhost origin");
+  });
+
+  it("production + a healthy runtime face the artifact does NOT serve: the divergence warning (the false-negative cure)", () => {
+    // The operator set the origin only at runtime — the artifact was
+    // built without it and serves the inlined localhost. The old gate
+    // stayed SILENT (runtime set + non-loopback) while every served
+    // OG/canonical/sitemap URL advertised localhost.
+    const report = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "https://runtime.example.com" }),
+      { servedSiteUrl: "http://localhost:3000" },
+    );
+    expect(report.fatal).toBeNull();
+    expect(report.warnings).toHaveLength(1);
+    expect(report.warnings[0]).toContain("NEXT_PUBLIC_SITE_URL");
+    expect(report.warnings[0]).toContain("https://runtime.example.com");
+    expect(report.warnings[0]).toContain("http://localhost:3000");
+    expect(report.warnings[0]).toContain("bun run build");
+  });
+
+  it("the control: runtime face and injected served face AGREE (normalized) — no divergence warning, no unset warning", () => {
+    // Trailing-slash equivalence: the seam normalizes both faces the
+    // same way before comparing (a trailing slash is not a divergence).
+    const report = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "https://viralpost.example.com/" }),
+      { servedSiteUrl: "https://viralpost.example.com" },
+    );
+    expect(report.fatal).toBeNull();
+    expect(report.warnings).toHaveLength(0);
   });
 });

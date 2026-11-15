@@ -68,9 +68,18 @@ export function ParticleText({
     const wrap = wrapRef.current;
     if (!canvas || !wrap || texts.length === 0) return;
 
-    const reduced =
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mq =
+      typeof window.matchMedia === "function"
+        ? window.matchMedia("(prefers-reduced-motion: reduce)")
+        : null;
+    // Session-68 (S68-3): the LIVE reduced-motion subscribe — the
+    // mount-time read used to freeze the preference at boot. `reduced`
+    // is now a mutable binding the change listener flips; frame()'s own
+    // reduced branch (drawPlain + the timeout cadence) takes over from
+    // whatever phase the field was in. ONE-WAY by design: un-reduce
+    // mid-session stays the documented reload face (the particle field
+    // and its phase machine are not rebuildable in place).
+    let reduced = mq?.matches ?? false;
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
@@ -304,11 +313,25 @@ export function ParticleText({
     };
     window.addEventListener("resize", onResize);
 
+    // The S68-3 collapse: cancel the pending rAF/timeout chain and hand
+    // control to frame()'s reduced branch directly (it clears, draws the
+    // plain face, and schedules the NEXT phrase on the timeout cadence —
+    // the same discipline the mount-time reduced arm uses).
+    const onMotionChange = (e: MediaQueryListEvent) => {
+      if (!e.matches || disposed) return;
+      reduced = true;
+      cancelAnimationFrame(raf);
+      clearTimeout(phraseTimer);
+      frame(performance.now());
+    };
+    mq?.addEventListener("change", onMotionChange);
+
     return () => {
       disposed = true;
       cancelAnimationFrame(raf);
       clearTimeout(phraseTimer);
       window.removeEventListener("resize", onResize);
+      mq?.removeEventListener("change", onMotionChange);
     };
   }, [texts.join("|"), fontSize, fontWeight, color]);
 

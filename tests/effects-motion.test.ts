@@ -270,12 +270,17 @@ describe("session-47 (S47-4): the scroll-reveal settle contract (source-pinned)"
     expect(src).toContain('el.style.opacity = "1";');
     expect(src).toContain('el.style.transform = "none";');
     // Reduced motion or no IntersectionObserver support settles
-    // immediately (never stuck hidden — the a11y floor).
-    expect(src).toMatch(/if \(reduced \|\| typeof IntersectionObserver === "undefined"\) \{\s*settle\(\);\s*return;/);
+    // immediately (never stuck hidden — the a11y floor). (Session-68,
+    // S68-3 re-anchor: the mount-time `reduced` const became the `mq`
+    // handle — the same predicate now reads `mq?.matches`, and the live
+    // subscribe below carries the mid-session face the const could not.)
+    expect(src).toMatch(/if \(mq\?\.matches \|\| typeof IntersectionObserver === "undefined"\) \{\s*settle\(\);\s*return;/);
     // The observer disconnects on settle AND on unmount (the effects
     // lifecycle law).
     expect(src).toMatch(/entry\.isIntersecting\) \{\s*settle\(\);\s*io\.disconnect\(\);/);
-    expect(src).toContain("return () => io.disconnect();");
+    // (Session-68, S68-3 re-anchor: the cleanup grew the media-listener
+    // removal beside the disconnect — the effects lifecycle law.)
+    expect(src).toMatch(/return \(\) => \{\s*io\.disconnect\(\);\s*mq\?\.removeEventListener\("change", onMotionChange\);\s*\};/);
     // The effect arms ONCE with [] deps (the S31-5b mount-time
     // contract — the hidden style derives from mount-time props).
     expect(src).toMatch(/\}, \[\]\);/);
@@ -306,12 +311,59 @@ describe("session-55 (S55-1): the float field's motion arms (source-pinned)", ()
     // Reduced motion: the effect early-returns BEFORE any rAF
     // registration (the static render below IS the reduced face — the
     // house collapse doctrine, matching the other three effects).
-    expect(src).toMatch(/if \(reduced\) return;/);
+    // (Session-68, S68-3 re-anchor: the mount-time `reduced` const
+    // became the `mq` handle — same predicate, live-capable.)
+    expect(src).toMatch(/if \(mq\?\.matches\) return;/);
     // The loop's cleanup: the rAF handle is cancelled on unmount (the
     // effects lifecycle law — no leaked per-frame loop per mount).
-    expect(src).toMatch(/return \(\) => cancelAnimationFrame\(raf\);/);
+    // (Session-68, S68-3 re-anchor: the cleanup grew the media-listener
+    // removal beside the cancel — the same law.)
+    expect(src).toMatch(/return \(\) => \{\s*cancelAnimationFrame\(raf\);\s*mq\?\.removeEventListener\("change", onMotionChange\);\s*\};/);
     // The static render ships full opacity at the pinned positions (the
     // reduced face never paints opacity 0).
     expect(src).toContain("style={{ left: f.left, top: f.top, opacity: 1 }}");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-68 (S68-3, AUDIT-2 L-1): the live reduced-motion subscribe.
+// All four effect islands used to read
+// matchMedia("(prefers-reduced-motion: reduce)").matches ONCE at mount
+// and never subscribe — a user who enabled reduce mid-session kept the
+// full WebGL/particle/rAF motion until reload (the CSS-level arm in
+// globals.css responds live; only the JS loops were frozen at the
+// mount-time read). The cure: each island SUBSCRIBES to the media
+// query's change event and collapses to its documented static face on
+// change-to-reduce. The subscribe is ONE-WAY by design: un-reduce
+// mid-session stays the documented reload face (each island's own
+// comment names the boundary) — re-arming a torn-down rAF/GL field
+// mid-flight is a remount-shaped lift this cure deliberately does not
+// take. One pin owns the four-island family (the S67-2 doctrine).
+// ---------------------------------------------------------------------------
+describe("session-68 (S68-3): the live reduced-motion subscribe (all four islands)", () => {
+  it("every island subscribes to the media query's change event and removes the listener on cleanup", () => {
+    const ISLANDS = [
+      "src/components/effects/iridescence.tsx",
+      "src/components/effects/particle-text.tsx",
+      "src/components/effects/floating-icons.tsx",
+      "src/components/effects/reveal.tsx",
+    ] as const;
+    for (const rel of ISLANDS) {
+      const src =
+        read(rel)
+          .replace(/\/\/[^\n]*/g, "")
+          .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
+      // The subscribe: a change listener on the prefers-reduced-motion
+      // media query (armed where the mount-time read already lives).
+      expect(src, `${rel}: the change listener must be armed`).toMatch(
+        /addEventListener\("change", \w+\);/,
+      );
+      // The teardown: the same listener is removed in the effect's
+      // cleanup (the effects lifecycle law — no leaked media listener
+      // per mount).
+      expect(src, `${rel}: the change listener must be removed on cleanup`).toMatch(
+        /removeEventListener\("change", \w+\);/,
+      );
+    }
   });
 });

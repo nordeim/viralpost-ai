@@ -72,10 +72,11 @@ export function FloatingIcons() {
     // Session-21 (S21-21): the guarded form the other three effects
     // carry (a sandboxed/older embedding without matchMedia renders the
     // static face instead of throwing inside the effect).
-    const reduced =
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return; // the static render below IS the reduced-motion face
+    const mq =
+      typeof window.matchMedia === "function"
+        ? window.matchMedia("(prefers-reduced-motion: reduce)")
+        : null;
+    if (mq?.matches) return; // the static render below IS the reduced-motion face
 
     let raf = 0;
     const start = performance.now();
@@ -95,8 +96,29 @@ export function FloatingIcons() {
       }
       raf = requestAnimationFrame(tick);
     };
+    // Session-68 (S68-3): the LIVE reduced-motion subscribe — the
+    // mount-time read above froze the preference at boot; a mid-session
+    // toggle to reduce now stops the loop and resets every wrapper to
+    // the static face (the positions/opacity the JSX ships). ONE-WAY by
+    // design: the reverse (reduce off) mid-session stays the documented reload face
+    // (the early-return mount branch never arms a loop to re-start).
+    const stopAndReset = () => {
+      cancelAnimationFrame(raf);
+      for (const el of wrapRefs.current) {
+        if (!el) continue;
+        el.style.transform = "";
+        el.style.opacity = "1";
+      }
+    };
+    const onMotionChange = (e: MediaQueryListEvent) => {
+      if (e.matches) stopAndReset();
+    };
+    mq?.addEventListener("change", onMotionChange);
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelAnimationFrame(raf);
+      mq?.removeEventListener("change", onMotionChange);
+    };
   }, []);
 
   return (

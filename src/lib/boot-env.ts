@@ -38,6 +38,13 @@ import { isAbsolute, join, resolve } from "node:path";
 // instrumentation artifact's trace (the hygiene leg's scripts/
 // exclude tripped — the S59-1b extraction note in env-file.ts).
 import { parseEnvFile } from "./env-file";
+// Session-68 (S68-4): the served-face leg split — siteUrl() is the
+// face the served surfaces actually consume (build-time-inlined in the
+// artifact; the live env in dev). The seam itself stays PURE: the
+// caller injects the value, this module never reads process.env for it.
+// (Aliased: the site-URL arm below binds a local `siteUrl` string —
+// the runtime face — so the imported normalizer needs its own name.)
+import { siteUrl as normalizeSiteUrl } from "./site";
 
 /** The closed VIRALPOST_* knob set (the six-knob contract's 3 server knobs). */
 export const KNOWN_VIRALPOST_VARS: ReadonlySet<string> = new Set([
@@ -83,12 +90,33 @@ export interface BootEnvReport {
   warnings: string[];
 }
 
+/** Session-68 (S68-4): the optional second face of the site-url arms.
+ *
+ * `servedSiteUrl` is what the metadata/sitemap/robots/manifest
+ * surfaces actually ADVERTISE. The runtime env record's
+ * NEXT_PUBLIC_SITE_URL is NOT that face in the built artifact —
+ * Turbopack inlines NEXT_PUBLIC_* reads at build (compiled-chunk-
+ * probed: site.ts's default-param literal survives, no env read does),
+ * so the value the operator set at runtime is inert at serve time.
+ * Injecting the served face lets the gate mirror the S62-2 leg-split
+ * doctrine: warn on the DIVERGENCE between the faces (the actionable
+ * truth) and stay silent when the served face is healthy and the
+ * runtime face is merely unset (the node-booted-standalone family's
+ * false alarm). The seam stays PURE — both faces are injected; the
+ * one-arg call behaves exactly as before (every prior pin holds). */
+export interface BootEnvOptions {
+  servedSiteUrl?: string;
+}
+
 /**
  * Validate an env-shaped record against the six-knob contract.
  * PURE: same input, same report — tests drive every branch without a
  * process (tests/boot-env.test.ts).
  */
-export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvReport {
+export function bootEnvCheck(
+  env: Record<string, string | undefined>,
+  options?: BootEnvOptions,
+): BootEnvReport {
   const warnings: string[] = [];
   const isProduction = env.NODE_ENV === "production";
 
@@ -173,20 +201,73 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
   // missed: URL parsing lowercases the host, so http://LOCALHOST:3000
   // now warns. A parse MISS (malformed origin) stays silent here —
   // the F10-11 shape arms own that class.
-  const siteUrlIsLoopback = (() => {
-    if (!siteUrl) return false;
+  // (Session-68, S68-4: extracted to the shared predicate — the served
+  // face below runs the SAME loopback test the runtime face always
+  // has; two faces, one law.)
+  const isLoopbackOrigin = (value: string): boolean => {
     try {
-      const host = new URL(siteUrl).hostname.replace(/\.$/, "");
+      const host = new URL(value).hostname.replace(/\.$/, "");
       return host === "localhost" || host === "127.0.0.1";
     } catch {
       return false;
     }
-  })();
+  };
+  const siteUrlIsLoopback = siteUrl ? isLoopbackOrigin(siteUrl) : false;
+  // Session-68 (S68-4): the served face, when the caller models it —
+  // what the metadata/sitemap/robots/manifest surfaces actually
+  // advertise (the artifact's build-inlined literal; dev's live env,
+  // identical to the record face there). Undefined = the one-arg
+  // posture (tests, or any caller that has not adopted the split) —
+  // both new arms inert, the prior behavior exact.
+  const servedSiteUrl = options?.servedSiteUrl;
+  const servedIsHealthy =
+    servedSiteUrl !== undefined &&
+    servedSiteUrl !== "" &&
+    !isLoopbackOrigin(servedSiteUrl);
   if (isProduction && (!siteUrl || siteUrlIsLoopback)) {
+    // The false-alarm cure: the surfaces advertise the healthy
+    // build-inlined origin and the runtime face is inert for this knob
+    // (nothing reads it at serve time) — silence is correct (the
+    // S22-18 doctrine; the S62-2 leg-split precedent). Only when the
+    // served face is ALSO bad (or unmodeled) does the warning below
+    // carry the truth it always has.
+    if (!servedIsHealthy) {
+      warnings.push(
+        `[boot] NEXT_PUBLIC_SITE_URL is ${
+          siteUrl ? `"${siteUrl}"` : "unset"
+        } in production — metadataBase, /robots.txt, /sitemap.xml and the OG/Twitter cards would advertise a localhost origin. Set the canonical public origin BEFORE \`bun run build\` (it is inlined at build time).`,
+      );
+    }
+  }
+  // Session-68 (S68-4): the divergence arm — the false-negative cure.
+  // A runtime value the artifact does NOT serve used to pass silently
+  // (set + non-loopback satisfied the old arm) while every served
+  // OG/canonical/sitemap URL advertised the inlined face. The seam's
+  // own normalizer compares both faces (trailing slashes strip the
+  // same way on each side; a malformed runtime value stays owned by
+  // the F10-11 shape arms above — this arm fires only on a
+  // WELL-FORMED runtime origin that the served face disagrees with,
+  // loopback spellings included: a leftover localhost in the runtime
+  // env against a healthy served origin is the same inert-value genus
+  // the S63-1 warning names for DATABASE_URL).
+  // siteUrl(x) is only ever called with a non-empty string here — the
+  // default-param process.env read can never trigger inside the seam.
+  if (
+    isProduction &&
+    servedSiteUrl !== undefined &&
+    siteUrl &&
+    (() => {
+      try {
+        new URL(siteUrl);
+        return true;
+      } catch {
+        return false;
+      }
+    })() &&
+    normalizeSiteUrl(siteUrl) !== normalizeSiteUrl(servedSiteUrl)
+  ) {
     warnings.push(
-      `[boot] NEXT_PUBLIC_SITE_URL is ${
-        siteUrl ? `"${siteUrl}"` : "unset"
-      } in production — metadataBase, /robots.txt, /sitemap.xml and the OG/Twitter cards would advertise a localhost origin. Set the canonical public origin BEFORE \`bun run build\` (it is inlined at build time).`,
+      `[boot] NEXT_PUBLIC_SITE_URL="${siteUrl}" in the runtime environment is NOT what this server serves — the surfaces advertise "${servedSiteUrl}" (NEXT_PUBLIC_* values are INLINED AT BUILD TIME; the runtime value is inert for them). Set the canonical origin BEFORE \`bun run build\` and rebuild, then keep the runtime env in sync.`,
     );
   }
 

@@ -131,10 +131,16 @@ describe("session-67: the auth-seam contract (the N-67 family)", () => {
   });
 
   it("S67-P5: the resend link guards in-flight double-clicks", () => {
+    // (Session-68, S68-2 re-anchor: the guard widened to BOTH flags — a
+    // resend fired during a verify submit re-minted the code under the
+    // in-flight comparison's feet. The widened face is co-owned by
+    // login-views' S68-2a pin (the view-surface owner); THIS pin keeps
+    // the auth-seam contract view of the same arm — the S12-2 co-pinned
+    // form, documented here.)
     const src = loginCard();
     expect(src).toContain("setResending");
-    expect(src).toContain("disabled={resending}");
-    expect(src).toMatch(/if \(resending\) return;/);
+    expect(src).toContain("disabled={resending || pending}");
+    expect(src).toMatch(/if \(resending \|\| pending\) return;/);
   });
 
   it("S67-P5: the resend confirmation reads the envelope data field", () => {

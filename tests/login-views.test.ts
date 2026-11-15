@@ -700,3 +700,24 @@ describe("session-22: the forgot-password submit joins the pending-face family (
     expect(src).toContain('{resending ? "Please wait…" : "Resend"}');
   });
 })
+
+describe("session-68 (S68-2): the Resend single-in-flight gate (the verify submit and its resend can never cross)", () => {
+  it("the Resend affordance is disabled while a verification submit is in flight, and onResend guards on both flags", () => {
+    const src = loginCardSrc()
+      .replace(/\/\/[^\n]*/g, "")
+      .replace(/(^|\s)\/\*[\s\S]*?\*\//g, "$1");
+    // S68-2 (AUDIT-2 L-2): the verify submit arms `pending`, Resend
+    // armed only `resending` — a Resend clicked during a verify
+    // round-trip re-minted the code (replacing the stored hash) and
+    // reset the digit boxes mid-submit, so the in-flight verify then
+    // compared the OLD code against the NEW hash and failed "no longer
+    // valid" — a guaranteed confusing error plus one burned resend
+    // against the 5/15-min budget the N-67k guard exists to protect.
+    // The cure mirrors the card's own single-in-flight doctrine: BOTH
+    // flags gate BOTH arms. (The label stays keyed on `resending`
+    // alone — the pending face is the submit's own relabel, never the
+    // secondary affordance's.)
+    expect(src).toContain("if (resending || pending) return;");
+    expect(src).toContain("disabled={resending || pending}");
+  });
+})

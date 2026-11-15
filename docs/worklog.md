@@ -1,11 +1,15 @@
 # Worklog
 
-> **Donor artifact (provenance note, session-48 S48-10):** this file is
+> **Donor artifact (provenance note, session-48 S48-10; the range
+> re-spelled count-free session-68, S68-5 — the old "Task IDs 1..49"
+> bound was written at session-48 and never re-anchored, 18 rounds
+> stale):** this file is
 > the NEO-CRM scaffold family's worklog (Task IDs 1–182 of the donor
 > repo), carried in this repo's immutable `docs/` history layer — it
 > describes a different application. THIS repo's live worklog is the
-> root `worklog.md` (Task IDs 1..49). Never read this file as
-> current-state; it is archaeology, like `neo-crm_SKILL.md`.
+> root `worklog.md` (the per-session Task ledger; Task 1 predates the
+> ledger convention and never carried an entry). Never read this file
+> as current-state; it is archaeology, like `neo-crm_SKILL.md`.
 
 ---
 Task ID: 1

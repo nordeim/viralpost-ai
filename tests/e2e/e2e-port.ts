@@ -1,4 +1,6 @@
-// Session-69 (N-69g): the single source for the e2e port. The "3100"
+// Session-69 (N-69g — a donor-ledger number, the NEO-CRM repo's own
+// session; annotated session-68, S68-6 — the donor-marker convention):
+// the single source for the e2e port. The "3100"
 // default used to live TWICE — playwright.config.ts
 // (Number(process.env.E2E_PORT ?? 3100)) and the template-era crm.spec
 // 401 probe (process.env.E2E_PORT ?? "3100") — so a default change in
@@ -6,7 +8,8 @@
 // imported this module at the time; the probe consumer retired with the
 // CRM spec family (session 1 rebuilt the specs), so today only
 // playwright.config.ts imports it — the module stays the single source
-// of truth for the port literal (the S68-P4 constant-wiring class: the
+// of truth for the port literal (the S68-P4 constant-wiring class —
+// also a donor-ledger number —: the
 // config can never diverge from a probe that returns).
 
 /** The default e2e port — the ONLY place the literal lives. */

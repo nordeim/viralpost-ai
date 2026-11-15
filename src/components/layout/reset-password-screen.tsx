@@ -162,10 +162,14 @@ export function ResetPasswordScreen() {
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        aria-describedby="new-password-hint"
                         className={LOGIN_LAYOUT.input}
                       />
                     </div>
-                    <p className="text-sm text-slate-500">Must be at least 8 characters</p>
+                    {/* (Session-68, S68-6: the hint gained its programmatic
+                        association — the input's aria-describedby names it,
+                        so SR users hear the constraint with the field.) */}
+                    <p id="new-password-hint" className="text-sm text-slate-500">Must be at least 8 characters</p>
                   </div>
                   <div className={LOGIN_LAYOUT.field}>
                     <label htmlFor="confirmPassword" className={LOGIN_LAYOUT.label}>

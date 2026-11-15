@@ -296,9 +296,14 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
    *  the auto-dismissing green Callout. Session-67 (N-67k/N-67l): the
    *  in-flight guard (the 5/15-min budget must survive a double-click)
    *  and the honest envelope read — the route's message field nests at
-   *  body.data, not the envelope root. */
+   *  body.data, not the envelope root. Session-68 (S68-2): the guard
+   *  widened to BOTH flags — a resend fired during a verify submit
+   *  re-minted the code under the in-flight comparison's feet (the
+   *  submit then failed "no longer valid" on the OLD digits) and burned
+   *  a resend from the budget; the card's single-in-flight doctrine
+   *  now owns the cross-arm face too. */
   async function onResend() {
-    if (resending) return;
+    if (resending || pending) return;
     setError(null);
     setResending(true);
     try {
@@ -725,7 +730,7 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
                                   type="button"
                                   className={LOGIN_VERIFY_LAYOUT.resendButton}
                                   onClick={onResend}
-                                  disabled={resending}
+                                  disabled={resending || pending}
                                 >
                                   {/* Session-49 (S49-8): the pending-face
                                       family join — the fifth async
@@ -924,9 +929,11 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
       {/* Session-79 (L-79c6, live-extracted on all five reference views):
           the trailing mobile-only nbsp spacer rides INSIDE the max-w-md
           wrapper AFTER the card — mt-8 + text-xs slate-400, hidden from sm
-          up (16px tall + the 32px margin at 390). */}
+          up (16px tall + the 32px margin at 390). (Session-68, S68-6:
+          aria-hidden joined the S60-2/S61-2 decorative-fragment family —
+          a whitespace-only paragraph has no announcement value.) */}
       <div className="mt-8 text-center text-xs text-slate-400 sm:hidden">
-        <p>&nbsp;</p>
+        <p aria-hidden="true">&nbsp;</p>
       </div>
     </div>
   );

@@ -568,7 +568,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 40 | 769 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 40 | 775 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 70 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -586,7 +586,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 769/70/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 775/70/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -707,6 +707,11 @@ delivery.
 | LOW | The redaction @-less colon-segment boundary: `"postgresql://user:secretpw/db` (unclosed-quote residue PLUS a missing @host — the intended password sits in URL grammar's port slot) prints `user:secretpw` verbatim (session-67, AUDIT-1 L-1, verified by probe) | Under-redaction on a double-malformation face only; libpq reads host=user port=secretpw (invalid-port error) — the engine never treats it as a password | Accepted + registered: masking host:port would destroy the host-visibility doctrine (the S65-1b posture); named in the S67-1 comment as the documented boundary |
 | LOW | The session cookie mints from the tokenVersion captured at `findUnique` time in verify/login — a concurrent password-reset committing inside the read→mint window mints a v-stale cookie (session-67, AUDIT-1 I-4) | The client sees verified:true/200 then appears signed out at the next getSessionUser (the v-compare kills the cookie); self-healing via re-login | Accepted + registered: ultra-narrow race; the lift is minting from the `update` call's returned row whenever those routes are next touched |
 | LOW | The toast last-card dismissal falls focus to `<body>` (the documented in-code fallback — Radix behaves identically) + the viewport clips only on ~320px-high mini-viewports at the 4-card cap (session-67, AUDIT-2 I-1/I-2, verified) | Keyboard users resume at document top after the last dismissal; no parity face (the reference ships no live toast system) | Accepted + registered beside the S66 eviction-face row: the fallback matches ecosystem norms; the clip face needs the cap to rise above 4 to matter |
+| LOW | `scryptSync` blocks the event loop for the KDF duration on every auth path — and the timing equalizers burn a second scrypt on the miss branches (session-68, AUDIT-1 I-3; the sync-blocking face, distinct from the registered cost row) | N concurrent auth ops serialize ≈ N × scrypt (~50-100ms each at default cost); latency amplification only, no correctness/security face at the documented single-node demo scale (all routes rate-limited) | Accepted + registered: the lift is `scrypt.promisify` with a queue-depth cap (identical per-request work preserves the equalizer posture) when real traffic ever fronts the app |
+| LOW | `detectNiche`'s bidirectional substring match (`k.includes(nk) \|\| nk.includes(k)`) misroutes short idea keywords: "art" matches business via "startup", "car" matches lifestyle via "care" (session-68, AUDIT-1 I-4, verified by trace) | Wrong hook/body bank for affected ideas (an art-themed post gets business copy); content-relevance only — the idea's own keywords still ride the hashtags and every pinned prompt rule holds | Accepted + registered: the word-boundary / minimum-length gate on the `nk.includes(k)` arm is the named lift if content quality ever matters enough |
+| LOW | `db.user.count()` full-scans the user table on every signup (the avatar-color rotation + the first-user-admin bootstrap faces; session-68, AUDIT-1 I-5) | O(table) per signup; harmless at demo scale, grows with the user table | Accepted + registered: derive the color from a hash of the email/id and gate the admin bootstrap on a one-time flag/meta row if ever lifted |
+| LOW | The toast's nested live regions (polite viewport + per-card `role="alert"`/`role="status"`) may double-announce in some AT combinations (session-68, AUDIT-2 I-1; the documented S19-8 doctrine's known edge) | Possible duplicated announcement of error toasts; cosmetic SR noise, no functional loss; no reproduced face | Accepted + registered as a watch item: if ever observed in AT testing, scope the viewport's live region to a text-only mirror node (sonner's approach) |
+| LOW | The WebKit-motivated cures (the S23-3 `tabIndex={-1}` sequential-focus family, the skip-link pill path) are runtime-unverifiable in the Chromium-only e2e matrix — their contracts ride source pins alone (session-68, AUDIT-3 I-3) | A WebKit regression in the focus family ships green | Accepted + registered (the documented one-engine posture): a periodic manual WebKit walk, or a WebKit project in the e2e matrix, is the lift if the Safari face ever matters |
 Swept at session-2 ship — no open CRITICAL/HIGH items.
 
 ---
@@ -719,7 +724,7 @@ commit as the file.)
 
 | File | Lines | Purpose |
 |------|-------|---------|
-| `src/lib/generator.ts` | 498 | The deterministic viral-formula engine + the reference's exact prompt (the S50-12 collapse seam: collapseIdea one-home + the honest raw-bound message) |
+| `src/lib/generator.ts` | 506 | The deterministic viral-formula engine + the reference's exact prompt (the S50-12 collapse seam: collapseIdea one-home + the honest raw-bound message; the S68-1 comment-truth respell: first-occurrence keywords, the leading pair rides the hashtags) |
 | `src/lib/generation-counter.ts` | 150 | The 3/day quota: pure functions + the store adapter (the S63-6 external-change re-emit — cross-tab storage + the date-rollover focus/visibility faces) |
 | `src/lib/route-title.ts` | 75 | The unknown-route title derivation (ADR-006) |
 | `src/lib/from-url.ts` | 43 | The from_url open-redirect guard (session-13, S13-4; the leading-// arm, session-14, S14-1) |
@@ -732,9 +737,9 @@ commit as the file.)
 | `src/app/globals.css` | 259 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1; the dead single-word-rule genus note, session-63 S63-5) |
 | `src/components/marketing/navbar.tsx` | 284 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 337 | The core surface: quota dots, generate, copy, paywall (the S50-4 copy-epoch guard + the S51-2 unmount-mounted gate, StrictMode re-armed S52-1; the S59-2 double-blank collapse — whitespace-only; the S67-2 fetch-toast mount gate) |
-| `src/components/effects/iridescence.tsx` | 273 | The WebGL hero background (aspect-aware shader) |
-| `src/components/effects/particle-text.tsx` | 331 | The canvas particle title |
-| `src/components/effects/floating-icons.tsx` | 122 | The monetization section's ten-icon float field (session-19, S19-2) |
+| `src/components/effects/iridescence.tsx` | 295 | The WebGL hero background (aspect-aware shader; the S68-3 live reduced-motion subscribe — the change listener repaints the static seed) |
+| `src/components/effects/particle-text.tsx` | 354 | The canvas particle title (the S68-3 live subscribe — the reduced branch takes over from any phase) |
+| `src/components/effects/floating-icons.tsx` | 144 | The monetization section's ten-icon float field (session-19, S19-2; the S68-3 live subscribe — stop-and-reset on change-to-reduce) |
 | `src/app/[...catchAll]/layout.tsx` | 47 | The 404 title owner (ADR-006) + the self-canonical (S66-3) |
 | `src/app/api/[...path]/route.ts` | 43 | The API subtree's envelope 404 (session-15, S15-7; OPTIONS joined session-18, S18-2) |
 | `src/app/api/route.ts` | 51 | The bare `/api` envelope 404 (session-16, S16-2; OPTIONS joined session-18, S18-2) |

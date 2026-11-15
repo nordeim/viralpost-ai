@@ -202,9 +202,20 @@ export function Iridescence({
     };
     resize();
 
-    const reduced =
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Session-68 (S68-3): the LIVE reduced-motion subscribe — the
+    // mount-time read used to freeze the preference at boot (a
+    // mid-session toggle to reduce left the shader animating until
+    // reload). `reduced` is now a mutable binding the change listener
+    // flips; the render loop's own `if (!reduced)` re-arm arm stops the
+    // chain at the next frame boundary. ONE-WAY by design: un-reduce
+    // mid-session stays the documented reload face (a stopped rAF chain
+    // plus a re-painted static seed is the collapse; re-arming the GL
+    // loop mid-flight is a remount-shaped lift this cure does not take).
+    const mq =
+      typeof window.matchMedia === "function"
+        ? window.matchMedia("(prefers-reduced-motion: reduce)")
+        : null;
+    let reduced = mq?.matches ?? false;
 
     const render = (t: number) => {
       if (disposed) return;
@@ -232,6 +243,16 @@ export function Iridescence({
     };
     window.addEventListener("resize", onResize);
 
+    // The S68-3 collapse: stop the loop and repaint the S24-6 static
+    // seed (the same frame a reduced-mode resize repaints).
+    const onMotionChange = (e: MediaQueryListEvent) => {
+      if (!e.matches) return;
+      reduced = true;
+      cancelAnimationFrame(raf);
+      render(seedT);
+    };
+    mq?.addEventListener("change", onMotionChange);
+
     // Session-20 (S20-12): GPU context loss (mobile backgrounding, driver
     // resets) used to leave the rAF loop spinning no-op drawArrays calls
     // against a dead context forever. Stop the loop on loss — the two
@@ -248,6 +269,7 @@ export function Iridescence({
       disposed = true;
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
+      mq?.removeEventListener("change", onMotionChange);
       canvas.removeEventListener("webglcontextlost", onContextLost, false);
       gl.deleteProgram(prog);
       gl.deleteShader(vs);
