@@ -369,6 +369,17 @@ import {
 // posture-truth wording) is a re-anchor, not a count change — the
 // respell-revert plant REDs exactly it) and the e2e 70 unchanged.
 // SMOKE 16 unchanged.
+// s62: 744/40 (+4 — the S62-1a loader-drops residue-sweep census
+// (the five live-tense target files; the claim-replant plant REDs
+// it), the S62-2a PWD-leg mechanism-truth pin (the split-revert
+// plant REDs exactly it), the S62-2b wrapper wiring pin (the S29-2
+// source-census idiom; the two-arg-revert plant REDs exactly it
+// while S62-2a holds), and the S62-3a SKILL §16 model census (the
+// photoUrl-removal plant REDs it naming the field)). The S62-4a
+// splice-guard widening (the S61-3 guard's banned class extended to
+// the smoke/e2e fragments; the smoke-tail plant REDs the widened
+// guard) is a re-anchor, not a count change — the guard's it count
+// held. The e2e 70 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -376,7 +387,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 740;
+const UNIT = 744;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -577,6 +588,12 @@ const GATE_FOOTER_RE = new RegExp(
   // the region AFTER the matched footer's terminal `e2e 70/70.`
   // UNTIL `## License`: no `unit N/N` fragment may appear there.
   // Plant: re-splice the session-59 tail (the battery on record).
+  // (Session-62, S62-4 — AUDIT-3 I1: the banned class WIDENED to the
+  // footer's other count fragments — a partial stale tail carrying
+  // only `smoke N/N`/`e2e N/N` (no unit fragment) is the same splice
+  // genus and was invisible to the unit-only class. The S61-3 plant
+  // (the unit-carrying full tail) keeps REDing either way; this
+  // round's battery adds the smoke-only-tail plant.)
   it("session-61 (S61-3): the README gate-footer region carries no residual count fragments (the splice-residue genus)", () => {
     const readme = read("README.md");
     GATE_FOOTER_RE.lastIndex = 0; // a fresh consumption of the shared /g source
@@ -588,8 +605,8 @@ const GATE_FOOTER_RE = new RegExp(
     expect(licenseAt, "the License section follows the footer").toBeGreaterThan(terminal);
     const region = readme.slice(terminal, licenseAt);
     expect(
-      /unit \d+\/\d+/.test(region),
-      `the post-footer region must carry no residual count fragment — region reads "${region.replace(/\s+/g, " ").slice(0, 80)}"`,
+      /unit \d+\/\d+|smoke \d+\/\d+|e2e \d+\/\d+/.test(region),
+      `the post-footer region must carry no residual count fragment (unit|smoke|e2e) — region reads "${region.replace(/\s+/g, " ").slice(0, 80)}"`,
     ).toBe(false);
   });
 
@@ -1551,5 +1568,69 @@ describe("docs-counts: session-50 (S50-6) — the excludes↔smoke mirror-set pi
     // + the one sanctioned extra.
     const extra = [...smokeSet].filter((e) => e !== "uploads" && !exclSet.has(e));
     expect(extra, `the smoke leg-16 list carries entries beyond the excludes + the sanctioned S34-7 uploads extra — extra: ${extra.join(", ")}. The two lists move TOGETHER: either add the next.config exclude or drop the smoke entry in the same commit`).toEqual([]);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-62 (S62-1, AUDIT-1 L1): the loader-drops residue-sweep
+// census. The session-61 S61-1 respell was scoped to boot-env.ts; the
+// falsified loader-drops census (the session-61 loadEnvConfig probe of
+// the repo's own @next/env 16.4.2: it KEEPS the leading-quote value in
+// process.env on every unclosed shape — the file-face arm's real
+// coverage is the UNLOADED-.env postures) survived in six live-tense
+// sites outside that scope (instrumentation.ts, env-file.ts,
+// boot-env.test.ts's s58/s59 headers + the s59 describe title, PAD
+// §12's db-path row), cured this round together with three narration
+// re-spells (the verbatim falsified quotes → attribution-only, so this
+// census's regex stays clean on every target file). The frozen history
+// layer — README's session-58/59 rows, SKILL Appendix A's rows, this
+// file's own s59 ledger entry — narrates the round records and stays
+// exempt (the correction lives in the session-62 records, never as
+// history edits).
+// Plant: re-plant the falsified clause in any target file → REDs here.
+// ---------------------------------------------------------------------------
+describe("docs-counts: session-62 — the loader-drops residue-sweep census (S62-1)", () => {
+  it("no live-tense site carries the falsified loader-drops claim (the S62-1 sweep census)", () => {
+    for (const f of [
+      "src/instrumentation.ts",
+      "src/lib/env-file.ts",
+      "src/lib/boot-env.ts",
+      "tests/boot-env.test.ts",
+      "Project_Architecture_Document.md",
+    ]) {
+      expect(
+        read(f),
+        `${f} carries the falsified loader-drops claim — respell to the session-61 probe truth (@next/env KEEPS the leading-quote value in the process env; the file-face arm's real coverage is the unloaded-.env postures)`,
+      ).not.toMatch(/drops? (the line|a single-line|to undefined)|drop-to-undefined/i);
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-62 (S62-3, AUDIT-1 L2): the SKILL §16 model census — the
+// S40-11 genus on the one face its scoping left out. The §16
+// "Complete Interface Reference" User comment omitted the live
+// photoUrl field (schema.prisma, wire-visible on /api/auth/me since
+// session 1) for the repo's entire life — 14 of 15 fields — while the
+// S40-11a arm pinned PAD §4.1 only. This arm derives BOTH models'
+// fields from schema.prisma and demands each appears in the SKILL's
+// §16 models comment block.
+// Plant: remove the photoUrl row → REDs here naming the field.
+// ---------------------------------------------------------------------------
+describe("docs-counts: session-62 — the SKILL §16 model census (S62-3)", () => {
+  it("the SKILL §16 models comment carries every live schema field (the S40-11 idiom, the §16 face)", () => {
+    const schema = read("prisma/schema.prisma");
+    const skill = read("viralpost-ai_SKILL.md");
+    const models = skill.slice(skill.indexOf("// The models (prisma)"), skill.indexOf("// The env (six, exactly)"));
+    expect(models.length, "the SKILL §16 models block must exist (the slice found it)").toBeGreaterThan(0);
+    for (const model of ["User", "ContactMessage"]) {
+      const block = schema.slice(schema.indexOf(`model ${model} {`), schema.indexOf("}", schema.indexOf(`model ${model} {`)));
+      expect(block.length, `schema.prisma must carry model ${model}`).toBeGreaterThan(0);
+      const fields = [...block.matchAll(/^\s{2}(\w+)\s+\w+/gm)].map((m) => m[1]);
+      expect(fields.length).toBeGreaterThanOrEqual(5);
+      for (const field of fields) {
+        expect(models, `the SKILL §16 ${model} comment omits the live schema field '${field}' — add it in the same commit as any schema change`).toContain(field);
+      }
+    }
   });
 });

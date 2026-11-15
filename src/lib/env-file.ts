@@ -51,15 +51,18 @@
  * S53-6 posture stands: fix the .env. Boot-warned session-58 (S58-1):
  * the boot gate names the residue the PROCESS ENV carries (bun's span
  * embeds a newline; @next/env keeps the leading quote — live-probed
- * both, both quote chars); session-59 (S59-1) closed the last silent
- * face — @next/env's single-line shape DROPS the line to undefined
- * (invisible to any process-env arm), and the boot gate's file-face
- * arm now reads this same parser's value for exactly that shape (the
- * leading-quote residue hands the engine a non-file: URL raw —
+ * both, both quote chars); session-59 (S59-1; the claim re-spelled
+ * session-62, S62-1 — the session-61 loadEnvConfig probe truth)
+ * closed the last silent face — the UNLOADED-.env postures (no
+ * sanctioned loader consumed the file, so the process env carries
+ * no value), and the boot gate's file-face arm now reads this same
+ * parser's value for exactly those postures (the leading-quote
+ * residue hands the engine a non-file: URL raw on the CONSUMED leg —
  * PrismaClientInitializationError at the first invocation, the
- * session-59 live probe). The genus is no longer silent on any loader
- * face. Pinned session-57, S57-1a: the parse fixtures + the resolve
- * junk-tail face in tests/db-path.test.ts.)
+ * session-59 live probe; the session-62 S62-2 leg split: a PWD-leg
+ * residue never reaches the engine). The genus is no longer silent
+ * on any loader face. Pinned session-57, S57-1a: the parse fixtures
+ * + the resolve junk-tail face in tests/db-path.test.ts.)
  *
  * (Session-60, S60-3c — the escape-face census, the module's own "a
  * parser that disagrees" doctrine applied to its last undocumented

@@ -200,8 +200,9 @@ export function bootEnvCheck(env: Record<string, string | undefined>): BootEnvRe
   // (next dev via node / the standalone server.js) NEVER spans — the S3
   // shape keeps the LEADING QUOTE (`"file:../db/custom.db`).
   // (Session-61, S61-1 — the loader-census truth respell: this
-  // comment's prior tail — "the single-line shape drops to undefined"
-  // — was FALSIFIED by a direct probe of the repo's own @next/env
+  // comment's prior tail — the loader-drops claim (the verbatim
+  // falsified spelling removed session-62, S62-1) — was FALSIFIED
+  // by a direct probe of the repo's own @next/env
   // 16.4.2 (loadEnvConfig on a scratch .env, ambient env unset, both
   // quote chars, dev:true and dev:false alike): @next/env KEEPS the
   // leading-quote value in process.env on EVERY unclosed shape. Both
@@ -470,8 +471,8 @@ export function applyBootEnvReport(
 // while the db-path seam's own .env parse sees the residue — the
 // UNLOADED-.env postures (the S51-1 launch-dir/unloaded-file family:
 // no sanctioned loader ever consumed that .env). The session-59
-// premise — "the @next/env loader DROPS a single-line-unclosed
-// DATABASE_URL line to undefined" — was FALSIFIED by the session-61
+// premise — the loader-drops claim (the verbatim falsified spelling
+// removed session-62, S62-1) — was FALSIFIED by the session-61
 // probe (the repo's own @next/env 16.4.2 KEEPS the leading-quote value
 // in process.env on every unclosed shape); when a sanctioned loader
 // DID consume the .env, the process env carries the residue and the
@@ -497,6 +498,7 @@ export function applyBootEnvReport(
 export function databaseUrlFileResidueWarning(
   env: { NODE_ENV?: string | undefined; DATABASE_URL?: string | undefined },
   envFileUrl: string | undefined,
+  runtimeConsumesFile: boolean = true,
 ): string | null {
   // A SET process-env face owns the signal: it either carries the
   // residue itself (the S58-1 arm in bootEnvCheck — one owner, never
@@ -533,14 +535,37 @@ export function databaseUrlFileResidueWarning(
   // branch exactly like the process-env arm's S60-1 split.
   const quoteFace = fileUrl.startsWith('"') || fileUrl.startsWith("'");
   const prefix = `[boot] the .env DATABASE_URL=${JSON.stringify(fileUrl)}`;
-  const dropped = `the process environment does not carry the value (no sanctioned loader consumed this .env — the S51-1 launch-dir family), so the process-env arm cannot see it`;
+  // Session-62 (S62-2): re-named from `dropped` — the S61-1 respell
+  // re-spelled the VALUE to the posture truth; the vestigial name
+  // followed it this round (the constant no longer says "dropped").
+  const unseen = `the process environment does not carry the value (no sanctioned loader consumed this .env — the S51-1 launch-dir family), so the process-env arm cannot see it`;
+  // Session-62 (S62-2, AUDIT-1 L3 — live-probed): the leg split. The
+  // wrapper probes the cwd ∪ PWD union, but the runtime tail
+  // (runtimeDatabaseUrl → readDatabaseUrlFromEnvAt(cwd)) reads ONLY
+  // the server CWD's .env — a residue on the PWD leg never reaches
+  // the engine. The round's live probe (node-booted standalone
+  // server.js from the repo root, a single-line-unclosed residue
+  // .env at the repo root, ambient unset): the PWD-leg warning fired
+  // naming PrismaClientInitializationError while the server booted
+  // HEALTHY against the real db (/api/health answered ok:true,
+  // db:up) — the predicted failure never happened. On this leg the
+  // mechanism sentence is the posture truth: the residue is INERT
+  // until a loader consumes this file. The headline + cause clause +
+  // fix guidance stay true on both legs.
+  if (!runtimeConsumesFile) {
+    const headline = quoteFace ? "an unclosed quote residue" : "a control character";
+    const fix = quoteFace
+      ? 'close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db")'
+      : "remove the control character from the DATABASE_URL value";
+    return `${prefix} carries ${headline} — ${unseen}; this directory is the PWD leg and the db-path seam's runtime reads only the server CWD's .env, so the engine never sees the residue (it resolves the default URL and boots against the real database) — the malformed line is inert until a loader consumes this file. Fix the .env: ${fix}.`;
+  }
   if (quoteFace) {
-    return `${prefix} carries an unclosed quote residue — ${dropped}; the db-path seam's own .env parse keeps the quote and hands the engine the value raw, and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`;
+    return `${prefix} carries an unclosed quote residue — ${unseen}; the db-path seam's own .env parse keeps the quote and hands the engine the value raw, and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`;
   }
   if (fileUrl.startsWith("file:")) {
-    return `${prefix} carries a control character — ${dropped}; the db-path seam's own .env parse keeps the control character (an unquoted line's pasted tab — the session-60 S60-1 census), and, the value being file:-prefixed, the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe). Fix the .env: remove the control character from the DATABASE_URL value.`;
+    return `${prefix} carries a control character — ${unseen}; the db-path seam's own .env parse keeps the control character (an unquoted line's pasted tab — the session-60 S60-1 census), and, the value being file:-prefixed, the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe). Fix the .env: remove the control character from the DATABASE_URL value.`;
   }
-  return `${prefix} carries a control character — ${dropped}; the db-path seam's own .env parse keeps the control character (an unquoted line's pasted tab — the session-60 S60-1 census), and, the value not starting with "file:", the seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: remove the control character from the DATABASE_URL value.`;
+  return `${prefix} carries a control character — ${unseen}; the db-path seam's own .env parse keeps the control character (an unquoted line's pasted tab — the session-60 S60-1 census), and, the value not starting with "file:", the seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: remove the control character from the DATABASE_URL value.`;
 }
 
 // Session-47 (S47-2): the shadowing-env-file warning — a pure seam in
@@ -710,12 +735,18 @@ export function shadowingEnvFileWarningsForServer(
 // Session-59 (S59-1): the file-face residue wrapper — reads each probe
 // dir's .env DATABASE_URL through the db-path seam's OWN parser
 // (parseEnvFile — the one-home parse: the warning's predicate and the
-// runtime consumption share one parser, so they can never diverge) and
-// routes it through the pure seam with the live process env. The
-// PWD-less process-manager boundary inherits the S51-1 register (the
-// union is cwd-only there; the db-path seam's module-anchor recovery
-// may still consume a launch-dir .env the union cannot see — the same
-// documented boundary the shadow wrapper carries).
+// runtime consumption share one parser, so they can never diverge on
+// the PARSE face) and routes it through the pure seam with the live
+// process env. (Session-62, S62-2 — live-probed: one parser, TWO legs
+// — the runtime tail consumes only the SERVER CWD's .env, so the PWD
+// leg passes runtimeConsumesFile=false and its message names the
+// inert-residue truth; a warning claiming the engine would fail fired
+// on a PWD-leg residue while the server booted healthy against the
+// real db.) The PWD-less process-manager boundary inherits the S51-1
+// register (the union is cwd-only there; the db-path seam's
+// module-anchor recovery may still consume a launch-dir .env the
+// union cannot see — the same documented boundary the shadow wrapper
+// carries).
 export function databaseUrlFileResidueWarningsForServer(
   env: { NODE_ENV?: string | undefined; DATABASE_URL?: string | undefined },
 ): string[] {
@@ -726,7 +757,12 @@ export function databaseUrlFileResidueWarningsForServer(
     if (existsSync(envPath)) {
       envFileUrl = parseEnvFile(readFileSync(envPath, "utf8")).DATABASE_URL;
     }
-    const warning = databaseUrlFileResidueWarning(env, envFileUrl);
+    // Session-62 (S62-2): the leg discriminator — the runtime reads
+    // only the SERVER CWD's .env, so a PWD-leg residue never reaches
+    // the engine (the round's live probe: a healthy boot against the
+    // real db while the PWD-leg warning fired). The pure seam needs
+    // the leg to speak the true mechanism sentence.
+    const warning = databaseUrlFileResidueWarning(env, envFileUrl, d === process.cwd());
     if (warning !== null) out.push(warning);
   }
   return out;

@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..61.
+// are docs/session_1..62.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -435,14 +435,17 @@ describe("session-13 (S13-1): the unset in-app-delivery warning (the live-token-
 });
 
 // ---------------------------------------------------------------------------
-// Session-58 (S58-1): the DATABASE_URL unclosed-quote residue warning.
+// Session-58 (S58-1; the census tail re-spelled session-62, S62-1):
+// the DATABASE_URL unclosed-quote residue warning.
 // The S57-1 span genus was SILENT at boot — the one standing genus with
 // zero boot-level signal while every lesser hazard warns. The loader
 // census (this round's own probes, ambient env unset, both quote
 // chars): bun 1.3.14 SPANS the S3 shape (an embedded NEWLINE rides the
 // value) and keeps the leading quote on the single-line-unclosed shape;
-// @next/env NEVER spans (the S3 shape keeps the LEADING QUOTE, the
-// single-line shape drops to undefined). Both residues are loader
+// @next/env NEVER spans — TRUE — and the single-line-unclosed value
+// rides the process env when a loader consumed the file (the S61-1
+// probe truth; the file-face arm's real coverage is the unloaded-.env
+// postures). Both residues are loader
 // spellings of the ONE operator typo; the pins split by residue face
 // (and by mode) so each plant REDs exactly its own pin.
 // ---------------------------------------------------------------------------
@@ -489,10 +492,13 @@ describe("session-58 (S58-1): the DATABASE_URL unclosed-quote residue warning (t
 });
 
 // ---------------------------------------------------------------------------
-// Session-59 (S59-1): the .env-FILE-face residue arm + the mechanism-truth
-// split. The S58-1 warning reads only the PROCESS-ENV face — but the
-// @next/env loader DROPS a single-line-unclosed DATABASE_URL line to
-// undefined (the session-58 census), and in that shape the db-path
+// Session-59 (S59-1; the premise re-spelled session-62, S62-1): the
+// .env-FILE-face residue arm + the mechanism-truth
+// split. The S58-1 warning reads only the PROCESS-ENV face — but
+// there are UNLOADED-.env postures the process env cannot see (no
+// sanctioned loader consumed the file — the S62-1 re-spell; the
+// session-58 census's loader-drops tail was falsified by the
+// session-61 probe), and in those postures the db-path
 // seam's own .env parse keeps the leading quote and hands the engine
 // the value RAW (the session-59 live probe: resolved
 // `"file:../db/custom.db`, PrismaClientInitializationError at the
@@ -501,10 +507,11 @@ describe("session-58 (S58-1): the DATABASE_URL unclosed-quote residue warning (t
 // mechanism split of the S58-1 message (the junk-file sentence is the
 // bun SPAN face's truth; the leading-quote face never re-anchors).
 // ---------------------------------------------------------------------------
-describe("session-59 (S59-1): the .env-FILE-face residue arm (the @next/env single-line shape the process-env arm cannot see)", () => {
+describe("session-59 (S59-1): the .env-FILE-face residue arm (the unloaded-.env postures the process-env arm cannot see)", () => {
   it("the FILE-FACE residue (no sanctioned loader consumed this .env, the .env parse kept the quote — both quote chars) warns; clean file values with an unset env face stay silent", () => {
-    // Session-61 (S61-1) re-anchor: the S58-1 loader census clause
-    // ("@next/env … the single-line shape drops to undefined") was
+    // Session-61 (S61-1) re-anchor (the verbatim falsified quote
+    // removed session-62, S62-1): the S58-1 loader census clause's
+    // loader-drops tail was
     // FALSIFIED by a direct probe of the repo's own @next/env 16.4.2 —
     // it KEEPS the leading-quote value in process.env on every
     // unclosed shape (both quote chars, dev:true and dev:false). The
@@ -946,5 +953,70 @@ describe("session-50 (S50-1): the launch-dir shadow union", () => {
       rmSync(launchDir, { recursive: true, force: true });
       rmSync(artifactDir, { recursive: true, force: true });
     }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-62 (S62-2, AUDIT-1 L3 — live-probed): the PWD-leg
+// mechanism-truth split. The wrapper probes the cwd ∪ PWD union, but
+// the RUNTIME tail (runtimeDatabaseUrl → readDatabaseUrlFromEnvAt(cwd))
+// reads ONLY the server CWD's .env — so a residue found on the PWD leg
+// never reaches the engine. The round's live probe (node-booted
+// .next/standalone/server.js from the repo root — server.js chdirs
+// into the artifact dir while PWD stays at the repo root — a
+// single-line-unclosed DATABASE_URL residue .env at the repo root,
+// ambient DATABASE_URL unset): the PWD-leg warning FIRED naming
+// PrismaClientInitializationError AND the server booted HEALTHY against
+// the REAL db (/api/health answered ok:true, db:up) — the predicted
+// engine failure never happened; the engine resolved the default URL.
+// The consumed-leg (CWD) message stays true — session-59's probe shape.
+// The split: the pure seam's third parameter (runtimeConsumesFile,
+// default true — every two-arg call is the consumed leg, so the
+// S59-1/S60-1/S61-1 pins hold verbatim), the wrapper passing
+// d === process.cwd().
+// ---------------------------------------------------------------------------
+describe("session-62 (S62-2): the PWD-leg mechanism-truth split (the runtime reads only the server CWD's .env)", () => {
+  it("the PWD leg names the INERT-RESIDUE truth (the engine never sees it); the CWD leg keeps the per-face mechanism sentences", () => {
+    // The PWD-leg quote face: the headline + cause clause + fix stay;
+    // the mechanism sentence becomes the posture truth.
+    const quotePwd = databaseUrlFileResidueWarning({ NODE_ENV: "production" }, '"file:../db/custom.db', false);
+    expect(quotePwd).toContain("unclosed quote");
+    expect(quotePwd).toContain("PWD leg");
+    expect(quotePwd).toContain("never sees the residue");
+    expect(quotePwd).toContain("no sanctioned loader consumed this .env");
+    expect(quotePwd).toContain("close the quote");
+    // The mechanism sentences that are false in this posture are absent.
+    expect(quotePwd).not.toContain("PrismaClientInitializationError");
+    expect(quotePwd).not.toContain("junk-named file");
+
+    // The PWD-leg control-char face keeps its own headline + fix,
+    // the same inert-residue mechanism (the canonical S60-1
+    // embedded-tab fixture — a trailing tab alone is trimmed clean by
+    // the seam's documented parse contract, so the census family
+    // carries the tab mid-value with the junk tail).
+    const tabPwd = databaseUrlFileResidueWarning({ NODE_ENV: "production" }, "file:../db/custom.db\tjunk", false);
+    expect(tabPwd).toContain("control character");
+    expect(tabPwd).toContain("PWD leg");
+    expect(tabPwd).toContain("remove the control character");
+    expect(tabPwd).not.toContain("PrismaClientInitializationError");
+    expect(tabPwd).not.toContain("junk-named file");
+
+    // The CWD leg (the two-arg DEFAULT — every existing pin's form —
+    // and the explicit true) keeps the S60-1b per-face mechanism
+    // verbatim.
+    const quoteCwd = databaseUrlFileResidueWarning({ NODE_ENV: "production" }, '"file:../db/custom.db');
+    expect(quoteCwd).toContain("PrismaClientInitializationError");
+    expect(quoteCwd).toBe(databaseUrlFileResidueWarning({ NODE_ENV: "production" }, '"file:../db/custom.db', true));
+    const tabCwd = databaseUrlFileResidueWarning({ NODE_ENV: "production" }, "file:../db/custom.db\tjunk");
+    expect(tabCwd).toContain("junk-named file");
+  });
+
+  it("the WRAPPER passes the leg discriminator (d === process.cwd()) — the S29-2 source-census idiom", () => {
+    // The wrapper's loop is the only place the leg is knowable; the
+    // plant (restore the two-arg call) REDs exactly this pin while
+    // S62-2a holds — the pure seam's split untouched.
+    const src = readFileSync(join(root, "src", "lib", "boot-env.ts"), "utf8");
+    expect(src).toContain("d === process.cwd()");
+    expect(src).toContain("runtimeConsumesFile");
   });
 });

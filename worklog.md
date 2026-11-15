@@ -6768,3 +6768,158 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-61 ship: lint 0/0 · tsc 0 · unit 740/740 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 62 — The Loader-Drops Residue Sweep + The PWD-Leg Mechanism Split + The SKILL Model Census and the Splice-Guard Widening (2026-11-15)
+
+- BASELINE: gate GREEN at the session-61 ship counts (lint 0/0 · tsc 0 ·
+  unit 740/740, 40 files · build · smoke 16/16 · e2e 70/70, 9 specs ·
+  census MATCH) — zero drift. Standing asks re-verified up front (the
+  `.env` DATABASE_URL="file:../db/custom.db" contract with db/ at the
+  repo root, census MATCH — the .env rebuilt from .env.example on the
+  fresh clone per the documented bootstrap; `.env.example` committed and
+  code-verified at every comment claim; vitest + playwright current; the
+  sitemap/robots/manifest/OG family verified live in this round's walk
+  #35; skills/ excluded from every gate). neo-crm unchanged (b3d0fbe —
+  the fifteenth consecutive no-change check).
+- AUDIT: three parallel subagents + the lead's hand-verification —
+  AUDIT-1 (API/lib seams) 0C/0H/0M/3L/2I · AUDIT-2
+  (components/pages/effects) 0C/0H/0M/0L/0I — the lane CLEAN · AUDIT-3
+  (SEO/configs/tests/docs) 0C/0H/0M/0L/1I — combined 0 Critical / 0
+  High / 0 Medium / 3 Low / 3 Info. The three Lows live-verified AND
+  probed: AUDIT-1 L1 — the session-61 S61-1 respell was scoped to
+  boot-env.ts only; the same falsified loader-drops census survived in
+  SIX live-tense sites outside that scope (instrumentation.ts's S59-1
+  wiring comment, env-file.ts's docblock, boot-env.test.ts's s58 census
+  header + the s59 describe header AND its title, boot-env.ts's two
+  verbatim narrations, PAD §12's db-path row). AUDIT-1 L3 — the
+  file-face residue warning's mechanism sentence is DIR-LEG-ASYMMETRIC,
+  verified by a DIRECT live probe of the standalone artifact
+  (node-booted .next/standalone/server.js from the repo root — the
+  documented launch posture where server.js chdirs into the artifact dir
+  while PWD stays at the repo root — with a single-line-unclosed
+  DATABASE_URL residue .env at the repo root, ambient unset): the
+  PWD-leg warning FIRED naming PrismaClientInitializationError while
+  the server booted HEALTHY against the REAL database (/api/health
+  answered ok:true, db:up) — the predicted engine failure NEVER
+  happened (the engine resolved the default URL; the runtime tail
+  runtimeDatabaseUrl → readDatabaseUrlFromEnvAt(cwd) reads ONLY the
+  server CWD's .env, so the PWD leg's residue is inert). AUDIT-1 L2 —
+  SKILL §16's interface reference listed 14 of 15 live schema fields
+  (photoUrl, wire-visible on /api/auth/me since session 1, missing —
+  the exact twin of PAD §4.1's S40-9 omission on the one face the
+  S40-11a census's scoping left unpinned). AUDIT-3 I1 — the S61-3
+  splice-residue guard banned only unit N/N fragments (a smoke/e2e-only
+  stale tail would evade it; prospective-only, the region clean).
+  Registers: the respelled cause clause's empty-ambient corner (the
+  S30-1 documented docker-compose/CI shape; the warning's fix guidance
+  stays correct), the frozen history layer's loader-drops claims (the
+  correction lives in THIS round's records, never as history edits), the
+  bun-audit triage (the same 9 advisories as session-55..61 — all
+  dev-toolchain via source-map-js/postcss/vitest, none on the runtime
+  request path). AUDIT-1 I1 (the `dropped` constant's vestigial name)
+  and I2 (the S47-2 comment-anchor displacement) adjudicated as
+  cures-in-round.
+- PARITY WALK #35 — the thirty-fifth consecutive clean walk. REF leg
+  (live, logged in): login settled at /Home; the hamburger
+  md:hidden p-2 text-slate-300 base with NO aria family; the panel
+  inner px-6 py-4 space-y-3 byte-identical (16px/24px, block, maxHeight
+  none, transparent); linkTexts identical; Home teal rgb(45,212,191)
+  14px/500, the siblings rgb(203,213,225) 14px/500, the pill
+  rgb(15,23,42) 14px/600 9999px; Escape via a REAL key press leaves the
+  reference's panel open; the outside-tap genuine non-nav H2 tap leaves
+  it open; route-change at /Pricing the reference UNMOUNTS
+  (panelInnerCount 0); the desktop census 6 visible identical; the
+  brand gradient byte-identical (linear-gradient(to right,
+  rgb(45,212,191), rgb(251,191,36)), 18px/700, clip text); the
+  five-route head census identical (the 170-char / description + the
+  92/95-char per-route family, the canonicals, the single shared
+  ogImage); sitemap exactly 4 URLs + robots Allow-all + Sitemap line;
+  the generator DEAD (the documented 402 face). CLONE leg (the dev
+  server on :3000, quota cleared): login landed at / (the documented
+  308 deviation); the panel byte-identical on every computed face (the
+  pill 3.35544e+07px — v4's infinity calc rendering the identical
+  capsule); the hamburger base identical + the aria superset ACTIVE
+  (aria-controls mobile-menu, expanded false→true live-verified, the
+  Open/Close-menu relabel); Escape closes OUR menu with focus returned
+  to the toggle (focusOnToggle true, activeElement BUTTON — the
+  documented superset); the outside-tap leaves it open (parity);
+  route-change at /Pricing ours hides in-DOM (panelInnerCount 1, aria
+  false — the S26-1 design); the desktop census 6 visible identical;
+  the brand gradient byte-identical; the five-route head census
+  identical modulo origin; sitemap 4 URLs + robots identical modulo
+  origin; the generator LIVE (a 7-hashtag post in the 5-8 family + the
+  Copy button, quota 0→1 — the viralpost_generations counter key). NO
+  clone-side drift, no NEW reference-side drift. Mobile nav verified
+  working as expected on both sides; all seven Tailwind v4 mitigations
+  verified present and test-pinned (the audit's own lane, with the
+  shipped-sheet empirical probe).
+- CURES (TDD — four pins born RED, the batteries on record): the
+  S62-1a loader-drops residue-sweep census (the five live-tense target
+  files may not carry the falsified claim family — the regex
+  /drops? (the line|a single-line|to undefined)|drop-to-undefined/i,
+  the frozen history layer exempt by design; the claim-replant plant
+  REDs the census — 1 failed / 49 passed, naming the file; restored
+  GREEN), the S62-1b residue sweep (the six-site sweep + three
+  narration re-spells to attribution-only — the falsification story +
+  the citations stay, the verbatim falsified spelling goes; the S47-2
+  comment re-anchored to its own loop — the AUDIT-1 I2 cure), the
+  S62-2 PWD-leg mechanism split (the pure seam's runtimeConsumesFile
+  third parameter, default true — every two-arg call verbatim, the
+  S59-1/S60-1/S61-1 pins hold untouched; the PWD-leg branch names the
+  inert-residue truth; the wrapper passes d === process.cwd(); the
+  split-revert plant REDs exactly the S62-2a pin — 1 failed / 67
+  passed, the wrapper pin holding; the two-arg-revert wrapper plant
+  REDs exactly the S62-2b pin — 1 failed / 67 passed, S62-2a holding;
+  the `dropped` local re-named `unseen` — the AUDIT-1 I1 vestige), the
+  S62-3 SKILL §16 model census + the photoUrl completion (the S40-11
+  idiom extended to the §16 face — every live schema field (User AND
+  ContactMessage, derived from schema.prisma on disk) must appear in
+  the models comment; the photoUrl-removal plant REDs it naming the
+  field — 1 failed / 49 passed; the User comment gains photoUrl after
+  avatarColor, the schema's own order — the interface reference
+  complete at 15/15), the S62-4 splice-guard fragment-class widening
+  (the banned class extended from unit N/N to unit|smoke|e2e N/N; the
+  smoke-tail splice plant — a stale build · smoke 17/17 · e2e 71/71
+  tail with NO unit fragment — REDs the widened guard — 1 failed / 49
+  passed; restored GREEN). The mid-round fixture repair on record: the
+  S62-2a pin's control-char fixtures first rode a trailing tab — a
+  shape the seam's documented parse contract trims clean, so the guard
+  never fired (caught at the first GREEN run); re-anchored to the
+  canonical S60-1 embedded-tab family (custom.db<TAB>junk), the pin's
+  comment documenting why.
+- REGISTERS: the respelled cause clause's empty-ambient corner (a
+  set-but-empty ambient DATABASE_URL where a loader consumed the .env
+  but could not override the existing ambient key — the S30-1
+  documented docker-compose/CI shape; the warning and its fix guidance
+  stay correct), the frozen history layer's loader-drops claims
+  (README's session-58/59 rows, SKILL Appendix A's rows, the
+  docs-counts ledger's own s59 entry — the correction lives in THIS
+  round's records, never as history edits), the bun-audit triage
+  re-verified (the same 9 advisories as session-55..61 — all
+  dev-toolchain/build-time, none on the runtime request path).
+- COUNTS: UNIT 740 → 744 (+4 — the S62-1a residue-sweep census, the
+  S62-2a PWD-leg pin, the S62-2b wrapper wiring pin, the S62-3a SKILL
+  model census) / SUITES 40 / E2E 70 / E2E_SPECS 9 / SMOKE 16 / BADGE
+  810 → 814. NO PAD §12 row changes (the db-path row's prose re-spell
+  is line-count-neutral, re-verified). The designed count-lag faces
+  fired and were cured at the lockstep exactly as the doctrine
+  describes (the UNIT-constant reality census 740 vs disk 744; the
+  plans-map tail-currency on the 62nd plan file — all GREEN at the
+  lockstep, the census driving the docs, its own doctrine). The ten
+  provenance sites re-anchored to 1..62 — lag 0 at ship. SKILL
+  v1.57.0 → v1.58.0.
+- VERIFIED: the full gate on the exact commit tree (below); the parity
+  walk #35; the captures 131/132 on the dev server (PIL-verified);
+  docs lockstep (README's badge 814 + the session-62 row + the gate
+  footer re-spell to the session-62 ship + the testing-table 744
+  sites; AGENTS's plans-map sixty-second round + the 744; CLAUDE's
+  744; PAD's §8.1 table + carry line at 744/70/16; SKILL v1.58.0
+  frontmatter/project_state/§0.5 1..62/Appendix A's session-62
+  row/Appendix B's header + gate line + the pre-ship checklist 744;
+  the docs-counts constants UNIT 744 + the s62 ladder entry; the ten
+  provenance sites at 1..62; worklog Task 62; docs/session_62.md (the
+  formal log replacing the owner's narration); the session-62 plan's
+  post-execution record).
+
+**Gate at the session-62 ship: lint 0/0 · tsc 0 · unit 744/744 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
