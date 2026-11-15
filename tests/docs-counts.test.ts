@@ -391,6 +391,18 @@ import {
 // spot closed; the mid-line plant REDs exactly it)). The S63-4
 // comment-truth pair, the S63-5 register row, and the S63-7 sr-only
 // cleanup are +0 tests. The e2e 70 unchanged. SMOKE 16 unchanged.
+// s64: 755/40 (+5 — the S64-1a raw-@ redaction pin (the
+// redaction-revert plant REDs exactly it), the S64-2b union-read pin
+// (the re-prefix-revert plant REDs exactly it), the S64-3a e2e
+// mid-line census arm (the S56-4 blind spot closed on the e2e side;
+// the mid-line plant REDs exactly it), the S64-5a DEFAULT_DATABASE_URL
+// mirror pin (the literal-divergence plant REDs exactly it), and the
+// S64-6a splice-modulo pin (the modulo-removal plant REDs exactly
+// it)). The S64-4a forms-guard widening (the x/f-prefixed alias
+// family banned; the alias plant REDs the widened guard) is a
+// re-anchor, not a count change — the guard's it count held. The
+// S64-7 docblock move and the S64-8 memory-face register note are +0
+// tests. The e2e 70 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -398,7 +410,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 750;
+const UNIT = 755;
 /** Vitest suite files. */
 const SUITES = 40;
 /** Playwright e2e checks (incl. the setup project's 1). */
@@ -1045,6 +1057,15 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
   // block, .skip(/.only( change what runs, .todo( neither counts nor
   // runs). Zero live instances at birth (verified before the pin
   // landed); comment-stripped so a prose mention is not a violation.
+  // Session-64 (S64-4, AUDIT-3 F-3): the guard widened to the
+  // x/f-PREFIXED alias family — an "x" or "f" directly before the
+  // it/test token (no dot, no word char before the prefix) silently
+  // skips or focuses a registration while the census regex
+  // (^\s*(?:it|test)\() sees neither the alias nor the change. The
+  // lookbehind mirrors the S63-8a boundary: a method like a regex
+  // `.test(` call stays invisible (the dot blocks), and prose inside
+  // an identifier stays invisible (the word char blocks). Zero live
+  // instances at birth (verified before the widening landed).
   it("no uncountable registration form in any unit suite or e2e spec (the census's shape contract)", () => {
     // Session-46 (S46-10): the module-level stripComments (the S45-9
     // helper above) — the local copies retired (the one-idiom doctrine).
@@ -1055,7 +1076,9 @@ describe("docs-counts: session-12 — the reality census (constants vs DISK, F12
     const e2eFiles = e2eCountedFiles();
     for (const f of [...unitFiles, ...e2eFiles.map((f) => `tests/e2e/${f}`)]) {
       const src = stripComments(read(f));
-      const form = src.match(/\.(each|skip|only|todo|concurrent|fails)\(/);
+      // S64-4: the dot-forms arm + the x/f-prefixed alias arm, one
+      // alternation — either shape is an uncountable registration form.
+      const form = src.match(/\.(each|skip|only|todo|concurrent|fails)\(|(?<![A-Za-z0-9_.])[xf](?:it|test)\(/);
       expect(form, `${f} uses a "${form?.[0] ?? ""}" registration form the reality census cannot count — count it by hand and extend the census, or write plain it(/test( blocks`).toBeNull();
     }
   });
@@ -1670,12 +1693,80 @@ describe("docs-counts: session-63 — the mid-line registration census (the S56-
       // never registrations; exempt by construction (its own
       // registrations are line-start and counted by the census above).
       if (f === "tests/docs-counts.test.ts" || f === "docs-counts.test.ts") continue;
-      const lines = stripComments(read(`tests/${f.replace(/^tests\//, "")}`)).split("\n");
+      // Session-64 (S64-2, AUDIT-3 F-1): read(f) — the repo-relative
+      // path the shared helper returns (the union idiom; the tests/
+      // re-prefix form this line carried broke the S50-5 union in
+      // letter: a src/ suite would have resolved to a nonexistent
+      // tests/src/... path and ENOENT'd instead of scanning).
+      const lines = stripComments(read(f)).split("\n");
       lines.forEach((line, i) => {
         if (/^\s*(?:it|test)\(/.test(line)) return; // line-start: the countable shape
         if (MIDLINE.test(line)) offenders.push(`${f}:${i + 1}: ${line.trim().slice(0, 70)}`);
       });
     }
     expect(offenders, `mid-line registrations (write it(/test( at line start, or extend the census): ${offenders.join(" | ")}`).toEqual([]);
+  });
+});
+
+// Session-64 (S64-2, AUDIT-3 F-1): the union-read fix's own pin. The
+// S63-8a arm above originally re-prefed every path with `tests/`
+// instead of using the repo-relative path allUnitTestFiles() returns —
+// a future src/**/*.test.ts (which the vitest config admits, and whose
+// appearance the S50-5 doctrine declares "joins every census and every
+// strip-chain arm the day it appears") would have made the replace a
+// no-op and the read resolve to a nonexistent tests/src/... path
+// (ENOENT — failing CLOSED with a cryptic read error instead of
+// scanning). The fix reads the union paths directly — the same idiom
+// every sibling consumer uses; this pin holds the idiom in place (the
+// positive form; the re-prefix-revert plant is the negative face).
+describe("docs-counts: session-64 (S64-2) — the mid-line census reads the union paths directly", () => {
+  it("the S63-8a arm reads f through the shared helper's repo-relative form (no tests/ re-prefix)", () => {
+    const self = read("tests/docs-counts.test.ts");
+    // Scope to the S63-8a describe block — the ARM under the pin. The
+    // file's other consumers (the strip-chain sweep at its own block)
+    // already use the union idiom; an unscoped assertion would find
+    // THEM and stay green while the arm regresses (the vacuous-pin
+    // trap this pin's first draft fell into — caught before the cure
+    // landed, born-RED restored).
+    const start = self.indexOf('describe("docs-counts: session-63 — the mid-line registration census');
+    expect(start, "the S63-8a describe block must exist").toBeGreaterThan(0);
+    const end = self.indexOf("describe(", start + 10);
+    const arm = self.slice(start, end === -1 ? undefined : end);
+    // The fixed form: the arm's read call passes f directly to the
+    // shared read helper (the union idiom every sibling arm uses).
+    expect(arm).toContain("stripComments(read(f))");
+    // The re-prefix form must be gone from the arm (composed from
+    // parts — the pin's own source never carries the joined form, so
+    // it cannot self-satisfy).
+    const rePrefix = ["tests/", "${f.replace"].join("");
+    expect(arm).not.toContain(rePrefix);
+  });
+});
+
+// Session-64 (S64-3, AUDIT-3 F-2): the S56-4 blind-spot closure
+// completed on the e2e side. The unit arm above (S63-8a) scans the
+// tests/ ∪ src/ union; the e2e reality census counts LINE-START
+// `test(` registrations only — a mid-line registration in an e2e spec
+// would execute in the Playwright runner while evading the census,
+// decoupling E2E from reality through a green census. This arm scans
+// the e2eCountedFiles() surface (the 9 specs + the setup project) with
+// the same boundary-guarded regex: a `test(` NOT at line start and NOT
+// preceded by a word char or `.` (the `.test( method-call family is
+// not a registration). Zero live instances at birth (verified twice
+// this round — the audit's replica scan and the lead's grep). The
+// mid-line plant (pen a registration mid-line in a spec) REDs exactly
+// this arm.
+describe("docs-counts: session-64 (S64-3) — the e2e mid-line registration census (the S56-4 blind spot, e2e side)", () => {
+  it("no e2e spec registers a test mid-line (every registration is line-start, countable by the e2e census)", () => {
+    const MIDLINE = /(?<![A-Za-z0-9_.])test\(/;
+    const offenders: string[] = [];
+    for (const f of e2eCountedFiles()) {
+      const lines = stripComments(read(`tests/e2e/${f}`)).split("\n");
+      lines.forEach((line, i) => {
+        if (/^\s*test\(/.test(line)) return; // line-start: the countable shape
+        if (MIDLINE.test(line)) offenders.push(`tests/e2e/${f}:${i + 1}: ${line.trim().slice(0, 70)}`);
+      });
+    }
+    expect(offenders, `mid-line e2e registrations (write test( at line start, or extend the census): ${offenders.join(" | ")}`).toEqual([]);
   });
 });

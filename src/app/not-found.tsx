@@ -1,7 +1,5 @@
 import { NotFoundBody } from "./not-found-body";
 
-export default function NotFound() {
-
 // The ROOT-level not-found boundary — a dormant insurance layer in this
 // architecture (session-7, F7-3: this comment block was rewritten; the
 // scaffold's session-194 text described the CRM reference's 404 title
@@ -16,6 +14,9 @@ export default function NotFound() {
 // notFound() thrown OUTSIDE the catch-all segment — and no route in
 // this tree throws one; it exists so a future notFound() call site
 // still renders the designed 404 body instead of Next's stock page.
+// (Session-64, S64-7: the block moved above the export — it sat inside
+// the function body, unlike every sibling file's above-the-export
+// docblock convention.)
 //
 // The title on this boundary: no metadata export (declaring one would
 // override the root layout's title machinery); the root layout's
@@ -26,5 +27,6 @@ export default function NotFound() {
 // reference serves its designed 404 publicly too — dossier: /Dashboard
 // → Public → 404 page; OURS adds the true 404 HTTP status the
 // reference's SPA-200-everywhere can't ship).
+export default function NotFound() {
   return <NotFoundBody />;
 }

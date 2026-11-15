@@ -4,6 +4,18 @@
 // forgot 10 + reset 10 (the reset funnel's own buckets), contact 5/hour,
 // generate 20/15min (session-or-IP keyed).
 //
+// Session-64 (S64-8, AUDIT-1 I2 — the register's memory face): the
+// bucket-rotation AUTH hazard is documented (session-9, F9-1: the boot
+// warning's "a fresh rate-limit bucket per request" clause, direct
+// exposure at the default depth); the same vector carries a MEMORY
+// cost — every distinct client key mints a bucket, and a sustained
+// rotating-key attack mints ~R × windowMs worth of live entries
+// (reclaimed only at the sweep's watermark crossing), plus a full-map
+// walk per earliest-expiry crossing during the steady attack. Behind a
+// correctly-declared proxy the attacker cannot choose the trusted hop;
+// on a misdeclared-topology deploy this is the resource-exhaustion
+// face of the documented single-node posture (PAD §11's register row).
+//
 // Session-173 (F-173a — a donor-ledger number, the scaffold family's
 // own clock-injection session): rateLimit takes `now = Date.now()` — the
 // session-164 sweepRateLimits form extended to the rateLimit path, the

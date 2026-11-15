@@ -1,120 +1,298 @@
-The workspace exists with session-62 work shipped. The user's request references `docs/session_63.md` — let me check the current state of docs and see what remains to be done.
-The workspace has session-62 shipped (clean tree, up to date). `docs/session_63.md` doesn't exist yet — this task is to run session 63: a fresh audit → remediation → ship cycle, following the established pattern. Let me set up the task plan.
-The pull brought in `docs/session_63.md` — the owner already committed it. Let me read it plus the session-62 context.
-`docs/session_63.md` is the owner's narration record — the current round is **session 63** following the established cadence. Let me review the core docs. First the formal session-62 log and the session-62 plan (models for this round).
-Now let me review the standing docs — AGENTS.md, CLAUDE.md, and the skills catalog for the audit.
-Core docs reviewed. Now let me verify the standing asks (.env contract, db, tests) and read the skills catalog for the mandated audit skills.
-Standing asks verified. Now the skills catalog and the mandated web-application skill.
-Skill structure internalized (mirrored by the repo's own conventions docs). Now the baseline gate — lint, typecheck, unit first.
-Lint 0/0, tsc 0, unit 744/744 (40 files) — matches the session-62 ship record. Now build + smoke + e2e.
-**Baseline gate fully GREEN** — lint 0/0 · tsc 0 · unit 744/744 (40 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH · bun audit the same 9 dev-toolchain advisories (3H/5M/1L, none on the runtime path). Zero drift from the session-62 ship record.
+# Session 64 — The Redaction Raw-@ Tail Cure + The Census Union-Read Fix + The E2E Mid-Line Arm + The x/f Alias Guard + The Mirror Pin + The Splice Mod and the Register Batch (2026-11-15)
 
-Now dispatching the three-way parallel audit subagents (session precedent), each with its lane brief.
-Three-way audit complete: **AUDIT-1: 0C/0H/1M/1L/2I · AUDIT-2: 0C/0H/0M/2L/5I · AUDIT-3: 0C/0H/0M/0L/4I — combined 0 Critical / 0 High / 1 Medium / 3 Low / 11 Informational.** Now the lead's hand-verification before adjudication (reproduce-before-trusting). Starting with AUDIT-1's headline M1.
-M1's first half verified verbatim (lines 517-519: clean values return null on every leg). Now the db-path runtime tail.
-M1 verified structurally on both halves (the clean-value early return at boot-env.ts:517-519; the `if (envUrl)` gate at db-path.ts:403 with the artifact .env removed by the build). Now the remaining findings — L1's prints, the process-env arm, and the comment-truth items.
-L1 verified — all four process-env variants print the full raw value. Now the AUDIT-2 findings batch.
-The word-level grep finds feeders (prose). Let me verify these are NOT real class tokens — checking the actual occurrence contexts.
-L1 verified — the bare rules (`resize`, `ring`, `grow`, `table`, `lowercase`…) are fed by prose/comments and the DOM event-name string; className tokens are all distinct compounds. Now L2 (paywall rollover) and the comment-truth items.
-L2 verified — the paywall swap unmounts all state-driving inputs; nothing re-renders across the midnight rollover. Now the comment-truth pair.
-Both comment-truth items verified. Quick check on /api/health, then the decisive M1 live probe.
-I1 verified. Now the decisive M1 live probe — first the demo credentials from the seed.
-Now the decisive M1 live probe (the S62-2 shape): a clean absolute `DATABASE_URL` pointing at an empty alt db in the repo-root `.env`, node-booted standalone, ambient unset. If the engine silently ignores it, login succeeds against the default db with zero warnings.
-The probe produced an unexpected result — Error code 14 with the clean alt.db value, NOT the silent default-fallback M1 predicted. Something DID consume or misresolve. Let me read the seam's tail before concluding.
-The probe contradicts M1's prediction — Error 14 means the engine got an unopenable URL, not the healthy default. Before concluding, let me check how the standalone boot actually resolves — the smoke script's pinned env and the server.js chdir order.
-`server.js` chdirs at line 6 before the app loads; the standalone anchor should resolve the default to the real db. Yet my clean-value probe Error-14'd. Let me run the S62-2 residue shape on the SAME build to isolate whether the .env value is reaching resolution.
-Probe A — the exact S62-2 shape — **fails to reproduce** on the current build: Error 14 and NO PWD-leg warning. The session-62 record says this posture booted healthy with the warning fired. Same source commit, so the difference must be in the artifact or the environment. Let me inspect the compiled bundle's anchor logic.
-A clue in the compiled tail — let me get the wider context to see what `envFileDir` receives in the compiled call.
-The compiled runtime confirms the source logic. The decisive question: what URL does the seam resolve under each construction-time cwd? Let me instrument the source seam directly with both `.env` variants and both cwd postures.
-Decisive data. Cell A: repo-root cwd yields the raw residue (Error 14 — matches my live probe A), standalone cwd yields the healthy default (matches the S62-2 record). So my live boot constructed the client **pre-chdir**. Let me read server.js's boot order to understand when cwd flips.
-server.js chdirs at line 6 before anything loads — yet the live boot resolved as if cwd were the repo root. The app likely runs in a worker child whose cwd differs. Let me measure directly: boot with a schema-only alt.db (0 users), inspect the worker's `/proc` cwd, and use login as the discriminator.
-The child worker (cwd = `.next/standalone`) runs the app, yet health is down — the compiled anchors must be failing in-bundle. Let me extract the compiled `resolveDatabaseUrl` tail.
-The compiled resolve chain looks correct — but the health route may run a different chunk copy. Let me try requiring the chunk directly and calling its exported resolution functions.
-The chunk is a module collection, not directly callable. Let me extract the compiled `urlForRoot` and compare the source's full `resolveDatabaseUrl` head.
-`urlForRoot` joins `root/prisma/ref` in both — path normalization handles `..` correctly. The logic is identical. But there were FOUR chunk copies of the db-path logic — the health route may run a different, divergent copy. Let me compare all four.
-All four chunks identical — compiled logic is correct. The mystery is which process actually serves and its cwd at construction time. Let me boot once more and map the full process tree, listening socket owner, and every cwd.
-The server vanished before `ps` ran — it may be crashing after the first request. Let me read the boot logs.
-No crash — the server lives; every unpinned posture gets Error 14, even when BOTH possible URLs (the .env value AND the anchored default) point at the real db. The engine must be receiving the RAW relative URL — both anchors are failing in-bundle. Let me inspect the compiled `repoRootFromModule` (`s`).
-No strace. Better: a `--require` preload hook that logs chdir, `existsSync(schema.prisma)` calls, and `mkdirSync` (urlForRoot's signature call) across every process in the tree.
-Breakthrough data — the anchor DID fire, the launch arm DID read the repo `.env` (meaning `process.env.DATABASE_URL` was somehow SET — likely by @next/env inside the standalone server), yet no `mkdirSync` (urlForRoot) ever ran and the engine still failed. Let me extend the hook to print the env value at each moment.
-**THE SMOKING GUN**: `DATABASE_URL="file:/home/z/my-project/db/custom.db"` — a parent-of-repo path — was already set in the process env at start, inherited from my shell! That explains every probe failure (absolute path to a nonexistent parent dir → raw pass-through → Error 14). Let me confirm the ambient source.
-The ambient `DATABASE_URL` (leftover in the persistent shell, pointing at a nonexistent parent-of-repo path) polluted every probe — the seam correctly honored it as an intentional override. Now the TRUE unloaded M1 probe with `env -u DATABASE_URL`: clean non-default alt.db (schema-only, 0 users) in the repo `.env` — login 200 = silently ignored (M1), login 401 = honored.
-M1 verified live and decisively. The probe confusion also revealed the persistent-shell ambient pollution (a methodology lesson for the records). Quick ambient-sensitivity check on census, then locate the previous session's walk scripts.
-The ambient pollution is real and census-breaking under it (a live footgun worth recording). Let me pin down the workspace `.env` timeline, then run the parity walk.
-Two problems: the workspace `.env` was written at 02:26 (my probe window) with an absolutized value, and **the repo `.env` is now a broken one-liner** — one of my probe commands or a script wrote it. Let me find the writer.
-**Root cause found — my own probe-command bug**: the `&` backgrounding binds the whole `&&` chain (including the `cd`), so the foreground "restore" `cp` ran from the workspace root — writing the *workspace* `.env` and poisoning the backups. Not a repo bug. Cleaning up now: unset the ambient, heal both `.env` files, verify census.
-Environment healed — census MATCH, ambient unset, repo `.env` byte-identical to `.env.example`. Now the parity walk #36. Let me check the agent-browser tooling.
-Both commands available. Writing the REF-leg walk script (single invocation, the reaping lesson) and running it.
-Login landed at `/Home` (documented posture). Now the mobile-nav probe battery.
-Hamburger base identical (no aria family — the documented face). Now the panel census + interaction faces.
-Link census identical (teal Home, slate siblings, pill 9999px). Let me get the exact inner container + the Escape/outside-tap/route-change faces.
-All faces match. Now route-change unmount + desktop census + brand gradient.
-Route-change unmounts (0) and title verified. Brand probe grabbed a footer link — re-scoping to header, then head census.
-**Reference-side drift detected**: the title family lost its spaces — `ViralPostAI` / `Pricing|ViralPostAI` (was `ViralPost AI` / `Pricing | ViralPost AI`). Per the S23-1/S45 doctrine: record, don't chase. DescLens 170/170/92/95/95 and canonicals still match. Now the brand gradient + sitemap/robots + generator probe.
-Empty — the wordmark text may have changed with the title drift. Checking the header's actual content.
-Brand gradient byte-identical. Now the REF generator probe (expected: the documented 402-dead face).
-REF leg complete — generator DEAD as documented, and one new drift recorded (the half-deployed title-spacing change). Now the CLONE leg: one single invocation (boot dev server → full walk → captures → kill), per the reaping lesson.
-**False alarm on the title drift** — my own `tr -d ' \n'` output-compaction stripped the spaces from the JSON! Re-probing both legs' titles raw, no mangling.
-Titles identical on both legs — the "drift" was my own output-pipeline artifact, now corrected in the record. Final CLONE faces: the LIVE generator probe + captures.
-Generator LIVE with quota 0→1 (the documented superset). Now captures 133/134 + PIL verification + teardown.
-Captures failed silently and the server is down. Re-booting and retrying with visible errors.
-Captures saved (absolute paths). PIL verification + teardown.
-**Parity walk #36 — CLEAN.** Both legs at every documented posture; no drift on either side; captures 133/134 PIL-verified. Now let me read the remaining cure sites to finalize the remediation plan.
-All cure sites mapped. Let me review the session-62 plan's structure, then write the session-63 plan.
-Now writing the session-63 plan.
-Plan written. Now validating it against the codebase — the empirical mid-line registration check first (the S63-8 unknown).
-The naive total-count design is wrong — 80 mid-line hits are all string literals and `.test()` method calls (`rateLimit(` contains `it(`!). Refining with a boundary lookbehind and re-checking.
-All 3 remaining hits are the census's own message strings. Testing full comment+string stripping — if zero, the arm needs no exemptions.
-Validated: zero mid-line registrations outside the census's own prose — the S63-8 arm design is sound (39-file scan, census file excluded by construction). Now reading the pin placement sites.
-All sites mapped. RED phase — writing the six pins. First, the boot-env.test.ts tail for the append point.
-Writing the RED pins — the session-63 describe in boot-env.test.ts (S63-1a/1b/2a).
-Three boot-env pins born RED (3 failed / 68 passed — exactly the new ones). Now the other three RED pins.
-S63-3a/6a RED — but let me verify the generation-counter pin fails on the assertion, not a missing import.
-Wrong RED face — missing imports. Fixing.
-Designed RED face confirmed. Now the S63-8a census arm — reading the census's current shape first.
-The arm's file-exclusion prefix mismatched (returns `tests/...` paths). Fixing.
-S63-8a GREEN as a census arm (its RED face is the plant battery); the two remaining failures are the designed count-lag faces. **All six pins in place.** Now the GREEN phase — first the boot-env.ts cures (S63-1c seam + S63-2b redaction).
-Now the wrapper wiring (S63-1b) and the process-env redaction application (S63-2b).
-The pin used the wrong call shape — existing pins wrap with an `env()` helper. Checking and fixing.
-boot-env fully GREEN (71/71). Now the remaining cures — health route, counter wiring, comment pair, register, sr-only cleanup.
-Now the generation-counter wiring (S63-6b).
-Now the comment-truth pair (S63-4) and the sr-only cleanup (S63-7).
-Now S63-5 — the register. First the globals.css scoping site and the PAD §12 tail.
-The §12 census pins live line counts — my cures changed some. Checking the full table against touched files.
-Three §12 rows need lockstep updates. Now the S63-5 register pieces — the globals.css genus note + the §11 known-issues row.
-Now the §12 line-count lockstep for the four touched files.
-All cures applied. Running the full unit suite — expecting only the two designed count-lag faces.
-All six cure pins GREEN — only the two designed count-lag faces remain. Now the planted-defect batteries. Battery S63-1a (the branch-revert plant):
-Battery S63-1a verified. Now S63-1b (wiring plant), S63-2a (redaction revert):
-**All six batteries verified** — each plant REDs exactly its pin. Now the docs lockstep. First the docs-counts constants + ladder entry.
-Now the AGENTS plans-map 63rd entry, then enumerate the lockstep failures.
-The lockstep worklist enumerated (9 sites). Applying the re-anchors — first the exact current sites.
-All ten provenance sites confirmed. Applying the full lockstep batch now.
-All ten re-anchored. Now the README/AGENTS/CLAUDE/PAD/SKILL count sites.
-The PAD row got mangled by sed escaping. Fixing directly.
-Line 589 also got mangled by the same pattern collision. Repairing.
-**sed BRE `\|` alternation disaster** — the escaped pipes were alternation, matching everywhere: 734 mangled lines. Let me assess the damage scope.
-Mechanical repair: strip the bogus prefix from every mangled line, preserving the one legitimate table row.
-PAD restored — the diff is exactly the designed lockstep set. Verifying, then continuing with the composed rows.
-PAD diff is exactly the designed set. Now the README session-63 row + gate footer.
-README done. Now the SKILL Appendix A session-63 row.
-Running the docs-counts suite to verify the lockstep.
-Lockstep complete (51/51). Now the worklog Task 63 — checking the Task 62 format first.
-Now the formal session log — replacing the owner's narration in `docs/session_63.md`.
-Now the plan's post-execution record.
-All docs complete. Now the full final gate on the exact commit tree.
-**FULL FINAL GATE GREEN** — lint 0/0 · tsc 0 · unit 750/750 (40 files) · build · smoke 16/16 · e2e 70/70 · census MATCH. Now the commit + push. Reading the runbook first.
-Runbook internalized. Committing the designed change set first — matching the previous agent's identity.
-Committed `462f763`. Now the SSH push — checking the shim situation and deploying the key.
-The shim and paramiko are ready. Deploying the operator key (outside the repo, 0600).
-Dry-run passed (fast-forward 1ed646e..462f763). Executing the real push.
-The push is verified by the wrapper itself (remote `refs/heads/main @ 462f763 == local HEAD`; the follow-up ls-remote fails only because the key is already shredded, as designed). Final task-list update:
-**Session 63 — delivered.** Commit `462f763` pushed to `git@github.com:nordeim/viralpost-ai.git` **main** via the SSH wrapper (remote verified: `refs/heads/main @ 462f763 == local HEAD`, tracking synced, operator key shredded, no new branch, tree clean).
+The round opened on the shipped tree (`802f049` = session-63's `462f763` +
+the owner's narration commit carrying `docs/session_64.md` as the round-64
+working narration; this formal log replaces its content at ship). The core
+docs re-read and re-verified at the session-63 ship counts (AGENTS, CLAUDE,
+README, PAD, SKILL v1.59.0 — every lockstep site confirmed on disk), then
+the session-63 set (the formal `docs/session_63.md` log, the session-63
+plan's post-execution record, worklog Task 63, the owner's narration), and
+the S63 cures verified in source (the S63-1 inert-value seam + wrapper
+wiring; the S63-2 redaction at all three interpolation sites; the S63-3
+health-catch log; the S63-6 re-emit wiring; the S63-7 sr-only retirement;
+the S63-8a mid-line census arm). This round is session 64, the standing
+instruction on the shipped tree.
 
-**The round:**
-- **Audit** (three parallel subagents + hand-verification): 0 Critical / 0 High / 1 Medium / 3 Low / 11 Info. The headline (AUDIT-1 M1) was **live-probed decisively**: a clean non-default `DATABASE_URL` in a launch-dir `.env` is silently ignored under a node boot — the engine served the seeded user from the default db while the operator's file (0 users) never named it, with zero warnings.
-- **Parity walk #36 — clean**: every mobile-nav, desktop, gradient, head-census, sitemap/robots, and generator face at the documented posture on both legs; captures 133/134 PIL-verified. One phantom "title drift" was caught as my own output-pipeline artifact and re-probed raw — both legs byte-identical.
-- **Cures (TDD, six pins born RED, six planted-defect batteries)**: the inert-value divergence warning (the S47-2 genus, one face deeper), credential redaction in residue prints, the health-catch cause log, the comment-truth pair, the dead-rule register, the quota rollover/cross-tab re-emit, the sr-only cleanup, and the mid-line census arm closing the S56-4 blind spot.
-- **Ship**: unit 744 → **750/750** (40 files), badge 820, SKILL v1.59.0, ten provenance sites at `1..63`, full gate green (lint 0/0 · tsc 0 · build · smoke 16/16 · e2e 70/70 · census MATCH), docs lockstep complete (formal `docs/session_63.md`, plan record, worklog Task 63).
+Baseline gate GREEN at the documented counts (lint 0/0 · tsc 0 · unit
+750/750, 40 files · build · smoke 16/16 · e2e 70/70, 9 specs · census
+MATCH) — exactly the session-63 ship record, no drift; the standing asks
+re-verified up front (the `.env` `DATABASE_URL="file:../db/custom.db"`
+contract recreated on the fresh clone with `db/` at the repo root, census
+MATCH; the ambient-shell `DATABASE_URL` pollution — the S63 methodology
+lesson — found live in the sandbox and neutralized with `unset` + the
+`env -u` discipline on every DB-touching command; the vitest + playwright
+suites in place and current (750/70 green this round, chromium-1248
+installed one-time); the sitemap/robots/manifest/OG family verified live
+against the reference in this round's walk #37; `skills/` excluded from
+every gate; `.env.example` committed and byte-identical to the working
+`.env` at round open). `bun audit` answered the SAME 9 dev-toolchain
+advisories as the session-55..63 records (3H/5M/1L — minimatch,
+deepmerge-ts, the vite/launch-editor family via vitest, source-map-js;
+none on the runtime request path). The web-application skill + the skills
+catalog internalized; the tdd and agent-browser doctrine (computed styles
+as ground truth, never eyeballs) applied throughout.
 
-**Verified:** everything above was executed and observed directly. **Assumed/Unverifiable:** none. Next: the standing cadence — session 64 re-pulls, re-audits, and walks again.
+## The audit (three parallel subagents + the lead's hand-verification)
+
+AUDIT-1 (API/lib seams): 0C/0H/0M/1L/3I · AUDIT-2
+(components/pages/effects): 0C/0H/0M/0L/3I · AUDIT-3
+(SEO/configs/tests/docs): 0C/0H/2L/1I — combined **0 Critical / 0 High /
+0 Medium / 3 Low / 7 Informational**. All three lanes re-verified the
+full standing-contract set (AUDIT-1: the envelope discipline on all 13
+handlers, the db seam monopoly with the three-script exemption, the
+status discipline with Retry-After on every 429, the transient
+classifier, the limiter at all eight documented buckets, the auth
+family, the scripts — plus the S62–S63 cures in code and by live suite
+runs, a full unit/lint/tsc re-run green, and the parseEnvFile
+bun-parity probe; AUDIT-2: all seven Tailwind v4 mitigations verified
+AT THE COMPILER (an in-memory compile of the repo's own globals.css
+through the installed @tailwindcss 4.3.3), the complete mobile-menu
+mechanic set line-by-line against the e2e + a11y pins, the React 19
+pattern law across every effect in scope, and the WCAG floor; AUDIT-3:
+every count re-derived from disk (750/40/70/9/16/814, 64 session files
+with provenance correctly at `1..63` = the designed lag-1 narration
+window, 63 plan files, the ten provenance sites, PAD §12 21/21 rows —
+all MATCH) and the full unit suite re-run green as a system-level
+lockstep check).
+
+**The lead's hand-verification before adjudication (the
+reproduce-before-trusting doctrine):**
+
+- **AUDIT-1 L1 (the round's headline), verified by a DIRECT LIVE PROBE**
+  — `redactCredentials('"postgresql://admin:p@ssw0rd@db.example.com/prod')`
+  answered `'"postgresql://***@ssw0rd@db.example.com/prod'` — the
+  S63-2 regex (`[^@/\s"']+@`) replaces only up to the FIRST `@`, so a
+  password containing a raw (unencoded) `@` leaks everything after the
+  first `@` (the bulk of the password) to stdout and `tee server.log` —
+  defeating exactly what the session-63 cure shipped. The S63-2a pin's
+  own name ("the password never prints") only fixtures an `@`-free
+  password. Fires only on the malformed-DATABASE_URL residue class AND
+  a raw-`@` password (technically invalid userinfo — should be `%40`),
+  hence Low; but the one-owner doctrine makes it a cure, not a register.
+- **AUDIT-3 F-1, verified verbatim in source** — the S63-8a mid-line
+  census arm (tests/docs-counts.test.ts:1673) re-prefed every path with
+  `tests/` instead of using the repo-relative path the shared
+  `allUnitTestFiles()` helper returns; a future `src/foo.test.ts`
+  (which vitest admits, and whose appearance the S50-5 union doctrine
+  declares "joins every census and every strip-chain arm the day it
+  appears") would make the replace a no-op and the read resolve to
+  `tests/src/foo.test.ts` → ENOENT (failing CLOSED with a cryptic read
+  error instead of scanning). Latent — zero `src/` suites exist — but
+  the union contract broken in letter.
+- **AUDIT-3 F-2, verified by direct read** — the e2e reality census
+  counts line-start `test(` only and the S63-8a arm iterates the unit
+  union only; a mid-line `test(` in an e2e spec (the exact S56-4 genus)
+  would execute in the Playwright runner while the census stayed green
+  — decoupling `E2E = 70` from reality. Zero live instances (verified
+  twice: the audit's replica scan and the lead's grep — all 57 e2e
+  `test(` occurrences line-start).
+- **AUDIT-3 F-3, verified by direct read** — a line-start `xit(`/`xtest(`
+  evades the census regex, the dot-forms guard, AND the S63-8a
+  lookbehind; a silently skipped test while every census says 750.
+  Self-evident at ship (the runner summary shows the skip), hence Info;
+  the one-line widening closes the genus.
+- **AUDIT-1 I1, verified by direct read** — boot-env.ts's inert-value
+  exemption literal mirrors db-path.ts's `DEFAULT_DATABASE_URL` (the
+  S59-1b no-import doctrine); no test coupled the two literals.
+- **AUDIT-1 I3, verified by direct read** — `pick()` carries the
+  `% arr.length` belt-and-braces; the two `hashtagsFor` splice sites do
+  not (both provably safe under mulberry32's strict `[0,1)` — the
+  inconsistency is against the repo's own S28-8/S42-3 doctrine).
+- **AUDIT-2 I3, verified by direct read** — `src/app/not-found.tsx`
+  placed its docblock inside the function body (the sibling convention
+  is above the export).
+- **AUDIT-2 I1 (rounded-full infinity calc) — already registered** (the
+  worklog parity-walk census; visually identical in evergreen browsers).
+  **AUDIT-2 I2 (flex-shrink-0 v3 alias)** — still generated by Tailwind
+  4.3.3 (AUDIT-2's compile probe), zero live impact; register. **AUDIT-1
+  I2 (the limiter's memory face)** — the bucket-rotation AUTH hazard is
+  documented (S9-1/F9-1); the memory/CPU face of the same vector is not
+  named; register.
+
+## The parity walk (walk #37 — the thirty-seventh consecutive clean walk)
+
+REF leg (live, logged in with the demo credentials): login settled at
+`/Home`. The hamburger base `md:hidden p-2 text-slate-300` (cursor
+pointer, block, 8px padding, rgb(203,213,225), transparent bg — NO aria
+family, the documented face). The panel `md:hidden bg-slate-900/98
+border-b border-white/10 overflow-hidden` (maxHeight none, transparent
+bg) with the inner `px-6 py-4 space-y-3` byte-identical (16px/24px pad,
+transparent bg, 12px child spacing); the reference's panel carries NO
+id (our `mobile-menu` id is the documented superset); linkTexts
+identical (5 links; Home teal rgb(45,212,191) 14px/500; the siblings
+rgb(203,213,225) 14px/500; the pill rgb(15,23,42) 14px/600, 9999px
+radius, the gumroad href). Escape (a REAL key press) leaves the panel
+open; the outside-tap (a genuine non-nav H2) leaves it open; the
+route-change at /Pricing UNMOUNTS the panel (count 0), title "Pricing |
+ViralPost AI". Desktop census: 6 VISIBLE links IDENTICAL; the brand
+wordmark gradient byte-identical (linear-gradient(to right,
+rgb(45,212,191), rgb(251,191,36)), 18px/700, background-clip text).
+The five-route head census identical (the bare `/` + `/login` titles +
+the 170-char plain descriptions; the `<Page> | ViralPost AI` family +
+the 92/95/95 prefixed descriptions; the canonicals; the single shared
+ogImage; twCard summary_large_image). Sitemap exactly 4 URLs (no
+`/Home`) + robots Allow-all + the Sitemap line. The generator DEAD
+(the "Generation failed, so this attempt didn't use one of your free
+tries. Please try again." face — no generation, no copy button, the
+button re-enabled — the documented 402 posture).
+
+CLONE leg (the dev server on :3000, quota cleared): the login landed at
+`/` (the documented 308 deviation), title "ViralPost AI". The hamburger
+base identical + the aria superset ACTIVE and live-verified (aria-label
+"Open menu"→"Close menu", aria-expanded false→true, aria-controls
+mobile-menu). The panel inner byte-identical on every computed face
+(16px/24px pad, transparent bg; the 12px child rhythm via v4's
+margin-block-end on :not(:last-child) — the identical rendering; the
+pill 3.35544e+07px — v4's infinity calc rendering the identical
+capsule; the same 5 linkTexts incl. the gumroad pill). Escape closes
+OUR menu with focus returned to the toggle (the documented superset).
+The outside-tap leaves it open (parity). The route-change (a genuine
+menu-link click to /Pricing) hides in-DOM (panel mounted, hidden true,
+aria false — the S26-1 design), title "Pricing | ViralPost AI".
+Desktop census: 6 VISIBLE links IDENTICAL; the brand gradient
+byte-identical. The five-route head census identical modulo origin
+(canonicals + the shared local og-image — the documented same-src
+deviation). Sitemap 4 URLs + robots identical modulo origin. The
+generator LIVE: the post generated with 6 hashtags (the 5-8 family) +
+the Copy button, quota 0→1 (the `viralpost_generations` counter
+`{"date":"Sun Nov 15 2026","count":1}`). **ALL CLONE FACES MATCH — no
+clone-side drift, no reference-side drift. Mobile nav verified working
+as expected on both sides; all seven Tailwind v4 mitigations verified
+present and test-pinned (AUDIT-2's own compiler probe).** Captures
+135/136 on the dev server PIL-verified (100.0% / 99.9% non-white, teal
+13.19% / 10.21%).
+
+## The cures (TDD — the pins first, born RED, each with its planted-defect battery)
+
+- **S64-1a — the raw-@ redaction pin** (tests/boot-env.test.ts, a new
+  session-64 describe): a credentialed residue value whose password
+  contains a RAW `@` answers `***@` with the tail never printing, on
+  BOTH residue arms; the host stays visible; the file: contract holds.
+  Born RED (the current seam printed the tail: 1 failed / 72 passed).
+  The battery: the redaction-revert plant (restore the first-@ regex)
+  REDs exactly it (1 failed / 72 passed); restored GREEN.
+- **S64-1b — the last-@ redaction cure** (src/lib/boot-env.ts): the
+  authority-scoped form — capture the scheme + the full `[^/?#\s"']*`
+  authority, redact up to the LAST `@` in the authority (no `@` →
+  verbatim). Byte-identical on every pinned S63-2 shape; the branch
+  conditions still test the RAW value.
+- **S64-2a — the census union read fix** (tests/docs-counts.test.ts,
+  the S63-8a arm): the re-prefix read replaced by `read(f)` — the
+  repo-relative path the shared helper returns, the same idiom every
+  sibling consumer uses; the S50-5 union contract restored in letter.
+- **S64-2b — the union-read pin**: a source-census `it` scoped to the
+  S63-8a describe block (asserting the block reads `stripComments(read(f))`
+  and carries no re-prefix — the re-prefix assertion composed from
+  parts so the pin's own source cannot self-satisfy). The battery: the
+  re-prefix-revert plant REDs exactly it; restored GREEN.
+- **S64-3a — the e2e mid-line census arm** (tests/docs-counts.test.ts,
+  the session-64 describe): the S56-4 blind-spot closure completed on
+  the e2e side — `e2eCountedFiles()` scanned with the boundary-guarded
+  `test(` regex, comment-stripped, line-start exempt. Zero live
+  instances at birth (verified twice). The battery: the mid-line plant
+  (a `const x = 1; test(…)` registration penned in seo.spec.ts) REDs
+  exactly it; restored GREEN.
+- **S64-4a — the x/f alias forms-guard widening** (the S13-10
+  forms-guard): the regex widened to also ban the x/f-prefixed alias
+  family (`(?<![A-Za-z0-9_.])[xf](?:it|test)\(` — the lookbehind
+  mirrors the S63-8a boundary: `.test(` method calls and prose inside
+  identifiers stay invisible). The battery: the `xit(` plant (penned in
+  utils.test.ts) REDs exactly the forms-guard; restored GREEN.
+- **S64-5a — the DEFAULT_DATABASE_URL mirror pin** (tests/boot-env.test.ts):
+  a source-census asserting the exemption literal in boot-env.ts equals
+  db-path.ts's exported constant — the S59-1b no-import doctrine stays;
+  the pin is the coupling. The battery: the literal-divergence plant
+  (edit the db-path constant) REDs exactly it (1 failed / 72 passed);
+  restored GREEN.
+- **S64-6a — the splice modulo pin** (tests/generator.test.ts, a new
+  session-64 describe): a source-census asserting both `hashtagsFor`
+  splice sites carry the `% length` guard. The battery: the
+  modulo-removal plant REDs exactly it (1 failed / 14 passed); restored
+  GREEN.
+- **S64-6b — the splice modulo cure** (src/lib/generator.ts): the two
+  splice index expressions gain `% pool.length` / `% evergreen.length`
+  (in-line + the invariant comment; the deterministic + property
+  suites prove behavior unchanged — the modulo is dead code by the
+  range proof, the belt-and-braces is the point).
+- **S64-7 — the not-found docblock move** (src/app/not-found.tsx,
+  comment-only): the docblock moved above the export (the sibling
+  convention), with the S64-7 provenance note.
+- **S64-8 — the limiter memory-face register** (src/lib/rate-limit.ts
+  + PAD §11): the module header sentence naming the memory/CPU face of
+  the documented rotation hazard + the §11 register row.
+- **S64-9 — the registers** (carried in this log + PAD §11): the
+  flex-shrink-0 v3 alias (compile-verified still generated by 4.3.3;
+  the normalize deferred to the next sections.tsx class-touch);
+  the rounded-full infinity calc (already registered — no action); the
+  round's zero live mid-line/x-f instances (the census arms' birth
+  posture); the bun-audit triage (the same 9 dev-toolchain advisories).
+
+## The count re-anchor and the docs lockstep
+
+UNIT 750 → 755 (+5: S64-1a, S64-2b, S64-3a, S64-5a, S64-6a), SUITES 40
+held, E2E 70 held, E2E_SPECS 9 held, SMOKE 16 held, BADGE 820 → 825.
+PAD §11 +2 rows (the memory face, the flex-shrink-0 alias); §12's
+generator.ts row re-anchored 495 → 498 (the S64-6b invariant comment)
+and rate-limit.ts 141 → 153 (the S64-8 sentence). The designed
+count-lag faces fired at the lockstep exactly as the doctrine describes
+(the UNIT-constant reality census 755 vs 750; the plans-map
+tail-currency on the 64th plan file; the §12 inventory census on the
+two re-anchored rows — including one mid-lockstep correction: the
+rate-limit row was first penned at 157 and corrected to the live 153
+before the gate). The ten provenance sites re-anchored to `1..64` —
+lag 0 at ship. SKILL v1.59.0 → v1.60.0. README: the badge 825, the
+session-64 row on the continuous table, the gate footer re-spelled to
+the session-64 ship, the testing-table 755 sites. AGENTS: the plans
+map's sixty-fourth round, the 755 in the testing conventions. CLAUDE:
+the 755 line. PAD: §8.1's table + the carry line at 755/70/16, §11's
+two new rows, §12's two re-anchored rows. The formal session log (this
+file, replacing the owner's narration), the plan's post-execution
+record, and worklog Task 64.
+
+## The post-execution record (session-64 ship)
+
+Executed as planned, with the deviations the record owes the truth:
+
+- **The five pins landed first (TDD)** — S64-1a born RED (the raw-@
+  tail: 1 failed / 72 passed), S64-6a born RED (the missing modulo: 1
+  failed / 14 passed), S64-2b born RED after a mid-RED redesign, and
+  the two designed count-lag faces fired alongside (the UNIT reality
+  census 755 vs disk-constant 750; the plans-map tail-currency on the
+  64th plan file). S64-3a and S64-5a were born GREEN as census/coupling
+  arms (their RED faces are their plant batteries, per the S63-8a
+  precedent).
+- **One vacuous-pin redesign mid-RED (the S12-2 trap, caught before
+  the cure landed)**: the S64-2b pin's first draft asserted the
+  unscoped `stripComments(read(f)).split` form and PASSED at RED time —
+  the file's strip-chain sweep at :1090 already carries that exact
+  idiom, so the draft found IT instead of the arm under test. The pin
+  was redesigned scoped to the S63-8a describe block (positive +
+  composed-part negative assertions, self-satisfaction impossible), then
+  born-RED-verified via the re-prefix battery. The pin's own comment
+  records the trap.
+- **The GREEN phase**: S64-1b (the last-@ redaction), S64-2a (read(f)),
+  S64-6b (the two modulos), S64-7 (the docblock move), S64-8 (the
+  memory-face sentence) — the full suite 755/755 with only the three
+  designed count-lag faces, then the lockstep cured those at the
+  constants + the doc sites.
+- **All six batteries on record** — the redaction-revert plant (1
+  failed / 72 passed), the re-prefix-revert plant (exactly the S64-2b
+  pin), the e2e mid-line plant (exactly the S64-3a arm), the xit alias
+  plant (exactly the forms-guard), the literal-divergence plant (1
+  failed / 72 passed), the modulo-removal plant (1 failed / 14
+  passed). All restored GREEN — the full suite 755/755 after the
+  restores.
+- **One lockstep arithmetic correction, caught by the inventory
+  census itself**: the rate-limit.ts §12 row was first re-anchored at
+  a miscounted 157 (a hand-sum of the added comment lines); the
+  census's live-count assertion named the real figure (153) and the
+  row was corrected before the gate — the census doing exactly its
+  job.
+- Counts at ship: UNIT 755 / SUITES 40 / E2E 70 / E2E_SPECS 9 / SMOKE
+  16 / BADGE 825 — the ten provenance sites at 1..64 (lag 0); SKILL
+  v1.60.0; captures 135/136 on the dev server PIL-verified; the full
+  gate re-run green on the final tree; push to main via the SSH
+  wrapper runbook.
+
+**Gate at the session-64 ship: lint 0/0 · tsc 0 · unit 755/755 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

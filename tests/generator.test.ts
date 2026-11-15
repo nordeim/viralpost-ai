@@ -198,3 +198,23 @@ describe("generator: constants", () => {
     expect(FREE_LIMIT).toBe(3);
   });
 });
+
+// Session-64 (S64-6, AUDIT-1 I3): the splice-index belt-and-braces.
+// pick() carries the % arr.length guard (the S28-8/S42-3 doctrine:
+// guard the index even where an invariant makes it dead, so a future
+// PRNG swap cannot silently mint an undefined tag); the two
+// hashtagsFor splice sites did not — both provably safe under
+// mulberry32's strict [0,1) (Math.floor(rng()*len) < len always), but
+// the belt-and-braces is the point: the invariant lives in a comment
+// at the sites, and the modulo lives in the code. This pin holds both
+// splice sites to the guarded form (the modulo-removal plant is the
+// RED face).
+describe("generator: session-64 (S64-6) — the splice-index belt-and-braces", () => {
+  it("both hashtagsFor splice sites carry the % length guard (the pick() doctrine, S28-8/S42-3)", () => {
+    const src = readFileSync(join(import.meta.dirname, "../src/lib/generator.ts"), "utf8");
+    const guarded = src.match(
+      /\.(splice)\(Math\.floor\(rng\(\) \* (pool|evergreen)\.length\) % \2\.length, 1\)/g,
+    );
+    expect(guarded?.length, `the two splice sites must carry the % length guard: ${guarded?.length ?? 0} of 2`).toBe(2);
+  });
+});

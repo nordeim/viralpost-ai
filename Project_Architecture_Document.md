@@ -568,7 +568,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 40 | 750 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 40 | 755 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 70 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -586,7 +586,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 750/70/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 755/70/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -690,6 +690,8 @@ delivery.
 | LOW | The forgot-password link clobber — each request overwrites the user's live `resetToken` row (`db.user.update` on the same record, session-50 S50-13 register), so a second request invalidates the first's link mid-flight | A user who re-requests kills their own earlier link (rate-limited 10/IP/15min, `forgot:` bucket) | Accepted (session-50, S50-13): subsumed by the demo in-app delivery posture — the fresh link is delivered in-response, so the overwrite is self-healing for the demo user; the single-row serialization lift is not worth the hot-path contention |
 | LOW | ~20 dead single-word utility rules ship in the built stylesheet (`.{collapse, visible, invisible, static, inline, table, container×5, contents, shrink, grow, lowercase, resize, transform, outline, shadow, blur, invert, filter, transition, ring}` — session-63, S63-5, AUDIT-2 L1) | ~1.9-2.4 KB of the 64.5 KB sheet (~3-3.7%), zero functional impact, no compound utility depends on them (verified against the built artifact) | Accepted + registered (the S35-1 scoping's documented limit): v4's candidate scanner reads ALL src/ text, and the feeders are unavoidable English prose ("the ContactMessage table", "grow your audience") + the literal `"resize"` DOM event-name string — dictionary words and API strings are not prose-safe-able (the S28-4 doctrine's boundary); the genus note lives at the `@import` scoping site in `src/app/globals.css` |
 
+| LOW | The limiter's rotation-hazard MEMORY face — every distinct client key mints a bucket; a sustained rotating-key attack on a misdeclared-topology deploy mints ~R × window live entries (reclaimed only at the sweep's watermark crossing) plus a full-map walk per earliest-expiry crossing (session-64, S64-8, AUDIT-1 I2) | Resource-exhaustion surface on a direct-exposed/misdeclared deploy only; behind a correctly-declared proxy the attacker cannot choose the trusted hop | Accepted + registered (the documented single-node posture's other face; the S9-1 boot warning's "fresh rate-limit bucket per request" clause carries the map-growth cost — named at the module header in `src/lib/rate-limit.ts`) |
+| LOW | `flex-shrink-0` at 3 sections.tsx sites is a v3-era alias — Tailwind 4.3.3 still generates it (compile-verified session-64, AUDIT-2 I2), but the canonical v4 name is `shrink-0` | None today; a future Tailwind major that drops the alias silently kills the no-shrink on the benefit-card icon tiles and both pricing checkmark circles | Accepted + registered: normalize to `shrink-0` the next time sections.tsx is touched for class reasons (neither spelling is test-pinned — verified) |
 Swept at session-2 ship — no open CRITICAL/HIGH items.
 
 ---
@@ -702,13 +704,13 @@ commit as the file.)
 
 | File | Lines | Purpose |
 |------|-------|---------|
-| `src/lib/generator.ts` | 495 | The deterministic viral-formula engine + the reference's exact prompt (the S50-12 collapse seam: collapseIdea one-home + the honest raw-bound message) |
+| `src/lib/generator.ts` | 498 | The deterministic viral-formula engine + the reference's exact prompt (the S50-12 collapse seam: collapseIdea one-home + the honest raw-bound message) |
 | `src/lib/generation-counter.ts` | 150 | The 3/day quota: pure functions + the store adapter (the S63-6 external-change re-emit — cross-tab storage + the date-rollover focus/visibility faces) |
 | `src/lib/route-title.ts` | 75 | The unknown-route title derivation (ADR-006) |
 | `src/lib/from-url.ts` | 43 | The from_url open-redirect guard (session-13, S13-4; the leading-// arm, session-14, S14-1) |
 | `src/lib/auth.ts` | 202 | Sessions: sign/verify, cookie lifecycle, tokenVersion |
 | `src/lib/password.ts` | 69 | scrypt hash/verify + the timing equalizer |
-| `src/lib/rate-limit.ts` | 141 | Fixed-window limiter, proxy-hop-aware client key |
+| `src/lib/rate-limit.ts` | 153 | Fixed-window limiter, proxy-hop-aware client key |
 | `src/lib/db-path.ts` | 458 | THE database path resolver (ADR-008; the S44-1 tail decomposition — the query preserved, the fragment stripped, one helper for all three consumption sites; the cwdFallbackUrl seam, session-45 S45-1; the artifact-only truth + the .env-only-face notes, session-46 S46-2/S46-9; the artifact-deploy truth re-spell + the anchor-order note, session-47 S47-1; the collision-class doc truth + the unclosed-quote cross-line note, session-56 S56-1/S56-3; the spanned-value junk-DB truth re-spell + the refined span model, session-57 S57-1; the boot-warned clause — the residue BOTH loaders leave, session-58 S58-1; the no-silent-face completion — the file-face arm for the unloaded-.env postures, session-59 S59-1; the parseEnvFile extraction to the src/lib/env-file.ts leaf — the boot gate shares the parser without ballooning the instrumentation trace, session-59 S59-1b) |
 | `src/lib/site.ts` | 219 | The metadata factory + canonical origin seam |
 | `src/lib/api.ts` | 323 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2; the transient-abort classifier, session-37, S37-2; the seam's own transient arm, session-38, S38-1; the two-code 503 taxonomy note, session-46 S46-7) |

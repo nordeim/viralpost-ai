@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..63.
+// are docs/session_1..64.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -1118,5 +1118,65 @@ describe("session-63 (S63-2): the residue-warning credential redaction (the pass
       "file:../db/custom.db\tjunk",
     );
     expect(fileValue).toContain("file:../db/custom.db\\tjunk");
+  });
+});
+
+// Session-64 (S64-1, AUDIT-1 L1 — live-probed): the raw-@ tail. The
+// S63-2 regex replaced only up to the FIRST @ in the userinfo, so a
+// password containing a raw (unencoded) @ — technically invalid
+// userinfo (it should be %40), but exactly the malformed-value class
+// these arms print — leaked everything after the first @ (the bulk of
+// the password) to stdout, defeating the cure the S63-2a pin names
+// ("the password never prints"). The probe:
+// redactCredentials('"postgresql://admin:p@ssw0rd@db.example.com/prod')
+// answered '"postgresql://***@ssw0rd@db.example.com/prod'. The cure
+// redacts up to the LAST @ inside the authority segment; every pinned
+// S63-2 shape is byte-identical under it.
+describe("session-64 (S64-1): the raw-@ password tail never prints (the first-@ redaction leak)", () => {
+  it("a raw-@ password answers ***@ with the tail absent — on both residue arms; the host stays visible", () => {
+    // The process-env arm: the unclosed-quote residue on a credentialed
+    // postgres URL whose password embeds a raw @.
+    const report = bootEnvCheck(
+      env({ DATABASE_URL: '"postgresql://admin:p@ssw0rd@db.example.com/prod' }),
+    );
+    const joined = (report.warnings ?? []).join("\n");
+    expect(joined).toContain("***@");
+    expect(joined).not.toContain("ssw0rd");
+    expect(joined).not.toContain("p@ssw0rd");
+    expect(joined).toContain("db.example.com");
+
+    // The file-face arm: the same raw-@ shape through the prefix.
+    const fileFace = databaseUrlFileResidueWarning(
+      { NODE_ENV: "production" },
+      '"postgresql://admin:p@ssw0rd@db.example.com/prod',
+    );
+    expect(fileFace).toContain("***@");
+    expect(fileFace).not.toContain("ssw0rd");
+    expect(fileFace).not.toContain("p@ssw0rd");
+    expect(fileFace).toContain("db.example.com");
+  });
+});
+
+// Session-64 (S64-5, AUDIT-1 I1): the DEFAULT_DATABASE_URL mirror pin.
+// The inert-value exemption's literal (boot-env.ts) deliberately
+// MIRRORS db-path's exported DEFAULT_DATABASE_URL — importing the
+// constant would drag the seam's heavyweight trace into the
+// instrumentation artifact (the S59-1b lightweight-trace doctrine), so
+// the mirror stands. No test coupled the two literals: a future edit
+// to either alone would silently turn the exemption into a false
+// negative (a divergent default spelling would no longer warn) or a
+// spurious-exemption drift. This pin is the coupling — the literals
+// can no longer drift independently.
+describe("session-64 (S64-5): the inert-value exemption literal mirrors db-path's DEFAULT_DATABASE_URL", () => {
+  it("the boot-env exemption literal equals the db-path constant (the S59-1b no-import coupling)", () => {
+    const dbConst = read("src/lib/db-path.ts").match(
+      /export const DEFAULT_DATABASE_URL = "([^"]+)"/,
+    )?.[1];
+    const exemption = read("src/lib/boot-env.ts").match(
+      /if \(fileUrl === "([^"]+)"\) return null;/,
+    )?.[1];
+    // Both literals exist (the regexes found their lines) and agree.
+    expect(dbConst).toBe("file:../db/custom.db");
+    expect(exemption).toBe(dbConst);
   });
 });

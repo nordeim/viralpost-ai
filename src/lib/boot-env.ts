@@ -587,8 +587,22 @@ export function databaseUrlFileResidueWarning(
 // persists it. The redaction replaces only the userinfo segment; the
 // residue shape stays visible (the residue, not the secret, is the
 // diagnostic). file: values carry no userinfo — untouched.
+// Session-64 (S64-1, AUDIT-1 L1 — live-probed): the authority-scoped
+// form redacts up to the LAST @ in the segment. The first-@ form
+// leaked a raw-@ password's tail ('"postgresql://admin:p@ssw0rd@host'
+// printed '***@ssw0rd@host' — the bulk of the password); userinfo
+// with an embedded @ is technically invalid (it should be %40), but
+// it is exactly the malformed-value class these arms print, and the
+// one-owner doctrine is "the password never prints". Every pinned
+// S63-2 shape is byte-identical under this form.
 function redactCredentials(url: string): string {
-  return url.replace(/([A-Za-z][A-Za-z0-9+.-]*:\/\/)[^@/\s"']+@/g, "$1***@");
+  return url.replace(
+    /([A-Za-z][A-Za-z0-9+.-]*:\/\/)([^/?#\s"']*)/g,
+    (_m, scheme: string, authority: string) => {
+      const at = authority.lastIndexOf("@");
+      return at === -1 ? scheme + authority : `${scheme}***${authority.slice(at)}`;
+    },
+  );
 }
 
 // Session-63 (S63-1, AUDIT-1 M1 — live-probed): the inert-VALUE

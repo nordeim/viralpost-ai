@@ -408,12 +408,15 @@ function hashtagsFor(idea: string, niche: Niche | null, rng: () => number): stri
   const tags: string[] = [];
   for (const t of own) if (tags.length < 3 && !tags.includes(t)) tags.push(t);
   while (tags.length < target && pool.length) {
-    const t = pool.splice(Math.floor(rng() * pool.length), 1)[0];
+    // S64-6 (AUDIT-1 I3): the % belt-and-braces — mulberry32 returns
+    // [0,1) strictly so the floor is always < length (the pick()
+    // invariant), but the guard survives a future PRNG swap (S28-8/S42-3).
+    const t = pool.splice(Math.floor(rng() * pool.length) % pool.length, 1)[0];
     if (!tags.includes(t)) tags.push(t);
   }
   const evergreen = [...EVERGREEN_TAGS];
   while (tags.length < target && evergreen.length) {
-    const t = evergreen.splice(Math.floor(rng() * evergreen.length), 1)[0];
+    const t = evergreen.splice(Math.floor(rng() * evergreen.length) % evergreen.length, 1)[0];
     if (!tags.includes(t)) tags.push(t);
   }
   return tags.slice(0, 8);

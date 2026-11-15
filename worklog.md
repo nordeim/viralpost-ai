@@ -7023,3 +7023,102 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-63 ship: lint 0/0 · tsc 0 · unit 750/750 (40
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+---
+## Task 64 — The Redaction Raw-@ Tail Cure + The Census Union-Read Fix + The E2E Mid-Line Arm + The x/f Alias Guard + The Mirror Pin + The Splice Mod and the Register Batch (2026-11-15)
+
+- ANALYZE: the round opened on the shipped tree (`802f049` = session-63's
+  `462f763` + the owner's narration commit carrying docs/session_64.md as
+  the round-64 working narration); the core docs re-read at the
+  session-63 ship counts, the session-63 set re-verified (the formal
+  log, the plan's post-execution record, worklog Task 63, the S63 cures
+  in source: the inert-value seam + wiring, the redaction at all three
+  sites, the health log, the re-emit wiring, the sr-only retirement,
+  the S63-8a mid-line census arm). Baseline gate GREEN at the
+  documented counts — lint 0/0 · tsc 0 · unit 750/750 (40 files) ·
+  build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH — zero
+  drift. Standing asks re-verified (the .env contract recreated on the
+  fresh clone with db/ at the repo root, census MATCH; the ambient
+  DATABASE_URL pollution found live in the sandbox and neutralized
+  with unset + env -u on every DB-touching command — the S63
+  methodology lesson applied; vitest + playwright current with
+  chromium-1248 installed; sitemap/robots/manifest/OG verified in walk
+  #37; skills/ excluded; .env.example committed and byte-identical to
+  the working .env). bun audit: the SAME 9 dev-toolchain advisories as
+  session-55..63 (3H/5M/1L, none on the runtime request path).
+- AUDIT: three parallel subagents (AUDIT-1 API/lib seams 0C/0H/0M/1L/3I,
+  AUDIT-2 components/pages/effects 0C/0H/0M/0L/3I, AUDIT-3
+  SEO/configs/tests/docs 0C/0H/2L/1I — combined 0/0/0/3/7 — the
+  cleanest combined severity profile in the ledger's recent history).
+  All three lanes re-verified the full standing-contract set (AUDIT-1:
+  the envelope discipline on all 13 handlers, the db seam monopoly, the
+  status discipline, the limiter at all eight buckets, the auth family,
+  the S62–S63 cures, a full unit/lint/tsc re-run green, the parseEnvFile
+  bun-parity probe; AUDIT-2: all seven Tailwind v4 mitigations verified
+  AT THE COMPILER through the installed 4.3.3, the complete mobile-menu
+  mechanic set, the React 19 laws, the WCAG floor; AUDIT-3: every count
+  re-derived from disk and the unit suite re-run green). The lead's
+  hand-verification: AUDIT-1 L1 live-probed (redactCredentials on a
+  raw-@ password answered ***@ssw0rd@host — the tail leaked); AUDIT-3
+  F-1/F-2/F-3 verified by direct read (the S63-8a arm's tests/
+  re-prefix breaking the S50-5 union in letter; the e2e census's
+  missing mid-line guard; the uncensused xit/fit alias family); I1/I3/
+  I2/I3 verified (the unpinned DEFAULT_DATABASE_URL mirror, the splice
+  modulo inconsistency, the not-found docblock placement, the
+  flex-shrink-0 v3 alias).
+- PARITY WALK #37 — the thirty-seventh consecutive clean walk: both
+  legs at every documented posture (the hamburger base byte-identical
+  with NO aria family on the reference vs our ACTIVE superset; the
+  panel inner byte-identical (16px/24px, the 12px rhythm via v4's
+  margin-block-end, the pill 9999px/3.35544e+07px); Escape R-open/
+  L-close-with-focus-return; the outside-tap both open; the route-change
+  R-unmount/L-hidden-in-DOM; the desktop census 6 visible identical;
+  the brand gradient byte-identical; the five-route head census
+  identical (the bare / + /login titles, the <Page> | family, the
+  170/92/95/95 descriptions, the canonicals, the shared ogImage);
+  sitemap 4 URLs + robots identical modulo origin; the generator
+  dead/live with quota 0→1). The reference's mobile panel carries NO
+  id — our mobile-menu id is the documented superset. Captures 135/136
+  on the dev server PIL-verified (100.0%/99.9% non-white, teal
+  13.19%/10.21%).
+- IMPLEMENT (TDD — the pins first): S64-1a the raw-@ redaction pin born
+  RED (1 failed / 72 passed); S64-5a the DEFAULT_DATABASE_URL mirror
+  pin born GREEN (a coupling pin — the literal-divergence plant is its
+  RED face); S64-2b the union-read pin born RED after a mid-RED
+  redesign (the first draft's unscoped form proved VACUOUS — the
+  strip-chain sweep at :1090 already carried the idiom, the S12-2 trap
+  caught before the cure landed; redesigned scoped to the S63-8a
+  describe block with composed-part negative assertions);
+  S64-3a the e2e mid-line census arm born GREEN (the census-arm
+  precedent); S64-6a the splice-modulo pin born RED (1 failed / 14
+  passed). The GREEN phase: S64-1b the authority-scoped last-@
+  redaction (every pinned S63-2 shape byte-identical), S64-2a read(f),
+  S64-4a the x/f forms-guard widening, S64-6b the two splice modulos +
+  the invariant comment, S64-7 the not-found docblock move, S64-8 the
+  limiter memory-face sentence + the PAD §11 rows.
+- BATTERIES (all six on record, each plant RED exactly its pin, all
+  restored GREEN): the redaction-revert plant (1/72), the
+  literal-divergence plant (1/72), the re-prefix-revert plant, the e2e
+  mid-line plant (penned in seo.spec.ts), the xit alias plant (penned
+  in utils.test.ts — RED the widened forms-guard), the modulo-removal
+  plant (1/14).
+- LOCKSTEP: UNIT 750 → 755, BADGE 820 → 825, SUITES/E2E/SPECS/SMOKE
+  held; the docs-counts constants + the s64 ladder entry; PAD §8.1's
+  table + carry line, §11's two new rows (the memory face, the
+  flex-shrink-0 alias), §12's two re-anchored rows (generator 498,
+  rate-limit 153 — one arithmetic correction mid-lockstep: the row was
+  first penned at 157 and the inventory census itself named the real
+  153); README's badge 825 + the session-64 row + the gate footer
+  re-spell + the testing-table sites; AGENTS's plans-map sixty-fourth
+  round + the 755; CLAUDE's 755; SKILL v1.59.0 → v1.60.0 (the
+  frontmatter project_state, §0.5's 1..64, the pre-ship checklist,
+  Appendix A's session-64 row, Appendix B's header + gate line); the
+  ten provenance sites re-anchored to 1..64 (lag 0 at ship);
+  docs/session_64.md (the formal log replacing the owner's narration);
+  the session-64 plan's post-execution record; this entry.
+- VERIFIED: the full gate on the exact commit tree (below); the parity
+  walk #37; the captures 135/136 (PIL-verified); the full unit suite
+  755/755 after all restores; the three designed count-lag faces fired
+  and cured at the lockstep exactly as the doctrine describes.
+
+**Gate at the session-64 ship: lint 0/0 · tsc 0 · unit 755/755 (40
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
