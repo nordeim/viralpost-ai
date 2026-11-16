@@ -457,10 +457,19 @@ describe("session-74 (S74-4): the hover-pause arm gates on pointer modality (the
 // mount probe's truth into the blur guard: the unpause fires only
 // when NEITHER the live pseudo-class NOR the geometry (lastMousePos
 // inside the card's rect) says the pointer rests on the card.
+// Session-76 (S76-1, AUDIT-2 A2-F1 — code-verified via the Read tool):
+// the pin re-anchored to the HOISTED rect spelling. The S75-5 cure read
+// root.getBoundingClientRect() inline FOUR times (one per field
+// comparison) while the mount probe it mirrors hoists ONE const and
+// reads its four fields — the mount probe's hoisted form is the house
+// idiom, and the inline form re-resolved the rect per comparison (an
+// idiom drift, not a behavior change: consecutive reads in one task
+// hit the same layout). The re-anchor keeps the four-comparison
+// contract exact; the hoist-revert plant below trips exactly this pin.
 describe("session-75 (S75-5): the blur unpause guard consults the geometry probe's truth (the compound stationary-mouse + keyboard path)", () => {
   it("the onBlur guard unpauses only when neither :hover nor the lastMousePos rect test says the pointer rests on the card", () => {
     expect(src).toMatch(
-      /onBlur=\{\(\) => \{\n        const root = rootRef\.current;\n        if \(!root\) return;\n        if \(root\.matches\(":hover"\)\) return;\n        if \(\n          lastMousePos &&\n          lastMousePos\.x >= root\.getBoundingClientRect\(\)\.left &&\n          lastMousePos\.x <= root\.getBoundingClientRect\(\)\.right &&\n          lastMousePos\.y >= root\.getBoundingClientRect\(\)\.top &&\n          lastMousePos\.y <= root\.getBoundingClientRect\(\)\.bottom\n        \)\n          return;[^]*?setPaused\(false\);/,
+      /onBlur=\{\(\) => \{\n        const root = rootRef\.current;\n        if \(!root\) return;\n        if \(root\.matches\(":hover"\)\) return;\n        const rect = root\.getBoundingClientRect\(\);\n        if \(\n          lastMousePos &&\n          lastMousePos\.x >= rect\.left &&\n          lastMousePos\.x <= rect\.right &&\n          lastMousePos\.y >= rect\.top &&\n          lastMousePos\.y <= rect\.bottom\n        \)\n          return;[^]*?setPaused\(false\);/,
     );
   });
 });

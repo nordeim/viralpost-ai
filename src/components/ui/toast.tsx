@@ -291,7 +291,7 @@ function ToastCard({ item }: { item: ToastItem }) {
         // D-124a7, s128/s129/s130, and walk22 below — are DONOR-LEDGER
         // numbers (the NEO-CRM/digma template family's own sessions and
         // findings), never this repo's docs/session_N.md; this repo's
-        // own ledger is docs/session_1..75.md (re-spelled session-38,
+        // own ledger is docs/session_1..76.md (re-spelled session-38,
         // S38-7c, to the census-legible range form — the docs-counts
         // lag invariant now owns this claim).
         // Session-131 (D-131a1): the scaffold-era data-[state] animation
@@ -366,16 +366,22 @@ function ToastCard({ item }: { item: ToastItem }) {
       // lastMousePos rect test, the same four comparisons the mount
       // probe runs) closes it: the unpause fires only when NEITHER
       // truth says the pointer rests on the card.
+      // Session-76 (S76-1, AUDIT-2 A2-F1): the rect HOISTED — one
+      // read, four field comparisons, the mount probe's own idiom
+      // (the S75-5 inline form re-resolved the rect per comparison;
+      // consecutive reads in one task hit the same layout, so this
+      // is the idiom alignment, not a behavior change).
       onBlur={() => {
         const root = rootRef.current;
         if (!root) return;
         if (root.matches(":hover")) return;
+        const rect = root.getBoundingClientRect();
         if (
           lastMousePos &&
-          lastMousePos.x >= root.getBoundingClientRect().left &&
-          lastMousePos.x <= root.getBoundingClientRect().right &&
-          lastMousePos.y >= root.getBoundingClientRect().top &&
-          lastMousePos.y <= root.getBoundingClientRect().bottom
+          lastMousePos.x >= rect.left &&
+          lastMousePos.x <= rect.right &&
+          lastMousePos.y >= rect.top &&
+          lastMousePos.y <= rect.bottom
         )
           return;
         setPaused(false);

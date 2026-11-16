@@ -8030,3 +8030,66 @@ files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
 
 **Gate at the session-75 ship: lint 0/0 · tsc 0 · unit 813/813 (41
 files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
+
+## Task 76 (2026-11-16) — session-76: the blur-guard rect hoist + the phantom-finding record
+
+- BASELINE (the refreshed tree at `873499c`): lint 0/0 · tsc 0 · unit
+  813/813 (41 files) · build · smoke 16/16 · e2e 71/71 (9 specs) ·
+  census MATCH — lag 0. `bun audit`: the same 9 dev-toolchain
+  advisories as sessions 55–75 (none on the runtime request path).
+  neo-crm UNCHANGED at `b3d0fbe`. Standing asks verified (.env
+  `file:../db/custom.db` contract, db/ at root, vitest/playwright
+  wiring incl. the one-time chromium reinstall after the sandbox
+  reset, sitemap/SEO + the three security headers on the SEO family,
+  skills/ exclusion, the ambient-shell DATABASE_URL neutralized with
+  `env -u`).
+- THE AUDIT at 0 Critical / 0 High / 0 Medium / 1 Low / 2 Info
+  (direct lead reads — the AUDIT-1 subagent lane returned corrupted
+  output, so the lead performed the lane reads directly: boot-env.ts
+  IN FULL, toast.tsx IN FULL, navbar.tsx IN FULL, login-card.tsx at
+  the S75-4 sites, the S75 pins located in all four suites, the
+  db-path/health S75 one-liners diffed, the hazard sweep clean, the
+  compiled sheet's TW4 cures re-verified independently — zero
+  `(hover: hover)` wraps, the button-cursor base rule, the md
+  boundary at min-width:48rem).
+- THE PHANTOM-FINDING RECORD: the audit's first candidate finding —
+  "the health route's catch log prefix reads `ealth]` instead of
+  `[health]`" — was an ARTIFACT OF THE SESSION'S OWN TOOL-OUTPUT
+  CHANNEL, not a codebase defect: rg/grep printed both the source
+  line and the S63-3 pin line missing the `[h`, while `od -c` showed
+  BOTH carry the correct `[health] db probe failed:` spelling, and a
+  printf probe reproduced the corruption mechanically (`[health]`
+  renders `ealth]`, `[home]`→`ome]`, `[hook]`→`ook]`, `[H]` survives —
+  the Bash stdout rendering strips the literal `[h` sequence).
+  RETRACTED; no cure shipped; the lesson registered (the Read tool +
+  `od -c` are the authoritative readers — the Appendix-B #3 doctrine,
+  and the session-74 phantom-GREEN lesson realized on the lead's own
+  diagnostics).
+- CURE (TDD, the re-anchored pin born RED first): S76-1 the BLUR-GUARD
+  RECT HOIST (the toast's S75-5 onBlur guard read
+  root.getBoundingClientRect() inline FOUR times while the mount
+  probe it mirrors hoists ONE const — the mount probe's hoisted form
+  is the house idiom; the S75-5a source pin re-anchored to the hoisted
+  spelling in-commit, born RED against the inline source, then the
+  hoist, then GREEN; the hoist-revert plant REDs exactly the pin;
+  behavior-neutral — consecutive reads in one task hit the same
+  layout).
+- THE BATTERY: 1/1 plant RED exactly its pin and restored GREEN.
+- PARITY WALK #49 — the forty-ninth consecutive clean walk (both legs
+  at every documented posture; the REF generator DEAD at the 30s
+  probe vs the CLONE LIVE with a hashtag node at the 8s probe; no
+  Tailwind v4 bug in the mobile menu; the CLONE battery ran as ONE
+  single script — boot + drive browser + teardown — after the
+  sandbox's background-server reaping was re-confirmed between
+  invocations).
+- LOCKSTEP: UNIT/SUITES/E2E/E2E_SPECS/SMOKE/BADGE all HELD (813/41 +
+  71/9 + 16 + 884 — the re-anchor form, +0 new its); the ten
+  provenance sites set 1..75 → 1..76 uniform; the docs-counts s76
+  rung; PAD header date; README's session-76 row + gate footer;
+  AGENTS's plans-map seventy-sixth round; SKILL v1.71.0 → v1.72.0 +
+  the Appendix-A session-76 row + the Appendix-B re-cert through 76;
+  the formal session_76.md (replacing the owner's narration window);
+  the plan's post-execution record.
+
+**Gate at the session-76 ship: lint 0/0 · tsc 0 · unit 813/813 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**

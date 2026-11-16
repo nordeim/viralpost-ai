@@ -509,6 +509,21 @@ import {
 // plant REDs exactly it), the S74-4a touch-pause modality pin ×1
 // (the ungated-spelling revert plant REDs exactly it)). The e2e 71
 // unchanged. SMOKE 16 unchanged.
+// s76: 813/41 (HELD — the round's one cure, the S76-1 blur-guard
+// rect hoist, is an IN-PLACE pin re-anchor (+0 new its): the S75-5a
+// source pin re-anchored to the hoisted rect spelling first, born RED
+// against the S75-5 inline four-call form, then the toast.tsx onBlur
+// guard hoisted its rect (one read, four field comparisons — the mount
+// probe's own idiom; the hoist-revert plant REDs exactly the pin).
+// The round's audit also RETRACTED its first candidate finding live:
+// the "health-route log prefix typo" was an artifact of the SESSION'S
+// OWN tool-output channel (the Bash stdout rendering strips the
+// literal `[h` sequence — printf-probed: `[health]` renders `ealth]`,
+// `[home]`→`ome]`, `[H]` survives), diagnosed via od -c + the Read
+// tool showing both source and S63-3 pin carry the correct spelling;
+// the record lives in the session-76 plan + session log (the
+// session-74 phantom-GREEN lesson realized on the lead's own
+// diagnostics). The e2e 71 unchanged. SMOKE 16 unchanged.
 // s75: 813/41 (+5/+0 — the S75-1a loopback-redaction pin ×1 (the
 // raw-interpolation revert plant REDs exactly it), the S75-2a
 // face-quartet one-home pin ×1 (the precedence-drop revert plant REDs
