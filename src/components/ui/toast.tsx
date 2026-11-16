@@ -291,7 +291,7 @@ function ToastCard({ item }: { item: ToastItem }) {
         // D-124a7, s128/s129/s130, and walk22 below — are DONOR-LEDGER
         // numbers (the NEO-CRM/digma template family's own sessions and
         // findings), never this repo's docs/session_N.md; this repo's
-        // own ledger is docs/session_1..74.md (re-spelled session-38,
+        // own ledger is docs/session_1..75.md (re-spelled session-38,
         // S38-7c, to the census-legible range form — the docs-counts
         // lag invariant now owns this claim).
         // Session-131 (D-131a1): the scaffold-era data-[state] animation
@@ -353,8 +353,32 @@ function ToastCard({ item }: { item: ToastItem }) {
       // containment test. The sticky touch-hover residual is retired
       // by S74-4b's enter-side modality gate (the accepted-residual
       // doctrine this comment carried now belongs to no live path).
+      // Session-75 (S75-5, AUDIT-2 A2-F4): the guard consults BOTH
+      // pointer truths — the live pseudo-class AND the mount probe's
+      // geometry. The :hover-only test contradicted the S72-4 mount
+      // probe on the compound path: a card born under a STATIONARY
+      // mouse (geometry-paused; the engine does not live-update
+      // :hover for an inserted element — the S71-6 probe record
+      // above) whose Dismiss is tabbed into and out of read :hover
+      // false, re-armed the timer, and auto-dismissed while the
+      // pointer physically rested on the card — a residual hole in
+      // the S20-6 hover-hold invariant. The geometry mirror (the
+      // lastMousePos rect test, the same four comparisons the mount
+      // probe runs) closes it: the unpause fires only when NEITHER
+      // truth says the pointer rests on the card.
       onBlur={() => {
-        if (!rootRef.current?.matches(":hover")) setPaused(false);
+        const root = rootRef.current;
+        if (!root) return;
+        if (root.matches(":hover")) return;
+        if (
+          lastMousePos &&
+          lastMousePos.x >= root.getBoundingClientRect().left &&
+          lastMousePos.x <= root.getBoundingClientRect().right &&
+          lastMousePos.y >= root.getBoundingClientRect().top &&
+          lastMousePos.y <= root.getBoundingClientRect().bottom
+        )
+          return;
+        setPaused(false);
       }}
     >
       <span className="mt-0.5 shrink-0">{ICONS[item.variant]}</span>

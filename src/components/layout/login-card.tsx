@@ -139,6 +139,23 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
   // root (the incoming view's [data-view-focus] heading is queried
   // inside it after the swap renders).
   const cardRef = React.useRef<HTMLDivElement | null>(null);
+  // Session-75 (S75-4, AUDIT-2 A2-F3 — code-verified): the mounted
+  // gate, the S51-2 doctrine applied to the funnel's NAVIGATION arms.
+  // The login card is the one component whose success path performs
+  // router.push — a slow login/verify response resolving after the
+  // user pressed Back (the only exit from /login) used to execute the
+  // push anyway and yank the browser to the funnel exit
+  // (setState-after-unmount is a harmless React 19 no-op, but
+  // router.push is a real side effect on a module-level router).
+  // The StrictMode re-arm body is the S52-1 form (generator-card and
+  // contact-form carry the identical block).
+  const mounted = React.useRef(true);
+  React.useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
 
   React.useEffect(() => {
     if (!info) return;
@@ -213,6 +230,10 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
         setError(body?.error?.message ?? "Sign in failed. Try again.");
         return;
       }
+      // Session-75 (S75-4): the mounted gate — the response resolved
+      // after the user left the card (Back is /login's only exit), so
+      // the navigation arm stands down (the S51-2 doctrine).
+      if (!mounted.current) return;
       router.push(resolveFromUrl(fromUrl ?? "/", window.location.origin));
       router.refresh();
     } catch {
@@ -289,6 +310,10 @@ export function LoginCard({ mode = "signin" }: { mode?: Mode }) {
         setError(body?.error?.message ?? "Invalid verification code.");
         return;
       }
+      // Session-75 (S75-4): the mounted gate — the response resolved
+      // after the user left the card (Back is /login's only exit), so
+      // the navigation arm stands down (the S51-2 doctrine).
+      if (!mounted.current) return;
       router.push(resolveFromUrl(fromUrl ?? "/", window.location.origin));
       router.refresh();
     } catch {

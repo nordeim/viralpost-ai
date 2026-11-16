@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..74.
+// are docs/session_1..75.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -2537,5 +2537,147 @@ describe("session-74 (S74-1/S74-2/S74-3): the query-pass reorder + the file-stra
     expect(joined).toContain("carries a query string");
     expect(joined).not.toContain("secretpw");
     expect(joined).toContain("***@host");
+  });
+});
+
+describe("session-75 (S75-1/S75-2/S75-3): the loopback redaction + the residue-face one-home + the predicate widening", () => {
+  it("S75-1a: the loopback production siteUrl arm redacts credentials (the family's one REMAINING unredacted printer)", () => {
+    // AUDIT-1 A1-F1 (session-75, live-probed): S74-3 routed the three
+    // SHAPE arms through redactCredentials and missed the fourth member
+    // of the family — the loopback arm interpolated the raw value, so a
+    // credentialed loopback paste printed the password VERBATIM while
+    // the shape arm beside it printed http://***@… (both fire on the
+    // same value). The cure: the loopback interpolation routes through
+    // redactCredentials too — the family is uniformly redacted now.
+    const report = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "http://admin:hunter2@localhost:3000" }),
+    );
+    const joined = (report.warnings ?? []).join("\n");
+    expect(joined).toContain("in production");
+    expect(joined).not.toContain("hunter2");
+    expect(joined).toContain("***@localhost:3000");
+
+    // The false-positive guard — a HEALTHY loopback value is
+    // byte-identical under the pass (nothing to mask), so the existing
+    // loopback-posture pins hold.
+    const healthy = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "http://localhost:3000" }));
+    const hj = (healthy.warnings ?? []).join("\n");
+    expect(hj).toContain('is "http://localhost:3000" in production');
+    expect(hj).not.toContain("***");
+  });
+
+  it("S75-2a: a combined control+quote value keeps the CONTROL story through BOTH printers (the one-home face quartet)", () => {
+    // AUDIT-1 A1-F2 (session-75, live-probed): the file-face
+    // stray-quote classifier lacked the !controlFace gate its
+    // process-env twin carried — the SAME value carrying both a tab
+    // and a trailing quote printed the control-char story through
+    // bootEnvCheck but the STRAY-QUOTE story through
+    // databaseUrlFileResidueWarning (the two-homes drift the module's
+    // own S73-2b note warns about, realized one session later). The
+    // cure: the face quartet (quoteFace/controlFace/newlineFace/
+    // strayQuoteFace) single-homes in one classifier consumed by both
+    // printers (and the predicate composes it) — the precedence is
+    // identical everywhere: control wins a combined value.
+    const combined = 'file:../db/custom.db\t"';
+
+    // Face 1 — the process-env printer: the CONTROL story (the pinned
+    // S60-1 precedence, unchanged by this round).
+    const proc = bootEnvCheck(env({ DATABASE_URL: combined }));
+    const procJoined = (proc.warnings ?? []).join("\n");
+    expect(procJoined).toContain("control character");
+    expect(procJoined).not.toContain("stray quote");
+
+    // Face 2 — the file-side printer: the SAME story (the divergence
+    // cure — this face was the stray-quote misattribution).
+    const file = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      combined,
+    );
+    expect(file).toContain("control character");
+    expect(file).not.toContain("stray quote");
+
+    // Face 3 — the one-home SHAPE: the quote-opener face literal
+    // (startsWith('"')) lives in exactly ONE place — the shared
+    // classifier (the S73-2a one-home doctrine extended from the
+    // predicate to the face quartet it feeds).
+    const src = readFileSync(
+      join(import.meta.dirname, "../src/lib/boot-env.ts"),
+      "utf8",
+    );
+    const openerSites = src.match(/startsWith\('"'\)/gu) ?? [];
+    expect(openerSites.length, "the quote-opener face test lives in exactly one place").toBe(1);
+  });
+
+  it("S75-3a: the residue predicate widens to the invisible-whitespace family + the backtick, and the stray-quote arm scopes to RELATIVE file: values (the O'Brien false-positive cure)", () => {
+    // AUDIT-1 A1-F3/A1-F4 (session-75, live-probed): three predicate
+    // gaps — (1) a LEGITIMATE quote inside an ABSOLUTE file: path
+    // (file:/opt/data/O'Brien.db) false-positived the stray-quote arm
+    // with a mechanism sentence that is false for absolute refs (no
+    // re-anchor, no junk file under db/ — passed through raw); (2) the
+    // \p{Cc} class missed the invisible-whitespace family (an INTERIOR
+    // NBSP \u00a0 or ZWSP \u200b — web/chat paste — re-anchors into the
+    // junk-named file with ZERO boot signal, the S57-1 genus); (3) a
+    // trailing BACKTICK (the mirrored-typo genus on the quote's
+    // neighboring key) sailed past every arm. The cures: the
+    // stray-quote arm scopes to RELATIVE file: values (every S74-2a
+    // fixture is relative — the junk-file mechanism sentence is true
+    // for exactly that scope), the control-char class admits the
+    // invisible-whitespace family, and the backtick joins the quote in
+    // the stray-junk-char arm.
+
+    // Face 1 — the absolute-ref false-positive cure: a legitimate
+    // quote in an absolute path NEVER warns (either printer).
+    const obrienFile = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      "file:/opt/data/O'Brien.db",
+    );
+    expect(obrienFile).toBeNull();
+    const obrienProc = bootEnvCheck(env({ DATABASE_URL: "file:/opt/data/O'Brien.db" }));
+    expect((obrienProc.warnings ?? []).join("\n")).not.toContain("stray quote");
+
+    // Face 2 — the interior NBSP warns through the file-side printer
+    // (the invisible-whitespace paste family; the trimmed face keeps
+    // the interior occurrence).
+    const nbsp = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      "file:../db/custom\u00a0.db",
+    );
+    expect(nbsp).toContain("control character");
+
+    // Face 3 — the interior ZWSP likewise.
+    const zwsp = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      "file:../db/custom\u200bdb",
+    );
+    expect(zwsp).toContain("control character");
+
+    // Face 4 — the process-env arm fires on the NBSP value too.
+    const procNbsp = bootEnvCheck(env({ DATABASE_URL: "file:../db/custom\u00a0.db" }));
+    expect((procNbsp.warnings ?? []).join("\n")).toContain("control character");
+
+    // Face 5 — the trailing BACKTICK joins the stray-quote arm (the
+    // neighboring-key mirrored typo; the junk-file genus applies).
+    const btick = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      "file:../db/custom.db`",
+    );
+    expect(btick).toContain("stray quote");
+
+    // Control — the healthy contract value stays silent (the
+    // .env.example posture never warns; the widening admits no
+    // healthy value).
+    const healthy = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      "file:../db/custom.db",
+    );
+    expect(healthy).toBeNull();
+
+    // Control — libpq's sanctioned quoted keyword containers stay
+    // clean (the standing S74-2b false-positive guard).
+    const keyword = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      "host=localhost password='my secret' user=admin",
+    );
+    expect(keyword).toBeNull();
   });
 });

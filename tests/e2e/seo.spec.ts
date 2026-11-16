@@ -156,13 +156,24 @@ test("manifest.json serves the installable app manifest", async ({ request }) =>
 });
 
 test("the security headers ride every response", async ({ request }) => {
-  const res = await request.get("/");
-  expect(res.headers()["referrer-policy"]).toBe("strict-origin-when-cross-origin");
-  expect(res.headers()["x-content-type-options"]).toBe("nosniff");
-  // Session-45 (S45-8): the third header joins its two live-asserted
-  // siblings (it rode only the http-headers source pin before — two of
-  // three asserted live). The S25-17 in-place fold: no count change.
-  expect(res.headers()["strict-transport-security"]).toBe("max-age=31536000");
+  // Session-75 (S75-6, AUDIT-3 A3-F1 — live-verified on the build):
+  // the loop extends to the SEO route family. The headers DO ship on
+  // /sitemap.xml, /robots.txt and /manifest.json today (live curl on
+  // the standalone build: all three on every route), but the only
+  // live arm probed "/" — a future Next behavior change (config
+  // headers no longer applied to force-static route handlers) would
+  // have kept the gate green while the superset silently narrowed to
+  // HTML routes. The in-place fold (the S18-2/S45-8 house precedent):
+  // no count change, the same test owns the whole family now.
+  for (const path of ["/", "/sitemap.xml", "/robots.txt", "/manifest.json"]) {
+    const res = await request.get(path);
+    expect(res.headers()["referrer-policy"], path).toBe("strict-origin-when-cross-origin");
+    expect(res.headers()["x-content-type-options"], path).toBe("nosniff");
+    // Session-45 (S45-8): the third header joins its two live-asserted
+    // siblings (it rode only the http-headers source pin before — two of
+    // three asserted live). The S25-17 in-place fold: no count change.
+    expect(res.headers()["strict-transport-security"], path).toBe("max-age=31536000");
+  }
 });
 
 test("the health endpoint answers the envelope", async ({ request }) => {

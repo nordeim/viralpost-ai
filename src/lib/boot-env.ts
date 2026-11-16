@@ -128,30 +128,72 @@ export interface BootEnvOptions {
 // repeated in this comment), and the full residue predicate composes
 // it with the quote-opener arms.
 function dbUrlCarriesControlChar(value: string): boolean {
-  return /\p{Cc}/u.test(value);
+  // Session-75 (S75-3, AUDIT-1 A1-F4 — live-probed): the class admits
+  // the INVISIBLE-WHITESPACE family alongside Cc — an INTERIOR NBSP
+  // (\u00a0, the Zs paste artifact web/chat editors emit) or ZWSP
+  // (\u200b, Cf) escaped the old control-only test, re-anchored into
+  // the junk-named file under db/, and served a healthy-looking boot
+  // with ZERO [boot] signal (the S57-1 genus, alive for this charset;
+  // edge occurrences stay consumed by the callers' trim — the S69-4
+  // doctrine). The block range \u2000-\u200f covers the en..hair
+  // spaces + the ZWSP/directionality family; none is a legitimate
+  // DATABASE_URL character.
+  return /[\p{Cc}\u00a0\u2000-\u200f]/u.test(value);
+}
+
+// Session-75 (S75-2, AUDIT-1 A1-F2 — live-probed): the FACE QUARTET,
+// single-homed. The quote-opener/control/newline/stray-quote faces
+// were classified independently at the two printers (the process-env
+// arm carried the !controlFace precedence gate; the file-face seam
+// carried only !quoteFace) — the SAME value carrying both a control
+// char and a quote printed the control-char story through one printer
+// and the stray-quote story through the other (the two-homes drift
+// the module's own S73-2b note warns about, realized one session
+// later). Both printers (and the residue predicate below) now consume
+// THIS classifier — the precedence is identical everywhere: a leading
+// quote wins (the unclosed-quote story), a control char wins a
+// combined control+quote value (the older pinned S60-1 precedence),
+// and the stray-quote face requires a RELATIVE file: value with no
+// control char riding.
+function dbUrlFaceClassification(value: string): {
+  quoteFace: boolean;
+  controlFace: boolean;
+  newlineFace: boolean;
+  strayQuoteFace: boolean;
+} {
+  const quoteFace = value.startsWith('"') || value.startsWith("'");
+  const controlFace = dbUrlCarriesControlChar(value);
+  const newlineFace = controlFace && (value.includes("\n") || value.includes("\r"));
+  // Session-75 (S74-2b + S75-3): a stray quote (or backtick) on a
+  // RELATIVE file:-prefixed value. The one-keystroke mirrored typo
+  // (file:../db/custom.db" — the quote the operator meant to open the
+  // .env line with landed at the value's tail; the backtick rides the
+  // neighboring key) parses clean through every loader, and the
+  // engine ACCEPTS it: the live probe resolved it to a junk-named
+  // custom.db" under db/, created it 0-byte, and SELECT 1 answered OK
+  // — a healthy-looking boot against a table-less DB with ZERO [boot]
+  // signal (the S57-1 junk-file genus, silent again). Session-75
+  // (S75-3, AUDIT-1 A1-F3 — live-probed) scopes the arm to RELATIVE
+  // values: the junk-file mechanism sentence is true for exactly that
+  // scope (absolute refs pass through raw — no re-anchor, no junk
+  // file under db/), and a LEGITIMATE quote inside an absolute path
+  // (file:/opt/data/O'Brien.db) false-positived the arm with that
+  // false mechanism. The scoping is file:-RELATIVE, never a blanket
+  // includes: libpq's sanctioned quoted keyword containers
+  // (password='my secret' host=x is a CLEAN value carrying quotes —
+  // the keyword-form grammar) stay outside the residue seam's
+  // routing, and !controlFace keeps the combined-value precedence.
+  const strayQuoteFace =
+    !controlFace &&
+    value.startsWith("file:") &&
+    !value.startsWith("file:/") &&
+    (value.includes('"') || value.includes("'") || value.includes("`"));
+  return { quoteFace, controlFace, newlineFace, strayQuoteFace };
 }
 
 function dbUrlCarriesResidue(value: string): boolean {
-  return (
-    dbUrlCarriesControlChar(value) ||
-    value.startsWith('"') ||
-    value.startsWith("'") ||
-    // Session-75 (S74-2b, AUDIT-1 M-2 — live-probed incl. the engine):
-    // a NON-leading quote on a file:-prefixed value is residue. The
-    // one-keystroke mirrored typo (file:../db/custom.db" — the quote
-    // the operator meant to open the .env line with, landed at the
-    // value's tail) parses clean through every loader, sailed past
-    // the leading-quote arm, and the engine ACCEPTED it: the live
-    // probe resolved it to a junk-named custom.db" under db/, created
-    // it 0-byte, and SELECT 1 answered OK — a healthy-looking boot
-    // against a table-less DB with ZERO [boot] signal (the S57-1
-    // junk-file genus, silent again). The widening is file:-SCOPED by
-    // design: a BLANKET includes-quote arm would false-positive
-    // libpq's sanctioned quoted keyword containers (password='my
-    // secret' host=x is a CLEAN value carrying quotes — the
-    // keyword-form grammar) into the residue seam's routing.
-    (value.startsWith("file:") && (value.includes('"') || value.includes("'")))
-  );
+  const { quoteFace, controlFace, strayQuoteFace } = dbUrlFaceClassification(value);
+  return controlFace || quoteFace || strayQuoteFace;
 }
 
 /**
@@ -332,8 +374,18 @@ export function bootEnvCheck(
     // carry the truth it always has.
     if (!servedIsHealthy) {
       warnings.push(
+        // Session-75 (S75-1, AUDIT-1 A1-F1 — live-probed): the
+        // interpolation routes through redactCredentials — S74-3
+        // covered the three SHAPE arms and missed this fourth member
+        // of the family (the loopback arm interpolated the raw value,
+        // so a credentialed loopback paste printed the password
+        // VERBATIM while the shape arm beside it printed http://***@…
+        // — both fire on the same value). A healthy loopback origin is
+        // byte-identical under the pass (nothing to mask); a
+        // credentialed one is exactly the "operator's basic-auth paste"
+        // the queryCarrying arm exists for.
         `[boot] NEXT_PUBLIC_SITE_URL is ${
-          siteUrl ? `"${siteUrl}"` : "unset"
+          siteUrl ? `"${redactCredentials(siteUrl)}"` : "unset"
         } in production — metadataBase, /robots.txt, /sitemap.xml and the OG/Twitter cards would advertise a localhost origin. Set the canonical public origin BEFORE \`bun run build\` (it is inlined at build time).`,
       );
     }
@@ -513,18 +565,11 @@ export function bootEnvCheck(
     // control-char values and stray-quote values (a leading-quote value
     // can never start with `file:`) — before the split its "unclosed
     // quote" headline was false for every value that reached it.
-    const quoteFace = dbFace.startsWith('"') || dbFace.startsWith("'");
-    const controlFace = dbUrlCarriesControlChar(dbFace);
-    const newlineFace = controlFace && (dbFace.includes("\n") || dbFace.includes("\r"));
-    // Session-75 (S74-2b): the stray-quote face — a NON-leading quote
-    // on a file:-prefixed value, no control char riding (a value with
-    // BOTH keeps the control-char story — the older pinned face; the
-    // control char is the primary diagnostic, the quote rides as
-    // secondary residue).
-    const strayQuoteFace =
-      !controlFace &&
-      dbFace.startsWith("file:") &&
-      (dbFace.includes('"') || dbFace.includes("'"));
+    // Session-75 (S75-2): the face quartet is classified by the ONE
+    // shared helper (dbUrlFaceClassification) — this printer and the
+    // file-side seam consume the same precedence (a combined
+    // control+quote value keeps the control-char story everywhere).
+    const { quoteFace, controlFace, newlineFace, strayQuoteFace } = dbUrlFaceClassification(dbFace);
     // Session-63 (S63-2): the printed value is REDACTED (a credentialed
     // postgres URL never leaks its password to stdout/server.log — the
     // residue shape stays, the userinfo segment goes); the branch
@@ -537,11 +582,11 @@ export function bootEnvCheck(
         ? (newlineFace
             ? `[boot] DATABASE_URL=${shown} carries an unclosed quote residue from .env (a control character rides the value — the session-57 S57-1 loader-span genus) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`
             : strayQuoteFace
-              ? `[boot] DATABASE_URL=${shown} carries a stray quote from .env (the mirrored one-keystroke typo — the quote the operator meant to open the .env line with landed at the value's tail; no control character rides the value, the session-74 census) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-74 live probe on the repo's own engine resolved the trailing-quote spelling into the 0-byte custom.db" and accepted it). Fix the .env: remove the stray quote from the DATABASE_URL value.`
-              : `[boot] DATABASE_URL=${shown} carries a control character from .env (a stray control character rides the value — no quote is involved, the session-60 S60-1 census) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe re-anchored the tab-bearing value exactly like the newline span). Fix the .env: remove the control character from the DATABASE_URL value.`)
+              ? `[boot] DATABASE_URL=${shown} carries a stray quote (or backtick) from .env (the mirrored one-keystroke typo — the quote the operator meant to open the .env line with landed at the value's tail, or the backtick on its neighboring key; no control character rides the value, the session-74 census; the arm is scoped to RELATIVE file: values — the session-75 S75-3 cure, the junk-file mechanism below is true for exactly that scope) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-74 live probe on the repo's own engine resolved the trailing-quote spelling into the 0-byte custom.db" and accepted it). Fix the .env: remove the stray quote (or backtick) from the DATABASE_URL value.`
+              : `[boot] DATABASE_URL=${shown} carries a control character from .env (a stray control or invisible character rides the value — the session-60 S60-1 census; the invisible-whitespace paste family (NBSP/ZWSP) joined session-75, S75-3, and a value carrying BOTH a control char and a quote keeps this story with the quote as secondary residue — S75-2) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe re-anchored the tab-bearing value exactly like the newline span). Fix the .env: remove the control character from the DATABASE_URL value.`)
         : (quoteFace
             ? `[boot] DATABASE_URL=${shown} carries an unclosed quote residue from .env — the value does not start with "file:", so the db-path seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation (no junk file is created; static pages still serve while every DB route fails). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`
-            : `[boot] DATABASE_URL=${shown} carries a control character from .env (a stray control character rides the value — no quote is involved, the session-60 S60-1 census) — the value does not start with "file:", so the db-path seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation (no junk file is created; static pages still serve while every DB route fails). Fix the .env: remove the control character from the DATABASE_URL value.`),
+            : `[boot] DATABASE_URL=${shown} carries a control character from .env (a stray control or invisible character rides the value — the session-60 S60-1 census; the invisible-whitespace paste family (NBSP/ZWSP) joined session-75, S75-3, and a value carrying BOTH a control char and a quote keeps this story with the quote as secondary residue — S75-2) — the value does not start with "file:", so the db-path seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation (no junk file is created; static pages still serve while every DB route fails). Fix the .env: remove the control character from the DATABASE_URL value.`),
     );
   }
 
@@ -809,20 +854,16 @@ export function databaseUrlFileResidueWarning(
   // file:-prefixed value, and the seam re-anchors it into the junk-named
   // file under db/ — the S57-1 genus), so the mechanism splits per
   // branch exactly like the process-env arm's S60-1 split.
-  const quoteFace = fileUrl.startsWith('"') || fileUrl.startsWith("'");
-  // Session-75 (S74-2b): the STRAY-QUOTE face — a NON-leading quote on
-  // a file:-prefixed value (the mirrored typo). The mechanism is the
-  // junk-named-file genus (the engine accepts the quoted filename and
-  // creates it 0-byte — the live probe), NOT the leading-quote arm's
-  // PrismaClientInitializationError, so the face needs its own branch
-  // before the file: control-char fall-through. Precedence: a value
-  // carrying BOTH a control char and a stray quote keeps the
-  // control-char story (the older pinned face; the primary diagnostic
-  // is the control char, the quote rides as secondary residue).
-  const strayQuoteFace =
-    !quoteFace &&
-    fileUrl.startsWith("file:") &&
-    (fileUrl.includes('"') || fileUrl.includes("'"));
+  // Session-75 (S75-2): the face quartet is classified by the ONE
+  // shared helper (dbUrlFaceClassification) — this seam and the
+  // process-env printer consume the same precedence. The stray-quote
+  // face here used to gate only !quoteFace (the process-env twin
+  // carried !controlFace), so a value carrying BOTH a control char
+  // and a quote printed the STRAY-QUOTE story on this printer and
+  // the control-char story through bootEnvCheck — the two-homes
+  // drift, cured by the single home (a combined value keeps the
+  // control-char story through both printers now).
+  const { quoteFace, strayQuoteFace } = dbUrlFaceClassification(fileUrl);
   // Session-63 (S63-2): the printed value is REDACTED (the userinfo
   // segment of a credentialed URL never prints; the residue shape —
   // the diagnostic — stays); the branch conditions below still test
@@ -852,12 +893,12 @@ export function databaseUrlFileResidueWarning(
     const headline = quoteFace
       ? "an unclosed quote residue"
       : strayQuoteFace
-        ? "a stray quote"
+        ? "a stray quote (or backtick)"
         : "a control character";
     const fix = quoteFace
       ? 'close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db")'
       : strayQuoteFace
-        ? "remove the stray quote from the DATABASE_URL value"
+        ? "remove the stray quote (or backtick) from the DATABASE_URL value"
         : "remove the control character from the DATABASE_URL value";
     return `${prefix} carries ${headline} — ${unseen}; this directory is the PWD leg and the db-path seam's runtime reads only the server CWD's .env, so the engine never sees the residue (it resolves the default URL and boots against the real database) — the malformed line is inert until a loader consumes this file. Fix the .env: ${fix}.`;
   }
@@ -865,12 +906,12 @@ export function databaseUrlFileResidueWarning(
     return `${prefix} carries an unclosed quote residue — ${unseen}; the db-path seam's own .env parse keeps the quote and hands the engine the value raw, and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`;
   }
   if (strayQuoteFace) {
-    return `${prefix} carries a stray quote — ${unseen}; the db-path seam's own .env parse keeps the quote and the runtime re-anchors the file:-prefixed value into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-74 live probe on the repo's own engine resolved file:../db/custom.db" into the 0-byte custom.db" and accepted it). Fix the .env: remove the stray quote from the DATABASE_URL value.`;
+    return `${prefix} carries a stray quote (or backtick) — ${unseen}; the db-path seam's own .env parse keeps the quote (or backtick) and the runtime re-anchors the RELATIVE file:-prefixed value into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-74 live probe on the repo's own engine resolved file:../db/custom.db" into the 0-byte custom.db" and accepted it; the arm is scoped to RELATIVE values — the session-75 S75-3 cure, the mechanism sentence is true for exactly that scope). Fix the .env: remove the stray quote (or backtick) from the DATABASE_URL value.`;
   }
   if (fileUrl.startsWith("file:")) {
-    return `${prefix} carries a control character — ${unseen}; the db-path seam's own .env parse keeps the control character (an unquoted line's pasted tab — the session-60 S60-1 census), and, the value being file:-prefixed, the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe). Fix the .env: remove the control character from the DATABASE_URL value.`;
+    return `${prefix} carries a control character — ${unseen}; the db-path seam's own .env parse keeps the control character (an unquoted line's pasted tab or invisible whitespace — the session-60 S60-1 census, the invisible-whitespace family widened session-75/S75-3), and, the value being file:-prefixed, the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe). Fix the .env: remove the control character from the DATABASE_URL value.`;
   }
-  return `${prefix} carries a control character — ${unseen}; the db-path seam's own .env parse keeps the control character (an unquoted line's pasted tab — the session-60 S60-1 census), and, the value not starting with "file:", the seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: remove the control character from the DATABASE_URL value.`;
+  return `${prefix} carries a control character — ${unseen}; the db-path seam's own .env parse keeps the control character (an unquoted line's pasted tab or invisible whitespace — the session-60 S60-1 census, the invisible-whitespace family widened session-75/S75-3), and, the value not starting with "file:", the seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: remove the control character from the DATABASE_URL value.`;
 }
 
 // Session-63 (S63-2, AUDIT-1 L1): the residue warnings print the raw

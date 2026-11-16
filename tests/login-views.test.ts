@@ -754,3 +754,34 @@ describe("session-69 (S69-2): the verify-submit mirror gate (the resend and the 
     expect(src).toContain("disabled={pending || resending}");
   });
 })
+
+// Session-75 (S75-4, AUDIT-2 A2-F3 — code-verified): the login card —
+// the ONE component whose success path performs NAVIGATION — lacked
+// the mounted gate the S51-2 doctrine ships in generator-card and
+// contact-form: a slow login/verify response resolving after the user
+// pressed Back (the only exit from /login) executed
+// router.push(fromUrl ?? "/") and yanked the browser to the funnel
+// exit (setState-after-unmount is a harmless React 19 no-op, but
+// router.push is a real side effect on a module-level router). The
+// cure: the S51-2 mounted ref (StrictMode re-armed body — the S52-1
+// form) gates BOTH success arms' navigation.
+describe("session-75 (S75-4): the login card's auth continuations ride the mounted gate (the S51-2 doctrine reaches the funnel's navigation)", () => {
+  it("the mounted ref exists with the StrictMode re-arm body, and BOTH router.push success arms gate on it", () => {
+    const src = loginCardSrc();
+    // The ref + the S52-1 StrictMode re-arm shape (mirrors
+    // generator-card's S51-2 block).
+    expect(src).toContain("const mounted = React.useRef(true);");
+    expect(src).toMatch(
+      /React\.useEffect\(\(\) => \{\n    mounted\.current = true;\n    return \(\) => \{\n      mounted\.current = false;\n    \};\n  \}, \[\]\);/,
+    );
+    // The gate precedes BOTH navigation arms (the sign-in submit and
+    // the verify submit — the two router.push sites in the file).
+    const gated = src.match(
+      /if \(!mounted\.current\) return;\n      router\.push\(resolveFromUrl\(fromUrl \?\? "\/", window\.location\.origin\)\);/g,
+    ) ?? [];
+    expect(gated.length, "both router.push success arms gate on mounted").toBe(2);
+    // And every push site is a gated one (no ungated arm remains).
+    const allPushes = src.match(/router\.push\(resolveFromUrl\(/g) ?? [];
+    expect(allPushes.length, "no ungated router.push arm remains").toBe(2);
+  });
+});

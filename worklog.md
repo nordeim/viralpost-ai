@@ -7957,3 +7957,76 @@ files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
 
 **Gate at the session-74 ship: lint 0/0 · tsc 0 · unit 808/808 (41
 files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
+
+## Task 75 (2026-11-16) — session-75: the loopback redaction + the residue-face one-home + the predicate widening + the logincard gate + the blur geometry and the header arm
+
+- BASELINE (the refreshed tree at `544f724`): lint 0/0 · tsc 0 · unit
+  808/808 (41 files) · build · smoke 16/16 · e2e 71/71 (9 specs) ·
+  census MATCH — lag 0. `bun audit`: the same 9 dev-toolchain
+  advisories as sessions 55–74 (none on the runtime request path).
+  neo-crm UNCHANGED at `b3d0fbe`. Standing asks verified (.env
+  `file:../db/custom.db` contract, db/ at root, vitest/playwright
+  wiring, sitemap/SEO, skills/ exclusion, the ambient-shell
+  DATABASE_URL neutralized with `env -u`).
+- THE AUDIT at 0 Critical / 0 High / 2 Medium / 10 Low / 12 Info
+  (three parallel subagents + the lead's hand-verification through
+  the REAL exported seams — every load-bearing boot-env face
+  reproduced live: the loopback arm printing
+  `http://admin:hunter2@localhost:3000` verbatim beside the redacted
+  shape arm; the combined control+quote value classifying CONTROL
+  through one printer and STRAY-QUOTE through the other; the
+  O'Brien absolute path false-positive; the NBSP/ZWSP/backtick
+  misses; the login-card ungated router.push; the toast blur guard's
+  :hover-only test contradicting the S72-4 geometry probe; the
+  security headers live-verified on the SEO family via the standalone
+  build).
+- CURES (TDD, pins born RED first): S75-1 the LOOPBACK REDACTION
+  (the siteUrl interpolation routes through redactCredentials — the
+  family's one remaining unredacted printer, S74-3's missed fourth
+  member; healthy loopback values byte-identical, the guard pinned);
+  S75-2 the FACE-QUARTET ONE-HOME (dbUrlFaceClassification — one
+  classifier consumed by both printers AND the predicate; the
+  quote-opener literal lives in exactly one place, census-pinned; the
+  CONTROL faces' "no quote is involved" falsehood retired);
+  S75-3 the PREDICATE WIDENING (the class admits the
+  invisible-whitespace family — NBSP/ZWSP, the S57-1 junk-DB genus
+  alive for the web/chat-paste charset; the stray-quote arm scopes to
+  RELATIVE file: values — the junk-file mechanism sentence is true
+  for exactly that scope, the O'Brien absolute-path false positive
+  cured; the trailing BACKTICK joins the arm — the neighboring-key
+  typo genus); S75-4 the LOGIN-CARD MOUNTED GATE (the S51-2 doctrine
+  reaches the funnel's navigation — a slow response after Back no
+  longer yanks the browser to the funnel exit); S75-5 the BLUR
+  GEOMETRY MIRROR (the toast's onBlur unpause consults BOTH pointer
+  truths — the live pseudo-class AND the mount probe's lastMousePos
+  rect test — closing the compound stationary-mouse + keyboard hole
+  in the S20-6 hover-hold invariant); S75-6 the SECURITY-HEADER e2e
+  ARM EXTENSION (in place to the SEO family — the S18-2 count-neutral
+  fold); S75-7 the comment-truth respells (the playwright one-knob
+  claim scoped).
+- THE BATTERY: 5/5 plants RED exactly their pins and restored GREEN
+  (the deterministic Python battery, ANSI-stripped; the S75-5 plant
+  trips its pin + one documented co-RED — the re-anchored S70-4
+  mixed-modality pin shares the guard's first arm).
+- PARITY WALK #48 — the forty-eighth consecutive clean walk (both
+  legs at every documented posture; the REF generator DEAD at the
+  30s probe vs the CLONE LIVE with the idea-derived hashtag family;
+  no Tailwind v4 bug in the mobile menu; the CLONE battery ran
+  against the PRODUCTION standalone build after the dev server's HMR
+  reload loop was diagnosed as a dev-env artifact — the build battery
+  all-green with a marker-stability check, and the outside-tap face
+  re-tested from an OPEN state after a first-pass test-order
+  artifact).
+- LOCKSTEP: UNIT 808 → 813 (+5), SUITES 41 held, E2E 71 held (the
+  header arm extended in place — count-neutral), E2E_SPECS/SMOKE
+  held, BADGE 879 → 884; the provenance sites set 1..74 → 1..75
+  uniform (the nine straggler sites + the frontmatter +
+  .env.example); the docs-counts s75 rung; PAD §8.1 + §8.3 + the
+  header date; README's badge + tables + quickstart + the
+  session-75 row + the gate footer; AGENTS's plans-map
+  seventy-fifth round + the 813/41; CLAUDE's 813/41; SKILL v1.70.0 →
+  v1.71.0; the formal session_75.md (replacing the owner's narration
+  window); the plan's post-execution record.
+
+**Gate at the session-75 ship: lint 0/0 · tsc 0 · unit 813/813 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**

@@ -145,14 +145,11 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
   // reading the announced message) got a hard 4s window with no pause
   // equivalent. The focus pair mirrors the hover pair on the card root
   // (the existing paused effect re-arms the timer on both).
-  it("the focus-pause seam (onFocus/onBlur mirror the hover pair — keyboard/AT users keep the card while reading)", () => {
+  it("the focus-pause seam (onFocus arms the pause for keyboard/AT users — the enter arm and the blur guard own their own pins)", () => {
     expect(src).toContain("onFocus={() => setPaused(true)}");
-    // Session-70 (S70-4a re-anchor): the blur unpauser carries the
-    // pointer guard — focus leaving while the pointer still hovers
-    // must NOT re-arm the timer (the mirror mixed-modality face).
-    expect(src).toContain(
-      "onBlur={() => {\n        if (!rootRef.current?.matches(\":hover\")) setPaused(false);\n      }}",
-    );
+    // Session-75 (S75-5a re-anchor): the onBlur continuation is owned
+    // by the S75-5a pin (the compound :hover + geometry guard) — the
+    // one-face-one-pin doctrine; this pin owns the onFocus arm alone.
   });
 
   // Session-70 (S70-4, AUDIT-2 L-1 — code-read): the MIXED-MODALITY
@@ -171,9 +168,13 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
   // residual is accepted (the failure direction is "the card stays a
   // beat longer" — the safe direction; the S65-1 over-redaction
   // doctrine one seam over).
-  it("the mixed-modality pause guards (mouseLeave checks focus containment, blur checks the pointer — pause = focus inside OR pointer over)", () => {
+  it("the mixed-modality pause guards (mouseLeave checks focus containment; the blur guard's pointer check is the S75-5a compound form)", () => {
     expect(src).toContain("if (!rootRef.current?.contains(document.activeElement)) setPaused(false)");
-    expect(src).toContain('if (!rootRef.current?.matches(":hover")) setPaused(false)');
+    // Session-75 (S75-5a re-anchor): the blur unpauser's pointer check
+    // became the compound :hover + geometry guard — that face is owned
+    // by the S75-5a pin (the one-face-one-pin doctrine); this pin owns
+    // the mouseLeave focus-containment face + the unguarded bans.
+    expect(src).toContain('if (root.matches(":hover")) return;');
     // The unguarded spellings are gone (the battery's revert target).
     expect(src).not.toContain("onMouseLeave={() => setPaused(false)}");
     expect(src).not.toContain("onBlur={() => setPaused(false)}");
@@ -439,6 +440,27 @@ describe("session-74 (S74-4): the hover-pause arm gates on pointer modality (the
     // the hover-pause seam pin above owns that face).
     expect(src).toContain(
       "onMouseLeave={() => {\n        if (!rootRef.current?.contains(document.activeElement)) setPaused(false);\n      }}",
+    );
+  });
+});
+
+// Session-75 (S75-5, AUDIT-2 A2-F4 — code-verified against the file's
+// own probe record): the onBlur unpause guard tested ONLY
+// matches(":hover") — but the S71-6/S72-4 probes documented Chromium
+// does NOT live-update the :hover pseudo-class for a card INSERTED
+// under a stationary pointer (the mount probe is GEOMETRY for exactly
+// that reason). The compound path — a card born under a stationary
+// mouse, a keyboard user tabs into its Dismiss button and tabs out —
+// read :hover false, re-armed the timer, and auto-dismissed while the
+// pointer physically rested on the card: a residual hole in the
+// machine-tested S20-6 hover-hold invariant. The cure mirrors the
+// mount probe's truth into the blur guard: the unpause fires only
+// when NEITHER the live pseudo-class NOR the geometry (lastMousePos
+// inside the card's rect) says the pointer rests on the card.
+describe("session-75 (S75-5): the blur unpause guard consults the geometry probe's truth (the compound stationary-mouse + keyboard path)", () => {
+  it("the onBlur guard unpauses only when neither :hover nor the lastMousePos rect test says the pointer rests on the card", () => {
+    expect(src).toMatch(
+      /onBlur=\{\(\) => \{\n        const root = rootRef\.current;\n        if \(!root\) return;\n        if \(root\.matches\(":hover"\)\) return;\n        if \(\n          lastMousePos &&\n          lastMousePos\.x >= root\.getBoundingClientRect\(\)\.left &&\n          lastMousePos\.x <= root\.getBoundingClientRect\(\)\.right &&\n          lastMousePos\.y >= root\.getBoundingClientRect\(\)\.top &&\n          lastMousePos\.y <= root\.getBoundingClientRect\(\)\.bottom\n        \)\n          return;[^]*?setPaused\(false\);/,
     );
   });
 });

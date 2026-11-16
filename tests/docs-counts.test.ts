@@ -509,6 +509,17 @@ import {
 // plant REDs exactly it), the S74-4a touch-pause modality pin ×1
 // (the ungated-spelling revert plant REDs exactly it)). The e2e 71
 // unchanged. SMOKE 16 unchanged.
+// s75: 813/41 (+5/+0 — the S75-1a loopback-redaction pin ×1 (the
+// raw-interpolation revert plant REDs exactly it), the S75-2a
+// face-quartet one-home pin ×1 (the precedence-drop revert plant REDs
+// exactly it), the S75-3a predicate-widening pin ×1 (the class-narrow
+// revert plant REDs exactly it), the S75-4a login-card gate pin ×1
+// (the ungated-push revert plant REDs exactly it), the S75-5a
+// blur-geometry pin ×1 (the :hover-only revert plant REDs exactly it
+// + one documented co-RED — the re-anchored S70-4 mixed-modality pin
+// shares the guard's first arm)). The e2e 71 unchanged (the S75-6a
+// security-header arm extended IN PLACE to the SEO family — the
+// S18-2/S45-8 count-neutral fold). SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -516,7 +527,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 808;
+const UNIT = 813;
 /** Vitest suite files. */
 const SUITES = 41;
 /** Playwright e2e checks (incl. the setup project's 1). */

@@ -110,6 +110,11 @@ export default defineConfig({
       // the unset/empty default (rate-limit.ts's fails-closed parse:
       // unset/empty = 1, unparsable/negative fails closed), so this
       // pin is doctrine closure only — no determinism impact today.
+      // Session-75 (S75-7, AUDIT-3 A3-F3): the claim scoped — the
+      // spread also passes NEXT_PUBLIC_SITE_URL through, but the
+      // suite's metadata assertions are origin-agnostic (regexes, not
+      // pinned origins), so PROXY_HOPS stays the one knob the
+      // ASSERTIONS are sensitive to.
       VIRALPOST_PROXY_HOPS: "1",
     } as Record<string, string>,
   },
