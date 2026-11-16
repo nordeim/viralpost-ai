@@ -1,97 +1,154 @@
-Repo cloned. Now let me read the core documentation files to understand the project.
-Now let me read the architecture document and the skill file (distilled engineering memory).
-The outputs are being persisted due to size. Let me use targeted extraction for the remaining docs.
-The state clear. Now let me check the environment, install dependencies, and read the audit skills.
-The ambient-shell `DATABASE_URL` hazard is confirmed (the documented S63..S75 trap) — every DB-touching command gets `env -u DATABASE_URL`. Installing dependencies now:
-Database contract verified: `db/custom.db` at repo root, census MATCH. Now let me read the audit skills.
-Audit skills internalized. Now let me validate the S75 cures against the codebase and check the source structure.
-S75 cures verified in source. Now running the baseline gate (lint → typecheck → unit → build → smoke → e2e).
-Unit: 813/813 across 41 files — matches the documented ship state. Now the build:
-Smoke: 16/16 PASS. Now the e2e suite (against the production build):
-The Playwright browser binary is missing for this revision — the documented one-time install step. Running it:
-**Baseline gate GREEN** — lint 0/0 · tsc 0 · unit 813/813 · build · smoke 16/16 · e2e 71/71. Now the periodic duties (bun audit + neo-crm reference check):
-neo-crm UNCHANGED at `b3d0fbe` — recorded decisions stand. `bun audit`: the same 9 dev-toolchain advisories as sessions 55–75, none on the runtime request path. Now dispatching the three parallel audit lanes (session-55+ precedent):
-The AUDIT-1 subagent returned corrupted output. I'll perform the audit directly myself with targeted code reading — starting with the recent session-75 changes (boot-env.ts being the heaviest).
-boot-env.ts fully read — S75 cures verified in source. Now the component/config layer audit:
-Configs verified. Now the parity walk #49 — REF leg first. Let me check the agent-browser tooling:
-agent-browser 0.43.0 available. Starting parity walk #49 — REF leg:
- Je faisais une double vértection mentale quand le timeout est survenu — bonne reprise. Je vais reprendre la vérification du hamburger REF et du recensement des classes du panneau.</think>
-Escape and outside-tap both leave the REF panel OPEN (the documented R-OPEN postures). Now route-change via panel link:
-REF mobile battery complete. Now the desktop leg — header census + gradient:
-Now the REF generator probe (the documented D-1 dead face):
-REF generator DEAD at 30s probe (D-1 silent-rest face) — REF leg complete. Now the CLONE leg against the production build:
-The boot gate correctly refuses without AUTH_SECRET (production mode). Booting with a demo secret for the walk:
-The boot gate prints the expected demo-posture warnings. Now the CLONE mobile battery:
-The sandbox killed the background server between calls (the documented session-76 hazard). Using `setsid` to detach:
+# Session 77 — The Clean-Audit Record + Parity Walk #50
 
-REF leg of parity walk #49 is complete (hamburger census, panel 265px, Escape/outside-tap both R-OPEN, route-change unmounts, gradients, SEO endpoints, generator DEAD). The CLONE leg needs the single-script approach — the sandbox kills background servers between tool calls (the documented session-75 lesson). Writing that script now:
-CLONE battery complete — all documented postures green:
-- Hamburger: `md:hidden p-2 text-slate-300` byte-match + aria superset (our documented superset)
-- Panel: 265px height, byte-equal classes, links match
-- Escape: closes + focus returns to toggle (our superset) vs REF R-OPEN
-- Outside-tap: stays OPEN (parity with REF)
-- Route-change: hidden-in-DOM (the documented pair vs REF's unmount)
-- CTA gradient byte-identical; same-family gradients sub-threshold oklab (documented posture)
-- Generator: LIVE with hashtags (1 hashtag node at 8s) vs REF DEAD
-- Screenshots 159/160 captured
+**Round:** session-77 (the standing work order executed as the
+seventy-seventh round). Opens on `8b4f114` (session-76's ship `f757b2d`
++ the owner's narration push carrying this file as the round's working
+narration; this formal log replaces that content at ship).
 
-Parity walk #49 — CLEAN on both legs. Now completing the audit sweep on the remaining recent-change files:
-A potential typo spotted in the health route: `"[ealth] db probe failed"` — missing the leading `h`. Let me verify:
-Confirmed — the log prefix is malformed: `"ealth] db probe failed:"` should read `"[health] db probe failed:"`. Let me check the blame and continue the sweep:
-reset-password-screen is clean (router.push only in click handlers, no async-continuation navigation). Continuing the audit — verifying the compiled CSS carries the Tailwind v4 cures (hover unwrap, button cursor, source scoping):
-All Tailwind v4 cures verified in the compiled sheet (hover unwrap: 0 media wraps; `cursor:pointer`: 1; `md\:hidden` at `min-width:48rem`). No TW4 bug in the mobile menu — confirmed at the compiled-sheet level.
+**Continuity state:** the previous conversation delivered session-76
+(the `f757b2d` cure commit + the narration push `8b4f114`); this round
+re-executed the standing work order fresh on a fully-reset sandbox
+(the clone itself re-run — the workspace had been wiped between
+conversations).
 
-Now checking the toast-anatomy S75-5a pin to design the S76-2 cure without breaking it:
-The session-63 pin itself baked the typo in verbatim. The S76-1 cure is a source fix + in-commit pin re-anchor (the S75 precedent). Now checking the docs-counts contract for the lockstep:
-I have the complete audit picture. Combined session-76 audit profile: **0 Critical / 0 High / 0 Medium / 2 Low** (health log-prefix typo shipped at session-63 and pinned-with-typo; toast blur-guard 4× rect reads vs the mount probe's hoisted idiom). Writing the remediation plan:
-Plan validated against the codebase. Executing TDD — S76-1 first: re-anchor the S63-3 pin to the intended spelling (born RED against the typo source):
-The pin at line 535 shows `[health]` — contradicting my earlier grep. Let me re-verify both files precisely:
-A rendering discrepancy between tools. Let me get the authoritative bytes:
-The test pin contains `[health]` (correct) while the source has the typo — yet the suite passes 813/813. Something subtle is happening. Investigating:
-Contradictory outputs between tools. Checking file state and git:
-**Critical discovery** — the tool-output channel itself strips `[h`/`[health]` sequences from Bash output. My printf test proves it: input `A=[health]` renders as `A=ealth]`. The "health log typo" was a **phantom finding** caused by corrupted output rendering — both the source and the pin contain the correct `[health]` spelling (verified via `od -c` and the Read tool).
+## The baseline (Verified)
 
-This mirrors the repo's own session-74 lesson (phantom results from unstripped control sequences). Let me re-verify the A2-F1 finding through the trustworthy Read tool:
-A2-F1 confirmed real via Read tool. Let me characterize the output-channel corruption precisely so no other phantom findings slip through:
-The pattern: the Bash output channel strips literal `[h` sequences (`[health]`→`ealth]`, `[home]`→`ome]`, `[H]` survives). All `[h`-carrying strings must be verified via Read tool or `od -c`. A1-F1 is definitively retracted as a phantom finding. Rewriting the plan with the corrected audit profile:
-Executing TDD for S76-1. First, checking how the toast-anatomy test reads source (comment-stripped or raw) to design the pin correctly:
-The pin operates on comment-stripped source. Now the TDD sequence — Step 1 (RED): re-anchor the S75-5a pin to the hoisted spelling:
-Pin re-anchored. Now verifying it borns RED against the current inline source:
-Pin born RED (exactly 1 failure, the re-anchored pin). Step 2 (GREEN): applying the cure to toast.tsx:
-GREEN (25/25). Now the plant battery — revert the hoist alone to prove the pin trips:
-**BATTERY PASS** — the hoist-revert plant trips exactly the re-anchored pin; restore is GREEN. Running the full gate:
-The expected docs-counts lockstep failure — the plans-map needs the session-76 row. Executing the full lockstep now. First, the AGENTS plans-map:
-Now the docs-counts s76 rung and the provenance-site updates. Checking what the docs-counts test pins:
-Now the SKILL version bump and session-76 rows. Checking the current frontmatter and Appendix-A row format:
-Now executing the full docs lockstep. First the docs-counts s76 rung:
-SKILL §0.5 updated. Now the worklog Task 76 entry:
-Now the formal session_76.md (replacing the owner's narration window):
-Now the plan's post-execution record:
-Now re-running the full unit suite to confirm the docs-counts lockstep holds:
-813/813 GREEN. PIL-verifying the screenshots (the house standard):
-Screenshots PIL-verified. Running the final full gate — build, smoke, e2e:
-**Full gate GREEN** — lint 0/0 · tsc 0 · unit 813/813 · build · smoke 16/16 · e2e 71/71 · census MATCH. Final diff integrity check before commit:
-Clean tree. Now reading the SSH wrapper runbook before the push:
-Runbook internalized. Committing first (rules 1-3: gate green, commit before push):
-Committed `f757b2d`. Now the SSH push procedure — materializing the operator key (never inside the repo), checking for the ssh binary:
-No ssh binary — deploying the paramiko shim (runbook Appendix A) to a workspace bin outside the repo:
-Key parses cleanly (ed25519). Dry-run first (authenticates, touches no refs):
-Dry-run authenticated and negotiated cleanly — fast-forward `873499c..f757b2d`. Real push:
-Push verified and key shredded. Final independent remote verification:
-**Session-76 round complete and delivered.** Final handoff:
+Gate GREEN on the refreshed tree: lint 0/0 · tsc 0 · unit 813/813
+(41 files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH —
+lag 0. The one-time chromium reinstall re-ran after the sandbox reset
+removed the browser binary — via the REPO-LOCAL
+`./node_modules/.bin/playwright install chromium` (the round's
+operational lesson: `bunx playwright install` resolves a NEWER
+playwright whose browser build (1200) mismatches the pinned
+`@playwright/test@1.64.1` headless-shell rev (1248) — the repo-local
+binary is the documented install path). `bun audit`: the same 9
+dev-toolchain advisories as sessions 55–76 (none on the runtime
+request path). neo-crm UNCHANGED at `b3d0fbe` — recorded decisions
+stand.
 
-## What was done
+## The standing asks (each Verified this round)
 
-**Baseline (Verified):** full gate GREEN on the refreshed tree — lint 0/0 · tsc 0 · unit 813/813 (41 files) · build · smoke 16/16 · e2e 71/71 · census MATCH; `bun audit` unchanged (9 dev-toolchain advisories); neo-crm unchanged at `b3d0fbe`.
+- `.env` `DATABASE_URL="file:../db/custom.db"` contract held; `db/` at
+  the repo root; push + seed + census MATCH (1 user, 0 contact
+  messages); the ambient-shell `DATABASE_URL` pollution neutralized with
+  `env -u DATABASE_URL` on every DB-touching command.
+- Vitest + Playwright suites verified current and wired.
+- Sitemap (4 URLs) + robots (byte-body) + manifest + the three security
+  headers on the SEO family verified live in walk #50.
+- `skills/` excluded from tsconfig/eslint/vitest + the smoke
+  artifact-hygiene leg.
+- Mobile navigation + Tailwind v4: walk #50's battery clean on both
+  legs; the compiled sheet independently re-verified (zero
+  `(hover: hover)` wraps — the `@custom-variant hover` unwrap live; the
+  `button,[role="button"]{cursor:pointer}` base rule live; the `md`
+  boundary at `min-width:48rem`). **No Tailwind v4 bug in the mobile
+  menu.**
+- `.env.example` verified matching the codebase (all six knobs:
+  DATABASE_URL, AUTH_SECRET, NEXT_PUBLIC_SITE_URL, VIRALPOST_PROXY_HOPS,
+  VIRALPOST_DISABLE_IN_APP_OTP, VIRALPOST_DISABLE_IN_APP_RESET).
 
-**Audit (0 Critical / 0 High / 0 Medium / 1 Low / 2 Info):** performed as direct lead reads after the AUDIT-1 subagent lane returned corrupted output — boot-env.ts, toast.tsx, navbar.tsx read in full; every S75 cure verified at its exact site; hazard sweep clean. The round's notable event: the first candidate finding (a "health-log typo") was **diagnosed as a phantom** — my own tool-output channel strips literal `[h` sequences (`[health]` renders as `ealth]`); `od -c` + the Read tool proved both source and pin correct. Retracted, no cure shipped, the diagnostic lesson recorded in the plan and session log.
+## The audit (0 Critical / 0 High / 0 Medium / 1 Low / the standing Info postures re-confirmed)
 
-**Cure (TDD):** S76-1 — the toast blur-guard rect hoist (the one real finding: 4 inline `getBoundingClientRect()` calls vs the mount probe's hoisted idiom). Pin re-anchored first, born RED (exactly 1 failed), cure applied, GREEN 25/25, plant battery 1/1.
+Direct lead reads — the session-76 precedent continues (the AUDIT-1
+subagent lane returned corrupted output two sessions running): the
+session-76 commit diffed in full (the S76-1 rect hoist verified at its
+exact site); toast.tsx read IN FULL (the S72-4 geometry tracker + exit
+arm, the S74-4b pointer-typed enter, the S70-4 mixed-modality
+unpausers, the S75-5 compound blur guard, the S76-1 hoist all at their
+sites); navbar.tsx read IN FULL (the aria superset, the S26-1
+hidden-attribute mechanics, the S26-3 scrolled-alone bar key, the
+S31-2 history-close focus arm); the S75 cures re-verified at their
+sites (the face-quartet one-home classifier, the control-char class
+widening, the login-card mounted gates at both navigation arms); the
+hazard sweep clean (direct DATABASE_URL reads confined to db-path.ts;
+zero secrets in logs; zero TODO/FIXME/XXX; zero `console.log` in src;
+the mounted-gate doctrine consistent across generator-card /
+contact-form / login-card / toast); the config layer verified
+(next.config hygiene excludes + `/Home` 308 + the three-header
+superset; vitest/tsconfig/eslint skills exclusions; the sitemap
+format contract); the compiled sheet's TW4 cures re-verified. The
+`[h`-channel doctrine applied throughout — every `[h`-carrying string
+read through the Read tool, never Bash stdout.
 
-**Parity walk #49 (clean, 49th consecutive):** both legs — hamburger byte-match + aria superset, panel 265px byte-equal, Escape close-with-focus-return (superset), outside-tap both-open (parity), route-change hidden-in-DOM, CTA gradient byte-identical, generator DEAD on the reference vs LIVE on the clone. **No Tailwind v4 bug in the mobile menu** — verified at source, compiled sheet (zero `(hover: hover)` wraps, cursor rule, `md` boundary), and live DOM.
+**The one live finding (S77-1, Low, Verified):** the docs-counts
+count-ladder's s76 rung had shipped BETWEEN the s74 and s75 rungs —
+the ladder is the suite's chronological count record (every prior
+rung in session order: s70 at 459, s71 at 471, s72 at 485, s73 at
+496, s74 at 505, with s76 at 512 and s75 at 527 at this round's
+read), so the session-76 ship added its rung at the wrong insertion
+point. A comment-only defect (no pin parses the ladder — the rungs
+are prose), but the comment-truth genus this repo cures: a reader
+following the ladder's order misreads the rounds' chronology.
 
-**Standing asks:** `.env`/db contract held (census MATCH), vitest/playwright wired, sitemap/robots/manifest + security headers verified, `skills/` excluded everywhere, screenshots 159/160 PIL-verified, `.env.example` verified and committed.
+## The cure (S77-1 — the chronological-ladder repair)
 
-**Ship:** docs lockstep complete (SKILL v1.72.0, ten provenance sites 1..76, README/AGENTS/PAD/worklog/session log/plan record); Conventional Commit `f757b2d` on **main**; pushed via the SSH wrapper — **remote verified: refs/heads/main @ f757b2d == local HEAD**; operator key shredded.
+The s76 rung MOVED to its chronological position (after the s75
+rung), its own text now noting the displacement (the S77-1 marker
+inside the rung), and the s77 rung landed at the ladder's end — the
+round's hold record (813/41 HELD, +0 new its — no functional cures
+this round; the e2e 71 unchanged; SMOKE 16 unchanged). The cure is
+comment-only (the ladder is prose; no pin re-anchor applies), so the
+verification is the textual order itself + the suite GREEN (the
+same-commit discipline: the reorder and the s77 rung shipped
+together).
 
-If you'd like another round, re-send the work order — the flow resumes at session-77 with a fresh audit + parity walk #50.
+## Parity walk #50 — clean (the fiftieth consecutive)
+
+Both legs at every documented posture:
+
+- **REF leg** (390×844, logged in as `sepnetflix2023@outlook.com` →
+  lands on `/Home`): hamburger `md:hidden p-2 text-slate-300` with no
+  aria family (our documented superset); panel at 265px with the
+  reference's `md:hidden bg-slate-900/98 border-b border-white/10
+  overflow-hidden` family; Escape stays OPEN (R-OPEN); outside-tap
+  stays OPEN (R-OPEN); route-change unmounts the panel; the desktop
+  gradient census — the navbar `Upgrade to Pro` amber-400→amber-500,
+  the pricing page's `Get Unlimited Access`
+  teal-400→amber-400, the plan CTA `Upgrade – $19`
+  teal-500→teal-600; sitemap 4 URLs (weekly, 1.0/0.8) + robots
+  byte-body; the generator DEAD at the 30s probe (the D-1
+  silent-rest face, 0 hashtag nodes).
+- **CLONE leg** (the production standalone build on :3200, ONE single
+  script — boot + drive browser + teardown — the sandbox's
+  background-server reaping re-confirmed between invocations):
+  hamburger byte-match + the aria superset (label/expanded/controls);
+  panel at the byte-equal 265px; Escape CLOSES with focus returned to
+  the toggle (our superset); outside-tap stays OPEN (parity);
+  route-change hidden-in-DOM (the documented pair vs the reference's
+  SPA unmount); the CTA gradient byte-identical
+  (`linear-gradient(to right, rgb(45, 212, 191), rgb(251, 191, 36))`);
+  the same-family gradients' oklab delta sub-threshold (the documented
+  doctrine); the generator LIVE — postPresent=true with 7 hashtags and
+  63 words at the 8s probe after the client-quota reset (the walk
+  battery itself had consumed the daily 3; the paywall face observed
+  en route is the documented posture, not a defect); screenshots 161
+  (the mobile menu open on /Pricing — the dark superset panel over a
+  light page) and 162 (the landing hero) captured, PIL-verified.
+
+No Tailwind v4 bug in the mobile menu — verified at the source, the
+compiled sheet, and the live DOM on both legs.
+
+## The lockstep
+
+Counts HELD (the round's one cure is comment-only, +0 new `it()`
+blocks): UNIT 813 / SUITES 41 / E2E 71 / E2E_SPECS 9 / SMOKE 16 /
+BADGE 884. The ten provenance sites set `1..76` → `1..77` uniform;
+the docs-counts s77 rung (riding S77-1's ladder repair); PAD header
+date (S77-2); README's session-77 row + gate footer; AGENTS's
+plans-map seventy-seventh round; SKILL v1.72.0 → v1.73.0 + the
+Appendix-A session-77 row + the Appendix-B re-cert through 77;
+worklog Task 77; this formal log; the plan's post-execution record.
+
+## The ship
+
+Full gate GREEN on the final tree; census MATCH; captures 161/162;
+`.env.example` verified matching the codebase (included in the
+commit); Conventional Commit on `main`; push via the SSH wrapper
+(`docs/ssh_git_wrapper_v3.py` per the runbook); the operator key
+shredded after the verified push.
+
+**Gate at the session-77 ship: lint 0/0 · tsc 0 · unit 813/813 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
+
+If you want the next round, re-send the work order — the flow resumes
+at session-78 with a fresh audit + parity walk #51.

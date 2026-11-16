@@ -8093,3 +8093,78 @@ files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
 
 **Gate at the session-76 ship: lint 0/0 · tsc 0 · unit 813/813 (41
 files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
+
+## Task 77 (2026-11-16) — session-77: the clean-audit record + parity walk #50
+
+- BASELINE (the refreshed tree at `8b4f114`): lint 0/0 · tsc 0 · unit
+  813/813 (41 files) · build · smoke 16/16 · e2e 71/71 (9 specs) ·
+  census MATCH — lag 0 (the one-time chromium reinstall via the
+  repo-local `./node_modules/.bin/playwright install chromium` —
+  `bunx playwright install` resolves a NEWER playwright whose browser
+  build 1200 mismatches the pinned @playwright/test@1.64.1
+  headless-shell rev 1248, the documented install path this round).
+  `bun audit`: the same 9 dev-toolchain advisories as sessions 55–76
+  (none on the runtime request path). neo-crm UNCHANGED at `b3d0fbe`.
+  Standing asks verified (.env `file:../db/custom.db` contract, db/ at
+  root, vitest/playwright wiring, sitemap/SEO + the three security
+  headers on the SEO family, skills/ exclusion, the ambient-shell
+  DATABASE_URL neutralized with `env -u`).
+- THE AUDIT at 0 Critical / 0 High / 0 Medium / 1 Low / the standing
+  Info postures re-confirmed (direct lead reads, the session-76
+  precedent: the session-76 commit diffed in full — the S76-1 rect
+  hoist verified at its exact site; toast.tsx IN FULL (the S72-4
+  tracker + exit arm, the S74-4b pointer-typed enter, the S70-4
+  mixed-modality unpausers, the S75-5 compound blur guard, the S76-1
+  hoist all at their sites); navbar.tsx IN FULL (the aria superset,
+  the S26-1 hidden-attribute mechanics, the S26-3 scrolled-alone bar
+  key, the S31-2 history-close focus arm); the S75 cures re-verified
+  at their sites; the hazard sweep clean — direct DATABASE_URL reads
+  confined to db-path.ts, zero secrets in logs, zero TODO/FIXME/XXX,
+  zero console.log in src, the mounted-gate doctrine consistent
+  across generator-card/contact-form/login-card/toast; the config
+  layer verified (next.config/vitest/tsconfig/eslint); the compiled
+  sheet's TW4 cures re-verified independently — zero (hover: hover)
+  wraps, the button-cursor base rule, the md boundary at
+  min-width:48rem; the [h-channel doctrine applied — every
+  [h-carrying string read through the Read tool).
+- THE ONE FINDING (S77-1, Low, Verified): the docs-counts
+  count-ladder's s76 rung had shipped BETWEEN the s74 and s75 rungs
+  (line 512 vs 527 at this round's read) — the ladder is the suite's
+  chronological count record and every prior rung sat in session
+  order, so the session-76 insertion point broke the reading order
+  (comment-only; no pin parses the ladder, but the comment-truth
+  genus this repo cures). Cured with the CHRONOLOGICAL-LADDER
+  REPAIR: the s76 rung moved after s75 with the displacement noted
+  in its own text, the s77 rung landing at the ladder's end (+0 new
+  its — the comment-only cure form; no functional cures this round).
+- PARITY WALK #50 — the fiftieth consecutive clean walk (both legs at
+  every documented posture: REF — the hamburger `md:hidden p-2
+  text-slate-300` with no aria family, the panel at the byte-equal
+  265px, Escape R-OPEN, outside-tap R-OPEN, route-change R-unmount,
+  the desktop gradient census (navbar amber-400→amber-500, pricing
+  `Get Unlimited Access` teal-400→amber-400, plan CTA
+  teal-500→600), sitemap 4 URLs weekly 1.0/0.8 + robots byte-body,
+  the generator DEAD at the 30s probe (the D-1 silent-rest face);
+  CLONE — the hamburger byte-match + the aria superset, the panel
+  byte-equal at 265px, Escape close-with-focus-return, outside-tap
+  both-open, route-change hidden-in-DOM, the CTA gradient
+  byte-identical, the generator LIVE (postPresent=true, 7 hashtags,
+  63 words at the 8s probe after the client-quota reset — the walk
+  battery itself consumed the daily 3; the paywall face observed en
+  route is the documented posture, not a defect); no Tailwind v4 bug
+  in the mobile menu. The CLONE battery ran as ONE single script
+  (boot + drive browser + teardown) — the sandbox's
+  background-server reaping re-confirmed between invocations).
+- LOCKSTEP: UNIT/SUITES/E2E/E2E_SPECS/SMOKE/BADGE all HELD (813/41 +
+  71/9 + 16 + 884 — the comment-only cure form, +0 new its); the ten
+  provenance sites set 1..76 → 1..77 uniform (lag 0); the
+  docs-counts s77 rung riding S77-1's ladder repair; the PAD header
+  date (S77-2); README's session-77 row + gate footer; AGENTS's
+  plans-map seventy-seventh round; SKILL v1.72.0 → v1.73.0 + the
+  Appendix-A session-77 row + the Appendix-B re-cert through 77; the
+  formal session_77.md (replacing the owner's narration window); the
+  plan's post-execution record. Captures 161/162 PIL-verified;
+  `.env.example` verified matching the codebase (all six knobs).
+
+**Gate at the session-77 ship: lint 0/0 · tsc 0 · unit 813/813 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**

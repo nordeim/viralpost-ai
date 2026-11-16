@@ -509,6 +509,17 @@ import {
 // plant REDs exactly it), the S74-4a touch-pause modality pin ×1
 // (the ungated-spelling revert plant REDs exactly it)). The e2e 71
 // unchanged. SMOKE 16 unchanged.
+// s75: 813/41 (+5/+0 — the S75-1a loopback-redaction pin ×1 (the
+// raw-interpolation revert plant REDs exactly it), the S75-2a
+// face-quartet one-home pin ×1 (the precedence-drop revert plant REDs
+// exactly it), the S75-3a predicate-widening pin ×1 (the class-narrow
+// revert plant REDs exactly it), the S75-4a login-card gate pin ×1
+// (the ungated-push revert plant REDs exactly it), the S75-5a
+// blur-geometry pin ×1 (the :hover-only revert plant REDs exactly it
+// + one documented co-RED — the re-anchored S70-4 mixed-modality pin
+// shares the guard's first arm)). The e2e 71 unchanged (the S75-6a
+// security-header arm extended IN PLACE to the SEO family — the
+// S18-2/S45-8 count-neutral fold). SMOKE 16 unchanged.
 // s76: 813/41 (HELD — the round's one cure, the S76-1 blur-guard
 // rect hoist, is an IN-PLACE pin re-anchor (+0 new its): the S75-5a
 // source pin re-anchored to the hoisted rect spelling first, born RED
@@ -523,18 +534,15 @@ import {
 // tool showing both source and S63-3 pin carry the correct spelling;
 // the record lives in the session-76 plan + session log (the
 // session-74 phantom-GREEN lesson realized on the lead's own
-// diagnostics). The e2e 71 unchanged. SMOKE 16 unchanged.
-// s75: 813/41 (+5/+0 — the S75-1a loopback-redaction pin ×1 (the
-// raw-interpolation revert plant REDs exactly it), the S75-2a
-// face-quartet one-home pin ×1 (the precedence-drop revert plant REDs
-// exactly it), the S75-3a predicate-widening pin ×1 (the class-narrow
-// revert plant REDs exactly it), the S75-4a login-card gate pin ×1
-// (the ungated-push revert plant REDs exactly it), the S75-5a
-// blur-geometry pin ×1 (the :hover-only revert plant REDs exactly it
-// + one documented co-RED — the re-anchored S70-4 mixed-modality pin
-// shares the guard's first arm)). The e2e 71 unchanged (the S75-6a
-// security-header arm extended IN PLACE to the SEO family — the
-// S18-2/S45-8 count-neutral fold). SMOKE 16 unchanged.
+// diagnostics; session-77, S77-1: this rung had shipped at the WRONG
+// LADDER POSITION — between s74 and s75 — moved to its chronological
+// place). The e2e 71 unchanged. SMOKE 16 unchanged.
+// s77: 813/41 (HELD — the round shipped ONE comment-only cure, the
+// S77-1 count-ladder chronological repair above (+0 new its, no
+// functional cures — the audit at 0 Critical / 0 High / 0 Medium /
+// 1 Low with every lane clean at the source, config, sheet, and
+// live-DOM levels; parity walk #50 clean on both legs — the fiftieth
+// consecutive). The e2e 71 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
