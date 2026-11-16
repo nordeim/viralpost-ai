@@ -1,4 +1,67 @@
-The workspace is intact from the interrupted session: Phase 1 TDD pins are in place (3 test files modified), the session-71 plan doc exists, and screenshots are captured. Phase 2 (the cures) was just beginning. Let me read the plan doc to reconstruct the exact cure list.
+I'll start by checking the current state of the workspace and refreshing the repository.
+The repo exists. Let me refresh it and check the recent history.
+Repository refreshed to `d85257e` (session_71 doc just added). Let me set up the task plan and begin the onboarding review.
+Core contracts read. Now the README, architecture doc, and skill memory.
+The docs are large; let me read the key sections strategically.
+Session-71 is the owner's narration of the session-70 delivery; my round is **session 71**. Now the plan doc and worklog tail.
+Now the worklog tail and the PAD's deferred-debt register (§11) to understand next-touch items.
+Understanding is solid. Now let me validate against the codebase: the `.env` contract, the S70 cures in source, and the db folder.
+`.env`/db contract holds. Now verifying the five S70 cures in source.
+All five S70 cures verified in source. Let me check the userinfo conjuncts and the ambient environment hazard, then look at the audit skill lenses.
+S70-3b verified; the ambient `DATABASE_URL` hazard is live again (absolute path outside the repo) — I'll apply the `env -u` discipline. Let me check neo-crm's remote and read the audit skill lenses.
+neo-crm unchanged at `b3d0fbe`. Now reading the audit skill lenses.
+Audit lenses loaded. Now let me establish the baseline: DB state and the full gate (with the `env -u DATABASE_URL` discipline for the ambient hazard).
+Census MATCH. Now the baseline gate, starting with lint → typecheck → unit.
+Lint 0/0 · tsc 0 · unit 788/788 (41 files) — at session-70 ship counts. Now build + smoke + e2e.
+**Full baseline gate GREEN** at session-70 ship counts. Now the periodic `bun audit` duty, then the audit phase.
+Same 9 dev-toolchain advisories (none on the runtime request path) — unchanged. Now dispatching the three parallel audit lanes per the session-55..70 precedent.
+All three lanes complete: **0 Critical / 0 High / 2 Medium / 6 Low / 6 Info**. Now the lead's hand-verification duty — reproducing every load-bearing finding through the real exported seams.
+All PASS — but that could be vacuous if the warnings never fired. Let me print the actual warning content to confirm non-vacuity.
+No warnings fired — my invocation doesn't match the real signatures. Let me read the actual exported seam signatures in boot-env.ts.
+The signatures differ from my probe — `bootEnvCheck` returns a report (not console), and the file-warning seams take the URL as `envFileUrl` (2nd arg), not `env.DATABASE_URL`. Fixing the probe.
+**All load-bearing findings CONFIRMED LIVE** through the real exported seams: M-1 (escaped-quote/leading-DQ tails print), M-2 (post-`@` password tails print through the scheme-less mask), L-1 (control-char query tail prints). Let me also verify the L-2/L-3 predicate findings, then clean up probes.
+All findings confirmed. Cleaning up probes, then the parity walk.
+Now the parity walk. First, boot the dev server (the `localhost` origin discipline), then the REF leg.
+Logged in, landed `/Home` (documented posture). Now the mobile-nav battery at 390×844.
+Hamburger byte-identical to the documented posture. Opening the menu.
+Panel at documented posture (h:265, byte-identical classes). Now the three interaction faces: Escape, outside-tap, route-change.
+All three reference interaction faces at documented postures. Now desktop census, gradient, and head census.
+Burger hidden at 1440, brand gradient byte-identical. Now the five-route head census.
+Head census at documented postures (170/170/92/95/95). Now sitemap/robots and the generator DEAD probe.
+At 30s: NO POST, NO COPY — the DEAD silent-rest posture. Let me confirm no error surface is visible, then close the REF leg.
+The reference now shows a "Generation failed..." banner — a drift from the session-68..70 silent-rest face. Let me capture its exact text for the record.
+**REF leg complete** — the failure face has drifted to a red `text-xs` banner (a reference-side 402-defect face; our working generator is the documented superset). Now the CLONE leg.
+Let me check the seed's demo credentials.
+The second submit fired on a reset form. Let me redo the login cleanly.
+The password fill didn't stick (the form reset it). Let me fill fields in separate steps with verification, then submit.
+The native-setter approach isn't sticking on this input. Let me use real keystrokes via `agent-browser type`.
+Email field has accumulated text (52 chars). Clearing and retyping.
+Logged in to the clone, landed `/` (the documented deviation). Now the CLONE-leg mobile battery.
+Panel byte-identical (h:265, inner classes, links, transparent-over-hero posture). Now the open-state aria and three interaction faces.
+Escape closes with focus return (the documented a11y superset). Now outside-tap and route-change faces.
+All interaction faces at documented postures — **no Tailwind v4 bug**. Now desktop census, gradient, heads, and the LIVE generator probe.
+Heads, sitemap, robots — identical modulo origin. Now the LIVE generator probe on the clone.
+Quota face looks off (500/3 — likely a text-match artifact). Let me inspect the generator card state directly.
+Generator LIVE — "Post generated — 2 free generations remain" (3→2). Let me verify the full post face.
+**Parity walk #44 — CLEAN.** Now capturing the round's screenshots for `docs/screenshots/`.
+Both captures PIL-verified (amber CTA field present in the mobile capture). Closing the walk and moving to the remediation plan.
+Now scoping the cure sites precisely before writing the plan.
+Now let me read the remaining cure sites: the site-url arms in boot-env.ts, the toast timer effect, and the test sites.
+The URL-serialization edge behavior needs empirical verification. Let me probe the exact URL getters.
+Mechanisms confirmed. Let me check the IPv6 hostname shape and read the toast timer effect + test sites.
+The escape syntax inside libpq single-quoted values is load-bearing for the M-1 cure design. Let me verify it against the PostgreSQL docs.
+All mechanisms verified against the PostgreSQL docs (\' escaping confirmed). Let me read the remaining small cure sites.
+All sites scoped. Now writing the session-71 remediation plan.
+Plan written. Now the VALIDATE phase — checking the plan's assumptions against the existing pins.
+The S66-1 pins are password-key-free — the reorder is safe for them. Checking the divergence, loopback, and siteUrl pins.
+All plan assumptions validated. Let me read the complete `redactCredentials` function for the reorder edit.
+Let me read the full icon-contract test body for the S71-7a arm placement.
+Phase 1 — writing the pins, born RED. First the boot-env.test.ts S71 describe.
+Now the toast-anatomy S71-6a pin and the seo.spec S71-7a arm.
+All pins written. Running them to confirm they're born RED exactly as designed.
+5 of 6 pins born RED. S71-3a passed vacuously — the warning renders the tab as the literal `\t` escape (JSON.stringify), so the assertion must match that form. Fixing.
+All six unit pins born RED exactly as designed. Phase 2 — the cures. First the redaction block: escape-aware arms, pass reorder, query-run widening.
+
 The plan is fully intact. Let me set up the task list and verify the current state of the Phase-1 pins before continuing with Phase 2.
 Pins are in place. Let me verify the remaining pin diffs and re-run the unit tests to confirm the RED state.
 All six pins confirmed RED (6 failed | 112 passed) — Phase 1 complete. Now Phase 2: the cures. Let me read the current redaction implementation in `boot-env.ts`.
