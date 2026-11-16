@@ -7719,3 +7719,80 @@ probe + the manifest-link pin + the info batch
 
 **Gate at the session-71 ship: lint 0/0 · tsc 0 · unit 794/794 (41
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 72 (2026-11-16) — session-72: the redaction quote-residue
+keyword prefix + the divergence slash-fold + the loopback hextet
+grammar + the toast geometry probe + the ignores pin + the register
+batch
+
+- OPENED on 5e8fa6a (session-71's ff0a513 + the owner's narration
+  commits). Core docs + the session-71 set re-read; the S71 cures
+  verified in source; .env/db contract held (census MATCH; the
+  ambient DATABASE_URL hazard found live again, env -u discipline
+  applied); baseline gate GREEN at the session-71 ship counts
+  (lint 0/0 · tsc 0 · unit 794/794 · build · smoke 16/16 · e2e
+  70/70 · census MATCH); bun audit unchanged (the same 9
+  dev-toolchain advisories); neo-crm UNCHANGED at b3d0fbe.
+- AUDIT (three parallel lanes + the lead's hand-verification):
+  0 Critical / 0 High / 2 Medium / 2 Low / 3 Info. Every
+  load-bearing finding reproduced by the lead through the real
+  exported seams and the real dev-server UI before any cure was
+  designed (the unclosed-quote keyword-first leak, the #/?
+  double-warn, the loopback over-match, the toast mount face).
+- CURES (TDD — four pins + one e2e leg born RED, five revert-plant
+  batteries on record): S72-1 the keyword-pass prefix widening
+  (^|\s) → (^|[\s"']) — a residue quote is a libpq-meaningful
+  delimiter before a keyword; the unclosed-quote password-first
+  value printed VERBATIM through every warning arm (the
+  backslash-preceded keyword registered as the documented boundary);
+  S72-2 the divergence slash-fold (the pre-parse [/?#] strip was
+  over-eager — it erased the OPENING delimiter of a non-empty
+  fragment/query and double-warned; the refined law: slash-fold
+  pre-parse + getter semantics for the empty delimiters + the
+  site.ts strip for the comparison); S72-3 the loopback hextet
+  grammar (the exact-hextet mapped arm + the dotted-quad 127/8 arm —
+  the short-hextet public addresses and 127.-prefixed DNS names no
+  longer false-alarm); S72-4 the toast GEOMETRY probe (the S71-6b
+  :hover-at-mount probe was INERT in Chromium — the engine does not
+  update :hover for inserted elements until its own re-evaluation;
+  the module-level lastMousePos tracker + ONE passive pointermove
+  listener at the Toaster + the rect-containment test at card mount:
+  deterministic, engine-independent; the S71-6a pin rewritten in
+  place + the S72-4b behavioral contract leg added); S72-5 the
+  comment-truth batch (the toast cure comment, the pin comment, the
+  S47-7 leg's stale clause, the S71-4b/S71-5b code comments — all
+  respelled to the verified truths); S72-6 the floating-icons rAF
+  lifetime REGISTERED (PAD §11 row, the IntersectionObserver gate the
+  named lift); S72-7 the eslint ignores family PINNED (the S26-6
+  describe's generated-artifact + hygiene it; the stale ignores-array
+  comment respelled).
+- THE MID-BATTERY CATCH (the plan's one falsified assumption): the
+  S72-4b e2e leg stayed GREEN on the geometry-revert plant — the
+  engine's own re-evaluation rescued the slow-mount card (~1.5s in,
+  after the ~800ms fetch latency), where the audit's fast-mount
+  harness (insertion ~41ms after input) had dismissed 6/6 — the
+  rescue is engine-scheduled, not contractual; the leg respelled to
+  the born-green contract posture (both-writers-deleted its
+  documented plant, the S71-7a precedent) and the lead's original
+  dev-server probe confound (the click had re-parked the pointer on
+  the button) named and retired from the evidence claims.
+- PARITY WALK #45 — the forty-fifth consecutive clean walk (both
+  legs at every documented posture; the reference's generator failure
+  face unchanged — the red banner; the clone LIVE with quota 3→2; no
+  Tailwind v4 bug; captures 151/152 PIL-verified).
+- LOCKSTEP: UNIT 794 → 798 (+4), SUITES 41 held, E2E 70 → 71 (+1),
+  E2E_SPECS/SMOKE held, BADGE 864 → 869; the ten provenance sites
+  1..71 → 1..72 (uniform, lag 0); the docs-counts s72 rung; PAD §8.1
+  + §8.3 + §11 (the floating-icons row); README's badge + table +
+  quickstart + session-72 row + gate footer; AGENTS's plans-map
+  seventy-second round + the 798/41 + 71; CLAUDE's 798/41 + 71;
+  SKILL v1.67.0 → v1.68.0; the formal session_72.md; the plan's
+  post-execution record; the local .env's provenance note refreshed.
+- Counts at ship: UNIT 798 / SUITES 41 / E2E 71 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 869; the ten provenance sites at 1..72 (lag 0,
+  uniform); SKILL v1.68.0; captures 151/152 PIL-verified; the full
+  gate green on the final tree; push to main via the SSH wrapper
+  runbook.
+
+**Gate at the session-72 ship: lint 0/0 · tsc 0 · unit 798/798 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**

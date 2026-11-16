@@ -1,133 +1,276 @@
-I'll start by checking the current state of the workspace and refreshing the repository.
-The repo exists. Let me refresh it and check the recent history.
-Repository refreshed to `d85257e` (session_71 doc just added). Let me set up the task plan and begin the onboarding review.
-Core contracts read. Now the README, architecture doc, and skill memory.
-The docs are large; let me read the key sections strategically.
-Session-71 is the owner's narration of the session-70 delivery; my round is **session 71**. Now the plan doc and worklog tail.
-Now the worklog tail and the PAD's deferred-debt register (§11) to understand next-touch items.
-Understanding is solid. Now let me validate against the codebase: the `.env` contract, the S70 cures in source, and the db folder.
-`.env`/db contract holds. Now verifying the five S70 cures in source.
-All five S70 cures verified in source. Let me check the userinfo conjuncts and the ambient environment hazard, then look at the audit skill lenses.
-S70-3b verified; the ambient `DATABASE_URL` hazard is live again (absolute path outside the repo) — I'll apply the `env -u` discipline. Let me check neo-crm's remote and read the audit skill lenses.
-neo-crm unchanged at `b3d0fbe`. Now reading the audit skill lenses.
-Audit lenses loaded. Now let me establish the baseline: DB state and the full gate (with the `env -u DATABASE_URL` discipline for the ambient hazard).
-Census MATCH. Now the baseline gate, starting with lint → typecheck → unit.
-Lint 0/0 · tsc 0 · unit 788/788 (41 files) — at session-70 ship counts. Now build + smoke + e2e.
-**Full baseline gate GREEN** at session-70 ship counts. Now the periodic `bun audit` duty, then the audit phase.
-Same 9 dev-toolchain advisories (none on the runtime request path) — unchanged. Now dispatching the three parallel audit lanes per the session-55..70 precedent.
-All three lanes complete: **0 Critical / 0 High / 2 Medium / 6 Low / 6 Info**. Now the lead's hand-verification duty — reproducing every load-bearing finding through the real exported seams.
-All PASS — but that could be vacuous if the warnings never fired. Let me print the actual warning content to confirm non-vacuity.
-No warnings fired — my invocation doesn't match the real signatures. Let me read the actual exported seam signatures in boot-env.ts.
-The signatures differ from my probe — `bootEnvCheck` returns a report (not console), and the file-warning seams take the URL as `envFileUrl` (2nd arg), not `env.DATABASE_URL`. Fixing the probe.
-**All load-bearing findings CONFIRMED LIVE** through the real exported seams: M-1 (escaped-quote/leading-DQ tails print), M-2 (post-`@` password tails print through the scheme-less mask), L-1 (control-char query tail prints). Let me also verify the L-2/L-3 predicate findings, then clean up probes.
-All findings confirmed. Cleaning up probes, then the parity walk.
-Now the parity walk. First, boot the dev server (the `localhost` origin discipline), then the REF leg.
-Logged in, landed `/Home` (documented posture). Now the mobile-nav battery at 390×844.
-Hamburger byte-identical to the documented posture. Opening the menu.
-Panel at documented posture (h:265, byte-identical classes). Now the three interaction faces: Escape, outside-tap, route-change.
-All three reference interaction faces at documented postures. Now desktop census, gradient, and head census.
-Burger hidden at 1440, brand gradient byte-identical. Now the five-route head census.
-Head census at documented postures (170/170/92/95/95). Now sitemap/robots and the generator DEAD probe.
-At 30s: NO POST, NO COPY — the DEAD silent-rest posture. Let me confirm no error surface is visible, then close the REF leg.
-The reference now shows a "Generation failed..." banner — a drift from the session-68..70 silent-rest face. Let me capture its exact text for the record.
-**REF leg complete** — the failure face has drifted to a red `text-xs` banner (a reference-side 402-defect face; our working generator is the documented superset). Now the CLONE leg.
-Let me check the seed's demo credentials.
-The second submit fired on a reset form. Let me redo the login cleanly.
-The password fill didn't stick (the form reset it). Let me fill fields in separate steps with verification, then submit.
-The native-setter approach isn't sticking on this input. Let me use real keystrokes via `agent-browser type`.
-Email field has accumulated text (52 chars). Clearing and retyping.
-Logged in to the clone, landed `/` (the documented deviation). Now the CLONE-leg mobile battery.
-Panel byte-identical (h:265, inner classes, links, transparent-over-hero posture). Now the open-state aria and three interaction faces.
-Escape closes with focus return (the documented a11y superset). Now outside-tap and route-change faces.
-All interaction faces at documented postures — **no Tailwind v4 bug**. Now desktop census, gradient, heads, and the LIVE generator probe.
-Heads, sitemap, robots — identical modulo origin. Now the LIVE generator probe on the clone.
-Quota face looks off (500/3 — likely a text-match artifact). Let me inspect the generator card state directly.
-Generator LIVE — "Post generated — 2 free generations remain" (3→2). Let me verify the full post face.
-**Parity walk #44 — CLEAN.** Now capturing the round's screenshots for `docs/screenshots/`.
-Both captures PIL-verified (amber CTA field present in the mobile capture). Closing the walk and moving to the remediation plan.
-Now scoping the cure sites precisely before writing the plan.
-Now let me read the remaining cure sites: the site-url arms in boot-env.ts, the toast timer effect, and the test sites.
-The URL-serialization edge behavior needs empirical verification. Let me probe the exact URL getters.
-Mechanisms confirmed. Let me check the IPv6 hostname shape and read the toast timer effect + test sites.
-The escape syntax inside libpq single-quoted values is load-bearing for the M-1 cure design. Let me verify it against the PostgreSQL docs.
-All mechanisms verified against the PostgreSQL docs (\' escaping confirmed). Let me read the remaining small cure sites.
-All sites scoped. Now writing the session-71 remediation plan.
-Plan written. Now the VALIDATE phase — checking the plan's assumptions against the existing pins.
-The S66-1 pins are password-key-free — the reorder is safe for them. Checking the divergence, loopback, and siteUrl pins.
-All plan assumptions validated. Let me read the complete `redactCredentials` function for the reorder edit.
-Let me read the full icon-contract test body for the S71-7a arm placement.
-Phase 1 — writing the pins, born RED. First the boot-env.test.ts S71 describe.
-Now the toast-anatomy S71-6a pin and the seo.spec S71-7a arm.
-All pins written. Running them to confirm they're born RED exactly as designed.
-5 of 6 pins born RED. S71-3a passed vacuously — the warning renders the tab as the literal `\t` escape (JSON.stringify), so the assertion must match that form. Fixing.
-All six unit pins born RED exactly as designed. Phase 2 — the cures. First the redaction block: escape-aware arms, pass reorder, query-run widening.
+# Session 72 — The Redaction Quote-Residue Keyword-Prefix Cure + The Divergence Slash-Fold Cure + The Loopback Hextet-Grammar Cure + The Toast Geometry Probe + The Ignores Pin and The Register Batch (2026-11-16)
 
-The plan is fully intact. Let me set up the task list and verify the current state of the Phase-1 pins before continuing with Phase 2.
-Pins are in place. Let me verify the remaining pin diffs and re-run the unit tests to confirm the RED state.
-All six pins confirmed RED (6 failed | 112 passed) — Phase 1 complete. Now Phase 2: the cures. Let me read the current redaction implementation in `boot-env.ts`.
-Phase 1 verified. Now let me read the remaining cure sites: the shape arms in boot-env.ts, the site.ts normalizer, and toast.tsx.
-Now let me read the full S71 pin block in boot-env.test.ts to know the exact assertions, and the toast.tsx source.
-Now let me look at the S71-8b and S71-9b cure sites: the seo-surfaces S25-6 duplicate, the a11y register, globals.css, eslint config, and layout.tsx.
-Now let me check PAD §11's register format for the new row.
-All cure sites are scoped. Before writing the cures, let me spot-check the existing S69/S70 pins that could interact with the widened arms (especially any pin on whitespace-stopping in the query pass).
-All pins and interaction faces verified. Now applying the redaction cures (S71-1b + S71-2b + S71-3b) to `boot-env.ts`:
-There's a duplicate closing brace from the overlapping edits. Let me inspect and fix:
-Now let me run the boot-env test suite to verify the redaction cures:
-S71-1a/2a/3a now pass. The 2 remaining failures are S71-4a and S71-5a (cures not yet applied). Let me confirm:
-Redaction cures GREEN with zero regressions. Now applying S71-4b (divergence unification) and S71-5b (loopback grammar):
-Now the site.ts normalizer strip (S71-4b):
-Now the toast mount probe (S71-6b):
-All five boot-env/toast cures applied. Running the full unit suite:
-S71-4a is green; S71-5a still fails. Let me probe the loopback predicate directly:
-The IPv4-mapped form normalizes to hex (`::ffff:7f00:1`) — the dotted prefix never matches. Let me check exactly which assertion failed:
-Face 3 fails: the parser normalizes `::ffff:127.0.0.1` → `::ffff:7f00:1` (hex). The plan's dotted prefix never sees the normalized spelling — adjusting the predicate to cover both:
-All 118 green — six S71 pins pass with zero regressions. The 3 remaining full-suite failures are the docs-counts census pins (PAD §12 line counts, UNIT/SUITES constants, AGENTS plans map) — those are Phase-4 lockstep items that fail until the docs update, exactly as designed.
+The round opened on the refreshed workspace (`5e8fa6a` = session-71's
+`ff0a513` + the owner's two narration commits carrying
+`docs/session_72.md` as the round-71 working narration; this formal
+log replaces its content at ship). The core docs re-read and
+re-verified at the session-71 ship counts (AGENTS, CLAUDE, README,
+PAD, SKILL v1.67.0), then the session-71 set (the formal
+`docs/session_71.md` log, the session-71 plan's post-execution
+record, worklog Task 71, the owner's narration `docs/session_72.md`),
+and the S71 cures verified in source (the escape-aware quoted arms +
+the keyword-first reorder + the query `[^&]*` widening in both
+redaction passes, the `::ffff:7f` loopback grammar, the site.ts
+`[\/?#]` post-serialization strip, the toast mount probe, the
+manifest-link e2e arm).
 
-Now completing Phase 2: S71-8b (duplicate drop) + S71-9b (the Info batch):
-Now the S71-9b Info batch — globals.css comment, a11y register cite, eslint ignores, layout.tsx viewport clause:
-Now the layout.tsx viewport clause respell and the PAD §11 register row:
-All Phase-2 cures applied. Updating the todo state, then Phase 3 — the revert-plant battery (each plant must RED exactly its pin):
-**Plant 1** — escape-aware revert (quoted arms narrowed back to `'[^']*'?` / `"[^"]*"?` in both passes):
-Plant 1 also tripped S71-3a because I bundled the bare-run revert. Let me redo it surgically — quoted arms only:
-Plant 1 REDs exactly S71-1a. Restore, then **Plant 2** — reorder revert (keyword pass back to LAST):
-Plant 2's script surgery broke more than intended. Let me inspect a failure to understand:
-The rename missed the use sites. Restoring and redoing Plant 2 with correct surgery:
-Script pattern was malformed — file untouched (96 passed = the good tree). Redoing Plant 2 structurally:
-Plant 2 REDs exactly S71-2a. Restore, then **Plant 3** (query bare-run narrowed back to `[^&\s]*`):
-Plant 3 REDs exactly S71-3a. Restore, then **Plant 4** (unification revert — predicate unfolded + site.ts strip narrowed back to slashes):
-Plant 4 REDs exactly S71-4a. Restore, then **Plant 5** (loopback grammar narrowed back to localhost/127.0.0.1):
-Plant 5 REDs exactly S71-5a. Restore, then **Plant 6** (mount-probe effect deleted):
-Plant 6 REDs exactly S71-6a. Restore, then **Plant 7** (layout `manifest:` field deleted → the e2e arm REDs). First check the playwright setup:
-E2e boots the production standalone server — Plant 7 needs a build with the `manifest:` field deleted. Applying the plant and building:
-Plant 7 REDs exactly the manifest arm (previously shipped green — the pin has teeth). Restoring and rebuilding the good tree:
-All 7 revert plants confirmed — each REDs exactly its pin, all restored GREEN. Phase 3 complete. Now Phase 4 — the docs lockstep. First, the docs-counts test structure and constants:
-Now appending the s71 rung to the ladder and updating the constants:
-11 lockstep sites enumerated. Let me gather the exact count spellings across the docs:
-The lag invariant allows diskMax−1, but the plan mandates uniform lag 0. Re-anchoring all ten provenance sites to `1..71`:
-All ten provenance sites re-anchored. Now the count sites — first the SKILL's Appendix-A/B structure:
-Now let me look at the current session_71.md (owner's narration to be replaced) and the worklog tail for format:
-All formats captured. Applying the mechanical count updates across the doc set:
-Now the AGENTS plans-map seventy-first round and the README session-71 row:
-Now the SKILL Appendix-A session-71 row:
-Now the formal `docs/session_71.md`. Let me check session_70.md's format to mirror it:
-Now writing the formal `docs/session_71.md`:
-Now the plan's post-execution record. Let me check the session-70 plan's format:
-Now worklog Task 71:
-A straggler site still at 70. Let me find it via the census's own scan:
-docs-counts 56/56 GREEN. Now the full Phase-4 gate — lint, tsc, unit:
-Lint 0/0 · tsc 0 · unit **794/794** (41 files) — exactly the projected counts. Now build + smoke + e2e:
-**FULL GATE GREEN**: lint 0/0 · tsc 0 · unit 794/794 · build · smoke 16/16 · e2e 70/70 · census MATCH. Let me verify the captures and the prior commit pattern, then ship:
-Commit pattern confirmed — one fix commit carrying everything. Let me read the SSH wrapper runbook before committing:
-The shim exists at `/home/z/my-project/bin/ssh` (from the session-70 push), no system ssh, and the wrapper needs the explicit `--remote`. Now the commit:
-Committed `ff0a513` on main (29 files, +1372/−204). Now the push via the SSH wrapper runbook — key to a 0600 temp file, shim on PATH, dry-run first:
-Dry-run clean — auth verified, fast-forward `d85257e..ff0a513`. Real push:
-Session 71 is complete and shipped. `ff0a513` pushed to `main` on `nordeim/viralpost-ai` (remote ref verified, key shredded, tree clean).
+## Baseline
 
-**What landed** — resuming exactly where the interrupted session stopped (Phase 2, redaction block):
+`.env` held at the contract (`DATABASE_URL="file:../db/custom.db"`,
+`db/` at the repo root, `AUTH_SECRET` set); db:push + db:seed +
+census MATCH (1 user + 0 contact messages). The ambient-shell
+`DATABASE_URL` pollution (an absolute path OUTSIDE the repo — the
+S63..S71 hazard) found live again and neutralized with `env -u
+DATABASE_URL` on every DB-touching command.
 
-- **Cures (TDD, 6 pins born RED + 7 revert-plant batteries)**: escape-aware quoted arms + trailing-junk runs in both redaction passes; the keyword-pass-first reorder (kills the @-password tail leak); the query bare-run `[^&]*` widening; the divergence unification (one normalizer law, predicate + comparison agree); the loopback grammar (IPv6/127-8/mapped families); the toast mount-time `:hover` probe; the manifest-link e2e arm; the S25-6 duplicate drop; the Info batch.
-- **Mid-execution catch**: the URL parser normalizes `[::ffff:127.0.0.1]` → `::ffff:7f00:1` hex — probe-caught, cured with the `::ffff:7f` prefix.
-- **Gate at ship**: lint 0/0 · tsc 0 · unit **794/794** (41 files) · build · smoke 16/16 · e2e 70/70 · census MATCH.
-- **Lockstep**: badge 864, provenance sites 1..71 (uniform, lag 0), SKILL v1.67.0, formal session_71.md, worklog Task 71, captures 149/150, `.env.example` in the commit.
+Baseline gate: lint 0/0 · tsc 0 · unit **794/794** (41 files — the
+session-71 ship counts, lag 0) · build · smoke 16/16 · e2e 70/70 (9
+specs) · census MATCH. `bun audit`: the same 9 dev-toolchain
+advisories as session-55..71 (3H/5M/1L — minimatch/eslint,
+deepmerge-ts/prisma, vite/vitest, source-map-js/postcss — none on the
+runtime request path). The neo-crm pattern reference re-checked:
+UNCHANGED at HEAD `b3d0fbe` (local HEAD === origin/main, re-fetched
+this round) — the recorded decisions stand.
 
-Next round would open on `ff0a513` with parity walk #45 as the fresh baseline.
+## The standing asks (the owner's work-order items, each verified)
+
+- **The `.env` / db-folder contract**: held and live-verified (census
+  MATCH; every gate leg green against it; the db-path seam monopoly
+  re-verified by both audit lanes — `process.env.DATABASE_URL` read
+  ONLY inside the seam). No code change needed — the contract holds.
+- **Vitest + Playwright suites**: both configs verified current and
+  correctly wired (vitest matches `*.test.ts` only, excludes
+  `skills/**`, `@` alias, node env; playwright carries the setup
+  project + storageState, the single-source port with the S70-5d
+  guard, the pinned `db/e2e.db`, CI=1 fresh-boot; AUDIT-3 re-pinned
+  the gate-script order). No drift to fix.
+- **Sitemap + SEO**: verified live in walk #45 AND by AUDIT-3's
+  source read (the force-static trio, `/Home` never listed, byte-exact
+  body pins; the built artifact byte-identical to the sources). The
+  walk's sitemap/robots/canonical/description census identical modulo
+  origin (4 URLs, weekly 1.0/0.8; heads 170/170/92/95/95).
+- **Mobile navigation + Tailwind v4**: the walk's mobile battery clean
+  on both legs (every interaction face at its documented posture;
+  hamburger byte-identical + the aria superset; Escape
+  close-with-focus-return, outside-tap both-open, route-change
+  hidden-in-DOM). **No Tailwind v4 bug found** — AUDIT-2's
+  independent navbar read concurs (the hover unwrap, `md:hidden`
+  boundary, and transition-class axes all sound).
+- **`skills/` exclusion**: verified in the tsconfig/eslint/vitest
+  excludes and the smoke artifact-hygiene leg.
+
+## The audit (three parallel lanes + the lead's hand-verification)
+
+Combined profile: **0 Critical / 0 High / 2 Medium / 2 Low / 3 Info**
+(AUDIT-1 API/lib seams 0/0/1/1/1 · AUDIT-2 components/pages/effects
+0/0/1/1/1 · AUDIT-3 SEO/configs/tests/docs 0/0/0/0/1). Every
+load-bearing finding hand-verified by the lead through the REAL
+exported seams and the REAL dev-server UI before any cure was
+designed: the unclosed-quote keyword-first leak (`SuperSecret123` in
+clear through `bootEnvCheck`; the `@`-bearing tail; the passfile path
+through `databaseUrlFileResidueWarning`), the `#/?` double-warn (2
+site-url warnings where the law demands 1), the loopback over-match
+(identical public pairs answering the spurious localhost warning),
+and the toast mount face (the over-length error toast card
+auto-dismissing with the pointer inside its rect and
+`matches(":hover")` reading false) — all CONFIRMED LIVE; the audit
+lanes' probe inventories ran outside the repo, the tree clean at
+every check.
+
+The findings this round cured:
+
+- **S72-1 (AUDIT-1 M-1, live-probed)**: the keyword pass's `(^|\s)`
+  prefix class rejects a key that sits directly behind a residue
+  QUOTE — the unclosed-quote `.env` malformation class the boot
+  residue and file-residue arms exist to print, with the password
+  FIRST, printed the whole value VERBATIM
+  (`"password=SuperSecret123 host=localhost user=admin` → the boot
+  warning carried `SuperSecret123` in clear to stdout + server.log;
+  the `@`-bearing variant `"password=S3cr@tPass host=localhost` →
+  `***@tPass` — the tail misattributed as host by the mask-to-last-@
+  fallback; `"passfile=/etc/ssl/private.key host=h` → the key path
+  verbatim through the file-residue arm). The keyword-first spelling
+  is a real operator form; both sanctioned loaders keep the leading
+  quote (the S61-1 census), so the face is live in every loaded
+  posture.
+- **S72-2 (AUDIT-1 L-1, live-probed)**: the S71-4b divergence
+  predicate's pre-parse fold strips the trailing `[\/?#]+` run —
+  which REMOVES a `#`/`?` that OPENS a non-empty fragment/query
+  (`https://x.com/#/?` — fragment `/?`): the predicate reads bare,
+  the shape arms correctly warn, the normalizer correctly falls back
+  — and the divergence arm fires TOO. Two warnings, one root cause —
+  the S69-3 "exactly one warning per bad posture" law broken at the
+  edge the S71 probes never covered (the empty delimiters and `//`
+  pass; `#/?` and `?/?` double-warn).
+- **S72-3 (AUDIT-1 I-1, live-probed)**: the S71-5b loopback grammar
+  over-matches — `startsWith("::ffff:7f")` accepts short-hextet
+  forms (`::ffff:7f0:1` = 7.240.0.1, `::ffff:7f:1` = 0.127.0.1 —
+  public addresses; only the FULL 4-hex-digit hextet `7fXX` is the
+  mapped 127/8 range) and `/^127\./` matches any `127.`-prefixed DNS
+  name (`127.0.0.1.example.com` — a public name): an identical
+  runtime=served pair at those origins fires the spurious "would
+  advertise a localhost origin" warning (probed: 1 warning where a
+  genuinely-public identical pair answers 0).
+- **S72-4 (AUDIT-2 M-1, live-probed, the round's mechanism catch)**:
+  the S71-6b toast mount probe is INERT in Chromium — the engine
+  does not update the `:hover` pseudo-class for an element inserted
+  under a stationary pointer until its own re-evaluation
+  (`matches(":hover")` read false at the mount call in every observed
+  context). The auto-dismiss FACE is timing-dependent: a fast-mount
+  harness (insertion ~41ms after the last input) dismissed the card
+  6/6 (the synthetic boundary pass never reaching it), while this
+  app's slow-mount face (fetch latency ~800ms) was rescued by the
+  engine's later re-evaluation ~1.5s in — the rescue is
+  engine-scheduled, not contractual, and the fast-mount window (a
+  fetch-failure catch arm, a client-side toast) mounts inside it.
+  The lead's mid-battery probe falsified the plan's own "the
+  pre-cure tree REDs the e2e leg" assumption (the engine rescued the
+  planted tree's card too) — the plant's record and the leg's
+  comment respelled to the born-green contract posture (the S71-7a
+  precedent).
+- **S72-5 (AUDIT-2 L-1)**: the comment-truth residue of S72-4 — the
+  toast.tsx S71-6 comment block, the S71-6a pin's comment, and the
+  S47-7 leg's "hover-pause stays source-pinned" clause all asserted
+  the false mechanism or stale postures; all respelled to the
+  verified truths (the historical session_71.md log stays as shipped
+  — this log records the correction).
+- **S72-6 (AUDIT-2 I-1, code-read)**: floating-icons' rAF loop runs
+  for the page's lifetime regardless of visibility (no
+  IntersectionObserver gate). Parity-neutral (the reference drives
+  the same field per-frame); REGISTERED, not chased — PAD §11 gains
+  the row, the observer gate is the named lift.
+- **S72-7 (AUDIT-3 I-1, rg-verified)**: the S71-9b eslint ignores
+  widening (`db/**`, `docs/**`) rode no pin — the S26-6 describe
+  pinned only the `skills` exclusion; a revert of the
+  generated-artifact family shipped green through the whole gate. The
+  S26-6 comment's ignores-array spelling was also stale.
+
+## Parity walk #45 — the forty-fifth consecutive clean walk
+
+Both legs at every documented posture. REF leg (logged in, landed
+`/Home`, bare title): the hamburger byte-identical (`md:hidden p-2
+text-slate-300`, NO aria family) with pointer cursor; the panel
+`md:hidden bg-slate-900/98 border-b border-white/10 overflow-hidden`
+with the inner `px-6 py-4 space-y-3`, 4 links + the priced amber CTA
+pill ("Upgrade to Pro – $19"), NO panel id, open height 265; Escape
+R-OPEN; the outside-tap R-OPEN; the route-change R-UNMOUNT (via the
+Pricing link); the desktop census 6 visible at 1440 (burger
+display:none, the desktop pill bare "Upgrade to Pro"); the brand text
+gradient byte-identical (`linear-gradient(to right, rgb(45, 212, 191),
+rgb(251, 191, 36))`); the five-route head census (bare `/` + `/login`
+titles, the `<Page> |` family, the canonicals, desc lengths
+170/170/92/95/95); sitemap 4 URLs (weekly 1.0/0.8) + robots allow-all
++ the sitemap pointer; the generator DEAD at the 30s probe — the red
+`text-xs` failure banner ("Generation failed, so this attempt didn't
+use one of your free tries. Please try again."), the session-71
+drifted face UNCHANGED. CLONE leg (logged in, landed `/` — the
+documented /Home deviation): the aria superset ACTIVE (Open/Close-menu
+relabel, expanded true→false, `aria-controls="mobile-menu"` with the
+panel `id`); the panel inner byte-identical with the
+transparent-over-hero posture, open height 265 (byte-equal); Escape
+L-CLOSE-WITH-FOCUS-RETURN (focus observed back on the toggle); the
+outside-tap BOTH-OPEN (parity with the reference); the route-change
+L-HIDDEN-IN-DOM (panel in DOM, display:none, expanded=false); the
+desktop census identical (+ the skip-link superset); the gradient
+byte-identical; the head census + sitemap/robots identical modulo
+origin; the generator LIVE (a real post — 6 hashtags incl. the
+idea-derived #Sustainable #Fashion pair, the Copy button, the quota
+counter 3→2). **No Tailwind v4 bug in the mobile menu** — every
+mechanic live-verified at 390×844 on both legs. Captures 151/152 on
+the dev server PIL-verified (390×844 mobile menu open full-page, the
+amber-CTA field pixel-scanned present; 1440×900 landing full-page).
+
+## The cures (TDD — the pins first, born RED, then the batteries)
+
+Phase 1 — four unit pins + one e2e leg born RED exactly as designed
+(S72-1a the quote-residue keyword-prefix pin, S72-2a the
+divergence slash-fold pin, S72-3a the loopback hextet-grammar pin,
+S72-4a the geometry-probe pin [the S71-6a pin REWRITTEN in place,
+count-neutral — the N12-2 one-owner law], the S72-4b behavioral
+contract leg in generator.spec.ts; the S72-7a ignores-family pin born
+GREEN on the existing config — the S71-7a precedent, its teeth proven
+by the Phase-3 plant; the S72-3a control's one-arg posture fixed
+in-commit to the S71-5a convention — with a healthy served face the
+false-alarm cure silences the loopback warning by design).
+
+Phase 2 — the cures:
+
+- **S72-1b** the prefix widening (boot-env.ts, the keyword pass):
+  `(^|\s)` → `(^|[\s"'])` — a residue quote is a libpq-meaningful
+  delimiter before a keyword exactly as whitespace is; the masked
+  `password=***` output carries no quote, so the arms below are
+  unchanged. REGISTERED boundary (in the cure comment): a
+  backslash-preceded keyword stays unmasked — a double-malformation
+  face; adding `\\` to the class is the named lift.
+- **S72-2b** the slash-only pre-parse fold (boot-env.ts, the
+  divergence predicate): the refined law — slash-fold pre-parse (the
+  `//` pathname edge), getter semantics for the empty delimiters (the
+  empty `?`/`#` drop from `u.search`/`u.hash`), and the site.ts
+  post-serialization `[\/?#]` strip for the comparison; the `#/?` and
+  `?/?` faces answer the shape arm's warning ALONE (the S71-4b
+  comment respelled to name the refined law and the catch).
+- **S72-3b** the hextet grammar (boot-env.ts, isLoopbackOrigin): the
+  mapped arm `/^::ffff:7f[0-9a-f]{2}:/` (only a 4-hex-digit first
+  mapped hextet `7fXX` is 127/8), the dotted arm
+  `/^127(?:\.\d{1,3}){3}$/` (a `127.`-prefixed DNS name is a public
+  name), the `::ffff:127.` dotted spelling kept for robustness; the
+  S71-5b comment extended with the over-match catch and the
+  exact-hextet law.
+- **S72-4c** the geometry probe (toast.tsx): the module-level
+  `lastMousePos` tracker (null until the first mouse move), ONE
+  passive `pointermove` listener armed in the Toaster's mount effect
+  with cleanup (page-lifetime pairing), the `pointerType === "mouse"`
+  modality gate (touch/pen drags never park a phantom cursor); the
+  ToastCard's mount effect reads the rect containment into
+  `setPaused(true)` — deterministic and engine-independent. The S71-6
+  comment block, the S71-6a pin, the S47-7 leg comment, and the
+  S71-4b/S71-5b code comments respelled to the verified truths.
+- **S72-7b** the ignores pin (type-gate.test.ts): the S26-6 describe
+  gains the generated-artifact + hygiene family `it`
+  (`test-results/**`, `playwright-report/**`, `coverage/**`, `db/**`,
+  `docs/**`); the describe's stale ignores-array comment respelled to
+  the live family.
+
+Phase 3 — the revert-plant battery, every NEW pin proven failable:
+the prefix revert plant (`(^|[\s"'])` narrowed back to `(^|\s)`)
+REDs exactly S72-1a; the fold revert plant (`/\/+$/` widened back to
+`/[\/?#]+$/`) REDs exactly S72-2a; the grammar revert plant (the
+exact-hextet + dotted-quad arms narrowed back to the loose prefixes)
+REDs exactly S72-3a; the geometry revert plant (the rect-containment
+probe replaced back by the `:hover`-only probe, the tree REBUILT)
+REDs exactly S72-4a — and the S72-4b e2e leg stayed GREEN on the
+planted tree (the plan's one falsified assumption: the engine's
+re-evaluation rescued the slow-mount card; the leg respelled to the
+born-green contract posture, both-writers-deleted its documented
+plant); the ignores revert plant (the `db/**` + `docs/**` entries
+dropped) REDs exactly S72-7a. All restored GREEN.
+
+## The lockstep
+
+UNIT 794 → **798** (+4 its: S72-1a/2a/3a/7a ×1 each; the S72-4a
+rewrite count-neutral), SUITES 41 held (no new file), E2E 70 → **71**
+(+1: the S72-4b contract leg), E2E_SPECS 9 held, SMOKE 16 held,
+BADGE 864 → **869**. The ten provenance sites re-anchored `1..71` →
+`1..72` (all ten at diskMax, lag 0, uniform — the S65-6a posture);
+the local untracked `.env`'s provenance note refreshed to match. The
+docs-counts ladder's s72 rung appended with its +4/+1 breakdown. The
+plans map gained the seventy-second round (the AGENTS.md line + the
+plan file on disk, 1:1). PAD: §8.1's table + §8.3's carry line at
+798/71/16; §11 gains the floating-icons rAF register row (S72-6);
+§12's site.ts/globals.css rows held (both files untouched). README's
+badge + architecture table + quickstart + the session-72 row + the
+gate footer; AGENTS's plans-map seventy-second round + the 798/41 +
+71; CLAUDE's 798/41 + 71; SKILL v1.67.0 → v1.68.0 (frontmatter,
+§0.5 range, Appendix-A session-72 row, Appendix-B re-certification
+through 72 + the gate line's 798/71 + the pre-ship checklist's
+798/71/16); the formal `docs/session_72.md` (replacing the owner's
+narration); the plan's post-execution record; worklog Task 72.
+
+## The ship
+
+The full gate green on the final tree; captures 151/152 on the dev
+server PIL-verified; the Conventional Commit to main and the push via
+the SSH wrapper runbook.
+
+**Gate at the session-72 ship: lint 0/0 · tsc 0 · unit 798/798 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**

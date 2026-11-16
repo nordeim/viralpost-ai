@@ -218,17 +218,32 @@ export function bootEnvCheck(
       // its IPv6 brackets ([::1]), and 127.0.0.2 is as loopback as
       // 127.0.0.1 (the 127/8 range) — both passed as healthy
       // production origins while servedIsHealthy counted them
-      // healthy (no unset/loopback warning). The strip order: trailing
-      // dot (the S43-1 FQDN face) then brackets (the IPv6 family),
-      // then the grammar: localhost, 127.0.0.1, ::1, the IPv4-mapped
-      // family, and the 127/8 prefix — the S42-6 parsed-hostname law
-      // extended to the families it missed. The mapped family rides
-      // TWO spellings (probe-verified): the URL parser NORMALIZES the
-      // dotted input [::ffff:127.0.0.1] into its compressed hex form
-      // (::ffff:7f00:1), so the dotted prefix alone never fires — the
-      // ::ffff:7f hex prefix IS the mapped 127/8 range (any hex
-      // continuation of 7f in the first mapped hextet is 127.x.x.x);
-      // the dotted prefix stays for spelling robustness.
+      // healthy (no unset/loopback warning). The S42-6 hostname-parse
+      // law, extended to the families it missed. The strip order:
+      // trailing dot (the S43-1 FQDN face) then brackets (the IPv6
+      // family), then the grammar: localhost, 127.0.0.1, ::1, the
+      // IPv4-mapped family, and the 127/8 dotted quad. The mapped
+      // family rides TWO spellings (probe-verified): the URL parser
+      // NORMALIZES the dotted input [::ffff:127.0.0.1] into its
+      // compressed hex form (::ffff:7f00:1), so the dotted prefix
+      // alone never fires — the full-hextet form below is the mapped
+      // 127/8 range exactly; the dotted spelling stays for
+      // robustness (pre-normalization inputs).
+      // Session-72 (S72-3b, AUDIT-1 I-1 — live-probed): the grammar
+      // TIGHTENS to the exact families. The loose prefixes
+      // over-matched: `startsWith("::ffff:7f")` accepted
+      // short-hextet forms (::ffff:7f0:1 is 7.240.0.1,
+      // ::ffff:7f:1 is 0.127.0.1 — public addresses; only the FULL
+      // 4-hex-digit first mapped hextet 7fXX is 127.x.x.x), and
+      // `/^127\./` matched any 127.-prefixed DNS name
+      // (127.0.0.1.example.com — a public name; hostname parse
+      // cannot know DNS resolution, and the loopback warning was
+      // never about it) — an identical runtime=served pair at those
+      // origins fired the spurious "would advertise a localhost
+      // origin" warning (probed: 1 warning where a genuinely-public
+      // identical pair answers 0). The exact-hextet + dotted-quad
+      // grammar below is the same size as a register entry and
+      // eliminates the genus.
       const host = new URL(value)
         .hostname.replace(/\.$/, "")
         .replace(/^\[(.+)\]$/, "$1");
@@ -236,9 +251,9 @@ export function bootEnvCheck(
         host === "localhost" ||
         host === "127.0.0.1" ||
         host === "::1" ||
-        host.startsWith("::ffff:127.") ||
-        host.startsWith("::ffff:7f") ||
-        /^127\./.test(host)
+        /^::ffff:127\./.test(host) ||
+        /^::ffff:7f[0-9a-f]{2}:/.test(host) ||
+        /^127(?:\.\d{1,3}){3}$/.test(host)
       );
     } catch {
       return false;
@@ -304,9 +319,9 @@ export function bootEnvCheck(
     if (!siteUrl) return false;
     try {
       // Session-71 (S71-4b, AUDIT-1 L-2 — live-probed): the spelling
-      // folds BEFORE parsing — trim + the trailing [/?#] strip, the
-      // same fold the normalizer applies post-serialization (site.ts).
-      // The raw getters disagreed with the comparison on edge
+      // folds BEFORE parsing — trim + a trailing strip, mirrored from
+      // the normalizer's post-serialization fold (site.ts). The raw
+      // getters disagreed with the comparison on edge
       // spellings: the empty ? delimiter drops from u.search (the
       // predicate passed) while toString() kept it (the comparison
       // mismatched an IDENTICAL served origin — the false positive),
@@ -316,8 +331,24 @@ export function bootEnvCheck(
       // negative). ONE normalizer, one law: the predicate, the shape
       // arms, and the comparison now agree on every spelling (the
       // S69-3 "exactly one warning per bad posture" law, held at
-      // both edges).
-      const u = new URL(siteUrl.trim().replace(/[\/?#]+$/, ""));
+      // both edges — the S71 form's own [/?#] strip is the part
+      // S72-2b below refined).
+      // Session-72 (S72-2b, AUDIT-1 L-1 — live-probed): the pre-parse
+      // fold narrows to SLASHES ONLY — the [/?#] form was over-eager:
+      // it erased the OPENING delimiter of a non-empty fragment/query
+      // (`https://x.com/#/?` — fragment "/?"), the predicate read
+      // bare, and the divergence arm fired BESIDE the shape arm's own
+      // warning (two warnings, one root cause — the S69-3 law broken
+      // at the edge the S71 probes never covered). The empty `?`/`#`
+      // delimiters need no pre-parse fold at all: the URL getters
+      // ALREADY treat them as bare (u.search === "" && u.hash === ""
+      // — the empty delimiter drops from the getters), so the
+      // refined law is: slash-fold pre-parse (the // pathname edge),
+      // getter semantics for the empty delimiters, and the site.ts
+      // post-serialization [/?#] strip for the comparison — three
+      // lenses, one bare-origin verdict on every spelling (the
+      // `#/?`/`?/?` faces answer the shape arm's warning ALONE now).
+      const u = new URL(siteUrl.trim().replace(/\/+$/, ""));
       return (
         (u.protocol === "http:" || u.protocol === "https:") &&
         (u.pathname === "/" || u.pathname === "") &&
@@ -870,8 +901,26 @@ function redactCredentials(url: string): string {
   // every arm this pass rides), and the bare run drops the quote
   // chars (an interior quote is value material; the leading-container
   // arms own the opener case).
+  // Session-72 (S72-1b, AUDIT-1 M-1 — live-probed): the prefix class
+  // widens to `(^|[\s"'])` — a residue QUOTE is a libpq-meaningful
+  // delimiter before a keyword exactly as whitespace is. The
+  // unclosed-quote .env malformation class (the exact face the boot
+  // residue and file-residue arms exist to print) with the password
+  // FIRST fell through every pass: `(^|\s)` rejected the leading
+  // quote, the scheme/userinfo arms saw no scheme and no @, and the
+  // query pass needs [?&] — the whole value printed VERBATIM
+  // (`"password=SuperSecret123 host=localhost user=admin` carried
+  // SuperSecret123 in clear; the @-bearing variant misattributed its
+  // tail to the mask-to-last-@ fallback; the passfile key path
+  // printed verbatim through the file-residue arm). The widened
+  // class masks the keyword at the head of the quote-opened run; the
+  // masked `password=***` output carries no quote, so the arms below
+  // are unchanged. REGISTERED boundary: a backslash-preceded keyword
+  // (a stray `\` ahead of the key inside a quoted run) stays
+  // unmasked — a double-malformation face; adding `\\` to the class
+  // is the named lift if ever deemed reachable.
   const keywordMasked = url.replace(
-    /(^|\s)((?:password|passfile|sslpassword)\s*=\s*)('(?:[^'\\]|\\.)*'?[^\s]*|"(?:[^"\\]|\\.)*"?[^\s]*|[^\s]*)/gi,
+    /(^|[\s"'])((?:password|passfile|sslpassword)\s*=\s*)('(?:[^'\\]|\\.)*'?[^\s]*|"(?:[^"\\]|\\.)*"?[^\s]*|[^\s]*)/gi,
     "$1$2***",
   );
   let masked: string;

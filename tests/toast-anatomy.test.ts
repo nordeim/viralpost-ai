@@ -174,27 +174,55 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
     expect(src).not.toContain("onBlur={() => setPaused(false)}");
   });
 
-  // Session-71 (S71-6, AUDIT-2 L-1 — code-read): the MOUNT probe. The
-  // pause machinery is entirely transition-event-driven — a card that
-  // MATERIALIZES under a stationary pointer receives no mouseenter
-  // (browsers only fire it on pointer MOVEMENT), so the 4s timer armed
-  // at mount and auto-dismissed the card mid-read with the pause
-  // affordance never engaging (the bottom-right viewport is exactly
-  // where cursors idle; the S70-4 guards bound but did not close this
-  // face). The :hover pseudo-class is live at hit-test time regardless
-  // of event delivery — the mount-time probe is the only writer that
-  // can see the born-under-the-cursor state. The S20-6 claim family
-  // ("an auto-dismiss never fires while focus is inside OR the pointer
-  // rests on the card") extended to the mount face.
-  it("the mount-time hover probe pauses a card born under a stationary pointer (the transition pairs cannot see the mount state)", () => {
-    expect(src).toContain('if (rootRef.current?.matches(":hover")) setPaused(true);');
-    // The probe rides a mount-only effect (empty deps) — it runs once
-    // before any transition event can arrive; a [paused]-keyed effect
-    // would re-probe on every pause cycle (harmless but noisy) and a
-    // probe inside the timer effect would race the arm it guards.
+  // Session-72 (S72-4, AUDIT-2 M-1 — live-probed): the mount probe,
+  // REDESIGNED. The pause machinery is entirely transition-event-driven
+  // — a card that MATERIALIZES under a stationary pointer receives no
+  // mouseenter on the input path (browsers only fire it on pointer
+  // MOVEMENT), and Session-71's :hover-at-mount probe was INERT in
+  // every observed context: Chromium does not update the :hover
+  // pseudo-class for an element INSERTED under a stationary pointer
+  // until its own re-evaluation (probed: false at the mount call
+  // both in a fast-mount harness — where the card then auto-dismissed
+  // 6/6, the synthetic boundary pass never reaching it — and on the
+  // real app's slow-mount face, where the engine's LATER
+  // re-evaluation delivered the pause ~1.5s in: the rescue is
+  // engine-scheduled, not contractual, and the fast-mount window — a
+  // fetch-failure catch arm, a client-side toast — mounts inside it).
+  // The cure is the GEOMETRY probe: a module-level last-mouse-position
+  // tracker fed by ONE passive pointermove listener (armed at the
+  // Toaster's mount — the Toaster is root-mounted, page-lifetime, so
+  // the listener never churns per card; the pointerType === "mouse"
+  // gate keeps touch/pen drags from parking a phantom cursor that no
+  // mouseleave would ever release), read at card mount into a
+  // getBoundingClientRect containment test. Deterministic and
+  // engine-independent: any engine that fires pointermove is covered,
+  // and an engine that DOES live-update :hover at insertion is
+  // covered by the same rect. The S20-6 claim family ("an auto-dismiss
+  // never fires while focus is inside OR the pointer rests on the
+  // card") now mechanically true on the mount face (the behavioral
+  // contract rides the S72-4b leg in generator.spec.ts — born green
+  // on this app's slow-mount timing, both-writers-deleted is its
+  // documented plant; this pin owns the source shape and REDden on
+  // the geometry revert plant — the battery's record).
+  it("the mount-time geometry probe pauses a card born under a stationary pointer (the :hover-at-mount probe was inert in Chromium — S72-4)", () => {
+    // The module-level tracker (null until the first mouse move — a
+    // keyboard-only session never parks a cursor).
+    expect(src).toContain("let lastMousePos: { x: number; y: number } | null = null;");
+    // The Toaster's mount effect arms ONE passive listener with the
+    // mouse-only modality gate and cleans it up.
+    expect(src).toContain('window.addEventListener("pointermove", track, { passive: true });');
+    expect(src).toContain("if (e.pointerType === \"mouse\") lastMousePos = { x: e.clientX, y: e.clientY };");
+    expect(src).toContain('window.removeEventListener("pointermove", track);');
+    // The card's mount effect reads the rect containment into the
+    // pause writer (empty deps — runs once, before any transition
+    // event can arrive; the tracker, not the event stream, carries
+    // the pre-mount state).
     expect(src).toMatch(
-      /React\.useEffect\(\(\) => \{\s*if \(rootRef\.current\?\.matches\(":hover"\)\) setPaused\(true\);\s*\}, \[\]\);/,
+      /const r = root\.getBoundingClientRect\(\);\s*if \(lastMousePos\.x >= r\.left && lastMousePos\.x <= r\.right && lastMousePos\.y >= r\.top && lastMousePos\.y <= r\.bottom\) setPaused\(true\);/,
     );
+    // The dead probe is GONE from the source (the inert :hover-at-
+    // mount claim retired with it — the comment-truth doctrine).
+    expect(src).not.toContain('if (rootRef.current?.matches(":hover")) setPaused(true);');
   });
 
   // Session-19 (S19-7): the toast icons are decorative — the S15-4

@@ -482,6 +482,17 @@ import {
 // its (the exactly-one-pin doctrine); the S71-9b comment/ignores/
 // register cures are +0 by construction (the comment-lag genus). The
 // e2e 70 unchanged. SMOKE 16 unchanged.
+// s72: 798/41 (+4/+1 — the S72-1a quote-residue keyword-prefix pin ×1
+// (the prefix revert plant REDs exactly it), the S72-2a divergence
+// slash-fold pin ×1 (the fold revert plant REDs exactly it), the
+// S72-3a loopback hextet-grammar pin ×1 (the grammar revert plant
+// REDs exactly it), and the S72-7a eslint ignores-family pin ×1 (the
+// ignores revert plant REDs exactly it); the S72-4a geometry-probe
+// pin REWRITES the S71-6a pin in place (+0 — the N12-2 one-owner
+// law; the geometry revert plant REDs exactly it). The e2e 70 → 71
+// (+1: the S72-4b born-under-parked-pointer contract leg — born
+// green on this app's slow-mount timing, both-writers-deleted its
+// documented plant, the S71-7a precedent). SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -489,11 +500,11 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 794;
+const UNIT = 798;
 /** Vitest suite files. */
 const SUITES = 41;
 /** Playwright e2e checks (incl. the setup project's 1). */
-const E2E = 70;
+const E2E = 71;
 /** Playwright e2e spec files. */
 const E2E_SPECS = 9;
 /** Smoke ladder legs. */

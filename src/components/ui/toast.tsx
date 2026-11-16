@@ -46,6 +46,28 @@ const listeners = new Set<Listener>();
 const EMPTY_TOASTS: ToastItem[] = [];
 let toasts: ToastItem[] = EMPTY_TOASTS;
 
+// Session-72 (S72-4, AUDIT-2 M-1 — live-probed on the real app): the
+// last-mouse-position tracker. The S71-6 :hover-at-mount probe was
+// INERT in Chromium — the engine does not update the :hover
+// pseudo-class for an element INSERTED under a stationary pointer
+// until the next real mouse input (probed: matches(":hover") read
+// false at mount in every run while the born-under-cursor card
+// auto-dismissed at ~4s with the pointer inside its rect; a 1px move
+// after birth correctly pauses — the event machinery was never the
+// problem). The geometry probe replaces it: the tracker records the
+// pointer's viewport position (clientX/Y pairs with
+// getBoundingClientRect), null until the first mouse move (a
+// keyboard-only session never parks a cursor — no phantom pause),
+// fed by ONE passive listener the Toaster arms at its mount (the
+// Toaster is root-mounted, page-lifetime — the listener never churns
+// per card). The pointerType === "mouse" gate is the modality gate:
+// touch/pen drags fire pointermove too, and a touch-scrolled
+// position under the toast would park a phantom cursor that no
+// mouseleave would ever release (on touch there is no resting
+// cursor — pause-on-hover is a mouse-only concept; live touch/pen
+// interaction still rides the mouseenter path).
+let lastMousePos: { x: number; y: number } | null = null;
+
 function emit() {
   for (const l of listeners) l();
 }
@@ -121,6 +143,16 @@ const ICONS: Record<ToastVariant, React.ReactNode> = {
 
 function Toaster() {
   const items = useToasts();
+  // Session-72 (S72-4): the tracker's single writer — armed here, at
+  // the root-mounted viewport's mount, cleaned up at its unmount
+  // (the page-lifetime pairing; one listener, never per card).
+  React.useEffect(() => {
+    const track = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") lastMousePos = { x: e.clientX, y: e.clientY };
+    };
+    window.addEventListener("pointermove", track, { passive: true });
+    return () => window.removeEventListener("pointermove", track);
+  }, []);
   return (
     <div
       aria-label="Notifications"
@@ -156,24 +188,39 @@ function ToastCard({ item }: { item: ToastItem }) {
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const [paused, setPaused] = React.useState(false);
 
-  // Session-71 (S71-6, AUDIT-2 L-1 — code-read): the MOUNT probe. The
-  // pause machinery above is entirely transition-event-driven — a card
-  // that MATERIALIZES under a stationary pointer receives no
-  // mouseenter (browsers only fire it on pointer MOVEMENT), so the 4s
-  // timer armed at mount and auto-dismissed the card mid-read with
-  // the pause affordance never engaging (the bottom-right viewport is
-  // exactly where cursors idle; the S70-4 guards bound but did not
-  // close this face). The :hover pseudo-class is live at hit-test
-  // time regardless of event delivery — the mount-time probe is the
-  // only writer that can see the born-under-the-cursor state. The
-  // S20-6 claim family ("an auto-dismiss never fires while focus is
-  // inside OR the pointer rests on the card") extended to the mount
-  // face: the empty dep array runs once, before any transition event
-  // can arrive; a [paused]-keyed effect would re-probe on every pause
-  // cycle (harmless but noisy) and a probe inside the timer effect
-  // would race the arm it guards.
+  // Session-72 (S72-4, AUDIT-2 M-1 — live-probed): the MOUNT probe,
+  // redesigned as GEOMETRY. The pause machinery is entirely
+  // transition-event-driven — a card that MATERIALIZES under a
+  // stationary pointer receives no mouseenter on the input path
+  // (browsers only fire it on pointer MOVEMENT), and Session-71's
+  // :hover probe here was INERT at mount in every observed context:
+  // Chromium does not update the :hover pseudo-class for an element
+  // INSERTED under a stationary pointer until its own re-evaluation
+  // (probed: matches(":hover") read false at the mount call both in
+  // a fast-mount harness — insertion ~41ms after the last input,
+  // where the card then auto-dismissed at ~4s in 6/6 runs, the
+  // synthetic boundary pass never reaching it — and on this app's
+  // slow-mount face, insertion ~800ms after the input, where the
+  // engine's later re-evaluation DID deliver the pause ~1.5s in).
+  // The rescue is engine-scheduled, not contractual — the fast-mount
+  // window (a fetch-failure catch arm, a client-side validation
+  // toast) mounts inside it and dismisses mid-read. The geometry
+  // probe closes the window deterministically at mount,
+  // engine-independent: any engine that fires pointermove is
+  // covered, and an engine that DOES live-update :hover at insertion
+  // is covered by the same rect. The empty dep array runs once,
+  // before any transition event can arrive; the tracker
+  // (module-level, above), not the event stream, carries the
+  // pre-mount state (the S20-6/S70-4 claim family — "an auto-dismiss
+  // never fires while focus is inside OR the pointer rests on the
+  // card" — now mechanically true on the mount face; the behavioral
+  // contract is pinned by the S72-4b leg in generator.spec.ts).
   React.useEffect(() => {
-    if (rootRef.current?.matches(":hover")) setPaused(true);
+    const root = rootRef.current;
+    if (root && lastMousePos) {
+      const r = root.getBoundingClientRect();
+      if (lastMousePos.x >= r.left && lastMousePos.x <= r.right && lastMousePos.y >= r.top && lastMousePos.y <= r.bottom) setPaused(true);
+    }
   }, []);
 
   React.useEffect(() => {
@@ -225,7 +272,7 @@ function ToastCard({ item }: { item: ToastItem }) {
         // D-124a7, s128/s129/s130, and walk22 below — are DONOR-LEDGER
         // numbers (the NEO-CRM/digma template family's own sessions and
         // findings), never this repo's docs/session_N.md; this repo's
-        // own ledger is docs/session_1..71.md (re-spelled session-38,
+        // own ledger is docs/session_1..72.md (re-spelled session-38,
         // S38-7c, to the census-legible range form — the docs-counts
         // lag invariant now owns this claim).
         // Session-131 (D-131a1): the scaffold-era data-[state] animation

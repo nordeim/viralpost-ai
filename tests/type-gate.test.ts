@@ -218,8 +218,28 @@ describe("session-26 (S26-6): the config mechanics — skills excluded from ever
 
   it("eslint.config.mjs ignores skills/ (the catalog is not linted)", () => {
     const eslint = read("eslint.config.mjs");
-    // The ignores array: ["node_modules/**", ".next/**", "next-env.d.ts", "skills"]
+    // The ignores array (session-72, S72-7a — the comment respelled
+    // to the live family): node_modules, .next, next-env.d.ts,
+    // test-results, playwright-report, coverage, db, docs, skills —
+    // the generated-artifact + hygiene family beside the catalog.
     expect(eslint).toMatch(/ignores:\s*\[[^\]]*"skills"/);
+  });
+
+  // Session-72 (S72-7a, AUDIT-3 I-1 — rg-verified): the S71-9b
+  // ignores widening (db/** + docs/**) rode NO pin — a revert of the
+  // generated-artifact + hygiene family shipped green through the
+  // whole gate (the S26-6 describe pinned only the skills entry).
+  // Zero lintable files live in those directories today (the cure's
+  // own belt-and-braces classification) — the pin exists so a
+  // future emitted file there (a coverage/html reporter, a generated
+  // artifact) fails LOUDLY at the config's shape, not as a confusing
+  // lint failure attributed to nothing, and so a silently reverted
+  // ignore cannot ship.
+  it("eslint.config.mjs ignores the generated-artifact + hygiene family (db/**, docs/** beside the report dirs — S72-7a)", () => {
+    const eslint = read("eslint.config.mjs");
+    for (const entry of ["test-results/**", "playwright-report/**", "coverage/**", "db/**", "docs/**"]) {
+      expect(eslint).toContain(`"${entry}"`);
+    }
   });
 
   it("vitest.config.mts excludes skills/** (the catalog's own tests never run)", () => {

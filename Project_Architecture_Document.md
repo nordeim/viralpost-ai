@@ -568,8 +568,8 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 41 | 794 | `tests/*.test.ts` | Vitest (node env) |
-| E2E | 9 specs | 70 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
+| Unit | 41 | 798 | `tests/*.test.ts` | Vitest (node env) |
+| E2E | 9 specs | 71 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
 ### 8.2 Test Patterns
@@ -586,7 +586,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 794/70/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 798/71/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -715,6 +715,7 @@ delivery.
 | LOW | The boot gate's `servedIsHealthy` predicate conflates non-loopback with healthy (session-69, S69-10 — the BootEnvOptions invariant note): a future caller passing a malformed non-loopback served face would suppress the unset/loopback warning with no shape warning of its own | None today — the only live caller passes `siteUrl()`, which returns a bare http(s) origin or the default | Accepted + registered: the caller contract is documented at the `BootEnvOptions.servedSiteUrl` field; assert-parseability there if a second caller ever appears |
 | LOW | The iridescence collapse's sub-frame corner — a change-to-reduce arriving before the first rAF callback finds `seedT` still 0, so the repaint uses the literal t=0 frame, not the S24-6 mount-time seed (session-69, S69-10 — the accepted corner) | One-frame window, no observable face; the alternative (no repaint) would leave the canvas blank until a resize | Accepted + registered: annotated in the S68-3 comment; capture-early is the named lift if the corner ever matters |
 | LOW | The empty-userinfo origin (`http://@example.com`) passes the S70-3 bare-origin conjuncts as a healthy bare origin — the URL parser DROPS empty userinfo, so `u.username`/`u.password` read empty and no credentials ride the value (session-71, AUDIT-1 I-1 — REGISTERED, not cured) | None: parse-invisible, zero credentials carried; the served surfaces and the normalizer treat it as the bare host it parses to | Accepted + registered (the S70-3 conjuncts' documented boundary): a userinfo-emptiness check upstream of the parse is the named lift if the face ever matters |
+| LOW | floating-icons' rAF loop runs for the page's lifetime regardless of visibility — no IntersectionObserver gate; ~10×3 sin() + style writes per frame continue on the off-screen monetization section indefinitely (session-72, AUDIT-2 I-1, code-read; cleanup correct on unmount — no leak) | Bounded wasted CPU/battery on long-lived tabs; parity-neutral (the reference drives the same field per-frame with framer-motion styles) | Accepted + registered: an IntersectionObserver gate (start on intersect, stop + leave inline styles on exit) is the named lift if the file is ever touched for performance |
 Swept at session-2 ship — no open CRITICAL/HIGH items.
 
 ---

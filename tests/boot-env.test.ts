@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..71.
+// are docs/session_1..72.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -2133,5 +2133,187 @@ describe("session-71 (S71-1/2/3/4/5): the escape-aware containers + the pass reo
       w.includes("NEXT_PUBLIC_SITE_URL"),
     );
     expect(healthySite).toHaveLength(0);
+  });
+});
+
+describe("session-72 (S72-1/2/3): the quote-residue keyword prefix + the divergence slash-fold + the loopback hextet grammar", () => {
+  it("S72-1a: a keyword-first value behind a residue quote never prints its secret — every key family, every residue arm; the controls unchanged", () => {
+    // Face 1 — the unclosed-DQ boot residue arm, password FIRST: the
+    // keyword pass's (^|\s) prefix rejected the leading quote, so no
+    // pass matched and the whole value printed VERBATIM (the live
+    // probe carried SuperSecret123 in clear through stdout +
+    // server.log).
+    const dqFirst = bootEnvCheck(
+      env({ DATABASE_URL: '"password=SuperSecret123 host=localhost user=admin' }),
+    );
+    const dqJoined = (dqFirst.warnings ?? []).join("\n");
+    expect(dqJoined).toContain("password=***");
+    expect(dqJoined).not.toContain("SuperSecret123");
+
+    // Face 2 — the SQ mirror through the same arm.
+    const sqFirst = bootEnvCheck(
+      env({ DATABASE_URL: "'password=QuotedSecret dbname=x" }),
+    );
+    const sqJoined = (sqFirst.warnings ?? []).join("\n");
+    expect(sqJoined).toContain("password=***");
+    expect(sqJoined).not.toContain("QuotedSecret");
+
+    // Face 3 — the @-bearing variant: the tail after the last @ was
+    // misattributed as host by the mask-to-last-@ fallback (the live
+    // probe printed ***@tPass host=localhost).
+    const atFirst = bootEnvCheck(
+      env({ DATABASE_URL: '"password=S3cr@tPass host=localhost' }),
+    );
+    const atJoined = (atFirst.warnings ?? []).join("\n");
+    expect(atJoined).toContain("password=***");
+    expect(atJoined).not.toContain("tPass");
+
+    // Face 4 — the passfile key family behind the same leading quote
+    // (the key-set trio's other secret-bearing member; the live probe
+    // printed the key path verbatim).
+    const passfile = bootEnvCheck(
+      env({ DATABASE_URL: '"passfile=/etc/ssl/private.key host=h' }),
+    );
+    const pfJoined = (passfile.warnings ?? []).join("\n");
+    expect(pfJoined).toContain("passfile=***");
+    expect(pfJoined).not.toContain("/etc/ssl");
+
+    // Face 5 — the file-residue arm (the unloaded-.env posture): the
+    // same keyword-first face through the other sanctioned printer.
+    const fileFace = databaseUrlFileResidueWarning(
+      { NODE_ENV: "production" },
+      '"password=FileTailSecret host=h',
+      true,
+    );
+    expect(fileFace).toContain("password=***");
+    expect(fileFace).not.toContain("FileTailSecret");
+
+    // Control 1 — the HOST-first keyword form behind the same leading
+    // quote already masked (the key rides a whitespace prefix) and
+    // must stay byte-identical under the widened class.
+    const hostFirst = bootEnvCheck(
+      env({ DATABASE_URL: '"host=localhost password=secret123"' }),
+    );
+    const hfJoined = (hostFirst.warnings ?? []).join("\n");
+    expect(hfJoined).toContain("password=***");
+    expect(hfJoined).not.toContain("secret123");
+
+    // Control 2 — the S69-1 plain containers still mask byte-identically
+    // (the prefix widening must not disturb the sanctioned spellings).
+    const plainContainer = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=localhost user=admin password='my secret' dbname=app",
+      false,
+    );
+    expect(plainContainer).not.toContain("my secret");
+  });
+
+  it("S72-2a: a trailing #/? (or ?/?) spelling answers EXACTLY ONE warning — the shape arm's; the empty delimiters and the multi-slash faces unchanged", () => {
+    // Face 1 — the fragment-opening #/?: the pre-parse [/?#] fold
+    // erased the delimiter and double-warned (the live probe fired
+    // BOTH the "carries a query string (or fragment/credentials)"
+    // shape arm AND the divergence arm for one root cause — the
+    // S69-3 exactly-one-warning law broken at the edge).
+    const hashSlash = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "https://runtime.example.com/#/?" }),
+      { servedSiteUrl: "https://served.example.com" },
+    );
+    expect(hashSlash.fatal).toBeNull();
+    const hsSite = (hashSlash.warnings ?? []).filter((w) =>
+      w.includes("NEXT_PUBLIC_SITE_URL"),
+    );
+    expect(hsSite).toHaveLength(1);
+    expect(hsSite[0]).toContain("query string (or fragment");
+    expect(hsSite[0]).not.toContain("NOT what this server serves");
+
+    // Face 2 — the query-opening ?/? mirror.
+    const querySlash = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "https://runtime.example.com/?/?" }),
+      { servedSiteUrl: "https://served.example.com" },
+    );
+    expect(querySlash.fatal).toBeNull();
+    const qsSite = (querySlash.warnings ?? []).filter((w) =>
+      w.includes("NEXT_PUBLIC_SITE_URL"),
+    );
+    expect(qsSite).toHaveLength(1);
+    expect(qsSite[0]).toContain("query string (or fragment");
+    expect(qsSite[0]).not.toContain("NOT what this server serves");
+
+    // Controls — the S71-4a faces re-verified in the same run: the
+    // empty delimiters never mismatch an identical served face, and
+    // the multi-slash divergence still answers exactly the divergence
+    // arm's warning.
+    const empty = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "http://example.com?" }),
+      { servedSiteUrl: "http://example.com" },
+    );
+    const emptySite = (empty.warnings ?? []).filter((w) =>
+      w.includes("NEXT_PUBLIC_SITE_URL"),
+    );
+    expect(emptySite).toHaveLength(0);
+
+    const slashy = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "http://example.com//" }),
+      { servedSiteUrl: "http://other.com" },
+    );
+    const slashySite = (slashy.warnings ?? []).filter((w) =>
+      w.includes("NEXT_PUBLIC_SITE_URL"),
+    );
+    expect(slashySite).toHaveLength(1);
+    expect(slashySite[0]).toContain("is NOT what this server serves");
+  });
+
+  it("S72-3a: the short-hextet mapped forms and the 127.-prefixed DNS name are NOT loopback; the S71-5a families still are", () => {
+    // Face 1 — the short-hextet public addresses as IDENTICAL
+    // runtime=served production pairs: ::ffff:7f0:1 is 7.240.0.1 and
+    // ::ffff:7f:1 is 0.127.0.1 (only the FULL 4-hex-digit first
+    // mapped hextet 7fXX is the 127/8 range) — the loose prefix
+    // classified them loopback and fired the spurious "would
+    // advertise a localhost origin" warning (the live probe: 1
+    // warning where a public identical pair answers 0).
+    for (const origin of ["http://[::ffff:7f0:1]:3000", "http://[::ffff:7f:1]:3000"]) {
+      const report = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: origin }), {
+        servedSiteUrl: origin,
+      });
+      expect(report.fatal).toBeNull();
+      const siteWarnings = (report.warnings ?? []).filter((w) =>
+        w.includes("NEXT_PUBLIC_SITE_URL"),
+      );
+      expect(siteWarnings).toHaveLength(0);
+    }
+
+    // Face 2 — the 127.-prefixed DNS name: a PUBLIC name (hostname
+    // parse cannot know DNS resolution; the loopback warning was
+    // never about it) — same identical-pair posture.
+    const dns = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "http://127.0.0.1.example.com" }),
+      { servedSiteUrl: "http://127.0.0.1.example.com" },
+    );
+    expect(dns.fatal).toBeNull();
+    const dnsSite = (dns.warnings ?? []).filter((w) =>
+      w.includes("NEXT_PUBLIC_SITE_URL"),
+    );
+    expect(dnsSite).toHaveLength(0);
+
+    // Controls — the S71-5a families re-verified in the same run
+    // (the same one-arg posture: no served face modeled, so the
+    // false-alarm cure cannot silence the loopback warning — the
+    // S42-6/S68-4 posture the S71-5a pins ride): ::1, the 127/8
+    // range, and the mapped family (both spellings — the dotted
+    // input the parser normalizes to ::ffff:7f00:1 and the hex form
+    // itself) still answer the loopback warning.
+    for (const origin of [
+      "http://[::1]:3000",
+      "http://127.0.0.2:3000",
+      "http://[::ffff:127.0.0.1]:3000",
+      "http://[::ffff:7f00:1]:3000",
+    ]) {
+      const report = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: origin }));
+      const siteWarnings = (report.warnings ?? []).filter((w) =>
+        w.includes("NEXT_PUBLIC_SITE_URL"),
+      );
+      expect(siteWarnings).toHaveLength(1);
+      expect(siteWarnings[0]).toContain("localhost origin");
+    }
   });
 });
