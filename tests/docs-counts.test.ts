@@ -543,6 +543,13 @@ import {
 // 1 Low with every lane clean at the source, config, sheet, and
 // live-DOM levels; parity walk #50 clean on both legs — the fiftieth
 // consecutive). The e2e 71 unchanged. SMOKE 16 unchanged.
+// s78: 813/41 (HELD — the zero-finding clean-audit round, the first
+// since the audit program's hardening (+0 new its, no functional
+// cures: every lane clean at the source, config, sheet, and live-DOM
+// levels; the generator-probe zero diagnosed as the lead's own
+// selector bug and re-probed LIVE — 56 words, 6 hashtags — no phantom
+// finding recorded; parity walk #51 clean on both legs — the
+// fifty-first consecutive). The e2e 71 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 

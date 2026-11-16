@@ -8168,3 +8168,92 @@ files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
 
 **Gate at the session-77 ship: lint 0/0 · tsc 0 · unit 813/813 (41
 files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
+## Task 78 (2026-11-16) — session-78: the zero-finding clean-audit record + parity walk #51
+
+- FRESH CLONE after the sandbox reset (the workspace wiped between
+  conversations — the clone re-run); the baseline gate re-verified
+  GREEN on the refreshed tree: lint 0/0 · tsc 0 · unit 813/813 (41
+  files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH —
+  lag 0 (the one-time chromium reinstall re-ran via the repo-local
+  ./node_modules/.bin/playwright install chromium; bun audit: the same
+  9 dev-toolchain advisories as sessions 55–77, none on the runtime
+  request path; neo-crm UNCHANGED at b3d0fbe).
+- THE STANDING ASKS each Verified: the .env
+  DATABASE_URL="file:../db/custom.db" contract held (db/ at the repo
+  root, push + seed + census MATCH 1 user / 0 contact messages; the
+  ambient-shell DATABASE_URL pollution neutralized with env -u); the
+  vitest + playwright suites verified current and wired; the sitemap
+  (4 URLs, weekly, 1.0/0.8/0.8/0.8) + robots byte-body + manifest +
+  the three security headers on the SEO family verified live in walk
+  #51 (the sitemap route's format contract re-read at its source); the
+  skills/ exclusion verified at every gate (tsconfig/eslint/vitest +
+  the smoke artifact-hygiene leg); the .env.example verified matching
+  the codebase (all six knobs); the mobile navigation + Tailwind v4
+  battery clean on both legs with the compiled sheet independently
+  re-verified (zero (hover: hover) wraps, the button-cursor base
+  rule, the md boundary at min-width:48rem — no Tailwind v4 bug in
+  the mobile menu).
+- THE AUDIT at 0 Critical / 0 High / 0 Medium / 0 Low / the standing
+  Info postures re-confirmed — THE FIRST ZERO-FINDING ROUND since the
+  audit program's hardening (direct lead reads, the session-76/77
+  precedent: the session-77 commit 73fffcb diffed in full — the S77-1
+  chronological-ladder repair verified at its exact site, the ten
+  provenance sites uniform at 1..77 with zero residual pre-77 range
+  strings; toast.tsx IN FULL (the S72-4 geometry tracker + mount
+  probe, the S73-4 exit arm, the S74-4b pointer-typed enter, the
+  S70-4 mixed-modality unpausers, the S75-5 compound blur guard, the
+  S76-1 hoisted rect all at their sites); navbar.tsx IN FULL (the
+  aria superset, the S26-1 hidden-attribute mechanics, the S26-3
+  scrolled-alone bar key, the S31-2 history-close focus arm, the
+  S45-3/S45-4 censured-parity postures); the S75 cures re-verified at
+  their sites (the boot-env face-quartet one-home classifier, the
+  login-card mounted gates at both navigation arms); the hazard sweep
+  clean (direct DATABASE_URL reads confined to db-path.ts; zero
+  secrets in logs; zero TODO/FIXME/XXX; zero console.log in src; the
+  mounted-gate doctrine consistent); the config layer verified
+  (next.config/vitest/tsconfig/eslint); the compiled sheet's TW4
+  cures re-verified).
+- THE PROBE-BUG DIAGNOSIS (the round's diagnostic record, the
+  session-77 phantom-finding lesson realized): the walk's first
+  generator probe returned hashtagNodes=0 at the 8s mark — the API
+  round-trip (200 + a hashtagged post) and the e2e layer both
+  contradicted it, so the probe itself was audited: the post renders
+  as ONE whitespace-pre-line <p>, the SIBLING of the header row (not
+  a descendant of the label's div — the probe's DOM walk), and the
+  startsWith('#') node filter matches no node of this anatomy. The
+  corrected probe: postPresent=true, 56 words, 6 hashtags at the 8s
+  mark after the quota reset, the counter incremented — the generator
+  LIVE; a probe bug, not a codebase defect; NO phantom finding
+  recorded (session scratch, outside the repo).
+- PARITY WALK #51 — the fifty-first consecutive clean walk (both legs
+  at every documented posture: REF — the hamburger md:hidden p-2
+  text-slate-300 with no aria family, the panel at the byte-equal
+  265px, Escape R-OPEN, the outside-tap R-OPEN, the route-change
+  R-unmount, the desktop gradient census (the navbar amber-400→500
+  rgb(251,191,36)→rgb(245,158,11), the pricing Get Unlimited Access
+  teal-400→amber-400 rgb(45,212,191)→rgb(251,191,36), the plan CTA
+  teal-500→600 rgb(20,184,166)→rgb(13,148,136)), sitemap 4 URLs
+  weekly 1.0/0.8/0.8/0.8 + robots byte-body, the generator DEAD at
+  the 30s probe (the D-1 silent-rest face); CLONE — the hamburger
+  byte-match + the aria superset, the panel byte-equal at 265px, the
+  Escape close-with-focus-return, the outside-tap both-open, the
+  route-change hidden-in-DOM, the CTA gradient byte-identical, the
+  generator LIVE (postPresent=true, 56 words, 6 hashtags at the 8s
+  probe after the client-quota reset); no Tailwind v4 bug in the
+  mobile menu. The CLONE battery ran as ONE single script (boot +
+  drive browser + teardown) with the generator probe split into its
+  own single-script runs for the diagnosis; screenshots 163/164
+  captured and PIL-verified (390×844 @ 50.3% non-white; 1440×900 @
+  99.6%).
+- LOCKSTEP: UNIT/SUITES/E2E/E2E_SPECS/SMOKE/BADGE all HELD (813/41 +
+  71/9 + 16 + 884 — the clean-audit record form, +0 new its, no
+  functional cures); the ten provenance sites set 1..77 → 1..78
+  uniform (lag 0); the docs-counts s78 rung (the hold record); the
+  PAD header date (S78-1); README's session-78 row + gate footer;
+  AGENTS's plans-map seventy-eighth round; SKILL v1.73.0 → v1.74.0 +
+  the Appendix-A session-78 row + the Appendix-B re-cert through 78;
+  the formal session_78.md (replacing the owner's narration window);
+  the plan's post-execution record.
+
+**Gate at the session-78 ship: lint 0/0 · tsc 0 · unit 813/813 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
