@@ -224,6 +224,12 @@ describe("session-24 (S24-11): the og:image asset matches its declared dimension
   // openGraph faces (one pin owns the one-declaration doctrine; the
   // mutation battery reverts either twitter block's literal → RED).
   it("S25-6: the root layout's OG images ride the shared OG_IMAGE const (the one-declaration doctrine)", () => {
+    // Session-71 (S71-8b, AUDIT-3 L-2 — rg-verified): the S24-11
+    // declaration regex is RETIRED from this it — it re-asserted the
+    // S24-11 expect verbatim, so an OG_IMAGE-const deletion tripped
+    // TWO its (the N12-2 exactly-one-pin doctrine). S24-11 owns the
+    // declaration face; this it keeps the layout-consumption +
+    // twitter-consumption arms it uniquely owns.
     const site = readFileSync(
       path.resolve(import.meta.dirname, "..", "src/lib/site.ts"),
       "utf-8",
@@ -232,7 +238,6 @@ describe("session-24 (S24-11): the og:image asset matches its declared dimension
       path.resolve(import.meta.dirname, "..", "src/app/layout.tsx"),
       "utf-8",
     );
-    expect(site).toMatch(/export const OG_IMAGE[\s\S]*?url: "\/og-image\.png",[\s\S]*?width: 1200,[\s\S]*?height: 630,/);
     expect(layout).toContain("images: [OG_IMAGE]");
     // The hand-declared multiline block — the unpinned face that
     // shipped sessions 1–24.

@@ -79,7 +79,16 @@ export function siteUrl(
     ) {
       return DEFAULT_SITE_URL;
     }
-    return parsed.toString().replace(/\/+$/, "");
+    // Session-71 (S71-4b, AUDIT-1 L-2 — live-probed): the
+    // post-serialization strip widens to the trailing [/?#] family —
+    // an empty query/hash delimiter survives toString() but carries
+    // nothing (the getters already drop it), so it folds to the bare
+    // origin the getters report; the boot gate's divergence predicate
+    // folds the same way before parsing (one normalizer, one law —
+    // the S69-3 "exactly one warning per bad posture" holds at both
+    // edges: no spurious mismatch on identical origins, no silence on
+    // diverging multi-slash spellings).
+    return parsed.toString().replace(/[\/?#]+$/, "");
   } catch {
     return DEFAULT_SITE_URL;
   }

@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..70.
+// are docs/session_1..71.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -1853,5 +1853,285 @@ describe("session-70 (S70-1/S70-2/S70-3): the spaced-equals key face + the inter
     expect(sameHost.fatal).toBeNull();
     expect(sameHost.warnings).toHaveLength(1);
     expect(sameHost.warnings.join("\n")).not.toContain("is NOT what this server serves");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Session-71 (S71-1, AUDIT-1 M-1 — live-probed through the REAL
+// exported warning builders): the ESCAPE-AWARE CONTAINERS. libpq's
+// documented keyword grammar escapes single quotes and backslashes
+// inside a single-quoted value with a backslash (\' and \\) — but the
+// quoted arms closed at the FIRST same-quote char, so the sanctioned
+// escape spelling itself printed the post-escaped-quote tail
+// (password='p\'ass' → password=***ass'), and a leading-" value
+// printed its post-close tail (password="ab"cdw0rd → ***cdw0rd),
+// through every warning arm (the boot residue arm, the file-residue
+// arm, and the inert-value arm). The cure: the quoted arms consume
+// escape PAIRS and any post-close material to the run's end
+// (over-redact, the S65-1 doctrine; a " is not a libpq container —
+// the DQ arm is the pinned S69-1 over-redaction posture, widened
+// identically).
+// ---------------------------------------------------------------------------
+// Session-71 (S71-2, AUDIT-1 M-2 — live-probed): the PASS REORDER.
+// The scheme-less last-@ mask ran BEFORE the keyword pass and
+// DESTROYED the prefix carrying the password= key — a password
+// containing @ (no escaping required inside single quotes; among the
+// most common real-world spellings) leaked its post-@ tail through
+// every arm (password='S3cr@tPass!' → DATABASE_URL="***@tPass!'"),
+// while the keyword pass that would have masked it never fired on
+// the already-masked output. The cure: the keyword pass runs FIRST
+// on the raw value — the masked region carries no @, the scheme-less
+// arm finds nothing to drop, and the identity/host visibility
+// survives.
+// ---------------------------------------------------------------------------
+// Session-71 (S71-3, AUDIT-1 L-1 — live-probed): the QUERY
+// CONTROL-CHAR RUN. The query bare run stopped at whitespace, but in
+// URI form libpq's value scan runs to &/end — an interior control
+// char is VALUE material (?password=pa<TAB>ss printed
+// password=***<TAB>ss on the residue arms while the message named
+// the very char it was printing). The cure: the query bare run stops
+// only at & (the registered unencoded-& tail boundary is unchanged —
+// libpq genuinely stops there).
+// ---------------------------------------------------------------------------
+// Session-71 (S71-4, AUDIT-1 L-2 — live-probed): the DIVERGENCE
+// UNIFICATION. The predicate (raw-URL getters) and the comparison
+// (the normalizer's strip+serialize) disagreed on edge spellings:
+// an empty ? delimiter DROPS from u.search but SURVIVES toString()
+// (a spurious "NOT what this server serves" on IDENTICAL origins),
+// and a // pathname FAILED the bare gate while both the shape arms
+// and the normalizer folded the spelling healthy (an inert
+// diverging value answering ZERO warnings). The cure: one
+// normalizer, one law — the predicate folds the spelling the same
+// way, and the normalizer's post-serialization strip drops empty
+// delimiters (the S69-3 "exactly one warning per bad posture" law
+// holds at both edges).
+// ---------------------------------------------------------------------------
+// Session-71 (S71-5, AUDIT-1 L-3 — live-probed): the LOOPBACK
+// GRAMMAR. The predicate missed the IPv6 and 127/8 families —
+// [::1] (the parsed hostname keeps its brackets) and 127.0.0.2 both
+// passed as healthy production origins (no unset/loopback warning;
+// servedIsHealthy counted them healthy). The cure: bracket-strip +
+// ::1 + ::ffff:127. + the 127/8 prefix — the S42-6 parsed-hostname
+// law extended to the families it missed.
+// ---------------------------------------------------------------------------
+describe("session-71 (S71-1/2/3/4/5): the escape-aware containers + the pass reorder + the query control-char run + the divergence unification + the loopback grammar", () => {
+  it("S71-1a: an escaped-quote or leading-\" value never prints its tail — keyword and query forms, on every arm; the plain containers still mask", () => {
+    // Face 1 — the escaped-quote keyword form (the inert-value arm):
+    // libpq's sanctioned \' spelling. The live probe printed
+    // password=***ass' on this arm.
+    const kwEscaped = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=db.example.com port=5432 dbname=prod user=app password='p\\'ass'",
+      false,
+    );
+    expect(kwEscaped).toContain("password=***");
+    expect(kwEscaped).not.toContain("ass'");
+
+    // Face 2 — the leading-double-quote keyword form: the container
+    // closes at the second " and the post-close tail printed. The
+    // distinctive tail keeps the not.toContain assertion unambiguous.
+    const kwDQ = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      'host=db.example.com port=5432 dbname=prod user=app password="ab"cdw0rd',
+      false,
+    );
+    expect(kwDQ).toContain("password=***");
+    expect(kwDQ).not.toContain("cdw0rd");
+
+    // Face 3 — the query-form mirrors, through the inert-value arm
+    // (the scheme arm masks the userinfo; the query pass owns the
+    // password).
+    const queryEscaped = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "postgresql://app:secret@db.example.com/prod?password='p\\'ass'",
+      false,
+    );
+    expect(queryEscaped).toContain("password=***");
+    expect(queryEscaped).not.toContain("ass'");
+    const queryDQ = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      'postgresql://app:secret@db.example.com/prod?password="qu"otedw0rd',
+      false,
+    );
+    expect(queryDQ).toContain("password=***");
+    expect(queryDQ).not.toContain("otedw0rd");
+
+    // Face 4 — the boot residue arm (the interior-tab vehicle): the
+    // control char fires the warning, the escaped-quote password must
+    // still mask on the same print that names the char.
+    const report = bootEnvCheck(
+      env({ DATABASE_URL: "host=db.example.com user=app password='p\\'ass'\tdbname=x" }),
+    );
+    const joined = (report.warnings ?? []).join("\n");
+    expect(joined).toContain("password=***");
+    expect(joined).not.toContain("ass'");
+
+    // Face 5 — the file-residue arm (the uncalled-consumer leg): the
+    // same faces through the prefix.
+    const fileFace = databaseUrlFileResidueWarning(
+      { NODE_ENV: "production" },
+      "host=db.example.com user=app password='p\\'ass'\tdbname=x",
+      true,
+    );
+    expect(fileFace).toContain("password=***");
+    expect(fileFace).not.toContain("ass'");
+
+    // The control — the S69-1 plain containers still mask
+    // byte-identically (the escape-aware widening must not disturb
+    // the sanctioned no-escape spellings).
+    const plainContainer = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=localhost user=admin password='my secret' dbname=app",
+      false,
+    );
+    expect(plainContainer).not.toContain("my secret");
+  });
+
+  it("S71-2a: an @ inside a keyword password never prints its tail — the keys and identity stay visible; the scheme-less non-key @ face still masks", () => {
+    // Face 1 — the @-in-QUOTED-password keyword form (the inert-value
+    // arm): the scheme-less last-@ mask destroyed the key prefix and
+    // printed the post-@ tail (the live probe: DATABASE_URL="***@tPass!'").
+    const quotedAt = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "host=db.example.com port=5432 dbname=prod user=app password='S3cr@tPass!'",
+      false,
+    );
+    expect(quotedAt).toContain("password=***");
+    expect(quotedAt).not.toContain("tPass!");
+    // The visibility doctrine: the reorder must not trade the leak for
+    // the identity — the host/user keys stay readable in the redaction.
+    expect(quotedAt).toContain("host=db.example.com");
+    expect(quotedAt).toContain("user=app");
+    expect(quotedAt).toContain("dbname=prod");
+
+    // Face 2 — the @-in-BARE-password keyword form: the same
+    // prefix-drop printed ***@ss dbname=x (the key destroyed AND the
+    // tail leaked).
+    const bareAt = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "password=p@ss dbname=x",
+      false,
+    );
+    expect(bareAt).toContain("password=***");
+    expect(bareAt).not.toContain("@ss");
+    expect(bareAt).toContain("dbname=x");
+
+    // Face 3 — the residue arm (the interior-tab vehicle): the
+    // control char fires the warning, the @-bearing password still
+    // masks on the same print.
+    const report = bootEnvCheck(
+      env({ DATABASE_URL: "host=db.example.com port=5432 user=app password='S3cr@tPass'\tdbname=x" }),
+    );
+    const joined = (report.warnings ?? []).join("\n");
+    expect(joined).toContain("password=***");
+    expect(joined).not.toContain("tPass");
+
+    // The control — the scheme-less NON-KEY @ face (the S66-1 face-2
+    // posture): no password key, the whole credential masks to the
+    // last @ exactly as before (the reorder changes nothing for the
+    // key-free family).
+    const schemeless = databaseUrlInertValueWarning(
+      { NODE_ENV: "production" },
+      "user:supersecret@host/db",
+      false,
+    );
+    expect(schemeless).toContain("***@");
+    expect(schemeless).not.toContain("supersecret");
+  });
+
+  it("S71-3a: a control char inside a URI-query password never prints its tail (the residue vehicles)", () => {
+    // The process-env residue arm: the tab fires the warning; in URI
+    // form the value scan runs to &/end, so the tab is VALUE material
+    // and the post-char tail must mask on the same print that names
+    // the char (the live probe printed password=***\tss — the warning
+    // renders the control char as the two-char \t escape through
+    // JSON.stringify, so the tail assertion matches that face).
+    const report = bootEnvCheck(
+      env({ DATABASE_URL: "postgresql://app:secret@db.example.com/prod?password=pa\tss" }),
+    );
+    const joined = (report.warnings ?? []).join("\n");
+    expect(joined).toContain("password=***");
+    expect(joined).not.toContain("\\tss");
+
+    // The file-residue arm (the uncalled-consumer leg): the same face
+    // through the prefix.
+    const fileFace = databaseUrlFileResidueWarning(
+      { NODE_ENV: "production" },
+      "postgresql://app:secret@db.example.com/prod?password=pa\tss",
+      true,
+    );
+    expect(fileFace).toContain("password=***");
+    expect(fileFace).not.toContain("\\tss");
+  });
+
+  it("S71-4a: the empty-delimiter origin never mismatches an identical served face, and the multi-slash origin answers the divergence warning", () => {
+    // Face 1 — the false POSITIVE: an empty ? delimiter vs the
+    // IDENTICAL served origin. The delimiter drops from u.search (the
+    // predicate passed) but survives toString() (the comparison
+    // mismatched) — the live probe warned "NOT what this server
+    // serves" on semantically identical origins.
+    const empty = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "http://example.com?" }),
+      { servedSiteUrl: "http://example.com" },
+    );
+    expect(empty.fatal).toBeNull();
+    const emptySite = (empty.warnings ?? []).filter((w) =>
+      w.includes("NEXT_PUBLIC_SITE_URL"),
+    );
+    expect(emptySite).toHaveLength(0);
+
+    // Face 2 — the false NEGATIVE: the multi-slash origin vs a
+    // DIFFERENT served face. The raw pathname "//" failed the bare
+    // gate while both the shape arms and the normalizer folded the
+    // spelling healthy — the live probe answered ZERO warnings for an
+    // inert diverging value. The divergence arm owns it now.
+    const slashy = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "http://example.com//" }),
+      { servedSiteUrl: "http://other.com" },
+    );
+    expect(slashy.fatal).toBeNull();
+    const slashySite = (slashy.warnings ?? []).filter((w) =>
+      w.includes("NEXT_PUBLIC_SITE_URL"),
+    );
+    expect(slashySite).toHaveLength(1);
+    expect(slashySite[0]).toContain("is NOT what this server serves");
+    expect(slashySite[0]).toContain("http://example.com//");
+    expect(slashySite[0]).toContain("http://other.com");
+  });
+
+  it("S71-5a: the IPv6/127-family loopback origins answer the loopback warning; the healthy origin stays silent", () => {
+    // Face 1 — the IPv6 loopback: the parsed hostname keeps its
+    // brackets, so the exact-match predicate passed it as healthy.
+    const v6 = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "http://[::1]:3000" }));
+    const v6Site = (v6.warnings ?? []).filter((w) =>
+      w.includes("NEXT_PUBLIC_SITE_URL"),
+    );
+    expect(v6Site).toHaveLength(1);
+    expect(v6Site[0]).toContain("[::1]:3000");
+    expect(v6Site[0]).toContain("localhost origin");
+
+    // Face 2 — the 127/8 range: only 127.0.0.1 itself matched.
+    const range = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "http://127.0.0.2:3000" }));
+    const rangeSite = (range.warnings ?? []).filter((w) =>
+      w.includes("NEXT_PUBLIC_SITE_URL"),
+    );
+    expect(rangeSite).toHaveLength(1);
+    expect(rangeSite[0]).toContain("127.0.0.2:3000");
+
+    // Face 3 — the IPv4-mapped loopback (the ::ffff:127.x.x.x family).
+    const mapped = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "http://[::ffff:127.0.0.1]:3000" }));
+    const mappedSite = (mapped.warnings ?? []).filter((w) =>
+      w.includes("NEXT_PUBLIC_SITE_URL"),
+    );
+    expect(mappedSite).toHaveLength(1);
+    expect(mappedSite[0]).toContain("::ffff:127.0.0.1");
+
+    // The control — the healthy public origin with the same one-arg
+    // posture stays silent (no false alarm from the widened grammar).
+    const healthy = bootEnvCheck(env({ NEXT_PUBLIC_SITE_URL: "http://example.com" }));
+    const healthySite = (healthy.warnings ?? []).filter((w) =>
+      w.includes("NEXT_PUBLIC_SITE_URL"),
+    );
+    expect(healthySite).toHaveLength(0);
   });
 });

@@ -7649,3 +7649,73 @@ files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
 
 **Gate at the session-70 ship: lint 0/0 · tsc 0 · unit 788/788 (41
 files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**
+
+## Task 71 (2026-11-16) — session-71: the redaction escape-aware
+containers + the pass reorder + the query control-char run + the
+divergence unification + the loopback grammar + the toast mount
+probe + the manifest-link pin + the info batch
+
+- OPENED on d85257e (session-70's 62c8eeb + the owner's narration
+  commit). Core docs + the session-70 set re-read; the S70 cures
+  verified in source; .env/db contract held (census MATCH; the
+  ambient DATABASE_URL hazard found live again, env -u discipline
+  applied); baseline gate GREEN at the session-70 ship counts
+  (lint 0/0 · tsc 0 · unit 788/788 · build · smoke 16/16 · e2e
+  70/70 · census MATCH); bun audit unchanged (the same 9
+  dev-toolchain advisories); neo-crm UNCHANGED at b3d0fbe.
+- AUDIT (three parallel lanes + the lead's hand-verification):
+  0 Critical / 0 High / 2 Medium / 6 Low / 6 Info. Every
+  load-bearing finding live-probed through the REAL exported
+  warning builders (11/11 probe checks); the URL-getter edge
+  behaviors empirically probed in bun; the libpq escape grammar
+  confirmed against the PostgreSQL docs.
+- CURES (TDD — six pins born RED, seven revert-plant batteries on
+  record): S71-1 the escape-aware + trailing-junk quoted arms in
+  both redaction passes (libpq's \' and \\ escape pairs consumed;
+  the post-close tails masked — over-redact, the S65-1 doctrine);
+  S71-2 the pass reorder (the keyword pass FIRST on the raw value —
+  the scheme-less last-@ prefix-drop can no longer destroy the
+  password= key before the keyword pass fires; the S67-1
+  disjointness re-verified for the new order); S71-3 the query
+  bare-run widening ([^&\s]* → [^&]* — the URI value scan runs to
+  &/end; the registered unencoded-& boundary unchanged); S71-4 the
+  divergence unification (the predicate folds before parsing + the
+  normalizer's post-serialization strip widens to [/?#] — one
+  normalizer, one law; the S69-3 exactly-one-warning law held at
+  both edges); S71-5 the loopback grammar (bracket-strip + ::1 +
+  the mapped family + the 127/8 prefix — the mid-execution catch:
+  the parser NORMALIZES [::ffff:127.0.0.1] to the hex ::ffff:7f00:1
+  form, probe-caught, the ::ffff:7f hex prefix added); S71-6 the
+  toast mount probe (the mount-time :hover useEffect — a card born
+  under a stationary pointer now pauses; the S20-6 claim extended
+  to the mount face); S71-7 the manifest-link e2e arm (the S22-14
+  icon-contract test owns link[rel=manifest] — the layout-field
+  deletion now ships RED); S71-8 the S25-6 duplicate drop (S24-11
+  owns the OG_IMAGE declaration — the exactly-one-pin doctrine);
+  S71-9 the info batch (the hover-unwrap compound-family note, the
+  a11y register's 404-h1 cite, the eslint db/docs ignores, the
+  layout viewport-clause truth, the PAD §11 empty-userinfo
+  register row).
+- PARITY WALK #44 — the forty-fourth consecutive clean walk (both
+  legs at every documented posture; the reference's generator
+  failure face DRIFTED to a red "Generation failed..." banner — a
+  reference-side 402-defect face recorded, not replicated; the
+  clone LIVE with quota 3→2; no Tailwind v4 bug; captures 149/150
+  PIL-verified).
+- LOCKSTEP: UNIT 788 → 794 (+6), SUITES 41 held, E2E/SPECS/SMOKE
+  held, BADGE 858 → 864; the ten provenance sites 1..70 → 1..71
+  (uniform, lag 0); the docs-counts s71 rung; PAD §8.1 + §8.3 +
+  §11 (the empty-userinfo row) + §12 (site.ts 228, globals.css
+  266); README's badge + session-71 row + gate footer; AGENTS's
+  plans-map seventy-first round + the 794/41; CLAUDE's 794/41;
+  SKILL v1.66.0 → v1.67.0; the formal session_71.md; the plan's
+  post-execution record; the local .env's provenance note
+  refreshed.
+- Counts at ship: UNIT 794 / SUITES 41 / E2E 70 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 864; the ten provenance sites at 1..71 (lag 0,
+  uniform); SKILL v1.67.0; captures 149/150 PIL-verified; the full
+  gate green on the final tree; push to main via the SSH wrapper
+  runbook.
+
+**Gate at the session-71 ship: lint 0/0 · tsc 0 · unit 794/794 (41
+files) · build · smoke 16/16 · e2e 70/70 (9 specs) · census MATCH.**

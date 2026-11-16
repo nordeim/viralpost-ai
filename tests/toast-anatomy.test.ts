@@ -174,6 +174,29 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
     expect(src).not.toContain("onBlur={() => setPaused(false)}");
   });
 
+  // Session-71 (S71-6, AUDIT-2 L-1 — code-read): the MOUNT probe. The
+  // pause machinery is entirely transition-event-driven — a card that
+  // MATERIALIZES under a stationary pointer receives no mouseenter
+  // (browsers only fire it on pointer MOVEMENT), so the 4s timer armed
+  // at mount and auto-dismissed the card mid-read with the pause
+  // affordance never engaging (the bottom-right viewport is exactly
+  // where cursors idle; the S70-4 guards bound but did not close this
+  // face). The :hover pseudo-class is live at hit-test time regardless
+  // of event delivery — the mount-time probe is the only writer that
+  // can see the born-under-the-cursor state. The S20-6 claim family
+  // ("an auto-dismiss never fires while focus is inside OR the pointer
+  // rests on the card") extended to the mount face.
+  it("the mount-time hover probe pauses a card born under a stationary pointer (the transition pairs cannot see the mount state)", () => {
+    expect(src).toContain('if (rootRef.current?.matches(":hover")) setPaused(true);');
+    // The probe rides a mount-only effect (empty deps) — it runs once
+    // before any transition event can arrive; a [paused]-keyed effect
+    // would re-probe on every pause cycle (harmless but noisy) and a
+    // probe inside the timer effect would race the arm it guards.
+    expect(src).toMatch(
+      /React\.useEffect\(\(\) => \{\s*if \(rootRef\.current\?\.matches\(":hover"\)\) setPaused\(true\);\s*\}, \[\]\);/,
+    );
+  });
+
   // Session-19 (S19-7): the toast icons are decorative — the S15-4
   // doctrine (empty lucide svgs are ignored by AT today, but the
   // attribute is the latent-double-announcement guard for a future

@@ -58,7 +58,12 @@ const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, {
   // (test-results/, playwright-report/, coverage/ — all .gitignored,
   // none lintable today; the hardening keeps a future HTML-reporter or
   // coverage switch from breaking the 0/0 gate on stale artifacts).
-  ignores: ["node_modules/**", ".next/**", "next-env.d.ts", "test-results/**", "playwright-report/**", "coverage/**", "skills"]
+  // Session-71 (S71-9, AUDIT-3 I-1): db/** + docs/** join (the
+  // next.config.ts excludes symmetry — zero lintable files there today
+  // — db/ is the runtime database's home, docs/ the session-ledger
+  // family; the belt-and-braces posture keeps a future emitted file in
+  // either dir from breaking the 0/0 gate).
+  ignores: ["node_modules/**", ".next/**", "next-env.d.ts", "test-results/**", "playwright-report/**", "coverage/**", "db/**", "docs/**", "skills"]
 }];
 
 export default eslintConfig;

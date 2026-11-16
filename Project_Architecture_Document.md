@@ -568,7 +568,7 @@ single-node (§11).
 
 | Category | Files | Tests | Location | Framework |
 |---|---|---|---|---|
-| Unit | 41 | 788 | `tests/*.test.ts` | Vitest (node env) |
+| Unit | 41 | 794 | `tests/*.test.ts` | Vitest (node env) |
 | E2E | 9 specs | 70 | `tests/e2e/*.spec.ts` (+ `auth.setup.ts`, the setup project's 1) | Playwright (production build) |
 | Smoke | 1 script | 16 legs | `scripts/smoke-test.sh` | bash + curl |
 
@@ -586,7 +586,7 @@ single-node (§11).
 
 No percentage gate; the contract is the gate — every seam has a spec,
 every user-visible surface has an e2e pin, every doc count is lockstep
-(README/AGENTS/PAD/SKILL carry 788/70/16 and change together), and the
+(README/AGENTS/PAD/SKILL carry 794/70/16 and change together), and the
 count constants themselves are pinned to the live suites on disk by the
 reality census (session-12 — constants vs reality, not constants vs
 docs).
@@ -714,6 +714,7 @@ delivery.
 | LOW | The redaction's percent-encoded query-key face — a `%70assword=` key (libpq percent-decodes query keys, so the decoded key IS the password) prints verbatim through the warning family (session-69, S69-1's registered boundary — the print-side bypass live-probed; the libpq decode step is documented behavior) | Under-redaction on an exotic spelling only reachable in a malformation-posture print; requires the operator to percent-encode the key themselves | Accepted + registered (the S67-1 boundary precedent): the literal-spelling match is the chosen posture; named in the S69-1 comment at both passes |
 | LOW | The boot gate's `servedIsHealthy` predicate conflates non-loopback with healthy (session-69, S69-10 — the BootEnvOptions invariant note): a future caller passing a malformed non-loopback served face would suppress the unset/loopback warning with no shape warning of its own | None today — the only live caller passes `siteUrl()`, which returns a bare http(s) origin or the default | Accepted + registered: the caller contract is documented at the `BootEnvOptions.servedSiteUrl` field; assert-parseability there if a second caller ever appears |
 | LOW | The iridescence collapse's sub-frame corner — a change-to-reduce arriving before the first rAF callback finds `seedT` still 0, so the repaint uses the literal t=0 frame, not the S24-6 mount-time seed (session-69, S69-10 — the accepted corner) | One-frame window, no observable face; the alternative (no repaint) would leave the canvas blank until a resize | Accepted + registered: annotated in the S68-3 comment; capture-early is the named lift if the corner ever matters |
+| LOW | The empty-userinfo origin (`http://@example.com`) passes the S70-3 bare-origin conjuncts as a healthy bare origin — the URL parser DROPS empty userinfo, so `u.username`/`u.password` read empty and no credentials ride the value (session-71, AUDIT-1 I-1 — REGISTERED, not cured) | None: parse-invisible, zero credentials carried; the served surfaces and the normalizer treat it as the bare host it parses to | Accepted + registered (the S70-3 conjuncts' documented boundary): a userinfo-emptiness check upstream of the parse is the named lift if the face ever matters |
 Swept at session-2 ship — no open CRITICAL/HIGH items.
 
 ---
@@ -734,9 +735,9 @@ commit as the file.)
 | `src/lib/password.ts` | 69 | scrypt hash/verify + the timing equalizer |
 | `src/lib/rate-limit.ts` | 153 | Fixed-window limiter, proxy-hop-aware client key |
 | `src/lib/db-path.ts` | 458 | THE database path resolver (ADR-008; the S44-1 tail decomposition — the query preserved, the fragment stripped, one helper for all three consumption sites; the cwdFallbackUrl seam, session-45 S45-1; the artifact-only truth + the .env-only-face notes, session-46 S46-2/S46-9; the artifact-deploy truth re-spell + the anchor-order note, session-47 S47-1; the collision-class doc truth + the unclosed-quote cross-line note, session-56 S56-1/S56-3; the spanned-value junk-DB truth re-spell + the refined span model, session-57 S57-1; the boot-warned clause — the residue BOTH loaders leave, session-58 S58-1; the no-silent-face completion — the file-face arm for the unloaded-.env postures, session-59 S59-1; the parseEnvFile extraction to the src/lib/env-file.ts leaf — the boot gate shares the parser without ballooning the instrumentation trace, session-59 S59-1b) |
-| `src/lib/site.ts` | 219 | The metadata factory + canonical origin seam |
+| `src/lib/site.ts` | 228 | The metadata factory + canonical origin seam (the S71-4b normalizer fold — the post-serialization strip widened to the trailing [/?#] family, one law with the boot gate's divergence predicate) |
 | `src/lib/api.ts` | 323 | The envelope + the bounded JSON reader + the shared shape-guard predicate (session-16, S16-1; the one-home extraction, session-29, S29-2; the transient-abort classifier, session-37, S37-2; the seam's own transient arm, session-38, S38-1; the two-code 503 taxonomy note, session-46 S46-7) |
-| `src/app/globals.css` | 259 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1; the dead single-word-rule genus note, session-63 S63-5) |
+| `src/app/globals.css` | 266 | The Tailwind v4 theme (ADR-005; the source-scoped import, session-35 S35-1; the base-layer button cursor rule, session-36 S36-1; the dead single-word-rule genus note, session-63 S63-5; the hover-unwrap compound-family note, session-71 S71-9) |
 | `src/components/marketing/navbar.tsx` | 284 | The nav + the mobile menu (parity-verified) |
 | `src/components/marketing/generator-card.tsx` | 337 | The core surface: quota dots, generate, copy, paywall (the S50-4 copy-epoch guard + the S51-2 unmount-mounted gate, StrictMode re-armed S52-1; the S59-2 double-blank collapse — whitespace-only; the S67-2 fetch-toast mount gate) |
 | `src/components/effects/iridescence.tsx` | 300 | The WebGL hero background (aspect-aware shader; the S68-3 live reduced-motion subscribe — the change listener repaints the static seed) |

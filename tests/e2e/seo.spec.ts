@@ -250,4 +250,15 @@ test("the manifest's icon routes resolve (the file-convention contract)", async 
   const appleLink = page.locator('link[rel="apple-touch-icon"]');
   await expect(appleLink).toHaveCount(1);
   await expect(appleLink).toHaveAttribute("href", /\/apple-icon\.png/);
+  // Session-71 (S71-7a, AUDIT-3 L-1): the manifest DISCOVERY link —
+  // the root layout's `manifest:` field is the sole source of the
+  // served <link rel="manifest">, and NO layer owned it (the unit
+  // pins the manifest body, the endpoint test pins the 200s — a
+  // field deletion shipped green through the whole gate while PWA
+  // discoverability silently degraded; the S29-5/S31-7a rendered-DOM
+  // doctrine's last open head face, same genus as the icon links
+  // above).
+  const manifestLink = page.locator('link[rel="manifest"]');
+  await expect(manifestLink).toHaveCount(1);
+  await expect(manifestLink).toHaveAttribute("href", /\/manifest\.json$/);
 });

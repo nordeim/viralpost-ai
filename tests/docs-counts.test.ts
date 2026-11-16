@@ -468,6 +468,20 @@ import {
 // trim face, the designed coupling; SUITES 40 → 41). The S70-5b
 // comment/ignores cures are +0 by construction (the comment-lag
 // genus). The e2e 70 unchanged. SMOKE 16 unchanged.
+// s71: 794/41 (+6/+0 — the S71-1a escape-aware-container pin ×1 (the
+// quoted-arms revert plant REDs exactly it), the S71-2a pass-reorder
+// pin ×1 (the reorder revert plant REDs exactly it), the S71-3a
+// query control-char pin ×1 (the query-run revert plant REDs exactly
+// it), the S71-4a divergence-unification pin ×1 (the unification
+// revert plant REDs exactly it), the S71-5a loopback-grammar pin ×1
+// (the loopback revert plant REDs exactly it), and the S71-6a toast
+// mount-probe pin ×1 (the mount-probe revert plant REDs exactly it).
+// The S71-7a manifest-link e2e arm rides the EXISTING S22-14 test
+// (+0 unit, +0 e2e count — the manifest-field revert plant REDs
+// exactly the arm); the S71-8b S25-6 duplicate drop is −1 expect, +0
+// its (the exactly-one-pin doctrine); the S71-9b comment/ignores/
+// register cures are +0 by construction (the comment-lag genus). The
+// e2e 70 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -475,7 +489,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 788;
+const UNIT = 794;
 /** Vitest suite files. */
 const SUITES = 41;
 /** Playwright e2e checks (incl. the setup project's 1). */

@@ -33,9 +33,15 @@ const SANCTIONED: Record<string, Array<{ any: string[]; cite: string }>> = {
     {
       // The marketing washes on the dark hero/monetization surfaces (text-slate-400
       // pills, text-slate-300 copy, teal-200/60 subs — the reference's
-      // own palette).
+      // own palette). Session-71 (S71-9, AUDIT-2 INFO-2): the entry's
+      // substring match also silently covers the 404's LIGHT-surface
+      // text-7xl text-slate-300 h1 — a face the citation didn't own.
+      // Now owned here (the S66-2 teal-600 entry's over-broad-direction
+      // note, generalized): the over-breadth is the adjudication
+      // register's accepted direction — the 404 h1 is the reference's
+      // own class on that very surface, class-for-class parity.
       any: ["text-slate-300", "text-slate-400", "text-slate-500", "text-teal-200", "text-teal-100", "text-white/60", "text-white/80", "text-white/90"],
-      cite: "the slate/teal washes on the dark marketing surfaces — the reference's own palette",
+      cite: "the slate/teal washes on the dark marketing surfaces + the 404's light-surface h1 — the reference's own palette",
     },
     {
       // The stats bar's teal-100/70 captions on the teal gradient.

@@ -156,6 +156,26 @@ function ToastCard({ item }: { item: ToastItem }) {
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   const [paused, setPaused] = React.useState(false);
 
+  // Session-71 (S71-6, AUDIT-2 L-1 — code-read): the MOUNT probe. The
+  // pause machinery above is entirely transition-event-driven — a card
+  // that MATERIALIZES under a stationary pointer receives no
+  // mouseenter (browsers only fire it on pointer MOVEMENT), so the 4s
+  // timer armed at mount and auto-dismissed the card mid-read with
+  // the pause affordance never engaging (the bottom-right viewport is
+  // exactly where cursors idle; the S70-4 guards bound but did not
+  // close this face). The :hover pseudo-class is live at hit-test
+  // time regardless of event delivery — the mount-time probe is the
+  // only writer that can see the born-under-the-cursor state. The
+  // S20-6 claim family ("an auto-dismiss never fires while focus is
+  // inside OR the pointer rests on the card") extended to the mount
+  // face: the empty dep array runs once, before any transition event
+  // can arrive; a [paused]-keyed effect would re-probe on every pause
+  // cycle (harmless but noisy) and a probe inside the timer effect
+  // would race the arm it guards.
+  React.useEffect(() => {
+    if (rootRef.current?.matches(":hover")) setPaused(true);
+  }, []);
+
   React.useEffect(() => {
     if (paused) return;
     timer.current = setTimeout(() => dismiss(item.id), 4000);
@@ -205,7 +225,7 @@ function ToastCard({ item }: { item: ToastItem }) {
         // D-124a7, s128/s129/s130, and walk22 below — are DONOR-LEDGER
         // numbers (the NEO-CRM/digma template family's own sessions and
         // findings), never this repo's docs/session_N.md; this repo's
-        // own ledger is docs/session_1..70.md (re-spelled session-38,
+        // own ledger is docs/session_1..71.md (re-spelled session-38,
         // S38-7c, to the census-legible range form — the docs-counts
         // lag invariant now owns this claim).
         // Session-131 (D-131a1): the scaffold-era data-[state] animation

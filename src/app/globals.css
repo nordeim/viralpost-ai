@@ -33,7 +33,14 @@
    fire). The reference's v3-era compiled stylesheet contains ZERO
    (hover: hover) media queries — every hover rule is a BARE :hover
    selector, so its hovers apply on touch exactly like desktop. The
-   override restores the reference's v3 semantics family-wide. */
+   override restores the reference's v3 semantics family-wide.
+   Session-71 (S71-9, AUDIT-2 INFO-1): the unwrap's reach includes the
+   COMPOUND family too — group-hover:/peer-hover: utilities compile as
+   BARE :where(...) descendant selectors under the custom variant (no
+   (hover: hover) wrap for either family; probe- and artifact-verified),
+   so "every hover: utility" understated the restored surface. This
+   note owns the compound family explicitly — a future auditor need
+   not "find" a phantom missing mitigation for group-hover/peer-hover. */
 @custom-variant hover (&:hover);
 
 /* ---------------------------------------------------------------------------

@@ -213,8 +213,33 @@ export function bootEnvCheck(
   // has; two faces, one law.)
   const isLoopbackOrigin = (value: string): boolean => {
     try {
-      const host = new URL(value).hostname.replace(/\.$/, "");
-      return host === "localhost" || host === "127.0.0.1";
+      // Session-71 (S71-5b, AUDIT-1 L-3 — live-probed): the loopback
+      // FAMILY, not the two exact spellings. The parsed hostname keeps
+      // its IPv6 brackets ([::1]), and 127.0.0.2 is as loopback as
+      // 127.0.0.1 (the 127/8 range) — both passed as healthy
+      // production origins while servedIsHealthy counted them
+      // healthy (no unset/loopback warning). The strip order: trailing
+      // dot (the S43-1 FQDN face) then brackets (the IPv6 family),
+      // then the grammar: localhost, 127.0.0.1, ::1, the IPv4-mapped
+      // family, and the 127/8 prefix — the S42-6 parsed-hostname law
+      // extended to the families it missed. The mapped family rides
+      // TWO spellings (probe-verified): the URL parser NORMALIZES the
+      // dotted input [::ffff:127.0.0.1] into its compressed hex form
+      // (::ffff:7f00:1), so the dotted prefix alone never fires — the
+      // ::ffff:7f hex prefix IS the mapped 127/8 range (any hex
+      // continuation of 7f in the first mapped hextet is 127.x.x.x);
+      // the dotted prefix stays for spelling robustness.
+      const host = new URL(value)
+        .hostname.replace(/\.$/, "")
+        .replace(/^\[(.+)\]$/, "$1");
+      return (
+        host === "localhost" ||
+        host === "127.0.0.1" ||
+        host === "::1" ||
+        host.startsWith("::ffff:127.") ||
+        host.startsWith("::ffff:7f") ||
+        /^127\./.test(host)
+      );
     } catch {
       return false;
     }
@@ -278,7 +303,21 @@ export function bootEnvCheck(
   const runtimeIsBareOrigin = (() => {
     if (!siteUrl) return false;
     try {
-      const u = new URL(siteUrl);
+      // Session-71 (S71-4b, AUDIT-1 L-2 — live-probed): the spelling
+      // folds BEFORE parsing — trim + the trailing [/?#] strip, the
+      // same fold the normalizer applies post-serialization (site.ts).
+      // The raw getters disagreed with the comparison on edge
+      // spellings: the empty ? delimiter drops from u.search (the
+      // predicate passed) while toString() kept it (the comparison
+      // mismatched an IDENTICAL served origin — the false positive),
+      // and a // pathname failed this bare gate while both the shape
+      // arms and the normalizer folded the spelling healthy (an
+      // inert diverging value answering ZERO warnings — the false
+      // negative). ONE normalizer, one law: the predicate, the shape
+      // arms, and the comparison now agree on every spelling (the
+      // S69-3 "exactly one warning per bad posture" law, held at
+      // both edges).
+      const u = new URL(siteUrl.trim().replace(/[\/?#]+$/, ""));
       return (
         (u.protocol === "http:" || u.protocol === "https:") &&
         (u.pathname === "/" || u.pathname === "") &&
@@ -765,34 +804,107 @@ function redactCredentials(url: string): string {
   // visible where parseable (the S65-1b visibility doctrine); every
   // pinned S63-2/S64-1/S65-1 shape is byte-identical (none carries a
   // query param or a scheme-less/pre-scheme form).
+  // Session-71 (S71-2b, AUDIT-1 M-2 — live-probed): the KEYWORD pass
+  // now runs FIRST, on the raw value. The old order (scheme/userinfo
+  // arms → query pass → keyword pass LAST) let the scheme-less last-@
+  // mask DESTROY the prefix carrying the password= key before the
+  // keyword pass ever saw it — a password containing @ (no escaping
+  // required inside single quotes; among the most common real-world
+  // spellings) leaked its post-@ tail through every arm
+  // (password='S3cr@tPass!' → DATABASE_URL="***@tPass!'"; the bare
+  // spelling password=p@ss dbname=x → ***@ss dbname=x — the key
+  // visibility destroyed AND the tail leaked), while the keyword pass
+  // that would have masked it never fired on the already-masked
+  // output. Keyword-first closes the genus: the masked region carries
+  // no @, the scheme-less arm below finds nothing to drop, and the
+  // identity/host visibility survives. The S67-1 disjointness
+  // argument re-verified for the new order — a password= key rides
+  // either a ?/& or whitespace, never both (? and & are not
+  // whitespace, so this pass never matches a URI-query password and
+  // the reorder changes nothing for the scheme-full family; the
+  // masked `password=***` output can never match the query pass's
+  // [?&] prefix below — a space is neither).
+  // Session-71 (S71-1b, AUDIT-1 M-1 — live-probed): the quoted arms
+  // are ESCAPE-AWARE with trailing-junk runs. libpq's documented
+  // grammar escapes single quotes and backslashes inside a
+  // single-quoted value with a backslash (\' and \\) — but the
+  // S69-1 container closed at the FIRST same-quote char, so the
+  // sanctioned escape spelling itself printed the post-escaped-quote
+  // tail (password='p\'ass' → password=***ass'), and a leading-"
+  // value printed its post-close tail (password="ab"cdw0rd →
+  // ***cdw0rd). The (?:[^'\\]|\\.)* core consumes escape PAIRS; the
+  // trailing [^\s]* run consumes any post-close material to the
+  // token's end (over-redact, the S65-1 doctrine; a " is not a libpq
+  // container — the DQ arm is the pinned S69-1 over-redaction
+  // posture, widened identically).
+  // Session-67 (S67-1, AUDIT-1 M-1 — live-probed): the KEYWORD-VALUE
+  // libpq form — the space-separated spelling ('host=localhost
+  // user=admin password=…', the habitual psql habit) — carries no
+  // scheme, no @, and no ?/&, so the scheme/userinfo arms below pass
+  // it through and the warning family printed the password verbatim
+  // before this pass existed. REGISTERED boundaries (named, not
+  // cured): the @-less colon-segment face ('postgresql://user:secretpw/
+  // db' — the password sits in URL grammar's port slot; libpq reads
+  // host=user port=secretpw, and masking host:port would destroy the
+  // host-visibility doctrine); the unencoded-& tail (a query value
+  // carrying a raw & prints its post-delimiter tail — libpq parses
+  // only the pre-& run as the password, which IS masked); and the
+  // key-set asymmetry (sslkey/servicefile stay visible while passfile
+  // masks — the chosen trio is the secret-bearing set).
+  // Session-69 (S69-1, AUDIT-1 F1 — live-probed): the SAME quoted-tail
+  // alternation as the query pass — libpq's documented keyword form
+  // uses a single-quoted value as a CONTAINER (password='my secret' is
+  // the sanctioned spelling for values with spaces; Prisma accepts
+  // libpq connection strings), and the bare run ([^\s"']*) stopped at
+  // the opening quote, so the replacement inserted *** and the ENTIRE
+  // quoted tail printed verbatim (the live probe:
+  // password=***'my secret'). REGISTERED with this cure: the
+  // percent-encoded query-key face ('%70assword=' — libpq
+  // percent-decodes query keys, so the decoded key IS the password;
+  // the literal-spelling match is the chosen posture — the
+  // registered-boundary precedent above).
+  // Session-70 (S70-1/S70-2 — live-probed): the SAME widenings as the
+  // query pass, for the same live-probed leaks — the key face takes
+  // libpq's optional whitespace around the equals sign (the spaced
+  // form `password = topsecret` printed verbatim; the live probe hit
+  // every arm this pass rides), and the bare run drops the quote
+  // chars (an interior quote is value material; the leading-container
+  // arms own the opener case).
+  const keywordMasked = url.replace(
+    /(^|\s)((?:password|passfile|sslpassword)\s*=\s*)('(?:[^'\\]|\\.)*'?[^\s]*|"(?:[^"\\]|\\.)*"?[^\s]*|[^\s]*)/gi,
+    "$1$2***",
+  );
   let masked: string;
-  const schemeMatch = /([A-Za-z][A-Za-z0-9+.-]*:\/\/)/.exec(url);
+  const schemeMatch = /([A-Za-z][A-Za-z0-9+.-]*:\/\/)/.exec(keywordMasked);
   if (!schemeMatch) {
     // S66-1 face 2: the scheme-less value — mask to the last @ when
-    // one rides the input (over-redact; the safe direction).
-    const at = url.lastIndexOf("@");
-    masked = at === -1 ? url : "***" + url.slice(at);
+    // one rides the input (over-redact; the safe direction). On a
+    // keyword-masked input this is the S71-2b payoff: the keyword
+    // pass already ate every @ the password carried, so the key
+    // prefix survives when no other @ rides the value.
+    const at = keywordMasked.lastIndexOf("@");
+    masked = at === -1 ? keywordMasked : "***" + keywordMasked.slice(at);
   } else {
     const scheme = schemeMatch[1];
     const afterScheme = schemeMatch.index + scheme.length;
-    const token = /^[^\s"']*/.exec(url.slice(afterScheme))?.[0] ?? "";
+    const token = /^[^\s"']*/.exec(keywordMasked.slice(afterScheme))?.[0] ?? "";
     const tokenAt = token.lastIndexOf("@");
     if (tokenAt !== -1) {
-      masked = url.slice(0, afterScheme) + "***" + token.slice(tokenAt) + url.slice(afterScheme + token.length);
+      masked = keywordMasked.slice(0, afterScheme) + "***" + token.slice(tokenAt) + keywordMasked.slice(afterScheme + token.length);
     } else {
       // The control-char face: the password held whitespace/control
       // bytes, so the token run ends before its @ — mask to the
       // input's LAST @.
-      const restAt = url.lastIndexOf("@");
+      const restAt = keywordMasked.lastIndexOf("@");
       if (restAt > afterScheme) {
-        masked = url.slice(0, afterScheme) + "***" + url.slice(restAt);
+        masked = keywordMasked.slice(0, afterScheme) + "***" + keywordMasked.slice(restAt);
       } else if (restAt !== -1) {
         // S66-1 face 3: the @ rides BEFORE the scheme — mask the WHOLE
         // prefix (slicing from afterScheme would keep the credential
         // in the prefix it skips over).
-        masked = "***" + url.slice(restAt);
+        masked = "***" + keywordMasked.slice(restAt);
       } else {
-        masked = url;
+        masked = keywordMasked;
       }
     }
   }
@@ -820,52 +932,22 @@ function redactCredentials(url: string): string {
   // run printed the post-quote tail (`password=***'cd`). The
   // over-redaction acceptance: an empty spaced password masks the
   // following token — the safe direction (the S65-1 doctrine).
-  const queryMasked = masked.replace(
-    /([?&](?:password|passfile|sslpassword)\s*=\s*)('[^']*'?|"[^"]*"?|[^&\s]*)/gi,
+  // Session-71 (S71-1b/S71-3b, AUDIT-1 M-1/L-1 — live-probed): the
+  // query pass takes the SAME escape-aware quoted arms as the keyword
+  // pass above (the S69-1 containers closed at the first same-quote
+  // char — the sanctioned \' escape spelling (?password='p\'ass')
+  // and the leading-" trailing-junk face (?password="qu"oted123)
+  // printed their tails through this pass too), and the bare run
+  // widens `[^&\s]*` → `[^&]*` — in URI form libpq's value scan runs
+  // to &/end, so an interior control char (or any whitespace) inside
+  // the run is VALUE material (?password=pa<TAB>ss printed
+  // password=***<TAB>ss on the residue arms while the message named
+  // the very char it was printing); the &-stop and the registered
+  // unencoded-& tail boundary are unchanged (libpq genuinely stops
+  // there).
+  return masked.replace(
+    /([?&](?:password|passfile|sslpassword)\s*=\s*)('(?:[^'\\]|\\.)*'?[^&]*|"(?:[^"\\]|\\.)*"?[^&]*|[^&]*)/gi,
     "$1***",
-  );
-  // Session-67 (S67-1, AUDIT-1 M-1 — live-probed): the KEYWORD-VALUE
-  // libpq form — the space-separated spelling ('host=localhost
-  // user=admin password=…', the habitual psql habit) — carries no
-  // scheme, no @, and no ?/&, so every arm above passed it through and
-  // the warning family printed the password verbatim. The pass below
-  // rides every arm's output like the query pass; the (^|\s) prefix
-  // keeps the two passes disjoint (a password= key rides either a ?/&
-  // or whitespace, never both — the already-redacted ?password=***
-  // output can never match here). REGISTERED boundaries (named, not
-  // cured): the @-less colon-segment face ('postgresql://user:secretpw/
-  // db' — the password sits in URL grammar's port slot; libpq reads
-  // host=user port=secretpw, and masking host:port would destroy the
-  // host-visibility doctrine); the unencoded-& tail (a query value
-  // carrying a raw & prints its post-delimiter tail — libpq parses
-  // only the pre-& run as the password, which IS masked); and the
-  // key-set asymmetry (sslkey/servicefile stay visible while passfile
-  // masks — the chosen trio is the secret-bearing set).
-  // Session-69 (S69-1, AUDIT-1 F1 — live-probed): the SAME quoted-tail
-  // alternation as the query pass — libpq's documented keyword form
-  // uses a single-quoted value as a CONTAINER (password='my secret' is
-  // the sanctioned spelling for values with spaces; Prisma accepts
-  // libpq connection strings), and the bare run ([^\s"']*) stopped at
-  // the opening quote, so the replacement inserted *** and the ENTIRE
-  // quoted tail printed verbatim (the live probe:
-  // password=***'my secret'). REGISTERED with this cure: the
-  // percent-encoded query-key face ('%70assword=' — libpq
-  // percent-decodes query keys, so the decoded key IS the password;
-  // the literal-spelling match is the chosen posture — the
-  // registered-boundary precedent above).
-  // Session-70 (S70-1/S70-2 — live-probed): the SAME widenings as the
-  // query pass, for the same live-probed leaks — the key face takes
-  // libpq's optional whitespace around the equals sign (the spaced
-  // form `password = topsecret` printed verbatim; the live probe hit
-  // every arm this pass rides), and the bare run drops the quote
-  // chars (an interior quote is value material; the leading-container
-  // arms own the opener case). The passes stay DISJOINT (a password=
-  // key rides either a ?/& or whitespace, never both — the
-  // already-redacted `?password=***` output can never match here: ?
-  // is not whitespace).
-  return queryMasked.replace(
-    /(^|\s)((?:password|passfile|sslpassword)\s*=\s*)('[^']*'?|"[^"]*"?|[^\s]*)/gi,
-    "$1$2***",
   );
 }
 

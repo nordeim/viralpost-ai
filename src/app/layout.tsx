@@ -6,9 +6,14 @@ import "./globals.css";
 // The document metadata layer — the reference's own head (DOM-verified
 // 2026-11-09): title "ViralPost AI" (bare on / and /login; the
 // "<Page> | ViralPost AI" template elsewhere), the 170-char description,
-// the bare-origin canonical, the OG family, the PWA metas and the
-// viewport. The reference ships no theme-color; we keep Next's default
-// (no value) for parity. The icons ride the src/app/icon.png and
+// the bare-origin canonical, the OG family, and the PWA metas. The
+// reference ships no theme-color; we keep Next's default (no value) for
+// parity. Session-71 (S71-9, AUDIT-3 INFO-2 — the over-claim respell):
+// the viewport export below is byte-identical to Next's BUILT-IN default
+// (width=device-width, initial-scale=1) — unpinned by design, zero
+// drift surface (any pin would pin the default itself; the clause
+// previously listed it among the DOM-verified faces, which overstated).
+// The icons ride the src/app/icon.png and
 // apple-icon.png FILE CONVENTIONS (declaring metadata.icons would REPLACE
 // the file-convention link[rel=icon] — a gate-caught lesson from the
 // template's session-18).
