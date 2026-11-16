@@ -39,8 +39,9 @@ Layer 3  src/components/*       — ui kit (kept), layout (nav/footer/mobile-nav
                                   landing sections, generator card, effects
                                   (particle-text, iridescence, reveal)
 Layer 4  src/app/*              — routes: / (+/Home redirect), /Tool, /Pricing,
-                                  /Contact, /login, /reset-password, 404,
-                                  sitemap/robots/manifest
+                                  /Contact, /login, /signup (the superset
+                                  route the reference 404s), /reset-password,
+                                  404, sitemap/robots/manifest
 ```
 
 Routes and their parity sources live in §3 of the investigation dossier.
@@ -115,6 +116,7 @@ Routes and their parity sources live in §3 of the investigation dossier.
 | Scroll reveals | framer-motion `whileInView` | `Reveal` (IntersectionObserver + CSS) | No new dependency; reduced-motion first | Reasoned |
 | Soft-nav titles | SPA leaves `document.title` stale on client-side navigation (menu-click → /Pricing keeps the landing's bare "ViralPost AI"; per-route titles appear only on full loads — live-verified session 7) | Next.js Metadata API updates the title on every navigation ("Pricing \| ViralPost AI" immediately) | Correct behavior kept as a superset; crawlers do full loads either way | Verified |
 | Platform badge | "Edit with Base44" floating badge | Absent (platform chrome, not app) | Not part of the product | Reasoned |
+| `/signup` route | The reference 404s it (no signup surface on any capture — the login card's "Need an account? Sign up" link answers the 404 body) | Working signup page (the auth funnel's entry point — session-10's documented superset, added session-74 S74-5 to this ledger after the audit found the omission) | The clone's auth funnel is complete and self-hostable | Reasoned |
 
 ## 7. Verification plan (the gate)
 

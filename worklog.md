@@ -7889,3 +7889,71 @@ forced-colors rename + the toast exit arm + the pin batch
 
 **Gate at the session-73 ship: lint 0/0 · tsc 0 · unit 804/804 (41
 files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
+
+## Task 74 (2026-11-16) — session-74: the querypass reorder + the file-strayquote residue face + the siteurl redaction + the touchpause pointer gate and the register batch
+
+- Baseline on the refreshed `15d852d`: the full gate GREEN (lint 0/0 ·
+  tsc 0 · unit 804/804 · build · smoke 16/16 · e2e 71/71), census
+  MATCH, `bun audit` at the same 9 dev-toolchain advisories as
+  sessions 55–73 (none on the runtime path), neo-crm UNCHANGED at
+  `b3d0fbe`.
+- THE AUDIT at 0 Critical / 0 High / 2 Medium / 4 Low / 9 Info
+  (three parallel subagents + the lead's hand-verification through
+  the REAL exported seams — both Mediums live-probed, the
+  stray-quote one incl. a live ENGINE probe on the repo's own
+  @prisma/client: the junk-named 0-byte file accepted, SELECT 1 OK).
+- CURES (TDD, pins born RED first): S74-1 the QUERY-PASS REORDER
+  (keyword → query → scheme — the @-bearing URI-query password's
+  post-@ tail leaked through both file-side printers because the
+  scheme arm consumed the ?password= trigger the LAST-running query
+  pass needed; every pinned shape byte-identical, the dead tail
+  application retired per the one-idiom doctrine); S74-2 the
+  FILE:-SCOPED STRAY-QUOTE ARM in the one-home residue predicate +
+  the stray-quote faces in both warning printers (the mirrored
+  typo `file:../db/custom.db"` — silent junk-DB boot, the S57-1
+  genus; libpq's quoted keyword containers stay clean — the
+  false-positive guard pinned); S74-3 the NEXT_PUBLIC_SITE_URL
+  shape arms routed through `redactCredentials` (the family's one
+  unredacted printer; a basic-auth paste printed the password
+  verbatim); S74-4 the ENTER-SIDE POINTER MODALITY GATE on the
+  toast pause (`onPointerEnter` gated `pointerType === "mouse"` —
+  the touch tap's compat mouseenter used to arm an UNBOUNDED
+  pause, released only at the next tap elsewhere; the mouse path
+  behaviorally identical, the S72-4b e2e leg unchanged); S74-5 the
+  `/signup` Deviations-Ledger row + the §2 route-list entry; S74-6
+  the comment-truth trio (reset-password header, the health-route
+  register mechanism, the module-private redactCredentials
+  wording).
+- THE BATTERY: 4/4 plants RED exactly their pins and restored
+  GREEN (the deterministic Python battery; the pass-disabled plant
+  trips 7 — the new pin plus the S66-1 @-less query fixtures the
+  same revert breaks, the documented co-RED family; each of the
+  other three plants trips exactly its one pin). The battery's own
+  parse bug (bare ESC + CSI sequences around vitest's × marker)
+  was found and fixed before the recorded run — the first two
+  runs reported phantom GREENs (0 failing while planted) until the
+  ANSI strip went in.
+- PARITY WALK #47 — the forty-seventh consecutive clean walk (both
+  legs at every documented posture; the reference's generator DEAD
+  at the 30s probe — the D-1 drifted silent-rest face, no post, no
+  toast; the clone LIVE with the idea-derived #Motivational
+  #Morning hashtag pair; no Tailwind v4 bug in the mobile menu).
+- LOCKSTEP: UNIT 804 → 808 (+4), SUITES 41 held, E2E 71 held (the
+  touch-pause face source-pinned — a behavioral touch e2e leg
+  would need touch-event synthesis the chromium driver does not
+  faithfully provide), E2E_SPECS/SMOKE held, BADGE 875 → 879; the
+  eight straggler provenance sites + the frontmatter set 1..73 →
+  1..74 (uniform, lag 0); the docs-counts s74 rung; PAD §8.1 +
+  §8.3 + the header date; README's badge + table + quickstart +
+  session-74 row + gate footer; AGENTS's plans-map seventy-fourth
+  round + the 808/41; CLAUDE's 808/41; SKILL v1.69.0 → v1.70.0;
+  the formal session_74.md (replacing the owner's narration
+  window); the plan's post-execution record.
+- Counts at ship: UNIT 808 / SUITES 41 / E2E 71 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 879; the provenance sites at 1..74 (lag 0,
+  uniform); SKILL v1.70.0; captures 155/156 PIL-verified; the full
+  gate green on the final tree; push to main via the SSH wrapper
+  runbook.
+
+**Gate at the session-74 ship: lint 0/0 · tsc 0 · unit 808/808 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**

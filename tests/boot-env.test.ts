@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..73.
+// are docs/session_1..74.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -2394,5 +2394,148 @@ describe("session-73 (S73-1/S73-2): the control-char keyword prefix + the residu
     const cSites = src.match(/\\p\{Cc\}/gu) ?? [];
     expect(cSites.length, "the \\p{Cc} residue test lives in exactly one place").toBe(1);
     expect(src).toContain("function dbUrlCarriesResidue(");
+  });
+});
+
+describe("session-74 (S74-1/S74-2/S74-3): the query-pass reorder + the file-stray-quote residue face + the siteUrl redaction", () => {
+  it("S74-1a: a URI-query password carrying a raw @ fully masks on every printer (keyword → query → scheme reorder)", () => {
+    // AUDIT-1 M-1 (session-74, live-probed through the real
+    // printers): the keyword pass's prefix class has no ?/&, and the
+    // scheme arm's token lastIndexOf("@") lands INSIDE the password
+    // (a raw @ is legal in URI query values, RFC 3986), consuming the
+    // ?password= trigger the query pass — running LAST — needed. The
+    // residue printer printed "***@Winter2024!" (the password's
+    // post-@ tail in clear); the inert-value printer printed
+    // "postgresql://***@S3cr3t". The reorder (keyword → query →
+    // scheme) closes the genus: the query output carries no bare @
+    // for the scheme arm to misattribute.
+    //
+    // Face 1 — the file-residue printer (the unclosed-quote residue
+    // shape, the exact typo class the arm exists to print).
+    const residueFace = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      '"postgresql://host/db?password=Hunter2@Winter2024!',
+    );
+    expect(residueFace).toContain("password=***");
+    expect(residueFace).not.toContain("Winter2024");
+
+    // Face 2 — the inert-value printer (the clean-value shape; the
+    // process-env-unset, launch-divergence posture).
+    const inertFace = databaseUrlInertValueWarning(
+      { NODE_ENV: "development" },
+      "postgresql://host/db?password=Sup3r@S3cr3t",
+      false,
+    );
+    expect(inertFace).toContain("password=***");
+    expect(inertFace).not.toContain("S3cr3t");
+
+    // Face 3 — userinfo AND a query password riding the same URL:
+    // both mask, the host stays visible (the S65-1b visibility
+    // doctrine).
+    const both = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      '"postgresql://u:p@host/db?password=a@b',
+    );
+    expect(both).toContain("***@host/db");
+    expect(both).toContain("password=***");
+    expect(both).not.toContain("a@b");
+
+    // Face 4 — the process-env arm (an interior non-whitespace control
+    // char carrying the query password — a trailing tab would be
+    // consumed by the S69-4 trim, so the arm never sees it; the S73-1a
+    // companion face through the report's warning).
+    const proc = bootEnvCheck(
+      env({ DATABASE_URL: "postgresql://host/db?password=ProcQ@Secret9\x01" }),
+    );
+    const procJoined = (proc.warnings ?? []).join("\n");
+    expect(procJoined).toContain("password=***");
+    expect(procJoined).not.toContain("ProcQ");
+    expect(procJoined).not.toContain("Secret9");
+  });
+
+  it("S74-2a: a non-leading quote on a file: value warns with the junk-file mechanism (the mirrored typo's silent wrong-DB boot)", () => {
+    // AUDIT-1 M-2 (session-74, live-probed incl. the engine): the
+    // residue predicate (control char || LEADING quote) missed the
+    // one-keystroke mirrored typo file:../db/custom.db" — the engine
+    // ACCEPTS it (the live probe resolved a junk-named custom.db",
+    // created it 0-byte, SELECT 1 answered OK — a healthy-looking
+    // boot against a table-less DB, ZERO [boot] signal). The widening
+    // is file:-SCOPED (a blanket includes would false-positive
+    // libpq's sanctioned quoted keyword containers).
+    //
+    // Face 1 — the trailing quote through the file-residue printer.
+    const trailing = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      'file:../db/custom.db"',
+    );
+    expect(trailing).toContain("stray quote");
+    expect(trailing).toContain("junk-named file");
+    expect(trailing).toContain('custom.db\\"');
+
+    // Face 2 — the interior quote (the same genus, mid-path).
+    const interior = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      'file:../db/cu"stom.db',
+    );
+    expect(interior).toContain("stray quote");
+
+    // Face 3 — the single-quote variant.
+    const single = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      "file:../db/custom.db'",
+    );
+    expect(single).toContain("stray quote");
+
+    // Face 4 — the process-env arm fires the same face.
+    const proc = bootEnvCheck(
+      env({ DATABASE_URL: 'file:../db/custom.db"' }),
+    );
+    const procJoined = (proc.warnings ?? []).join("\n");
+    expect(procJoined).toContain("DATABASE_URL");
+    expect(procJoined).toContain("stray quote");
+    expect(procJoined).toContain("junk-named file");
+
+    // Face 5 — the inert-value seam routes the face to the residue
+    // seam (the negated form of the one-home predicate), never its
+    // own divergence warning.
+    const inert = databaseUrlInertValueWarning(
+      { NODE_ENV: "development" },
+      'file:../db/custom.db"',
+      false,
+    );
+    expect(inert).toBeNull();
+
+    // Control — libpq's sanctioned quoted keyword containers stay
+    // CLEAN (no control char, no leading quote, NOT file:-prefixed:
+    // the false-positive guard the file:-scoping exists for).
+    const keyword = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      "host=localhost password='my secret' user=admin",
+    );
+    expect(keyword).toBeNull();
+
+    // Control — the healthy contract value stays silent (the
+    // .env.example posture never warns).
+    const healthy = databaseUrlFileResidueWarning(
+      { NODE_ENV: "development" },
+      "file:../db/custom.db",
+    );
+    expect(healthy).toBeNull();
+  });
+
+  it("S74-3a: the NEXT_PUBLIC_SITE_URL shape arms redact credentials (the family's one unredacted printer)", () => {
+    // AUDIT-1 L-1 (session-74, live-probed): the queryCarrying arm
+    // explicitly covers credentials (parsed.username/password), so
+    // http://user:secretpw@host printed the password VERBATIM into
+    // the boot log. The cure: the three shape arms print through
+    // redactCredentials — the shape stays visible, the userinfo
+    // segment never prints (the S63-2 doctrine).
+    const report = bootEnvCheck(
+      env({ NEXT_PUBLIC_SITE_URL: "http://user:secretpw@host" }),
+    );
+    const joined = (report.warnings ?? []).join("\n");
+    expect(joined).toContain("carries a query string");
+    expect(joined).not.toContain("secretpw");
+    expect(joined).toContain("***@host");
   });
 });

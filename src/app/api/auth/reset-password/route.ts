@@ -15,9 +15,13 @@ const INVALID_TOKEN_MESSAGE = "Invalid or expired reset token";
  * POST /api/auth/reset-password — session-163 (the digma S67-A/S76-A/
  * S124-A port): the reset-submit half of the password-reset funnel.
  *
- * The token is validated BEFORE the password (digma's measured ordering —
- * an invalid token + a weak password still answers the TOKEN error). The
- * consumption is ATOMIC and SINGLE-USE (digma's S76-A form): the write is
+ * The token is validated BEFORE the password on its presence/size face
+ * (digma's measured field ordering — a missing/too-short token answers
+ * the TOKEN error first; a well-shaped-but-dead token rides the same
+ * whole-body parse as a weak password, and the PASSWORD window's
+ * min-8 message wins that race — the schemas' first-issue semantics,
+ * session-74 S74-6's truth respell of the old overgeneralized claim).
+ * The consumption is ATOMIC and SINGLE-USE (digma's S76-A form): the write is
  * a conditional updateMany whose WHERE carries the token AND the live
  * expiry, so a racing replay whose read interleaved before this commit
  * lands count 0 (the token is already consumed) and answers the

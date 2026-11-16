@@ -135,7 +135,22 @@ function dbUrlCarriesResidue(value: string): boolean {
   return (
     dbUrlCarriesControlChar(value) ||
     value.startsWith('"') ||
-    value.startsWith("'")
+    value.startsWith("'") ||
+    // Session-75 (S74-2b, AUDIT-1 M-2 — live-probed incl. the engine):
+    // a NON-leading quote on a file:-prefixed value is residue. The
+    // one-keystroke mirrored typo (file:../db/custom.db" — the quote
+    // the operator meant to open the .env line with, landed at the
+    // value's tail) parses clean through every loader, sailed past
+    // the leading-quote arm, and the engine ACCEPTED it: the live
+    // probe resolved it to a junk-named custom.db" under db/, created
+    // it 0-byte, and SELECT 1 answered OK — a healthy-looking boot
+    // against a table-less DB with ZERO [boot] signal (the S57-1
+    // junk-file genus, silent again). The widening is file:-SCOPED by
+    // design: a BLANKET includes-quote arm would false-positive
+    // libpq's sanctioned quoted keyword containers (password='my
+    // secret' host=x is a CLEAN value carrying quotes — the
+    // keyword-form grammar) into the residue seam's routing.
+    (value.startsWith("file:") && (value.includes('"') || value.includes("'")))
   );
 }
 
@@ -201,19 +216,30 @@ export function bootEnvCheck(
     } catch {
       malformed = true;
     }
+    // Session-75 (S74-3b, AUDIT-1 L-1 — live-probed): the three shape
+    // arms print through redactCredentials. The queryCarrying arm
+    // explicitly covers credentials (parsed.username/password — an
+    // operator's basic-auth paste), and the raw interpolation printed
+    // the password VERBATIM into the boot log; the DATABASE_URL
+    // printers have routed through the seam since S63-2 — these arms
+    // were the family's one unredacted printer. The shape stays
+    // visible (the redaction masks only credential-shaped material);
+    // a bare origin carries nothing to mask — byte-identical output
+    // for every healthy-value pin.
+    const shownUrl = redactCredentials(siteUrl);
     if (malformed) {
       warnings.push(
-        `[boot] NEXT_PUBLIC_SITE_URL="${siteUrl}" could not be parsed as an http(s) origin — metadataBase, /robots.txt, /sitemap.xml and the OG/Twitter cards fall back to http://localhost:3000 until it is fixed. Set the canonical origin (e.g. https://viralpost.example.com) BEFORE \`bun run build\` (it is inlined at build time).`,
+        `[boot] NEXT_PUBLIC_SITE_URL="${shownUrl}" could not be parsed as an http(s) origin — metadataBase, /robots.txt, /sitemap.xml and the OG/Twitter cards fall back to http://localhost:3000 until it is fixed. Set the canonical origin (e.g. https://viralpost.example.com) BEFORE \`bun run build\` (it is inlined at build time).`,
       );
     }
     if (pathCarrying) {
       warnings.push(
-        `[boot] NEXT_PUBLIC_SITE_URL="${siteUrl}" carries a path — the value must be the bare ORIGIN. The site seam falls back to http://localhost:3000 until it is fixed in dev (a built artifact keeps serving its build-inlined origin — the S68-4 leg split; the runtime value is inert either way) (S28-1 — a path prefix used to compose inconsistently across metadataBase/canonicals and the twitter:url cards); set e.g. https://viralpost.example.com with no trailing path.`,
+        `[boot] NEXT_PUBLIC_SITE_URL="${shownUrl}" carries a path — the value must be the bare ORIGIN. The site seam falls back to http://localhost:3000 until it is fixed in dev (a built artifact keeps serving its build-inlined origin — the S68-4 leg split; the runtime value is inert either way) (S28-1 — a path prefix used to compose inconsistently across metadataBase/canonicals and the twitter:url cards); set e.g. https://viralpost.example.com with no trailing path.`,
       );
     }
     if (queryCarrying) {
       warnings.push(
-        `[boot] NEXT_PUBLIC_SITE_URL="${siteUrl}" carries a query string (or fragment/credentials) — the value must be the bare ORIGIN. A query rides unescaped into /sitemap.xml's <loc> values (invalid XML) and composes broken og:url/canonical paths; the site seam falls back to http://localhost:3000 until it is fixed.`,
+        `[boot] NEXT_PUBLIC_SITE_URL="${shownUrl}" carries a query string (or fragment/credentials) — the value must be the bare ORIGIN. A query rides unescaped into /sitemap.xml's <loc> values (invalid XML) and composes broken og:url/canonical paths; the site seam falls back to http://localhost:3000 until it is fixed.`,
       );
     }
   }
@@ -467,24 +493,38 @@ export function bootEnvCheck(
     dbUrlCarriesResidue(dbFace)
   ) {
     // Session-60 (S60-1): the attribution splits by trigger face. The
-    // predicate fires on THREE faces — the leading quote (kept by BOTH
+    // predicate fires on FOUR faces — the leading quote (kept by BOTH
     // sanctioned loaders — the session-61 S61-1 probe census), the
     // embedded newline (the S57-1 span genus:
     // an unclosed quote in .env spanning lines IS the usual cause of a
     // newline in the value, so that face KEEPS the unclosed-quote story
-    // and the close-the-quote fix), and every OTHER control character
+    // and the close-the-quote fix), every OTHER control character
     // (a pasted tab or platform artifact on an unquoted line — no
     // quote is involved, so the quote headline and the quote fix were
     // misattributions for this face; the round's probes: the seam
     // re-anchors a tab-bearing file: value into the junk-named file
     // exactly like the newline span, and passes a tab-bearing non-file:
-    // value through raw). The `file:` branch is reachable ONLY by
-    // control-char values (a leading-quote value can never start with
-    // `file:`) — before the split its "unclosed quote" headline was
-    // false for every value that reached it.
+    // value through raw), and — session-74 (S74-2b) — the STRAY QUOTE on
+    // a file:-prefixed value (the mirrored typo file:../db/custom.db":
+    // the engine accepts it and creates the junk-named 0-byte file —
+    // the S57-1 junk-file genus, NOT PrismaClientInitializationError;
+    // the live probe resolved and accepted the trailing-quote spelling
+    // on the repo's own engine). The `file:` branch is reachable by
+    // control-char values and stray-quote values (a leading-quote value
+    // can never start with `file:`) — before the split its "unclosed
+    // quote" headline was false for every value that reached it.
     const quoteFace = dbFace.startsWith('"') || dbFace.startsWith("'");
     const controlFace = dbUrlCarriesControlChar(dbFace);
     const newlineFace = controlFace && (dbFace.includes("\n") || dbFace.includes("\r"));
+    // Session-75 (S74-2b): the stray-quote face — a NON-leading quote
+    // on a file:-prefixed value, no control char riding (a value with
+    // BOTH keeps the control-char story — the older pinned face; the
+    // control char is the primary diagnostic, the quote rides as
+    // secondary residue).
+    const strayQuoteFace =
+      !controlFace &&
+      dbFace.startsWith("file:") &&
+      (dbFace.includes('"') || dbFace.includes("'"));
     // Session-63 (S63-2): the printed value is REDACTED (a credentialed
     // postgres URL never leaks its password to stdout/server.log — the
     // residue shape stays, the userinfo segment goes); the branch
@@ -496,7 +536,9 @@ export function bootEnvCheck(
       dbFace.startsWith("file:")
         ? (newlineFace
             ? `[boot] DATABASE_URL=${shown} carries an unclosed quote residue from .env (a control character rides the value — the session-57 S57-1 loader-span genus) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`
-            : `[boot] DATABASE_URL=${shown} carries a control character from .env (a stray control character rides the value — no quote is involved, the session-60 S60-1 census) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe re-anchored the tab-bearing value exactly like the newline span). Fix the .env: remove the control character from the DATABASE_URL value.`)
+            : strayQuoteFace
+              ? `[boot] DATABASE_URL=${shown} carries a stray quote from .env (the mirrored one-keystroke typo — the quote the operator meant to open the .env line with landed at the value's tail; no control character rides the value, the session-74 census) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-74 live probe on the repo's own engine resolved the trailing-quote spelling into the 0-byte custom.db" and accepted it). Fix the .env: remove the stray quote from the DATABASE_URL value.`
+              : `[boot] DATABASE_URL=${shown} carries a control character from .env (a stray control character rides the value — no quote is involved, the session-60 S60-1 census) — the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe re-anchored the tab-bearing value exactly like the newline span). Fix the .env: remove the control character from the DATABASE_URL value.`)
         : (quoteFace
             ? `[boot] DATABASE_URL=${shown} carries an unclosed quote residue from .env — the value does not start with "file:", so the db-path seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation (no junk file is created; static pages still serve while every DB route fails). Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`
             : `[boot] DATABASE_URL=${shown} carries a control character from .env (a stray control character rides the value — no quote is involved, the session-60 S60-1 census) — the value does not start with "file:", so the db-path seam passes it through raw and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation (no junk file is created; static pages still serve while every DB route fails). Fix the .env: remove the control character from the DATABASE_URL value.`),
@@ -768,6 +810,19 @@ export function databaseUrlFileResidueWarning(
   // file under db/ — the S57-1 genus), so the mechanism splits per
   // branch exactly like the process-env arm's S60-1 split.
   const quoteFace = fileUrl.startsWith('"') || fileUrl.startsWith("'");
+  // Session-75 (S74-2b): the STRAY-QUOTE face — a NON-leading quote on
+  // a file:-prefixed value (the mirrored typo). The mechanism is the
+  // junk-named-file genus (the engine accepts the quoted filename and
+  // creates it 0-byte — the live probe), NOT the leading-quote arm's
+  // PrismaClientInitializationError, so the face needs its own branch
+  // before the file: control-char fall-through. Precedence: a value
+  // carrying BOTH a control char and a stray quote keeps the
+  // control-char story (the older pinned face; the primary diagnostic
+  // is the control char, the quote rides as secondary residue).
+  const strayQuoteFace =
+    !quoteFace &&
+    fileUrl.startsWith("file:") &&
+    (fileUrl.includes('"') || fileUrl.includes("'"));
   // Session-63 (S63-2): the printed value is REDACTED (the userinfo
   // segment of a credentialed URL never prints; the residue shape —
   // the diagnostic — stays); the branch conditions below still test
@@ -794,14 +849,23 @@ export function databaseUrlFileResidueWarning(
   // until a loader consumes this file. The headline + cause clause +
   // fix guidance stay true on both legs.
   if (!runtimeConsumesFile) {
-    const headline = quoteFace ? "an unclosed quote residue" : "a control character";
+    const headline = quoteFace
+      ? "an unclosed quote residue"
+      : strayQuoteFace
+        ? "a stray quote"
+        : "a control character";
     const fix = quoteFace
       ? 'close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db")'
-      : "remove the control character from the DATABASE_URL value";
+      : strayQuoteFace
+        ? "remove the stray quote from the DATABASE_URL value"
+        : "remove the control character from the DATABASE_URL value";
     return `${prefix} carries ${headline} — ${unseen}; this directory is the PWD leg and the db-path seam's runtime reads only the server CWD's .env, so the engine never sees the residue (it resolves the default URL and boots against the real database) — the malformed line is inert until a loader consumes this file. Fix the .env: ${fix}.`;
   }
   if (quoteFace) {
     return `${prefix} carries an unclosed quote residue — ${unseen}; the db-path seam's own .env parse keeps the quote and hands the engine the value raw, and the Prisma engine answers PrismaClientInitializationError at the first DB-touching invocation. Fix the .env: close the quote on the DATABASE_URL line (e.g. DATABASE_URL="file:../db/custom.db").`;
+  }
+  if (strayQuoteFace) {
+    return `${prefix} carries a stray quote — ${unseen}; the db-path seam's own .env parse keeps the quote and the runtime re-anchors the file:-prefixed value into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-74 live probe on the repo's own engine resolved file:../db/custom.db" into the 0-byte custom.db" and accepted it). Fix the .env: remove the stray quote from the DATABASE_URL value.`;
   }
   if (fileUrl.startsWith("file:")) {
     return `${prefix} carries a control character — ${unseen}; the db-path seam's own .env parse keeps the control character (an unquoted line's pasted tab — the session-60 S60-1 census), and, the value being file:-prefixed, the runtime re-anchors it into a junk-named file under db/ that still serves a healthy boot against a table-less empty DB (SELECT 1 answers; the first User query fails P2021 — the session-60 seam probe). Fix the .env: remove the control character from the DATABASE_URL value.`;
@@ -963,40 +1027,6 @@ function redactCredentials(url: string): string {
     /(^|[\s"'\u0000-\u001f\u007f-\u009f])((?:password|passfile|sslpassword)\s*=\s*)('(?:[^'\\]|\\.)*'?[^\s]*|"(?:[^"\\]|\\.)*"?[^\s]*|[^\s]*)/gi,
     "$1$2***",
   );
-  let masked: string;
-  const schemeMatch = /([A-Za-z][A-Za-z0-9+.-]*:\/\/)/.exec(keywordMasked);
-  if (!schemeMatch) {
-    // S66-1 face 2: the scheme-less value — mask to the last @ when
-    // one rides the input (over-redact; the safe direction). On a
-    // keyword-masked input this is the S71-2b payoff: the keyword
-    // pass already ate every @ the password carried, so the key
-    // prefix survives when no other @ rides the value.
-    const at = keywordMasked.lastIndexOf("@");
-    masked = at === -1 ? keywordMasked : "***" + keywordMasked.slice(at);
-  } else {
-    const scheme = schemeMatch[1];
-    const afterScheme = schemeMatch.index + scheme.length;
-    const token = /^[^\s"']*/.exec(keywordMasked.slice(afterScheme))?.[0] ?? "";
-    const tokenAt = token.lastIndexOf("@");
-    if (tokenAt !== -1) {
-      masked = keywordMasked.slice(0, afterScheme) + "***" + token.slice(tokenAt) + keywordMasked.slice(afterScheme + token.length);
-    } else {
-      // The control-char face: the password held whitespace/control
-      // bytes, so the token run ends before its @ — mask to the
-      // input's LAST @.
-      const restAt = keywordMasked.lastIndexOf("@");
-      if (restAt > afterScheme) {
-        masked = keywordMasked.slice(0, afterScheme) + "***" + keywordMasked.slice(restAt);
-      } else if (restAt !== -1) {
-        // S66-1 face 3: the @ rides BEFORE the scheme — mask the WHOLE
-        // prefix (slicing from afterScheme would keep the credential
-        // in the prefix it skips over).
-        masked = "***" + keywordMasked.slice(restAt);
-      } else {
-        masked = keywordMasked;
-      }
-    }
-  }
   // S66-1 face 1: the query-param credentials (password/passfile/
   // sslpassword — the libpq secret-bearing keys; user= is an identity,
   // not a secret). Case-insensitive: over-redact, never under.
@@ -1034,10 +1064,61 @@ function redactCredentials(url: string): string {
   // the very char it was printing); the &-stop and the registered
   // unencoded-& tail boundary are unchanged (libpq genuinely stops
   // there).
-  return masked.replace(
+  // Session-75 (S74-1b, AUDIT-1 M-1 — live-probed through both file-side
+  // printers): the pass moves from LAST to SECOND (keyword → query →
+  // scheme). The old order let the scheme arm's token
+  // lastIndexOf("@") land INSIDE a URI-query password carrying a raw
+  // @ (legal in query values, RFC 3986) — masking only up to that @
+  // and KEEPING the post-@ tail in clear ('?password=Hunter2@Winter2024!'
+  // printed ***@Winter2024!) while consuming the very ?password= trigger
+  // this pass needed, so the pass never fired on the arm's output. The
+  // S71-2b disjointness argument inverts cleanly for the new order: the
+  // keyword output never carries [?&]password= (a space is neither ?
+  // nor &), and the query output never carries a bare @ for the scheme
+  // arm to misattribute — every pinned shape is byte-identical (the
+  // fixture suite is the gate); only the leak shapes change. The tail
+  // return's own copy of this pass is RETIRED (the scheme arm inserts
+  // only ***, never a new [?&]password= shape — a second application
+  // would be dead code, the S48 one-idiom doctrine).
+  const queryMasked = keywordMasked.replace(
     /([?&](?:password|passfile|sslpassword)\s*=\s*)('(?:[^'\\]|\\.)*'?[^&]*|"(?:[^"\\]|\\.)*"?[^&]*|[^&]*)/gi,
     "$1***",
   );
+  let masked: string;
+  const schemeMatch = /([A-Za-z][A-Za-z0-9+.-]*:\/\/)/.exec(queryMasked);
+  if (!schemeMatch) {
+    // S66-1 face 2: the scheme-less value — mask to the last @ when
+    // one rides the input (over-redact; the safe direction). On a
+    // query-masked input this is the S71-2b payoff: the keyword pass
+    // already ate every @ the password carried, so the key
+    // prefix survives when no other @ rides the value.
+    const at = queryMasked.lastIndexOf("@");
+    masked = at === -1 ? queryMasked : "***" + queryMasked.slice(at);
+  } else {
+    const scheme = schemeMatch[1];
+    const afterScheme = schemeMatch.index + scheme.length;
+    const token = /^[^\s"']*/.exec(queryMasked.slice(afterScheme))?.[0] ?? "";
+    const tokenAt = token.lastIndexOf("@");
+    if (tokenAt !== -1) {
+      masked = queryMasked.slice(0, afterScheme) + "***" + token.slice(tokenAt) + queryMasked.slice(afterScheme + token.length);
+    } else {
+      // The control-char face: the password held whitespace/control
+      // bytes, so the token run ends before its @ — mask to the
+      // input's LAST @.
+      const restAt = queryMasked.lastIndexOf("@");
+      if (restAt > afterScheme) {
+        masked = queryMasked.slice(0, afterScheme) + "***" + queryMasked.slice(restAt);
+      } else if (restAt !== -1) {
+        // S66-1 face 3: the @ rides BEFORE the scheme — mask the WHOLE
+        // prefix (slicing from afterScheme would keep the credential
+        // in the prefix it skips over).
+        masked = "***" + queryMasked.slice(restAt);
+      } else {
+        masked = queryMasked;
+      }
+    }
+  }
+  return masked;
 }
 
 // Session-63 (S63-1, AUDIT-1 M1 — live-probed): the inert-VALUE

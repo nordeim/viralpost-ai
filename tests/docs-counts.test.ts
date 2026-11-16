@@ -502,6 +502,13 @@ import {
 // seam-strip pin ×1 (the [/?#] narrow → /\/+/ revert plant REDs exactly it),
 // the S73-6a manifest composition pin ×1 (the hardcoded-origin revert
 // plant REDs exactly it)). The e2e 71 unchanged. SMOKE 16 unchanged.
+// s74: 808/41 (+4/+0 — the S74-1a query-pass reorder pin ×1 (the
+// pass-disabled revert plant REDs exactly it), the S74-2a stray-quote
+// residue pin ×1 (the predicate-narrowing revert plant REDs exactly
+// it), the S74-3a siteUrl redaction pin ×1 (the raw-print revert
+// plant REDs exactly it), the S74-4a touch-pause modality pin ×1
+// (the ungated-spelling revert plant REDs exactly it)). The e2e 71
+// unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -509,7 +516,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 804;
+const UNIT = 808;
 /** Vitest suite files. */
 const SUITES = 41;
 /** Playwright e2e checks (incl. the setup project's 1). */

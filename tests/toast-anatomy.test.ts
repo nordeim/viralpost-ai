@@ -113,8 +113,13 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
     expect(src).toContain("h-4.5 w-4.5 text-primary");
   });
 
-  it("the hover-pause seam (the onMouseEnter/Leave pair — live-proven: holds at 6.5s, dismisses ~4.1s after the unpause)", () => {
-    expect(src).toContain("onMouseEnter={() => setPaused(true)}");
+  it("the hover-pause seam (the guarded unpauser — live-proven: holds at 6.5s, dismisses ~4.1s after the unpause; the enter arm's ownership moved to the S74-4 modality pin session-74)", () => {
+    // Session-75 (S74-4b): the enter arm (onPointerEnter gated
+    // mouse-only — a touch tap's compat mouseenter used to arm the
+    // pause with no release path until the next tap elsewhere) is
+    // owned by the session-74 S74-4 pin — the one-face-one-pin
+    // doctrine (a redundant arm here would trip two pins on one
+    // defect). This pin keeps the leave's guard (the S70-4a face).
     // Session-70 (S70-4a re-anchor): the unpauser carries the
     // focus-containment guard — a keyboard user who focused the card
     // and then sweeps the mouse out must NOT re-arm the timer (the
@@ -409,6 +414,31 @@ describe("session-66 (S66-4): the dismiss click never drops focus to <body> (the
     // first, previous as the fallback).
     expect(code).toMatch(
       /rootRef\.current;[^]*?root\.contains\(document\.activeElement\)[^]*?nextElementSibling[^]*?previousElementSibling[^]*?\.focus\(\);[^]*?dismiss\(item\.id\);/,
+    );
+  });
+});
+
+// Session-75 (S74-4, AUDIT-2 L-1 — the touch-tap sticky-pause cure): a
+// touch tap on a toast fires the compat mouseenter and arms the pause;
+// the release rides mouseleave, which on touch fires only at the NEXT
+// tap elsewhere — the pause was unbounded (the S70-4 comment spelled
+// it "a beat longer"; on touch the window is until-the-next-tap). The
+// cure gates the pause arm on the pointer's modality: the enter
+// handler becomes onPointerEnter guarded pointerType === "mouse" (the
+// mouse path is behaviorally identical — pointerenter fires at the
+// same boundary crossing with the same enter semantics, the S72-4b
+// e2e leg's real-mouse path unchanged; the touch path stops arming the
+// pause, so the 4s auto-dismiss holds). The unpauser keeps its
+// onMouseLeave spelling (a compat leave at the next tap releases an
+// un-armed pause — a harmless no-op; the focus guard stays).
+describe("session-74 (S74-4): the hover-pause arm gates on pointer modality (the touch tap never parks the pause)", () => {
+  it("the enter arm is onPointerEnter gated pointerType === \"mouse\"; the ungated onMouseEnter spelling is gone", () => {
+    expect(src).toContain('onPointerEnter={(e) => {\n        if (e.pointerType === "mouse") setPaused(true);\n      }}');
+    expect(src).not.toContain("onMouseEnter={() => setPaused(true)}");
+    // The unpauser's guard stays (the S70-4a focus-containment pair —
+    // the hover-pause seam pin above owns that face).
+    expect(src).toContain(
+      "onMouseLeave={() => {\n        if (!rootRef.current?.contains(document.activeElement)) setPaused(false);\n      }}",
     );
   });
 });

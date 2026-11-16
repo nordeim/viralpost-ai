@@ -291,7 +291,7 @@ function ToastCard({ item }: { item: ToastItem }) {
         // D-124a7, s128/s129/s130, and walk22 below — are DONOR-LEDGER
         // numbers (the NEO-CRM/digma template family's own sessions and
         // findings), never this repo's docs/session_N.md; this repo's
-        // own ledger is docs/session_1..73.md (re-spelled session-38,
+        // own ledger is docs/session_1..74.md (re-spelled session-38,
         // S38-7c, to the census-legible range form — the docs-counts
         // lag invariant now owns this claim).
         // Session-131 (D-131a1): the scaffold-era data-[state] animation
@@ -310,7 +310,22 @@ function ToastCard({ item }: { item: ToastItem }) {
         item.variant === "error" && "border-rose-200 bg-white",
         item.variant === "info" && "border-line bg-white",
       )}
-      onMouseEnter={() => setPaused(true)}
+      // Session-75 (S74-4b, AUDIT-2 L-1): the ENTER arm is
+      // pointer-typed — onPointerEnter gated mouse-only. A touch TAP
+      // on a toast fires the compat mouseenter (Chromium/iOS tap
+      // synthesis), arming the pause with NO release on that path:
+      // the emulated hover parks until the NEXT tap elsewhere, so the
+      // pause was unbounded — the S70-4 comment below spelled it "a
+      // beat longer", understating the touch face. The gate stops the
+      // touch path from arming the pause at all (the 4s auto-dismiss
+      // holds); the mouse path is behaviorally identical under the
+      // swap (pointerenter fires at the same boundary crossing with
+      // the same enter semantics, pointerType "mouse" — the S72-4b
+      // e2e leg's real-mouse path unchanged). Pen joins touch on the
+      // gated-out side (the S73-4 exit-arm's modality family).
+      onPointerEnter={(e) => {
+        if (e.pointerType === "mouse") setPaused(true);
+      }}
       // Session-70 (S70-4, AUDIT-2 L-1 — code-read): the unpausers
       // carry the mixed-modality guards — pause = focus inside OR
       // pointer over, mechanically. The old unconditional
@@ -319,7 +334,11 @@ function ToastCard({ item }: { item: ToastItem }) {
       // auto-dismiss never fires while focus is inside" was false on
       // this path — the timer unmounted the focused card and focus
       // fell to <body>, the WCAG 2.4.3 genus the S66-4 arm cured for
-      // the click path); the guard defers to the focus pair.
+      // the click path); the guard defers to the focus pair. The
+      // spelling stays onMouseLeave: a compat leave at the next tap
+      // releases an un-armed pause — a harmless no-op on touch since
+      // S74-4b (the enter never fired), and the real unpauser for
+      // the mouse path.
       onMouseLeave={() => {
         if (!rootRef.current?.contains(document.activeElement)) setPaused(false);
       }}
@@ -331,9 +350,9 @@ function ToastCard({ item }: { item: ToastItem }) {
       // Session-70 (S70-4): the MIRROR face — focus leaving while the
       // pointer still hovers must not re-arm the timer either (the
       // hover-hold contract); the :hover check is the pointer
-      // containment test. The sticky touch-hover residual is accepted
-      // (the failure direction is "the card stays a beat longer" —
-      // the safe direction, the S65-1 over-redaction doctrine).
+      // containment test. The sticky touch-hover residual is retired
+      // by S74-4b's enter-side modality gate (the accepted-residual
+      // doctrine this comment carried now belongs to no live path).
       onBlur={() => {
         if (!rootRef.current?.matches(":hover")) setPaused(false);
       }}
