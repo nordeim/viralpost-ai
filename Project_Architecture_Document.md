@@ -3,7 +3,7 @@
 **Classification:** Internal Engineering Reference
 **Status:** DEFINITIVE, PRODUCTION-LOCKED BLUEPRINT
 **Companion Document:** `README.md` (onboarding), `AGENTS.md` (operator quick-reference), `CLAUDE.md` (agent contract), `viralpost-ai_SKILL.md` (distilled memory)
-**Last Updated:** 2026-11-16 (session-78 ship — the S78-1 date re-anchor)
+**Last Updated:** 2026-11-17 (session-79 ship — the S79-3 date re-anchor)
 **Audience:** Senior Engineers, Tech Leads, DevOps, and Onboarding Engineers
 **Rule:** Every architectural decision in this document traces to a specific rationale.
 Nothing is here "because it's popular."
@@ -51,7 +51,7 @@ the gate). git history carries the CRM lineage.
 
 | Layer | Technology | Version | Key Rationale |
 |---|---|---|---|
-| Web framework | Next.js (App Router) | 16.4.2 | The template's standing stack; SSR metadata + route handlers is the SEO/robustness superset over the reference's SPA |
+| Web framework | Next.js (App Router) | 16.4.6 | The template's standing stack; SSR metadata + route handlers is the SEO/robustness superset over the reference's SPA. 16.4.6 since session-79 (the S79-1 GHSA-mfr8-8qww-v76h patch bump; 16.4.2 at sessions 1–78) |
 | UI runtime | React | 19.3.1 | Ships with Next 16; client islands only where interactivity demands |
 | Language | TypeScript | 5.9.3 (strict) | The build is the type gate (`ignoreBuildErrors` never set) |
 | Styling | Tailwind CSS | 4.3.3 (CSS-first) | The reference is Tailwind-classed; the template's v4 doctrine (literal hex `@theme`, `@custom-variant hover`) is carried and test-pinned |

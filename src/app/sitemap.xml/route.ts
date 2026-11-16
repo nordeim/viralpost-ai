@@ -3,9 +3,12 @@ import { siteUrl } from "@/lib/site";
 // /sitemap.xml — the reference's exact format (live re-verified at
 // session 8, 2026-11-09: LF-only, no trailing newline after </urlset>,
 // 4-space URL indent, changefreq weekly on every entry, priority
-// "1.0" for the landing and "0.8" for the rest, the same four routes —
-// the reference lists them /, /Contact, /Pricing, /Tool; ours keeps the
-// nav order, a semantically null difference since priorities are
+// "1.0" for the landing and "0.8" for the rest, the same four routes.
+// Session-79 (S79-2, AUDIT-2 L-1 — comment truth): the session-8 note
+// recorded the reference listing them /, /Contact, /Pricing, /Tool
+// against our nav order; the LIVE reference now lists them /, /Tool,
+// /Pricing, /Contact (walk #52's fetch, 2026-11-17) — the SAME order as
+// ours, a semantically null difference either way since priorities are
 // explicit). Served through an explicit route handler because Next's
 // sitemap.ts serializer DROPS the number formatting ("1.0" serializes
 // as "1").

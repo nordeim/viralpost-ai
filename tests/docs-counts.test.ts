@@ -550,6 +550,16 @@ import {
 // selector bug and re-probed LIVE — 56 words, 6 hashtags — no phantom
 // finding recorded; parity walk #51 clean on both legs — the
 // fifty-first consecutive). The e2e 71 unchanged. SMOKE 16 unchanged.
+// s79: 813/41 (HELD — the round shipped ONE dependency cure + one
+// comment cure, both +0 new its by construction: the S79-1 next patch
+// bump 16.4.2 → 16.4.6 closing the GHSA-mfr8-8qww-v76h runtime
+// advisory on the direct dependency (latent — zero usage of the
+// unstable_cache/'use cache' family in this tree; the audit census
+// 10 → 9, back to the all-dev-toolchain family), the full gate
+// re-run GREEN on the bumped runtime; the S79-2 sitemap-comment
+// truth re-anchor (the reference's URL order drifted to the nav
+// order — comment-only); parity walk #52 clean on both legs — the
+// fifty-second consecutive). The e2e 71 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 

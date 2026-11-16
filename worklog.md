@@ -8257,3 +8257,97 @@ files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
 
 **Gate at the session-78 ship: lint 0/0 · tsc 0 · unit 813/813 (41
 files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
+## Task 79 (2026-11-17) — session-79: the next patch bump + the sitemap comment truth + parity walk #52
+
+- FRESH CLONE after the sandbox reset; the baseline gate re-verified
+  GREEN on the refreshed tree: lint 0/0 · tsc 0 · unit 813/813 (41
+  files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH —
+  lag 0 (the one-time chromium reinstall via the repo-local
+  ./node_modules/.bin/playwright install chromium; neo-crm UNCHANGED
+  at b3d0fbe — recorded decisions stand).
+- THE STANDING ASKS each Verified: the .env
+  DATABASE_URL="file:../db/custom.db" contract held (db/ at the repo
+  root, push + seed + census MATCH 1 user / 0 contact messages; the
+  ambient-shell DATABASE_URL pollution neutralized with env -u); the
+  vitest + playwright suites verified current and wired; the sitemap
+  (4 URLs, weekly, 1.0/0.8/0.8/0.8) + robots byte-body + manifest +
+  the three security headers on the SEO family verified live in walk
+  #52 (the sitemap route's format contract re-read at its source); the
+  skills/ exclusion verified at every gate (tsconfig/eslint/vitest +
+  the smoke artifact-hygiene leg); the .env.example verified matching
+  the codebase (all six knobs); the mobile navigation + Tailwind v4
+  battery clean on both legs with the compiled sheet independently
+  re-verified (zero (hover: hover) wraps, the button-cursor base
+  rule, the md boundary at min-width:48rem — no Tailwind v4 bug in
+  the mobile menu).
+- THE AUDIT at 0 Critical / 0 High / 1 Medium / 1 Low / the standing
+  Info postures re-confirmed (direct lead reads, the session-76/77/78
+  precedent: the session-78 commit 0bab7eb diffed in full — the ten
+  provenance re-anchors + the docs-counts s78 rung, pure comment-only
+  lockstep, no functional changes; navbar.tsx IN FULL (the aria
+  superset, the S26-1 hidden mechanics, the S26-3 scrolled key, the
+  S31-2 history arm, the S45-3/S45-4 censused-parity postures);
+  toast.tsx IN FULL (the S72-4 tracker + mount probe, the S73-4 exit
+  arm, the S74-4b pointer-typed enter, the S70-4 mixed-modality, the
+  S75-5 compound guard, the S76-1 rect hoist); the hazard sweep clean;
+  the config layer verified; the compiled sheet's TW4 cures
+  re-verified).
+- AUDIT-1 M-1 (the standing bun-audit duty caught it): next@16.4.2 —
+  the direct runtime dependency — sat inside the GHSA-mfr8-8qww-v76h
+  vulnerable range (>=16.3.0 <=16.4.4, information disclosure across
+  root params when a 'use cache' function is called through
+  unstable_cache()); ZERO usage of the vulnerable API family in this
+  tree (a LATENT exposure, not on the live request path); the audit
+  census had moved 9 → 10 (3H/6M/1L), the next advisory the ONLY
+  runtime-path-class item. CURED (S79-1): bun update next → 16.4.6
+  (within the ^16.4.2 range, lockfile-pinned; re-aligning next with
+  eslint-config-next@^16.4.6 already in devDependencies; the audit
+  census back to the documented 9-advisory all-dev-toolchain family
+  (3H/5M/1L); the FULL gate re-run GREEN on the bumped runtime; the
+  PAD §1.2 + SKILL §2 version cites re-anchored in the same commit —
+  the frozen historical records (README's session-61 row, SKILL
+  Appendix-A's session-61 row, the two @next/env probe comments in
+  tests) keep their 16.4.2 cites: history, not live claims).
+- AUDIT-2 L-1 (comment truth): the sitemap route comment's claim
+  "the reference lists them /, /Contact, /Pricing, /Tool" had DRIFTED
+  — the LIVE reference (walk #52's fetch) lists /, /Tool, /Pricing,
+  /Contact, the SAME order as ours (the difference was always
+  semantically null — priorities are explicit); CURED comment-only
+  (S79-2), the session-79 attribution riding the re-spell.
+- PARITY WALK #52 — the fifty-second consecutive clean walk (both
+  legs at every documented posture: REF — the hamburger md:hidden p-2
+  text-slate-300 with no aria family, the panel at the byte-equal
+  265px with the dead /98 token computing transparent, Escape R-OPEN,
+  the outside-tap on real page content R-OPEN, the route-change
+  R-unmount, the desktop gradient census (the navbar amber-400→500
+  rgb(251,191,36)→rgb(245,158,11), the pricing Get Unlimited Access
+  teal-400→amber-400 rgb(45,212,191)→rgb(251,191,36), the plan CTA
+  teal-500→600 rgb(20,184,166)→rgb(13,148,136)), sitemap 4 URLs
+  weekly 1.0/0.8/0.8/0.8 + robots byte-body, the generator DEAD at
+  the 30s probe (the D-1 silent-rest face); CLONE (the production
+  standalone build on :3200, ONE single script — boot + drive browser
+  + teardown; the sandbox's background-server reaping re-confirmed) —
+  login lands on / (the /Home 308 pair), the hamburger byte-match +
+  the aria superset + the focus-visible family, the panel byte-equal
+  at 265px with the same 5 links + the $19 pill, the Escape
+  close-with-focus-return (focusOnToggle true), the outside-tap
+  both-open, the route-change hidden-in-DOM, the CTA gradient
+  byte-identical (the inline-style hue-crossing form), the
+  same-family gradients' oklab spellings, the generator LIVE
+  (postPresent=true, 63 words, 7 hashtags at the 8s probe after the
+  client-quota reset, the counter incremented); no Tailwind v4 bug in
+  the mobile menu. Screenshots 165/166 captured and PIL-verified
+  (390×844 @ 82.7% non-white; 1440×900 @ 100.0%).
+- LOCKSTEP: UNIT/SUITES/E2E/E2E_SPECS/SMOKE/BADGE all HELD (813/41 +
+  71/9 + 16 + 884 — the dependency-cure + comment-cure form, +0 new
+  its by construction); the ten provenance sites set 1..78 → 1..79
+  uniform (lag 0); the docs-counts s79 rung; the PAD header date
+  (S79-3) + the §1.2 stack-table version cite (S79-1); README's
+  session-79 row + gate footer; AGENTS's plans-map seventy-ninth
+  round; SKILL v1.74.0 → v1.75.0 + the §2 stack version cite + the
+  Appendix-A session-79 row + the Appendix-B re-cert through 79; the
+  formal session_79.md (replacing the owner's narration window); the
+  plan's post-execution record.
+
+**Gate at the session-79 ship: lint 0/0 · tsc 0 · unit 813/813 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
