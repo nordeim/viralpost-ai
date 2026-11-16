@@ -63,9 +63,9 @@ export const LOGIN_LAYOUT = {
   // re-spell landed between `input:` and `submit:` and read as the
   // submit button's docblock.
   input:
-    "h-11 w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-10 pr-3 placeholder:text-slate-600 focus:border-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-600 focus:ring-offset-2 text-base md:text-sm sm:h-12",
+    "h-11 w-full rounded-xl border border-slate-200 bg-slate-50/50 pl-10 pr-3 placeholder:text-slate-600 focus:border-slate-400 focus:outline-hidden focus:ring-2 focus:ring-slate-600 focus:ring-offset-2 text-base md:text-sm sm:h-12",
   submit:
-    "flex h-11 w-full items-center justify-center gap-1 rounded-xl bg-slate-900 font-medium text-white shadow-sm transition-all duration-200 hover:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-sm sm:h-12",
+    "flex h-11 w-full items-center justify-center gap-1 rounded-xl bg-slate-900 font-medium text-white shadow-sm transition-all duration-200 hover:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 text-sm sm:h-12",
   footer: "flex flex-col items-center justify-between gap-2 sm:flex-row sm:gap-0",
   footerLink: "text-sm text-slate-500 transition-colors hover:text-slate-700",
   footerLinkStrong: "font-medium text-slate-700",
@@ -87,7 +87,7 @@ export const NOT_FOUND_LAYOUT = {
   pathSpan: "font-medium text-slate-700",
   buttonGroup: "pt-6",
   homeButton:
-    "inline-flex items-center px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 hover:border-slate-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500",
+    "inline-flex items-center px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 hover:border-slate-300 transition-colors duration-200 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-slate-500",
   homeIcon: "w-4 h-4 mr-2",
   homeHref: "/",
 } as const;

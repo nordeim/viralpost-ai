@@ -223,4 +223,25 @@ describe("siteUrl", () => {
     expect(siteUrl("https://example.com")).toBe("https://example.com");
     expect(siteUrl("http://127.0.0.1:3000")).toBe("http://127.0.0.1:3000");
   });
+
+  // Session-73 (S73-5a, AUDIT-3 L-1): the seam-side strip's own pin.
+  // The S71-4b post-serialization strip (`/[\/?#]+$/`) is the ONLY line
+  // of defense for the empty-delimiter spellings — `new URL` folds a
+  // lone `?`/`#` into a present-but-empty query/hash that the S25-4
+  // guards (falsy getters) never see, and toString() re-emits it as
+  // a trailing `/?` / `/#`. The seam composes those to the bare origin
+  // (the getters' own report); the shipped pins exercised only the
+  // trailing-slash face and the BOOT gate's injected-mirror face — a
+  // widening revert of this strip shipped green through the whole gate
+  // while an empty-delimiter NEXT_PUBLIC_SITE_URL composed garbage
+  // canonicals. This pin owns the seam face.
+  it("S73-5a: an empty query/hash delimiter folds to the bare origin (the seam-side [/?#] strip)", () => {
+    expect(siteUrl("https://example.com?")).toBe("https://example.com");
+    expect(siteUrl("https://example.com#")).toBe("https://example.com");
+    // The boundary: a DELIMITER-carrying value with a real slash run
+    // is path-carrying (pathname "///" ≠ "/") — the S28-1 fallback
+    // face, NOT the strip face (the strip's slash arm is reachable
+    // only through toString()'s own "/" serialization).
+    expect(siteUrl("https://example.com///?")).toBe("http://localhost:3000");
+  });
 });

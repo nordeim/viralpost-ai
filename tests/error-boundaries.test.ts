@@ -27,7 +27,7 @@
 // RED at birth (the files do not exist yet); GREEN when WP-4/WP-5 land.
 // Lineage note (session-21, S21-12): the scandihaven/s169 citations
 // are donor-ledger numbers (the template family's repos); this repo's
-// own sessions are docs/session_1..72.
+// own sessions are docs/session_1..73.
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -210,9 +210,9 @@ describe("session-22 (S22-10): the error boundaries hold the AA floor on their o
     expect(code).toContain('<h1 className="text-4xl font-light text-slate-500">');
     expect(src).not.toContain("text-slate-300");
     expect(code).toMatch(
-      /focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/,
+      /focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/,
     );
-    expect(src).not.toMatch(/[^-]focus:outline-none/);
+    expect(src).not.toMatch(/[^-]focus(-visible)?:outline-none/);
   });
 
   it("src/app/global-error.tsx: the h1 holds large-text AA + the button is keyboard-only focus ring", () => {
@@ -221,9 +221,9 @@ describe("session-22 (S22-10): the error boundaries hold the AA floor on their o
     expect(code).toContain('<h1 className="text-4xl font-light text-slate-500">');
     expect(src).not.toContain("text-slate-300");
     expect(code).toMatch(
-      /focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/,
+      /focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/,
     );
-    expect(src).not.toMatch(/[^-]focus:outline-none/);
+    expect(src).not.toMatch(/[^-]focus(-visible)?:outline-none/);
   });
 });
 

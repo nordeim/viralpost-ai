@@ -146,12 +146,31 @@ function Toaster() {
   // Session-72 (S72-4): the tracker's single writer — armed here, at
   // the root-mounted viewport's mount, cleaned up at its unmount
   // (the page-lifetime pairing; one listener, never per card).
+  // Session-73 (S73-4, AUDIT-2 L-1): the pairing gains the EXIT arm —
+  // the tracker is never parked at a position the pointer has left.
+  // A mouse exiting the window parks the S72-4 tracker at its exit
+  // coordinates (desktop toasts mount at the bottom-right corner —
+  // the most common exit path), and a card mounting over that stale
+  // position while the pointer is out-of-window probes "inside" →
+  // paused with no un-pause path (no mouseenter/mouseleave pair on
+  // the inserted card fires while the pointer is outside; the
+  // engine never marks it hovered). The exit arm: pointerout fires
+  // over every element boundary, so relatedTarget === null is the
+  // spec's window-exit discriminator (an interior hop carries the
+  // next target); the same mouse-modality gate as the move arm.
   React.useEffect(() => {
     const track = (e: PointerEvent) => {
       if (e.pointerType === "mouse") lastMousePos = { x: e.clientX, y: e.clientY };
     };
+    const exit = (e: PointerEvent) => {
+      if (e.pointerType === "mouse" && e.relatedTarget === null) lastMousePos = null;
+    };
     window.addEventListener("pointermove", track, { passive: true });
-    return () => window.removeEventListener("pointermove", track);
+    window.addEventListener("pointerout", exit, { passive: true });
+    return () => {
+      window.removeEventListener("pointermove", track);
+      window.removeEventListener("pointerout", exit);
+    };
   }, []);
   return (
     <div
@@ -272,7 +291,7 @@ function ToastCard({ item }: { item: ToastItem }) {
         // D-124a7, s128/s129/s130, and walk22 below — are DONOR-LEDGER
         // numbers (the NEO-CRM/digma template family's own sessions and
         // findings), never this repo's docs/session_N.md; this repo's
-        // own ledger is docs/session_1..72.md (re-spelled session-38,
+        // own ledger is docs/session_1..73.md (re-spelled session-38,
         // S38-7c, to the census-legible range form — the docs-counts
         // lag invariant now owns this claim).
         // Session-131 (D-131a1): the scaffold-era data-[state] animation
@@ -344,7 +363,7 @@ function ToastCard({ item }: { item: ToastItem }) {
         // its resting state. (S28-4: spell the retired form only in
         // prose-safe words — the raw-text step-less census would read
         // the class-shaped spelling as a live consumer demand.)
-        className="shrink-0 rounded-md p-1 text-muted transition-colors hover:bg-line-soft hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="shrink-0 rounded-md p-1 text-muted transition-colors hover:bg-line-soft hover:text-neutral-900 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
         aria-label="Dismiss notification"
       >
         <X className="h-3.5 w-3.5" aria-hidden="true" />

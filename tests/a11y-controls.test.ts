@@ -4,7 +4,7 @@
 // accessible-name form (the e2e axe battery is the runtime proof; this is
 // the source-level regression net).
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -299,7 +299,7 @@ describe("named-control source pins (the open surfaces)", () => {
   // S25-3 family form — one genus, one pin, one RED per mutation).
   // Mutation battery: drop the arm from either button → this pin REDs.
   it("session-27 (S27-1): the core submit buttons carry the house keyboard focus ring (teal-600 — the S21-20 family, the sibling controls' own)", () => {
-    const FAMILY = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600";
+    const FAMILY = "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-teal-600";
     const gen = read("src/components/marketing/generator-card.tsx");
     const contact = read("src/components/marketing/contact-form.tsx");
     // The Generate Post button's class string carries the family.
@@ -412,7 +412,7 @@ describe("named-control source pins (the open surfaces)", () => {
     // the visual-parity walk is untouched.
     const src = read("src/components/marketing/navbar.tsx");
     expect(src).toContain(
-      'className="md:hidden p-2 text-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"',
+      'className="md:hidden p-2 text-slate-300 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-slate-300"',
     );
   });
 });
@@ -442,5 +442,62 @@ describe("session-22 (S22-11): the skip-to-content link (WCAG 2.4.1 bypass block
   it("session-23 (S23-3): the skip-link target is programmatically focusable (tabIndex={-1} on the main)", () => {
     const src = read("src/app/(site)/layout.tsx");
     expect(src).toContain('<main id="main-content" tabIndex={-1}>');
+  });
+});
+
+describe("session-73 (S73-3): the outline-hidden forced-colors family (the Tailwind v4 rename)", () => {
+  // AUDIT-2 M-1 (verified on the compiled artifact + the tailwindcss
+  // 4.3.3 lib definition): every focus indicator paired
+  // `focus(-visible):outline-none` with a ring — but a ring is a
+  // BOX-SHADOW, and under forced-colors (Windows High Contrast)
+  // box-shadows are suppressed while the v4 `outline-none` sets
+  // outline-style:none outright. Keyboard users in that mode got NO
+  // visible focus indicator on every primary control (18 focus-paired
+  // sites across 9 files). In v4, v3's outline-none semantics — a 2px
+  // solid transparent outline that STILL renders under forced-colors —
+  // was renamed `outline-hidden`; the rename restores exactly what the
+  // reference's v3-era build emitted (zero visual delta in normal
+  // rendering: outline-style is none either way). The ToastCard root's
+  // BARE resting `outline-none` is exempt by design — it is not a
+  // focus indicator (no ring follows it) and renaming it would add a
+  // pointless forced-colors outline to a non-interactive container.
+  it("S73-3a: the focus-paired outline-none spellings are retired file-wide; the outline-hidden family rides the sample carriers; the ToastCard root's bare outline-none stays", () => {
+    // The retire census over EVERY src file (recursive — the
+    // client-envelope S39-5 walker idiom): any focus-paired
+    // `outline-none` is a forced-colors-blind focus indicator.
+    const offenders: string[] = [];
+    const files = readdirSync(join(root, "src"), { recursive: true })
+      .map(String)
+      .filter((f) => f.endsWith(".ts") || f.endsWith(".tsx"))
+      .sort();
+    for (const f of files) {
+      const src = readFileSync(join(root, "src", f), "utf8");
+      if (src.includes("focus:outline-none")) offenders.push(`${f}: focus:outline-none`);
+      if (src.includes("focus-visible:outline-none")) offenders.push(`${f}: focus-visible:outline-none`);
+    }
+    // The offenders list names every retired-carrier straggler (the
+    // battery's planted revert — one spelling narrowed back — lands
+    // here by name).
+    expect(offenders).toEqual([]);
+
+    // The family present at the census's sample carriers (one per
+    // file family — the exact class strings the four updated pin
+    // suites below already pin at their own sites):
+    expect(read("src/lib/login-reset.ts")).toContain(
+      "focus-visible:outline-hidden focus-visible:ring-2",
+    );
+    expect(read("src/lib/page-layout.ts")).toContain(
+      "focus:outline-hidden focus:ring-2",
+    );
+    expect(read("src/components/marketing/navbar.tsx")).toContain(
+      "focus-visible:outline-hidden focus-visible:ring-2",
+    );
+
+    // The exempt face: the ToastCard root's BARE resting outline-none
+    // stays outline-none (renaming it would add a forced-colors
+    // outline to a non-interactive container — the plan's KEPT call).
+    expect(read("src/components/ui/toast.tsx")).toContain(
+      "shadow-lg outline-none",
+    );
   });
 });

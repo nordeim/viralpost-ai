@@ -37,7 +37,7 @@
 // Lineage note (session-21, S21-12): the session numbers in this suite
 // (Session-170/WP-3, s169…) cite the NEO-CRM/digma donor ledgers — the
 // template repos these seams were ported from. This repo's own sessions
-// are docs/session_1..72.
+// are docs/session_1..73.
 
 import { existsSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -2315,5 +2315,84 @@ describe("session-72 (S72-1/2/3): the quote-residue keyword prefix + the diverge
       expect(siteWarnings).toHaveLength(1);
       expect(siteWarnings[0]).toContain("localhost origin");
     }
+  });
+});
+
+// Session-73 (S73-1/S73-2): the control-char keyword prefix + the
+// residue-predicate one-home.
+describe("session-73 (S73-1/S73-2): the control-char keyword prefix + the residue-predicate one-home", () => {
+  it("S73-1a: a keyword behind a non-\\s control character never prints its secret — both residue arms; the \\t control unchanged", () => {
+    // Face 1 — the process-env arm, \\x01 before the key: every Cc
+    // char that JS \\s does NOT match (\\x00-\\x08, \\x0e-\\x1f, \\x7f,
+    // C1 \\x80-\\x9f) defeated the keyword pass's (^|[\\s"']) prefix,
+    // so the password printed VERBATIM through the report's warning
+    // (the live probe carried Secret123 in clear — stdout +
+    // server.log; the AUDIT-1 M-1 genus: one control char + one
+    // space-separated keyword, a ONE-artifact shape).
+    const soh = bootEnvCheck(
+      env({ DATABASE_URL: "postgresql://host/db\x01password=Secret123 user=admin" }),
+    );
+    const sohJoined = (soh.warnings ?? []).join("\n");
+    expect(sohJoined).toContain("password=***");
+    expect(sohJoined).not.toContain("Secret123");
+
+    // Face 2 — the DEL mirror (\\x7f): the same leak face through
+    // the same arm.
+    const del = bootEnvCheck(
+      env({ DATABASE_URL: "postgresql://host/db\x7fpassword=DelSecret45 user=admin" }),
+    );
+    const delJoined = (del.warnings ?? []).join("\n");
+    expect(delJoined).toContain("password=***");
+    expect(delJoined).not.toContain("DelSecret45");
+
+    // Face 3 — the file-residue arm (the unloaded-.env posture): the
+    // same \\x01 face through the other sanctioned printer.
+    const fileFace = databaseUrlFileResidueWarning(
+      { NODE_ENV: "production" },
+      "postgresql://host/db\x01password=FileCtlSecret9 user=admin",
+      true,
+    );
+    expect(fileFace).toContain("password=***");
+    expect(fileFace).not.toContain("FileCtlSecret9");
+
+    // Control — the \\t face (a control char that IS \\s) already
+    // masked by the S72-1a class and must stay byte-identical under
+    // the widened prefix (the mechanism control: the boundary is
+    // exactly \\s membership).
+    const tab = bootEnvCheck(
+      env({ DATABASE_URL: "postgresql://host/db\tpassword=TabSecret77 user=admin" }),
+    );
+    const tabJoined = (tab.warnings ?? []).join("\n");
+    expect(tabJoined).toContain("password=***");
+    expect(tabJoined).not.toContain("TabSecret77");
+
+    // Control — the passfile key family behind the same control
+    // char (the key-set trio's other secret-bearing member).
+    const passfile = bootEnvCheck(
+      env({ DATABASE_URL: "postgresql://host/db\x0bpassfile=/etc/ssl/p.key user=u" }),
+    );
+    const pfJoined = (passfile.warnings ?? []).join("\n");
+    expect(pfJoined).toContain("passfile=***");
+    expect(pfJoined).not.toContain("/etc/ssl");
+  });
+
+  it("S73-2a: the DB-residue predicate lives in EXACTLY ONE place (the one-home doctrine — three inline literals collapsed)", () => {
+    // The predicate (/\\p{Cc}/u.test(v) || v.startsWith('"') ||
+    // v.startsWith("'")) was triplicated across boot-env.ts (the
+    // process-env arm, the file-residue arm, the inert-value seam's
+    // negated form) — a future widening edited one site and silently
+    // diverged the other two (the S29-2/S59-1 drift hazard). The
+    // cure: the module-local dbUrlCarriesResidue helper is the single
+    // home; the census asserts its body is the ONLY \\p{Cc} test site
+    // left in the file. The extraction's behavioral equivalence is
+    // owned by the existing residue pins (S63-2/S72-1a/S73-1a); this
+    // pin owns the shape.
+    const src = readFileSync(
+      join(import.meta.dirname, "../src/lib/boot-env.ts"),
+      "utf8",
+    );
+    const cSites = src.match(/\\p\{Cc\}/gu) ?? [];
+    expect(cSites.length, "the \\p{Cc} residue test lives in exactly one place").toBe(1);
+    expect(src).toContain("function dbUrlCarriesResidue(");
   });
 });

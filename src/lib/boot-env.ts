@@ -115,6 +115,30 @@ export interface BootEnvOptions {
   servedSiteUrl?: string;
 }
 
+// Session-73 (S73-2b, AUDIT-1 L-1): the DB-residue predicate's ONE
+// home. The shape (the control-char class test plus the two
+// startsWith quote-opener arms) was triplicated — the process-env arm,
+// the file-residue arm, the inert-value seam's negated form, plus the
+// arm's own control-char face classifier — three independent literals
+// a future widening (the S73-1b class above) would edit at one site
+// and silently diverge at the other two (the S29-2/S59-1 drift
+// hazard). Both helpers below are the single homes: the control-char
+// test carries the ONE such class literal in this file (the S73-2a
+// census pins exactly that count — the spelling is deliberately not
+// repeated in this comment), and the full residue predicate composes
+// it with the quote-opener arms.
+function dbUrlCarriesControlChar(value: string): boolean {
+  return /\p{Cc}/u.test(value);
+}
+
+function dbUrlCarriesResidue(value: string): boolean {
+  return (
+    dbUrlCarriesControlChar(value) ||
+    value.startsWith('"') ||
+    value.startsWith("'")
+  );
+}
+
 /**
  * Validate an env-shaped record against the six-knob contract.
  * PURE: same input, same report — tests drive every branch without a
@@ -227,8 +251,10 @@ export function bootEnvCheck(
       // NORMALIZES the dotted input [::ffff:127.0.0.1] into its
       // compressed hex form (::ffff:7f00:1), so the dotted prefix
       // alone never fires — the full-hextet form below is the mapped
-      // 127/8 range exactly; the dotted spelling stays for
-      // robustness (pre-normalization inputs).
+      // 127/8 range exactly; the dotted spelling stays as belt-and-
+      // braces (Session-73 respell: unreachable through the URL
+      // parser — the hostname normalizes to compressed hex — kept for
+      // robustness against future non-URL callers).
       // Session-72 (S72-3b, AUDIT-1 I-1 — live-probed): the grammar
       // TIGHTENS to the exact families. The loose prefixes
       // over-matched: `startsWith("::ffff:7f")` accepted
@@ -438,7 +464,7 @@ export function bootEnvCheck(
   const dbFace = (dbUrl ?? "").trim();
   if (
     dbUrl !== undefined && dbUrl !== "" &&
-    (/\p{Cc}/u.test(dbFace) || dbFace.startsWith('"') || dbFace.startsWith("'"))
+    dbUrlCarriesResidue(dbFace)
   ) {
     // Session-60 (S60-1): the attribution splits by trigger face. The
     // predicate fires on THREE faces — the leading quote (kept by BOTH
@@ -457,7 +483,7 @@ export function bootEnvCheck(
     // `file:`) — before the split its "unclosed quote" headline was
     // false for every value that reached it.
     const quoteFace = dbFace.startsWith('"') || dbFace.startsWith("'");
-    const controlFace = /\p{Cc}/u.test(dbFace);
+    const controlFace = dbUrlCarriesControlChar(dbFace);
     const newlineFace = controlFace && (dbFace.includes("\n") || dbFace.includes("\r"));
     // Session-63 (S63-2): the printed value is REDACTED (a credentialed
     // postgres URL never leaks its password to stdout/server.log — the
@@ -722,7 +748,7 @@ export function databaseUrlFileResidueWarning(
   if (envUrl) return null;
   const fileUrl = envFileUrl?.trim() || undefined;
   if (fileUrl === undefined || fileUrl === "") return null;
-  if (!( /\p{Cc}/u.test(fileUrl) || fileUrl.startsWith('"') || fileUrl.startsWith("'") )) {
+  if (!dbUrlCarriesResidue(fileUrl)) {
     return null;
   }
   // Session-60 (S60-1): the per-face mechanism truth (the loader
@@ -915,12 +941,26 @@ function redactCredentials(url: string): string {
   // printed verbatim through the file-residue arm). The widened
   // class masks the keyword at the head of the quote-opened run; the
   // masked `password=***` output carries no quote, so the arms below
-  // are unchanged. REGISTERED boundary: a backslash-preceded keyword
-  // (a stray `\` ahead of the key inside a quoted run) stays
+  // are unchanged.
+  // Session-73 (S73-1b, AUDIT-1 M-1 — live-probed through both residue
+  // printers): the class widens AGAIN to
+  // `(^|[\s"'\u0000-\u001f\u007f-\u009f])` — every control character
+  // that JS \s does NOT match (\x00-\x08, \x0e-\x1f, \x7f DEL, the
+  // C1 \x80-\x9f family) is a libpq-meaningful delimiter before a
+  // keyword exactly as whitespace, a residue quote, and the realistic
+  // pasted controls (\t \n \v \f \r — already \s) are: the
+  // `postgresql://host/db\x01password=Secret123 user=admin` face
+  // printed the secret VERBATIM through BOTH printers (stdout +
+  // server.log + the file-residue arm) while the \t face masked
+  // correctly — the boundary was exactly \s membership. The \s
+  // members are subsumed (the overlap is harmless); the masked
+  // `password=***` output carries no control character, so the arms
+  // below are unchanged. REGISTERED boundary: a backslash-preceded
+  // keyword (a stray `\` ahead of the key inside a quoted run) stays
   // unmasked — a double-malformation face; adding `\\` to the class
   // is the named lift if ever deemed reachable.
   const keywordMasked = url.replace(
-    /(^|[\s"'])((?:password|passfile|sslpassword)\s*=\s*)('(?:[^'\\]|\\.)*'?[^\s]*|"(?:[^"\\]|\\.)*"?[^\s]*|[^\s]*)/gi,
+    /(^|[\s"'\u0000-\u001f\u007f-\u009f])((?:password|passfile|sslpassword)\s*=\s*)('(?:[^'\\]|\\.)*'?[^\s]*|"(?:[^"\\]|\\.)*"?[^\s]*|[^\s]*)/gi,
     "$1$2***",
   );
   let masked: string;
@@ -1029,7 +1069,7 @@ export function databaseUrlInertValueWarning(
   // Residue values belong to the residue seam (one face one pin); this
   // seam speaks only for CLEAN values (the shape that never warns
   // anywhere else).
-  if (/\p{Cc}/u.test(fileUrl) || fileUrl.startsWith('"') || fileUrl.startsWith("'")) {
+  if (dbUrlCarriesResidue(fileUrl)) {
     return null;
   }
   // The consumed leg honors the file value (the db-path seam's own .env

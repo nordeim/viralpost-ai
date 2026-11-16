@@ -493,6 +493,15 @@ import {
 // (+1: the S72-4b born-under-parked-pointer contract leg — born
 // green on this app's slow-mount timing, both-writers-deleted its
 // documented plant, the S71-7a precedent). SMOKE 16 unchanged.
+// s73: 804/41 (+6/+0 — the S73-1a control-char keyword-prefix pin ×1
+// (the prefix revert plant REDs exactly it), the S73-2a one-home
+// census pin ×1 (the inline-literal revert plant REDs exactly it),
+// the S73-3a outline-hidden family pin ×1 (the narrow revert
+// plant REDs exactly it), the S73-4a exit-arm pin ×1 (the
+// listener rename revert plant REDs exactly it), the S73-5a
+// seam-strip pin ×1 (the [/?#] narrow → /\/+/ revert plant REDs exactly it),
+// the S73-6a manifest composition pin ×1 (the hardcoded-origin revert
+// plant REDs exactly it)). The e2e 71 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
@@ -500,7 +509,7 @@ import {
  *  Session-12 (F12-1): the constants are pinned to the LIVE SUITES ON
  *  DISK by the reality census below — a test added without re-anchoring
  *  here fails `bun run test` before any doc site is consulted. */
-const UNIT = 798;
+const UNIT = 804;
 /** Vitest suite files. */
 const SUITES = 41;
 /** Playwright e2e checks (incl. the setup project's 1). */

@@ -7796,3 +7796,96 @@ batch
 
 **Gate at the session-72 ship: lint 0/0 · tsc 0 · unit 798/798 (41
 files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
+
+## Task 73 (2026-11-16) — session-73: the control-char keyword
+prefix + the residue-predicate one-home + the outline-hidden
+forced-colors rename + the toast exit arm + the pin batch
+
+- OPENED on c3711e4 (session-72's ship + the owner's narration
+  commits). Core docs + the session-72 set re-read; the S72 cures
+  verified in source; .env/db contract held (census MATCH; the
+  ambient DATABASE_URL hazard found live again, env -u discipline
+  applied); baseline gate GREEN at the session-72 ship counts
+  (lint 0/0 · tsc 0 · unit 798/798 · build · smoke 16/16 · e2e
+  71/71 · census MATCH); bun audit unchanged (the same 9
+  dev-toolchain advisories); neo-crm UNCHANGED at b3d0fbe. (The
+  round executed across a session handoff: the interrupted
+  mid-Phase-2 tree — S73-1b applied, the helpers placed, the four
+  consumers unrouted — re-verified against git status and completed
+  exactly per the plan.)
+- AUDIT (three parallel lanes + the lead's hand-verification):
+  0 Critical / 0 High / 2 Medium / 3 Low / 3 Info. Every
+  load-bearing finding reproduced by the lead through the real
+  exported seams before any cure was designed (the \x01/\x7f leak
+  through BOTH residue printers with the \t mechanism control
+  masking; the outline semantics on the compiled CSS + the
+  tailwindcss 4.3.3 lib definition; the stale tracker + the two pin
+  absences rg-verified).
+- CURES (TDD — six pins born RED, six revert-plant batteries on
+  record): S73-1 the keyword-pass control-char prefix widening
+  (^|[\s"']) → (^|[\s"'\u0000-\u001f\u007f-\u009f]) — every
+  non-\s control char (C0, DEL, C1) is a libpq-meaningful delimiter
+  before a keyword; a control char preceding password= printed the
+  secret VERBATIM through both residue printers (the \t face, a \s
+  member, masked — the boundary was exactly \s membership; the
+  backslash-preceded keyword stays the registered boundary); S73-2
+  the residue-predicate ONE-HOME (the \p{Cc} + quote-opener
+  predicate was quadruplicated — three arm literals + the face
+  classifier; module-local dbUrlCarriesControlChar +
+  dbUrlCarriesResidue helpers consumed at every site, the census
+  pinning EXACTLY ONE \p{Cc} site file-wide; the S72-3b dotted-arm
+  comment respelled to the honest belt-and-braces rationale in
+  passing); S73-3 the outline-hidden forced-colors rename (18
+  focus-paired sites across 9 files focus(-visible):outline-none →
+  focus(-visible):outline-hidden — v4 renamed v3's transparent
+  outline to outline-hidden, and under forced-colors box-shadow
+  rings are suppressed, so keyboard users in Windows High Contrast
+  had NO visible focus on every primary control; zero visual delta
+  in normal rendering; the ToastCard root's bare resting
+  outline-none KEPT — not a focus indicator; the four pin suites
+  re-anchored in the same commit); S73-4 the toast EXIT arm (the
+  S72-4 geometry tracker was never nulled at the viewport boundary —
+  a pointer leaving the window parked the tracker at its exit
+  coordinates and a card mounting over the stale position
+  phantom-paused with no un-pause path; a document-level pointerout
+  listener gated pointerType === "mouse" && relatedTarget === null
+  nulls the tracker, the same mount-effect cleanup pairing);
+  S73-5/S73-6 the teeth pins (the site.ts seam-side [/?#] strip and
+  the manifest origin composition owned ZERO pins — the revert
+  plants now RED exactly them); S73-7 the PAD header date
+  re-anchor. REGISTERED: the S72-2b lone-slash boundary note (the
+  plan's register), the dotted-arm unreachability (kept
+  belt-and-braces).
+- THE BATTERY'S CATCHES: the one-home revert plant originally
+  narrowed the HELPER's predicate (the consumers still routed
+  through it — census stayed 1, pin GREEN: a plant with no teeth,
+  the S25-11 vacuity genus); the corrected plant re-inlines the
+  literal at one consumer and REDs exactly the census. The one-home
+  census itself caught the helper's doc comments spelling the
+  \p{Cc} literal (3 sites after the routing — respelled to
+  literal-free prose, census settled at 1). One interrupted ad-hoc
+  plant run leaked the toast exit-arm deletion to disk — restored
+  and re-verified 23/23 before the deterministic battery re-ran.
+- PARITY WALK #46 — the forty-sixth consecutive clean walk (both
+  legs at every documented posture; the reference's generator DEAD
+  at the 30s probe — the D-1 drifted face, no banner; the clone
+  LIVE with the idea-derived hashtag pair and quota 3→2; no
+  Tailwind v4 bug; captures 153/154 PIL-verified).
+- LOCKSTEP: UNIT 798 → 804 (+6), SUITES 41 held, E2E 71 held (the
+  exit face source-pinned — a behavioral e2e leg would depend on
+  engine-specific synthetic pointerout semantics), E2E_SPECS/SMOKE
+  held, BADGE 869 → 875; the ten provenance sites 1..72 → 1..73
+  (uniform, lag 0); the docs-counts s73 rung; PAD §8.1 + §8.3 + the
+  header date (S73-7; §12's inventory rows held at the live line
+  counts); README's badge + table + quickstart + session-73 row +
+  gate footer; AGENTS's plans-map seventy-third round + the 804/41
+  + 71; CLAUDE's 804/41 + 71; SKILL v1.68.0 → v1.69.0; the formal
+  session_73.md; the plan's post-execution record.
+- Counts at ship: UNIT 804 / SUITES 41 / E2E 71 / E2E_SPECS 9 /
+  SMOKE 16 / BADGE 875; the ten provenance sites at 1..73 (lag 0,
+  uniform); SKILL v1.69.0; captures 153/154 PIL-verified; the full
+  gate green on the final tree; push to main via the SSH wrapper
+  runbook.
+
+**Gate at the session-73 ship: lint 0/0 · tsc 0 · unit 804/804 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**

@@ -270,13 +270,13 @@ export function GeneratorCard() {
             onChange={(e) => setIdea(e.target.value)}
             placeholder="Example: motivational post for entrepreneurs about consistency"
             rows={3}
-            className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 focus-visible:ring-2 focus-visible:ring-teal-600 transition-all resize-none"
+            className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl text-sm text-slate-700 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 focus-visible:ring-2 focus-visible:ring-teal-600 transition-all resize-none"
           />
           <button
             type="button"
             onClick={generate}
             disabled={generating || !idea.trim()}
-            className="mt-4 w-full py-3.5 bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-teal-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+            className="mt-4 w-full py-3.5 bg-gradient-to-r from-teal-500 to-teal-700 text-white font-semibold rounded-2xl hover:shadow-lg hover:shadow-teal-200 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-teal-600"
           >
             {generating ? (
               <>
@@ -309,7 +309,7 @@ export function GeneratorCard() {
                     // bg-white — session-41, S41-7: the S24-4 cite said
                     // ≈3.05:1, a mismeasurement; 3.58:1 on slate-50) clears
                     // it and matches the textarea one block above.
-                    className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-teal-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-teal-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+                    className="flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-teal-600 transition-colors px-3 py-1.5 rounded-lg hover:bg-teal-50 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-teal-600"
                   >
                     {copied ? (
                       <>

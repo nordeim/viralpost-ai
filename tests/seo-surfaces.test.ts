@@ -88,6 +88,25 @@ describe("session-23 (S23-14): the manifest body contract (field-for-field, the 
     // The reference serves application/json (no charset suffix).
     expect(contentType).toBe("application/json");
   });
+
+  // Session-73 (S73-6a, AUDIT-3 L-2): the manifest arm's origin
+  // composition pins. The loose toContain("http") /
+  // toContain("/icon.png") arms above accept ANY origin — the S24-10
+  // genus, unclosed on the manifest face: a hardcoded-origin revert
+  // ships green through the whole gate while the manifest composes
+  // icons/start_url/scope off the wrong origin. The composition is
+  // pinned exactly, at the DEFAULT env face (the getRouteBody +
+  // siteUrl() idiom the sitemap/robots pins established).
+  it("S73-6a: the manifest composes icons/start_url/scope off siteUrl() exactly (the S24-10 idiom, manifest face)", async () => {
+    const { body } = await getRouteBody("src/app/manifest.json/route.ts");
+    const manifest = JSON.parse(body) as Record<string, unknown>;
+    const origin = siteUrl();
+    const icons = manifest.icons as Array<{ src: string; sizes: string; type: string }>;
+    expect(icons[0]?.src).toBe(`${origin}/icon.png`);
+    expect(icons[1]?.src).toBe(`${origin}/icon.png`);
+    expect(manifest.start_url).toBe(origin);
+    expect(manifest.scope).toBe(origin);
+  });
 });
 
 describe("session-23 (S23-15): the sitemap envelope contract (the sitemaps.org format layer)", () => {

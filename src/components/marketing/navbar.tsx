@@ -195,7 +195,7 @@ export function Navbar() {
           // #0f172a) because the navbar is dark: the toggle's OWN ink is
           // the only ring that reads on slate-950. Keyboard-only
           // visibility — the reference's base classes are untouched.
-          className="md:hidden p-2 text-slate-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
+          className="md:hidden p-2 text-slate-300 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-slate-300"
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-menu"

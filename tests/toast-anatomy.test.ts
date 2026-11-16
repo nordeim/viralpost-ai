@@ -64,7 +64,7 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
   // OTP inputs' own focus-visible family (the house pattern, login-card).
   it("the close X shows a visible keyboard focus ring (the OTP inputs' focus-visible family)", () => {
     const x = regionAt('aria-label="Dismiss notification"', 400, 60);
-    expect(x).toContain("focus-visible:outline-none");
+    expect(x).toContain("focus-visible:outline-hidden");
     expect(x).toContain("focus-visible:ring-2");
     expect(x).toContain("focus-visible:ring-ring");
   });
@@ -223,6 +223,41 @@ describe("the toast family contract (scaffold-lineage pins, re-attributed sessio
     // The dead probe is GONE from the source (the inert :hover-at-
     // mount claim retired with it — the comment-truth doctrine).
     expect(src).not.toContain('if (rootRef.current?.matches(":hover")) setPaused(true);');
+  });
+
+  // Session-73 (S73-4, AUDIT-2 L-1 — code-read confirmed, no
+  // mouseleave/pointerout/relatedTarget listener anywhere in the
+  // file): the tracker's EXIT arm. The S72-4 tracker is never nulled
+  // when the mouse LEAVES the viewport — a mouse exiting the window
+  // parks the tracker at its exit coordinates, and desktop toasts
+  // mount at the bottom-right corner: the most common exit path. A
+  // toast mounting over that stale position while the pointer is
+  // out-of-window probes "inside" → setPaused(true) → the dismiss
+  // timer never arms, and no mouseenter/mouseleave pair on the card
+  // can unpause it (the engine never marks the inserted card
+  // hovered; the pointer is outside). The card sticks until manually
+  // dismissed. The cure: a document-level pointerout listener beside
+  // the pointermove tracker, gated pointerType === "mouse" &&
+  // relatedTarget === null (the spec's "the pointer left the window"
+  // face — pointerout fires over EVERY element boundary, so the null
+  // relatedTarget is what separates window-exit from any interior
+  // hop), nulling lastMousePos. The same mount effect arms and cleans
+  // up both listeners (the page-lifetime pairing — one exit arm, not
+  // per card).
+  it("the tracker nulls at the viewport exit (the pointerout relatedTarget-null arm — S73-4)", () => {
+    // The exit arm is armed beside the move arm in the SAME mount
+    // effect (the S72-4 single-writer pairing extended to two).
+    expect(src).toContain(
+      'window.addEventListener("pointerout", exit, { passive: true });',
+    );
+    // The exit gate: mouse modality AND the spec's window-exit face
+    // (relatedTarget null — an interior hop carries a target).
+    expect(src).toContain(
+      'if (e.pointerType === "mouse" && e.relatedTarget === null) lastMousePos = null;',
+    );
+    // The SAME cleanup pairing removes both (a churned exit arm would
+    // re-arm per card mount — the page-lifetime contract).
+    expect(src).toContain('window.removeEventListener("pointerout", exit);');
   });
 
   // Session-19 (S19-7): the toast icons are decorative — the S15-4
