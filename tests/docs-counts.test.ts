@@ -560,6 +560,13 @@ import {
 // truth re-anchor (the reference's URL order drifted to the nav
 // order — comment-only); parity walk #52 clean on both legs — the
 // fifty-second consecutive). The e2e 71 unchanged. SMOKE 16 unchanged.
+// s80: 813/41 (HELD — the second zero-finding clean-audit round since
+// the audit program's hardening (+0 new its, no functional cures: every
+// lane clean at the source, config, sheet, and live-DOM levels — the
+// session-78 precedent; bun audit at the documented 9-advisory
+// all-dev-toolchain census, zero runtime-path items; parity walk #53
+// clean on both legs — the fifty-third consecutive). The e2e 71
+// unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
