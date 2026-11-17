@@ -567,6 +567,16 @@ import {
 // all-dev-toolchain census, zero runtime-path items; parity walk #53
 // clean on both legs — the fifty-third consecutive). The e2e 71
 // unchanged. SMOKE 16 unchanged.
+// s81: 813/41 (HELD — the third zero-finding clean-audit round since
+// the audit program's hardening (+0 new its, no functional cures: every
+// lane clean at the source, config, sheet, and live-DOM levels — the
+// session-78/80 precedent; bun audit at the documented 9-advisory
+// all-dev-toolchain census, zero runtime-path items; parity walk #54
+// clean on both legs — the fifty-fourth consecutive; the REF generator
+// probe's first NO_BUTTON read diagnosed as the lead's own wrong-page
+// probe (/Pricing, not /Tool) and re-probed LIVE per the s78
+// selector-doctrine precedent — no phantom finding recorded). The e2e
+// 71 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 

@@ -1,52 +1,163 @@
-The workspace is already set up from previous sessions and the pull brought in the new `docs/session_80.md`. Let me read the key session documents to understand the current state.
-This is session-80's round of the standing work order. Let me set up the task plan and review the remaining key documents.
-Session-79 shipped cleanly; session-80 is a fresh audit round + parity walk #53. Now let me review the core docs and verify the workspace state.
-Lockstep state at HEAD verified (`1..79` uniform, next@^16.4.6, SKILL v1.75.0). Now let me check the skills catalog and the previous walk script, then run the baseline gate.
-I have the full picture now. Moving to validation: workspace verification and the baseline gate.
-工具链已验证（bun 1.3.14，next 16.4.6，chromium-1248 已固定）。环境中的 `DATABASE_URL` 污染依然存在 —— `env -u` 原则适用。现在开始运行基线闸门：
-Fast gates green (lint 0/0 · tsc 0 · unit 813/813). Now the production build:
-**Baseline gate FULLY GREEN** — lint 0/0 · tsc 0 · unit 813/813 (41 files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH. Exactly the session-79 ship state. Now the audit phase.
-Lane 1 verified — pure lockstep + dependency cure. Lane 2: focus files read in full.
-navbar.tsx verified at all documented sites. Now toast.tsx:
-toast.tsx verified at all documented sites. Lane 3: the hazard sweep.
-TW4 cures verified (zero hover-wraps, button-cursor rule live in minified form, md boundary at 48rem). Now the `bun audit` duty:
-Audit census at the documented 9 (3H/5M/1L, all dev-toolchain). Lane 6: provenance state + remaining config verifications.
-All audit lanes complete — clean so far (0 C / 0 H / 0 M / 0 L; census at the documented 9). Now parity walk #53, REF leg:
-REF leg clean — every posture at its documented state. Now the REF generator probe (the 30s silent-rest face):
-REF generator DEAD at 30s (the D-1 silent-rest face) — matches documented state. REF leg complete. Now the CLONE leg (single script: boot + drive + teardown):
-CLONE leg complete — every posture documented (generator LIVE at 56 words/6 hashtags — crypto-random seed variance, the documented expected range). Now PIL-verify the screenshots:
-Mobile menu capture anatomy confirmed (dark panel over light page, teal active link at y=196). Walk #53 clean on both legs. Final due-diligence checks before the remediation plan:
-Dependency census matches (8 runtime + 13 devDeps). The `bun outdated` deltas are non-advisory (majors out of family doctrine, no security driver — no change warranted). **Audit conclusion: zero findings (0C/0H/0M/0L), the standing Info postures re-confirmed.** Now writing the remediation plan and validating every lockstep site against the codebase:
-All lockstep sites located. Let me examine the Appendix-B re-cert and README gate-footer context, then write the plan:
-All sites mapped. Writing the session-80 plan document:
-Plan written and validated against the codebase. Executing the lockstep — first the ten provenance sites:
-Ten sites re-anchored, zero residuals. Now the docs-counts s80 rung and the SKILL updates:
-Now the SKILL frontmatter, Appendix-A session-80 row, and Appendix-B re-cert:
-Now the Appendix-A session-80 row:
-Now README (session-80 row + gate footer), AGENTS plans-map, and PAD header:
-The edit needs verification — let me read the current README region:
-Let me check the exact diff against HEAD to understand the README structure:
-The edit left a mangled structure. Let me check the session-79 precedent for the exact README table format:
-现在这一惯例很明确了：该行紧接在前一行之后，且页脚标签进行了重新锚定。正在修复混乱的区块：
-README structure now correct (row 80 consecutive, footer re-anchored). Now AGENTS plans-map and PAD header:
-Now the worklog Task 80 entry:
-Now the formal session_80.md (replacing the narration window):
-Now the plan's post-execution record:
-All lockstep edits complete. Reviewing the full diff before the final gate:
-The diff is exactly the documented lockstep form. Running the full gate on the final tree:
-**FULL GATE GREEN on the final tree** — lint 0/0 · tsc 0 · unit 813/813 · build · smoke 16/16 · e2e 71/71 · census MATCH. Now the commit and push. Reading the SSH wrapper runbook first:
-The runbook is clear. Checking the ssh shim setup from the workspace, then committing:
-The paramiko shim survives at `/home/z/my-project/bin/ssh`. Now committing:
-Committed as `d602596`. Now the push — key materialized to a 0600 temp file outside the repo, shim on PATH:
-Dry-run clean (fast-forward `19d135b..d602596`). Real push:
-**Session-80 round complete and delivered** (commit `d602596` pushed to main via the SSH wrapper — remote verified `refs/heads/main @ d602596 == local HEAD`, operator key shredded).
+# Session 81 — The Zero-Finding Clean-Audit Record + Parity Walk #54
 
-**Baseline (Verified):** Carried-forward workspace (no sandbox reset this round; the pull brought only the narration push) — full gate GREEN: lint 0/0 · tsc 0 · unit 813/813 (41 files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH. neo-crm unchanged at `b3d0fbe`.
+**Round:** session-81 (the standing work order executed as the
+eighty-first round). Opens on `9c5f6175` (session-80's ship `d602596` + the
+owner's narration push carrying this file as the round's working
+narration; this formal log replaces that content at ship).
 
-**Audit — 0 Critical / 0 High / 0 Medium / 0 Low** (the second zero-finding round since the audit program's hardening): the session-79 commit diffed in full (exactly the documented patch-bump + comment-re-anchor + lockstep ship); navbar.tsx and toast.tsx read IN FULL at all documented sites; hazard sweep, config layer, compiled-sheet TW4 cures, and dependency census (8 runtime + 13 devDeps) all clean. The standing `bun audit` duty: census at the documented 9-advisory all-dev-toolchain family (3H/5M/1L), zero runtime-path items; `bun outdated` deltas all non-advisory — no dependency change warranted.
+**Continuity state:** the previous conversation delivered session-80
+(the `d602596` cure commit + the owner's narration push `9c5f6175`);
+this round executed the standing work order on a FRESH-CLONE workspace
+(the sandbox WAS reset between rounds — node_modules, the db family, and
+the standalone build all re-established from scratch: `bun install` 427
+packages, `cp .env.example .env` + the dev AUTH_SECRET, `db:push` +
+`db:seed` + `db:census` MATCH, `bunx playwright install chromium` rev
+1248 matching the pinned `@playwright/test@1.64.1`).
 
-**Parity walk #53 — clean (53rd consecutive):** mobile menu byte-identical + aria superset + Escape close-with-focus-return; panel byte-equal at 265px; the `Get Unlimited Access` gradient byte-identical; sitemap 4 URLs at the nav order (the session-79 re-anchor still true) + robots byte-body; the reference's generator DEAD at 30s vs the clone LIVE (56 words, 6 hashtags, counter incremented). **No Tailwind v4 bug in the mobile menu** — verified at source, compiled sheet, and live DOM, both legs.
+## The baseline (Verified)
 
-**Delivery:** screenshots 167/168 PIL-verified + anatomy pixel-verified; `.env.example` verified (in the commit); docs lockstep complete (ten provenance sites → `1..80`, SKILL v1.76.0, README/AGENTS/PAD/worklog, formal [session_80.md](/home/z/my-project/viralpost-ai/docs/session_80.md) + [plan](/home/z/my-project/viralpost-ai/docs/plans/2026-11-17-session80-clean-audit-record-and-walk-53.md)).
+Gate GREEN on the fresh clone: lint 0/0 · tsc 0 · unit 813/813 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH —
+exactly the session-80 ship state, lag 0. neo-crm UNCHANGED at `b3d0fbe`
+(fresh clone re-verified) — recorded decisions stand.
 
-For another round, re-send the work order — the flow resumes at session-81 with a fresh audit + parity walk #54.
+## The standing asks (each Verified this round)
+
+- `.env` `DATABASE_URL="file:../db/custom.db"` contract held; `db/` at
+  the repo root; census MATCH (1 user, 0 contact messages); the
+  ambient-shell `DATABASE_URL` pollution neutralized with `env -u
+  DATABASE_URL` on every DB-touching command (the S63..S80 hazard still
+  present in this shell).
+- Vitest + Playwright suites verified current and wired (chromium rev
+  1248 installed fresh this round, matching the pinned
+  `@playwright/test@1.64.1`).
+- Sitemap (4 URLs, weekly, 1.0/0.8/0.8/0.8, the nav order /, /Tool,
+  /Pricing, /Contact — the S79-2 re-anchor still true) + robots
+  (byte-body) + manifest + the three security headers on the SEO
+  family verified live in walk #54; the sitemap route's format contract
+  re-read at its source (`force-static`, the explicit
+  `application/xml`, no /Home duplicate — the 308 fix).
+- `skills/` excluded from tsconfig/eslint/vitest + the smoke
+  artifact-hygiene leg.
+- Mobile navigation + Tailwind v4: walk #54's battery clean on both
+  legs; the compiled sheet independently re-verified (zero
+  `(hover: hover)` media wraps — the `@custom-variant hover` unwrap
+  live; the one raw `hover:hover` substring in the sheet is the
+  `bg-primary-hover` class token followed by the `:hover` pseudo, not a
+  media wrap; the `button,[role=button]{cursor:pointer}` base rule live
+  in its minified spelling; the `md` boundary at `min-width:48rem`).
+  **No Tailwind v4 bug in the mobile menu.**
+- `.env.example` verified matching the codebase (all six knobs:
+  DATABASE_URL, AUTH_SECRET, NEXT_PUBLIC_SITE_URL, VIRALPOST_PROXY_HOPS,
+  VIRALPOST_DISABLE_IN_APP_OTP, VIRALPOST_DISABLE_IN_APP_RESET).
+- The standing `bun audit` duty: the census at the documented
+  9-advisory all-dev-toolchain family (3H/5M/1L —
+  minimatch/eslint-chain, deepmerge-ts/prisma-chain, the
+  vite/launch-editor/source-map-js dev-server set), ZERO
+  runtime-path items. `bun outdated` deltas all non-advisory (prisma 7
+  / lucide 1.x majors out of the family doctrine; playwright 1.65.1 /
+  tailwind 4.3.5 / @types/node 26.6.6 / axe-core 4.14.1 / eslint 10
+  with no security driver) — no dependency change warranted (the
+  smallest-correct-change doctrine; session-79's bump was
+  advisory-driven, not freshness-driven).
+
+## The audit (0 Critical / 0 High / 0 Medium / 0 Low / the standing Info postures re-confirmed)
+
+The THIRD zero-finding round since the audit program's hardening
+(session-78 the first, session-80 the second). Direct lead reads — the
+session-76..80 precedent continues: the session-80 narration push
+(`9c5f6175`) diffed in full against the ship `d602596` (exactly one
+file added, `docs/session_81.md` the owner's narration window, no
+collateral); navbar.tsx read IN FULL (the aria superset, the S26-1
+`hidden`-attribute mechanics, the S26-3 `scrolled`-alone bar key, the
+S31-2 history-close focus arm, the S45-3/S45-4 censused-parity
+postures, the S22-1/S22-2 priced pill, the S22-3 bare mobile family,
+the S22-5 scrolled panel arm); toast.tsx read IN FULL (the S72-4
+geometry tracker + mount probe, the S73-4 exit arm, the S74-4b
+pointer-typed enter, the S70-4 mixed-modality unpausers, the S75-5
+compound blur guard, the S76-1 hoisted rect); the hazard sweep clean
+(direct DATABASE_URL reads confined to the seam family — db-path the
+resolver, boot-env the warning face, with `db.ts` routing through
+`runtimeDatabaseUrl()`; zero secrets in logs; zero TODO/FIXME/XXX; zero
+`console.log` in src; the mounted-gate doctrine consistent across
+generator-card / contact-form / login-card / toast); the config layer
+verified (next.config hygiene excludes + /Home 308 + the three-header
+superset; vitest/tsconfig/eslint skills exclusions; the sitemap format
+contract); the compiled sheet's TW4 cures re-verified; the dependency
+census at exactly 8 runtime + 13 devDeps (the registered LOW
+`flex-shrink-0` in sections.tsx untouched this round).
+
+## Parity walk #54 — clean (the fifty-fourth consecutive)
+
+Both legs at every documented posture:
+
+- **REF leg** (390×844, logged in as `sepnetflix2023@outlook.com` →
+  lands on `/Home`): hamburger `md:hidden p-2 text-slate-300` with no
+  aria family (our documented superset), cursor pointer, slate-300 ink
+  (rgb(203,213,225)); panel at 265px with the reference's `md:hidden
+  bg-slate-900/98 border-b border-white/10 overflow-hidden` family (the
+  dead /98 token computing transparent), 5 links + the $19 pill; Escape
+  stays OPEN (R-OPEN); outside-tap on real page content stays OPEN
+  (R-OPEN); route-change unmounts the panel (R-unmount); the desktop
+  gradient census on /Pricing — the navbar `Upgrade to Pro`
+  amber-400→amber-500 (rgb(251,191,36)→rgb(245,158,11)), the pricing
+  page's `Get Unlimited Access` teal-400→amber-400
+  (rgb(45,212,191)→rgb(251,191,36)), the plan CTA `Upgrade – $19`
+  teal-500→teal-600 (rgb(20,184,166)→rgb(13,148,136)); sitemap 4 URLs
+  (weekly, 1.0/0.8/0.8/0.8, the nav order) + robots byte-body; the
+  generator DEAD at the 30s probe on /Tool (0 hashtag nodes, the button
+  restored — the D-1 silent-rest face; the probe's first NO_BUTTON read
+  diagnosed as the lead's own wrong-page probe — /Pricing, not /Tool —
+  and re-run LIVE per the s78 selector-doctrine precedent, no phantom
+  finding recorded).
+- **CLONE leg** (the production standalone build on :3200, ONE single
+  script — boot + drive browser + teardown; the sandbox's
+  background-server reaping re-confirmed): login lands on `/` (the /Home
+  308 pair); hamburger byte-match + the aria superset
+  (label/expanded/controls) + the focus-visible family; panel at the
+  byte-equal 265px with the same 5 links + the $19 pill (transparent
+  over the unscrolled hero — the dead-token replication); Escape CLOSES
+  with focus returned to the toggle (our superset, focusOnToggle=true);
+  outside-tap stays OPEN (parity); route-change hidden-in-DOM (the
+  documented pair); the `Get Unlimited Access` CTA gradient
+  byte-identical (`linear-gradient(to right, rgb(45, 212, 191), rgb(251,
+  191, 36))` — the inline-style hue-crossing form); the same-family
+  gradients' oklab spellings (the documented sub-threshold doctrine);
+  the generator LIVE — postPresent=true with 77 words and 5 hashtags at
+  the 8s probe after the client-quota reset (the crypto-random seed's
+  documented variance — within the pinned prompt rules of < 200 words
+  and 5-8 hashtags), the counter incremented (count=1); screenshots 169
+  (the mobile menu open on /Pricing — the dark superset panel over a
+  light page) and 170 (the landing hero) captured, PIL-verified, the
+  mobile-menu capture's anatomy pixel-verified (the dark panel rows at
+  RGB (14,23,42) over the light /Pricing page, the teal active link row
+  at y≈192, the amber pill row at y≈300 — the same anatomy as capture
+  167, the session-80 twin).
+
+No Tailwind v4 bug in the mobile menu — verified at the source, the
+compiled sheet, and the live DOM on both legs.
+
+## The lockstep
+
+Counts HELD (the round's cure is +0 new `it()` blocks by construction
+— the clean-audit record form): UNIT 813 / SUITES 41 / E2E 71 /
+E2E_SPECS 9 / SMOKE 16 / BADGE 884. The ten provenance sites set
+`1..80` → `1..81` uniform; the docs-counts s81 rung; the PAD header
+date (S81-1); README's session-81 row + gate footer; AGENTS's plans-map
+eighty-first round; SKILL v1.76.0 → v1.77.0 + the Appendix-A session-81
+row + the Appendix-B re-cert through 81; worklog Task 81; this formal
+log; the plan's post-execution record.
+
+## The ship
+
+Full gate GREEN on the final tree; census MATCH; captures 169/170;
+`.env.example` verified matching the codebase (included in the
+commit); Conventional Commit on `main`; push via the SSH wrapper
+(`docs/ssh_git_wrapper_v3.py` per the runbook); the operator key
+shredded after the verified push.
+
+**Gate at the session-81 ship: lint 0/0 · tsc 0 · unit 813/813 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
+
+If you want the next round, re-send the work order — the flow resumes
+at session-82 with a fresh audit + parity walk #55.
