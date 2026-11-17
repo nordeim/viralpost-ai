@@ -577,6 +577,19 @@ import {
 // probe (/Pricing, not /Tool) and re-probed LIVE per the s78
 // selector-doctrine precedent — no phantom finding recorded). The e2e
 // 71 unchanged. SMOKE 16 unchanged.
+// s82: 813/41 (HELD — the fourth zero-finding clean-audit round since
+// the audit program's hardening (+0 new its, no functional cures: every
+// lane clean at the source, config, sheet, and live-DOM levels — the
+// session-78/80/81 precedent; bun audit at the documented 9-advisory
+// all-dev-toolchain census, zero runtime-path items; parity walk #55
+// clean on both legs — the fifty-fifth consecutive; the REF
+// outside-tap probe's two earlier attempts accidentally clicked
+// panel-overlay links and were re-probed with the
+// elementFromPoint-disambiguated non-interactive spot per the s78
+// selector-doctrine precedent — no phantom finding recorded; the
+// CLONE quota probe's first read used a wrong localStorage key name
+// and was re-run against the source-verified constant
+// viralpost_generations). The e2e 71 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 

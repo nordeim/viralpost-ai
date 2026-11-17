@@ -8534,3 +8534,100 @@ files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
 
 **Gate at the session-81 ship: lint 0/0 · tsc 0 · unit 813/813 (41
 files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
+
+## Task 82 (2026-11-17) — session-82: the zero-finding clean-audit record + parity walk #55
+
+- FRESH-CLONE baseline (the sandbox was reset between rounds): bun install
+  (427 packages), `cp .env.example .env` + the dev AUTH_SECRET, db:push +
+  db:seed + db:census MATCH (1 user, 0 contact messages), `bunx playwright
+  install chromium` (rev 1248, matching the pinned @playwright/test@1.64.1)
+  — then the FULL GATE GREEN: lint 0/0 · tsc 0 · unit 813/813 (41 files) ·
+  build · smoke 16/16 · e2e 71/71 (9 specs). neo-crm UNCHANGED at `b3d0fbe`
+  (fresh clone re-verified) — recorded decisions stand. The ambient-shell
+  DATABASE_URL pollution (`file:/home/z/my-project/db/custom.db`)
+  neutralized with `env -u DATABASE_URL` on every DB-touching command.
+- AUDIT — 0 Critical / 0 High / 0 Medium / 0 Low / the standing Info
+  postures re-confirmed — the FOURTH zero-finding round since the audit
+  program's hardening (direct lead reads, the session-76..81 precedent):
+  the session-81 narration push `5bf452f4` diffed in full against the ship
+  `7f853dfe` (exactly one file added — docs/session_82.md, the owner's
+  narration window; no collateral); navbar.tsx read IN FULL (the aria
+  superset, the S26-1 hidden-attribute mechanics, the S26-3 scrolled-alone
+  bar key, the S31-2 history-close focus arm, the S45-3/S45-4
+  censused-parity postures, the S22-1/S22-2 priced pill, the S22-3 bare
+  mobile family, the S22-5 scrolled panel arm — all at their sites, no
+  drift); toast.tsx read IN FULL (the S72-4 geometry tracker + mount
+  probe, the S73-4 exit arm, the S74-4b pointer-typed enter, the S70-4
+  mixed-modality unpausers, the S75-5 compound blur guard, the S76-1
+  hoisted rect — all at their sites, no drift); the hazard sweep clean
+  (direct DATABASE_URL reads confined to the seam family — db-path the
+  resolver, env-file comment-only, boot-env the warning face, db.ts
+  routed through runtimeDatabaseUrl(); zero secrets in logs; zero
+  TODO/FIXME/XXX; zero console.log in src; the mounted-gate doctrine
+  consistent across generator-card / contact-form / login-card / toast);
+  the config layer verified (next.config hygiene excludes + /Home 308 +
+  the three-header superset; vitest/tsconfig/eslint skills excludes; the
+  sitemap format contract force-static + the explicit application/xml);
+  the compiled sheet's TW4 cures re-verified (zero `(hover: hover)` media
+  wraps — the one raw hover:hover substring is the bg-primary-hover class
+  token + the :hover pseudo, not a wrap; the
+  `button,[role=button]{cursor:pointer}` base rule in its minified
+  spelling; the md boundary at min-width:48rem); the dependency census at
+  exactly 8 runtime + 13 devDeps; the ten provenance sites verified at
+  1..81 uniform pre-lockstep (lag 0).
+- The standing `bun audit` duty: the census at the documented 9-advisory
+  all-dev-toolchain family (3H/5M/1L — minimatch/eslint-chain,
+  deepmerge-ts/prisma-chain, the vite/launch-editor/source-map-js
+  dev-server set), ZERO runtime-path items — no dependency change
+  warranted (the smallest-correct-change doctrine).
+- PARITY WALK #55 — the fifty-fifth consecutive clean walk (both legs at
+  every documented posture: REF — the hamburger md:hidden p-2
+  text-slate-300 with no aria family, the panel at the byte-equal 265px
+  with the dead /98 token computing transparent, Escape R-OPEN, the
+  outside-tap on real page content R-OPEN (the probe this round used the
+  elementFromPoint-disambiguated NON-interactive spot — a hero p at
+  (30,349) — after two earlier probe attempts accidentally clicked
+  panel-overlay links (the h1 at its top-left corner resolves under the
+  OPEN panel's Contact row; a fixed-y tap landed on the hero's
+  interactive CTA), both diagnosed as lead-probe artifacts, no phantom
+  findings recorded, the s78 selector-doctrine precedent), the
+  route-change R-unmount, the desktop gradient census (the navbar
+  amber-400→500 rgb(251,191,36)→rgb(245,158,11), the pricing Get
+  Unlimited Access teal-400→amber-400 rgb(45,212,191)→rgb(251,191,36),
+  the plan CTA teal-500→600 rgb(20,184,166)→rgb(13,148,136)), sitemap 4
+  URLs weekly 1.0/0.8/0.8/0.8 at the nav order + robots byte-body, the
+  generator DEAD at the 30s probe on /Tool (the D-1 silent-rest face,
+  the button restored); CLONE (the production standalone build on :3200,
+  ONE single script — boot + drive browser + teardown; the sandbox's
+  background-server reaping re-confirmed) — login lands on / (the /Home
+  308 pair), the hamburger byte-match + the aria superset + the
+  focus-visible family, the panel byte-equal at 265px with the same 5
+  links + the $19 pill, the Escape close-with-focus-return
+  (focusOnToggle true), the outside-tap both-open, the route-change
+  hidden-in-DOM, the CTA gradient byte-identical (the inline-style
+  hue-crossing form), the same-family gradients' oklab spellings, the
+  generator LIVE (postPresent=true, 6-7 hashtags at the 8s probe after
+  the client-quota reset — viralpost_generations, the source-verified
+  key; the round's first probe read a wrong key name and was re-run
+  against the source constant — the counter incremented, count=1); no
+  Tailwind v4 bug in the mobile menu. Screenshots 171/172 captured and
+  PIL-verified (390×844 @ 82.7% non-white — the session-80 computation
+  family; the dark panel rows (19,28,47)/(19,28,46)/(16,26,44) ≈
+  slate-900/95 with light bleed, the teal active link at y=192, the
+  amber pill row at y≈300, the y 330–430 band (19,64,66)→(19,76,73) is
+  /Pricing's OWN from-slate-900 to-teal-900 hero below the panel — page
+  content, not panel; 1440×900 @ 99.96%) + the mobile-menu capture's
+  anatomy pixel-verified (the same anatomy as captures 167/169, the
+  session-80/81 twins).
+- LOCKSTEP: UNIT/SUITES/E2E/E2E_SPECS/SMOKE/BADGE all HELD (813/41 +
+  71/9 + 16 + 884 — the clean-audit record form, +0 new its by
+  construction); the ten provenance sites set 1..81 → 1..82 uniform
+  (lag 0); the docs-counts s82 rung; the PAD header date (S82-1);
+  README's session-82 row + gate footer; AGENTS's plans-map
+  eighty-second round; SKILL v1.77.0 → v1.78.0 + the Appendix-A
+  session-82 row + the Appendix-B re-cert through 82; the formal
+  session_82.md (replacing the owner's narration window); the plan's
+  post-execution record.
+
+**Gate at the session-82 ship: lint 0/0 · tsc 0 · unit 813/813 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
