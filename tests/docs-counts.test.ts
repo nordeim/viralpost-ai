@@ -590,6 +590,20 @@ import {
 // CLONE quota probe's first read used a wrong localStorage key name
 // and was re-run against the source-verified constant
 // viralpost_generations). The e2e 71 unchanged. SMOKE 16 unchanged.
+// s83: 813/41 (HELD — the fifth consecutive zero-finding CODE round +
+// the advisory-database drift caught and cured: every lane clean at the
+// source, config, sheet, and live-DOM levels — the session-78/80/81/82
+// precedent; the standing bun audit duty caught the fresh-clone census
+// at 10 advisories (4H/5M/1L) — the newly-matching GHSA-587h HIGH —
+// and the S83-1 resolutions pin (vite 8.3.3, the S15-3 zod precedent)
+// retired the entire vite family: the census at 4 advisories (3H/1M,
+// all dev-toolchain); parity walk #56 clean on both legs — the
+// fifty-sixth consecutive; the REF outside-tap probe's first
+// NO_PANEL_EL read diagnosed as the lead's own unconditional-toggle
+// artifact after the no-op Escape and re-probed LIVE with the pre-tap
+// state verified OPEN — no phantom finding recorded, the s78/s82
+// selector-doctrine precedent). The e2e 71 unchanged. SMOKE 16
+// unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
