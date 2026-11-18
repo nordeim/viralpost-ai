@@ -8769,3 +8769,121 @@ files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
 
 **Gate at the session-83 ship: lint 0/0 · tsc 0 · unit 813/813 (41
 files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
+
+## Task 84 (2026-11-18) — session-84: the zero-finding clean-audit record + parity walk #57
+
+- FRESH-CLONE baseline (the sandbox was reset between rounds): bun install
+  (427 packages), `cp .env.example .env` + the dev AUTH_SECRET, db:push +
+  db:seed + db:census MATCH (1 user, 0 contact messages), `bunx playwright
+  install chromium` (rev 1248, matching the pinned @playwright/test@1.64.1)
+  — then the FULL GATE GREEN: lint 0/0 · tsc 0 · unit 813/813 (41 files) ·
+  build · smoke 16/16 · e2e 71/71 (9 specs). neo-crm UNCHANGED at `b3d0fbe`
+  (fresh clone re-verified) — recorded decisions stand. The ambient-shell
+  DATABASE_URL pollution (`file:/home/z/my-project/db/custom.db`)
+  neutralized with `env -u DATABASE_URL` on every DB-touching command.
+- AUDIT — 0 Critical / 0 High / 0 Medium / 0 Low on the code lanes — the
+  SIXTH consecutive zero-finding code round (session-78 the first,
+  session-80/81/82/83 the second through fifth). Direct lead reads: the
+  session-83 narration push (`46e26db5`) diffed in full against the ship
+  `0dd95aa4` (exactly one file added, `docs/session_84.md` the owner's
+  narration window, no collateral); navbar.tsx read IN FULL (the aria
+  superset, the S26-1 `hidden`-attribute mechanics, the S26-3
+  `scrolled`-alone bar key, the S31-2 history-close focus arm, the
+  S45-3/S45-4 censused-parity postures, the S22-1/S22-2 priced pill, the
+  S22-3 bare mobile family, the S22-5 scrolled panel arm — no drift);
+  toast.tsx read at its documented sites (the S72-4 geometry tracker +
+  mount probe, the S73-4 exit arm, the S74-4b pointer-typed enter, the
+  S70-4 mixed-modality unpausers, the S75-5 compound blur guard, the
+  S76-1 hoisted rect); the hazard sweep clean (direct DATABASE_URL reads
+  confined to the seam family — db-path the resolver, env-file
+  comment-only, boot-env the warning face, `db.ts` routing through
+  `runtimeDatabaseUrl()`; zero secrets in logs; zero TODO/FIXME/XXX; zero
+  `console.log` in src; the mounted-gate doctrine consistent across
+  generator-card / contact-form / login-card / toast); the config layer
+  verified (next.config hygiene excludes + /Home 308 + the three-header
+  superset; vitest/tsconfig/eslint skills exclusions; the sitemap format
+  contract `force-static` + the explicit `application/xml`); the compiled
+  sheet's TW4 cures re-verified (zero `(hover: hover)` media wraps; the
+  `button,[role=button]{cursor:pointer}` base rule in its minified
+  spelling; the md boundary at min-width:48rem); the dependency census at
+  exactly 8 runtime + 13 devDeps; the ten provenance sites verified at
+  `1..83` uniform pre-lockstep.
+- The standing `bun audit` duty: the census at the documented post-S83-1
+  floor — 4 advisories (3H/1M, all dev-toolchain: deepmerge-ts H
+  prisma-CLI-chain, picomatch H eslint/vitest-chains, source-map-js H
+  postcss-chains, minimatch M eslint-chain), zero runtime-path items,
+  zero advisory-database drift. `bun outdated` deltas all non-advisory
+  (prisma 7 / lucide 1.x / eslint 10 / typescript 7 majors out of the
+  family doctrine; playwright 1.65.1 / tailwind 4.3.5 / @types/node
+  26.6.6 / axe-core 4.14.1 / vitest 5.1.0 with no security driver) — no
+  dependency change warranted (the smallest-correct-change doctrine).
+- PARITY WALK #57 — clean (the fifty-seventh consecutive). Both legs at
+  every documented posture: the REF leg (390×844, logged in, lands on
+  /Home) — hamburger `md:hidden p-2 text-slate-300` with no aria family
+  (our documented superset), cursor pointer, slate-300 ink; panel at
+  265px with the reference's dead /98 token computing transparent, 4
+  nav links + the $19 pill; Escape R-OPEN; outside-tap on real page
+  content R-OPEN (the hero `<p>` at (30,350), the pre-tap state verified
+  OPEN); route-change R-unmount at /Pricing; the desktop gradient census
+  — the navbar `Upgrade to Pro` amber-400→amber-500
+  (rgb(251,191,36)→rgb(245,158,11)), the pricing `Get Unlimited
+  Access` teal-400→amber-400 (rgb(45,212,191)→rgb(251,191,36)), the
+  plan CTA `Upgrade – $19` teal-500→teal-600
+  (rgb(20,184,166)→rgb(13,148,136)); sitemap 4 URLs (weekly,
+  1.0/0.8/0.8/0.8, the nav order) + robots byte-body; the generator
+  DEAD at the 30s probe on /Tool (0 hashtag nodes, the button restored
+  — the D-1 silent-rest face). The CLONE leg (the production standalone
+  build on :3200, ONE single script — boot + drive browser + teardown):
+  login lands on `/` (the /Home 308 pair); hamburger byte-match + the
+  aria superset (label/expanded/controls) + the focus-visible family;
+  panel at the byte-equal 265px with the same 5 links + the $19 pill
+  (transparent over the unscrolled hero — the dead-token replication);
+  Escape CLOSES with focus returned to the toggle (our superset,
+  focusOnToggle=true); outside-tap stays OPEN (parity, the same hero
+  `<p>` at (30,349)); route-change hidden-in-DOM (the documented pair);
+  the nav-scoped gradient census — the `Get Unlimited Access` CTA
+  gradient byte-identical (`linear-gradient(to right, rgb(45, 212,
+  191), rgb(251, 191, 36))` — the inline-style hue-crossing form), the
+  navbar pill + the plan CTA endpoint-equal with the documented oklab
+  spellings (the sub-threshold doctrine; the initial UNSCOPED probe's
+  navPill "none" + planCta amber reads diagnosed as probe DOM-scope
+  artifacts — it grabbed the footer's plain "Upgrade to Pro" link and
+  the first `– $19` match (the hidden-in-DOM mobile pill); the
+  nav-scoped re-probe read both at their documented endpoints — the
+  s78/s80/s83 selector-doctrine precedent); the generator LIVE —
+  postPresent=true with 5 hashtags at the 8s probe after the
+  client-quota reset (`viralpost_generations`, the source-verified
+  GENERATIONS_KEY; the initial probe's hashtag-NODE zero diagnosed as
+  the lead's OWN selector artifact — the post renders as ONE
+  whitespace-pre-line `<p>`, the s80 precedent; the corrected probe
+  counts the hashtag substrings), 76 words, hook first line, the Copy
+  button present, the counter incremented (count=1); no Tailwind v4
+  bug in the mobile menu — verified at the source, the compiled sheet,
+  and the live DOM on both legs.
+- STANDING ASKS verified: `.env` `DATABASE_URL="file:../db/custom.db"`
+  contract held; `db/` at the repo root; census MATCH; the ambient
+  pollution neutralized with `env -u`; vitest + Playwright suites
+  verified current and wired; sitemap (4 URLs, weekly, 1.0/0.8/0.8/0.8,
+  the nav order) + robots (byte-body, modulo origin) + manifest + the
+  three security headers on the SEO family verified live in walk #57;
+  `skills/` excluded from tsconfig/eslint/vitest + the smoke
+  artifact-hygiene leg; `.env.example` verified matching the codebase
+  (all six knobs). Screenshots 175/176 captured, PIL-verified (390×844
+  @ 82.69% non-white — the session-80..83 computation family; the panel
+  link row (18,27,45) ≈ slate-900/95; the amber pill rows
+  (251,190,35)/(249,175,26); the (30,380) band (19,71,70) is
+  /Pricing's OWN from-slate-900 to-teal-900 hero below the panel —
+  page content, not panel; 1440×900 @ 99.96% non-white) + the
+  mobile-menu capture's anatomy pixel-verified (the same anatomy as
+  captures 167/169/171/173, the session-80/81/82/83 twins).
+- LOCKSTEP: UNIT/SUITES/E2E/E2E_SPECS/SMOKE/BADGE all HELD (813/41 +
+  71/9 + 16 + 884 — the clean-audit record form, +0 new its); the ten
+  provenance sites set 1..83 → 1..84 uniform (lag 0); the docs-counts
+  s84 rung; the PAD header date (S84-1); README's session-84 row +
+  gate footer; AGENTS's plans-map eighty-fourth round; SKILL v1.79.0 →
+  v1.80.0 + the Appendix-A session-84 row + the Appendix-B re-cert
+  through 84; the formal session_84.md (replacing the owner's
+  narration window); the plan's post-execution record.
+
+**Gate at the session-84 ship: lint 0/0 · tsc 0 · unit 813/813 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**

@@ -604,6 +604,20 @@ import {
 // state verified OPEN — no phantom finding recorded, the s78/s82
 // selector-doctrine precedent). The e2e 71 unchanged. SMOKE 16
 // unchanged.
+// s84: 813/41 (HELD — the sixth consecutive zero-finding CODE round:
+// every lane clean at the source, config, sheet, and live-DOM levels —
+// the session-78/80/81/82/83 precedent; the standing bun audit duty at
+// the documented post-S83-1 floor of 4 advisories (3H/1M, all
+// dev-toolchain), zero advisory-database drift; bun outdated deltas all
+// non-advisory — no dependency change warranted; parity walk #57 clean
+// on both legs — the fifty-seventh consecutive; the CLONE gradient
+// probe's initial unscoped navPill/planCta reads diagnosed as probe
+// DOM-scope artifacts (the footer link + the hidden-in-DOM mobile
+// pill) and the generator probe's hashtag-NODE zero diagnosed as the
+// lead's own selector artifact (the post renders as ONE
+// whitespace-pre-line <p>, the s80 precedent) — both re-probed at
+// their documented postures, no phantom findings recorded). The e2e 71
+// unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 
