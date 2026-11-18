@@ -618,6 +618,19 @@ import {
 // whitespace-pre-line <p>, the s80 precedent) — both re-probed at
 // their documented postures, no phantom findings recorded). The e2e 71
 // unchanged. SMOKE 16 unchanged.
+// s85: 813/41 (HELD — the seventh consecutive zero-finding CODE round:
+// every lane clean at the source, config, sheet, and live-DOM levels —
+// the session-78/80/81/82/83/84 precedent; the standing bun audit duty
+// at the documented post-S83-1 floor of 4 advisories (3H/1M, all
+// dev-toolchain), zero advisory-database drift; bun outdated deltas all
+// non-advisory — no dependency change warranted; parity walk #58 clean
+// on both legs — the fifty-eighth consecutive; the gradient probes
+// nav-scoped and display-filtered from the start (the s78/s80/s83/s84
+// selector doctrine applied prospectively — no probe artifact to
+// diagnose this round); the raw sheet grep's lone hover:hover substring
+// hit diagnosed as the escaped `.hover\:…:hover` class-selector
+// spelling, not an @media wrap — zero @media (hover:hover) wraps). The
+// e2e 71 unchanged. SMOKE 16 unchanged.
 
 // ---- THE COUNT CONSTANTS (re-anchor here + every doc site below) ---------
 

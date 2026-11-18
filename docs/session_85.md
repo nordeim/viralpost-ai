@@ -1,66 +1,168 @@
-I'll start by internalizing the operating instructions and setting up a structured plan for this complex multi-phase task.
-Repo cloned successfully. Now reading the core documentation files:
-Now reading CLAUDE.md and the architecture document:
-Bun 1.3.14 is available. Continuing with the PAD and session docs:
-Now reading the session documents:
-session_84.md is the narration window for my round (session-84). Now reading the session-83 plan and worklog tail:
-Now let me verify the git state and read the skills catalog:
-I have the full picture. Starting the long-running `bun install` now while continuing document review:
-Confirmed: ambient `DATABASE_URL` pollution present (the S63+ hazard) — will neutralize with `env -u`. Now reading the repo skills:
-Install complete (427 packages — matches documented count). Setting up the environment:
-Database setup complete — census MATCH. Now installing chromium and running the baseline gate:
-Unit 813/813 (41 files) — matches the documented state. Running the production build:
-**BASELINE GATE FULLY GREEN** — lint 0/0 · tsc 0 · unit 813/813 · build · smoke 16/16 · e2e 71/71 · census MATCH. Exactly the session-83 ship state. Now validating codebase understanding:
-Structure matches the documented architecture. Now the audit — reading the mobile navigation navbar IN FULL (the particular-attention item):
-navbar.tsx verified at all documented sites — no drift. Running the audit hazard sweep and config verification:
-Audit census matches the documented 4-advisory floor. Checking the ten provenance sites:
-All ten provenance sites at `1..83` uniform. Completing the audit with toast.tsx read and neo-crm verification:
-Audit lanes clean. Now the reference-site inspection (parity walk #57 REF leg) — logging into the live reference:
-Logged in — lands on `/Home` as documented. Running the mobile-menu battery:
-Panel census matches (265px, dead /98 token, transparent bg). Now the Escape and outside-tap arms:
-Escape = R-OPEN (documented reference posture). Now outside-tap on real page content:
-Outside-tap = R-OPEN (documented). Now the route-change arm:
-Route-change = R-unmount (documented). Now the desktop gradient census on /Pricing:
-All three gradients match documented postures. Now sitemap, robots, and the generator probe:
-**REF LEG COMPLETE** — generator DEAD (documented D-1), all postures match. Checking neo-crm and preparing the CLONE leg:
-neo-crm verified UNCHANGED at `b3d0fbe` — recorded decisions stand. Now writing the CLONE leg walk script:
-The script ran through the mobile battery but failed at the generator probe's placeholder selector. Checking the actual placeholder:
-CLONE leg mostly at documented postures. Two probes need investigation — the gradient scope artifact and the generator hashtag probe. Checking the generator card rendering:
-The post renders as a single `<p>` — my hashtag-node selector was wrong (the s83 probe counted hashtag substrings, not nodes). Re-probing both artifacts with corrected selectors:
-Both artifacts resolved — the CLONE leg is at ALL documented postures (generator LIVE with 5 hashtags, gradients endpoint-equal). Now PIL-verifying the screenshots:
-Screenshots PIL-verified — same anatomy as the session-80..83 twins. Walk #57 is CLEAN on both legs. Now verifying remaining standing asks before the lockstep:
-All lockstep sites identified. Completing the audit with the `bun outdated` duty, then writing the session-84 plan:
-All `bun outdated` deltas are non-advisory — no dependency change warranted. Now writing the session-84 remediation plan:
-Plan written. Validating the lockstep sites against the codebase before executing:
-All sites validated. Executing the S84-1 lockstep — provenance sites `1..83` → `1..84`:
-Three sites use a different spelling (no trailing dot). Fixing those:
-All ten sites uniform at `1..84`. Now the SKILL frontmatter, Appendix A/B, and docs-counts rung:
-Now executing the SKILL lockstep — frontmatter, Appendix A row, Appendix B re-cert:
-Adding the Appendix-A session-84 row:
-SKILL lockstep complete. Now the docs-counts s84 rung:
-Now the README session-84 row and gate footer:
-Now AGENTS plans-map and PAD header:
-Now the worklog Task 84 entry and the formal session_84.md:
-Now the formal session_84.md (replacing the narration window):
-Now the plan's post-execution record:
-The diff is exactly the documented lockstep form. Running the FULL GATE on the final tree:
-**FULL GATE GREEN on the final tree** — lint 0/0 · tsc 0 · unit 813/813 · build · smoke 16/16 · e2e 71/71 · census MATCH. Now reading the SSH wrapper runbook for the push:
-Runbook understood. Committing first (Conventional Commit on main):
-No ssh binary — the paramiko shim path is required (as the runbook documents). Committing now:
-Committed `0f4e98f6`. Setting up the SSH key and paramiko shim for the push:
-Key parses (ed25519). Deploying the paramiko shim per the runbook's Appendix A:
-Dry-run clean (fast-forward `46e26db5..0f4e98f6`). Real push:
-Push verified — remote main at `0f4e98f6` == local HEAD. Shredding the operator key per the runbook:
-The session-84 round is complete and delivered. Summary:
+# Session 85 — The Zero-Finding Clean-Audit Record + Parity Walk #58
 
-**Baseline (Verified, fresh clone):** Full gate GREEN — lint 0/0 · tsc 0 · unit 813/813 (41 files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH; neo-crm unchanged at `b3d0fbe`; `.env` `DATABASE_URL="file:../db/custom.db"` + `db/` at root held; vitest/playwright wired; sitemap/SEO verified.
+**Round:** session-85 (the standing work order executed as the
+eighty-fifth round). Opens on `fae60696` (session-84's ship `0f4e98f6` + the
+owner's narration push carrying this file as the round's working narration;
+this formal log replaces that content at ship).
 
-**Audit — the SIXTH consecutive zero-finding code round** (0 Critical/High/Medium/Low): narration push diffed clean, navbar read in full, hazard sweep clean, TW4 cures live in the compiled sheet, dependency census 8+13, `bun audit` at the documented 4-advisory all-dev-toolchain floor, `bun outdated` deltas all non-advisory. **No Tailwind v4 bug in the mobile menu** — verified at source, sheet, and live DOM.
+**Continuity state:** the previous conversation delivered session-84
+(the `0f4e98f6` cure commit + the owner's narration push `fae60696`);
+this round executed the standing work order on the STANDING workspace
+(the sandbox survived between rounds — node_modules, the db family, and
+chromium rev 1248 intact from session-84's fresh clone; the db census
+re-verified MATCH without re-establishment).
 
-**Parity walk #57 — clean (57th consecutive):** mobile menu byte-identical + aria superset + Escape close-with-focus-return; outside-tap both-open; gradients endpoint-equal (two probe DOM-scope artifacts diagnosed and re-probed — no phantom findings); the reference's generator DEAD vs the clone LIVE (76 words, 5 hashtags). Screenshots 175/176 PIL-verified.
+## The baseline (Verified)
 
-**Delivery:** commit `0f4e98f6` on `main`, pushed via the SSH wrapper (remote verified `refs/heads/main @ 0f4e98f6 == local HEAD`), operator key shredded. Docs lockstep complete (SKILL v1.80.0, provenance sites `1..84` uniform).
+Gate GREEN: lint 0/0 · tsc 0 · unit 813/813 (41 files) · build · smoke
+16/16 · e2e 71/71 (9 specs) · census MATCH — exactly the session-84 ship
+state, lag 0. neo-crm UNCHANGED at `b3d0fbe` (re-verified) — recorded
+decisions stand.
 
-Key artifacts: [session_84.md](/home/z/my-project/viralpost-ai/docs/session_84.md) · [session-84 plan](/home/z/my-project/viralpost-ai/docs/plans/2026-11-18-session84-clean-audit-record-and-walk-57.md) · [screenshot 175](/home/z/my-project/viralpost-ai/docs/screenshots/175-s84-prod-mobile-menu-open-pricing-390.png) · [screenshot 176](/home/z/my-project/viralpost-ai/docs/screenshots/176-s84-prod-landing-hero-1280.png)
+## The standing asks (each Verified this round)
 
-For another round, re-send the work order — the flow resumes at session-85 with a fresh audit + parity walk #58.
+- `.env` `DATABASE_URL="file:../db/custom.db"` contract held; `db/` at
+  the repo root; census MATCH (1 user, 0 contact messages); the
+  ambient-shell `DATABASE_URL` pollution neutralized with `env -u
+  DATABASE_URL` on every DB-touching command (the S63..S84 hazard still
+  present in this shell).
+- Vitest + Playwright suites verified current and wired (the full e2e
+  layer re-ran GREEN against the production build; chromium rev 1248,
+  matching the pinned `@playwright/test@1.64.1`).
+- Sitemap (4 URLs, weekly, 1.0/0.8/0.8/0.8, the nav order /, /Tool,
+  /Pricing, /Contact — the S79-2 re-anchor still true) + robots
+  (byte-body, modulo origin) + manifest + the three security headers on
+  the SEO family verified live in walk #58; the sitemap route's format
+  contract re-read at its source (`force-static`, the explicit
+  `application/xml`, no /Home duplicate — the 308 fix).
+- `skills/` excluded from tsconfig/eslint/vitest + the smoke
+  artifact-hygiene leg.
+- Mobile navigation + Tailwind v4: walk #58's battery clean on both
+  legs; the compiled sheet independently re-verified (zero
+  `@media (hover:hover)` wraps — the `@custom-variant hover` unwrap
+  live; the raw grep's lone `hover:hover` substring hit diagnosed as
+  the escaped `.hover\:…:hover` class-selector spelling, a probe false
+  positive, not a media wrap; the `button,[role=button]{cursor:pointer}`
+  base rule live in its minified spelling; the `md` boundary at
+  `min-width:48rem`). **No Tailwind v4 bug in the mobile menu.**
+- `.env.example` verified matching the codebase (all six knobs:
+  DATABASE_URL, AUTH_SECRET, NEXT_PUBLIC_SITE_URL, VIRALPOST_PROXY_HOPS,
+  VIRALPOST_DISABLE_IN_APP_OTP, VIRALPOST_DISABLE_IN_APP_RESET).
+
+## The audit (0 Critical / 0 High / 0 Medium / 0 Low on the code lanes)
+
+The SEVENTH consecutive zero-finding code round (session-78 the first,
+session-80/81/82/83/84 the second through sixth). Direct lead reads — the
+session-76..84 precedent continues: the session-84 narration push
+(`fae60696`) diffed in full against the ship `0f4e98f6` (exactly one
+file added, `docs/session_85.md` the owner's narration window, no
+collateral); navbar.tsx read IN FULL (the aria superset, the S26-1
+`hidden`-attribute mechanics, the S26-3 `scrolled`-alone bar key, the
+S31-2 history-close focus arm, the S45-3/S45-4 censused-parity
+postures, the S22-1/S22-2 priced pill, the S22-3 bare mobile family,
+the S22-5 scrolled panel arm, the S15-8 keyboard focus arm, the S25-16
+link-click focus return); toast.tsx read at its documented sites (the
+S72-4 geometry tracker + mount probe, the S73-4 exit arm, the S74-4b
+pointer-typed enter, the S70-4 mixed-modality unpausers, the S75-5
+compound blur guard, the S76-1 hoisted rect); the hazard sweep clean
+(direct DATABASE_URL reads confined to the seam family — db-path the
+resolver, boot-env the warning face, `db.ts` routing through
+`runtimeDatabaseUrl()`; zero secrets in logs — the two `console.info`
+OTP sites the documented server-console demo exception, PAD §6.1; zero
+TODO/FIXME/XXX; zero `console.log` in src; the mounted-gate doctrine
+consistent across generator-card / contact-form / login-card / toast);
+the config layer verified (next.config hygiene excludes + /Home 308 +
+the three-header superset; vitest/tsconfig/eslint skills exclusions;
+the sitemap format contract); the compiled sheet's TW4 cures
+re-verified; the dependency census at exactly 8 runtime + 13 devDeps;
+the ten provenance sites verified at `1..84` uniform pre-lockstep (the
+lone `1..83` residual the historical citation inside SKILL Appendix-A's
+own session-84 row — record, not range).
+
+The standing `bun audit` duty: the census at the documented post-S83-1
+floor — **4 advisories (3H/1M)**, all dev-toolchain (deepmerge-ts H
+prisma-CLI-chain, picomatch H eslint/vitest-chains, source-map-js H
+postcss-chains, minimatch M eslint-chain), zero runtime-path items,
+zero advisory-database drift. `bun outdated` deltas all non-advisory —
+no dependency change warranted (the smallest-correct-change doctrine).
+
+## Parity walk #58 — clean (the fifty-eighth consecutive)
+
+Both legs at every documented posture:
+
+- **REF leg** (390×844, logged in as `sepnetflix2023@outlook.com` →
+  lands on `/Home`): hamburger `md:hidden p-2 text-slate-300` with no
+  aria family (our documented superset), cursor pointer, slate-300 ink
+  (rgb(203,213,225)); panel at 265px with the reference's `md:hidden
+  bg-slate-900/98 border-b border-white/10 overflow-hidden` family (the
+  dead /98 token computing `rgba(0,0,0,0)`), 4 nav links + the $19 pill
+  (the same Gumroad href); Escape stays OPEN (R-OPEN); outside-tap on
+  real page content (the hero `<p>` at (30,350), the pre-tap state
+  verified OPEN) stays OPEN (R-OPEN); route-change unmounts the panel
+  (R-unmount at /Pricing); the desktop gradient census on /Pricing
+  (nav-scoped from the start — the s78/s80/s83/s84 selector doctrine
+  applied prospectively) — the navbar `Upgrade to Pro`
+  amber-400→amber-500 (rgb(251,191,36)→rgb(245,158,11)), the pricing
+  page's `Get Unlimited Access` teal-400→amber-400
+  (rgb(45,212,191)→rgb(251,191,36)), the plan CTA `Upgrade – $19`
+  teal-500→teal-600 (rgb(20,184,166)→rgb(13,148,136)); sitemap 4 URLs
+  (weekly, 1.0/0.8/0.8/0.8, the nav order) + robots byte-body; the
+  generator DEAD at the 30s probe on /Tool (0 hashtag substrings, the
+  button restored — the D-1 silent-rest face).
+- **CLONE leg** (the production standalone build on :3200, ONE single
+  script — boot + drive browser + teardown): login lands on `/` (the
+  /Home 308 pair); hamburger byte-match + the aria superset
+  (label/expanded/controls) + the focus-visible family; panel at the
+  byte-equal 265px with the same 5 links + the $19 pill (transparent
+  over the unscrolled hero — the dead-token replication); Escape CLOSES
+  with focus returned to the toggle (our superset, focusOnToggle=true);
+  outside-tap stays OPEN (parity, the same hero `<p>` at (30,349));
+  route-change hidden-in-DOM (the documented pair); the nav-scoped
+  gradient census — the `Get Unlimited Access` CTA gradient
+  byte-identical (`linear-gradient(to right, rgb(45, 212, 191),
+  rgb(251, 191, 36))` — the inline-style hue-crossing form), the navbar
+  pill + the plan CTA endpoint-equal with the documented oklab
+  spellings (the sub-threshold doctrine; the probes nav-scoped and
+  display-filtered from the start — no artifact to diagnose this
+  round); the generator LIVE — postPresent=true with 5 hashtags at the
+  8s probe after the client-quota reset (`viralpost_generations`, the
+  GENERATIONS_KEY; the hashtag-SUBSTRING counter, the s80 precedent),
+  53 words (seed-dependent within the <200 contract), the Copy button
+  present, the counter incremented (count=1); screenshots 177 (the
+  mobile menu open on /Pricing — the dark superset panel over the
+  page's own slate-900→teal-900 hero band) and 178 (the landing hero)
+  captured, PIL-verified, the mobile-menu capture's anatomy
+  pixel-verified (the panel link row (15,27,44) ≈ slate-900/95, the
+  amber pill rows (251,190,35)/(249,175,26), the (30,380) band
+  (19,71,70) is /Pricing's OWN from-slate-900 to-teal-900 hero below
+  the panel — page content, not panel; 390×844 @ 82.69% non-white,
+  1440×900 @ 99.96% — the same anatomy as captures
+  167/169/171/173/175, the session-80..84 twins).
+
+No Tailwind v4 bug in the mobile menu — verified at the source, the
+compiled sheet, and the live DOM on both legs.
+
+## The lockstep
+
+Counts HELD (the round has no functional cures — the clean-audit record
+form, +0 new `it()` blocks by construction): UNIT 813 / SUITES 41 /
+E2E 71 / E2E_SPECS 9 / SMOKE 16 / BADGE 884. The ten provenance sites
+set `1..84` → `1..85` uniform; the docs-counts s85 rung; the PAD header
+date (S85-1); README's session-85 row + gate footer; AGENTS's plans-map
+eighty-fifth round; SKILL v1.80.0 → v1.81.0 + the Appendix-A
+session-85 row + the Appendix-B re-cert through 85; worklog Task 85;
+this formal log; the plan's post-execution record.
+
+## The ship
+
+Full gate GREEN on the final tree; census MATCH; captures 177/178;
+`.env.example` verified matching the codebase (included in the
+commit); Conventional Commit on `main`; push via the SSH wrapper
+(`docs/ssh_git_wrapper_v3.py` per the runbook); the operator key
+shredded after the verified push.
+
+**Gate at the session-85 ship: lint 0/0 · tsc 0 · unit 813/813 (41
+files) · build · smoke 16/16 · e2e 71/71 (9 specs) · census MATCH.**
+
+If you want the next round, re-send the work order — the flow resumes
+at session-86 with a fresh audit + parity walk #59.
